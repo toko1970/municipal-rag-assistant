@@ -1,0 +1,140 @@
+自治体向け制度問い合わせ支援RAG 実装計画書 v1
+
+1. 実装目的
+	本実装では、自治体の人事・給与・服務関連文書を対象に、制度運用担当者が自然言語で問い合わせを行い、根拠文書付きの回答を得られるRAGアプリケーションを構築する。
+	MVPでは、Markdown形式の架空業務文書を対象に、文書検索、回答生成、根拠提示、回答分類、RAG実行ログ保存、検索性能評価を実装する。
+
+2. 使用技術
+	* Python
+	* LangChain
+	* Chroma
+	* GeminiAPI
+	* Streamlit
+	* JSONL / CSV
+	* Markdown
+
+3. MVP実装対象
+	* 質問入力機能
+	* 文書検索機能
+	* 回答生成機能
+	* 根拠提示機能
+	* 不確実性制御機能
+	* 文書登録機能
+	* RAG実行ログ機能
+	* Recall@3 / Recall@5 評価
+	* 回答採用フィードバック機能（MVP拡張対象）
+
+4. 回答分類
+	回答は以下の3パターンに分類する。
+
+		4.1 根拠十分
+			検索された文書に、質問に対する明確な根拠が含まれる場合。
+			
+		4.2 判断要
+			関連文書は取得できるが、個別事情や制度解釈により断定できない場合。
+
+		4.3 文書不足
+			検索結果に十分な根拠文書が含まれず、推測による回答を避けるべき場合。
+
+5. 実装フェーズ
+	Phase 1：プロジェクト初期構成作成
+		ディレクトリ、設定ファイル、README、サンプル文書格納先を作成する。
+
+	Phase 2：架空Markdown文書作成
+		以下の5文書を作成する。
+
+			* 01_salary_rules.md
+			* 02_allowance_notice.md
+			* 03_hr_faq.md
+			* 04_procedure_manual.md
+			* 05_revision_notice.md
+
+	Phase 3：文書登録・インデックス作成
+		Markdown文書を読み込み、チャンク分割し、OpenAI Embeddingsでベクトル化してChromaへ保存する。
+
+	Phase 4：Retriever実装
+		質問に対して関連チャンクを上位K件取得する。
+		初期値は以下とする。
+
+			* TOP_K：5
+			* CHUNK_SIZE：800
+			* CHUNK_OVERLAP：100
+
+	Phase 5：RAG回答生成
+		検索結果をもとに、LLMが回答案を生成する。
+		回答には以下を含める。
+
+			* 回答分類
+			* 回答本文
+			* 根拠文書
+			* 参照チャンク
+
+	Phase 6：Streamlit UI実装
+		ユーザーが質問を入力し、回答と根拠文書を確認できる画面を作成する。
+
+	Phase 7：RAG実行ログ保存
+		質問、検索結果、回答、回答分類、実行日時をJSONL形式で保存する。
+	
+	Phase 7.5：回答採用フィードバック保存（MVP拡張）
+		回答へのフィードバック（評価）をJSONL形式で保存する。
+
+	Phase 8：評価データ作成
+		制度内容確認、個別判断、手続き確認を含む評価用質問を作成する。
+
+	Phase 9：検索性能評価
+		Recall@3、Recall@5を計算する評価スクリプトを作成する。
+
+	Phase 10：README整備
+		セットアップ方法、文書登録方法、アプリ起動方法、評価方法を記載する。
+
+6. MVP完了条件
+	以下を満たした場合、MVP完成とする。
+
+		* Markdown文書をChromaに登録できる
+		* Streamlit画面から質問できる
+		* 関連文書を検索できる
+		* 根拠付き回答を生成できる
+		* 回答分類を判定できる
+		* RAG実行ログを保存できる
+		* Recall@3 / Recall@5を測定できる
+
+7. 初期ディレクトリ構成
+	rag-portfolio-app/
+	├── app.py
+	├── config.py
+	├── requirements.txt
+	├── .env.example
+	├── README.md
+	│
+	├── docs/
+	│   ├── 01_salary_rules.md
+	│   ├── 02_allowance_notice.md
+	│   ├── 03_hr_faq.md
+	│   ├── 04_procedure_manual.md
+	│   └── 05_revision_notice.md
+	│
+	├── src/
+	│   ├── __init__.py
+	│   ├── document_loader.py
+	│   ├── chunking.py
+	│   ├── embeddings.py
+	│   ├── vector_store.py
+	│   ├── retriever.py
+	│   ├── rag_chain.py
+	│   ├── logger.py
+	│   └── feedback.py
+	│
+	├── scripts/
+	│   ├── ingest.py
+	│   └── test_retriever.py
+	│
+	├── eval/
+	│   ├── evaluation_questions.csv
+	│   └── evaluate_retrieval.py
+	│
+	├── logs/
+	│   ├── rag_logs.jsonl
+	│   └── feedback_logs.jsonl
+	│
+	└── chroma_db/
+

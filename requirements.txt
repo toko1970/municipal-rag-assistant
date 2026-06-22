@@ -1,0 +1,19 @@
+# UI
+streamlit
+
+# LLM / RAG
+langchain
+langchain-community
+langchain-google-genai
+langchain-chroma
+chromadb
+google-generativeai
+
+# Data Processing
+pandas
+pypdf
+pyyaml
+tiktoken
+
+# Environment
+python-dotenv
