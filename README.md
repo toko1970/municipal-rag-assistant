@@ -206,6 +206,23 @@ python scripts/ingest.py
 streamlit run app.py
 ブラウザで Streamlit アプリが起動し、制度問い合わせを入力できるようになります。
 
+### 6.7 Streamlit Community Cloudへのデプロイ
+
+1. Streamlit Community Cloudで本リポジトリと `main` ブランチを選択します。
+2. Main file pathに `app.py` を指定します。
+3. Advanced settingsのSecretsに以下を設定します。
+
+```toml
+GOOGLE_API_KEY = "your_api_key_here"
+```
+
+4. Pythonは、ローカルで動作確認した `3.11` を選択します。
+
+クラウド環境では、初回の質問時に `docs/` 配下の文書からベクトルDBを自動作成します。そのため、`chroma_db/` をGitに登録する必要はありません。
+
+> [!NOTE]
+> Community Cloud上のログとフィードバックはアプリのローカル領域に保存されるため、再起動後も残る永続データとしては扱いません。
+
 ## 7. ディレクトリ構成
 
 ```text

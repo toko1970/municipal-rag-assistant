@@ -1,19 +1,19 @@
 # UI
-streamlit
+streamlit==1.58.0
 
 # LLM / RAG
-langchain
-langchain-community
-langchain-google-genai
-langchain-chroma
-chromadb
-google-generativeai
+langchain==1.3.4
+langchain-community==0.4.2
+langchain-google-genai==4.2.4
+langchain-chroma==1.1.0
+chromadb==1.5.9
+google-generativeai==0.8.6
 
 # Data Processing
-pandas
-pypdf
-pyyaml
-tiktoken
+pandas==3.0.3
+pypdf==6.13.0
+PyYAML==6.0.3
+tiktoken==0.13.0
 
 # Environment
-python-dotenv
+python-dotenv==1.2.2

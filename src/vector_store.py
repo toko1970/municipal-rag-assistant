@@ -7,9 +7,17 @@ from langchain_core.documents import Document
 from config import (
     CHROMA_COLLECTION_NAME,
     CHROMA_DB_DIR,
+    DOCS_DIR,
 )
 
 from src.embeddings import get_embeddings
+
+
+def vector_store_exists() -> bool:
+    """永続化済みのChroma DBが存在するか確認する。"""
+
+    return (CHROMA_DB_DIR / "chroma.sqlite3").exists()
+
 
 def create_vector_store(
     chunks: list[Document],
@@ -47,3 +55,27 @@ def load_vector_store() -> Chroma:
     )
 
     return vector_store
+
+
+def load_or_create_vector_store() -> Chroma:
+    """
+    保存済みのChromaを読み込む。
+
+    Streamlit Community Cloudなどの新規環境では、リポジトリ内の
+    Markdown文書から初回アクセス時にベクトルDBを作成する。
+    """
+
+    if vector_store_exists():
+        return load_vector_store()
+
+    from src.chunking import split_documents
+    from src.document_loader import load_markdown_documents
+
+    documents = load_markdown_documents()
+    if not documents:
+        raise FileNotFoundError(
+            f"検索対象のMarkdown文書が見つかりません: {DOCS_DIR}"
+        )
+
+    chunks = split_documents(documents)
+    return create_vector_store(chunks, reset_db=True)

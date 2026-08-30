@@ -14,6 +14,10 @@ st.set_page_config(
 
 st.title("📘 自治体向け制度問い合わせ支援RAG")
 st.caption("人事・給与制度関連文書に基づいて回答します。")
+st.info(
+    "本アプリはポートフォリオ用のデモです。"
+    "検索対象には架空の制度文書を使用しています。"
+)
 
 
 if "result" not in st.session_state:
@@ -26,6 +30,7 @@ question = st.text_area(
     "制度に関する質問を入力してください",
     placeholder="例：給与支給日はいつですか？",
     height=120,
+    max_chars=500,
 )
 
 if "is_generating" not in st.session_state:
@@ -50,13 +55,11 @@ if generate_button:
             st.session_state.result = result
             st.success("回答を生成しました。")
 
-        except ChatGoogleGenerativeAIError as e:
+        except ChatGoogleGenerativeAIError:
             st.error("Gemini APIの利用上限に達しました。時間を置いて再実行してください。")
-            st.code(str(e), language="text")
 
-        except Exception as e:
-            st.error("想定外のエラーが発生しました。")
-            st.code(str(e), language="text")
+        except Exception:
+            st.error("回答の生成中にエラーが発生しました。時間を置いて再実行してください。")
         
         finally:
             st.session_state.is_generating = False

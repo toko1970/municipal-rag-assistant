@@ -1,7 +1,14 @@
-from langchain_core.documents import Document
+from functools import lru_cache
 
 from config import TOP_K
-from src.vector_store import load_vector_store
+from src.vector_store import load_or_create_vector_store
+
+
+@lru_cache(maxsize=1)
+def get_vector_store():
+    """同一プロセス内でベクトルDBを再利用する。"""
+
+    return load_or_create_vector_store()
 
 
 def retrieve_documents_with_score(query: str, top_k: int = TOP_K):
@@ -9,7 +16,7 @@ def retrieve_documents_with_score(query: str, top_k: int = TOP_K):
     質問文に関連するチャンクをスコア付きで検索する。
     """
 
-    vector_store = load_vector_store()
+    vector_store = get_vector_store()
 
     results = vector_store.similarity_search_with_score(
         query=query,
