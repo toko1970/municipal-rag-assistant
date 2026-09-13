@@ -2,7 +2,11 @@
 
 ## 公開デモ
 
-[自治体向け制度問い合わせ支援RAGを試す](https://toko1970-municipal-rag-assistant.streamlit.app/)
+[自治体向け制度問い合わせ支援RAGを試す](https://municipal-rag-assistant-280649014820.asia-northeast1.run.app/)
+
+Dockerコンテナ化したアプリケーションを、Google Cloud Run上で公開しています。
+
+> 利用がない場合はインスタンスを0件まで縮小する構成のため、初回アクセス時は起動に時間がかかる場合があります。
 
 > [!NOTE]
 > 本アプリはポートフォリオ用のデモです。検索対象には架空の制度文書を使用しています。
