@@ -206,6 +206,11 @@ Practical質問セットでは、質問表現が文書見出しから離れる�
 | LLM | Gemini 2.5 Flash | 高速な応答性能を持ち、無料利用枠を活用できるため |
 | Embedding | gemini-embedding-001 | 3072次元ベクトルによる検索性能を確保できるため |
 | UI | Streamlit | Pythonのみで迅速にWebアプリケーションを構築できるため |
+| コンテナ | Docker | 実行環境を統一し、ローカル環境とクラウド環境で同じ構成を再現するため |
+| コンテナビルド | Google Cloud Build | ソースコードからDockerイメージをクラウド上で構築するため |
+| イメージ管理 | Artifact Registry | 構築したDockerイメージをバージョン付きで管理するため |
+| 実行環境 | Google Cloud Run | コンテナ化したWebアプリケーションを公開し、利用状況に応じて自動でスケーリングするため |
+| シークレット管理 | Secret Manager | Gemini APIキーをソースコードやコンテナイメージに含めず、安全にCloud Runへ提供するため |
 | 文書形式 | Markdown | 制度文書を構造化しやすく、保守性が高いため |
 | ログ形式 | JSONL | 実行ログやフィードバックを蓄積しやすく、後続分析にも利用しやすいため |
 
@@ -214,6 +219,8 @@ Practical質問セットでは、質問表現が文書見出しから離れる�
 ベクトルDBにはChromaを採用し、Markdown形式の制度文書をEmbedding化して検索可能な状態で管理しています。
 
 また、回答生成には Gemini 2.5 Flash、Embeddingには gemini-embedding-001 を利用し、検索性能と回答品質の両立を図りました。
+
+公開環境では、アプリケーションをDockerコンテナ化し、Cloud Buildでイメージを構築しています。作成したイメージはArtifact Registryで管理し、Cloud Run上で実行しています。また、Gemini APIキーはSecret Managerで管理し、専用のサービスアカウントを通じてアプリケーションから参照しています。
 
 ## 6. セットアップ手順
 
