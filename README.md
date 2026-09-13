@@ -226,7 +226,7 @@ Practical質問セットでは、質問表現が文書見出しから離れる�
 
 ### 6.1 リポジトリのクローン
 ```bash
-git clone https://github.com/your-username/municipal-rag-assistant.git
+git clone https://github.com/toko1970/municipal-rag-assistant.git
 cd municipal-rag-assistant
 ```
 
