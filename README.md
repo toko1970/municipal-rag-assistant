@@ -76,6 +76,29 @@ flowchart TD
 
 また、回答内容に対するフィードバックを収集し、継続的な改善に活用できる構成としています。
 
+### デプロイ構成
+
+```mermaid
+flowchart LR
+    USER[利用者] -->|HTTPSアクセス| CR[Cloud Run]
+
+    DEV[ローカル開発環境] -->|ソースコードを送信| CB[Cloud Build]
+    CB -->|Dockerイメージを作成| AR[Artifact Registry]
+    AR -->|コンテナイメージを取得| CR
+
+    SM[Secret Manager] -->|Gemini APIキーを提供| CR
+    CR -->|回答生成を依頼| GEMINI[Gemini API]
+
+    subgraph Google Cloud
+        CB
+        AR
+        CR
+        SM
+    end
+```
+
+ソースコードからDockerイメージを作成し、Artifact Registryへ保存したうえで、Cloud Runにデプロイしています。Gemini APIキーはソースコードやコンテナイメージに含めず、Secret ManagerからCloud Runへ提供しています。
+
 ### 回答分類
 
 本システムでは、回答を以下の3種類に分類します。
