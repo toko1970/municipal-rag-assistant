@@ -247,22 +247,48 @@ python scripts/ingest.py
 streamlit run app.py
 ブラウザで Streamlit アプリが起動し、制度問い合わせを入力できるようになります。
 
-### 6.7 Streamlit Community Cloudへのデプロイ
+### 6.7 Dockerでの動作確認
 
-1. Streamlit Community Cloudで本リポジトリと `main` ブランチを選択します。
-2. Main file pathに `app.py` を指定します。
-3. Advanced settingsのSecretsに以下を設定します。
+docker build -t municipal-rag-assistant:local .
 
-```toml
-GOOGLE_API_KEY = "your_api_key_here"
-```
+作成したコンテナを、ローカル環境の8080番ポートで起動します。
 
-4. Pythonは、ローカルで動作確認した `3.11` を選択します。
+docker run --rm \
+  --name municipal-rag-local \
+  -p 8080:8080 \
+  -e PORT=8080 \
+  --env-file .env \
+  municipal-rag-assistant:local
 
-クラウド環境では、初回の質問時に `docs/` 配下の文書からベクトルDBを自動作成します。そのため、`chroma_db/` をGitに登録する必要はありません。
+起動後、ブラウザで `http://localhost:8080` を開きます。
+
+### 6.8 Google Cloud Runへのデプロイ
+本プロジェクトでは、Cloud BuildでDockerイメージを作成し、Artifact Registryを経由してCloud Runへデプロイしています。
+
+gcloud builds submit \
+  --tag asia-northeast1-docker.pkg.dev/municipal-rag-portfolio/municipal-rag-images/municipal-rag-assistant:v1.0.0 \
+  --project municipal-rag-portfolio
+
+作成したイメージをCloud Runへデプロイします。
+
+gcloud run deploy municipal-rag-assistant \
+  --image asia-northeast1-docker.pkg.dev/municipal-rag-portfolio/municipal-rag-images/municipal-rag-assistant:v1.0.0 \
+  --region asia-northeast1 \
+  --project municipal-rag-portfolio \
+  --service-account municipal-rag-runtime@municipal-rag-portfolio.iam.gserviceaccount.com \
+  --set-secrets GOOGLE_API_KEY=gemini-api-key:1 \
+  --memory 1Gi \
+  --cpu 1 \
+  --concurrency 10 \
+  --timeout 300 \
+  --min 0 \
+  --max 1 \
+  --allow-unauthenticated
 
 > [!NOTE]
-> Community Cloud上のログとフィードバックはアプリのローカル領域に保存されるため、再起動後も残る永続データとしては扱いません。
+> Cloud Runのファイルシステムは永続ストレージではありません。本アプリケーションでは、新しいインスタンスでベクトルDBが存在しない場合、初回の質問時に`docs/`配下の文書から自動的に作成します。
+>
+> アプリケーションが出力するログやフィードバックもコンテナ内へ保存されるため、インスタンスの終了後も残る永続データとしては扱いません。
 
 ## 7. ディレクトリ構成
 
