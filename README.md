@@ -225,52 +225,69 @@ Practical質問セットでは、質問表現が文書見出しから離れる�
 ## 6. セットアップ手順
 
 ### 6.1 リポジトリのクローン
+```bash
 git clone https://github.com/your-username/municipal-rag-assistant.git
 cd municipal-rag-assistant
+```
 
 ### 6.2 仮想環境の作成・有効化
+```bash
 python -m venv .venv
 source .venv/bin/activate
+```
 
 ### 6.3 ライブラリのインストール
+```bash
 pip install -r requirements.txt
+```
 
 ### 6.4 環境変数の設定
+```bash
 cp .env.example .env
+```
 .env に Gemini API キーを設定します。
 GOOGLE_API_KEY=your_api_key_here
 
 ### 6.5 ベクトルDBの作成
+```bash
 python scripts/ingest.py
+```
 
 ### 6.6 アプリケーションの起動
+```bash
 streamlit run app.py
+```
 ブラウザで Streamlit アプリが起動し、制度問い合わせを入力できるようになります。
 
 ### 6.7 Dockerでの動作確認
-
+```bash
 docker build -t municipal-rag-assistant:local .
+```
 
 作成したコンテナを、ローカル環境の8080番ポートで起動します。
-
+```bash
 docker run --rm \
   --name municipal-rag-local \
   -p 8080:8080 \
   -e PORT=8080 \
   --env-file .env \
   municipal-rag-assistant:local
+```
 
 起動後、ブラウザで `http://localhost:8080` を開きます。
 
 ### 6.8 Google Cloud Runへのデプロイ
 本プロジェクトでは、Cloud BuildでDockerイメージを作成し、Artifact Registryを経由してCloud Runへデプロイしています。
 
+```bash
 gcloud builds submit \
   --tag asia-northeast1-docker.pkg.dev/municipal-rag-portfolio/municipal-rag-images/municipal-rag-assistant:v1.0.0 \
   --project municipal-rag-portfolio
+```
 
 作成したイメージをCloud Runへデプロイします。
 
+```bash
 gcloud run deploy municipal-rag-assistant \
   --image asia-northeast1-docker.pkg.dev/municipal-rag-portfolio/municipal-rag-images/municipal-rag-assistant:v1.0.0 \
   --region asia-northeast1 \
@@ -284,6 +301,7 @@ gcloud run deploy municipal-rag-assistant \
   --min 0 \
   --max 1 \
   --allow-unauthenticated
+```
 
 > [!NOTE]
 > Cloud Runのファイルシステムは永続ストレージではありません。本アプリケーションでは、新しいインスタンスでベクトルDBが存在しない場合、初回の質問時に`docs/`配下の文書から自動的に作成します。
@@ -297,6 +315,10 @@ rag-portfolio-app/
 │
 ├── app.py
 ├── config.py
+├── Dockerfile
+├── .dockerignore
+├── .gcloudignore
+├── .env.example
 │
 ├── docs/
 │   ├── 01_salary_rules.md
@@ -306,6 +328,7 @@ rag-portfolio-app/
 │   └── 05_revision_notice.md
 │
 ├── src/
+│   ├── __init__.py
 │   ├── document_loader.py
 │   ├── chunking.py
 │   ├── embeddings.py
