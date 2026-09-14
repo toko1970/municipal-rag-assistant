@@ -259,22 +259,27 @@ streamlit run app.py
 ```
 ブラウザで Streamlit アプリが起動し、制度問い合わせを入力できるようになります。
 
-### 6.7 Dockerでの動作確認
+### 6.7 Docker Composeでの動作確認
+
+Docker Desktopを起動し、`.env`にGemini APIキーを設定した状態で、次のコマンドを実行します。
+
 ```bash
-docker build -t municipal-rag-assistant:local .
+docker compose up --build
 ```
 
-作成したコンテナを、ローカル環境の8080番ポートで起動します。
+Dockerイメージの作成後、コンテナが起動します。ブラウザで `http://localhost:8080` を開き、アプリケーションの動作を確認します。
+
+停止する場合は、起動中のターミナルで `Control + C` を押した後、次のコマンドを実行します。
+
 ```bash
-docker run --rm \
-  --name municipal-rag-local \
-  -p 8080:8080 \
-  -e PORT=8080 \
-  --env-file .env \
-  municipal-rag-assistant:local
+docker compose down
 ```
 
-起動後、ブラウザで `http://localhost:8080` を開きます。
+2回目以降、Dockerfileや依存ライブラリに変更がなければ、次のコマンドで起動できます。
+
+```bash
+docker compose up
+```
 
 ### 6.8 Google Cloud Runへのデプロイ
 本プロジェクトでは、Cloud BuildでDockerイメージを作成し、Artifact Registryを経由してCloud Runへデプロイしています。
@@ -319,6 +324,10 @@ rag-portfolio-app/
 ├── .dockerignore
 ├── .gcloudignore
 ├── .env.example
+├── Dockerfile
+├── compose.yaml
+├── .dockerignore
+├── .gcloudignore
 │
 ├── docs/
 │   ├── 01_salary_rules.md
