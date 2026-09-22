@@ -21,6 +21,6 @@ CIは `terraform fmt -check` と `terraform validate` だけを実行します�
 
 状態保存用のCloud Storageバケット `municipal-rag-portfolio-tfstate-280649014820` は2026-09-22に一度だけ作成し、非公開、バケット単位のアクセス制御、バージョニングを設定しました。旧バージョンが無制限に増えないよう、[state-lifecycle.json](state-lifecycle.json) で新しい版が10件ある旧版を削除します。Terraformの状態はこのバケットに保存します。`terraform plan` の新規作成・変更・削除を確認してから `terraform apply` します。初回の差分は [INITIAL_PLAN.md](INITIAL_PLAN.md) に記録しています。既存のCloud RunなどをIaCの管理対象へ広げる場合は、別途インポートして変更予定が意図どおりか確認します。
 
-CDジョブはGitHub Actionsに定義済みですが、リポジトリ変数 `ENABLE_CD` が `true` でない間は実行されません。認証基盤と状態保存先の設定は完了しました。GitHubの `production` Environmentでの承認ルールを設定してから、この変数を有効にして初回デプロイを検証します。有効化後は `main` へのpushでCIの両ジョブが成功したときだけ、コミットSHAをタグにしたイメージを登録し、既存Cloud Runサービスの新しいリビジョンとしてデプロイします。
+CDジョブはGitHub Actionsに定義され、リポジトリ変数 `ENABLE_CD` を `true` に設定しています。認証基盤と状態保存先の設定は完了しました。GitHubの `production` Environmentは所有者の承認を必須とし、`main` ブランチからのデプロイだけを許可します。`main` へのpushでCIの両ジョブが成功すると、承認後にコミットSHAをタグにしたイメージを登録し、既存Cloud Runサービスの新しいリビジョンとしてデプロイします。
 
 この段階のIaCは認証基盤だけを対象とします。既存のCloud RunサービスやSecret Manager設定をコード管理へ移す場合は、現在の構成を確認してからインポートし、デプロイ処理とTerraformが同じ設定を競合して更新しないよう管理範囲を決めます。

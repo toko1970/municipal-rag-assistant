@@ -656,9 +656,9 @@ python -m pytest -q tests
 
 ### 10.8 ビルド・デプロイの自動化
 
-現行の公開環境は、Cloud Buildによるコンテナイメージの作成とCloud Runへのデプロイを手動で実行しています。
+公開環境への初回デプロイでは、Cloud Buildでコンテナイメージを作成し、Cloud Runへ手動で反映しました。
 
-GitHub ActionsによるCDジョブと、その認証基盤のTerraform設定を追加しました。ただし、認証基盤はまだGoogle Cloudへ適用しておらず、CDの有効化フラグも設定していないため、自動デプロイは稼働していません。適用と有効化の手順は [infra/README.md](infra/README.md) に記載しています。
+GitHub ActionsにCIとCDジョブを追加し、GitHubからGoogle Cloudへ接続する認証基盤をTerraformで適用しました。`main` へのpush後にCIが成功すると、`production` 環境の所有者承認を経て、コンテナイメージを作成し既存のCloud Runサービスへ反映する構成です。設定と運用手順は [infra/README.md](infra/README.md) に記載しています。
 
 ---
 
