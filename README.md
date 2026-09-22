@@ -582,7 +582,7 @@ python -m eval.evaluate_retrieval \
 
 出力には質問、正解文書ID、検索件数の設定、取得した文書IDの順位、各Kでの成否が含まれます。改善前後を比較するときは、同じ入力CSVを使い、別々の出力ファイル名で保存します。
 
-CIではpushとプルリクエスト時に、外部APIを呼ばないテストとlintを実行します。ローカルで同じ確認を行うには、開発用依存関係をインストールしてから次を実行します。
+CIではpushとプルリクエスト時に、外部APIを呼ばないテスト、lint、Terraform設定の形式・構文検証を実行します。ローカルで同じPythonの確認を行うには、開発用依存関係をインストールしてから次を実行します。
 
 ```bash
 pip install -r requirements-dev.txt
@@ -656,9 +656,9 @@ python -m pytest -q tests
 
 ### 10.8 ビルド・デプロイの自動化
 
-現在は、Cloud Buildによるコンテナイメージの作成とCloud Runへのデプロイを手動で実行しています。
+現行の公開環境は、Cloud Buildによるコンテナイメージの作成とCloud Runへのデプロイを手動で実行しています。
 
-今後はGitHubへの更新を契機として、テスト、コンテナイメージの作成、Cloud Runへのデプロイまでを自動化し、変更を安全かつ継続的に反映できるCI/CD環境の構築を検討しています。
+GitHub ActionsによるCDジョブと、その認証基盤のTerraform設定を追加しました。ただし、認証基盤はまだGoogle Cloudへ適用しておらず、CDの有効化フラグも設定していないため、自動デプロイは稼働していません。適用と有効化の手順は [infra/README.md](infra/README.md) に記載しています。
 
 ---
 
