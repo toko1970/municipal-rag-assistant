@@ -26,3 +26,10 @@ feedback_data/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Terraform local data and plans; the provider lock file is committed.
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log

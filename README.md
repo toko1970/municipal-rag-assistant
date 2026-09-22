@@ -572,6 +572,26 @@ RAGシステムでは、回答を生成できるだけでは性能を判断で�
 
 これにより、システムの有効性を定量的に評価できる構成としています。
 
+質問ごとの検索結果をCSVに保存する場合は、プロジェクトのルートから次を実行します（Gemini APIキーが必要です）。
+
+```bash
+python -m eval.evaluate_retrieval \
+  --input eval/evaluation_questions_practical.csv \
+  --output eval/results/practical_baseline.csv
+```
+
+出力には質問、正解文書ID、検索件数の設定、取得した文書IDの順位、各Kでの成否が含まれます。改善前後を比較するときは、同じ入力CSVを使い、別々の出力ファイル名で保存します。
+
+CIではpushとプルリクエスト時に、外部APIを呼ばないテスト、lint、Terraform設定の形式・構文検証を実行します。ローカルで同じPythonの確認を行うには、開発用依存関係をインストールしてから次を実行します。
+
+```bash
+pip install -r requirements-dev.txt
+python -m ruff check .
+python -m pytest -q tests
+```
+
+実際の文書ベクトル検索とGeminiを使う評価はこのCIには含めず、評価セットや検索方式を変更した際に別途実行します。
+
 ---
 
 ## 10. 今後の改善案
@@ -636,9 +656,9 @@ RAGシステムでは、回答を生成できるだけでは性能を判断で�
 
 ### 10.8 ビルド・デプロイの自動化
 
-現在は、Cloud Buildによるコンテナイメージの作成とCloud Runへのデプロイを手動で実行しています。
+公開環境への初回デプロイでは、Cloud Buildでコンテナイメージを作成し、Cloud Runへ手動で反映しました。
 
-今後はGitHubへの更新を契機として、テスト、コンテナイメージの作成、Cloud Runへのデプロイまでを自動化し、変更を安全かつ継続的に反映できるCI/CD環境の構築を検討しています。
+GitHub ActionsにCIとCDジョブを追加し、GitHubからGoogle Cloudへ接続する認証基盤をTerraformで適用しました。`main` へのpush後にCIが成功すると、`production` 環境の所有者承認を経て、コンテナイメージを作成し既存のCloud Runサービスへ反映する構成です。設定と運用手順は [infra/README.md](infra/README.md) に記載しています。
 
 ---
 
