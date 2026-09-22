@@ -572,6 +572,26 @@ RAGシステムでは、回答を生成できるだけでは性能を判断で�
 
 これにより、システムの有効性を定量的に評価できる構成としています。
 
+質問ごとの検索結果をCSVに保存する場合は、プロジェクトのルートから次を実行します（Gemini APIキーが必要です）。
+
+```bash
+python -m eval.evaluate_retrieval \
+  --input eval/evaluation_questions_practical.csv \
+  --output eval/results/practical_baseline.csv
+```
+
+出力には質問、正解文書ID、検索件数の設定、取得した文書IDの順位、各Kでの成否が含まれます。改善前後を比較するときは、同じ入力CSVを使い、別々の出力ファイル名で保存します。
+
+CIではpushとプルリクエスト時に、外部APIを呼ばないテストとlintを実行します。ローカルで同じ確認を行うには、開発用依存関係をインストールしてから次を実行します。
+
+```bash
+pip install -r requirements-dev.txt
+python -m ruff check .
+python -m pytest -q tests
+```
+
+実際の文書ベクトル検索とGeminiを使う評価はこのCIには含めず、評価セットや検索方式を変更した際に別途実行します。
+
 ---
 
 ## 10. 今後の改善案

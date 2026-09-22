@@ -1,4 +1,3 @@
-from pathlib import Path
 import shutil
 
 from langchain_chroma import Chroma

@@ -4,7 +4,6 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from config import GOOGLE_API_KEY, LLM_MODEL_NAME
 from src.retriever import retrieve_documents_with_score
 from src.logger import save_rag_log
-from src.feedback import save_feedback
 
 
 def build_context(results) -> str:
