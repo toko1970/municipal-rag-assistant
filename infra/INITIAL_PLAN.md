@@ -12,4 +12,6 @@
 | Artifact Registry Writer権限 | 既存リポジトリへイメージを登録する |
 | 実行用サービスアカウントの使用権限 | 既存のCloud Run実行IDを引き継ぐ |
 
-既存のCloud Runサービス、Artifact Registryリポジトリ、実行用サービスアカウント、Secret Managerのシークレット本体はこのplanで作り直されません。Terraformの `apply` はまだ実行していません。CDも `ENABLE_CD` が無効のため、まだデプロイを実行しません。
+2026-09-22に同じ9件追加・変更0件・削除0件のplanを取り直し、その保存済みplanを `terraform apply` しました。結果は **9件追加、変更0件、削除0件** です。適用後の `terraform plan -detailed-exitcode` は終了コード0で、変更なしでした。
+
+既存のCloud Runサービス、Artifact Registryリポジトリ、実行用サービスアカウント、Secret Managerのシークレット本体は作り直していません。CDは `ENABLE_CD` が無効のため、まだデプロイを実行していません。
