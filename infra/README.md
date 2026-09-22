@@ -19,7 +19,7 @@
 
 CIは `terraform fmt -check` と `terraform validate` だけを実行します。`terraform init -backend=false` を使うため、この検証ではクラウドの状態ファイルにアクセスせず、リソースも変更しません。
 
-適用前には、状態保存用のCloud Storageバケット `municipal-rag-portfolio-tfstate-280649014820` を一度だけ作成し、バージョニングとアクセス制御を設定します。その後、Terraformを初期化し、`terraform plan` の新規作成・変更・削除を確認してから `terraform apply` します。既存のCloud RunなどをIaCの管理対象へ広げる場合は、別途インポートして変更予定が意図どおりか確認します。
+状態保存用のCloud Storageバケット `municipal-rag-portfolio-tfstate-280649014820` は2026-09-22に一度だけ作成し、非公開、バケット単位のアクセス制御、バージョニングを設定しました。旧バージョンが無制限に増えないよう、[state-lifecycle.json](state-lifecycle.json) で新しい版が10件ある旧版を削除します。Terraformの状態はこのバケットに保存します。`terraform plan` の新規作成・変更・削除を確認してから `terraform apply` します。初回の差分は [INITIAL_PLAN.md](INITIAL_PLAN.md) に記録しています。既存のCloud RunなどをIaCの管理対象へ広げる場合は、別途インポートして変更予定が意図どおりか確認します。
 
 CDジョブはGitHub Actionsに定義済みですが、リポジトリ変数 `ENABLE_CD` が `true` でない間は実行されません。認証基盤の適用、状態保存先の設定、GitHubの `production` Environmentでの承認ルール設定が完了してから、この変数を有効にします。有効化後は `main` へのpushでCIの両ジョブが成功したときだけ、コミットSHAをタグにしたイメージを登録し、既存Cloud Runサービスの新しいリビジョンとしてデプロイします。
 
