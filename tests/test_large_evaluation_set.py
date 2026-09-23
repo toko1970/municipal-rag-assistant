@@ -1,7 +1,11 @@
+from pathlib import Path
+from tempfile import TemporaryDirectory
+import csv
 import unittest
 
-from eval.generate_large_evaluation_set import generate_records
 from eval.create_scenario_review_sheet import create_review_rows
+from eval.freeze_large_evaluation_set import freeze_evaluation_set
+from eval.generate_large_evaluation_set import generate_records
 from eval.validate_large_evaluation_set import validate_rows
 
 
@@ -44,6 +48,35 @@ class LargeEvaluationSetTest(unittest.TestCase):
         self.assertEqual(
             sum(row["review_priority"] == "重点確認" for row in rows), 9
         )
+
+    def test_freezes_only_fully_approved_review_set(self):
+        rows = create_review_rows()
+        for row in rows:
+            row["user_decision"] = "承認"
+
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            review_path = root / "review.csv"
+            output_path = root / "questions.csv"
+            manifest_path = root / "manifest.json"
+            with review_path.open("w", encoding="utf-8-sig", newline="") as file:
+                writer = csv.DictWriter(file, fieldnames=rows[0].keys())
+                writer.writeheader()
+                writer.writerows(rows)
+
+            manifest = freeze_evaluation_set(
+                review_path=review_path,
+                output_path=output_path,
+                manifest_path=manifest_path,
+            )
+
+            with output_path.open(encoding="utf-8-sig", newline="") as file:
+                frozen = list(csv.DictReader(file))
+            self.assertEqual(
+                {row["review_status"] for row in frozen}, {"user_approved"}
+            )
+            self.assertEqual(manifest["approved_scenarios"], 100)
+            self.assertTrue(manifest_path.exists())
 
 
 if __name__ == "__main__":

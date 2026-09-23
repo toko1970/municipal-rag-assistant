@@ -135,6 +135,8 @@ DOC-001〜DOC-004を主な回答根拠文書として扱い、DOC-005は制度�
 
 より多様な誤回答の傾向を測るため、[給与事務担当者向け500問評価セット](eval/LARGE_EVALUATION_SET.md)も用意しています。100シナリオの人手確認には[シナリオレビュー表](eval/evaluation_scenario_review.csv)を使用します。回答生成モデルの比較方針と概算費用は[LLMモデル候補](eval/LLM_MODEL_CANDIDATES.md)に記録しています。
 
+承認済み評価セットを使ったモデル比較では、`eval.evaluate_models`が検索結果を一度保存し、Gemini、OpenAI、Mistralへ同じコンテキストを渡します。API制限で中断しても質問単位で結果を保存し、再実行時に続きから再開できます。
+
 ### 評価結果サマリー
 
 - Recall@3：1.00

@@ -1,0 +1,42 @@
+﻿question_id,scenario_id,question,topic,difficulty,variant_type,expected_answer_type,expected_answer_key,provider,requested_model,model,predicted_answer_type,classification_ok,answer,retrieved_document_ids,retrieved_headings,input_tokens,output_tokens,total_tokens,estimated_cost_usd,elapsed_seconds,request_id,retrieval_error,generation_error,executed_at
+Q001,S001,給与制度規程は常勤職員に適用されますか？,適用対象,direct,formal,根拠十分,架空市の常勤職員に適用される。,gemini,gemini-3.1-flash-lite,gemini-3.1-flash-lite,根拠十分,1,"回答分類:
+根拠十分
+
+回答:
+はい、給与制度規程は架空市に勤務する常勤職員に適用されます。
+
+根拠文書:
+給与制度規程",DOC-001|DOC-001|DOC-001|DOC-001|DOC-005,2. 適用対象|1. 目的|11. 制度所管部署|12. 注意事項|,583,43,626,0.00021025,2.965,,,,2026-09-23T17:09:53
+Q006,S002,会計年度任用職員の給料日をこの規程だけで確定できますか？,適用対象,near_miss,formal,文書不足,別規程によるため、この文書だけでは確定できない。,gemini,gemini-3.1-flash-lite,gemini-3.1-flash-lite,根拠十分,0,"回答分類:
+根拠十分
+
+回答:
+いいえ、確定できません。
+「給与制度規程」の適用対象は常勤職員に限定されており、会計年度任用職員については別に定める規程による旨が規定されているためです。会計年度任用職員の給料日については、当該職員に適用される別の規程を確認する必要があります。
+
+根拠文書:
+給与制度規程",DOC-001|DOC-001|DOC-001|DOC-001|DOC-005,3. 給与支給日|12. 注意事項|2. 適用対象|4. 給与計算期間|,573,87,660,0.00027375,5.134,,,,2026-09-23T17:09:59
+Q011,S003,通常の給与支給日は毎月何日ですか？,給与支給日,direct,formal,根拠十分,毎月21日。,gemini,gemini-3.1-flash-lite,gemini-3.1-flash-lite,根拠十分,1,"回答分類:
+根拠十分
+
+回答:
+通常の給与支給日は毎月21日です。なお、支給日が土曜日、日曜日または祝日に当たる場合は、その直前の営業日に支給されます。
+
+根拠文書:
+給与制度規程",DOC-001|DOC-001|DOC-001|DOC-001|DOC-001,3. 給与支給日|3. 給与支給日|4. 給与計算期間|12. 注意事項|5. 給与明細,643,58,701,0.00024775,2.376,,,,2026-09-23T17:10:02
+Q016,S004,21日が土曜日の場合はいつ給与を支給しますか？,給与支給日,boundary,formal,根拠十分,前日の金曜日。,gemini,gemini-3.1-flash-lite,gemini-3.1-flash-lite,根拠十分,1,"回答分類:
+根拠十分
+
+回答:
+21日が土曜日の場合、給与は前日の金曜日に支給されます。
+
+根拠文書:
+給与制度規程",DOC-001|DOC-001|DOC-001|DOC-001|DOC-005,3. 給与支給日|3. 給与支給日|4. 給与計算期間|12. 注意事項|改正後,579,41,620,0.00020625,3.604,,,,2026-09-23T17:10:07
+Q021,S005,21日が祝日の場合はいつ振り込みますか？,給与支給日,boundary,formal,根拠十分,直前の営業日。,gemini,gemini-3.1-flash-lite,gemini-3.1-flash-lite,根拠十分,1,"回答分類:
+根拠十分
+
+回答:
+21日が祝日の場合は、その直前の営業日に支給します。
+
+根拠文書:
+給与制度規程",DOC-001|DOC-001|DOC-005|DOC-001|DOC-002,3. 給与支給日|3. 給与支給日|改正後|7. 給与振込口座|4.5 支給開始時期,557,37,594,0.00019475,2.883,,,,2026-09-23T17:10:11

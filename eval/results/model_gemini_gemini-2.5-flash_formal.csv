@@ -1,0 +1,35 @@
+﻿question_id,scenario_id,question,topic,difficulty,variant_type,expected_answer_type,expected_answer_key,provider,requested_model,model,predicted_answer_type,classification_ok,answer,retrieved_document_ids,retrieved_headings,input_tokens,output_tokens,total_tokens,estimated_cost_usd,elapsed_seconds,request_id,retrieval_error,generation_error,executed_at
+Q001,S001,給与制度規程は常勤職員に適用されますか？,適用対象,direct,formal,根拠十分,架空市の常勤職員に適用される。,gemini,gemini-2.5-flash,gemini-2.5-flash,根拠十分,1,"回答分類: 根拠十分
+
+回答:
+給与制度規程は、架空市に勤務する常勤職員に適用されます。
+
+根拠文書:
+給与制度規程",DOC-001|DOC-001|DOC-001|DOC-001|DOC-005,2. 適用対象|1. 目的|11. 制度所管部署|12. 注意事項|,583,261,844,0.00082740,3.023,,,,2026-09-23T17:03:36
+Q006,S002,会計年度任用職員の給料日をこの規程だけで確定できますか？,適用対象,near_miss,formal,文書不足,別規程によるため、この文書だけでは確定できない。,gemini,gemini-2.5-flash,gemini-2.5-flash,根拠十分,0,"回答分類:
+根拠十分
+
+回答:
+「給与制度規程」は常勤職員に適用され、会計年度任用職員については別に定める規程によるため、この規程だけでは会計年度任用職員の給料日を確定することはできません。
+
+根拠文書:
+給与制度規程",DOC-001|DOC-001|DOC-001|DOC-001|DOC-005,3. 給与支給日|12. 注意事項|2. 適用対象|4. 給与計算期間|,573,807,1380,0.00218940,5.138,,,,2026-09-23T17:03:42
+Q011,S003,通常の給与支給日は毎月何日ですか？,給与支給日,direct,formal,根拠十分,毎月21日。,gemini,gemini-2.5-flash,gemini-2.5-flash,根拠十分,1,"回答分類: 根拠十分
+
+回答:
+職員の給与は毎月21日に支給されます。
+
+根拠文書:
+給与制度規程",DOC-001|DOC-001|DOC-001|DOC-001|DOC-001,3. 給与支給日|3. 給与支給日|4. 給与計算期間|12. 注意事項|5. 給与明細,643,614,1257,0.00172790,4.009,,,,2026-09-23T17:03:47
+Q016,S004,21日が土曜日の場合はいつ給与を支給しますか？,給与支給日,boundary,formal,根拠十分,前日の金曜日。,gemini,gemini-2.5-flash,gemini-2.5-flash,根拠十分,1,"回答分類: 根拠十分
+
+回答: 21日が土曜日の場合、給与は直前の営業日に支給されます。具体的には、前日の金曜日が支給日となります。
+
+根拠文書: 給与制度規程",DOC-001|DOC-001|DOC-001|DOC-001|DOC-005,3. 給与支給日|3. 給与支給日|4. 給与計算期間|12. 注意事項|改正後,579,532,1111,0.00150370,4.316,,,,2026-09-23T17:03:52
+Q021,S005,21日が祝日の場合はいつ振り込みますか？,給与支給日,boundary,formal,根拠十分,直前の営業日。,gemini,gemini-2.5-flash,gemini-2.5-flash,根拠十分,1,"回答分類: 根拠十分
+
+回答:
+21日が祝日の場合は、その直前の営業日に支給されます。
+
+根拠文書:
+給与制度規程",DOC-001|DOC-001|DOC-005|DOC-001|DOC-002,3. 給与支給日|3. 給与支給日|改正後|7. 給与振込口座|4.5 支給開始時期,557,346,903,0.00103210,2.680,,,,2026-09-23T17:03:56

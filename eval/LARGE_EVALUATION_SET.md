@@ -74,7 +74,7 @@
 
 ## 利用前の確認
 
-現在の`review_status`は全件`assistant_reviewed`である。文書との照合による一次レビューは完了しているが、質問の業務上の自然さや正解要点の解釈は自動検証だけでは保証できない。最初の本評価前に、[シナリオレビュー表](evaluation_scenario_review.csv)で100個のformal質問と正解要点を人が確認し、同じシナリオの5表現に意味のずれがないことを確認する。
+100シナリオは人手レビューで全件承認され、現在の`review_status`は全件`user_approved`である。固定した評価セットのバージョン、承認日、SHA-256は[evaluation_set_manifest.json](evaluation_set_manifest.json)に記録する。
 
 レビュー表の`user_decision`には`承認`、`修正`、`削除`のいずれかを入力する。`修正`または`削除`の場合は、`user_comment`に理由や希望する内容を記入する。`review_priority=重点確認`の9件は、文書不足の境界、個別判断、文書間の記載差異などを含むため先に確認する。
 
@@ -82,6 +82,12 @@
 
 ```bash
 python -m eval.create_scenario_review_sheet
+```
+
+全シナリオの承認後、次のコマンドで正解条件の一致を検証して評価セットを固定する。
+
+```bash
+python -m eval.freeze_large_evaluation_set
 ```
 
 評価結果を見て質問を削除・変更すると指標が恣意的になるため、レビュー完了後はバージョンを固定する。修正する場合は理由と変更前後を記録する。

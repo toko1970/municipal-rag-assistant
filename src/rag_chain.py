@@ -1,7 +1,5 @@
-from langchain_core.messages import HumanMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
-
-from config import GOOGLE_API_KEY, LLM_MODEL_NAME
+from config import LLM_MODEL_NAME
+from src.llm_provider import GeminiProvider
 from src.retriever import retrieve_documents_with_score
 from src.logger import save_rag_log
 
@@ -101,6 +99,7 @@ def generate_answer(
     question: str,
     retrieve_fn=None,
     record_log: bool = True,
+    llm_provider=None,
 ) -> dict:
     """
     質問に対して、Retriever検索とLLM回答生成を行う。
@@ -118,21 +117,16 @@ def generate_answer(
         context=context,
     )
 
-    llm = ChatGoogleGenerativeAI(
-        model=LLM_MODEL_NAME,
-        google_api_key=GOOGLE_API_KEY,
-        temperature=0,
-    )
-
-    response = llm.invoke(
-        [HumanMessage(content=prompt)]
-    )
+    if llm_provider is None:
+        llm_provider = GeminiProvider(LLM_MODEL_NAME)
+    response = llm_provider.generate(prompt)
 
     result = {
         "question": question,
-        "answer": response.content,
+        "answer": response.text,
         "retrieved_documents": results,
         "references": build_references(results),
+        "generation": response.metadata(),
     }
 
     if record_log:

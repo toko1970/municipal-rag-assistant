@@ -12,6 +12,7 @@ from src.document_loader import load_markdown_documents
 EVALUATION_FILE = Path("eval/evaluation_questions_500.csv")
 EXPECTED_VARIANTS = {"formal", "staff_consultation", "concise", "colloquial", "noisy"}
 ANSWER_TYPES = {"根拠十分", "判断要", "文書不足"}
+REVIEW_STATUSES = {"assistant_reviewed", "user_approved"}
 
 
 def available_evidence() -> set[tuple[str, str]]:
@@ -55,7 +56,7 @@ def validate_rows(rows: list[dict], evidence_catalog=None) -> dict:
             errors.append(f"回答分類が不正です: {row.get('question_id')}")
         if not row.get("expected_answer_key", "").strip():
             errors.append(f"回答要点が空です: {row.get('question_id')}")
-        if row.get("review_status") != "assistant_reviewed":
+        if row.get("review_status") not in REVIEW_STATUSES:
             errors.append(f"レビュー状態が不正です: {row.get('question_id')}")
 
         try:
@@ -78,6 +79,8 @@ def validate_rows(rows: list[dict], evidence_catalog=None) -> dict:
 
     if len(by_scenario) != 100:
         errors.append(f"シナリオ数が100件ではありません: {len(by_scenario)}")
+    if len({row.get("review_status", "") for row in rows}) != 1:
+        errors.append("評価セット内でレビュー状態が統一されていません")
     expected_scenario_ids = {f"S{number:03d}" for number in range(1, 101)}
     if set(by_scenario) != expected_scenario_ids:
         errors.append("scenario_idがS001からS100の範囲ではありません")

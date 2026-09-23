@@ -29,6 +29,8 @@ FEEDBACK_LOG_PATH = LOGS_DIR / "feedback_logs.jsonl"
 # =========================
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 
 LLM_MODEL_NAME = "gemini-2.5-flash"
 EMBEDDING_MODEL_NAME = "gemini-embedding-001"
