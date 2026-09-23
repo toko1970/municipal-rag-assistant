@@ -131,7 +131,7 @@ DOC-001〜DOC-004を主な回答根拠文書として扱い、DOC-005は制度�
 
 本プロジェクトでは、検索性能評価および回答品質評価を実施し、システムの有効性を検証しました。
 
-難問20件による追加評価では、検索結果だけでなく回答内容と失敗原因も質問単位で記録しています。詳細は [難問検索評価](eval/HARD_EVALUATION.md) と [難問回答品質評価](eval/HARD_ANSWER_EVALUATION.md) を参照してください。
+難問20件による追加評価では、検索結果だけでなく回答内容と失敗原因も質問単位で記録しています。詳細は [難問検索評価](eval/HARD_EVALUATION.md)、[難問回答品質評価](eval/HARD_ANSWER_EVALUATION.md)、[親見出しをEmbeddingへ加える検索実験](eval/CONTEXTUAL_HEADING_EVALUATION.md) を参照してください。
 
 ### 評価結果サマリー
 

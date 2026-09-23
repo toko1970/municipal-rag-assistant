@@ -197,12 +197,20 @@ def main():
     parser = argparse.ArgumentParser(description="検索性能を質問ごとに評価する")
     parser.add_argument("--input", type=Path, default=EVALUATION_FILE)
     parser.add_argument("--output", type=Path, help="質問ごとの結果を保存するCSV")
-    parser.add_argument("--method", choices=("vector", "hybrid"), default="vector")
+    parser.add_argument(
+        "--method",
+        choices=("vector", "hybrid", "contextual"),
+        default="vector",
+    )
     args = parser.parse_args()
 
     questions = load_evaluation_questions(args.input)
     if args.method == "hybrid":
         from eval.hybrid_retriever import retrieve_documents_with_score as retrieve_fn
+    elif args.method == "contextual":
+        from eval.contextual_retriever import (
+            retrieve_documents_with_score as retrieve_fn,
+        )
     else:
         retrieve_fn = retrieve_documents_with_score
     records = evaluate_retrieval(questions, retrieve_fn=retrieve_fn)

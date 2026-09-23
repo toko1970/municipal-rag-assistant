@@ -10,6 +10,7 @@ __pycache__/
 
 # Vector Database
 chroma_db/
+.eval_cache/
 
 # Logs
 logs/

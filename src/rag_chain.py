@@ -97,12 +97,19 @@ def build_prompt(question: str, context: str) -> str:
     return prompt
 
 
-def generate_answer(question: str) -> dict:
+def generate_answer(
+    question: str,
+    retrieve_fn=None,
+    record_log: bool = True,
+) -> dict:
     """
     質問に対して、Retriever検索とLLM回答生成を行う。
     """
 
-    results = retrieve_documents_with_score(question)
+    if retrieve_fn is None:
+        retrieve_fn = retrieve_documents_with_score
+
+    results = retrieve_fn(question)
 
     context = build_context(results)
 
@@ -128,7 +135,8 @@ def generate_answer(question: str) -> dict:
         "references": build_references(results),
     }
 
-    save_rag_log(result)
+    if record_log:
+        save_rag_log(result)
 
     return result
 
