@@ -5,6 +5,7 @@ import unittest
 from eval.evaluate_models import (
     evaluate_questions,
     estimate_cost,
+    is_rate_limit_error,
     load_results,
     prepare_retrieval_cases,
 )
@@ -32,6 +33,11 @@ class FakeProvider:
 
 
 class ModelEvaluationTest(unittest.TestCase):
+    def test_detects_rate_limit_errors(self):
+        self.assertTrue(is_rate_limit_error("429 RESOURCE_EXHAUSTED"))
+        self.assertTrue(is_rate_limit_error("Too Many Requests"))
+        self.assertFalse(is_rate_limit_error("500 Internal Server Error"))
+
     def test_estimates_model_cost_from_recorded_tokens(self):
         self.assertEqual(estimate_cost("openai", "gpt-5-mini", 100, 20), "0.00006500")
         self.assertEqual(estimate_cost("unknown", "model", 100, 20), "")
@@ -92,6 +98,39 @@ class ModelEvaluationTest(unittest.TestCase):
 
             self.assertEqual(calls, ["支給日は？"])
             self.assertEqual(cache["Q001"]["retrieval_error"], "")
+
+    def test_stops_after_rate_limit_and_keeps_checkpoint(self):
+        class LimitedProvider(FakeProvider):
+            def generate(self, _prompt):
+                self.calls += 1
+                raise RuntimeError("429 RESOURCE_EXHAUSTED")
+
+        questions = [
+            {
+                "question_id": question_id,
+                "scenario_id": scenario_id,
+                "question": "質問",
+                "expected_answer_type": "根拠十分",
+            }
+            for question_id, scenario_id in (("Q001", "S001"), ("Q006", "S002"))
+        ]
+        cache = {
+            row["question_id"]: {
+                "context": "文書",
+                "references": [],
+                "retrieval_error": "",
+            }
+            for row in questions
+        }
+        provider = LimitedProvider()
+
+        with TemporaryDirectory() as directory:
+            output = Path(directory) / "result.csv"
+            records = evaluate_questions(questions, cache, provider, output)
+
+        self.assertEqual(provider.calls, 1)
+        self.assertEqual(len(records), 1)
+        self.assertIn("429", records[0]["generation_error"])
 
 
 if __name__ == "__main__":

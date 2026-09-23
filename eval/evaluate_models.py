@@ -56,6 +56,14 @@ RESULT_FIELDS = (
 )
 
 
+def is_rate_limit_error(error: str) -> bool:
+    lowered = error.lower()
+    return any(
+        marker in lowered
+        for marker in ("429", "resource_exhausted", "too many requests", "rate limit")
+    )
+
+
 def load_questions(path: Path, variant: str = "formal") -> list[dict]:
     with path.open(encoding="utf-8-sig", newline="") as file:
         rows = list(csv.DictReader(file))
@@ -113,6 +121,9 @@ def prepare_retrieval_cases(
                 "retrieval_error": f"{type(error).__name__}: {error}",
             }
         save_retrieval_cache(cache, cache_path)
+        if is_rate_limit_error(cache[question_id]["retrieval_error"]):
+            print(f"{question_id}: 検索APIの利用上限を検知したため停止します")
+            break
     return cache
 
 
@@ -223,6 +234,9 @@ def evaluate_questions(
             f"{question_id}: {predicted} / {row['expected_answer_type']} "
             f"({metadata['provider']}/{metadata['model']})"
         )
+        if is_rate_limit_error(generation_error):
+            print("回答生成APIの利用上限を検知したため、保存して停止します")
+            break
         if delay_seconds > 0 and index < len(questions) - 1:
             time.sleep(delay_seconds)
 
