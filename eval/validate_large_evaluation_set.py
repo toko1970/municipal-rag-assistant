@@ -55,7 +55,7 @@ def validate_rows(rows: list[dict], evidence_catalog=None) -> dict:
             errors.append(f"回答分類が不正です: {row.get('question_id')}")
         if not row.get("expected_answer_key", "").strip():
             errors.append(f"回答要点が空です: {row.get('question_id')}")
-        if row.get("review_status") != "assistant_draft":
+        if row.get("review_status") != "assistant_reviewed":
             errors.append(f"レビュー状態が不正です: {row.get('question_id')}")
 
         try:

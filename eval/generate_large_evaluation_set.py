@@ -152,7 +152,7 @@ SCENARIOS = [
     scenario("通勤手当", "2025年9月30日以前に認定した通勤手当は新基準になりますか？", "根拠十分", "boundary", "通勤手当の経過措置", "旧基準を適用する。", "commute_transition"),
     scenario("通勤手当", "2025年10月に通勤距離がちょうど1.5kmなら距離要件を満たしますか？", "根拠十分", "boundary", "改正後の通勤距離境界", "1.5km以上なので距離要件を満たす。", "commute_new", "revision_date"),
     scenario("通勤手当", "2025年10月に通勤距離1.4kmで車通勤する職員は距離要件を満たしますか？", "根拠十分", "boundary", "改正後の通勤距離境界", "1.5km未満なので距離要件を満たさない。", "commute_new", "revision_date"),
-    scenario("通勤手当", "2025年10月から1.8kmを車通勤する職員の要件と届出期限を教えてください。", "根拠十分", "multi_document", "改正後の通勤要件と届出期限", "1.5km以上、実通勤、届出が必要で、経路変更届は変更日から10日以内。", "commute_req", "commute_new", "commute_deadline"),
+    scenario("通勤手当", "2025年10月に通勤経路が変わり、1.8kmを車通勤する職員の要件と届出期限を教えてください。", "根拠十分", "multi_document", "改正後の通勤要件と届出期限", "1.5km以上、実通勤、届出が必要で、経路変更届は変更日から10日以内。", "commute_req", "commute_new", "commute_deadline"),
     scenario("通勤手当", "通勤経路が変わった場合はどの届出を出しますか？", "根拠十分", "direct", "通勤経路変更", "通勤経路変更届を提出する。", "commute_change", "commute_trigger"),
     scenario("通勤手当", "通勤経路変更届は変更日から何日以内ですか？", "根拠十分", "near_miss", "通勤経路変更届の提出期限", "10日以内。", "commute_deadline"),
     scenario("通勤手当", "通勤経路変更届に添付する書類を教えてください。", "根拠十分", "practical", "通勤経路変更届の必要書類", "届出、経路図、該当者は定期券写し。", "commute_docs"),
@@ -182,7 +182,7 @@ SCENARIOS = [
     scenario("扶養手当", "扶養親族変更届は事由発生日から何日以内ですか？", "根拠十分", "near_miss", "扶養親族変更届の提出期限", "15日以内。", "dependent_deadline"),
     scenario("扶養手当", "扶養親族変更届の必要書類を教えてください。", "根拠十分", "practical", "扶養親族変更届の必要書類", "届出、戸籍関係書類、必要に応じて所得証明書。", "dependent_docs"),
     scenario("扶養手当", "扶養親族変更届の受付後はどの順に処理しますか？", "根拠十分", "practical", "扶養親族変更届の処理手順", "受付、書類審査、認定確認、システム登録、結果通知。", "dependent_process"),
-    scenario("扶養手当", "2025年9月に子どもが生まれた場合、扶養手当はいつからですか？", "根拠十分", "boundary", "改正前の支給開始", "旧基準により認定事由発生日の翌月から。", "dependent_old", "dependent_transition"),
+    scenario("扶養手当", "2025年9月に子どもが生まれ、扶養認定された場合、扶養手当はいつからですか？", "根拠十分", "boundary", "改正前の支給開始", "旧基準により認定事由発生日の翌月から。", "dependent_old", "dependent_transition"),
     scenario("扶養手当", "2025年10月に子どもが生まれ認定された場合、扶養手当はいつからですか？", "根拠十分", "boundary", "改正後の支給開始", "認定事由が確認され認定された月から。", "dependent_new", "dependent_transition"),
     scenario("扶養手当", "2025年10月の出生について支給開始時期と届出期限をまとめてください。", "根拠十分", "multi_document", "改正後の支給開始と届出期限", "認定月から支給し、扶養親族変更届は事由発生日から15日以内。", "dependent_new", "dependent_transition", "dependent_deadline"),
     scenario("扶養手当", "扶養要件を失った場合、いつから手当を停止しますか？", "根拠十分", "direct", "扶養手当の支給停止時期", "事由発生日の翌月から。", "dependent_stop"),
@@ -204,7 +204,7 @@ SCENARIOS = [
     scenario("給与口座", "給与口座変更届に必要な確認書類は何ですか？", "根拠十分", "practical", "給与口座変更届の必要書類", "届出と通帳または口座情報確認書類。", "account_docs"),
     scenario("給与口座", "給与口座変更届を受け付けた後の処理順序は？", "根拠十分", "practical", "給与口座変更届の処理手順", "受付、口座情報確認、システム登録、テスト確認。", "account_process"),
     scenario("届出共通", "提出期限を過ぎた届出は一切受け付けられませんか？", "判断要", "near_miss", "期限後の届出", "届出は受け付けるが反映時期等は個別確認。", "faq_late_form", "common_note"),
-    scenario("届出共通", "添付書類が足りない届出をそのまま認定できますか？", "判断要", "judgment", "書類不備", "認定が完了しない場合があり、不足書類の提出が必要。受付可否は記載に差があり確認を要する。", "faq_missing_docs", "common_note"),
+    scenario("届出共通", "添付書類が足りない届出を受け付けられますか？", "判断要", "judgment", "書類不備", "FAQは認定未完了と不足書類の提出を示す一方、手続きマニュアルは受付不可としているため、受付可否は人事給与課へ確認する。", "faq_missing_docs", "common_note"),
     scenario("届出共通", "届出書を電子メールで受け付けてよいですか？", "判断要", "judgment", "メール提出", "所属や手続きで運用が異なるため確認が必要。", "faq_email"),
     scenario("システム入力", "人事給与システムへ登録する前に何を確認しますか？", "根拠十分", "practical", "システム登録前の確認", "添付有無、期限、認定要件、既存登録との整合性。", "system_check"),
     scenario("システム入力", "人事給与システムへ入力した後に再確認は必要ですか？", "根拠十分", "direct", "入力後の確認", "入力後は必ず登録内容を再確認する。", "system_check"),
@@ -215,7 +215,7 @@ SCENARIOS = [
     scenario("制度改正", "扶養手当の支給開始時期は改正前後でどう変わりましたか？", "根拠十分", "multi_document", "扶養手当の改正前後", "事由発生日の翌月から、認定された月からへ変更。", "dependent_old", "dependent_new"),
     scenario("複合手続き", "転居で通勤しなくなった場合、通勤手当と住所変更届をどう処理しますか？", "根拠十分", "multi_document", "通勤手当停止と住所変更", "通勤実態消失で手当停止、住所変更届は14日以内。", "commute_stop", "address_deadline"),
     scenario("複合手続き", "過払給与の返納方法と給与口座変更に必要な書類をまとめてください。", "根拠十分", "multi_document", "過払返納と口座変更", "一括または分割返納。口座変更届と口座情報確認書類が必要。", "repayment", "account_docs"),
-    scenario("複合手続き", "2025年10月に家賃15,500円の本人名義住宅へ入居した場合の要件・書類・期限は？", "根拠十分", "multi_document", "改正後の住居手当と住居届", "家賃要件を満たし、住居届・契約書写し・支払確認書類を入居日から30日以内に提出。", "housing_req", "housing_new", "procedure_housing_docs", "housing_deadline"),
+    scenario("複合手続き", "2025年10月に本人名義で契約し、家賃15,500円を負担する住宅へ入居した場合の要件・書類・期限は？", "根拠十分", "multi_document", "改正後の住居手当と住居届", "本人名義で家賃15,000円超を負担する要件を満たし、住居届・契約書写し・支払確認書類を入居日から30日以内に提出。", "housing_req", "housing_new", "procedure_housing_docs", "housing_deadline"),
     scenario("文書不足", "退職手当の具体的な計算式を教えてください。", "文書不足", "unanswerable", "退職手当", "対象文書に記載がない。"),
     scenario("文書不足", "育児休業中の給与は通常の何割支給されますか？", "文書不足", "unanswerable", "育児休業中の給与", "対象文書に記載がない。"),
     scenario("文書不足", "テレワーク手当の月額上限はいくらですか？", "文書不足", "unanswerable", "テレワーク手当", "対象文書に記載がない。"),
@@ -297,7 +297,7 @@ def generate_records() -> list[dict]:
                     "difficulty": item["difficulty"],
                     "expected_evidence": item["expected_evidence"],
                     "expected_answer_key": item["expected_answer_key"],
-                    "review_status": "assistant_draft",
+                    "review_status": "assistant_reviewed",
                 }
             )
     return records
@@ -306,7 +306,7 @@ def generate_records() -> list[dict]:
 def save_records(records: list[dict], output_path: Path = OUTPUT_FILE) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", encoding="utf-8-sig", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=FIELDS)
+        writer = csv.DictWriter(file, fieldnames=FIELDS, lineterminator="\n")
         writer.writeheader()
         writer.writerows(records)
 

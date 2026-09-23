@@ -133,7 +133,7 @@ DOC-001〜DOC-004を主な回答根拠文書として扱い、DOC-005は制度�
 
 難問20件による追加評価では、検索結果だけでなく回答内容と失敗原因も質問単位で記録しています。詳細は [難問検索評価](eval/HARD_EVALUATION.md)、[難問回答品質評価](eval/HARD_ANSWER_EVALUATION.md)、[親見出しをEmbeddingへ加える検索実験](eval/CONTEXTUAL_HEADING_EVALUATION.md) を参照してください。
 
-より多様な誤回答の傾向を測るため、[給与事務担当者向け500問評価セット](eval/LARGE_EVALUATION_SET.md)も用意しています。回答生成モデルの比較方針と概算費用は[LLMモデル候補](eval/LLM_MODEL_CANDIDATES.md)に記録しています。
+より多様な誤回答の傾向を測るため、[給与事務担当者向け500問評価セット](eval/LARGE_EVALUATION_SET.md)も用意しています。100シナリオの人手確認には[シナリオレビュー表](eval/evaluation_scenario_review.csv)を使用します。回答生成モデルの比較方針と概算費用は[LLMモデル候補](eval/LLM_MODEL_CANDIDATES.md)に記録しています。
 
 ### 評価結果サマリー
 

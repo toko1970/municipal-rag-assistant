@@ -1,6 +1,7 @@
 import unittest
 
 from eval.generate_large_evaluation_set import generate_records
+from eval.create_scenario_review_sheet import create_review_rows
 from eval.validate_large_evaluation_set import validate_rows
 
 
@@ -21,7 +22,7 @@ class LargeEvaluationSetTest(unittest.TestCase):
             {row["scenario_id"] for row in records},
             {f"S{number:03d}" for number in range(1, 101)},
         )
-        self.assertEqual({row["review_status"] for row in records}, {"assistant_draft"})
+        self.assertEqual({row["review_status"] for row in records}, {"assistant_reviewed"})
         self.assertTrue(all(row["expected_answer_key"] for row in records))
 
     def test_unanswerable_questions_have_no_gold_document(self):
@@ -34,6 +35,15 @@ class LargeEvaluationSetTest(unittest.TestCase):
         self.assertEqual(len(unanswerable), 60)
         self.assertTrue(all(not row["expected_document_ids"] for row in unanswerable))
         self.assertTrue(all(not row["expected_evidence"] for row in unanswerable))
+
+    def test_review_sheet_has_one_row_per_scenario(self):
+        rows = create_review_rows()
+
+        self.assertEqual(len(rows), 100)
+        self.assertEqual(len({row["scenario_id"] for row in rows}), 100)
+        self.assertEqual(
+            sum(row["review_priority"] == "重点確認" for row in rows), 9
+        )
 
 
 if __name__ == "__main__":
