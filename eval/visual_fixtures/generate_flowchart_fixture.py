@@ -13,12 +13,16 @@ from pathlib import Path
 import shutil
 import subprocess
 
-from PIL import Image
 from reportlab.lib.colors import HexColor, white
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
+
+from eval.visual_fixtures.build_development_manifest import (
+    MANIFEST_PATH,
+    write_development_manifest,
+)
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
@@ -26,7 +30,6 @@ FIXTURE_ROOT = REPOSITORY_ROOT / "eval" / "visual_fixtures"
 PDF_PATH = FIXTURE_ROOT / "documents" / "flowchart_dev_001.pdf"
 IMAGE_PATH = FIXTURE_ROOT / "images" / "flowchart_dev_001_page_001.png"
 GOLD_PATH = FIXTURE_ROOT / "gold" / "flowchart_dev_001.json"
-MANIFEST_PATH = FIXTURE_ROOT / "manifests" / "development_manifest.json"
 SCHEMA_PATH = REPOSITORY_ROOT / "design" / "schemas" / "visual-extraction-v1.schema.json"
 
 PAGE_WIDTH, PAGE_HEIGHT = A4
@@ -283,55 +286,11 @@ def write_gold() -> None:
     GOLD_PATH.write_text(json.dumps(gold, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def write_manifest() -> None:
-    MANIFEST_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with Image.open(IMAGE_PATH) as image:
-        width, height = image.size
-    manifest = {
-        "manifest_version": "1.0",
-        "split": "development",
-        "paths_relative_to": "repository_root",
-        "generated_by": "eval/visual_fixtures/generate_flowchart_fixture.py",
-        "schema": {
-            "path": "design/schemas/visual-extraction-v1.schema.json",
-            "sha256": sha256(SCHEMA_PATH),
-        },
-        "fixtures": [
-            {
-                "fixture_id": "flowchart_dev_001",
-                "document_family": "commuting_allowance_application_flow_a",
-                "kind": "flowchart",
-                "document": {
-                    "path": "eval/visual_fixtures/documents/flowchart_dev_001.pdf",
-                    "sha256": sha256(PDF_PATH),
-                },
-                "source_images": [
-                    {
-                        "page": 1,
-                        "path": "eval/visual_fixtures/images/flowchart_dev_001_page_001.png",
-                        "sha256": sha256(IMAGE_PATH),
-                        "width": width,
-                        "height": height,
-                    }
-                ],
-                "gold": {
-                    "path": "eval/visual_fixtures/gold/flowchart_dev_001.json",
-                    "sha256": sha256(GOLD_PATH),
-                },
-            }
-        ],
-    }
-    MANIFEST_PATH.write_text(
-        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
-
-
 def main() -> None:
     create_pdf()
     render_page_image()
     write_gold()
-    write_manifest()
+    write_development_manifest()
     print(PDF_PATH.relative_to(REPOSITORY_ROOT))
     print(IMAGE_PATH.relative_to(REPOSITORY_ROOT))
     print(GOLD_PATH.relative_to(REPOSITORY_ROOT))
