@@ -60,7 +60,7 @@ DockerのPostgreSQLとQdrant、架空fixtureを使う。
 | 図表development 30 | PDF・図表実装とparameter調整 | 利用可 |
 | 図表sealed holdout 20 | 最終受入 | 質問文だけ実行可。goldは結果確定まで利用不可 |
 
-splitはscenario単位とし、同じ答え・根拠・文書版を共有する派生質問は同じsplitへ置く。ユーザーをgold custodianとし、質問文とgoldのSHA-256だけをrepositoryへcommitする。gold本体はcommit対象外のローカルartifactへ保存し、候補・run ID・予測結果を固定してから開封する。開封日時とhash一致をrun manifestへ記録し、開封後はそのsetを再びsealed扱いにせず次版のholdoutを作る。実装後に不具合を発見しても、holdoutを削除せず失敗として残す。
+splitはscenario単位とし、同じ答え・根拠・文書版を共有する派生質問は同じsplitへ置く。ユーザーをgold custodianとし、質問文とgoldのSHA-256だけをrepositoryへcommitする。gold本体はcommit対象外のローカルartifactへ保存し、候補・run ID・予測結果を固定してから開封する。図表sealed holdoutでは未知文書への取込性能も測るため、source PDF本体もcommit対象外のローカルartifactへ保存し、候補実装を固定した後に初めて入力する。開封日時とhash一致をrun manifestへ記録し、開封後はそのsetを再びsealed扱いにせず次版のholdoutを作る。実装後に不具合を発見しても、holdoutを削除せず失敗として残す。
 
 text sealed holdoutは、既存5文書と制度名、文書ID、見出し、文面を共有しない新しい架空文書familyを使う。50 scenarioにformalとparaphrase/noisyの2表現を用意し、評価時は100表現を実行する。正解条件を共有する2表現を独立scenarioとして数えず、合否指標は50 scenarioを同じ重みで集計する。構成は事前に次へ固定する。
 
@@ -77,6 +77,8 @@ text sealed holdoutは、既存5文書と制度名、文書ID、見出し、文�
 - 期待分類: 根拠十分12、判断要4、文書不足4
 - 難度: direct 6、複数要素6、境界・改定4、言い換え・誤字4
 - 文書family: developmentと重複0
+
+20 scenarioのIDと上記の集計件数は公開blueprintで固定するが、scenarioごとの期待分類、難度、正解回答、根拠、bbox、表セル、flow edgeは予測固定まで非公開にする。状態は`PLANNED`、`SEALED`、`CANDIDATE_FROZEN`、`PREDICTIONS_FROZEN`、`OPENED`、`CONSUMED`の順で進め、各状態をpublic manifestとGit履歴へ残す。
 
 20件では区分別の推定幅が大きいため、区分別は件数とWilson 95% intervalを併記し、合否は事前定義した全体指標と重大誤り0件で判断する。
 

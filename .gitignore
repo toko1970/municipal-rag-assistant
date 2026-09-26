@@ -18,6 +18,9 @@ logs/
 # Feedback
 feedback_data/
 
+# Sealed visual holdout: source PDFs and gold stay with the gold custodian.
+eval/visual_holdout/.sealed/
+
 # Mac
 .DS_Store
 

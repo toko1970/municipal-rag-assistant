@@ -1,8 +1,8 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-26
-- 状態: Phase 0の必須6種類のdevelopment fixtureが完了
-- Git: timelineまではcommit済み。table 2件とform 1件はcommit前
+- 状態: Phase 0の必須6種類のdevelopment fixtureが完了し、visual sealed holdoutはPLANNED
+- Git: development fixture 6件とvisual holdout protocolを記録済み
 
 ## 1. 完了したこと
 
@@ -32,13 +32,16 @@
 - form共通検査へfield存在とfield ID一意性を追加した。同じlabelの複数欄は実務上あり得るため禁止していない。
 - Quality streakの21 scenarioが連続成功し、全test 59件とlintが成功した。
 - 5つのgenerator再実行後も、PDF、画像、gold、manifestの19 artifactが同一SHA-256を維持した。
+- visual sealed holdoutの20 scenario IDと構成を公開blueprintで固定した。
+- holdout PDFとgoldをGit対象外にし、候補実装、予測、開封の順序をpublic manifestで検査するcustody protocolを追加した。
+- public manifest検証、全test 65件、lintが成功した。通常検証ではsealed contentを開いていない。
 
 ## 2. 未完了・次回反映すること
 
 - 既存100シナリオ・500問をtext development / regression setとして新しい論理locatorへ移行する計画を具体化する。
 - text sealed holdoutの架空文書family、質問、commit対象外goldを作る。
-- 必須6種類のsealed holdout用別文書familyを作り、質問文・gold hash・非commit goldを分離する。
-- sealed holdout用の別文書familyを作り、gold custodian手順を実際のartifactで確認する。
+- 必須6種類のsealed holdout用別文書familyをgold custodian領域で作り、公開質問、PDF/gold hash、非commit artifactを分離する。
+- `PLANNED`から`SEALED`への遷移を実際のartifactで確認する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを実行する。
 
 ## 3. 次回最初に行うこと
@@ -46,8 +49,9 @@
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
 3. READMEの「実装から学べる処理の流れ」を読み、fixture、gold、manifest、validatorの責務を説明できることを確認する。
-4. sealed holdoutの別文書familyとgold custodian手順を具体化する。
-5. 図表development 30シナリオとsealed holdout 20シナリオをfamily単位で割り当てる。
+4. gold custodianがsealed holdoutの別文書family、質問、goldを`.sealed/`へ作成する。
+5. SHA-256だけをpublic manifestへ記録し、`SEALED`へ遷移する。
+6. 図表development 30シナリオを作成し、候補実装の調整用setとして固定する。
 
 ## 4. 完了したvisual fixture学習単位
 

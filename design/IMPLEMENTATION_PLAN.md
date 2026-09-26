@@ -13,7 +13,7 @@
 - 本design一式とJSON Schemaをレビューする。
 - 既存100シナリオ・500表現をtext development / regression v1.0として固定し、別の架空文書familyからtext sealed holdout 50シナリオ・100表現を作る。各scenarioは同じ正解条件を持つformalとparaphrase/noisyの2表現とし、質問文とgoldのhashだけをrepositoryへ置く。
 - 必須6図表についてdevelopmentとholdoutで重複しない最低2つの文書familyを持つ架空PDF fixtureとgold annotationを作る。
-- 図表50シナリオを30件のdevelopmentと20件のsealed holdoutへ文書・版・図表family単位で分ける。ユーザーをgold custodianとし、holdoutの質問文だけをrepositoryへ置き、正解は開封までcommit対象外のローカルartifactで管理する。
+- 図表50シナリオを30件のdevelopmentと20件のsealed holdoutへ文書・版・図表family単位で分ける。ユーザーをgold custodianとし、holdoutの質問文、構成、source PDFとgoldのhashだけをrepositoryへ置く。source PDF本体と正解は開封までcommit対象外のローカルartifactで管理し、候補実装を固定した後に初めてsource PDFを入力する。
 - Cloud SQL、GCS、Qdrant Cloud、Geminiについて最小接続と費用を確認する。課金リソースは作成前に承認を得る。
 
 **受入条件**
@@ -21,7 +21,7 @@
 - 各fixtureの期待ページ、bbox、表セル、flow edge、回答根拠が機械可読である。
 - text sealed holdoutの文書familyが既存development文書と重複せず、同じscenarioの派生表現がsplitをまたがない。
 - manifestにsplit、文書、質問、schemaのhashがある。
-- holdoutの正解を実装調整へ使わない手順が明記されている。
+- holdoutのPDFと正解を実装調整へ使わず、候補実装、予測、開封の順序を検査する手順が明記されている。
 - 接続先、認証、見積費用、停止手順が記録されている。
 
 ### Phase 1: interfaceとローカル基盤
