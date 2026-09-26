@@ -1,8 +1,8 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-27
-- 状態: Phase 0のvisual development 30 scenarioとvisual sealed holdout 20 scenarioが完成し、holdoutはSEALED
-- Git: visual holdoutのSEALED公開artifactを記録済み。sealed PDF・goldは`.gitignore`対象
+- 状態: visual評価境界は完成。Phase 0 contract conformanceで残要求を特定
+- Git: visual holdoutのSEALED公開artifactをcommit済み。sealed PDF・goldは`.gitignore`対象
 
 ## 1. 完了したこと
 
@@ -44,22 +44,25 @@
 - visual holdoutは配分一致、SHA-256一致、developmentとのfamily重複0件、72 test、lintを確認して`SEALED`へ遷移した。
 - 実装タスクでは公開manifestだけを検証し、`sealed_content_opened=False`を維持した。
 - 制限解除後に公開artifactを再検証し、72 test、lint、diff検査が成功した。
+- Phase 0 contract conformance ledgerを作成し、proved 8件、weak 2件、unimplemented 6件、矛盾0件と判定した。
 
 ## 2. 未完了・次回反映すること
 
 - 既存100シナリオ・500問をtext development / regression setとして新しい論理locatorへ移行する計画を具体化する。
 - text sealed holdoutの架空文書family、質問、commit対象外goldを作る。
+- native text、scan、回転、曖昧/低品質PDF fixtureを作る。
+- Cloud SQL、GCS、Qdrant Cloud、Geminiの接続・費用spikeをserviceごとに行う。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
-- Phase 0の全要求が揃った段階でcontract conformance loopを実行する。
+- Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
 
 ## 3. 次回最初に行うこと
 
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
-3. Phase 0 contract conformance loopの対象要求と最大roundを確認する。
-4. 仕様、fixture、evaluation set、manifest、testの証拠ledgerを作る。
-5. high-impact mismatchがあれば節約上限内で修正し、なければPhase 0完了判定を残す。
-6. Phase 1のinterfaceとローカル基盤へ進む前に学習内容を振り返る。
+3. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)の未実装とweakを確認する。
+4. text sealed holdout 50 scenario / 100表現のcustody contractを設計する。
+5. text holdoutの別文書family、公開質問、非公開gold、manifestを作る。
+6. native text、scan、回転、曖昧/低品質PDF fixtureへ順に進む。
 
 ## 4. 完了したvisual fixture学習単位
 
