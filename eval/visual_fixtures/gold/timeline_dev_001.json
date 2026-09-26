@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "kind": "timeline",
+  "title": "扶養手当 申請期限タイムライン（架空）",
+  "page": 1,
+  "bbox": {
+    "x0": 0.0638,
+    "y0": 0.152,
+    "x1": 0.9357,
+    "y1": 0.8077
+  },
+  "source_image_sha256": "0be52a3f43813810e85ec48fc3417a2e972819a82c0c405736300d702db988f2",
+  "confidence": {
+    "source": "unavailable",
+    "value": null,
+    "review_required": true
+  },
+  "data": {
+    "type": "timeline",
+    "events": [
+      {
+        "id": "change_known",
+        "date_or_offset": "異動日",
+        "action": "扶養状況の変更を確認",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.1699,
+          "x1": 0.929,
+          "y1": 0.2459
+        }
+      },
+      {
+        "id": "submit",
+        "date_or_offset": "翌日から10日以内",
+        "action": "職員が届出書と確認書類を提出",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.3065,
+          "x1": 0.929,
+          "y1": 0.3825
+        }
+      },
+      {
+        "id": "review",
+        "date_or_offset": "受領後2営業日以内",
+        "action": "給与担当者が届出内容を確認",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.4431,
+          "x1": 0.929,
+          "y1": 0.5191
+        }
+      },
+      {
+        "id": "register",
+        "date_or_offset": "当月給与の締切日まで",
+        "action": "給与システムへ登録",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.5796,
+          "x1": 0.929,
+          "y1": 0.6557
+        }
+      },
+      {
+        "id": "payment",
+        "date_or_offset": "翌月給与",
+        "action": "認定した手当額を反映",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.7162,
+          "x1": 0.929,
+          "y1": 0.7923
+        }
+      }
+    ]
+  }
+}

@@ -1,8 +1,8 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-26
-- 状態: Phase 0のflowchart学習単位2件が完了
-- Git: 仕様baseline、評価境界、最初のfixtureはcommit済み。2件目のfixture実装はcommit前
+- 状態: Phase 0のdevelopment fixture 3件（flowchart 2、timeline 1）が完了
+- Git: flowchart 2件まではcommit済み。timeline fixture実装はcommit前
 
 ## 1. 完了したこと
 
@@ -24,12 +24,15 @@
 - manifest生成を共通化し、どちらのgeneratorを再実行しても他方のentryを失わないようにした。
 - flowchart共通検査へstart/end、到達可能性、decisionの分岐条件を追加した。正当な差戻しを扱うため循環自体は禁止していない。
 - Quality streakの10 scenarioが連続成功し、全test 48件とlintが成功した。
+- 扶養手当の期限タイムラインPDF、ページ画像、gold annotationを追加し、development manifestを3 fixture構成にした。
+- timeline共通検査へevent 2件以上とevent ID一意性を追加した。相対期限を誤って日付parseせず、配列順を時系列順として保持する。
+- Quality streakの13 scenarioが連続成功し、全test 51件とlintが成功した。
 
 ## 2. 未完了・次回反映すること
 
 - 既存100シナリオ・500問をtext development / regression setとして新しい論理locatorへ移行する計画を具体化する。
 - text sealed holdoutの架空文書family、質問、commit対象外goldを作る。
-- 残り4種類のdevelopment用図表fixtureを同じmanifest・validatorへ追加する。
+- 残り3種類のdevelopment用図表fixtureを同じmanifest・validatorへ追加する。
 - sealed holdout用の別文書familyを作り、gold custodian手順を実際のartifactで確認する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを実行する。
 
@@ -37,11 +40,11 @@
 
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
-3. 2件のflowchartで共通validatorが検査する規則を説明できることを確認する。
-4. 次の一種類をEvidence-first loopで追加する。次候補は期限タイムラインとする。
+3. flowchartとtimelineで共通検査と種類別検査が分かれる理由を説明できることを確認する。
+4. 次の一種類をEvidence-first loopで追加する。次候補は支給額・区分表とする。
 5. 種類ごとの正常・異常caseをQuality streakへ追加する。
 
-## 4. 完了したflowchart学習単位
+## 4. 完了したvisual fixture学習単位
 
 ### 学習目標
 
@@ -57,10 +60,13 @@
 eval/visual_fixtures/
 ├── documents/flowchart_dev_001.pdf
 ├── documents/flowchart_dev_002.pdf
+├── documents/timeline_dev_001.pdf
 ├── images/flowchart_dev_001_page_001.png
 ├── images/flowchart_dev_002_page_001.png
+├── images/timeline_dev_001_page_001.png
 ├── gold/flowchart_dev_001.json
 ├── gold/flowchart_dev_002.json
+├── gold/timeline_dev_001.json
 ├── manifests/development_manifest.json
 └── README.md
 
@@ -79,6 +85,8 @@ tests/test_visual_fixture_validation.py
 - `.venv/bin/python -m ruff check .`: success。
 - 2件目追加後、fixture検証10件、全test 48件が成功。
 - 2つのgenerator再実行後も、PDF、画像、gold、manifestの7 artifactが同一SHA-256を維持。
+- timeline追加後、fixture検証13件、全test 51件が成功。
+- 3つのgenerator再実行後も、PDF、画像、gold、manifestの10 artifactが同一SHA-256を維持。
 
 ## 5. 評価セットの目標構成
 
@@ -112,6 +120,6 @@ python3 -m json.tool design/schemas/classification-output-v1.schema.json >/dev/n
 
 ## 8. 利用枠checkpoint
 
-2件目開始時点では5時間枠20%使用、週間枠63%使用だったため、節約モードで一つの学習単位に限定した。数値は次回まで維持されるとは限らないため、再開時にUsageを再取得し、`LEARNING_AND_USAGE_PLAN.md`の作業モードを決める。
+timeline開始時点では5時間枠28%使用、週間枠64%使用だったため、節約モードで一つの学習単位に限定した。数値は次回まで維持されるとは限らないため、再開時にUsageを再取得し、`LEARNING_AND_USAGE_PLAN.md`の作業モードを決める。
 
 reset creditや追加creditはユーザーの明示的な確認なしに使用しない。

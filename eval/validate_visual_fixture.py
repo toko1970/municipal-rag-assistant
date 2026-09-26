@@ -60,6 +60,8 @@ def validate_gold(gold: dict[str, Any], schema: dict[str, Any]) -> None:
 
     if gold["kind"] == "flowchart":
         validate_flowchart(gold["data"])
+    elif gold["kind"] == "timeline":
+        validate_timeline(gold["data"])
 
 
 def validate_flowchart(flowchart: dict[str, Any]) -> None:
@@ -116,6 +118,15 @@ def validate_flowchart(flowchart: dict[str, Any]) -> None:
     unreachable = known_ids - reachable
     if unreachable:
         raise ValueError(f"start nodeから到達できないnodeがあります: {sorted(unreachable)}")
+
+
+def validate_timeline(timeline: dict[str, Any]) -> None:
+    events = timeline["events"]
+    if len(events) < 2:
+        raise ValueError("timelineにはeventが2件以上必要です")
+    event_ids = [event["id"] for event in events]
+    if len(event_ids) != len(set(event_ids)):
+        raise ValueError("timelineのevent IDが重複しています")
 
 
 def repository_root_for(manifest_path: Path) -> Path:

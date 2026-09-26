@@ -32,6 +32,14 @@ FIXTURE_SPECS = (
         "image_path": "eval/visual_fixtures/images/flowchart_dev_002_page_001.png",
         "gold_path": "eval/visual_fixtures/gold/flowchart_dev_002.json",
     },
+    {
+        "fixture_id": "timeline_dev_001",
+        "document_family": "dependent_allowance_deadline_timeline_a",
+        "kind": "timeline",
+        "document_path": "eval/visual_fixtures/documents/timeline_dev_001.pdf",
+        "image_path": "eval/visual_fixtures/images/timeline_dev_001_page_001.png",
+        "gold_path": "eval/visual_fixtures/gold/timeline_dev_001.json",
+    },
 )
 
 

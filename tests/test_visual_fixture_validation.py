@@ -16,6 +16,7 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = load_json(REPOSITORY_ROOT / "design/schemas/visual-extraction-v1.schema.json")
 GOLD = load_json(REPOSITORY_ROOT / "eval/visual_fixtures/gold/flowchart_dev_001.json")
 ELIGIBILITY_GOLD = load_json(REPOSITORY_ROOT / "eval/visual_fixtures/gold/flowchart_dev_002.json")
+TIMELINE_GOLD = load_json(REPOSITORY_ROOT / "eval/visual_fixtures/gold/timeline_dev_001.json")
 MANIFEST_PATH = REPOSITORY_ROOT / "eval/visual_fixtures/manifests/development_manifest.json"
 
 
@@ -24,7 +25,7 @@ class VisualFixtureValidationTest(unittest.TestCase):
         manifest = validate_manifest(MANIFEST_PATH, REPOSITORY_ROOT)
 
         self.assertEqual(manifest["split"], "development")
-        self.assertEqual(len(manifest["fixtures"]), 2)
+        self.assertEqual(len(manifest["fixtures"]), 3)
 
     def test_eligibility_flowchart_has_multiple_decisions_and_outcomes(self):
         validate_gold(ELIGIBILITY_GOLD, SCHEMA)
@@ -32,6 +33,29 @@ class VisualFixtureValidationTest(unittest.TestCase):
         nodes = ELIGIBILITY_GOLD["data"]["nodes"]
         self.assertEqual(sum(node["node_type"] == "decision" for node in nodes), 3)
         self.assertEqual(sum(node["node_type"] == "end" for node in nodes), 3)
+
+    def test_timeline_preserves_five_ordered_events(self):
+        validate_gold(TIMELINE_GOLD, SCHEMA)
+
+        event_ids = [event["id"] for event in TIMELINE_GOLD["data"]["events"]]
+        self.assertEqual(
+            event_ids,
+            ["change_known", "submit", "review", "register", "payment"],
+        )
+
+    def test_duplicate_timeline_event_id_is_rejected(self):
+        gold = deepcopy(TIMELINE_GOLD)
+        gold["data"]["events"][1]["id"] = gold["data"]["events"][0]["id"]
+
+        with self.assertRaisesRegex(ValueError, "event IDが重複"):
+            validate_gold(gold, SCHEMA)
+
+    def test_timeline_with_one_event_is_rejected(self):
+        gold = deepcopy(TIMELINE_GOLD)
+        gold["data"]["events"] = gold["data"]["events"][:1]
+
+        with self.assertRaisesRegex(ValueError, "eventが2件以上"):
+            validate_gold(gold, SCHEMA)
 
     def test_schema_violation_is_rejected(self):
         gold = deepcopy(GOLD)

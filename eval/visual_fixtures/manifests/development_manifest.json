@@ -51,6 +51,28 @@
         "path": "eval/visual_fixtures/gold/flowchart_dev_002.json",
         "sha256": "716b0defc9a967a19066eec448bf959399a2021f678db405d0fb98dfacc0c248"
       }
+    },
+    {
+      "fixture_id": "timeline_dev_001",
+      "document_family": "dependent_allowance_deadline_timeline_a",
+      "kind": "timeline",
+      "document": {
+        "path": "eval/visual_fixtures/documents/timeline_dev_001.pdf",
+        "sha256": "0b6332d78e2bc957ec64d10b8d079d185d0b46893e96410ff9e944d1e0515190"
+      },
+      "source_images": [
+        {
+          "page": 1,
+          "path": "eval/visual_fixtures/images/timeline_dev_001_page_001.png",
+          "sha256": "0be52a3f43813810e85ec48fc3417a2e972819a82c0c405736300d702db988f2",
+          "width": 1241,
+          "height": 1754
+        }
+      ],
+      "gold": {
+        "path": "eval/visual_fixtures/gold/timeline_dev_001.json",
+        "sha256": "b127c157e89f9868d4144225a52fd05a4cd8e6f9f477b664d144a03b3a739902"
+      }
     }
   ]
 }

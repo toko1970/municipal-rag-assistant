@@ -19,6 +19,7 @@ fixtureは抽出処理へ渡す架空の入力文書で、gold annotationは正�
 |---|---|
 | `flowchart_dev_001` | 1つのdecision、差戻しによる循環、単一の終了node |
 | `flowchart_dev_002` | 3つのdecision、複数edgeの合流、3種類の終了node |
+| `timeline_dev_001` | 基準日、相対期限、処理内容を持つ5つのevent |
 
 同じ`flowchart` Schemaでも異なる接続構造を用意し、抽出処理やvalidatorが一つの図だけを暗黙に仮定していないことを確認する。
 
@@ -31,6 +32,7 @@ bboxは`x0, y0, x1, y1`で表し、ページ左上を原点としてページ幅
 - JSON Schemaは必須field、型、列挙値、0〜1の数値範囲を検査する。
 - semantic validatorはSchemaだけでは表せないbboxの大小関係、node IDの一意性、edge参照、PDF page、source image、SHA-256を検査する。
 - flowchartでは、startとendの存在、startへのincoming edge禁止、endからのoutgoing edge禁止、decisionの分岐条件、startから全nodeへの到達可能性も検査する。業務上正しい差戻しを扱うため、循環自体は禁止しない。
+- timelineではeventが2件以上あることとIDの一意性を検査する。`翌日から10日以内`のような相対期限を機械的な日付へ誤変換せず、配列順を時系列順として保持する。
 
 形式上は文字列として正しいedge参照でも、そのIDのnodeが存在しなければ意味的には不正である。この違いを分けて検証する。
 
@@ -41,6 +43,7 @@ fixtureを再生成するにはReportLab、日本語font、Popplerの`pdftoppm`�
 ```bash
 python -m eval.visual_fixtures.generate_flowchart_fixture
 python -m eval.visual_fixtures.generate_eligibility_flowchart_fixture
+python -m eval.visual_fixtures.generate_timeline_fixture
 python eval/validate_visual_fixture.py eval/visual_fixtures/manifests/development_manifest.json
 pytest -q tests/test_visual_fixture_validation.py
 ```
