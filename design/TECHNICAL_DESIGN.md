@@ -202,6 +202,7 @@ JSON Schemaに加え、claim IDとordinalの一意性、ordinalの連続性、�
 
 - 現在の100シナリオは既に改善分析へ使ったため、`development/regression v1.0`と呼ぶ。
 - 同じシナリオの5表現を異なるsplitへ分けない。
+- text sealed holdoutはdevelopmentと文書familyを分離した50シナリオとし、各scenarioのformalとparaphrase/noisyの2表現を同じsplitへ置く。100表現を実行しても合否はscenario単位で重み付けし、表現差はscenario stabilityとして別に示す。
 - 新しい図表50シナリオは、30件を開発用、20件を封印holdoutとする。splitは文書・版・図表family単位で分け、holdoutにはdevelopmentにない架空文書fixtureを使う。ユーザーがgold custodian兼独立レビュー担当となり、採点完了まで正解根拠を実装側の調整に使わない。
 - PDF fixtureは必須6種類を各1件以上作り、要素、表セル、flow edge、bboxをgold annotationにする。
 - 内容正解と根拠のない主張は、質問順を無作為化し、設定名を伏せて人手判定する。

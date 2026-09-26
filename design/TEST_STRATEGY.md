@@ -56,12 +56,22 @@ DockerのPostgreSQLとQdrant、架空fixtureを使う。
 | Set | 用途 | 調整への利用 |
 |---|---|---|
 | 既存100 scenario / 500表現 v1.0 | text regressionと失敗分析 | 利用可。既に開発setである |
+| text sealed holdout 50 scenario / 100表現 | text RAGの最終受入 | 質問文だけ実行可。goldは結果確定まで利用不可 |
 | 図表development 30 | PDF・図表実装とparameter調整 | 利用可 |
 | 図表sealed holdout 20 | 最終受入 | 質問文だけ実行可。goldは結果確定まで利用不可 |
 
 splitはscenario単位とし、同じ答え・根拠・文書版を共有する派生質問は同じsplitへ置く。ユーザーをgold custodianとし、質問文とgoldのSHA-256だけをrepositoryへcommitする。gold本体はcommit対象外のローカルartifactへ保存し、候補・run ID・予測結果を固定してから開封する。開封日時とhash一致をrun manifestへ記録し、開封後はそのsetを再びsealed扱いにせず次版のholdoutを作る。実装後に不具合を発見しても、holdoutを削除せず失敗として残す。
 
-holdout 20件は事前に次の構成へ固定する。
+text sealed holdoutは、既存5文書と制度名、文書ID、見出し、文面を共有しない新しい架空文書familyを使う。50 scenarioにformalとparaphrase/noisyの2表現を用意し、評価時は100表現を実行する。正解条件を共有する2表現を独立scenarioとして数えず、合否指標は50 scenarioを同じ重みで集計する。構成は事前に次へ固定する。
+
+- 期待分類: 根拠十分30、判断要10、文書不足10
+- 中心となる難度: 単一文書direct 15、複数文書15、版・施行日・境界条件10、類似制度・根拠不在10
+- 表現: 各scenarioにつきformal 1、略語・言い換え・軽微な誤字のいずれかを含むparaphrase/noisy 1
+- 文書family: text development / regression v1.0と重複0
+
+50 scenarioでも区分別の推定幅は大きいため、全体値に加えて区分別の件数とWilson 95% intervalを示す。2表現の両方が同じ正解条件を満たしたscenarioの割合をscenario stabilityとして別に報告する。
+
+図表holdout 20件は事前に次の構成へ固定する。
 
 - 図表: 処理flow 4、判断flow 4、表4、帳票3、timeline 2、改定比較3
 - 期待分類: 根拠十分12、判断要4、文書不足4

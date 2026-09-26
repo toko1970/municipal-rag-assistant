@@ -285,6 +285,7 @@ pgvectorは比較検討した代替案として設計判断に残すが、本構
 
 - 承認済み100シナリオは既に改善分析へ利用したため、テキストRAGのdevelopment / regression setとして維持する。
 - 既存のGemini 3.1 Flash-Liteによる結果を変更前の基準値として保持する。
+- 最終受入用に、既存文書と異なる架空文書familyからtext sealed holdout 50シナリオを作る。各scenarioはformalとparaphrase/noisyの2表現を持ち、100表現を実行するが合否はscenario単位で集計する。goldは予測結果固定まで開封しない。
 
 ### 11.2 図表評価
 
@@ -366,5 +367,5 @@ Embeddingモデル、ベクトルストア、検索方式を同時に変更し�
 5. Snowflakeを追加する場合は、PostgreSQLのログと評価結果を転送し、改善判断に使う分析まで実装する。
 6. 画像Embeddingは完成条件に含めず、説明文検索に対する追加効果を測る実験とする。
 7. 必須対象は6種類の図表とし、業務画面キャプチャと組織図は後続候補とする。
-8. 既存100シナリオはdevelopment setとし、図表50シナリオのうち20件をsealed holdoutにする。
+8. 既存100シナリオはtext development setとし、別文書familyのtext 50シナリオと、図表50シナリオのうち20件をsealed holdoutにする。
 9. Qdrant Cloudは接続・費用・停止方法を確認してから公開構成に採用し、月額3,000円を超える継続費は別途判断する。

@@ -11,6 +11,7 @@
 **作業**
 
 - 本design一式とJSON Schemaをレビューする。
+- 既存100シナリオ・500表現をtext development / regression v1.0として固定し、別の架空文書familyからtext sealed holdout 50シナリオ・100表現を作る。各scenarioは同じ正解条件を持つformalとparaphrase/noisyの2表現とし、質問文とgoldのhashだけをrepositoryへ置く。
 - 必須6図表についてdevelopmentとholdoutで重複しない最低2つの文書familyを持つ架空PDF fixtureとgold annotationを作る。
 - 図表50シナリオを30件のdevelopmentと20件のsealed holdoutへ文書・版・図表family単位で分ける。ユーザーをgold custodianとし、holdoutの質問文だけをrepositoryへ置き、正解は開封までcommit対象外のローカルartifactで管理する。
 - Cloud SQL、GCS、Qdrant Cloud、Geminiについて最小接続と費用を確認する。課金リソースは作成前に承認を得る。
@@ -18,6 +19,7 @@
 **受入条件**
 
 - 各fixtureの期待ページ、bbox、表セル、flow edge、回答根拠が機械可読である。
+- text sealed holdoutの文書familyが既存development文書と重複せず、同じscenarioの派生表現がsplitをまたがない。
 - manifestにsplit、文書、質問、schemaのhashがある。
 - holdoutの正解を実装調整へ使わない手順が明記されている。
 - 接続先、認証、見積費用、停止手順が記録されている。
@@ -144,11 +146,11 @@
 2. PostgreSQLが正本、Qdrantが再構築可能なindex、GCSがbinary正本として動作する。
 3. 取込はingestion run ID、質問からfeedbackまではrequest IDで追跡でき、claim-level引用まで辿れる。
 4. 重複取込0件、reconciliation不一致0件、空Qdrantからの復元成功を実証する。
-5. 固定したbaseline runに対し、development 100と図表development 30で次を満たした候補だけをsealed holdout 20へ進める。
+5. 固定したbaseline runに対し、text development 100と図表development 30で次を満たした候補だけをtext sealed holdout 50と図表sealed holdout 20へ進める。
    - evidence hit@5を低下させず、対象にした既知失敗を1件以上改善する
    - `判断要`と`文書不足`のrecallをどちらも低下させない
    - 金額、日付、期限、要件、可否の根拠なし断定0件を維持する
-6. sealed holdout 20で次を満たす。
+6. text sealed holdout 50シナリオ・100表現と図表sealed holdout 20シナリオで次を満たす。textはscenario単位の値を合否判定に使い、2表現間の安定性を別記する。
    - evidence hit@5 90%以上、hit@3 80%以上
    - 内容正解率85%以上
    - 回答分類macro F1 0.80以上

@@ -19,6 +19,7 @@
 | 回答分類 | Gemini分類器の要因をコードで3分類へ変換 | オンライン分類はretrieval sufficiency、claim support、個別事情、制度解釈、版競合を返し、corpus answerabilityは評価annotationへ分離 | オンラインではcorpus不在を証明できず、検索失敗との混同を防ぐため |
 | Generatorと分類器 | 両者の出力を順番に利用 | 最終ラベルと表示templateはclassifier factorsからコードが一度だけ決定 | 回答内容と分類ラベルの矛盾を防ぐため |
 | 既存100シナリオ | 固定評価セット | 既に改善へ利用したdevelopment / regression set | 調整に使った評価を最終受入に使わないため |
+| テキスト最終評価 | 既存setだけを使用 | 別文書familyのsealed holdout 50シナリオ・100表現を追加 | 未見文書と表現差への一般化を、調整済みsetと分けて確認するため |
 | 図表評価 | 約50問を追加 | 50シナリオをdevelopment 30 / sealed holdout 20へ文書family単位で分離 | 同じ図表構造の漏洩を避けるため |
 | 完成条件 | 指標一覧が中心 | hit率、内容正解、macro F1、根拠なし断定、API error、復元、費用の閾値を設定 | 完成を客観判定するため |
 | 公開demo | 非公開uploadとSecret管理が中心 | 質問・feedback quota、kill switch、HMAC、30日削除、並列testを追加 | API費用と無制限書込みを防ぐため |
