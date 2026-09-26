@@ -44,7 +44,7 @@
 - visual holdoutは配分一致、SHA-256一致、developmentとのfamily重複0件、72 test、lintを確認して`SEALED`へ遷移した。
 - 実装タスクでは公開manifestだけを検証し、`sealed_content_opened=False`を維持した。
 - 制限解除後に公開artifactを再検証し、72 test、lint、diff検査が成功した。
-- Phase 0 contract conformance ledgerを作成し、proved 8件、weak 2件、unimplemented 6件、矛盾0件と判定した。
+- Phase 0 contract conformance ledgerを作成し、proved 8件、weak 1件、unimplemented 6件、not applicable 1件、矛盾0件と判定した。Phase 4対象の抽出精度evaluatorは引継ぎ項目とした。
 
 ## 2. 未完了・次回反映すること
 
