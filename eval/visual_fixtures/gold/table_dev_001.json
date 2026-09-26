@@ -1,0 +1,220 @@
+{
+  "schema_version": "1.0",
+  "kind": "table",
+  "title": "通勤手当 支給額・区分表（架空）",
+  "page": 1,
+  "bbox": {
+    "x0": 0.0706,
+    "y0": 0.2257,
+    "x1": 0.929,
+    "y1": 0.5108
+  },
+  "source_image_sha256": "c31f54891c3b60c2da4087ef11191e75dde28145f6562b5fb9b6ab9163b31a17",
+  "confidence": {
+    "source": "unavailable",
+    "value": null,
+    "review_required": true
+  },
+  "data": {
+    "type": "table",
+    "row_count": 4,
+    "column_count": 4,
+    "cells": [
+      {
+        "row": 0,
+        "column": 0,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "職員区分",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.2257,
+          "x1": 0.2385,
+          "y1": 0.297
+        }
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "通勤回数",
+        "bbox": {
+          "x0": 0.2385,
+          "y0": 0.2257,
+          "x1": 0.4569,
+          "y1": 0.297
+        }
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "月額",
+        "bbox": {
+          "x0": 0.4569,
+          "y0": 0.2257,
+          "x1": 0.6417,
+          "y1": 0.297
+        }
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "備考",
+        "bbox": {
+          "x0": 0.6417,
+          "y0": 0.2257,
+          "x1": 0.929,
+          "y1": 0.297
+        }
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "row_span": 2,
+        "column_span": 1,
+        "text": "常勤職員",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.297,
+          "x1": 0.2385,
+          "y1": 0.4395
+        }
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "月15日以上",
+        "bbox": {
+          "x0": 0.2385,
+          "y0": 0.297,
+          "x1": 0.4569,
+          "y1": 0.3682
+        }
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "12,000円",
+        "bbox": {
+          "x0": 0.4569,
+          "y0": 0.297,
+          "x1": 0.6417,
+          "y1": 0.3682
+        }
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "上限額",
+        "bbox": {
+          "x0": 0.6417,
+          "y0": 0.297,
+          "x1": 0.929,
+          "y1": 0.3682
+        }
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "月8〜14日",
+        "bbox": {
+          "x0": 0.2385,
+          "y0": 0.3682,
+          "x1": 0.4569,
+          "y1": 0.4395
+        }
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "8,000円",
+        "bbox": {
+          "x0": 0.4569,
+          "y0": 0.3682,
+          "x1": 0.6417,
+          "y1": 0.4395
+        }
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "日数に応じる",
+        "bbox": {
+          "x0": 0.6417,
+          "y0": 0.3682,
+          "x1": 0.929,
+          "y1": 0.4395
+        }
+      },
+      {
+        "row": 3,
+        "column": 0,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "短時間職員",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.4395,
+          "x1": 0.2385,
+          "y1": 0.5108
+        }
+      },
+      {
+        "row": 3,
+        "column": 1,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "月1〜7日",
+        "bbox": {
+          "x0": 0.2385,
+          "y0": 0.4395,
+          "x1": 0.4569,
+          "y1": 0.5108
+        }
+      },
+      {
+        "row": 3,
+        "column": 2,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "4,000円",
+        "bbox": {
+          "x0": 0.4569,
+          "y0": 0.4395,
+          "x1": 0.6417,
+          "y1": 0.5108
+        }
+      },
+      {
+        "row": 3,
+        "column": 3,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "最低区分",
+        "bbox": {
+          "x0": 0.6417,
+          "y0": 0.4395,
+          "x1": 0.929,
+          "y1": 0.5108
+        }
+      }
+    ]
+  }
+}

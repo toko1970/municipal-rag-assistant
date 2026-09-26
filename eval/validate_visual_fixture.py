@@ -62,6 +62,10 @@ def validate_gold(gold: dict[str, Any], schema: dict[str, Any]) -> None:
         validate_flowchart(gold["data"])
     elif gold["kind"] == "timeline":
         validate_timeline(gold["data"])
+    elif gold["kind"] == "table":
+        validate_table(gold["data"])
+    elif gold["kind"] == "form":
+        validate_form(gold["data"])
 
 
 def validate_flowchart(flowchart: dict[str, Any]) -> None:
@@ -127,6 +131,35 @@ def validate_timeline(timeline: dict[str, Any]) -> None:
     event_ids = [event["id"] for event in events]
     if len(event_ids) != len(set(event_ids)):
         raise ValueError("timelineのevent IDが重複しています")
+
+
+def validate_table(table: dict[str, Any]) -> None:
+    cells = table["cells"]
+    if not cells:
+        raise ValueError("tableにはcellが1件以上必要です")
+    occupied: dict[tuple[int, int], int] = {}
+    for index, cell in enumerate(cells):
+        row_end = cell["row"] + cell["row_span"]
+        column_end = cell["column"] + cell["column_span"]
+        if row_end > table["row_count"] or column_end > table["column_count"]:
+            raise ValueError(f"table cellが行列範囲を超えています: cell[{index}]")
+        for row in range(cell["row"], row_end):
+            for column in range(cell["column"], column_end):
+                position = (row, column)
+                if position in occupied:
+                    raise ValueError(
+                        f"table cellが重複しています: cell[{occupied[position]}]とcell[{index}] / {position}"
+                    )
+                occupied[position] = index
+
+
+def validate_form(form: dict[str, Any]) -> None:
+    fields = form["fields"]
+    if not fields:
+        raise ValueError("formにはfieldが1件以上必要です")
+    field_ids = [field["id"] for field in fields]
+    if len(field_ids) != len(set(field_ids)):
+        raise ValueError("formのfield IDが重複しています")
 
 
 def repository_root_for(manifest_path: Path) -> Path:

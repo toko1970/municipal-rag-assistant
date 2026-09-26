@@ -73,6 +73,72 @@
         "path": "eval/visual_fixtures/gold/timeline_dev_001.json",
         "sha256": "b127c157e89f9868d4144225a52fd05a4cd8e6f9f477b664d144a03b3a739902"
       }
+    },
+    {
+      "fixture_id": "table_dev_001",
+      "document_family": "commuting_allowance_amount_table_a",
+      "kind": "table",
+      "document": {
+        "path": "eval/visual_fixtures/documents/table_dev_001.pdf",
+        "sha256": "139822be734a435d13ccec623aeae50f414549a8f9980980b3a122c031fac268"
+      },
+      "source_images": [
+        {
+          "page": 1,
+          "path": "eval/visual_fixtures/images/table_dev_001_page_001.png",
+          "sha256": "c31f54891c3b60c2da4087ef11191e75dde28145f6562b5fb9b6ab9163b31a17",
+          "width": 1241,
+          "height": 1754
+        }
+      ],
+      "gold": {
+        "path": "eval/visual_fixtures/gold/table_dev_001.json",
+        "sha256": "4b2b2ce6735824733a5ae7bba9c8953cba6b7816c7db03e9be4651b560318ff9"
+      }
+    },
+    {
+      "fixture_id": "form_dev_001",
+      "document_family": "dependent_allowance_application_form_a",
+      "kind": "form",
+      "document": {
+        "path": "eval/visual_fixtures/documents/form_dev_001.pdf",
+        "sha256": "e4afc5835d85963e0fa8c6f9e96926657aee242e5da4175247b10951a5bc2bc8"
+      },
+      "source_images": [
+        {
+          "page": 1,
+          "path": "eval/visual_fixtures/images/form_dev_001_page_001.png",
+          "sha256": "355199d17412a0a9073ba07c8a188c525d13ff8fdafa92bc627f2ead6d15a822",
+          "width": 1241,
+          "height": 1754
+        }
+      ],
+      "gold": {
+        "path": "eval/visual_fixtures/gold/form_dev_001.json",
+        "sha256": "2361cf333f5adc875e04e382dfaca2c69585221644186329a3680d72795863c2"
+      }
+    },
+    {
+      "fixture_id": "table_dev_002",
+      "document_family": "allowance_revision_comparison_b",
+      "kind": "table",
+      "document": {
+        "path": "eval/visual_fixtures/documents/table_dev_002.pdf",
+        "sha256": "e2050f52f84eb5ff53f4b9f127329c71f2c10b02d1049c6292893c4a91c8312e"
+      },
+      "source_images": [
+        {
+          "page": 1,
+          "path": "eval/visual_fixtures/images/table_dev_002_page_001.png",
+          "sha256": "5a2bb45d5216cb60f4fab1d1bdc73f5cf65b14b5ce492b794f04b9238ab394e2",
+          "width": 1241,
+          "height": 1754
+        }
+      ],
+      "gold": {
+        "path": "eval/visual_fixtures/gold/table_dev_002.json",
+        "sha256": "9645745e99aa174891679cae164a38493048bcbd1a8067981572e69460600920"
+      }
     }
   ]
 }

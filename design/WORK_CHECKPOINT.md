@@ -1,8 +1,8 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-26
-- 状態: Phase 0のdevelopment fixture 3件（flowchart 2、timeline 1）が完了
-- Git: flowchart 2件まではcommit済み。timeline fixture実装はcommit前
+- 状態: Phase 0の必須6種類のdevelopment fixtureが完了
+- Git: timelineまではcommit済み。table 2件とform 1件はcommit前
 
 ## 1. 完了したこと
 
@@ -27,12 +27,17 @@
 - 扶養手当の期限タイムラインPDF、ページ画像、gold annotationを追加し、development manifestを3 fixture構成にした。
 - timeline共通検査へevent 2件以上とevent ID一意性を追加した。相対期限を誤って日付parseせず、配列順を時系列順として保持する。
 - Quality streakの13 scenarioが連続成功し、全test 51件とlintが成功した。
+- 支給額・区分表、申請書記入例、改定前後比較のPDF、ページ画像、gold annotationを追加し、development manifestを6 fixture構成にした。
+- table共通検査へcell存在、行列範囲、row/column span展開後の重複検査を追加した。
+- form共通検査へfield存在とfield ID一意性を追加した。同じlabelの複数欄は実務上あり得るため禁止していない。
+- Quality streakの21 scenarioが連続成功し、全test 59件とlintが成功した。
+- 5つのgenerator再実行後も、PDF、画像、gold、manifestの19 artifactが同一SHA-256を維持した。
 
 ## 2. 未完了・次回反映すること
 
 - 既存100シナリオ・500問をtext development / regression setとして新しい論理locatorへ移行する計画を具体化する。
 - text sealed holdoutの架空文書family、質問、commit対象外goldを作る。
-- 残り3種類のdevelopment用図表fixtureを同じmanifest・validatorへ追加する。
+- 必須6種類のsealed holdout用別文書familyを作り、質問文・gold hash・非commit goldを分離する。
 - sealed holdout用の別文書familyを作り、gold custodian手順を実際のartifactで確認する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを実行する。
 
@@ -40,9 +45,9 @@
 
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
-3. flowchartとtimelineで共通検査と種類別検査が分かれる理由を説明できることを確認する。
-4. 次の一種類をEvidence-first loopで追加する。次候補は支給額・区分表とする。
-5. 種類ごとの正常・異常caseをQuality streakへ追加する。
+3. READMEの「実装から学べる処理の流れ」を読み、fixture、gold、manifest、validatorの責務を説明できることを確認する。
+4. sealed holdoutの別文書familyとgold custodian手順を具体化する。
+5. 図表development 30シナリオとsealed holdout 20シナリオをfamily単位で割り当てる。
 
 ## 4. 完了したvisual fixture学習単位
 
@@ -61,12 +66,21 @@ eval/visual_fixtures/
 ├── documents/flowchart_dev_001.pdf
 ├── documents/flowchart_dev_002.pdf
 ├── documents/timeline_dev_001.pdf
+├── documents/table_dev_001.pdf
+├── documents/form_dev_001.pdf
+├── documents/table_dev_002.pdf
 ├── images/flowchart_dev_001_page_001.png
 ├── images/flowchart_dev_002_page_001.png
 ├── images/timeline_dev_001_page_001.png
+├── images/table_dev_001_page_001.png
+├── images/form_dev_001_page_001.png
+├── images/table_dev_002_page_001.png
 ├── gold/flowchart_dev_001.json
 ├── gold/flowchart_dev_002.json
 ├── gold/timeline_dev_001.json
+├── gold/table_dev_001.json
+├── gold/form_dev_001.json
+├── gold/table_dev_002.json
 ├── manifests/development_manifest.json
 └── README.md
 
@@ -87,6 +101,8 @@ tests/test_visual_fixture_validation.py
 - 2つのgenerator再実行後も、PDF、画像、gold、manifestの7 artifactが同一SHA-256を維持。
 - timeline追加後、fixture検証13件、全test 51件が成功。
 - 3つのgenerator再実行後も、PDF、画像、gold、manifestの10 artifactが同一SHA-256を維持。
+- 必須6種類のdevelopment fixture追加後、fixture検証21件、全test 59件が成功。
+- 全generator再実行後も、PDF、画像、gold、manifestの19 artifactが同一SHA-256を維持。
 
 ## 5. 評価セットの目標構成
 
@@ -120,6 +136,6 @@ python3 -m json.tool design/schemas/classification-output-v1.schema.json >/dev/n
 
 ## 8. 利用枠checkpoint
 
-timeline開始時点では5時間枠28%使用、週間枠64%使用だったため、節約モードで一つの学習単位に限定した。数値は次回まで維持されるとは限らないため、再開時にUsageを再取得し、`LEARNING_AND_USAGE_PLAN.md`の作業モードを決める。
+残り3 fixtureの連続run開始時点は5時間枠35%使用、週間枠65%使用、完了後は5時間枠41%、週間枠66%使用だった。停止基準80%未満のため有限runを完了した。数値は次回まで維持されるとは限らないため、再開時にUsageを再取得し、`LEARNING_AND_USAGE_PLAN.md`の作業モードを決める。
 
 reset creditや追加creditはユーザーの明示的な確認なしに使用しない。

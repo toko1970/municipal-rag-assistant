@@ -40,6 +40,30 @@ FIXTURE_SPECS = (
         "image_path": "eval/visual_fixtures/images/timeline_dev_001_page_001.png",
         "gold_path": "eval/visual_fixtures/gold/timeline_dev_001.json",
     },
+    {
+        "fixture_id": "table_dev_001",
+        "document_family": "commuting_allowance_amount_table_a",
+        "kind": "table",
+        "document_path": "eval/visual_fixtures/documents/table_dev_001.pdf",
+        "image_path": "eval/visual_fixtures/images/table_dev_001_page_001.png",
+        "gold_path": "eval/visual_fixtures/gold/table_dev_001.json",
+    },
+    {
+        "fixture_id": "form_dev_001",
+        "document_family": "dependent_allowance_application_form_a",
+        "kind": "form",
+        "document_path": "eval/visual_fixtures/documents/form_dev_001.pdf",
+        "image_path": "eval/visual_fixtures/images/form_dev_001_page_001.png",
+        "gold_path": "eval/visual_fixtures/gold/form_dev_001.json",
+    },
+    {
+        "fixture_id": "table_dev_002",
+        "document_family": "allowance_revision_comparison_b",
+        "kind": "table",
+        "document_path": "eval/visual_fixtures/documents/table_dev_002.pdf",
+        "image_path": "eval/visual_fixtures/images/table_dev_002_page_001.png",
+        "gold_path": "eval/visual_fixtures/gold/table_dev_002.json",
+    },
 )
 
 

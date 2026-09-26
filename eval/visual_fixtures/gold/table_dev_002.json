@@ -1,0 +1,272 @@
+{
+  "schema_version": "1.0",
+  "kind": "table",
+  "title": "手当制度 改定前後比較（架空）",
+  "page": 1,
+  "bbox": {
+    "x0": 0.0706,
+    "y0": 0.2079,
+    "x1": 0.929,
+    "y1": 0.5405
+  },
+  "source_image_sha256": "5a2bb45d5216cb60f4fab1d1bdc73f5cf65b14b5ce492b794f04b9238ab394e2",
+  "confidence": {
+    "source": "unavailable",
+    "value": null,
+    "review_required": true
+  },
+  "data": {
+    "type": "table",
+    "row_count": 5,
+    "column_count": 5,
+    "cells": [
+      {
+        "row": 0,
+        "column": 0,
+        "row_span": 2,
+        "column_span": 1,
+        "text": "項目",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.2079,
+          "x1": 0.2385,
+          "y1": 0.3266
+        }
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "row_span": 1,
+        "column_span": 2,
+        "text": "改定前",
+        "bbox": {
+          "x0": 0.2385,
+          "y0": 0.2079,
+          "x1": 0.5913,
+          "y1": 0.2673
+        }
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "row_span": 1,
+        "column_span": 2,
+        "text": "改定後",
+        "bbox": {
+          "x0": 0.5913,
+          "y0": 0.2079,
+          "x1": 0.929,
+          "y1": 0.2673
+        }
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "金額",
+        "bbox": {
+          "x0": 0.2385,
+          "y0": 0.2673,
+          "x1": 0.4065,
+          "y1": 0.3266
+        }
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "条件",
+        "bbox": {
+          "x0": 0.4065,
+          "y0": 0.2673,
+          "x1": 0.5913,
+          "y1": 0.3266
+        }
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "金額",
+        "bbox": {
+          "x0": 0.5913,
+          "y0": 0.2673,
+          "x1": 0.7593,
+          "y1": 0.3266
+        }
+      },
+      {
+        "row": 1,
+        "column": 4,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "条件",
+        "bbox": {
+          "x0": 0.7593,
+          "y0": 0.2673,
+          "x1": 0.929,
+          "y1": 0.3266
+        }
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "住居手当",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.3266,
+          "x1": 0.2385,
+          "y1": 0.3979
+        }
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "10,000円",
+        "bbox": {
+          "x0": 0.2385,
+          "y0": 0.3266,
+          "x1": 0.4065,
+          "y1": 0.3979
+        }
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "要件A",
+        "bbox": {
+          "x0": 0.4065,
+          "y0": 0.3266,
+          "x1": 0.5913,
+          "y1": 0.3979
+        }
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "12,000円",
+        "bbox": {
+          "x0": 0.5913,
+          "y0": 0.3266,
+          "x1": 0.7593,
+          "y1": 0.3979
+        }
+      },
+      {
+        "row": 2,
+        "column": 4,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "要件B",
+        "bbox": {
+          "x0": 0.7593,
+          "y0": 0.3266,
+          "x1": 0.929,
+          "y1": 0.3979
+        }
+      },
+      {
+        "row": 3,
+        "column": 0,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "通勤手当",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.3979,
+          "x1": 0.2385,
+          "y1": 0.4692
+        }
+      },
+      {
+        "row": 3,
+        "column": 1,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "8,000円",
+        "bbox": {
+          "x0": 0.2385,
+          "y0": 0.3979,
+          "x1": 0.4065,
+          "y1": 0.4692
+        }
+      },
+      {
+        "row": 3,
+        "column": 2,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "月8日以上",
+        "bbox": {
+          "x0": 0.4065,
+          "y0": 0.3979,
+          "x1": 0.5913,
+          "y1": 0.4692
+        }
+      },
+      {
+        "row": 3,
+        "column": 3,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "9,000円",
+        "bbox": {
+          "x0": 0.5913,
+          "y0": 0.3979,
+          "x1": 0.7593,
+          "y1": 0.4692
+        }
+      },
+      {
+        "row": 3,
+        "column": 4,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "月6日以上",
+        "bbox": {
+          "x0": 0.7593,
+          "y0": 0.3979,
+          "x1": 0.929,
+          "y1": 0.4692
+        }
+      },
+      {
+        "row": 4,
+        "column": 0,
+        "row_span": 1,
+        "column_span": 1,
+        "text": "施行日",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.4692,
+          "x1": 0.2385,
+          "y1": 0.5405
+        }
+      },
+      {
+        "row": 4,
+        "column": 1,
+        "row_span": 1,
+        "column_span": 4,
+        "text": "2026年4月1日",
+        "bbox": {
+          "x0": 0.2385,
+          "y0": 0.4692,
+          "x1": 0.929,
+          "y1": 0.5405
+        }
+      }
+    ]
+  }
+}

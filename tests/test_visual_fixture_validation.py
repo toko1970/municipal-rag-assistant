@@ -17,6 +17,9 @@ SCHEMA = load_json(REPOSITORY_ROOT / "design/schemas/visual-extraction-v1.schema
 GOLD = load_json(REPOSITORY_ROOT / "eval/visual_fixtures/gold/flowchart_dev_001.json")
 ELIGIBILITY_GOLD = load_json(REPOSITORY_ROOT / "eval/visual_fixtures/gold/flowchart_dev_002.json")
 TIMELINE_GOLD = load_json(REPOSITORY_ROOT / "eval/visual_fixtures/gold/timeline_dev_001.json")
+AMOUNT_TABLE_GOLD = load_json(REPOSITORY_ROOT / "eval/visual_fixtures/gold/table_dev_001.json")
+FORM_GOLD = load_json(REPOSITORY_ROOT / "eval/visual_fixtures/gold/form_dev_001.json")
+REVISION_TABLE_GOLD = load_json(REPOSITORY_ROOT / "eval/visual_fixtures/gold/table_dev_002.json")
 MANIFEST_PATH = REPOSITORY_ROOT / "eval/visual_fixtures/manifests/development_manifest.json"
 
 
@@ -25,7 +28,7 @@ class VisualFixtureValidationTest(unittest.TestCase):
         manifest = validate_manifest(MANIFEST_PATH, REPOSITORY_ROOT)
 
         self.assertEqual(manifest["split"], "development")
-        self.assertEqual(len(manifest["fixtures"]), 3)
+        self.assertEqual(len(manifest["fixtures"]), 6)
 
     def test_eligibility_flowchart_has_multiple_decisions_and_outcomes(self):
         validate_gold(ELIGIBILITY_GOLD, SCHEMA)
@@ -55,6 +58,64 @@ class VisualFixtureValidationTest(unittest.TestCase):
         gold["data"]["events"] = gold["data"]["events"][:1]
 
         with self.assertRaisesRegex(ValueError, "eventが2件以上"):
+            validate_gold(gold, SCHEMA)
+
+    def test_amount_table_contains_a_row_span(self):
+        validate_gold(AMOUNT_TABLE_GOLD, SCHEMA)
+
+        self.assertTrue(
+            any(cell["row_span"] == 2 for cell in AMOUNT_TABLE_GOLD["data"]["cells"])
+        )
+
+    def test_revision_table_contains_column_spans(self):
+        validate_gold(REVISION_TABLE_GOLD, SCHEMA)
+
+        self.assertTrue(
+            any(cell["column_span"] > 1 for cell in REVISION_TABLE_GOLD["data"]["cells"])
+        )
+
+    def test_out_of_range_table_cell_is_rejected(self):
+        gold = deepcopy(AMOUNT_TABLE_GOLD)
+        gold["data"]["cells"][0]["row_span"] = gold["data"]["row_count"] + 1
+
+        with self.assertRaisesRegex(ValueError, "行列範囲を超えています"):
+            validate_gold(gold, SCHEMA)
+
+    def test_overlapping_table_cell_is_rejected(self):
+        gold = deepcopy(AMOUNT_TABLE_GOLD)
+        duplicate = deepcopy(gold["data"]["cells"][0])
+        duplicate["text"] = "重複cell"
+        gold["data"]["cells"].append(duplicate)
+
+        with self.assertRaisesRegex(ValueError, "table cellが重複"):
+            validate_gold(gold, SCHEMA)
+
+    def test_table_without_cells_is_rejected(self):
+        gold = deepcopy(AMOUNT_TABLE_GOLD)
+        gold["data"]["cells"] = []
+
+        with self.assertRaisesRegex(ValueError, "cellが1件以上"):
+            validate_gold(gold, SCHEMA)
+
+    def test_form_preserves_expected_field_order(self):
+        validate_gold(FORM_GOLD, SCHEMA)
+
+        field_ids = [field["id"] for field in FORM_GOLD["data"]["fields"]]
+        self.assertEqual(field_ids[0], "employee_id")
+        self.assertEqual(field_ids[-1], "attachment")
+
+    def test_duplicate_form_field_id_is_rejected(self):
+        gold = deepcopy(FORM_GOLD)
+        gold["data"]["fields"][1]["id"] = gold["data"]["fields"][0]["id"]
+
+        with self.assertRaisesRegex(ValueError, "field IDが重複"):
+            validate_gold(gold, SCHEMA)
+
+    def test_form_without_fields_is_rejected(self):
+        gold = deepcopy(FORM_GOLD)
+        gold["data"]["fields"] = []
+
+        with self.assertRaisesRegex(ValueError, "fieldが1件以上"):
             validate_gold(gold, SCHEMA)
 
     def test_schema_violation_is_rejected(self):
