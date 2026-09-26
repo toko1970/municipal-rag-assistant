@@ -34,3 +34,6 @@ feedback_data/
 *.tfstate.*
 *.tfplan
 crash.log
+
+# Local agent review records
+.agent-reviews/
