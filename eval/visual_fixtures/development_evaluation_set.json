@@ -1,0 +1,768 @@
+{
+  "schema_version": "1.0",
+  "dataset_version": "visual-development-v1.0",
+  "split": "development",
+  "review_status": "pending_user_review",
+  "scenario_count": 30,
+  "scenarios": [
+    {
+      "question": "通勤手当の申請書を受領した後、最初に何を確認しますか？",
+      "fixture_ids": [
+        "flowchart_dev_001"
+      ],
+      "visual_type": "process_flow",
+      "difficulty": "direct",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "記載内容と添付書類を確認する。",
+      "required_evidence": [
+        {
+          "fixture_id": "flowchart_dev_001",
+          "element_ref": "node:start"
+        },
+        {
+          "fixture_id": "flowchart_dev_001",
+          "element_ref": "node:check"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD001"
+    },
+    {
+      "question": "通勤手当申請に不備がなかった場合、確認後から処理完了までの流れを教えてください。",
+      "fixture_ids": [
+        "flowchart_dev_001"
+      ],
+      "visual_type": "process_flow",
+      "difficulty": "multi_element",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "不備なしの分岐から給与システムへ登録し、処理完了となる。",
+      "required_evidence": [
+        {
+          "fixture_id": "flowchart_dev_001",
+          "element_ref": "node:decision"
+        },
+        {
+          "fixture_id": "flowchart_dev_001",
+          "element_ref": "edge:decision->register"
+        },
+        {
+          "fixture_id": "flowchart_dev_001",
+          "element_ref": "node:register"
+        },
+        {
+          "fixture_id": "flowchart_dev_001",
+          "element_ref": "node:end"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD002"
+    },
+    {
+      "question": "申請にモレがあって差し戻した後は、どの工程へ戻りますか？",
+      "fixture_ids": [
+        "flowchart_dev_001"
+      ],
+      "visual_type": "process_flow",
+      "difficulty": "paraphrase_or_typo",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "再提出後、記載内容・添付書類の確認工程へ戻る。",
+      "required_evidence": [
+        {
+          "fixture_id": "flowchart_dev_001",
+          "element_ref": "node:return"
+        },
+        {
+          "fixture_id": "flowchart_dev_001",
+          "element_ref": "edge:return->check"
+        },
+        {
+          "fixture_id": "flowchart_dev_001",
+          "element_ref": "node:check"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD003"
+    },
+    {
+      "question": "添付書類の記載が読みにくい申請を、そのまま給与システムへ登録してよいですか？",
+      "fixture_ids": [
+        "flowchart_dev_001"
+      ],
+      "visual_type": "process_flow",
+      "difficulty": "boundary_or_revision",
+      "expected_classification": "needs_judgment",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "図は不備の有無で経路を分けるが、読みにくさを不備とする基準は示していないため確認が必要。",
+      "required_evidence": [
+        {
+          "fixture_id": "flowchart_dev_001",
+          "element_ref": "node:decision"
+        },
+        {
+          "fixture_id": "flowchart_dev_001",
+          "element_ref": "edge:decision->register"
+        }
+      ],
+      "missing_conditions": [
+        "読みにくい記載を不備と扱う運用基準"
+      ],
+      "scenario_id": "VD004"
+    },
+    {
+      "question": "通勤手当申請に必要な添付書類をすべて教えてください。",
+      "fixture_ids": [
+        "flowchart_dev_001"
+      ],
+      "visual_type": "process_flow",
+      "difficulty": "paraphrase_or_typo",
+      "expected_classification": "insufficient_documents",
+      "expected_corpus_answerability": false,
+      "expected_answer_key": "図には添付書類を確認することだけがあり、書類名の一覧は記載されていない。",
+      "required_evidence": [],
+      "missing_conditions": [],
+      "scenario_id": "VD005"
+    },
+    {
+      "question": "住居手当の必要書類が揃っていない場合、次に何をしますか？",
+      "fixture_ids": [
+        "flowchart_dev_002"
+      ],
+      "visual_type": "decision_flow",
+      "difficulty": "direct",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "追加提出を依頼する。",
+      "required_evidence": [
+        {
+          "fixture_id": "flowchart_dev_002",
+          "element_ref": "node:documents"
+        },
+        {
+          "fixture_id": "flowchart_dev_002",
+          "element_ref": "edge:documents->request_documents"
+        },
+        {
+          "fixture_id": "flowchart_dev_002",
+          "element_ref": "node:request_documents"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD006"
+    },
+    {
+      "question": "対象職員で、必要書類が揃い、支給要件も満たす場合の判定経路を教えてください。",
+      "fixture_ids": [
+        "flowchart_dev_002"
+      ],
+      "visual_type": "decision_flow",
+      "difficulty": "multi_element",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "3つの判断をすべて「はい」で進み、支給対象となる。",
+      "required_evidence": [
+        {
+          "fixture_id": "flowchart_dev_002",
+          "element_ref": "edge:employee->documents"
+        },
+        {
+          "fixture_id": "flowchart_dev_002",
+          "element_ref": "edge:documents->requirements"
+        },
+        {
+          "fixture_id": "flowchart_dev_002",
+          "element_ref": "edge:requirements->eligible"
+        },
+        {
+          "fixture_id": "flowchart_dev_002",
+          "element_ref": "node:eligible"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD007"
+    },
+    {
+      "question": "住居手当の対象スタッフじゃないときの結論は？",
+      "fixture_ids": [
+        "flowchart_dev_002"
+      ],
+      "visual_type": "decision_flow",
+      "difficulty": "paraphrase_or_typo",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "支給対象外となる。",
+      "required_evidence": [
+        {
+          "fixture_id": "flowchart_dev_002",
+          "element_ref": "node:employee"
+        },
+        {
+          "fixture_id": "flowchart_dev_002",
+          "element_ref": "edge:employee->not_eligible"
+        },
+        {
+          "fixture_id": "flowchart_dev_002",
+          "element_ref": "node:not_eligible"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD008"
+    },
+    {
+      "question": "この職員の住居手当申請は支給対象になりますか？",
+      "fixture_ids": [
+        "flowchart_dev_002"
+      ],
+      "visual_type": "decision_flow",
+      "difficulty": "boundary_or_revision",
+      "expected_classification": "needs_judgment",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "対象職員、必要書類、支給要件の3条件が不明なため、個別の支給可否は判断できない。",
+      "required_evidence": [
+        {
+          "fixture_id": "flowchart_dev_002",
+          "element_ref": "node:employee"
+        },
+        {
+          "fixture_id": "flowchart_dev_002",
+          "element_ref": "node:documents"
+        },
+        {
+          "fixture_id": "flowchart_dev_002",
+          "element_ref": "node:requirements"
+        }
+      ],
+      "missing_conditions": [
+        "対象職員か",
+        "必要書類が揃っているか",
+        "支給要件を満たすか"
+      ],
+      "scenario_id": "VD009"
+    },
+    {
+      "question": "住居手当の必要書類の名称を一覧で教えてください。",
+      "fixture_ids": [
+        "flowchart_dev_002"
+      ],
+      "visual_type": "decision_flow",
+      "difficulty": "paraphrase_or_typo",
+      "expected_classification": "insufficient_documents",
+      "expected_corpus_answerability": false,
+      "expected_answer_key": "図には必要書類の名称が記載されていない。",
+      "required_evidence": [],
+      "missing_conditions": [],
+      "scenario_id": "VD010"
+    },
+    {
+      "question": "扶養状況の異動後、職員はいつまでに届出書を提出しますか？",
+      "fixture_ids": [
+        "timeline_dev_001"
+      ],
+      "visual_type": "timeline",
+      "difficulty": "direct",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "異動日の翌日から10日以内に提出する。",
+      "required_evidence": [
+        {
+          "fixture_id": "timeline_dev_001",
+          "element_ref": "event:change_known"
+        },
+        {
+          "fixture_id": "timeline_dev_001",
+          "element_ref": "event:submit"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD011"
+    },
+    {
+      "question": "扶養手当の届出を受領した後、給与担当者は何営業日以内に確認しますか？",
+      "fixture_ids": [
+        "timeline_dev_001"
+      ],
+      "visual_type": "timeline",
+      "difficulty": "direct",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "受領後2営業日以内に確認する。",
+      "required_evidence": [
+        {
+          "fixture_id": "timeline_dev_001",
+          "element_ref": "event:review"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD012"
+    },
+    {
+      "question": "扶養状況の変更確認から手当額の反映まで、処理順に説明してください。",
+      "fixture_ids": [
+        "timeline_dev_001"
+      ],
+      "visual_type": "timeline",
+      "difficulty": "multi_element",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "変更確認、10日以内の提出、2営業日以内の確認、当月締切までの登録、翌月給与への反映の順。",
+      "required_evidence": [
+        {
+          "fixture_id": "timeline_dev_001",
+          "element_ref": "event:change_known"
+        },
+        {
+          "fixture_id": "timeline_dev_001",
+          "element_ref": "event:submit"
+        },
+        {
+          "fixture_id": "timeline_dev_001",
+          "element_ref": "event:review"
+        },
+        {
+          "fixture_id": "timeline_dev_001",
+          "element_ref": "event:register"
+        },
+        {
+          "fixture_id": "timeline_dev_001",
+          "element_ref": "event:payment"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD013"
+    },
+    {
+      "question": "当月給与の締切日を過ぎて受領した届出を、当月分へ例外登録してよいですか？",
+      "fixture_ids": [
+        "timeline_dev_001"
+      ],
+      "visual_type": "timeline",
+      "difficulty": "boundary_or_revision",
+      "expected_classification": "needs_judgment",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "図は締切日までの登録を示すが、期限後の例外処理は示していないため個別確認が必要。",
+      "required_evidence": [
+        {
+          "fixture_id": "timeline_dev_001",
+          "element_ref": "event:register"
+        },
+        {
+          "fixture_id": "timeline_dev_001",
+          "element_ref": "event:payment"
+        }
+      ],
+      "missing_conditions": [
+        "実際の受領日",
+        "当月給与の締切日",
+        "期限後登録の例外運用"
+      ],
+      "scenario_id": "VD014"
+    },
+    {
+      "question": "今月の給与システム締切日は何月何日ですか？",
+      "fixture_ids": [
+        "timeline_dev_001"
+      ],
+      "visual_type": "timeline",
+      "difficulty": "boundary_or_revision",
+      "expected_classification": "insufficient_documents",
+      "expected_corpus_answerability": false,
+      "expected_answer_key": "図には『当月給与の締切日まで』とだけあり、具体的な年月日は記載されていない。",
+      "required_evidence": [],
+      "missing_conditions": [],
+      "scenario_id": "VD015"
+    },
+    {
+      "question": "月15日以上通勤する常勤職員の通勤手当月額はいくらですか？",
+      "fixture_ids": [
+        "table_dev_001"
+      ],
+      "visual_type": "table",
+      "difficulty": "direct",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "12,000円で、表では上限額とされている。",
+      "required_evidence": [
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r1c0"
+        },
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r1c1"
+        },
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r1c2"
+        },
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r1c3"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD016"
+    },
+    {
+      "question": "月1〜7日通勤する短時間職員の通勤手当はいくらですか？",
+      "fixture_ids": [
+        "table_dev_001"
+      ],
+      "visual_type": "table",
+      "difficulty": "direct",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "4,000円。",
+      "required_evidence": [
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r3c0"
+        },
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r3c1"
+        },
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r3c2"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD017"
+    },
+    {
+      "question": "常勤職員の通勤日数が月8〜14日の場合と15日以上の場合で、月額はいくら違いますか？",
+      "fixture_ids": [
+        "table_dev_001"
+      ],
+      "visual_type": "table",
+      "difficulty": "multi_element",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "8〜14日は8,000円、15日以上は12,000円で、差は4,000円。",
+      "required_evidence": [
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r1c0"
+        },
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r1c1"
+        },
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r1c2"
+        },
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r2c1"
+        },
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r2c2"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD018"
+    },
+    {
+      "question": "月10日通勤した職員の区分が分からない場合、通勤手当額を確定できますか？",
+      "fixture_ids": [
+        "table_dev_001"
+      ],
+      "visual_type": "table",
+      "difficulty": "boundary_or_revision",
+      "expected_classification": "needs_judgment",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "常勤職員なら8,000円の行に該当するが、職員区分が不明なため確定できない。",
+      "required_evidence": [
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r1c0"
+        },
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r2c1"
+        },
+        {
+          "fixture_id": "table_dev_001",
+          "element_ref": "cell:r2c2"
+        }
+      ],
+      "missing_conditions": [
+        "職員区分"
+      ],
+      "scenario_id": "VD019"
+    },
+    {
+      "question": "月8日以上通勤する短時間職員の通勤手当額を教えてください。",
+      "fixture_ids": [
+        "table_dev_001"
+      ],
+      "visual_type": "table",
+      "difficulty": "boundary_or_revision",
+      "expected_classification": "insufficient_documents",
+      "expected_corpus_answerability": false,
+      "expected_answer_key": "表には短時間職員の月1〜7日だけがあり、月8日以上の金額は記載されていない。",
+      "required_evidence": [],
+      "missing_conditions": [],
+      "scenario_id": "VD020"
+    },
+    {
+      "question": "扶養手当認定届の記入例では、添付書類として何が記載されていますか？",
+      "fixture_ids": [
+        "form_dev_001"
+      ],
+      "visual_type": "form",
+      "difficulty": "direct",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "住民票の写し。",
+      "required_evidence": [
+        {
+          "fixture_id": "form_dev_001",
+          "element_ref": "field:attachment"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD021"
+    },
+    {
+      "question": "扶養手当認定届の記入例にある入力項目をすべて挙げてください。",
+      "fixture_ids": [
+        "form_dev_001"
+      ],
+      "visual_type": "form",
+      "difficulty": "multi_element",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "職員番号、氏名、異動年月日、扶養親族氏名、続柄、異動理由、添付書類。",
+      "required_evidence": [
+        {
+          "fixture_id": "form_dev_001",
+          "element_ref": "field:employee_id"
+        },
+        {
+          "fixture_id": "form_dev_001",
+          "element_ref": "field:employee_name"
+        },
+        {
+          "fixture_id": "form_dev_001",
+          "element_ref": "field:effective_date"
+        },
+        {
+          "fixture_id": "form_dev_001",
+          "element_ref": "field:dependent_name"
+        },
+        {
+          "fixture_id": "form_dev_001",
+          "element_ref": "field:relationship"
+        },
+        {
+          "fixture_id": "form_dev_001",
+          "element_ref": "field:change_reason"
+        },
+        {
+          "fixture_id": "form_dev_001",
+          "element_ref": "field:attachment"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD022"
+    },
+    {
+      "question": "記入例の『いどう年月日』と『いどう理由』には何と書かれていますか？",
+      "fixture_ids": [
+        "form_dev_001"
+      ],
+      "visual_type": "form",
+      "difficulty": "paraphrase_or_typo",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "異動年月日は2026年4月1日、異動理由は出生。",
+      "required_evidence": [
+        {
+          "fixture_id": "form_dev_001",
+          "element_ref": "field:effective_date"
+        },
+        {
+          "fixture_id": "form_dev_001",
+          "element_ref": "field:change_reason"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD023"
+    },
+    {
+      "question": "転居を理由とする届出でも、添付書類はこの例と同じ住民票の写しだけで足りますか？",
+      "fixture_ids": [
+        "form_dev_001"
+      ],
+      "visual_type": "form",
+      "difficulty": "boundary_or_revision",
+      "expected_classification": "needs_judgment",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "記入例は出生の例であり、転居時の必要書類は個別に確認する必要がある。",
+      "required_evidence": [
+        {
+          "fixture_id": "form_dev_001",
+          "element_ref": "field:change_reason"
+        },
+        {
+          "fixture_id": "form_dev_001",
+          "element_ref": "field:attachment"
+        }
+      ],
+      "missing_conditions": [
+        "転居時に適用される添付書類の規定",
+        "届出対象者の個別事情"
+      ],
+      "scenario_id": "VD024"
+    },
+    {
+      "question": "この届出の承認者はどの欄に署名しますか？",
+      "fixture_ids": [
+        "form_dev_001"
+      ],
+      "visual_type": "form",
+      "difficulty": "direct",
+      "expected_classification": "insufficient_documents",
+      "expected_corpus_answerability": false,
+      "expected_answer_key": "記入例には承認者の署名欄が記載されていない。",
+      "required_evidence": [],
+      "missing_conditions": [],
+      "scenario_id": "VD025"
+    },
+    {
+      "question": "改定後の住居手当はいくらで、条件は何ですか？",
+      "fixture_ids": [
+        "table_dev_002"
+      ],
+      "visual_type": "revision_comparison",
+      "difficulty": "direct",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "12,000円で、条件は要件B。",
+      "required_evidence": [
+        {
+          "fixture_id": "table_dev_002",
+          "element_ref": "cell:r2c0"
+        },
+        {
+          "fixture_id": "table_dev_002",
+          "element_ref": "cell:r2c3"
+        },
+        {
+          "fixture_id": "table_dev_002",
+          "element_ref": "cell:r2c4"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD026"
+    },
+    {
+      "question": "通勤手当について、改定前後の金額と条件を比較してください。",
+      "fixture_ids": [
+        "table_dev_002"
+      ],
+      "visual_type": "revision_comparison",
+      "difficulty": "multi_element",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "改定前は8,000円・月8日以上、改定後は9,000円・月6日以上。",
+      "required_evidence": [
+        {
+          "fixture_id": "table_dev_002",
+          "element_ref": "cell:r3c0"
+        },
+        {
+          "fixture_id": "table_dev_002",
+          "element_ref": "cell:r3c1"
+        },
+        {
+          "fixture_id": "table_dev_002",
+          "element_ref": "cell:r3c2"
+        },
+        {
+          "fixture_id": "table_dev_002",
+          "element_ref": "cell:r3c3"
+        },
+        {
+          "fixture_id": "table_dev_002",
+          "element_ref": "cell:r3c4"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD027"
+    },
+    {
+      "question": "新しい手当金額と条件はいつから適用されますか？",
+      "fixture_ids": [
+        "table_dev_002"
+      ],
+      "visual_type": "revision_comparison",
+      "difficulty": "boundary_or_revision",
+      "expected_classification": "grounded",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "2026年4月1日から。",
+      "required_evidence": [
+        {
+          "fixture_id": "table_dev_002",
+          "element_ref": "cell:r4c0"
+        },
+        {
+          "fixture_id": "table_dev_002",
+          "element_ref": "cell:r4c1"
+        }
+      ],
+      "missing_conditions": [],
+      "scenario_id": "VD028"
+    },
+    {
+      "question": "2026年4月1日をまたぐ期間の住居手当申請には、改定前後のどちらを適用しますか？",
+      "fixture_ids": [
+        "table_dev_002"
+      ],
+      "visual_type": "revision_comparison",
+      "difficulty": "boundary_or_revision",
+      "expected_classification": "needs_judgment",
+      "expected_corpus_answerability": true,
+      "expected_answer_key": "施行日は確認できるが、期間をまたぐ申請の適用基準日が不明なため個別確認が必要。",
+      "required_evidence": [
+        {
+          "fixture_id": "table_dev_002",
+          "element_ref": "cell:r2c1"
+        },
+        {
+          "fixture_id": "table_dev_002",
+          "element_ref": "cell:r2c3"
+        },
+        {
+          "fixture_id": "table_dev_002",
+          "element_ref": "cell:r4c1"
+        }
+      ],
+      "missing_conditions": [
+        "申請の適用基準日",
+        "対象期間",
+        "経過措置の有無"
+      ],
+      "scenario_id": "VD029"
+    },
+    {
+      "question": "住居手当と通勤手当が改定された理由を教えてください。",
+      "fixture_ids": [
+        "table_dev_002"
+      ],
+      "visual_type": "revision_comparison",
+      "difficulty": "multi_element",
+      "expected_classification": "insufficient_documents",
+      "expected_corpus_answerability": false,
+      "expected_answer_key": "比較表には改定理由が記載されていない。",
+      "required_evidence": [],
+      "missing_conditions": [],
+      "scenario_id": "VD030"
+    }
+  ]
+}

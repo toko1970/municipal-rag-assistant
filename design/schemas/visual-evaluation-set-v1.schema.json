@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/visual-evaluation-set-v1.schema.json",
+  "title": "Visual RAG evaluation set v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dataset_version",
+    "split",
+    "review_status",
+    "scenario_count",
+    "scenarios"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "dataset_version": {"type": "string", "minLength": 1},
+    "split": {"enum": ["development", "sealed_holdout"]},
+    "review_status": {"enum": ["pending_user_review", "user_approved"]},
+    "scenario_count": {"type": "integer", "minimum": 1},
+    "scenarios": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/scenario"}
+    }
+  },
+  "$defs": {
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenario_id",
+        "question",
+        "fixture_ids",
+        "visual_type",
+        "difficulty",
+        "expected_classification",
+        "expected_corpus_answerability",
+        "expected_answer_key",
+        "required_evidence",
+        "missing_conditions"
+      ],
+      "properties": {
+        "scenario_id": {"type": "string", "pattern": "^VD[0-9]{3}$"},
+        "question": {"type": "string", "minLength": 1},
+        "fixture_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "visual_type": {
+          "enum": [
+            "process_flow",
+            "decision_flow",
+            "timeline",
+            "table",
+            "form",
+            "revision_comparison"
+          ]
+        },
+        "difficulty": {
+          "enum": ["direct", "multi_element", "boundary_or_revision", "paraphrase_or_typo"]
+        },
+        "expected_classification": {
+          "enum": ["grounded", "needs_judgment", "insufficient_documents"]
+        },
+        "expected_corpus_answerability": {"type": "boolean"},
+        "expected_answer_key": {"type": "string", "minLength": 1},
+        "required_evidence": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["fixture_id", "element_ref"],
+            "properties": {
+              "fixture_id": {"type": "string", "minLength": 1},
+              "element_ref": {
+                "type": "string",
+                "pattern": "^(node:[^:]+|edge:[^:]+->[^:]+|cell:r[0-9]+c[0-9]+|field:[^:]+|event:[^:]+)$"
+              }
+            }
+          }
+        },
+        "missing_conditions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

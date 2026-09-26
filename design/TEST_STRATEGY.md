@@ -71,6 +71,8 @@ text sealed holdoutは、既存5文書と制度名、文書ID、見出し、文�
 
 50 scenarioでも区分別の推定幅は大きいため、全体値に加えて区分別の件数とWilson 95% intervalを示す。2表現の両方が同じ正解条件を満たしたscenarioの割合をscenario stabilityとして別に報告する。
 
+図表development 30件は、6つのfixtureへ5件ずつ割り当てる。各fixtureは`grounded` 3件、`needs_judgment` 1件、`insufficient_documents` 1件を持ち、全体では18件、6件、6件とする。質問はnode、edge、table cell、form field、timeline eventの論理IDをgold evidenceとして参照し、参照先の存在をvalidatorで検査する。
+
 図表holdout 20件は事前に次の構成へ固定する。
 
 - 図表: 処理flow 4、判断flow 4、表4、帳票3、timeline 2、改定比較3

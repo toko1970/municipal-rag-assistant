@@ -1,0 +1,38 @@
+{
+  "manifest_version": "1.0",
+  "dataset_version": "visual-development-v1.0",
+  "split": "development",
+  "review_status": "pending_user_review",
+  "schema": {
+    "path": "design/schemas/visual-evaluation-set-v1.schema.json",
+    "sha256": "001eb8f09170d7417b2d6fc70286cb95fdca93408b16f65904e1c42011dad9de"
+  },
+  "fixture_manifest": {
+    "path": "eval/visual_fixtures/manifests/development_manifest.json",
+    "sha256": "076626debb3a24e12daf53302bfff1c08b57b7de4f23561b5c892bcf1c3dbe4a"
+  },
+  "evaluation_set": {
+    "path": "eval/visual_fixtures/development_evaluation_set.json",
+    "sha256": "19a41ca4a1b953ee2b8433fc3f1c296e29d899dd700f88ce62de646901231b28",
+    "scenario_count": 30
+  },
+  "classification_counts": {
+    "grounded": 18,
+    "needs_judgment": 6,
+    "insufficient_documents": 6
+  },
+  "visual_type_counts": {
+    "process_flow": 5,
+    "decision_flow": 5,
+    "timeline": 5,
+    "table": 5,
+    "form": 5,
+    "revision_comparison": 5
+  },
+  "difficulty_counts": {
+    "direct": 9,
+    "multi_element": 7,
+    "paraphrase_or_typo": 5,
+    "boundary_or_revision": 9
+  }
+}

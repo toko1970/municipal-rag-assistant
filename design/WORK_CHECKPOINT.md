@@ -1,8 +1,8 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-26
-- 状態: Phase 0の必須6種類のdevelopment fixtureが完了し、visual sealed holdoutはPLANNED
-- Git: development fixture 6件とvisual holdout protocolを記録済み
+- 状態: Phase 0の必須6種類のdevelopment fixtureと30 scenarioが完了し、visual sealed holdoutはPLANNED
+- Git: development fixture、visual holdout protocol、30 scenarioを記録済み
 
 ## 1. 完了したこと
 
@@ -35,6 +35,9 @@
 - visual sealed holdoutの20 scenario IDと構成を公開blueprintで固定した。
 - holdout PDFとgoldをGit対象外にし、候補実装、予測、開封の順序をpublic manifestで検査するcustody protocolを追加した。
 - public manifest検証、全test 65件、lintが成功した。通常検証ではsealed contentを開いていない。
+- 6 fixtureへ5件ずつ、合計30件のvisual development scenarioを作成した。
+- 期待分類はgrounded 18件、needs_judgment 6件、insufficient_documents 6件とし、gold elementへの論理参照をvalidatorで検査する。
+- 30 scenarioのvalidator、全test 72件、lintが成功した。内容レビュー前のため`pending_user_review`としている。
 
 ## 2. 未完了・次回反映すること
 
@@ -42,6 +45,7 @@
 - text sealed holdoutの架空文書family、質問、commit対象外goldを作る。
 - 必須6種類のsealed holdout用別文書familyをgold custodian領域で作り、公開質問、PDF/gold hash、非commit artifactを分離する。
 - `PLANNED`から`SEALED`への遷移を実際のartifactで確認する。
+- 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを実行する。
 
 ## 3. 次回最初に行うこと
@@ -49,9 +53,9 @@
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
 3. READMEの「実装から学べる処理の流れ」を読み、fixture、gold、manifest、validatorの責務を説明できることを確認する。
-4. gold custodianがsealed holdoutの別文書family、質問、goldを`.sealed/`へ作成する。
-5. SHA-256だけをpublic manifestへ記録し、`SEALED`へ遷移する。
-6. 図表development 30シナリオを作成し、候補実装の調整用setとして固定する。
+4. 30 scenarioの内容とgrounded / needs_judgment / insufficient_documentsの境界をレビューする。
+5. gold custodianがsealed holdoutの別文書family、質問、goldを`.sealed/`へ作成する。
+6. SHA-256だけをpublic manifestへ記録し、`SEALED`へ遷移する。
 
 ## 4. 完了したvisual fixture学習単位
 

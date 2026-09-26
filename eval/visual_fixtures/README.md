@@ -51,7 +51,9 @@ python -m eval.visual_fixtures.generate_eligibility_flowchart_fixture
 python -m eval.visual_fixtures.generate_timeline_fixture
 python -m eval.visual_fixtures.generate_table_fixtures
 python -m eval.visual_fixtures.generate_form_fixture
+python -m eval.visual_fixtures.build_development_evaluation_set
 python eval/validate_visual_fixture.py eval/visual_fixtures/manifests/development_manifest.json
+python -m eval.validate_visual_evaluation_set eval/visual_fixtures/manifests/development_evaluation_manifest.json
 pytest -q tests/test_visual_fixture_validation.py
 ```
 
@@ -95,6 +97,25 @@ Schemaはデータの形を保証し、semantic validatorはデータ同士の�
 development fixtureは抽出処理やpromptを修正するために繰り返し使用する。sealed holdoutは別のdocument familyから作り、予測結果を固定するまでgoldを実装側へ見せない。これにより、既知の6文書だけに合わせた改善と、未見文書へ一般化する改善を区別する。
 
 図表、scan、帳票は自動承認しない方針のため、goldの`confidence.review_required`は`true`とする。目視レビューを完了しても、後続の取込処理ではレビュー履歴を残してから`APPROVED`へ遷移させる。
+
+### 30件のdevelopment scenario
+
+`development_evaluation_set.json`は6 fixtureへ5 scenarioずつ割り当てる。各fixtureで、文書だけで結論が確定する`grounded`を3件、個別条件や運用判断が必要な`needs_judgment`を1件、必要情報が文書にない`insufficient_documents`を1件持つ。全体では18件、6件、6件となる。
+
+各scenarioの`required_evidence`は、次の論理参照を使う。
+
+| 図表 | 参照例 | 意味 |
+|---|---|---|
+| flowchart | `node:check`、`edge:decision->register` | node ID、接続元と接続先 |
+| table | `cell:r1c2` | zero-basedのrowとcolumnを持つcell |
+| form | `field:attachment` | field ID |
+| timeline | `event:submit` | event ID |
+
+validatorは参照先がgoldに存在することを確認する。`grounded`には1件以上の根拠、`needs_judgment`には根拠と不足条件、`insufficient_documents`には`expected_corpus_answerability=false`と空の正解根拠を要求する。この区別により、情報が文書にない質問を検索失敗として数えない。
+
+この30件はdevelopment setなので、抽出、検索、回答、分類の改善へ繰り返し利用できる。最終成績には使わず、候補実装の固定後に別文書familyのsealed holdout 20件で受入評価する。
+
+作成直後の`review_status`は`pending_user_review`とする。Schemaとvalidatorはデータ形式、分類契約、gold参照を検証できるが、質問の自然さや期待回答の業務上の妥当性までは証明できない。ユーザーが30件を確認し、必要な修正後に`user_approved`へ変更して再生成・再検証する。
 
 ## developmentとsealed holdout
 
