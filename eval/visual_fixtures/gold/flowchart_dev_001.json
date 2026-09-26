@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.0",
+  "kind": "flowchart",
+  "title": "通勤手当 申請処理フロー（架空）",
+  "page": 1,
+  "bbox": {
+    "x0": 0.0706,
+    "y0": 0.1093,
+    "x1": 0.9273,
+    "y1": 0.8814
+  },
+  "source_image_sha256": "0096acbddd8377b0ba1da82a94147ac5b148bf4cd77063a4d4cda69ee77798fb",
+  "confidence": {
+    "source": "unavailable",
+    "value": null,
+    "review_required": true
+  },
+  "data": {
+    "type": "flowchart",
+    "nodes": [
+      {
+        "id": "start",
+        "text": "申請書を受領",
+        "node_type": "start",
+        "bbox": {
+          "x0": 0.3444,
+          "y0": 0.133,
+          "x1": 0.6552,
+          "y1": 0.1924
+        }
+      },
+      {
+        "id": "check",
+        "text": "記載内容・添付書類を確認",
+        "node_type": "process",
+        "bbox": {
+          "x0": 0.2772,
+          "y0": 0.2494,
+          "x1": 0.7224,
+          "y1": 0.3278
+        }
+      },
+      {
+        "id": "decision",
+        "text": "不備があるか",
+        "node_type": "decision",
+        "bbox": {
+          "x0": 0.3444,
+          "y0": 0.3979,
+          "x1": 0.6552,
+          "y1": 0.5167
+        }
+      },
+      {
+        "id": "return",
+        "text": "申請者へ差戻し",
+        "node_type": "process",
+        "bbox": {
+          "x0": 0.0924,
+          "y0": 0.5998,
+          "x1": 0.3612,
+          "y1": 0.6782
+        }
+      },
+      {
+        "id": "register",
+        "text": "給与システムへ登録",
+        "node_type": "process",
+        "bbox": {
+          "x0": 0.6132,
+          "y0": 0.5998,
+          "x1": 0.9071,
+          "y1": 0.6782
+        }
+      },
+      {
+        "id": "end",
+        "text": "処理完了",
+        "node_type": "end",
+        "bbox": {
+          "x0": 0.6132,
+          "y0": 0.8018,
+          "x1": 0.9071,
+          "y1": 0.8612
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "start",
+        "to": "check",
+        "condition": null,
+        "bbox": {
+          "x0": 0.4872,
+          "y0": 0.1924,
+          "x1": 0.5124,
+          "y1": 0.2494
+        }
+      },
+      {
+        "from": "check",
+        "to": "decision",
+        "condition": null,
+        "bbox": {
+          "x0": 0.4872,
+          "y0": 0.3278,
+          "x1": 0.5124,
+          "y1": 0.3979
+        }
+      },
+      {
+        "from": "decision",
+        "to": "return",
+        "condition": "あり",
+        "bbox": {
+          "x0": 0.215,
+          "y0": 0.449,
+          "x1": 0.3444,
+          "y1": 0.5998
+        }
+      },
+      {
+        "from": "return",
+        "to": "check",
+        "condition": "再提出",
+        "bbox": {
+          "x0": 0.0605,
+          "y0": 0.2803,
+          "x1": 0.2772,
+          "y1": 0.6082
+        }
+      },
+      {
+        "from": "decision",
+        "to": "register",
+        "condition": "なし",
+        "bbox": {
+          "x0": 0.6552,
+          "y0": 0.449,
+          "x1": 0.7728,
+          "y1": 0.5998
+        }
+      },
+      {
+        "from": "register",
+        "to": "end",
+        "condition": null,
+        "bbox": {
+          "x0": 0.7476,
+          "y0": 0.6782,
+          "x1": 0.7728,
+          "y1": 0.8018
+        }
+      }
+    ]
+  }
+}

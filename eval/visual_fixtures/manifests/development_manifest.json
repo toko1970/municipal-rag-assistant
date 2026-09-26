@@ -1,0 +1,34 @@
+{
+  "manifest_version": "1.0",
+  "split": "development",
+  "paths_relative_to": "repository_root",
+  "generated_by": "eval/visual_fixtures/generate_flowchart_fixture.py",
+  "schema": {
+    "path": "design/schemas/visual-extraction-v1.schema.json",
+    "sha256": "0fecd4a214729c28c84215fe3677630b44c0bedde7be2ff6344beea855704708"
+  },
+  "fixtures": [
+    {
+      "fixture_id": "flowchart_dev_001",
+      "document_family": "commuting_allowance_application_flow_a",
+      "kind": "flowchart",
+      "document": {
+        "path": "eval/visual_fixtures/documents/flowchart_dev_001.pdf",
+        "sha256": "0ab927b7c71ed9052403eda0b7cac4356dd9aa7f1bd032dab196a3b883ec6c25"
+      },
+      "source_images": [
+        {
+          "page": 1,
+          "path": "eval/visual_fixtures/images/flowchart_dev_001_page_001.png",
+          "sha256": "0096acbddd8377b0ba1da82a94147ac5b148bf4cd77063a4d4cda69ee77798fb",
+          "width": 1241,
+          "height": 1754
+        }
+      ],
+      "gold": {
+        "path": "eval/visual_fixtures/gold/flowchart_dev_001.json",
+        "sha256": "c622856cbc81db4512608914552f70c4fafbba722b34bb82a3c50b32065ebb1c"
+      }
+    }
+  ]
+}
