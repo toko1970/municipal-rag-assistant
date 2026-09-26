@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "dataset_version": "visual-development-v1.0",
   "split": "development",
-  "review_status": "pending_user_review",
+  "review_status": "user_approved",
   "scenario_count": 30,
   "scenarios": [
     {

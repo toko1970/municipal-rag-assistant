@@ -6,6 +6,8 @@
 
 実装担当がholdout PDFやgold annotationを見て調整すると、未知文書への汎化性能を測れない。そのため、ユーザーをgold custodianとし、source PDFとgold本体を`.sealed/`に置く。`.sealed/`はGit管理しない。
 
+実際のholdout作成は、この実装タスクと分離したタスクで[`CUSTODIAN_HANDOFF.md`](CUSTODIAN_HANDOFF.md)を使って行う。
+
 ## Git管理するもの
 
 - `scenario_blueprint.json`: 20 scenarioのIDと、全体の種類・難度・期待分類の件数

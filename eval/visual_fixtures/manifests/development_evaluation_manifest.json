@@ -2,7 +2,7 @@
   "manifest_version": "1.0",
   "dataset_version": "visual-development-v1.0",
   "split": "development",
-  "review_status": "pending_user_review",
+  "review_status": "user_approved",
   "schema": {
     "path": "design/schemas/visual-evaluation-set-v1.schema.json",
     "sha256": "001eb8f09170d7417b2d6fc70286cb95fdca93408b16f65904e1c42011dad9de"
@@ -13,7 +13,7 @@
   },
   "evaluation_set": {
     "path": "eval/visual_fixtures/development_evaluation_set.json",
-    "sha256": "19a41ca4a1b953ee2b8433fc3f1c296e29d899dd700f88ce62de646901231b28",
+    "sha256": "83394fdd21ff7df0fc00fb41add154b70c9f3dbf9f7bc6f525527d7c4da4ffab",
     "scenario_count": 30
   },
   "classification_counts": {

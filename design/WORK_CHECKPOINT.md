@@ -38,6 +38,8 @@
 - 6 fixtureへ5件ずつ、合計30件のvisual development scenarioを作成した。
 - 期待分類はgrounded 18件、needs_judgment 6件、insufficient_documents 6件とし、gold elementへの論理参照をvalidatorで検査する。
 - 30 scenarioのvalidator、全test 72件、lintが成功した。内容レビュー前のため`pending_user_review`としている。
+- ユーザー確認を受け、30 scenarioを`user_approved`へ固定した。
+- sealed holdoutの内容を実装タスクへ漏らさないため、別タスク用custodian handoffを追加した。
 
 ## 2. 未完了・次回反映すること
 
@@ -53,9 +55,9 @@
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
 3. READMEの「実装から学べる処理の流れ」を読み、fixture、gold、manifest、validatorの責務を説明できることを確認する。
-4. 30 scenarioの内容とgrounded / needs_judgment / insufficient_documentsの境界をレビューする。
-5. gold custodianがsealed holdoutの別文書family、質問、goldを`.sealed/`へ作成する。
-6. SHA-256だけをpublic manifestへ記録し、`SEALED`へ遷移する。
+4. `CUSTODIAN_HANDOFF.md`を別タスクへ渡し、sealed holdoutの別文書family、質問、goldを`.sealed/`へ作成する。
+5. 別タスクでSHA-256だけをpublic manifestへ記録し、`SEALED`へ遷移する。
+6. この実装タスクへ戻り、公開manifestだけを検証する。
 
 ## 4. 完了したvisual fixture学習単位
 
