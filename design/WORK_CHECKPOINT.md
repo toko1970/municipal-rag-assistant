@@ -1,8 +1,8 @@
 # 作業再開checkpoint
 
-- 記録日: 2026-09-26
-- 状態: Phase 0の必須6種類のdevelopment fixtureと30 scenarioが完了し、visual sealed holdoutはPLANNED
-- Git: development fixture、visual holdout protocol、30 scenarioを記録済み
+- 記録日: 2026-09-27
+- 状態: Phase 0のvisual development 30 scenarioとvisual sealed holdout 20 scenarioが完成し、holdoutはSEALED
+- Git: visual holdoutのSEALED公開artifactを記録済み。sealed PDF・goldは`.gitignore`対象
 
 ## 1. 完了したこと
 
@@ -40,13 +40,15 @@
 - 30 scenarioのvalidator、全test 72件、lintが成功した。内容レビュー前のため`pending_user_review`としている。
 - ユーザー確認を受け、30 scenarioを`user_approved`へ固定した。
 - sealed holdoutの内容を実装タスクへ漏らさないため、別タスク用custodian handoffを追加した。
+- 別のcustodianタスクでholdout PDF 6件、extraction gold 6件、scenario 20件を作成した。
+- visual holdoutは配分一致、SHA-256一致、developmentとのfamily重複0件、72 test、lintを確認して`SEALED`へ遷移した。
+- 実装タスクでは公開manifestだけを検証し、`sealed_content_opened=False`を維持した。
+- 制限解除後に公開artifactを再検証し、72 test、lint、diff検査が成功した。
 
 ## 2. 未完了・次回反映すること
 
 - 既存100シナリオ・500問をtext development / regression setとして新しい論理locatorへ移行する計画を具体化する。
 - text sealed holdoutの架空文書family、質問、commit対象外goldを作る。
-- 必須6種類のsealed holdout用別文書familyをgold custodian領域で作り、公開質問、PDF/gold hash、非commit artifactを分離する。
-- `PLANNED`から`SEALED`への遷移を実際のartifactで確認する。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを実行する。
 
@@ -54,10 +56,10 @@
 
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
-3. READMEの「実装から学べる処理の流れ」を読み、fixture、gold、manifest、validatorの責務を説明できることを確認する。
-4. `CUSTODIAN_HANDOFF.md`を別タスクへ渡し、sealed holdoutの別文書family、質問、goldを`.sealed/`へ作成する。
-5. 別タスクでSHA-256だけをpublic manifestへ記録し、`SEALED`へ遷移する。
-6. この実装タスクへ戻り、公開manifestだけを検証する。
+3. Phase 0 contract conformance loopの対象要求と最大roundを確認する。
+4. 仕様、fixture、evaluation set、manifest、testの証拠ledgerを作る。
+5. high-impact mismatchがあれば節約上限内で修正し、なければPhase 0完了判定を残す。
+6. Phase 1のinterfaceとローカル基盤へ進む前に学習内容を振り返る。
 
 ## 4. 完了したvisual fixture学習単位
 
@@ -137,7 +139,10 @@ tests/test_visual_fixture_validation.py
 
 ```bash
 git status --short
-git diff --check -- AGENTS.md .gitignore
+git diff --check
+.venv/bin/python -m eval.validate_visual_holdout_protocol eval/visual_holdout/public_manifest.json
+.venv/bin/python -m pytest -q tests
+.venv/bin/python -m ruff check .
 find design -maxdepth 3 -type f -print | sort
 python3 -m json.tool design/schemas/visual-extraction-v1.schema.json >/dev/null
 python3 -m json.tool design/schemas/answer-output-v1.schema.json >/dev/null
@@ -148,4 +153,4 @@ python3 -m json.tool design/schemas/classification-output-v1.schema.json >/dev/n
 
 残り3 fixtureの連続run開始時点は5時間枠35%使用、週間枠65%使用、完了後は5時間枠41%、週間枠66%使用だった。停止基準80%未満のため有限runを完了した。数値は次回まで維持されるとは限らないため、再開時にUsageを再取得し、`LEARNING_AND_USAGE_PLAN.md`の作業モードを決める。
 
-reset creditや追加creditはユーザーの明示的な確認なしに使用しない。
+2026-09-27の中断時点は5時間枠92%使用、週間枠74%使用だった。停止準備基準のため新しい実装とcommitを行わず、公開変更を未commitのまま残した。再開時点は5時間枠1%、週間枠0%で、公開変更の検証を完了した。reset creditは3件あるが、ユーザーの明示的な確認なしに使用しない。

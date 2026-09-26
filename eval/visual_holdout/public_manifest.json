@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "holdout_id": "visual-sealed-holdout-v1",
-  "state": "PLANNED",
+  "state": "SEALED",
   "paths_relative_to": "repository_root",
   "manifest_schema": {
     "path": "design/schemas/visual-holdout-public-manifest-v1.schema.json",
@@ -11,9 +11,54 @@
     "path": "eval/visual_holdout/scenario_blueprint.json",
     "sha256": "20e23eac58455df39ce9950330ab1591d191716637259ce6029d254fea50ac96"
   },
-  "questions": null,
-  "documents": [],
-  "gold": null,
+  "questions": {
+    "path": "eval/visual_holdout/questions.json",
+    "sha256": "2243869ccb326935875251cca507c5b7612121b86573802088b3434af9c4fbde",
+    "count": 20
+  },
+  "documents": [
+    {
+      "document_id": "vh_doc_a7",
+      "document_family": "qz73_skill_exchange_registration",
+      "kind": "process_flow",
+      "sha256": "b5ada4e5a67315d23f3b1b5f932a53c06dc1cab73f7ce876440602f50ea1a0be"
+    },
+    {
+      "document_id": "vh_doc_m2",
+      "document_family": "qz73_night_recovery_leave",
+      "kind": "decision_flow",
+      "sha256": "a049cc7dec1dee71f190db5cf2920c9d22c595702f31dd5976adea7a9c46f9f6"
+    },
+    {
+      "document_id": "vh_doc_k9",
+      "document_family": "qz73_remote_desk_support",
+      "kind": "table",
+      "sha256": "0fe4bc51ecb95114f39a56b6b53fd0ebfde55d215b2fc4884755069186fb7a59"
+    },
+    {
+      "document_id": "vh_doc_f4",
+      "document_family": "qz73_peer_mentor_record",
+      "kind": "form",
+      "sha256": "90cb6e0852ec13436c37590b7bb48f5ebbac07139d7600640e66e275261be62a"
+    },
+    {
+      "document_id": "vh_doc_t6",
+      "document_family": "qz73_rotation_preference_cycle",
+      "kind": "timeline",
+      "sha256": "84ceae86733c4d7979af7cc6a64c2ec584d6c753dcec128a29ccd835aef181bb"
+    },
+    {
+      "document_id": "vh_doc_r8",
+      "document_family": "qz73_emergency_relay_stipend",
+      "kind": "revision_comparison",
+      "sha256": "f42065ba1fce5d972dc1ff3ccba0f3639db2cbb99ef766c2168de67508a124d8"
+    }
+  ],
+  "gold": {
+    "extraction_sha256": "775f47987493f4153ec3b8f73974d049db818cef04a18860b326f00b0431fc99",
+    "scenario_sha256": "b571c1ef12d2884d437873d70648f04a950dc59cee23f4088d197bec8a6867e0",
+    "scenario_count": 20
+  },
   "candidate": null,
   "predictions": null,
   "opening": null,

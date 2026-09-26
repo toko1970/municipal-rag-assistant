@@ -16,11 +16,14 @@ MANIFEST_PATH = REPOSITORY_ROOT / "eval/visual_holdout/public_manifest.json"
 
 
 class VisualHoldoutProtocolTest(unittest.TestCase):
-    def test_committed_planned_manifest_is_valid_without_opening_sealed_content(self):
+    def test_committed_manifest_is_valid_without_opening_sealed_content(self):
         manifest = validate_public_manifest(MANIFEST_PATH, REPOSITORY_ROOT)
 
-        self.assertEqual(manifest["state"], "PLANNED")
-        self.assertEqual(manifest["documents"], [])
+        self.assertEqual(manifest["state"], "SEALED")
+        self.assertGreaterEqual(len(manifest["documents"]), 6)
+        self.assertEqual(manifest["questions"]["count"], 20)
+        for field in ("candidate", "predictions", "opening", "results"):
+            self.assertIsNone(manifest[field])
 
     def test_blueprint_fixes_all_twenty_scenario_ids_and_margins(self):
         blueprint = load_json(BLUEPRINT_PATH)
@@ -39,12 +42,18 @@ class VisualHoldoutProtocolTest(unittest.TestCase):
     def test_sealed_state_without_questions_and_gold_is_rejected(self):
         manifest = deepcopy(load_json(MANIFEST_PATH))
         manifest["state"] = "SEALED"
+        manifest["questions"] = None
+        manifest["gold"] = None
 
         with self.assertRaisesRegex(ValueError, "SEALEDではquestionsが必要"):
             validate_state_requirements(manifest)
 
     def test_planned_state_cannot_claim_frozen_candidate(self):
         manifest = deepcopy(load_json(MANIFEST_PATH))
+        manifest["state"] = "PLANNED"
+        manifest["questions"] = None
+        manifest["gold"] = None
+        manifest["documents"] = []
         manifest["candidate"] = {
             "git_commit": "a" * 40,
             "config_manifest_sha256": "b" * 64,
