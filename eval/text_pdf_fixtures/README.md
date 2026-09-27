@@ -79,3 +79,18 @@ goldのregion bboxは、回転表示上の座標ではなく、正立source画�
 ```
 
 このfixtureが扱うのはPDFの`/Rotate`情報である。画素自体が横向き・逆向きのscanに対する画像方向推定はPhase 4の別検証とする。
+
+## 低品質scan review gate
+
+`low_quality_scan_dev_001`は、clean sourceを白へ75%合成した低コントラストscanである。グレースケールの最大値と最小値の差をfixture生成条件として60以下へ固定する。この値は既知の劣化が生成されたことを確認するためだけに使い、production文書の自動品質判定には使わない。
+
+goldでは抽出結果`REVIEW_REQUIRED`、文書版`WAITING_REVIEW`、理由`LOW_CONTRAST`、自動`READY`不可を別々に固定する。
+
+```bash
+.venv/bin/python -m eval.text_pdf_fixtures.generate_low_quality_scan_fixture
+.venv/bin/python -m eval.validate_low_quality_scan_fixture \
+  eval/text_pdf_fixtures/manifests/low_quality_development_manifest.json
+.venv/bin/python -m pytest -q tests/test_low_quality_scan_fixture.py
+```
+
+validatorはclean referenceとのhash・gold整合性、dynamic range、PDF入力契約、review gateを確認する。実際の画像品質判定器、OCR confidence、状態遷移処理はPhase 4で実装する。

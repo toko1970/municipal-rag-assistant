@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rag/low-quality-scan-v1.schema.json",
+  "title": "Low-quality scanned text fixture v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "title",
+    "page_count",
+    "expected_full_text",
+    "critical_values",
+    "input_characteristics",
+    "quality_assessment",
+    "expected_gate",
+    "confidence",
+    "pages"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "kind": {"const": "low_quality_scanned_text"},
+    "title": {"type": "string", "minLength": 1},
+    "page_count": {"const": 1},
+    "expected_full_text": {"type": "string", "minLength": 1},
+    "critical_values": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "input_characteristics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text_layer_expected",
+        "dpi",
+        "rotation_degrees",
+        "quality"
+      ],
+      "properties": {
+        "text_layer_expected": {"const": false},
+        "dpi": {"const": 300},
+        "rotation_degrees": {"const": 0},
+        "quality": {"const": "low_quality"}
+      }
+    },
+    "quality_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["degradation", "measurement"],
+      "properties": {
+        "degradation": {"const": "low_contrast"},
+        "measurement": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["metric", "value", "fixture_gate_max"],
+          "properties": {
+            "metric": {"const": "grayscale_dynamic_range"},
+            "value": {"type": "integer", "minimum": 0, "maximum": 255},
+            "fixture_gate_max": {"const": 60}
+          }
+        }
+      }
+    },
+    "expected_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "extraction_result",
+        "document_status",
+        "review_reasons",
+        "automatic_ready_allowed"
+      ],
+      "properties": {
+        "extraction_result": {"const": "REVIEW_REQUIRED"},
+        "document_status": {"const": "WAITING_REVIEW"},
+        "review_reasons": {
+          "const": ["LOW_CONTRAST"]
+        },
+        "automatic_ready_allowed": {"const": false}
+      }
+    },
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "value", "review_required"],
+      "properties": {
+        "source": {"const": "unavailable"},
+        "value": {"type": "null"},
+        "review_required": {"const": true}
+      }
+    },
+    "pages": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {"$ref": "#/$defs/page"}
+    }
+  },
+  "$defs": {
+    "bbox": {
+      "description": "Upright source coordinates with a top-left origin, normalized to 0..1.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x0", "y0", "x1", "y1"],
+      "properties": {
+        "x0": {"type": "number", "minimum": 0, "maximum": 1},
+        "y0": {"type": "number", "minimum": 0, "maximum": 1},
+        "x1": {"type": "number", "minimum": 0, "maximum": 1},
+        "y1": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "textRegion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "text", "bbox"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "text": {"type": "string", "minLength": 1},
+        "bbox": {"$ref": "#/$defs/bbox"}
+      }
+    },
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "page",
+        "width_points",
+        "height_points",
+        "source_image_sha256",
+        "expected_text",
+        "regions"
+      ],
+      "properties": {
+        "page": {"const": 1},
+        "width_points": {"type": "number", "exclusiveMinimum": 0},
+        "height_points": {"type": "number", "exclusiveMinimum": 0},
+        "source_image_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "expected_text": {"type": "string", "minLength": 1},
+        "regions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/textRegion"}
+        }
+      }
+    }
+  }
+}

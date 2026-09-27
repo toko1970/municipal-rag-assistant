@@ -1,7 +1,7 @@
 # Phase 0 contract conformance ledger
 
 - 監査日: 2026-09-27
-- 対象基準: `5eeed80`からの回転ページfixture差分を含む
+- 対象基準: `e286581`からの低品質scan fixture差分を含む
 - 対象範囲: 仕様、fixture、evaluation set、manifest、validator、test
 - sealed境界: text・visualの`.sealed/`は開かず、公開manifestとcustodianの集計結果だけを証拠にした
 - 判定: **Phase 0は未完了**
@@ -31,7 +31,7 @@
 | P0-08 | native text PDF fixtureを用意する | `proved` | [`development_manifest.json`](../eval/text_pdf_fixtures/manifests/development_manifest.json)、[`native_text_dev_001.json`](../eval/text_pdf_fixtures/gold/native_text_dev_001.json)、[`native-text-extraction-v1.schema.json`](schemas/native-text-extraction-v1.schema.json)、`tests/test_native_text_fixture.py` | text layer、期待全文、重要値、page、bbox、画像、hashを固定した。PyMuPDFによる全文・座標検査、目視確認、再生成hash一致、87 testを確認した |
 | P0-09 | 日本語scan PDF fixtureを用意する | `proved` | [`scan_development_manifest.json`](../eval/text_pdf_fixtures/manifests/scan_development_manifest.json)、[`scan_text_dev_001.json`](../eval/text_pdf_fixtures/gold/scan_text_dev_001.json)、[`scan-text-extraction-v1.schema.json`](schemas/scan-text-extraction-v1.schema.json)、`tests/test_scan_text_fixture.py` | 画像のみの日本語PDF、300 dpi source、期待全文、重要値、region bbox、hashを固定した。text layerなし、埋め込み画像、OCR候補の重要値・全文差分検査、目視確認、再生成hash一致、93 testを確認した |
 | P0-10 | 回転ページfixtureを用意する | `proved` | [`rotation_development_manifest.json`](../eval/text_pdf_fixtures/manifests/rotation_development_manifest.json)、[`rotated-scan-extraction-v1.schema.json`](schemas/rotated-scan-extraction-v1.schema.json)、`tests/test_rotated_scan_fixture.py` | 正立0度に加えてPDFの`/Rotate`が90/180/270度の3 fixtureを固定した。raw表示、正立化、座標空間、hashを検査し、正規化画像3件が正立referenceと一致、再生成13 artifact一致、99 testを確認した |
-| P0-11 | 曖昧矢印または低品質scanを`REVIEW_REQUIRED`にする | `unimplemented` | [`TEST_STRATEGY.md`](TEST_STRATEGY.md) §2.3、[`TECHNICAL_DESIGN.md`](TECHNICAL_DESIGN.md) §3 | 正常なfixtureの`review_required=true`はあるが、曖昧入力を誤って自動合格させない失敗系fixtureがない |
+| P0-11 | 曖昧矢印または低品質scanを`REVIEW_REQUIRED`にする | `proved` | [`low_quality_development_manifest.json`](../eval/text_pdf_fixtures/manifests/low_quality_development_manifest.json)、[`low_quality_scan_dev_001.json`](../eval/text_pdf_fixtures/gold/low_quality_scan_dev_001.json)、[`low-quality-scan-v1.schema.json`](schemas/low-quality-scan-v1.schema.json)、`tests/test_low_quality_scan_fixture.py` | clean画像へ低コントラストだけを加えた失敗系fixtureを固定した。`REVIEW_REQUIRED`、`WAITING_REVIEW`、`LOW_CONTRAST`、自動`READY`不可を検査し、改変拒否、再生成5 artifact一致、106 testを確認した |
 | P0-12 | 重要値完全一致、要素recall、bbox IoUを測る | `not_applicable` | `eval/validate_visual_fixture.py`、`tests/test_visual_fixture_validation.py`、[`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) Phase 4 | Phase 0は比較可能なgoldと評価契約を用意する段階。抽出器出力とgoldを比較するrecall・IoU evaluatorはPhase 4の受入条件として実装する |
 | P0-13 | manifestにsplit、文書、質問、schemaのhashを持つ | `proved` | visualの2 manifest、text developmentの[`evaluation_set_manifest.json`](../eval/evaluation_set_manifest.json)、text holdoutの[`public_manifest.json`](../eval/text_holdout/public_manifest.json) | text developmentとtext・visual holdoutで、split、文書、質問、Schema、blueprint、goldの必要なhashを追跡できる |
 | P0-14 | holdoutを実装調整に使わず、候補・予測・開封順を検査する | `proved` | text・visual holdoutのREADME、public manifest、protocol validator、test | 両holdoutが`SEALED`で、candidate、predictions、opening、resultsは未設定。通常validatorはsealed内容を読まない |
@@ -42,20 +42,19 @@
 
 | 状態 | 件数 |
 |---|---:|
-| proved | 13 |
+| proved | 14 |
 | weak | 0 |
 | contradicted | 0 |
-| unimplemented | 2 |
+| unimplemented | 1 |
 | not applicable | 1 |
 | blocked | 0 |
 
-silent gapはない。P0-03、P0-08〜P0-10、P0-13を証拠付きで解消し、未完了2件をPhase 0完了前の作業として追跡する。Phase 4で実装する1件はPhase 0の完了判定から除外し、Phase 4の受入時に再監査する。
+silent gapはない。P0-03、P0-08〜P0-11、P0-13を証拠付きで解消し、未完了1件をPhase 0完了前の作業として追跡する。Phase 4で実装する1件はPhase 0の完了判定から除外し、Phase 4の受入時に再監査する。
 
 ## 4. 修正判断
 
-text sealed holdout、native text PDF、日本語scan PDF、回転ページfixtureにより、P0-03、P0-08〜P0-10、P0-13を解消した。
+text sealed holdout、native text PDF、日本語scan PDF、回転・低品質fixtureにより、P0-03、P0-08〜P0-11、P0-13を解消した。
 
-- P0-11は失敗系判定を含む別のfixture familyであり、evidence-first sliceを実行する。
 - P0-12の抽出精度evaluatorは抽出器出力ができるPhase 4で初めて意味のある比較ができる。Phase 0ではgoldと評価契約を準備済みとし、Phase 4のledgerへ引き継ぐ。
 - P0-15はserviceごとに接続、認証、費用、停止を確認する。課金resourceを作成する前にユーザー承認を得る。
 
@@ -63,16 +62,14 @@ text sealed holdout、native text PDF、日本語scan PDF、回転ページfixtu
 
 ## 5. 次の順序
 
-1. **Extraction edge fixtures**: 曖昧/低品質scanを追加する。
-2. **Cloud connection spikes**: Gemini、Cloud SQL、GCS、Qdrant Cloudを個別に調査し、無料でできる確認と課金が必要な操作を分ける。
-3. **再監査**: P0-11、P0-15の証拠を更新してPhase 0完了を判定する。
+1. **Cloud connection spikes**: Gemini、Cloud SQL、GCS、Qdrant Cloudを個別に調査し、無料でできる確認と課金が必要な操作を分ける。
+2. **再監査**: P0-15の証拠を更新してPhase 0完了を判定する。
 
 ## 6. 未達項目の解消先
 
 | 対象 | 解消する工程 | 完了証拠 |
 |---|---|---|
-| P0-11 曖昧/低品質 | extraction edge fixture 4 | 誤ってREADYにせずREVIEW_REQUIREDとなる失敗系test |
 | P0-15 cloud接続・費用 | Phase 0最後のservice別spike | 接続先、認証方式、見積・実測費用、停止手順。課金resource作成前はユーザー承認 |
 | P0-12 抽出精度evaluator | Phase 4 | 実抽出結果とgoldの重要値一致率、要素recall、bbox IoUのreportとtest |
 
-最初の次工程は、曖昧/低品質scanを使う**extraction edge fixture 4**とする。
+最初の次工程は、**service別cloud接続・費用spike**とする。
