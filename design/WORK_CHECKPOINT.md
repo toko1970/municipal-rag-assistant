@@ -123,6 +123,12 @@
 - 3.1のTop-5からTop-8で、期待ラベル一致は7/8を維持し、必須内容一致は6/8から8/8、全件確認の完全回答は6/8から7/8へ改善した。Q446は完全回答へ回復し、Q301は内容が正しいまま`判断要`から`根拠十分`へ分類退行した。
 - Top-8のGenerator入力tokenはTop-5比57.8%、paid list price概算は36.0%増えた。8問合計のGenerator概算は$0.00683で、増分とQ446回復を踏まえTop-8をproduction統合候補にした。
 - 既定Generatorを`gemini-3.1-flash-lite`へ変更し、Generator・Classifierのモデル名を環境変数で上書き可能にした。raw結果と全件レビューは`eval/GEMINI_3_1_TOP_K_ANSWER_EVALUATION.md`へ記録した。
+- contextual headingの共通vector表現を`src/embedding_representation.py`へ移し、評価とproduction ingestionが同じ関数を使用するようにした。原文はPostgreSQLとQdrant payloadへそのまま保存する。
+- production取込で`RETRIEVAL_DOCUMENT`を明示し、Embedding profileを`gemini:gemini-embedding-001:contextual-heading-document-v1`へ更新した。検索件数はTop-8へ変更した。
+- 旧`municipality_rag_docs_v2`を保持し、新`municipality_rag_docs_v2_contextual_heading_v1`へ5文書・86 pointを構築した。PostgreSQLとのmissing 0・unexpected 0、保存本文へのEmbedding prefix混入0を確認した。
+- production composition rootからQ446相当を質問し、request `99fdf2e4-36f9-41af-a7ba-5941f14029de`で根拠十分の完全回答を得た。SQLでretrieval 8、generation 1、classification 1、visible claim 4、evidence link 7を確認した。
+- `RAG_BACKEND=qdrant`のStreamlit実UI経路で同じ質問を実行し、request `5c3aeecd-3c69-48e0-8805-07cc36cd6734`で根拠十分、参照8件、UI exception 0を確認した。「採用した」feedback 1件がPostgreSQLへ保存されたこともSQLで確認した。
+- production統合後、外部APIなしの全test 157件、実PostgreSQL・Qdrant統合test 1件、Ruff、diff検査が成功した。
 
 ## 2. 未完了・次回反映すること
 
@@ -131,9 +137,9 @@
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
-- Streamlit画面を`RAG_BACKEND=qdrant`で起動して、質問・引用・feedbackの画面操作を通すsmoke testは未実施である。
+- Streamlit画面の質問・引用8件・feedback保存は`RAG_BACKEND=qdrant`の実接続smokeで確認済み。既定backendもQdrantへ変更した。
 - Streamlitの実ブラウザから実Gemini・PostgreSQLへ接続する最終smoke testは未実施である。画面配線とcore実動は別々に検証済み。
-- 次はcontextual headingの文書Embedding前処理とTop-8をproduction ingestionへ適用し、active Qdrant collectionを再構築する。旧baselineは比較証拠として保持し、再構築後にreconcileと画面smoke testを行う。
+- 次はCloud Runへ反映する構成差と外部Qdrant・PostgreSQL接続先を確認する。ローカル実装済みとクラウド未接続をREADME・面接説明で区別する。
 
 ## 3. 次回最初に行うこと
 

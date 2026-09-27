@@ -43,14 +43,15 @@ EMBEDDING_MODEL_NAME = "gemini-embedding-001"
 # RAG v2 storage
 # =========================
 
-RAG_BACKEND = os.getenv("RAG_BACKEND", "chroma")
+RAG_BACKEND = os.getenv("RAG_BACKEND", "qdrant")
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
     "postgresql+psycopg://rag_app:rag_local_only@localhost:5432/rag_portfolio",
 )
 QDRANT_URL = os.getenv("QDRANT_URL", "http://localhost:6333")
 QDRANT_COLLECTION_NAME = os.getenv(
-    "QDRANT_COLLECTION_NAME", "municipality_rag_docs_v2"
+    "QDRANT_COLLECTION_NAME",
+    "municipality_rag_docs_v2_contextual_heading_v1",
 )
 
 
@@ -58,7 +59,7 @@ QDRANT_COLLECTION_NAME = os.getenv(
 # RAG 検索設定
 # =========================
 
-TOP_K = 5
+TOP_K = 8
 
 CHUNK_SIZE = 800
 CHUNK_OVERLAP = 100

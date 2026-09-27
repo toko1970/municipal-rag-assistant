@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from collections import Counter
 
 from alembic import command
 from alembic.config import Config
@@ -68,6 +69,36 @@ def reconcile() -> dict[str, object]:
     }
 
 
+def index_info() -> dict[str, object]:
+    index = QdrantVectorIndex()
+    points = []
+    offset = None
+    while True:
+        batch, offset = index.client.scroll(
+            collection_name=index.collection_name,
+            limit=256,
+            offset=offset,
+            with_payload=True,
+            with_vectors=False,
+        )
+        points.extend(batch)
+        if offset is None:
+            break
+    profiles = Counter(
+        str((point.payload or {}).get("embedding_profile", "")) for point in points
+    )
+    prefixed_content = sum(
+        str((point.payload or {}).get("content", "")).startswith("文書: ")
+        for point in points
+    )
+    return {
+        "collection": index.collection_name,
+        "points": len(points),
+        "embedding_profiles": dict(sorted(profiles.items())),
+        "stored_content_with_embedding_prefix": prefixed_content,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -78,6 +109,7 @@ def main() -> int:
             "ingest",
             "rebuild-qdrant",
             "reconcile",
+            "index-info",
             "query",
         ),
     )
@@ -94,6 +126,8 @@ def main() -> int:
         result = rebuild_qdrant()
     elif args.command == "reconcile":
         result = reconcile()
+    elif args.command == "index-info":
+        result = index_info()
     else:
         if not args.question:
             parser.error("queryには--questionが必要です")

@@ -28,26 +28,12 @@ from eval.evaluate_retrieval import (
     save_results,
 )
 from eval.qdrant_retriever import retrieve_by_vector
+from src.embedding_representation import contextual_heading_document_text
 from src.embeddings import get_embeddings
 from src.qdrant_index import QdrantVectorIndex
 
 
 COLLECTION_NAME = "municipal_docs_eval_gemini_001_contextual_heading_v1"
-HEADING_KEYS = ("見出し1", "見出し2", "見出し3")
-
-
-def contextual_document_text(element) -> str:
-    heading = " > ".join(
-        str(element.metadata[key])
-        for key in HEADING_KEYS
-        if element.metadata.get(key)
-    )
-    context = [f"文書: {element.document_name}"]
-    if heading:
-        context.append(f"見出し: {heading}")
-    return "\n".join(context) + f"\n\n{element.content}"
-
-
 def load_baseline_query_vectors(
     path: Path, questions: list[dict]
 ) -> dict[str, list[float]]:
@@ -87,7 +73,9 @@ def main() -> None:
         load_evaluation_questions(args.input), args.variant_type
     )
     elements = load_elements(DOCS_DIR)
-    contextual_texts = [contextual_document_text(element) for element in elements]
+    contextual_texts = [
+        contextual_heading_document_text(element) for element in elements
+    ]
     profile = PROFILES["gemini-embedding-001"]
     embeddings = get_embeddings()
     document_ids = [

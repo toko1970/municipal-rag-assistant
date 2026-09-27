@@ -3,10 +3,8 @@ from types import SimpleNamespace
 
 import pytest
 
-from eval.compare_contextual_heading import (
-    contextual_document_text,
-    load_baseline_query_vectors,
-)
+from eval.compare_contextual_heading import load_baseline_query_vectors
+from src.embedding_representation import contextual_heading_document_text
 
 
 def test_contextual_text_adds_document_and_full_heading_without_mutation() -> None:
@@ -19,7 +17,7 @@ def test_contextual_text_adds_document_and_full_heading_without_mutation() -> No
         },
     )
 
-    result = contextual_document_text(element)
+    result = contextual_heading_document_text(element)
 
     assert result.startswith(
         "文書: 届出・手続きマニュアル\n"

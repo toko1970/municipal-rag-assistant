@@ -10,12 +10,15 @@ from config import DOCS_DIR, EMBEDDING_MODEL_NAME
 from src.chunking import split_documents
 from src.contracts import IndexableElement
 from src.document_loader import parse_markdown_with_metadata
+from src.embedding_representation import contextual_heading_document_text
 from src.embeddings import get_embeddings
 from src.persistence.repositories import PostgresDocumentRepository
 from src.qdrant_index import QdrantVectorIndex
 
 
-EMBEDDING_PROFILE_KEY = f"gemini:{EMBEDDING_MODEL_NAME}:document-v1"
+EMBEDDING_PROFILE_KEY = (
+    f"gemini:{EMBEDDING_MODEL_NAME}:contextual-heading-document-v1"
+)
 
 
 def stable_uuid(value: str) -> UUID:
@@ -62,8 +65,10 @@ def ingest_markdown_documents(
     repository: PostgresDocumentRepository,
     vector_index: QdrantVectorIndex,
     docs_dir: Path = DOCS_DIR,
+    embeddings=None,
 ) -> dict[str, int]:
-    embeddings = get_embeddings()
+    if embeddings is None:
+        embeddings = get_embeddings()
     document_count = 0
     element_count = 0
     for file_path in sorted(docs_dir.glob("*.md")):
@@ -76,13 +81,21 @@ def ingest_markdown_documents(
             elements=elements,
         )
         try:
-            vectors = embeddings.embed_documents([item.content for item in elements])
+            embedding_texts = [
+                contextual_heading_document_text(item) for item in elements
+            ]
+            vectors = embeddings.embed_documents(
+                embedding_texts, task_type="RETRIEVAL_DOCUMENT"
+            )
             repository.upsert_embedding_profile(
                 profile_key=EMBEDDING_PROFILE_KEY,
                 provider="gemini",
                 model=EMBEDDING_MODEL_NAME,
                 dimensions=len(vectors[0]),
-                configuration={"task_type": "document-v1"},
+                configuration={
+                    "task_type": "RETRIEVAL_DOCUMENT",
+                    "document_representation": "contextual-heading-v1",
+                },
             )
             vector_index.ensure_collection(len(vectors[0]))
             vector_index.upsert(elements, vectors, EMBEDDING_PROFILE_KEY)

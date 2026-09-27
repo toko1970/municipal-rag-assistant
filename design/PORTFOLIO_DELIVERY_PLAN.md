@@ -98,7 +98,7 @@ flowchart LR
   - `claim_evidence`
   - `feedback`
 - 既存Markdownを安定UUIDでupsertする管理CLIを作る。
-- 現行`gemini-embedding-001`を使い、Qdrantへ同じcontentをindexする。
+- 現行`gemini-embedding-001`を使い、文書名・見出し階層をEmbedding入力だけへ加えてQdrantへindexする。payloadとPostgreSQLには引用用の原文を保持する。
 - 生成器はclaim、evidence ID、不足情報を構造化して返す。基準分類器は`gemini-3.1-flash-lite`、temperature 0、固定JSON Schemaを使い、別の構造化出力で判定要因を返す。
 - 最終表示文は生成器や分類器の自由文をそのまま採用せず、構造化結果からアプリケーションコードで組み立てる。
 - `generate_answer()`をrepository経由へ移し、request IDを返す。

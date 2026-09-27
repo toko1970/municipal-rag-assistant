@@ -57,8 +57,9 @@ Dockerコンテナ化したアプリケーションを、Google Cloud Run上で�
 flowchart TD
     A["利用者"] -->|質問を入力| B["Streamlit UI"]
     B --> C["質問をEmbeddingでベクトル化"]
-    C --> D["Chromaで関連文書チャンクを検索"]
-    E[("制度文書・文書ベクトル")] --> D
+    C --> D["Qdrantで関連文書チャンクをTop-8検索"]
+    E[("PostgreSQL: 文書・版・要素の正本")] --> D
+    V[("Qdrant: 再構築可能なvector index")] --> D
     D --> F["質問・検索結果・メタデータから<br/>プロンプトを構成"]
     F --> G["LLMが根拠に基づく回答案を生成"]
     G --> H{"回答可能性を分類"}
@@ -66,8 +67,8 @@ flowchart TD
     H -->|判断要| I
     H -->|文書不足| I
     I --> J["利用者が回答を評価"]
-    I --> K[("RAG実行ログを保存")]
-    J --> L[("フィードバックを保存")]
+    I --> K[("PostgreSQLへRAG実行ログを保存")]
+    J --> L[("PostgreSQLへフィードバックを保存")]
 ```
 
 利用者が入力した質問に対し、Retrieverが関連文書を検索し、その結果をコンテキストとしてLLMへ渡します。
@@ -138,6 +139,8 @@ DOC-001〜DOC-004を主な回答根拠文書として扱い、DOC-005は制度�
 承認済み評価セットを使ったモデル比較では、`eval.evaluate_models`が検索結果を一度保存し、Gemini、OpenAI、Mistralへ同じコンテキストを渡します。API制限で中断しても質問単位で結果を保存し、再実行時に続きから再開できます。
 
 Gemini 3.1 Flash-Liteでformal 100問を実行した結果、回答分類一致は84/100、回答生成エラーは0、概算費用は$0.02473575でした。誤分類を検索失敗、分類ラベルのみの誤り、改正通知等の解釈誤りに分けた分析は[formal 100問評価](eval/GEMINI_3_1_FORMAL_EVALUATION.md)を参照してください。
+
+Qdrantへ移行後、文書名と見出し階層をEmbedding入力だけへ加えるcontextual headingをformal 100問で評価しました。全根拠見出しHit@5は74/88から78/88、Top-8では82/88へ改善しました。Gemini 3.1 Flash-Liteを固定した回答回帰8問では、Top-5からTop-8で必須内容一致が6/8から8/8、全件確認の完全回答が6/8から7/8になりました。詳細は[contextual heading検索評価](eval/CONTEXTUAL_HEADING_FORMAL_EVALUATION.md)と[Top-k回答比較](eval/GEMINI_3_1_TOP_K_ANSWER_EVALUATION.md)を参照してください。
 
 ### 評価結果サマリー
 
@@ -210,8 +213,9 @@ Practical質問セットでは、質問表現が文書見出しから離れる�
 |------|------|------|
 | 言語 | Python | AI・データ分析分野で広く利用されており、豊富なライブラリを活用できるため |
 | RAGフレームワーク | LangChain | 文書検索、プロンプト生成、LLM連携を統一的に実装できるため |
-| ベクトルDB | Chroma | ローカル環境で容易に利用でき、LangChainとの親和性が高いため |
-| LLM | Gemini 2.5 Flash | 高速な応答性能を持ち、無料利用枠を活用できるため |
+| ベクトルDB | Qdrant | PostgreSQLの正本と検索indexを分離し、安定ID・filter・検索実験を扱うため |
+| 文書・ログDB | PostgreSQL | 文書版、content element、質問、回答、根拠、feedbackをSQLで追跡するため |
+| LLM | Gemini 3.1 Flash-Lite | 構造化出力、実行継続性、費用を同じ評価セットで確認できたため |
 | Embedding | gemini-embedding-001 | 3072次元ベクトルによる検索性能を確保できるため |
 | UI | Streamlit | Pythonのみで迅速にWebアプリケーションを構築できるため |
 | コンテナ | Docker | 実行環境を統一し、ローカル環境とクラウド環境で同じ構成を再現するため |
@@ -220,13 +224,13 @@ Practical質問セットでは、質問表現が文書見出しから離れる�
 | 実行環境 | Google Cloud Run | コンテナ化したWebアプリケーションを公開し、利用状況に応じて自動でスケーリングするため |
 | シークレット管理 | Secret Manager | Gemini APIキーをソースコードやコンテナイメージに含めず、安全にCloud Runへ提供するため |
 | 文書形式 | Markdown | 制度文書を構造化しやすく、保守性が高いため |
-| ログ形式 | JSONL | 実行ログやフィードバックを蓄積しやすく、後続分析にも利用しやすいため |
+| baseline互換ログ | JSONL | 旧経路との比較・export用途に限定して保持するため |
 
 本プロジェクトでは、LangChainを中心にRAGパイプラインを構築しました。
 
-ベクトルDBにはChromaを採用し、Markdown形式の制度文書をEmbedding化して検索可能な状態で管理しています。
+現行RAG v2では、Markdown文書と利用ログの正本をPostgreSQL、再構築可能な検索indexをQdrantで管理しています。Chromaは移行前baselineの比較証拠として保持しています。
 
-また、回答生成には Gemini 2.5 Flash、Embeddingには gemini-embedding-001 を利用し、検索性能と回答品質の両立を図りました。
+回答生成と分類にはGemini 3.1 Flash-Lite、Embeddingにはgemini-embedding-001を利用します。文書名と見出し階層はvector生成時だけ加え、引用表示用の原文は変更しません。
 
 公開環境では、アプリケーションをDockerコンテナ化し、Cloud Buildでイメージを構築しています。作成したイメージはArtifact Registryで管理し、Cloud Run上で実行しています。また、Gemini APIキーはSecret Managerで管理し、専用のサービスアカウントを通じてアプリケーションから参照しています。
 
@@ -600,7 +604,7 @@ python -m pytest -q tests
 
 実際の文書ベクトル検索とGeminiを使う評価はこのCIには含めず、評価セットや検索方式を変更した際に別途実行します。
 
-難問20件での実検索評価、同一質問による方式比較、改善と退行の個別例は [eval/HARD_EVALUATION.md](eval/HARD_EVALUATION.md) に記録しています。実験方式は公開アプリには反映していません。
+難問20件での実検索評価、同一質問による方式比較、改善と退行の個別例は [eval/HARD_EVALUATION.md](eval/HARD_EVALUATION.md) に記録しています。採用したcontextual heading、Top-8、Gemini 3.1 Flash-LiteはローカルのRAG v2経路へ反映済みです。公開Cloud Runの反映状況はデプロイ後の証拠で別途更新します。
 
 ---
 
