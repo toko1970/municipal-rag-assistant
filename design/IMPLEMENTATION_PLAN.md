@@ -1,5 +1,9 @@
 # RAG実装計画
 
+> **2026-09-27 実行順序の変更**
+>
+> 短期集中でポートフォリオを完成させるため、現在の実行順序と完成範囲は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。この文書のPhase構成とDefinition of DoneはProduction Referenceとして保持し、集中計画に含まれないHA、完全な障害回復、運用自動化はProduction Backlogとして扱う。
+
 ## 1. 進め方
 
 各段階は一つの検証可能な目的に限定する。前段の受入条件を満たすまで次へ進まず、READMEでは現行実装と目標構成を分けて記載する。モデル、Embedding、チャンク、検索方式を同じ比較で同時変更しない。各Phaseは[学習・Codex利用枠運用計画](LEARNING_AND_USAGE_PLAN.md)の学習単位へ分割し、開始前にUsageを確認する。

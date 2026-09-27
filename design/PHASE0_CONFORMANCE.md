@@ -5,6 +5,7 @@
 - 対象範囲: 仕様、fixture、evaluation set、manifest、validator、test
 - sealed境界: text・visualの`.sealed/`は開かず、公開manifestとcustodianの集計結果だけを証拠にした
 - 判定: **Phase 0は未完了**
+- scope改定: [`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)により、Phase 0のcloud実接続はGeminiとGCSを対象とする。Cloud SQLとQdrant Cloudは対応コード完成後に再判定する。
 
 ## 1. 判定方法
 
@@ -35,7 +36,7 @@
 | P0-12 | 重要値完全一致、要素recall、bbox IoUを測る | `not_applicable` | `eval/validate_visual_fixture.py`、`tests/test_visual_fixture_validation.py`、[`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) Phase 4 | Phase 0は比較可能なgoldと評価契約を用意する段階。抽出器出力とgoldを比較するrecall・IoU evaluatorはPhase 4の受入条件として実装する |
 | P0-13 | manifestにsplit、文書、質問、schemaのhashを持つ | `proved` | visualの2 manifest、text developmentの[`evaluation_set_manifest.json`](../eval/evaluation_set_manifest.json)、text holdoutの[`public_manifest.json`](../eval/text_holdout/public_manifest.json) | text developmentとtext・visual holdoutで、split、文書、質問、Schema、blueprint、goldの必要なhashを追跡できる |
 | P0-14 | holdoutを実装調整に使わず、候補・予測・開封順を検査する | `proved` | text・visual holdoutのREADME、public manifest、protocol validator、test | 両holdoutが`SEALED`で、candidate、predictions、opening、resultsは未設定。通常validatorはsealed内容を読まない |
-| P0-15 | Cloud SQL、GCS、Qdrant Cloud、Geminiの最小接続・費用・停止手順を確認する | `weak` | [`CLOUD_SERVICE_SPIKES.md`](CLOUD_SERVICE_SPIKES.md)、[`GEMINI_CONNECTION_SPIKE_RUNBOOK.md`](GEMINI_CONNECTION_SPIKE_RUNBOOK.md)、[`gemini_connection_spike_phase0.json`](../eval/results/gemini_connection_spike_phase0.json)、[`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) §2 Phase 0 | 4 serviceのread-only調査に加え、Geminiはauthorization keyで1 request、構造化応答、105 tokens、Paid list price換算`$0.00009`、retry 0を確認した。GCS、Qdrant Cloud、Cloud SQLの実接続は未検証 |
+| P0-15 | GeminiとGCSの最小接続・費用・停止手順を確認し、Cloud SQL・Qdrant Cloudの接続条件を記録する | `weak` | [`CLOUD_SERVICE_SPIKES.md`](CLOUD_SERVICE_SPIKES.md)、[`GEMINI_CONNECTION_SPIKE_RUNBOOK.md`](GEMINI_CONNECTION_SPIKE_RUNBOOK.md)、[`gemini_connection_spike_phase0.json`](../eval/results/gemini_connection_spike_phase0.json)、[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md) | 4 serviceのread-only調査に加え、Geminiはauthorization keyで1 request、構造化応答、105 tokens、Paid list price換算`$0.00009`、retry 0を確認した。GCSの実接続は未検証。Cloud SQLとQdrant Cloudは対応コード完成前の空resource検証を避け、Work Package A後に再判定する |
 | P0-16 | 秘密情報と本番個人情報をrepositoryへ保存しない | `proved` | `.gitignore`、架空fixture、公開manifest | `.env`とsealed本体を除外し、公開artifactにはhashと架空識別子だけを置いている |
 
 ## 3. 2026-09-27再確認結果
@@ -49,27 +50,29 @@
 | not applicable | 1 |
 | blocked | 0 |
 
-silent gapはない。P0-03、P0-08〜P0-11、P0-13を証拠付きで解消した。P0-15はGeminiの最小接続を確認したが、残る3 serviceが未検証のため`weak`として追跡する。Phase 4で実装する1件はPhase 0の完了判定から除外し、Phase 4の受入時に再監査する。
+silent gapはない。P0-03、P0-08〜P0-11、P0-13を証拠付きで解消した。P0-15はGeminiの最小接続を確認したが、GCSが未検証のため`weak`として追跡する。Cloud SQLとQdrant CloudはWork Package A後の接続判断へ移した。Phase 4で実装する1件はPhase 0の完了判定から除外し、Phase 4の受入時に再監査する。
 
 ## 4. 修正判断
 
 text sealed holdout、native text PDF、日本語scan PDF、回転・低品質fixtureにより、P0-03、P0-08〜P0-11、P0-13を解消した。
 
 - P0-12の抽出精度evaluatorは抽出器出力ができるPhase 4で初めて意味のある比較ができる。Phase 0ではgoldと評価契約を準備済みとし、Phase 4のledgerへ引き継ぐ。
-- P0-15のread-only調査は完了した。次は[`CLOUD_SERVICE_SPIKES.md`](CLOUD_SERVICE_SPIKES.md)の順にserviceごとの最小接続と実測費用を確認し、課金resourceや外部API呼出の前にユーザー承認を得る。
+- P0-15のread-only調査は完了した。次はGCSの最小接続と実測費用を確認し、課金resource変更の前にユーザー承認を得る。Cloud SQLとQdrant Cloudは対応コード完成後に接続することで、空resourceの維持費と学習効果の低い先行検証を避ける。
 
 大きな未実装を文書だけで合格扱いにする修正や、Phase 4の実装をPhase 0へ前倒しする修正は行わない。
 
 ## 5. 次の順序
 
-1. **Cloud connection spikes**: 完了したGeminiに続き、GCS、Qdrant Cloud、Cloud SQLの順に、承認済みの最小接続を一件ずつ実行して実測を残す。
+1. **GCS connection spike**: 完了したGeminiに続き、承認済みの最小接続を実行して実測を残す。
 2. **再監査**: P0-15の証拠を更新してPhase 0完了を判定する。
+3. **Work Package A**: PostgreSQL・Qdrant対応コード完成後に、local integrationを先に通し、Cloud SQL・Qdrant Cloudの接続価値と費用を再判定する。
 
 ## 6. 未達項目の解消先
 
 | 対象 | 解消する工程 | 完了証拠 |
 |---|---|---|
-| P0-15 cloud接続・費用 | Phase 0最後のservice別spike | 接続先、認証方式、見積・実測費用、停止手順。課金resource作成前はユーザー承認 |
+| P0-15 Gemini・GCS接続・費用 | Phase 0最後のGCS spike | 接続先、認証方式、見積・実測費用、停止手順。課金resource変更前はユーザー承認 |
+| Cloud SQL・Qdrant Cloud接続 | Work Package A後 | 対応コード、local integration結果、接続価値、見積費用、実行または見送り判断 |
 | P0-12 抽出精度evaluator | Phase 4 | 実抽出結果とgoldの重要値一致率、要素recall、bbox IoUのreportとtest |
 
-最初の次工程は、**service別cloud接続・費用spike**とする。
+最初の次工程は、**GCS接続・費用spike**とする。

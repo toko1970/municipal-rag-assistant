@@ -1,7 +1,7 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-27
-- 状態: GCS最小spike実行票完成。次はread-only preflightと実行承認
+- 状態: 短期集中実装scope確定。次はGCS spike後にtext RAG v2の縦方向実装
 - Git: text・visual holdoutは`SEALED`で、両方のsealed本体は`.gitignore`対象
 
 ## 1. 完了したこと
@@ -80,6 +80,7 @@
 - Cloud SQL、GCS、Qdrant Cloud、Geminiのread-only調査は完了した。Gemini最小接続は成功し、次はGCS、Qdrant Cloud、Cloud SQLの順に進める。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
+- 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
 
 ## 3. 次回最初に行うこと
 
@@ -88,6 +89,7 @@
 3. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)の未実装とweakを確認する。
 4. [`GCS_CONNECTION_SPIKE_RUNBOOK.md`](GCS_CONNECTION_SPIKE_RUNBOOK.md)に従い、bucket名の不在、runtime service account impersonation、当日価格をread-onlyで確認する。
 5. 固定bucket、IAM、1 object round trip、費用上限、cleanupを提示し、resource変更の明示的な承認を得る。
+6. GCS spike完了後、[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)のWork Package AをEvidence-first feature loop、最大3 roundで開始する。
 
 ## 4. 完了したvisual fixture学習単位
 
