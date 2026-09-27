@@ -33,7 +33,7 @@ Phase 0の最後に、各serviceの最小接続試験をどの順序・認証・
 ### 3.1 Repository
 
 - 現行アプリはChromaをローカル永続化し、ログとfeedbackをJSONLへ保存する。Qdrant、PostgreSQL、Cloud Storageのclient依存と接続コードはまだない。
-- `config.py`の現行回答モデルは`gemini-2.5-flash`、Embeddingは`gemini-embedding-001`である。
+- `config.py`の現行回答モデルは`gemini-3.1-flash-lite`、Embeddingは`gemini-embedding-001`である。回答モデルは構造化経路のTop-5・Top-8比較後に2.5 Flashから変更した。
 - 目標仕様はPostgreSQLを正本、Qdrantを再構築可能な検索index、Cloud Storageを原本・画像の保存先にする。分類器の基準候補は`gemini-3.1-flash-lite`である。
 - `.env`の内容は読まず、変数名だけを確認した。存在したのは`GOOGLE_API_KEY`だけで、Qdrant・PostgreSQL・Cloud Storage用の変数はなかった。
 

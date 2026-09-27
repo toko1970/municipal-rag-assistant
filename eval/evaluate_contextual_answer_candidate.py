@@ -36,6 +36,8 @@ CLASSIFICATION_SCHEMA_PATH = (
 RESULT_FIELDS = (
     "question_id",
     "retrieval_variant",
+    "generator_model",
+    "classifier_model",
     "question",
     "expected_answer_type",
     "expected_answer_key",
@@ -152,10 +154,12 @@ def evaluate_variants(
     delay_seconds: float,
     indexes: dict[str, QdrantVectorIndex] | None = None,
     top_k: int = TOP_K,
+    generator_model: str = LLM_MODEL_NAME,
+    classifier_model: str = CLASSIFIER_MODEL_NAME,
 ) -> dict[tuple[str, str], dict]:
     records = load_existing(output_path)
-    generator = GeminiProvider(LLM_MODEL_NAME)
-    classifier = GeminiProvider(CLASSIFIER_MODEL_NAME)
+    generator = GeminiProvider(generator_model)
+    classifier = GeminiProvider(classifier_model)
     answer_schema = load_schema(ANSWER_SCHEMA_PATH)
     classification_schema = load_schema(CLASSIFICATION_SCHEMA_PATH)
     if indexes is None:
@@ -200,6 +204,8 @@ def evaluate_variants(
             record = {
                 "question_id": row["question_id"],
                 "retrieval_variant": variant,
+                "generator_model": generator_model,
+                "classifier_model": classifier_model,
                 "question": row["question"],
                 "expected_answer_type": row["expected_answer_type"],
                 "expected_answer_key": row["expected_answer_key"],
@@ -267,6 +273,8 @@ def main() -> None:
     parser.add_argument("--delay-seconds", type=float, default=1)
     parser.add_argument("--top-k", type=int, default=TOP_K)
     parser.add_argument("--contextual-only", action="store_true")
+    parser.add_argument("--generator-model", default=LLM_MODEL_NAME)
+    parser.add_argument("--classifier-model", default=CLASSIFIER_MODEL_NAME)
     args = parser.parse_args()
     if args.top_k < 1:
         raise ValueError("top-kは1以上で指定してください")
@@ -295,6 +303,8 @@ def main() -> None:
         delay_seconds=args.delay_seconds,
         indexes=indexes,
         top_k=args.top_k,
+        generator_model=args.generator_model,
+        classifier_model=args.classifier_model,
     )
     completed = [row for row in records.values() if not row["error"]]
     print(

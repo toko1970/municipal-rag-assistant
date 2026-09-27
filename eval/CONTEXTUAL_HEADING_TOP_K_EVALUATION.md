@@ -51,6 +51,10 @@ runnerは正常結果と品質上の失敗を再利用し、`429`または`RESOU
 
 再開後の採用条件は、Q446が完全回答へ回復し、Top-5で正しかった質問を悪化させず、増加tokenを許容できることである。
 
+## 後続評価
+
+Gemini 2.5 Flashの日次制限を待って続きを混在させず、GeneratorをGemini 3.1 Flash-Liteへ固定してTop-5とTop-8を両方再実行した。完了結果と採用判断は[`GEMINI_3_1_TOP_K_ANSWER_EVALUATION.md`](GEMINI_3_1_TOP_K_ANSWER_EVALUATION.md)を参照する。
+
 ## Artifact
 
 - 検索runner: `compare_contextual_top_k.py`

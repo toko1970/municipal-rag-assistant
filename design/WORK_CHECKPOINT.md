@@ -119,6 +119,10 @@
 - Top-8の平均context文字数はTop-5比1.63倍だった。回答評価はQ061・Q141の正解維持まで確認したが、Gemini 2.5 FlashのFree tier日次20 request上限でQ151開始時に停止した。
 - Top-8回答runnerは正常結果と品質上の失敗を固定し、429 quota errorだけをreset後に再実行する。途中結果と再開コマンドは`eval/CONTEXTUAL_HEADING_TOP_K_EVALUATION.md`へ保存した。
 - Top-k比較と再開制御の追加後、外部APIなしの全test 156件、Ruff、diff検査が成功した。
+- Gemini 2.5 Flashの日次20 request制限を受け、条件を混在させずGemini 3.1 Flash-Liteでcontextual heading Top-5・Top-8を各8問再実行した。全16件が生成・分類エラーなしで完了した。
+- 3.1のTop-5からTop-8で、期待ラベル一致は7/8を維持し、必須内容一致は6/8から8/8、全件確認の完全回答は6/8から7/8へ改善した。Q446は完全回答へ回復し、Q301は内容が正しいまま`判断要`から`根拠十分`へ分類退行した。
+- Top-8のGenerator入力tokenはTop-5比57.8%、paid list price概算は36.0%増えた。8問合計のGenerator概算は$0.00683で、増分とQ446回復を踏まえTop-8をproduction統合候補にした。
+- 既定Generatorを`gemini-3.1-flash-lite`へ変更し、Generator・Classifierのモデル名を環境変数で上書き可能にした。raw結果と全件レビューは`eval/GEMINI_3_1_TOP_K_ANSWER_EVALUATION.md`へ記録した。
 
 ## 2. 未完了・次回反映すること
 
@@ -129,7 +133,7 @@
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
 - Streamlit画面を`RAG_BACKEND=qdrant`で起動して、質問・引用・feedbackの画面操作を通すsmoke testは未実施である。
 - Streamlitの実ブラウザから実Gemini・PostgreSQLへ接続する最終smoke testは未実施である。画面配線とcore実動は別々に検証済み。
-- Gemini API quota reset後、Top-8回答評価を同じCSVから再開する。残りQ151、Q266、Q301、Q351、Q381、Q446について、Q446の回復、既存正解の維持、追加tokenを確認する。
+- 次はcontextual headingの文書Embedding前処理とTop-8をproduction ingestionへ適用し、active Qdrant collectionを再構築する。旧baselineは比較証拠として保持し、再構築後にreconcileと画面smoke testを行う。
 
 ## 3. 次回最初に行うこと
 

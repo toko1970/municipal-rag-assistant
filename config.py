@@ -32,8 +32,10 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 
-LLM_MODEL_NAME = "gemini-2.5-flash"
-CLASSIFIER_MODEL_NAME = "gemini-3.1-flash-lite"
+LLM_MODEL_NAME = os.getenv("LLM_MODEL_NAME", "gemini-3.1-flash-lite")
+CLASSIFIER_MODEL_NAME = os.getenv(
+    "CLASSIFIER_MODEL_NAME", "gemini-3.1-flash-lite"
+)
 EMBEDDING_MODEL_NAME = "gemini-embedding-001"
 
 

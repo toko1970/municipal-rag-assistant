@@ -16,7 +16,7 @@ from src.retriever import retrieve_documents_with_score
 EVALUATION_FILE = Path("eval/evaluation_questions_500.csv")
 RETRIEVAL_CACHE_FILE = Path("eval/results/model_evaluation_retrieval.jsonl")
 DEFAULT_MODELS = {
-    "gemini": "gemini-2.5-flash",
+    "gemini": "gemini-3.1-flash-lite",
     "openai": "gpt-5-mini",
     "mistral": "mistral-small-latest",
 }

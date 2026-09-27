@@ -1,0 +1,73 @@
+﻿question_id,retrieval_variant,generator_model,classifier_model,question,expected_answer_type,expected_answer_key,answer_label,classification_ok,content_key_ok,support_gate_ok,answer,visible_claims,classification_factors,retrieved_document_ids,retrieved_headings,generation_input_tokens,generation_output_tokens,classification_input_tokens,classification_output_tokens,elapsed_seconds,error
+Q061,contextual_heading_top_5,gemini-3.1-flash-lite,gemini-3.1-flash-lite,来月から給与口座を変える場合、いつまでに届け出ますか？,根拠十分,変更希望月の前月15日まで。,根拠十分,1,1,1,"回答分類: 根拠十分
+
+回答:
+- 給与口座変更届は、変更を希望する月の前月15日までに提出する必要があります。","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""給与口座変更届は、変更を希望する月の前月15日までに提出する必要があります。"", ""evidence_element_ids"": [""8b53bf31-7651-5830-83b9-38dd3d726e17"", ""282a81c9-a544-5d85-80a3-62ee55d2c5ef""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-001|DOC-004|DOC-004|DOC-004|DOC-001,給与制度規程 > 7. 給与振込口座 > 提出期限|6. 給与口座変更届 > 6.2 提出期限|6. 給与口座変更届 > 6.3 必要書類|6. 給与口座変更届 > 6.1 提出が必要な場合|給与制度規程 > 7. 給与振込口座,1183,184,0,0,8.357,
+Q141,contextual_heading_top_5,gemini-3.1-flash-lite,gemini-3.1-flash-lite,通勤経路変更届は変更日から何日以内ですか？,根拠十分,10日以内。,根拠十分,1,1,1,"回答分類: 根拠十分
+
+回答:
+- 通勤経路変更届は、変更日から10日以内に提出する必要があります。","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""通勤経路変更届は、変更日から10日以内に提出する必要があります。"", ""evidence_element_ids"": [""633aeb25-00ba-50b6-adce-9896cd02aec9""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-002|DOC-004|DOC-003|DOC-004|DOC-004,2. 通勤手当 > 2.3 通勤経路変更|4. 通勤経路変更届 > 4.2 提出期限|3. 通勤手当に関するFAQ > Q6. 一時的に勤務地が変わった場合も通勤経路変更届が必要ですか？ > 回答|4. 通勤経路変更届 > 4.1 提出が必要な場合|4. 通勤経路変更届 > 4.3 必要書類,1166,135,0,0,2.687,
+Q151,contextual_heading_top_5,gemini-3.1-flash-lite,gemini-3.1-flash-lite,通勤経路変更届を受け付けた後の処理順序は？,根拠十分,受付、経路確認、支給額確認、システム登録。,根拠十分,1,1,1,"回答分類: 根拠十分
+
+回答:
+- 通勤経路変更届を受け付けた後の処理順序は、届出受付、経路確認、支給額確認、システム登録の順である。","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""通勤経路変更届を受け付けた後の処理順序は、届出受付、経路確認、支給額確認、システム登録の順である。"", ""evidence_element_ids"": [""f1d73256-9075-5134-a207-d98f9b58228d""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-004|DOC-002|DOC-003|DOC-004|DOC-004,4. 通勤経路変更届 > 4.4 処理手順|2. 通勤手当 > 2.3 通勤経路変更|3. 通勤手当に関するFAQ > Q6. 一時的に勤務地が変わった場合も通勤経路変更届が必要ですか？ > 回答|4. 通勤経路変更届 > 4.1 提出が必要な場合|4. 通勤経路変更届 > 4.3 必要書類,1200,157,0,0,4.109,
+Q266,contextual_heading_top_5,gemini-3.1-flash-lite,gemini-3.1-flash-lite,扶養親族変更届は事由発生日から何日以内ですか？,根拠十分,15日以内。,根拠十分,1,1,1,"回答分類: 根拠十分
+
+回答:
+- 扶養親族変更届は、事由発生日から15日以内に提出する必要があります。","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""扶養親族変更届は、事由発生日から15日以内に提出する必要があります。"", ""evidence_element_ids"": [""0cf29c18-7d75-55c3-8553-face5061d51c""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-004|DOC-002|DOC-003|DOC-004|DOC-004,3. 扶養親族変更届 > 3.2 提出期限|4. 扶養手当 > 4.4 扶養親族変更届|2. 扶養手当に関するFAQ > Q2. 扶養親族変更届の提出が遅れた場合はどうなりますか？ > 回答|3. 扶養親族変更届 > 3.1 提出が必要な場合|3. 扶養親族変更届 > 3.3 必要書類,1210,142,0,0,7.392,
+Q301,contextual_heading_top_5,gemini-3.1-flash-lite,gemini-3.1-flash-lite,別居している父母を扶養に入れられるか所属で即決できますか？,判断要,扶養実態と生計維持関係を総合確認するため一律判断できない。,判断要,1,1,1,"回答分類: 判断要
+
+回答:
+- 別居している父母を扶養親族として認定できるかどうかは、扶養実態や生計維持関係などを総合的に確認する必要があるため、所属で即決することはできません。
+- 一律に判断できないため、人事給与課へ確認する必要があります。
+
+確認が必要です: 個別事情の確認","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""別居している父母を扶養親族として認定できるかどうかは、扶養実態や生計維持関係などを総合的に確認する必要があるため、所属で即決することはできません。"", ""evidence_element_ids"": [""c626a293-9316-580b-9a23-135e3fbfc8bb""]}, {""claim_id"": ""claim-2"", ""ordinal"": 2, ""text"": ""一律に判断できないため、人事給与課へ確認する必要があります。"", ""evidence_element_ids"": [""c626a293-9316-580b-9a23-135e3fbfc8bb""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": true, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-003|DOC-002|DOC-003|DOC-004|DOC-002,2. 扶養手当に関するFAQ > Q3. 別居している父母を扶養親族として認定できますか？ > 回答|4. 扶養手当 > 4.2 扶養親族|2. 扶養手当に関するFAQ > Q4. 内縁関係の相手は扶養手当の対象になりますか？ > 回答|3. 扶養親族変更届 > 3.3 必要書類|4. 扶養手当 > 4.3 認定要件,1246,270,0,0,5.285,
+Q351,contextual_heading_top_5,gemini-3.1-flash-lite,gemini-3.1-flash-lite,転居した職員は住所変更届を出す必要がありますか？,根拠十分,転居時は住所変更届が必要。,根拠十分,1,0,1,"回答分類: 根拠十分
+
+回答:
+- 職員は給与計算に影響を及ぼす事項について速やかに届出を行う義務があり、住所変更届はその対象に含まれています。","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""職員は給与計算に影響を及ぼす事項について速やかに届出を行う義務があり、住所変更届はその対象に含まれています。"", ""evidence_element_ids"": [""d0d7071a-334c-578e-bf7f-24e850bfaf70""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-002|DOC-001|DOC-003|DOC-002|DOC-002,6. 手当変更時の届出|給与制度規程 > 10. 届出義務|3. 通勤手当に関するFAQ > Q6. 一時的に勤務地が変わった場合も通勤経路変更届が必要ですか？ > 回答|4. 扶養手当 > 4.4 扶養親族変更届|2. 通勤手当 > 2.3 通勤経路変更,1262,153,0,0,4.992,
+Q381,contextual_heading_top_5,gemini-3.1-flash-lite,gemini-3.1-flash-lite,給与口座変更届を受け付けた後の処理順序は？,根拠十分,受付、口座情報確認、システム登録、テスト確認。,根拠十分,1,1,1,"回答分類: 根拠十分
+
+回答:
+- 給与口座変更届を受け付けた後の処理順序は、届出受付、口座情報確認、システム登録、テスト確認の順です。","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""給与口座変更届を受け付けた後の処理順序は、届出受付、口座情報確認、システム登録、テスト確認の順です。"", ""evidence_element_ids"": [""9903cd4a-f9e0-5904-8f51-be6b2870fb23""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-004|DOC-001|DOC-004|DOC-001|DOC-004,6. 給与口座変更届 > 6.4 処理手順|給与制度規程 > 7. 給与振込口座 > 提出期限|6. 給与口座変更届 > 6.3 必要書類|給与制度規程 > 7. 給与振込口座|6. 給与口座変更届 > 6.1 提出が必要な場合,1192,155,0,0,2.474,
+Q446,contextual_heading_top_5,gemini-3.1-flash-lite,gemini-3.1-flash-lite,"2025年10月に本人名義で契約し、家賃15,500円を負担する住宅へ入居した場合の要件・書類・期限は？",根拠十分,"本人名義で家賃15,000円超を負担する要件を満たし、住居届・契約書写し・支払確認書類を入居日から30日以内に提出。",文書不足,0,0,1,"回答分類: 文書不足
+
+今回取得した根拠では回答を確認できませんでした。",[],"{""retrieval_sufficient"": true, ""answer_fully_supported"": false, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-005|DOC-004|DOC-002|DOC-002|DOC-005,4. 住居手当の改正 > 経過措置|5. 住居届 > 5.3 必要書類|3. 住居手当 > 3.3 必要書類|3. 住居手当 > 3.2 支給要件|4. 住居手当の改正 > 改正後,1196,541,0,0,6.854,
+Q061,contextual_heading_top_8,gemini-3.1-flash-lite,gemini-3.1-flash-lite,来月から給与口座を変える場合、いつまでに届け出ますか？,根拠十分,変更希望月の前月15日まで。,根拠十分,1,1,1,"回答分類: 根拠十分
+
+回答:
+- 給与口座変更届は、変更を希望する月の前月15日までに提出する必要があります。","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""給与口座変更届は、変更を希望する月の前月15日までに提出する必要があります。"", ""evidence_element_ids"": [""8b53bf31-7651-5830-83b9-38dd3d726e17"", ""282a81c9-a544-5d85-80a3-62ee55d2c5ef""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-001|DOC-004|DOC-004|DOC-004|DOC-001|DOC-001|DOC-004|DOC-002,給与制度規程 > 7. 給与振込口座 > 提出期限|6. 給与口座変更届 > 6.2 提出期限|6. 給与口座変更届 > 6.3 必要書類|6. 給与口座変更届 > 6.1 提出が必要な場合|給与制度規程 > 7. 給与振込口座|給与制度規程 > 10. 届出義務|6. 給与口座変更届 > 6.4 処理手順|6. 手当変更時の届出,1915,184,0,0,3.012,
+Q141,contextual_heading_top_8,gemini-3.1-flash-lite,gemini-3.1-flash-lite,通勤経路変更届は変更日から何日以内ですか？,根拠十分,10日以内。,根拠十分,1,1,1,"回答分類: 根拠十分
+
+回答:
+- 通勤経路変更届は、変更日から10日以内に提出する必要があります。","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""通勤経路変更届は、変更日から10日以内に提出する必要があります。"", ""evidence_element_ids"": [""633aeb25-00ba-50b6-adce-9896cd02aec9""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-002|DOC-004|DOC-003|DOC-004|DOC-004|DOC-002|DOC-004|DOC-005,2. 通勤手当 > 2.3 通勤経路変更|4. 通勤経路変更届 > 4.2 提出期限|3. 通勤手当に関するFAQ > Q6. 一時的に勤務地が変わった場合も通勤経路変更届が必要ですか？ > 回答|4. 通勤経路変更届 > 4.1 提出が必要な場合|4. 通勤経路変更届 > 4.3 必要書類|6. 手当変更時の届出|4. 通勤経路変更届 > 4.4 処理手順|3. 通勤手当の改正 > 経過措置,1840,135,0,0,3.095,
+Q151,contextual_heading_top_8,gemini-3.1-flash-lite,gemini-3.1-flash-lite,通勤経路変更届を受け付けた後の処理順序は？,根拠十分,受付、経路確認、支給額確認、システム登録。,根拠十分,1,1,1,"回答分類: 根拠十分
+
+回答:
+- 通勤経路変更届を受け付けた後の処理順序は、届出受付、経路確認、支給額確認、システム登録の順に行われます。","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""通勤経路変更届を受け付けた後の処理順序は、届出受付、経路確認、支給額確認、システム登録の順に行われます。"", ""evidence_element_ids"": [""f1d73256-9075-5134-a207-d98f9b58228d""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-004|DOC-002|DOC-003|DOC-004|DOC-004|DOC-004|DOC-003|DOC-002,4. 通勤経路変更届 > 4.4 処理手順|2. 通勤手当 > 2.3 通勤経路変更|3. 通勤手当に関するFAQ > Q6. 一時的に勤務地が変わった場合も通勤経路変更届が必要ですか？ > 回答|4. 通勤経路変更届 > 4.1 提出が必要な場合|4. 通勤経路変更届 > 4.3 必要書類|4. 通勤経路変更届 > 4.2 提出期限|3. 通勤手当に関するFAQ > Q5. 通勤経路を複数利用している場合はどうなりますか？ > 回答|6. 手当変更時の届出,1880,158,0,0,2.586,
+Q266,contextual_heading_top_8,gemini-3.1-flash-lite,gemini-3.1-flash-lite,扶養親族変更届は事由発生日から何日以内ですか？,根拠十分,15日以内。,根拠十分,1,1,1,"回答分類: 根拠十分
+
+回答:
+- 扶養親族変更届は、事由発生日から15日以内に提出する必要があります。","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""扶養親族変更届は、事由発生日から15日以内に提出する必要があります。"", ""evidence_element_ids"": [""0cf29c18-7d75-55c3-8553-face5061d51c""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-004|DOC-002|DOC-003|DOC-004|DOC-004|DOC-002|DOC-004|DOC-001,3. 扶養親族変更届 > 3.2 提出期限|4. 扶養手当 > 4.4 扶養親族変更届|2. 扶養手当に関するFAQ > Q2. 扶養親族変更届の提出が遅れた場合はどうなりますか？ > 回答|3. 扶養親族変更届 > 3.1 提出が必要な場合|3. 扶養親族変更届 > 3.3 必要書類|6. 手当変更時の届出|3. 扶養親族変更届 > 3.4 処理手順|給与制度規程 > 10. 届出義務,1952,142,0,0,5.232,
+Q301,contextual_heading_top_8,gemini-3.1-flash-lite,gemini-3.1-flash-lite,別居している父母を扶養に入れられるか所属で即決できますか？,判断要,扶養実態と生計維持関係を総合確認するため一律判断できない。,根拠十分,0,1,1,"回答分類: 根拠十分
+
+回答:
+- 別居している父母を扶養親族として認定できるかどうかは、扶養実態や生計維持関係等を総合的に確認する必要があるため、所属で即決することはできません。
+- 一律に判断できないため、人事給与課へ確認する必要があります。","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""別居している父母を扶養親族として認定できるかどうかは、扶養実態や生計維持関係等を総合的に確認する必要があるため、所属で即決することはできません。"", ""evidence_element_ids"": [""c626a293-9316-580b-9a23-135e3fbfc8bb""]}, {""claim_id"": ""claim-2"", ""ordinal"": 2, ""text"": ""一律に判断できないため、人事給与課へ確認する必要があります。"", ""evidence_element_ids"": [""c626a293-9316-580b-9a23-135e3fbfc8bb""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-003|DOC-002|DOC-003|DOC-004|DOC-002|DOC-003|DOC-004|DOC-004,2. 扶養手当に関するFAQ > Q3. 別居している父母を扶養親族として認定できますか？ > 回答|4. 扶養手当 > 4.2 扶養親族|2. 扶養手当に関するFAQ > Q4. 内縁関係の相手は扶養手当の対象になりますか？ > 回答|3. 扶養親族変更届 > 3.3 必要書類|4. 扶養手当 > 4.3 認定要件|6. 制度所管部署確認が必要なケース|3. 扶養親族変更届 > 3.1 提出が必要な場合|3. 扶養親族変更届 > 3.4 処理手順,1990,270,0,0,8.007,
+Q351,contextual_heading_top_8,gemini-3.1-flash-lite,gemini-3.1-flash-lite,転居した職員は住所変更届を出す必要がありますか？,根拠十分,転居時は住所変更届が必要。,根拠十分,1,1,1,"回答分類: 根拠十分
+
+回答:
+- 職員は給与計算に影響を及ぼす事項について速やかに届出を行う義務があり、住所変更届はその対象に含まれます。
+- 転居した場合は住所変更届の提出が必要です。
+- 住所変更届は、住所変更日から14日以内に提出する必要があります。","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""職員は給与計算に影響を及ぼす事項について速やかに届出を行う義務があり、住所変更届はその対象に含まれます。"", ""evidence_element_ids"": [""d0d7071a-334c-578e-bf7f-24e850bfaf70""]}, {""claim_id"": ""claim-2"", ""ordinal"": 2, ""text"": ""転居した場合は住所変更届の提出が必要です。"", ""evidence_element_ids"": [""0e927c62-9916-5c86-ab41-4c4eaca3c2b7""]}, {""claim_id"": ""claim-3"", ""ordinal"": 3, ""text"": ""住所変更届は、住所変更日から14日以内に提出する必要があります。"", ""evidence_element_ids"": [""efd93ee4-5fcf-5ed6-aec9-2fcc9354798e""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-002|DOC-001|DOC-003|DOC-002|DOC-002|DOC-004|DOC-004|DOC-004,6. 手当変更時の届出|給与制度規程 > 10. 届出義務|3. 通勤手当に関するFAQ > Q6. 一時的に勤務地が変わった場合も通勤経路変更届が必要ですか？ > 回答|4. 扶養手当 > 4.4 扶養親族変更届|2. 通勤手当 > 2.3 通勤経路変更|2. 住所変更届 > 2.2 提出期限|4. 通勤経路変更届 > 4.1 提出が必要な場合|2. 住所変更届 > 2.1 提出が必要な場合,1922,359,0,0,4.521,
+Q381,contextual_heading_top_8,gemini-3.1-flash-lite,gemini-3.1-flash-lite,給与口座変更届を受け付けた後の処理順序は？,根拠十分,受付、口座情報確認、システム登録、テスト確認。,根拠十分,1,1,1,"回答分類: 根拠十分
+
+回答:
+- 給与口座変更届を受け付けた後の処理順序は、届出受付、口座情報確認、システム登録、テスト確認の順です。","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""給与口座変更届を受け付けた後の処理順序は、届出受付、口座情報確認、システム登録、テスト確認の順です。"", ""evidence_element_ids"": [""9903cd4a-f9e0-5904-8f51-be6b2870fb23""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-004|DOC-001|DOC-004|DOC-001|DOC-004|DOC-004|DOC-004|DOC-001,6. 給与口座変更届 > 6.4 処理手順|給与制度規程 > 7. 給与振込口座 > 提出期限|6. 給与口座変更届 > 6.3 必要書類|給与制度規程 > 7. 給与振込口座|6. 給与口座変更届 > 6.1 提出が必要な場合|6. 給与口座変更届 > 6.2 提出期限|2. 住所変更届 > 2.4 処理手順|給与制度規程 > 10. 届出義務,1901,155,0,0,2.988,
+Q446,contextual_heading_top_8,gemini-3.1-flash-lite,gemini-3.1-flash-lite,"2025年10月に本人名義で契約し、家賃15,500円を負担する住宅へ入居した場合の要件・書類・期限は？",根拠十分,"本人名義で家賃15,000円超を負担する要件を満たし、住居届・契約書写し・支払確認書類を入居日から30日以内に提出。",根拠十分,1,1,1,"回答分類: 根拠十分
+
+回答:
+- 2025年10月1日以降の認定については、月額家賃が15,000円を超える場合に支給対象となります。
+- 本人名義の賃貸契約であること、および住居届の提出が支給要件です。
+- 提出が必要な書類は、住居届、賃貸借契約書の写し、家賃支払確認書類です。
+- 提出期限は入居日から30日以内です。","[{""claim_id"": ""claim-1"", ""ordinal"": 1, ""text"": ""2025年10月1日以降の認定については、月額家賃が15,000円を超える場合に支給対象となります。"", ""evidence_element_ids"": [""4104abe8-951b-53be-86f8-abc0e6d2c555"", ""1e6e6b4c-5fc1-5f11-87a0-ae680da7439a"", ""fc0f087d-c87d-5c3e-a905-ed44c4ee6e18""]}, {""claim_id"": ""claim-2"", ""ordinal"": 2, ""text"": ""本人名義の賃貸契約であること、および住居届の提出が支給要件です。"", ""evidence_element_ids"": [""a29f6495-2a5f-5751-a5c0-0c557976c36a""]}, {""claim_id"": ""claim-3"", ""ordinal"": 3, ""text"": ""提出が必要な書類は、住居届、賃貸借契約書の写し、家賃支払確認書類です。"", ""evidence_element_ids"": [""5b70f91c-a2f3-5d69-9a77-6dcc71811c3f"", ""b5e19eef-a99c-5d94-81fa-41dc81715f68""]}, {""claim_id"": ""claim-4"", ""ordinal"": 4, ""text"": ""提出期限は入居日から30日以内です。"", ""evidence_element_ids"": [""441d9227-0b15-5ef7-b981-b3929877940d""]}]","{""retrieval_sufficient"": true, ""answer_fully_supported"": true, ""requires_case_facts"": false, ""requires_policy_judgment"": false, ""version_conflict"": false}",DOC-005|DOC-004|DOC-002|DOC-002|DOC-005|DOC-005|DOC-004|DOC-004,4. 住居手当の改正 > 経過措置|5. 住居届 > 5.3 必要書類|3. 住居手当 > 3.3 必要書類|3. 住居手当 > 3.2 支給要件|4. 住居手当の改正 > 改正後|5. 扶養手当の改正 > 経過措置|5. 住居届 > 5.4 処理手順|5. 住居届 > 5.2 提出期限,1837,608,0,0,3.500,
