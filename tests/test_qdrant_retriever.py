@@ -2,6 +2,27 @@ from types import SimpleNamespace
 from uuid import uuid4
 
 from src.contracts import IndexableElement, SearchHit
+from src.qdrant_index import QdrantVectorIndex
+
+
+def test_qdrant_cloud_api_key_is_forwarded(monkeypatch):
+    captured = {}
+
+    class Client:
+        def __init__(self, **kwargs):
+            captured.update(kwargs)
+
+    monkeypatch.setattr("src.qdrant_index.QdrantClient", Client)
+    monkeypatch.setattr("src.qdrant_index.QDRANT_URL", "https://example.qdrant.io")
+    monkeypatch.setattr("src.qdrant_index.QDRANT_API_KEY", "secret-key")
+
+    index = QdrantVectorIndex(collection_name="test")
+
+    assert captured == {
+        "url": "https://example.qdrant.io",
+        "api_key": "secret-key",
+    }
+    assert index.collection_name == "test"
 
 
 def test_qdrant_evaluation_adapter_preserves_original_document_metadata(monkeypatch):

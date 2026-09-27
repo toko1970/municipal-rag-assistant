@@ -6,7 +6,7 @@ from uuid import UUID
 
 from qdrant_client import QdrantClient, models
 
-from config import QDRANT_COLLECTION_NAME, QDRANT_URL
+from config import QDRANT_API_KEY, QDRANT_COLLECTION_NAME, QDRANT_URL
 from src.contracts import IndexableElement, SearchHit
 
 
@@ -16,7 +16,10 @@ class QdrantVectorIndex:
         client: QdrantClient | None = None,
         collection_name: str = QDRANT_COLLECTION_NAME,
     ) -> None:
-        self.client = client or QdrantClient(url=QDRANT_URL)
+        self.client = client or QdrantClient(
+            url=QDRANT_URL,
+            api_key=QDRANT_API_KEY,
+        )
         self.collection_name = collection_name
 
     def ensure_collection(self, vector_size: int) -> None:

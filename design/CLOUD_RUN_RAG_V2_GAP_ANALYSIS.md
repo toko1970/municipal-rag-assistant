@@ -97,17 +97,15 @@ Cloud Runへ`RAG_BACKEND=chroma`を明示し、local RAG v2のQdrant・PostgreSQ
 
 Cloud SQLまたは別のhosted PostgreSQL、Qdrant Cloud、必要なsecret/IAM/network、migration、文書取込、end-to-end smokeを追加する。公開画面で実装を実演できるが、費用、接続管理、データ初期化、障害時の運用が増える。
 
-### 推奨
+### 決定
 
-転職ポートフォリオの短期完成を優先し、まずAを採用する。CDで`RAG_BACKEND=chroma`を明示し、設定漏れでQdrantへ切り替わらないことをtestする。そのうえでcurrent branchをPRにして、公開版とlocal RAG v2の境界をREADMEへ明記する。
-
-Qdrant・PostgreSQLはすでに実装、integration test、実検索、ログ保存までlocalで証拠がある。公開hostingまで行わなくても技術選定、改善前後、費用を理由にした環境差を説明できる。Bは公開実演の価値が追加費用を上回ると判断した場合の別工程にする。
+ユーザーが公開画面でRAG v2を評価できることを優先し、Bを採用した。Cloud SQL、Qdrant Cloud、Secret Managerを接続し、migration、取込、代表質問が成功した後にCloud Runへ同じimageを反映する。具体的なresource、費用、CD順序、go-live条件は[`CLOUD_RAG_V2_DEPLOYMENT_PLAN.md`](CLOUD_RAG_V2_DEPLOYMENT_PLAN.md)を正とする。
 
 ## 5. 次の最小学習単位
 
 - 学ぶこと: deploy時の設定を暗黙のcode defaultへ依存させない理由
-- 変更: Cloud Runの公開backendを明示し、deploy前に必須設定を検証する
-- 検証: Chroma経路のtest、container smoke、公開health、代表質問1件
+- 変更: Cloud Runの公開backendをQdrantへ固定し、Cloud SQLとSecret Managerを接続する
+- 検証: bootstrap Jobによるmigration、取込、整合性、代表質問と、公開UI・feedbackのsmoke
 - 完了時に説明できること: 「同じimageでも環境ごとの依存サービスが違うため、CDに設定検証とRAG smokeが必要」
 
 公開代表質問はGemini呼出とログ生成を伴う。実行時は1問に固定し、結果とmodel、commit、時刻を記録する。

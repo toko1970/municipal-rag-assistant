@@ -19,6 +19,9 @@ from src.qdrant_index import QdrantVectorIndex
 from src.rag_v2 import generate_qdrant_answer
 
 
+CLOUD_SMOKE_QUESTION = "給与支給日はいつですか？"
+
+
 def session_factory() -> sessionmaker[Session]:
     return sessionmaker(bind=get_engine(), expire_on_commit=False)
 
@@ -99,6 +102,26 @@ def index_info() -> dict[str, object]:
     }
 
 
+def bootstrap_cloud() -> dict[str, object]:
+    migrate()
+    ingestion = ingest()
+    consistency = reconcile()
+    if not consistency["consistent"]:
+        raise RuntimeError("PostgreSQLとQdrantのindexが一致しません")
+    answer = generate_qdrant_answer(CLOUD_SMOKE_QUESTION)
+    return {
+        "migration": "head",
+        "ingestion": ingestion,
+        "consistency": consistency,
+        "smoke": {
+            "question": CLOUD_SMOKE_QUESTION,
+            "request_id": answer["request_id"],
+            "answer_label": answer["answer_label"],
+            "references": len(answer["references"]),
+        },
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -111,6 +134,7 @@ def main() -> int:
             "reconcile",
             "index-info",
             "query",
+            "bootstrap-cloud",
         ),
     )
     parser.add_argument("--question")
@@ -128,6 +152,8 @@ def main() -> int:
         result = reconcile()
     elif args.command == "index-info":
         result = index_info()
+    elif args.command == "bootstrap-cloud":
+        result = bootstrap_cloud()
     else:
         if not args.question:
             parser.error("queryには--questionが必要です")

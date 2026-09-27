@@ -39,7 +39,7 @@
 - PostgreSQLからQdrantへの同期は、安定IDと再実行可能な管理CLIで実装する。production outbox workerは作らない。
 - reviewは管理CLIと既存gold validatorを使う。管理画面は作らない。
 - dense検索を完成させてから、sparse、RRF、画像Embeddingのうち最大原因に合う一つだけを比較する。
-- Cloud Runには現在のbaseline demoを維持する。新構成のhosted demoは、ローカル完成後に無料枠・費用・作業量を再判定する。
+- localで完成したtext RAG v2は、Cloud SQL、Qdrant Cloud、Secret Managerを接続してCloud Runへ公開する。費用とresource差分は[`CLOUD_RAG_V2_DEPLOYMENT_PLAN.md`](CLOUD_RAG_V2_DEPLOYMENT_PLAN.md)で確認し、図表runtimeは後続のvertical sliceとして同じ公開構成へ追加する。
 
 ### Production Backlogへ送る
 

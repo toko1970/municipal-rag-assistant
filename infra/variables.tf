@@ -15,3 +15,15 @@ variable "github_repository" {
   type        = string
   default     = "toko1970/municipal-rag-assistant"
 }
+
+variable "cloud_sql_instance_name" {
+  description = "Cloud SQL instance used by the public RAG v2 demo."
+  type        = string
+  default     = "municipal-rag-postgres"
+}
+
+variable "cloud_sql_tier" {
+  description = "Small, zonal Cloud SQL tier for the portfolio demo."
+  type        = string
+  default     = "db-f1-micro"
+}
