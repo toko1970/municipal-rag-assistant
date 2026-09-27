@@ -1,7 +1,7 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-27
-- 状態: text・visual sealed holdoutが完成。次はextraction edge fixture
+- 状態: native text PDF fixture完成。次は日本語scan PDF fixture
 - Git: text・visual holdoutは`SEALED`で、両方のsealed本体は`.gitignore`対象
 
 ## 1. 完了したこと
@@ -53,11 +53,16 @@
 - text holdoutは分類30/10/10、難度15/15/10/10、Quality streak 50件連続成功、修復0回、hash全件一致を確認した。
 - 実装タスクでは公開manifestだけを再検証し、`sealed_content_opened=False`、全test 82件、lint、diff検査の成功を確認した。
 - Phase 0 ledgerのP0-03とP0-13を`proved`へ更新した。
+- native text PDF、ページ画像、期待全文・重要値・page・bboxを持つgold、manifest、専用Schema、validator、testを追加した。
+- PyMuPDF 1.28.2でtext layer、全文、重要値、text block位置を検証し、画像の文字化け・切れ・重なりがないことを目視確認した。
+- 4 artifactを再生成して全SHA-256が一致し、対象test 5件、全test 87件、lint、diff検査が成功した。
+- 全文比較はparserが加える空行と行端空白だけを正規化し、文字列と読み順は完全一致を要求する。
+- Phase 0 ledgerのP0-08を`proved`へ更新した。
 
 ## 2. 未完了・次回反映すること
 
 - 既存100シナリオ・500問を新しい論理locatorへ移行する処理は、Phase 2以降のingestion実装で具体化する。
-- native text、scan、回転、曖昧/低品質PDF fixtureを作る。
+- scan、回転、曖昧/低品質PDF fixtureを作る。
 - Cloud SQL、GCS、Qdrant Cloud、Geminiの接続・費用spikeをserviceごとに行う。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
@@ -67,8 +72,8 @@
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
 3. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)の未実装とweakを確認する。
-4. native text PDF fixtureの入力、期待全文、page/bbox、validator、testをEvidence-first sliceで追加する。
-5. native text完了後、scan、回転、曖昧/低品質PDF fixtureへ一種類ずつ進む。
+4. 日本語scan PDF fixtureの入力、期待全文、重要値、OCR前後の契約をEvidence-first sliceで追加する。
+5. scan完了後、回転、曖昧/低品質PDF fixtureへ一種類ずつ進む。
 
 ## 4. 完了したvisual fixture学習単位
 
@@ -151,6 +156,7 @@ git status --short
 git diff --check
 .venv/bin/python -m eval.validate_visual_holdout_protocol eval/visual_holdout/public_manifest.json
 .venv/bin/python -m eval.validate_text_holdout_protocol eval/text_holdout/public_manifest.json
+.venv/bin/python -m eval.validate_native_text_fixture eval/text_pdf_fixtures/manifests/development_manifest.json
 .venv/bin/python -m pytest -q tests
 .venv/bin/python -m ruff check .
 find design -maxdepth 3 -type f -print | sort

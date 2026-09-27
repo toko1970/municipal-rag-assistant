@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rag/native-text-extraction-v1.schema.json",
+  "title": "Native text PDF extraction fixture v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "title",
+    "page_count",
+    "expected_full_text",
+    "critical_values",
+    "confidence",
+    "pages"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "kind": {"const": "native_text"},
+    "title": {"type": "string", "minLength": 1},
+    "page_count": {"type": "integer", "minimum": 1},
+    "expected_full_text": {"type": "string", "minLength": 1},
+    "critical_values": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "value", "review_required"],
+      "properties": {
+        "source": {"const": "native_text_layer"},
+        "value": {"const": 1.0},
+        "review_required": {"const": false}
+      }
+    },
+    "pages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/page"}
+    }
+  },
+  "$defs": {
+    "bbox": {
+      "description": "Top-left origin, normalized to page width and height.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x0", "y0", "x1", "y1"],
+      "properties": {
+        "x0": {"type": "number", "minimum": 0, "maximum": 1},
+        "y0": {"type": "number", "minimum": 0, "maximum": 1},
+        "x1": {"type": "number", "minimum": 0, "maximum": 1},
+        "y1": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "textBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "text", "bbox"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "text": {"type": "string", "minLength": 1},
+        "bbox": {"$ref": "#/$defs/bbox"}
+      }
+    },
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "page",
+        "width_points",
+        "height_points",
+        "source_image_sha256",
+        "expected_text",
+        "blocks"
+      ],
+      "properties": {
+        "page": {"type": "integer", "minimum": 1},
+        "width_points": {"type": "number", "exclusiveMinimum": 0},
+        "height_points": {"type": "number", "exclusiveMinimum": 0},
+        "source_image_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "expected_text": {"type": "string", "minLength": 1},
+        "blocks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/textBlock"}
+        }
+      }
+    }
+  }
+}
