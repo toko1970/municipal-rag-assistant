@@ -96,7 +96,7 @@ jobs:
             QDRANT_API_KEY=qdrant-api-key:5
           flags: >-
             --service-account=municipal-rag-runtime@municipal-rag-portfolio.iam.gserviceaccount.com
-            --add-cloudsql-instances=${{ env.CLOUD_SQL_CONNECTION_NAME }}
+            --set-cloudsql-instances=${{ env.CLOUD_SQL_CONNECTION_NAME }}
             --command=python
             --args=cloud_bootstrap.py
             --cpu=1

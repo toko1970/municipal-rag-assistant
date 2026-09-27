@@ -133,6 +133,7 @@
 - Qdrant Cloudの旧database API keyはすべて削除し、Secret Manager version 1〜4を無効化した。CDのbootstrap JobとCloud Run serviceはversion 5を明示参照する。
 - GitHub Actionsの通常CIから`integration` markerを分離した。GitHub RunnerにPostgreSQL・Qdrantを起動していない状態で統合テストだけが接続失敗したためで、外部service非依存159件と、ローカル実DB統合1件を別々に実行して成功を確認した。
 - 初回production CDはCloud Run Job作成前の`gcloud run jobs deploy`で停止し、Cloud Run serviceは更新されなかった。`--args`先頭の`-m`がgcloudのoptionとして解釈されたため、ハイフン引数を必要としない`cloud_bootstrap.py` entrypointへ変更した。
+- 修正後の2回目のproduction CDはimage buildと設定検証を通過したが、Cloud Run Job作成前に停止した。Cloud Run service用の`--add-cloudsql-instances`をJobにも使用していたため、Jobで受け付ける`--set-cloudsql-instances`へ変更した。サービス更新はskipされ、公開revisionは変更されていない。
 
 ## 2. 未完了・次回反映すること
 
