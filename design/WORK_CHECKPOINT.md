@@ -1,7 +1,7 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-27
-- 状態: extraction edge fixture完成。次はservice別cloud接続・費用spike
+- 状態: cloud serviceのread-only調査完了。次はGeminiの最小接続spike実行票と承認
 - Git: text・visual holdoutは`SEALED`で、両方のsealed本体は`.gitignore`対象
 
 ## 1. 完了したこと
@@ -77,7 +77,7 @@
 ## 2. 未完了・次回反映すること
 
 - 既存100シナリオ・500問を新しい論理locatorへ移行する処理は、Phase 2以降のingestion実装で具体化する。
-- Cloud SQL、GCS、Qdrant Cloud、Geminiの接続・費用spikeをserviceごとに行う。
+- Cloud SQL、GCS、Qdrant Cloud、Geminiのread-only調査は完了した。Geminiから順に承認済みの最小接続spikeを行う。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
 
@@ -86,8 +86,8 @@
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
 3. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)の未実装とweakを確認する。
-4. Cloud SQL、GCS、Qdrant Cloud、Geminiのspikeを、無料のread-only確認と課金・resource作成が必要な操作に分ける。
-5. 課金resourceを作る前に、対象、費用上限、停止・削除手順を提示してユーザー承認を得る。
+4. [`CLOUD_SERVICE_SPIKES.md`](CLOUD_SERVICE_SPIKES.md)からGeminiの実行票を作り、1 request、概算`$0.01`未満、停止手順を固定する。
+5. 外部APIを呼ぶ前に実行票を提示してユーザー承認を得る。
 
 ## 4. 完了したvisual fixture学習単位
 
@@ -192,3 +192,5 @@ python3 -m json.tool design/schemas/text-holdout-gold-v1.schema.json >/dev/null
 回転ページfixture開始時点は5時間枠7%使用、週間枠15%使用だった。90/180/270度のEvidence-first sliceを1回実行し、修正roundなしで成功した。reset creditは使用していない。
 
 低品質scan fixture開始時点は5時間枠16%使用、週間枠17%使用だった。低コントラスト1種類のreview-gate loopを1回実行し、修正roundなしで成功した。reset creditは使用していない。
+
+Cloud serviceのread-only調査開始時点は5時間枠31%使用、週間枠19%使用だった。Research-to-artifact loopを2 pass以内で実行し、[`CLOUD_SERVICE_SPIKES.md`](CLOUD_SERVICE_SPIKES.md)へ4 serviceの現状、認証、最小試験、費用、停止、承認境界を記録した。resource作成、API有効化、権限変更、外部API呼出は行っていない。P0-15は`unimplemented`から`weak`へ変更し、実接続後に再判定する。reset creditは使用していない。
