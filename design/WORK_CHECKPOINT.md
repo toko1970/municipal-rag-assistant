@@ -105,6 +105,11 @@
 - Gemini 2のbatchはAPI call数ではなく入力100件でFree tier毎分上限へ達することを実測した。文書・質問cacheを分け、完了済み86文書を再送せず別枠で100質問を完了した。
 - Ruriはoptional依存へ分離し、ローカルApple MPSのwarm実測で86要素4.38秒、100質問1.34秒だった。約1.27GBのmodel取得とcold startはこの時間に含まない。
 - Ruriのcache再利用はprovider推論0回でraw resultをbyte単位で再生成した。外部APIなしの全test 147件、実PostgreSQL・Qdrant統合test 1件、Ruff、diff検査が成功した。
+- 現行Embedding、Qdrant、formal 100件を固定し、文書名と見出し階層だけを文書Embedding入力へ加えるcontextual headingを評価した。
+- 根拠見出しHit@3は63/88から73/88、Hit@5は74/88から78/88、最初の正解根拠MRRは0.861から0.904へ改善した。Top-5のsection missingは11件から7件へ減った。
+- 根拠Hit@5は6件改善・2件退行した。Q351は必要文書がTop-5から外れ、Q446は複数根拠のうち提出期限が押し出されたため、回答品質比較前にはactive collectionへ切り替えない。
+- 初回の文書86要素Embeddingは1 API call、2.32秒だった。cache再実行はAPI呼出0回でraw resultがbyte単位で一致した。
+- 外部APIなしの全test 149件、実PostgreSQL・Qdrant統合test 1件、Ruff、diff検査が成功した。
 
 ## 2. 未完了・次回反映すること
 
@@ -115,7 +120,7 @@
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
 - Streamlit画面を`RAG_BACKEND=qdrant`で起動して、質問・引用・feedbackの画面操作を通すsmoke testは未実施である。
 - Streamlitの実ブラウザから実Gemini・PostgreSQLへ接続する最終smoke testは未実施である。画面配線とcore実動は別々に検証済み。
-- 次は現行Embeddingを固定し、見出しをEmbedding対象本文へ明示的に加えるcontextual headingをformal 100件で比較する。主要指標は根拠見出しHit@5とし、改善・退行を質問単位で残す。
+- 次はcontextual heading candidateの回答生成・分類をbaselineと同じdevelopment質問で比較し、検索改善が最終回答と根拠なし断定を悪化させないことを確認する。
 
 ## 3. 次回最初に行うこと
 
