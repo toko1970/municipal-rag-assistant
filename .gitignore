@@ -10,12 +10,19 @@ __pycache__/
 
 # Vector Database
 chroma_db/
+.eval_cache/
 
 # Logs
 logs/
 
 # Feedback
 feedback_data/
+
+# Sealed visual holdout: source PDFs and gold stay with the gold custodian.
+eval/visual_holdout/.sealed/
+
+# Sealed text holdout: source Markdown and gold stay with the gold custodian.
+eval/text_holdout/.sealed/
 
 # Mac
 .DS_Store
@@ -33,3 +40,6 @@ feedback_data/
 *.tfstate.*
 *.tfplan
 crash.log
+
+# Local agent review records
+.agent-reviews/

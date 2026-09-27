@@ -1,6 +1,6 @@
 # GitHub デプロイ用のIaC
 
-このディレクトリは、GitHub Actionsから既存のGoogle Cloudプロジェクトへ接続するための認証基盤を定義します。Cloud Runサービス、Artifact Registryリポジトリ、実行用サービスアカウント、Gemini APIキーのシークレットは再作成しません。デプロイに必要な権限は、既存のリポジトリと実行用サービスアカウントに追加します。
+このディレクトリは、GitHub Actionsから既存のGoogle Cloudプロジェクトへ接続する認証基盤と、公開RAG v2のCloud SQL・Secret Manager構成を定義します。Cloud Runサービス、Artifact Registryリポジトリ、実行用サービスアカウント、Gemini APIキーのシークレットは再作成しません。
 
 ## 管理するもの
 
@@ -8,12 +8,18 @@
 - デプロイ専用サービスアカウントと、そのアカウントへの短期的ななりすまし権限。
 - 既存のArtifact Registryへの書き込み、Cloud Runサービスの更新、既存の実行用サービスアカウントの使用に必要な権限。
 - Workload Identity Federationに必要なAPI。
+- Cloud SQL for PostgreSQLの最小zonal instance、database、user、接続URL secret。
+- Qdrant Cloud APIキーを格納するsecret container。secret versionはcluster作成後に別途登録します。
+- Cloud Run runtime service accountのCloud SQL接続権限と、RAG v2用secretの参照権限。
+- 対象project限定のCloud Billing月額予算と通知しきい値。
 
-シークレットの値やサービスアカウント鍵はTerraformに保存しません。
+サービスアカウント鍵とQdrant APIキーの値はTerraformに保存しません。Terraformが生成するDB passwordと接続URLはsensitive valueとして非公開GCS stateへ保存します。
 
 ## 現在の状態
 
 2026-09-22時点で、Cloud Runサービス `municipal-rag-assistant` は `asia-northeast1` に存在し、実行用サービスアカウント `municipal-rag-runtime` とSecret Managerの `gemini-api-key` を参照しています。同日、GitHub Actions用の認証基盤と権限をTerraformで適用しました。適用後の `terraform plan` は変更なしです。既存のCloud RunサービスはTerraformの管理対象に含めていません。
+
+2026-09-27に対象project限定の月額2,000円予算を先行適用し、50%、80%、100%の通知しきい値を確認しました。続いてRAG v2公開用resourceを`12 added, 0 changed, 0 destroyed`で適用しました。Cloud SQLは`RUNNABLE`で、適用後のTerraform planは`No changes`です。2026-09-28にQdrant Free clusterをGCP Sydneyで作成し、最終database API keyをSecret Managerの`qdrant-api-key` version 5へ登録しました。旧Qdrant keyは削除し、Secret Manager version 1〜4は無効化済みです。残る外部設定はGitHub production variablesです。
 
 ## 検証と適用の順序
 

@@ -27,6 +27,18 @@ def save_feedback(
             f"feedback は {VALID_FEEDBACK_VALUES} のいずれかを指定してください。"
         )
 
+    request_id = result.get("request_id")
+    if request_id:
+        from uuid import UUID
+
+        from src.persistence.database import get_session_factory
+        from src.persistence.repositories import PostgresEventLogger
+
+        PostgresEventLogger(get_session_factory()).record_feedback(
+            UUID(request_id), feedback, comment
+        )
+        return
+
     log_path.parent.mkdir(parents=True, exist_ok=True)
 
     feedback_record = {

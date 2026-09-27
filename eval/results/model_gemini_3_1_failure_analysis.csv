@@ -1,0 +1,17 @@
+question_id,scenario_id,expected_answer_type,predicted_answer_type,evidence_hit,expected_evidence_count,content_ok,primary_cause,memo
+Q006,S002,文書不足,根拠十分,not_applicable,0,1,classification_only,本文は別規程の確認が必要と正しく回答したが分類ラベルだけが根拠十分になった。
+Q046,S010,判断要,根拠十分,1,1,1,classification_only,本文は人事給与課への確認を正しく案内したが分類ラベルだけが根拠十分になった。
+Q086,S018,判断要,根拠十分,1,1,1,classification_only,本文は職員事情に応じ一括または分割と正しく回答したが分類ラベルだけが根拠十分になった。
+Q121,S025,根拠十分,判断要,1,2,0,retrieval_failure,改正後基準は取得したが適用開始日の根拠がなく旧通知との競合として判断要にした。
+Q131,S027,根拠十分,判断要,2,3,0,retrieval_failure,通勤経路変更届の10日期限を取得できず改正前後の競合を解消できなかった。
+Q141,S029,根拠十分,文書不足,0,1,0,retrieval_failure,通勤経路変更届の提出期限節が上位5件に入らず10日以内を回答できなかった。
+Q151,S031,根拠十分,文書不足,0,1,0,retrieval_failure,通勤経路変更届の処理手順節が上位5件に入らず処理順序を回答できなかった。
+Q196,S040,根拠十分,判断要,2,2,0,generation_revision_interpretation,必要根拠はすべて取得したが改正後基準を旧通知より優先できず判断要にした。
+Q266,S054,根拠十分,文書不足,0,1,0,retrieval_failure,扶養親族変更届の提出期限節が上位5件に入らず15日以内を回答できなかった。
+Q286,S058,根拠十分,判断要,2,2,0,generation_date_interpretation,必要根拠はすべて取得したが2025年10月の事由を改正後の対象として確定できなかった。
+Q291,S059,根拠十分,判断要,1,3,0,retrieval_failure,改正後の支給開始節と扶養届の15日期限を取得できず旧基準を回答した。
+Q316,S064,判断要,根拠十分,2,2,1,classification_only,本文は受付可能かつ個別確認が必要と正しく回答したが分類ラベルだけが根拠十分になった。
+Q386,S078,判断要,根拠十分,2,2,1,classification_only,本文は受付可能かつ反映時期の個別確認が必要と正しく回答したが分類ラベルだけが根拠十分になった。
+Q391,S079,判断要,根拠十分,2,2,0,generation_conflict_resolution,両文書を取得したが記載差異を示さず手続きマニュアル側を断定した。
+Q436,S088,根拠十分,判断要,1,2,0,retrieval_failure,通勤手当停止は取得したが住所変更届の14日期限を取得できなかった。
+Q446,S090,根拠十分,判断要,4,4,0,generation_revision_interpretation,必要根拠はすべて取得したが改正後の家賃基準を旧通知より優先できなかった。

@@ -1,0 +1,108 @@
+{
+  "manifest_version": "1.0",
+  "split": "development",
+  "paths_relative_to": "repository_root",
+  "generated_by": "eval/text_pdf_fixtures/generate_rotated_scan_fixtures.py",
+  "schema": {
+    "path": "design/schemas/rotated-scan-extraction-v1.schema.json",
+    "sha256": "c0f6dc0e9d524bf24b100a27282c9881a301f131e124adc45e0a1dfd2f88ebd1"
+  },
+  "source_fixture": {
+    "fixture_id": "scan_text_dev_001",
+    "source_image": {
+      "path": "eval/text_pdf_fixtures/images/scan_text_dev_001_source.png",
+      "sha256": "ccab672eea36a06116132958fff633c9be4bfcc81c33e9d3f4df2ae273f7bdae",
+      "width": 2480,
+      "height": 3508,
+      "dpi": 300
+    },
+    "upright_reference_page": {
+      "path": "eval/text_pdf_fixtures/images/scan_text_dev_001_page_001.png",
+      "sha256": "681ea840f8fd3cbcfda456e9d3a785d33cae96bf8d78fbeae93cb9f1ef4ee878"
+    },
+    "gold": {
+      "path": "eval/text_pdf_fixtures/gold/scan_text_dev_001.json",
+      "sha256": "e08442ccf033d55e8cdf516adc56f718a2cf4610d614d41c506f08bd4b73511d"
+    }
+  },
+  "fixtures": [
+    {
+      "fixture_id": "rotated_scan_dev_090",
+      "document_family": "overtime_allowance_confirmation_rotation_a",
+      "kind": "rotated_scanned_text",
+      "rotation_degrees": 90,
+      "document": {
+        "path": "eval/text_pdf_fixtures/documents/rotated_scan_dev_090.pdf",
+        "sha256": "24e9aa6c27488aed95409b62ef114f50f4bc89ab024517b1599a2f5280922094"
+      },
+      "raw_rendered_page": {
+        "path": "eval/text_pdf_fixtures/images/rotated_scan_dev_090_page_001.png",
+        "sha256": "936b75b902115a711e3a4a2bf4ab915bf6ee9ceab9b56ceb857d504cd7ad4212",
+        "width": 1754,
+        "height": 1241
+      },
+      "normalized_page": {
+        "path": "eval/text_pdf_fixtures/images/rotated_scan_dev_090_normalized_page_001.png",
+        "sha256": "681ea840f8fd3cbcfda456e9d3a785d33cae96bf8d78fbeae93cb9f1ef4ee878",
+        "width": 1241,
+        "height": 1754
+      },
+      "gold": {
+        "path": "eval/text_pdf_fixtures/gold/rotated_scan_dev_090.json",
+        "sha256": "b8ecc72aafd8f812b75d75eae48c22a97fb4b0f2758b182ffd5b2113d61d790b"
+      }
+    },
+    {
+      "fixture_id": "rotated_scan_dev_180",
+      "document_family": "overtime_allowance_confirmation_rotation_a",
+      "kind": "rotated_scanned_text",
+      "rotation_degrees": 180,
+      "document": {
+        "path": "eval/text_pdf_fixtures/documents/rotated_scan_dev_180.pdf",
+        "sha256": "13b929b7aed2812eed9a5e36ac345dd29459d704a2eb6a9905cec29b4b5e80e5"
+      },
+      "raw_rendered_page": {
+        "path": "eval/text_pdf_fixtures/images/rotated_scan_dev_180_page_001.png",
+        "sha256": "7c1137e320c77f236186f487add8380f90c446b11b6cfe404cbfcb4b934db077",
+        "width": 1241,
+        "height": 1754
+      },
+      "normalized_page": {
+        "path": "eval/text_pdf_fixtures/images/rotated_scan_dev_180_normalized_page_001.png",
+        "sha256": "681ea840f8fd3cbcfda456e9d3a785d33cae96bf8d78fbeae93cb9f1ef4ee878",
+        "width": 1241,
+        "height": 1754
+      },
+      "gold": {
+        "path": "eval/text_pdf_fixtures/gold/rotated_scan_dev_180.json",
+        "sha256": "abbba68c924213431125eea25f5959ef554cea7f4737d0edce9d8f60a3804ee1"
+      }
+    },
+    {
+      "fixture_id": "rotated_scan_dev_270",
+      "document_family": "overtime_allowance_confirmation_rotation_a",
+      "kind": "rotated_scanned_text",
+      "rotation_degrees": 270,
+      "document": {
+        "path": "eval/text_pdf_fixtures/documents/rotated_scan_dev_270.pdf",
+        "sha256": "7237877d834b5efe7991eac773ff12c5a33e5e9a66bada16e9ff2da969041cba"
+      },
+      "raw_rendered_page": {
+        "path": "eval/text_pdf_fixtures/images/rotated_scan_dev_270_page_001.png",
+        "sha256": "342483a58d5914c0242ae4eea9b7f946bdfd49d4982ece0f7d8d8d9e65b8069f",
+        "width": 1754,
+        "height": 1241
+      },
+      "normalized_page": {
+        "path": "eval/text_pdf_fixtures/images/rotated_scan_dev_270_normalized_page_001.png",
+        "sha256": "681ea840f8fd3cbcfda456e9d3a785d33cae96bf8d78fbeae93cb9f1ef4ee878",
+        "width": 1241,
+        "height": 1754
+      },
+      "gold": {
+        "path": "eval/text_pdf_fixtures/gold/rotated_scan_dev_270.json",
+        "sha256": "729884a57dfeefeac8f5ff3b95d181028658ae6eb29e1bd42855a65fd5531490"
+      }
+    }
+  ]
+}

@@ -188,7 +188,7 @@ def save_results(records: list[dict], output_path: Path) -> None:
     """質問ごとの検索結果をCSVに保存する。"""
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=RESULT_FIELDS)
+        writer = csv.DictWriter(f, fieldnames=RESULT_FIELDS, lineterminator="\n")
         writer.writeheader()
         writer.writerows(records)
 
@@ -197,12 +197,24 @@ def main():
     parser = argparse.ArgumentParser(description="検索性能を質問ごとに評価する")
     parser.add_argument("--input", type=Path, default=EVALUATION_FILE)
     parser.add_argument("--output", type=Path, help="質問ごとの結果を保存するCSV")
-    parser.add_argument("--method", choices=("vector", "hybrid"), default="vector")
+    parser.add_argument(
+        "--method",
+        choices=("vector", "hybrid", "contextual", "qdrant"),
+        default="vector",
+    )
     args = parser.parse_args()
 
     questions = load_evaluation_questions(args.input)
     if args.method == "hybrid":
         from eval.hybrid_retriever import retrieve_documents_with_score as retrieve_fn
+    elif args.method == "contextual":
+        from eval.contextual_retriever import (
+            retrieve_documents_with_score as retrieve_fn,
+        )
+    elif args.method == "qdrant":
+        from eval.qdrant_retriever import (
+            retrieve_documents_with_score as retrieve_fn,
+        )
     else:
         retrieve_fn = retrieve_documents_with_score
     records = evaluate_retrieval(questions, retrieve_fn=retrieve_fn)

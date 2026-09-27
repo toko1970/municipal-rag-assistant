@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "kind": "form",
+  "title": "扶養手当認定届 記入例（架空）",
+  "page": 1,
+  "bbox": {
+    "x0": 0.0638,
+    "y0": 0.1841,
+    "x1": 0.9357,
+    "y1": 0.6889
+  },
+  "source_image_sha256": "355199d17412a0a9073ba07c8a188c525d13ff8fdafa92bc627f2ead6d15a822",
+  "confidence": {
+    "source": "unavailable",
+    "value": null,
+    "review_required": true
+  },
+  "data": {
+    "type": "form",
+    "fields": [
+      {
+        "id": "employee_id",
+        "label": "職員番号",
+        "example_value": "123456",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.2197,
+          "x1": 0.4536,
+          "y1": 0.297
+        }
+      },
+      {
+        "id": "employee_name",
+        "label": "氏名",
+        "example_value": "給与 花子（架空）",
+        "bbox": {
+          "x0": 0.504,
+          "y0": 0.2197,
+          "x1": 0.929,
+          "y1": 0.297
+        }
+      },
+      {
+        "id": "effective_date",
+        "label": "異動年月日",
+        "example_value": "2026年4月1日",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.3445,
+          "x1": 0.4536,
+          "y1": 0.4217
+        }
+      },
+      {
+        "id": "dependent_name",
+        "label": "扶養親族氏名",
+        "example_value": "給与 一郎（架空）",
+        "bbox": {
+          "x0": 0.504,
+          "y0": 0.3445,
+          "x1": 0.929,
+          "y1": 0.4217
+        }
+      },
+      {
+        "id": "relationship",
+        "label": "続柄",
+        "example_value": "子",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.4692,
+          "x1": 0.4536,
+          "y1": 0.5464
+        }
+      },
+      {
+        "id": "change_reason",
+        "label": "異動理由",
+        "example_value": "出生",
+        "bbox": {
+          "x0": 0.504,
+          "y0": 0.4692,
+          "x1": 0.929,
+          "y1": 0.5464
+        }
+      },
+      {
+        "id": "attachment",
+        "label": "添付書類",
+        "example_value": "住民票の写し",
+        "bbox": {
+          "x0": 0.0706,
+          "y0": 0.5939,
+          "x1": 0.929,
+          "y1": 0.6711
+        }
+      }
+    ]
+  }
+}

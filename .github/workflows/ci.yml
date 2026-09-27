@@ -22,7 +22,7 @@ jobs:
       - name: Lint
         run: python -m ruff check .
       - name: Test without external APIs
-        run: python -m pytest -q tests
+        run: python -m pytest -q -m "not integration" tests
 
   terraform-check:
     runs-on: ubuntu-latest
@@ -53,6 +53,8 @@ jobs:
       id-token: write
     env:
       IMAGE: asia-northeast1-docker.pkg.dev/municipal-rag-portfolio/municipal-rag-images/municipal-rag-assistant:${{ github.sha }}
+      CLOUD_SQL_CONNECTION_NAME: ${{ vars.CLOUD_SQL_CONNECTION_NAME }}
+      QDRANT_URL: ${{ vars.QDRANT_URL }}
     steps:
       - uses: actions/checkout@v6
       - name: Authenticate to Google Cloud without a service account key
@@ -68,6 +70,39 @@ jobs:
         run: |
           docker build -t "$IMAGE" .
           docker push "$IMAGE"
+      - name: Validate RAG v2 deployment configuration
+        run: |
+          test -n "$CLOUD_SQL_CONNECTION_NAME"
+          test -n "$QDRANT_URL"
+      - name: Initialize and smoke-test RAG v2 dependencies
+        uses: google-github-actions/deploy-cloudrun@v3
+        with:
+          project_id: municipal-rag-portfolio
+          region: asia-northeast1
+          job: municipal-rag-bootstrap
+          image: ${{ env.IMAGE }}
+          wait: true
+          env_vars_update_strategy: overwrite
+          env_vars: |-
+            RAG_BACKEND=qdrant
+            QDRANT_URL=${{ env.QDRANT_URL }}
+            QDRANT_COLLECTION_NAME=municipality_rag_docs_v2_contextual_heading_v1
+            LLM_MODEL_NAME=gemini-3.1-flash-lite
+            CLASSIFIER_MODEL_NAME=gemini-3.1-flash-lite
+          secrets_update_strategy: overwrite
+          secrets: |-
+            GOOGLE_API_KEY=gemini-api-key:1
+            DATABASE_URL=rag-database-url:1
+            QDRANT_API_KEY=qdrant-api-key:5
+          flags: >-
+            --service-account=municipal-rag-runtime@municipal-rag-portfolio.iam.gserviceaccount.com
+            --add-cloudsql-instances=${{ env.CLOUD_SQL_CONNECTION_NAME }}
+            --command=python
+            --args=-m,scripts.manage_rag_v2,bootstrap-cloud
+            --cpu=1
+            --memory=1Gi
+            --max-retries=0
+            --task-timeout=15m
       - name: Deploy a new revision of the existing service
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v3
@@ -76,5 +111,19 @@ jobs:
           region: asia-northeast1
           service: municipal-rag-assistant
           image: ${{ env.IMAGE }}
+          env_vars_update_strategy: overwrite
+          env_vars: |-
+            RAG_BACKEND=qdrant
+            QDRANT_URL=${{ env.QDRANT_URL }}
+            QDRANT_COLLECTION_NAME=municipality_rag_docs_v2_contextual_heading_v1
+            LLM_MODEL_NAME=gemini-3.1-flash-lite
+            CLASSIFIER_MODEL_NAME=gemini-3.1-flash-lite
+          secrets_update_strategy: overwrite
+          secrets: |-
+            GOOGLE_API_KEY=gemini-api-key:1
+            DATABASE_URL=rag-database-url:1
+            QDRANT_API_KEY=qdrant-api-key:5
+          flags: >-
+            --add-cloudsql-instances=${{ env.CLOUD_SQL_CONNECTION_NAME }}
       - name: Check Streamlit health endpoint
         run: curl --fail --retry 5 --retry-delay 10 "${{ steps.deploy.outputs.url }}/_stcore/health"

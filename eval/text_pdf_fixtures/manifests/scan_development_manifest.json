@@ -1,0 +1,39 @@
+{
+  "manifest_version": "1.0",
+  "split": "development",
+  "paths_relative_to": "repository_root",
+  "generated_by": "eval/text_pdf_fixtures/generate_scan_text_fixture.py",
+  "schema": {
+    "path": "design/schemas/scan-text-extraction-v1.schema.json",
+    "sha256": "2c23b94beb222e4be2452b8aee0dd6ca919f41600f58ebb30143b3d0fa9dcaf0"
+  },
+  "fixtures": [
+    {
+      "fixture_id": "scan_text_dev_001",
+      "document_family": "overtime_allowance_confirmation_scan_a",
+      "kind": "scanned_text",
+      "document": {
+        "path": "eval/text_pdf_fixtures/documents/scan_text_dev_001.pdf",
+        "sha256": "72ae034205f7cef48de4f839c3bebaaca006cdeec2f0ac2ca259b77f459ecd0b"
+      },
+      "source_image": {
+        "path": "eval/text_pdf_fixtures/images/scan_text_dev_001_source.png",
+        "sha256": "ccab672eea36a06116132958fff633c9be4bfcc81c33e9d3f4df2ae273f7bdae",
+        "width": 2480,
+        "height": 3508,
+        "dpi": 300
+      },
+      "rendered_pages": [
+        {
+          "page": 1,
+          "path": "eval/text_pdf_fixtures/images/scan_text_dev_001_page_001.png",
+          "sha256": "681ea840f8fd3cbcfda456e9d3a785d33cae96bf8d78fbeae93cb9f1ef4ee878"
+        }
+      ],
+      "gold": {
+        "path": "eval/text_pdf_fixtures/gold/scan_text_dev_001.json",
+        "sha256": "e08442ccf033d55e8cdf516adc56f718a2cf4610d614d41c506f08bd4b73511d"
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "manifest_version": "1.0",
+  "split": "development",
+  "paths_relative_to": "repository_root",
+  "generated_by": "eval/text_pdf_fixtures/generate_low_quality_scan_fixture.py",
+  "schema": {
+    "path": "design/schemas/low-quality-scan-v1.schema.json",
+    "sha256": "1085e2d6c3be8db797a1c55a5fc38481ede1cb83e07ee57d49e998847e0d3fe8"
+  },
+  "clean_reference": {
+    "source_image": {
+      "path": "eval/text_pdf_fixtures/images/scan_text_dev_001_source.png",
+      "sha256": "ccab672eea36a06116132958fff633c9be4bfcc81c33e9d3f4df2ae273f7bdae",
+      "grayscale_dynamic_range": 224
+    },
+    "gold": {
+      "path": "eval/text_pdf_fixtures/gold/scan_text_dev_001.json",
+      "sha256": "e08442ccf033d55e8cdf516adc56f718a2cf4610d614d41c506f08bd4b73511d"
+    }
+  },
+  "fixtures": [
+    {
+      "fixture_id": "low_quality_scan_dev_001",
+      "document_family": "overtime_allowance_confirmation_low_contrast_a",
+      "kind": "low_quality_scanned_text",
+      "document": {
+        "path": "eval/text_pdf_fixtures/documents/low_quality_scan_dev_001.pdf",
+        "sha256": "bb1274a4cd0e9ecb3ad9a5987ae97948ef42e04ffc01671d0321c93a53a9c672"
+      },
+      "source_image": {
+        "path": "eval/text_pdf_fixtures/images/low_quality_scan_dev_001_source.png",
+        "sha256": "9a00a2028b4b68779610e04524c7b051f7db1daad535b6bc64d19a7920654aab",
+        "width": 2480,
+        "height": 3508,
+        "dpi": 300
+      },
+      "rendered_page": {
+        "path": "eval/text_pdf_fixtures/images/low_quality_scan_dev_001_page_001.png",
+        "sha256": "fe176d97e9ca3fd89cf0f75daa0fdba13c1e37467f0d35296fc7813d60faac97"
+      },
+      "gold": {
+        "path": "eval/text_pdf_fixtures/gold/low_quality_scan_dev_001.json",
+        "sha256": "e76a23aa8ab7bf2e8a51241026d24ce52c144fe2ddbf7311410bf6f849be8e6f"
+      }
+    }
+  ]
+}

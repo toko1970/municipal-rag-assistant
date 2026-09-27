@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "split": "development",
+  "approved_on": "2026-09-23",
+  "approved_scenarios": 100,
+  "questions": 500,
+  "evaluation_file": "eval/evaluation_questions_500.csv",
+  "sha256": "1208bdb86358fd5f61c8cf4e86ace3cd03ea5e958cbdc2c838c25e4065d98601",
+  "row_schema": {
+    "path": "design/schemas/text-evaluation-row-v1.schema.json",
+    "sha256": "3d7d8228736bb6e3a99b2273c99c9aa95c34412816f1d0804bad73844917f924"
+  },
+  "documents": [
+    {
+      "document_id": "DOC-001",
+      "document_family": "salary_rules",
+      "path": "docs/01_salary_rules.md",
+      "sha256": "4305ee8c7f3de24b61124b80204dd1edfaa66473b01896ecd926a2de8d8b44f8"
+    },
+    {
+      "document_id": "DOC-002",
+      "document_family": "allowance_notice",
+      "path": "docs/02_allowance_notice.md",
+      "sha256": "b53712772dc32bc0c38922bcae8b58503608386162bf2112770f35df3ace428f"
+    },
+    {
+      "document_id": "DOC-003",
+      "document_family": "hr_faq",
+      "path": "docs/03_hr_faq.md",
+      "sha256": "3b5cb0f1536a382af6535e8d65ea8d5b5cc3260a040501f002561bbcf28cd140"
+    },
+    {
+      "document_id": "DOC-004",
+      "document_family": "procedure_manual",
+      "path": "docs/04_procedure_manual.md",
+      "sha256": "83657d54ab3cc2e364b258ce232d5e48cf8a8a0102a9ee1402aa52a74e70ab7e"
+    },
+    {
+      "document_id": "DOC-005",
+      "document_family": "revision_notice",
+      "path": "docs/05_revision_notice.md",
+      "sha256": "28faea58c24d8df2641b209980bd42288b3c3ed89ee46659ed9a9e754000223d"
+    }
+  ]
+}

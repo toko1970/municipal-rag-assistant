@@ -1,0 +1,144 @@
+{
+  "manifest_version": "1.0",
+  "split": "development",
+  "paths_relative_to": "repository_root",
+  "generated_by": "eval/visual_fixtures/build_development_manifest.py",
+  "schema": {
+    "path": "design/schemas/visual-extraction-v1.schema.json",
+    "sha256": "0fecd4a214729c28c84215fe3677630b44c0bedde7be2ff6344beea855704708"
+  },
+  "fixtures": [
+    {
+      "fixture_id": "flowchart_dev_001",
+      "document_family": "commuting_allowance_application_flow_a",
+      "kind": "flowchart",
+      "document": {
+        "path": "eval/visual_fixtures/documents/flowchart_dev_001.pdf",
+        "sha256": "0ab927b7c71ed9052403eda0b7cac4356dd9aa7f1bd032dab196a3b883ec6c25"
+      },
+      "source_images": [
+        {
+          "page": 1,
+          "path": "eval/visual_fixtures/images/flowchart_dev_001_page_001.png",
+          "sha256": "0096acbddd8377b0ba1da82a94147ac5b148bf4cd77063a4d4cda69ee77798fb",
+          "width": 1241,
+          "height": 1754
+        }
+      ],
+      "gold": {
+        "path": "eval/visual_fixtures/gold/flowchart_dev_001.json",
+        "sha256": "c622856cbc81db4512608914552f70c4fafbba722b34bb82a3c50b32065ebb1c"
+      }
+    },
+    {
+      "fixture_id": "flowchart_dev_002",
+      "document_family": "housing_allowance_eligibility_flow_b",
+      "kind": "flowchart",
+      "document": {
+        "path": "eval/visual_fixtures/documents/flowchart_dev_002.pdf",
+        "sha256": "24d0380b1ec84e568af1b4e3a3945f47394277e2cbf96669b6cf67a89e6823de"
+      },
+      "source_images": [
+        {
+          "page": 1,
+          "path": "eval/visual_fixtures/images/flowchart_dev_002_page_001.png",
+          "sha256": "c7b9cb134a9ed54fad74d353601d2a5c860d04d03ab78c5cd7565c097a3681f3",
+          "width": 1241,
+          "height": 1754
+        }
+      ],
+      "gold": {
+        "path": "eval/visual_fixtures/gold/flowchart_dev_002.json",
+        "sha256": "716b0defc9a967a19066eec448bf959399a2021f678db405d0fb98dfacc0c248"
+      }
+    },
+    {
+      "fixture_id": "timeline_dev_001",
+      "document_family": "dependent_allowance_deadline_timeline_a",
+      "kind": "timeline",
+      "document": {
+        "path": "eval/visual_fixtures/documents/timeline_dev_001.pdf",
+        "sha256": "0b6332d78e2bc957ec64d10b8d079d185d0b46893e96410ff9e944d1e0515190"
+      },
+      "source_images": [
+        {
+          "page": 1,
+          "path": "eval/visual_fixtures/images/timeline_dev_001_page_001.png",
+          "sha256": "0be52a3f43813810e85ec48fc3417a2e972819a82c0c405736300d702db988f2",
+          "width": 1241,
+          "height": 1754
+        }
+      ],
+      "gold": {
+        "path": "eval/visual_fixtures/gold/timeline_dev_001.json",
+        "sha256": "b127c157e89f9868d4144225a52fd05a4cd8e6f9f477b664d144a03b3a739902"
+      }
+    },
+    {
+      "fixture_id": "table_dev_001",
+      "document_family": "commuting_allowance_amount_table_a",
+      "kind": "table",
+      "document": {
+        "path": "eval/visual_fixtures/documents/table_dev_001.pdf",
+        "sha256": "139822be734a435d13ccec623aeae50f414549a8f9980980b3a122c031fac268"
+      },
+      "source_images": [
+        {
+          "page": 1,
+          "path": "eval/visual_fixtures/images/table_dev_001_page_001.png",
+          "sha256": "c31f54891c3b60c2da4087ef11191e75dde28145f6562b5fb9b6ab9163b31a17",
+          "width": 1241,
+          "height": 1754
+        }
+      ],
+      "gold": {
+        "path": "eval/visual_fixtures/gold/table_dev_001.json",
+        "sha256": "4b2b2ce6735824733a5ae7bba9c8953cba6b7816c7db03e9be4651b560318ff9"
+      }
+    },
+    {
+      "fixture_id": "form_dev_001",
+      "document_family": "dependent_allowance_application_form_a",
+      "kind": "form",
+      "document": {
+        "path": "eval/visual_fixtures/documents/form_dev_001.pdf",
+        "sha256": "e4afc5835d85963e0fa8c6f9e96926657aee242e5da4175247b10951a5bc2bc8"
+      },
+      "source_images": [
+        {
+          "page": 1,
+          "path": "eval/visual_fixtures/images/form_dev_001_page_001.png",
+          "sha256": "355199d17412a0a9073ba07c8a188c525d13ff8fdafa92bc627f2ead6d15a822",
+          "width": 1241,
+          "height": 1754
+        }
+      ],
+      "gold": {
+        "path": "eval/visual_fixtures/gold/form_dev_001.json",
+        "sha256": "2361cf333f5adc875e04e382dfaca2c69585221644186329a3680d72795863c2"
+      }
+    },
+    {
+      "fixture_id": "table_dev_002",
+      "document_family": "allowance_revision_comparison_b",
+      "kind": "table",
+      "document": {
+        "path": "eval/visual_fixtures/documents/table_dev_002.pdf",
+        "sha256": "e2050f52f84eb5ff53f4b9f127329c71f2c10b02d1049c6292893c4a91c8312e"
+      },
+      "source_images": [
+        {
+          "page": 1,
+          "path": "eval/visual_fixtures/images/table_dev_002_page_001.png",
+          "sha256": "5a2bb45d5216cb60f4fab1d1bdc73f5cf65b14b5ce492b794f04b9238ab394e2",
+          "width": 1241,
+          "height": 1754
+        }
+      ],
+      "gold": {
+        "path": "eval/visual_fixtures/gold/table_dev_002.json",
+        "sha256": "9645745e99aa174891679cae164a38493048bcbd1a8067981572e69460600920"
+      }
+    }
+  ]
+}

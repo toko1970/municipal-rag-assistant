@@ -29,16 +29,38 @@ FEEDBACK_LOG_PATH = LOGS_DIR / "feedback_logs.jsonl"
 # =========================
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 
-LLM_MODEL_NAME = "gemini-2.5-flash"
+LLM_MODEL_NAME = os.getenv("LLM_MODEL_NAME", "gemini-3.1-flash-lite")
+CLASSIFIER_MODEL_NAME = os.getenv(
+    "CLASSIFIER_MODEL_NAME", "gemini-3.1-flash-lite"
+)
 EMBEDDING_MODEL_NAME = "gemini-embedding-001"
+
+
+# =========================
+# RAG v2 storage
+# =========================
+
+RAG_BACKEND = os.getenv("RAG_BACKEND", "qdrant")
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql+psycopg://rag_app:rag_local_only@localhost:5432/rag_portfolio",
+)
+QDRANT_URL = os.getenv("QDRANT_URL", "http://localhost:6333")
+QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
+QDRANT_COLLECTION_NAME = os.getenv(
+    "QDRANT_COLLECTION_NAME",
+    "municipality_rag_docs_v2_contextual_heading_v1",
+)
 
 
 # =========================
 # RAG 検索設定
 # =========================
 
-TOP_K = 5
+TOP_K = 8
 
 CHUNK_SIZE = 800
 CHUNK_OVERLAP = 100

@@ -1,0 +1,658 @@
+{
+  "schema_version": "1.0",
+  "holdout_id": "text-sealed-holdout-v1",
+  "scenario_count": 50,
+  "expression_count": 100,
+  "scenarios": [
+    {
+      "scenario_id": "TH001",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "書庫巡回加算の対象となる指示の条件と、請求時に一組にする資料を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "書庫巡回加算はどんな指示が必要？請求でセットにする書類も教えて。"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH002",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "書庫巡回加算で、同じ巡回中に同一区画を二度点検した場合は二区画分になりますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "書庫巡回で同じ場所を2回チェックしたら、2区画として加算できる？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH003",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務を取得した時間は退職時の勤続期間計算でどのように扱われますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "技能交換の休務時間って退職するときの勤続年数にどう数える？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH004",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助で一年度に補助できる受験回数を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証の受験補助、年度内に何回まで使える？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH005",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務には講座会場までの移動時間を含められますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "技能交換で教えに行く移動時間も休務に入れていい？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH006",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助の担当者登録・事前承認の条件と、精算に添える資料を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証の補助を受ける登録と承認の条件は？精算で何を添付する？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH007",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番引継支援枠では、移動時間と待機時間を算定時間に含められますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "輪番引継の支援って、移動と待ち時間も時間数に足せる？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH008",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年6月の2時間の講座について講師登録と実施承認はありますが、その年度の使用済休務時間が不明です。技能交換休務を取得できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "2027年6月に2時間教える件、講師登録も承認もある。今年どれだけ技能交換休務を使ったか不明だけど取れる？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH009",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "静音席利用補填に必要な勤務計画と施設の条件、および清算に添える資料を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "静音席の補填、勤務予定や施設の条件は？清算で出す資料も知りたい。"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH010",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助は、不合格の場合でも実際に受験し他の条件を満たせば利用できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証試験に落ちたけど受けた事実は確認できて他の条件もOK。補助は使える？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH011",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年10月10日に指定認証試験を受験し、受験料8,000円を支払いました。他の条件は全て満たす場合、補助額と提出期限を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証試験を2027/10/10に受けて受験料8000円。他条件は全部OK。補助いくら、いつまでに出す？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH012",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "静音席利用補填と名称の似た静音室整備助成では、設備購入にいくら助成されますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "席の利用補填じゃなく静音室整備助成の方。設備を買ったらいくら出る？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH013",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助を受けた職員が翌月退職した場合の返還義務と返還額を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証の補助をもらって次の月に退職したら、返す必要ある？いくら返す？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH014",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番台帳に登録済みで、2027年5月10日に60分引継ぎを行いました。交代承認番号票には番号だけがあり、発行日時が不明です。1,400円の支払を確定できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "輪番登録済み、2027/5/10の引き継ぎ60分。承認番号はあるけど発行日時が抜けてる。1400円で確定していい？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH015",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証試験を2027年10月31日に受験し、11月2日に精算申請しました。受験料8,000円で他の条件は満たす場合、補助額はいくらですか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証、2027/10/31に受験して11/2に申請。受験料8000円、他は全部OK。いくら出る？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH016",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年9月2日に異なる8区画の書庫巡回を終えました。指示番号の発行日だけが不明で他の条件は満たします。加算額を確定できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "書庫巡回は2027/9/2に8区画、条件は他全部OK。指示がいつ出たかだけ不明。金額を決めていい？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH017",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助ではなく対話技能登録報奨について、認証取得後の毎月の支払額を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "受験料補助じゃなく対話技能登録報奨のこと。認証を取った後、毎月いくら？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH018",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "静音席利用補填の午前券で利用できる時間帯を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "静音席の午前チケットって何時から何時まで？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH019",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "書庫巡回加算の業務中に私物の靴が破損した場合、修理代の補償上限はいくらですか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "書庫巡回中に自分の靴が壊れた。修理費の補償って上限いくら？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH020",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年8月発行の指示番号による書庫巡回で、承認済みの異なる5区画を点検し結果を提出しました。算定額はいくらですか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "2027年8月の指示で書庫の別々の5区画を承認どおり点検して報告済み。巡回加算いくら？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH021",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務ではなく技能交換謝礼の、講師一人あたりの支払額を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "休務じゃなくて技能交換謝礼の方、先生1人いくらもらえる？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH022",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "書庫巡回を2027年8月10日15時に終了しました。点検結果の登録期限と請求期限をそれぞれ教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "2027/8/10の15時に書庫巡回終了。結果登録と請求、それぞれ締切はいつ？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH023",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助で、教材費と交通費は補助の対象になりますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証の補助ってテキスト代と交通代も出る？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH024",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務を利用する講師と講座の条件、および申込時に送る資料を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "技能交換休務を使える講師・講座の条件と、申込みで送る書類は？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH025",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "登録職員で勤務計画も登録済みです。静音席午前券の利用料900円を支払いましたが、利用証の施設認定コードが判読できません。補填できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "登録と勤務予定は済み、静音席午前券900円を払ったけど施設コードが読めない。補填してもらえる？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH026",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "書庫巡回加算と別制度の書庫整理奨励金では、一箱整理するといくら支給されますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "巡回加算じゃなく書庫整理奨励金。箱1つ片付けると何円？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH027",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務の年度末の未使用時間は翌年度へ持ち越せますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "技能交換休務の余った時間、次の年度に回せる？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH028",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "静音席利用補填の午前券について、利用料が650円の場合の補填額はいくらですか。その他の条件は満たしています。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "静音席の午前券、条件はクリアで実費650円。補填はいくら？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH029",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "書庫巡回加算の点検結果は巡回終了から何時間以内に登録しますか。休日は除きますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "書庫巡回の結果って終わってから何時間以内？休みの日は数えない？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH030",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番引継支援枠の確定額の支払日と、その日が閉庁日の場合の扱いを教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "輪番支援のお金はいつ？その日が役所の休みならどうなるの？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH031",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助の登録・事前承認・受験実績は確認済みですが、同じ年度の受給歴が未照合です。本人は初回と申告しています。補助を確定できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証の登録と事前承認、受験は確認済み。今年の受給歴はまだ調べてないけど本人は初めてと言う。補助確定していい？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH032",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務の2027年3月31日実施講座と4月1日実施講座は、それぞれ年度上限何時間の枠に属しますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "技能交換休務、2027/3/31に教える分と4/1の分は、年の上限がそれぞれ何時間？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH033",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助の申請日は2027年11月2日、受験料は8,000円です。受験日が不明でその他の条件は満たす場合、補助額を確定できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証の申請は2027/11/2で受験料8000円。他条件OKだけど受けた日が不明。額は決められる？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH034",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "条件を満たす120分の輪番引継ぎを2027年5月31日と6月1日に各一回実施しました。それぞれの上限適用後の額はいくらですか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "登録・事前承認済みの輪番引継ぎを120分ずつ、2027/5/31と6/1にやった。各回いくらになる？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH035",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番引継ぎ120分の申請を2027年6月2日に受け付けました。登録・事前承認は確認済みですが実施日が空欄です。上限は2,800円で確定できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "輪番の引継120分、登録と事前承認はOK。受付は2027/6/2だけど実施日が未記入。上限2800円でいい？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH036",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年8月発行の指示に従う書庫巡回で、点検結果は登録済みです。一覧の五つの記号が異なる区画か重複か不明です。1,200円で確定できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "2027年8月の指示の書庫巡回、結果登録は済み。リストの5記号が別の区画かダブりか不明だけど1200円でいい？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH037",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年8月31日に発行した指示番号で9月2日に異なる8区画を点検しました。他の条件は満たす場合、書庫巡回加算はいくらですか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "書庫巡回、指示は2027/8/31発行、作業は9/2で別々の8区画。他条件OK。加算いくら？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH038",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番引継支援枠の支払額は、所得税の計算上どの所得区分になりますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "輪番引継の支援金って税金では何所得になるの？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH039",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "講師登録と実施承認済みで、年度使用済時間は0です。2027年6月20日の講座で2時間教え、片道30分ずつ移動します。休務に数える時間と申込期限を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "講師登録・開催承認OK、今年はまだ未使用。2027/6/20に2時間教えて往復移動1時間。技能交換休務は何時間で、いつまでに申込む？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH040",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番引継支援枠とは別の輪番待機慰労枠について、一時間あたりの金額を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "引継支援じゃなく輪番待機慰労枠の方、1時間いくら？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH041",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年5月10日に条件を満たす輪番引継ぎを60分実施しました。算定額と申請締切を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "2027/5/10に輪番の引継ぎ60分、必要条件は全部OK。いくらで、いつまでに送る？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH042",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番引継支援枠で、2027年5月に承認済みの引継ぎを80分行った場合の算定額はいくらですか。登録・事前承認の条件は満たしています。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "輪番の引きつぎ支援、登録も事前承認も済み。2027年5月に80分やったら何円？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH043",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務は何分単位で取得できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "技能交換の休務って何分刻みで取れる？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH044",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年6月に条件を満たして静音席の午前券を利用し、利用料は1,100円でした。補填額と清算期限・送付先を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "2027年6月の静音席午前券、条件OKで1100円払った。いくら戻って、いつどこへ出す？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH045",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年8月3日に静音席終日券を利用し2,000円支払いました。その他の条件は満たしていますが予約成立日が分かりません。補填額を確定できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "静音席1日券、2027/8/3利用で2000円払った。条件は他全部OK、予約した日だけ不明。戻る額は決められる？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH046",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "静音席利用補填では、同じ日に午前券と終日券を加算できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "静音席、同日の午前券と1日券を足して申請できる？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH047",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "静音席の終日券を2027年7月31日に予約し、8月3日に利用しました。利用料2,000円で他の条件は満たす場合、補填額はいくらですか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "静音席の1日券、2027/7/31予約で8/3に使った。実費2000円、他条件OK。補填額は？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH048",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "静音席利用補填で利用した席をキャンセルした際の、施設へ払う取消料の料率を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "静音席をキャンセルしたら施設に払う取消料って何パーセント？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH049",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番引継支援枠の対象となる登録・承認条件と、申請に添える二点の資料を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "輪番支援を使うには登録や承認はどう必要で、何を2つ添付するの？"
+        }
+      ]
+    },
+    {
+      "scenario_id": "TH050",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務を2027年3月20日に申し込みました。講座実施日が未定の場合、年度枠は18時間と24時間のどちらになりますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "技能交換休務を2027/3/20に申込んだけど開催日未定。18時間枠と24時間枠、どっち？"
+        }
+      ]
+    }
+  ]
+}

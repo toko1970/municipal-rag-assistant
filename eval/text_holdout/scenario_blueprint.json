@@ -1,0 +1,42 @@
+{
+  "blueprint_version": "1.0",
+  "split": "sealed_holdout",
+  "scenario_count": 50,
+  "expression_count": 100,
+  "scenario_ids": [
+    "TH001", "TH002", "TH003", "TH004", "TH005", "TH006", "TH007", "TH008", "TH009", "TH010",
+    "TH011", "TH012", "TH013", "TH014", "TH015", "TH016", "TH017", "TH018", "TH019", "TH020",
+    "TH021", "TH022", "TH023", "TH024", "TH025", "TH026", "TH027", "TH028", "TH029", "TH030",
+    "TH031", "TH032", "TH033", "TH034", "TH035", "TH036", "TH037", "TH038", "TH039", "TH040",
+    "TH041", "TH042", "TH043", "TH044", "TH045", "TH046", "TH047", "TH048", "TH049", "TH050"
+  ],
+  "variant_counts": {
+    "formal": 50,
+    "paraphrase_or_noisy": 50
+  },
+  "expected_classification_counts": {
+    "grounded": 30,
+    "needs_judgment": 10,
+    "insufficient_documents": 10
+  },
+  "difficulty_counts": {
+    "single_document_direct": 15,
+    "multi_document": 15,
+    "boundary_or_effective_date": 10,
+    "similar_or_absent": 10
+  },
+  "document_family_policy": {
+    "development_overlap_allowed": false,
+    "minimum_distinct_families": 5
+  },
+  "sealed_fields": [
+    "source_documents",
+    "scenario_difficulty",
+    "scenario_expected_classification",
+    "scenario_expected_corpus_answerability",
+    "scenario_expected_document_ids",
+    "scenario_expected_evidence",
+    "scenario_gold_answer",
+    "scenario_missing_conditions"
+  ]
+}

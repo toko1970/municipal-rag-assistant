@@ -1,0 +1,32 @@
+{
+  "manifest_version": "1.0",
+  "split": "development",
+  "paths_relative_to": "repository_root",
+  "generated_by": "eval/text_pdf_fixtures/generate_native_text_fixture.py",
+  "schema": {
+    "path": "design/schemas/native-text-extraction-v1.schema.json",
+    "sha256": "78eb6266bb20fe8745b08331f925c2216b427680cbf8d16d003c87bec54e8dbe"
+  },
+  "fixtures": [
+    {
+      "fixture_id": "native_text_dev_001",
+      "document_family": "attendance_correction_procedure_native_a",
+      "kind": "native_text",
+      "document": {
+        "path": "eval/text_pdf_fixtures/documents/native_text_dev_001.pdf",
+        "sha256": "2bbe12aa3997b7ac2ac4bae70b28b7fc2db4c82f5809798e792ad5342b8bdbf3"
+      },
+      "source_images": [
+        {
+          "page": 1,
+          "path": "eval/text_pdf_fixtures/images/native_text_dev_001_page_001.png",
+          "sha256": "9c2f4e4d400f06de86913d105ae07db600ec99ea2cda1a7e00574364e1dd7763"
+        }
+      ],
+      "gold": {
+        "path": "eval/text_pdf_fixtures/gold/native_text_dev_001.json",
+        "sha256": "b5ef5190d45ac2cef62338a3421a939b2ba91ad00170245670aee4deaeffafc1"
+      }
+    }
+  ]
+}

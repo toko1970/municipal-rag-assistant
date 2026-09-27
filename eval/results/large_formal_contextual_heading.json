@@ -1,0 +1,327 @@
+{
+  "experiment": "contextual-heading-v1",
+  "input": "eval/evaluation_questions_500.csv",
+  "input_sha256": "1208bdb86358fd5f61c8cf4e86ace3cd03ea5e958cbdc2c838c25e4065d98601",
+  "variant_type": "formal",
+  "questions": 100,
+  "elements": 86,
+  "embedding_model": "gemini-embedding-001",
+  "dimensions": 3072,
+  "collection_name": "municipal_docs_eval_gemini_001_contextual_heading_v1",
+  "chunk_size": 800,
+  "chunk_overlap": 100,
+  "top_k": 5,
+  "document_representation": "文書: {document_name}\\n見出し: {heading_path}\\n\\n{original_content}",
+  "query_representation": "baseline RETRIEVAL_QUERY vectorを再利用",
+  "document_cache_hit": false,
+  "embedding_provider_calls": 1,
+  "timing_seconds": {
+    "document_embedding": 2.31686770899978,
+    "qdrant_indexing": 0.26503566700193915,
+    "search_p50": 0.005018938001740025,
+    "search_p95": 0.007452707999618724
+  },
+  "retrieval_mrr_first_evidence": 0.9043560606060606,
+  "baseline": "eval/results/large_formal_qdrant.csv",
+  "summary": [
+    {
+      "metric": "hit_at_3",
+      "before": 82,
+      "after": 83,
+      "total": 88
+    },
+    {
+      "metric": "hit_at_5",
+      "before": 85,
+      "after": 85,
+      "total": 88
+    },
+    {
+      "metric": "evidence_hit_at_3",
+      "before": 63,
+      "after": 73,
+      "total": 88
+    },
+    {
+      "metric": "evidence_hit_at_5",
+      "before": 74,
+      "after": 78,
+      "total": 88
+    }
+  ],
+  "changed_questions": [
+    {
+      "question_id": "Q056",
+      "difficulty": "direct",
+      "before_document_at_3": "1",
+      "after_document_at_3": "1",
+      "before_document_at_5": "1",
+      "after_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "after_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "after_evidence_at_5": "1"
+    },
+    {
+      "question_id": "Q061",
+      "difficulty": "practical",
+      "before_document_at_3": "1",
+      "after_document_at_3": "1",
+      "before_document_at_5": "1",
+      "after_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "after_evidence_at_3": "1",
+      "before_evidence_at_5": "0",
+      "after_evidence_at_5": "1"
+    },
+    {
+      "question_id": "Q131",
+      "difficulty": "multi_document",
+      "before_document_at_3": "0",
+      "after_document_at_3": "0",
+      "before_document_at_5": "0",
+      "after_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "after_evidence_at_3": "0",
+      "before_evidence_at_5": "0",
+      "after_evidence_at_5": "0"
+    },
+    {
+      "question_id": "Q141",
+      "difficulty": "near_miss",
+      "before_document_at_3": "1",
+      "after_document_at_3": "1",
+      "before_document_at_5": "1",
+      "after_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "after_evidence_at_3": "1",
+      "before_evidence_at_5": "0",
+      "after_evidence_at_5": "1"
+    },
+    {
+      "question_id": "Q151",
+      "difficulty": "practical",
+      "before_document_at_3": "1",
+      "after_document_at_3": "1",
+      "before_document_at_5": "1",
+      "after_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "after_evidence_at_3": "1",
+      "before_evidence_at_5": "0",
+      "after_evidence_at_5": "1"
+    },
+    {
+      "question_id": "Q176",
+      "difficulty": "judgment",
+      "before_document_at_3": "1",
+      "after_document_at_3": "1",
+      "before_document_at_5": "1",
+      "after_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "after_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "after_evidence_at_5": "1"
+    },
+    {
+      "question_id": "Q201",
+      "difficulty": "boundary",
+      "before_document_at_3": "1",
+      "after_document_at_3": "1",
+      "before_document_at_5": "1",
+      "after_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "after_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "after_evidence_at_5": "1"
+    },
+    {
+      "question_id": "Q266",
+      "difficulty": "near_miss",
+      "before_document_at_3": "1",
+      "after_document_at_3": "1",
+      "before_document_at_5": "1",
+      "after_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "after_evidence_at_3": "1",
+      "before_evidence_at_5": "0",
+      "after_evidence_at_5": "1"
+    },
+    {
+      "question_id": "Q301",
+      "difficulty": "judgment",
+      "before_document_at_3": "1",
+      "after_document_at_3": "1",
+      "before_document_at_5": "1",
+      "after_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "after_evidence_at_3": "0",
+      "before_evidence_at_5": "0",
+      "after_evidence_at_5": "1"
+    },
+    {
+      "question_id": "Q316",
+      "difficulty": "judgment",
+      "before_document_at_3": "1",
+      "after_document_at_3": "1",
+      "before_document_at_5": "1",
+      "after_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "after_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "after_evidence_at_5": "1"
+    },
+    {
+      "question_id": "Q351",
+      "difficulty": "direct",
+      "before_document_at_3": "0",
+      "after_document_at_3": "0",
+      "before_document_at_5": "1",
+      "after_document_at_5": "0",
+      "before_evidence_at_3": "0",
+      "after_evidence_at_3": "0",
+      "before_evidence_at_5": "1",
+      "after_evidence_at_5": "0"
+    },
+    {
+      "question_id": "Q381",
+      "difficulty": "practical",
+      "before_document_at_3": "1",
+      "after_document_at_3": "1",
+      "before_document_at_5": "1",
+      "after_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "after_evidence_at_3": "1",
+      "before_evidence_at_5": "0",
+      "after_evidence_at_5": "1"
+    },
+    {
+      "question_id": "Q416",
+      "difficulty": "near_miss",
+      "before_document_at_3": "1",
+      "after_document_at_3": "1",
+      "before_document_at_5": "1",
+      "after_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "after_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "after_evidence_at_5": "1"
+    },
+    {
+      "question_id": "Q446",
+      "difficulty": "multi_document",
+      "before_document_at_3": "0",
+      "after_document_at_3": "1",
+      "before_document_at_5": "1",
+      "after_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "after_evidence_at_3": "0",
+      "before_evidence_at_5": "1",
+      "after_evidence_at_5": "0"
+    }
+  ],
+  "failure_analysis": {
+    "at_1": {
+      "k": 1,
+      "total_rows": 100,
+      "retrieval_not_applicable": 12,
+      "evidence_scored": 88,
+      "success": 49,
+      "failure": 39,
+      "failure_categories": {
+        "document_missing": 23,
+        "section_missing": 16
+      },
+      "failure_by_difficulty": {
+        "boundary": 7,
+        "direct": 8,
+        "judgment": 6,
+        "multi_document": 9,
+        "near_miss": 3,
+        "practical": 4,
+        "revision": 2
+      },
+      "failure_by_answer_type": {
+        "判断要": 7,
+        "根拠十分": 32
+      },
+      "failure_by_required_document_count": {
+        "1": 20,
+        "2": 17,
+        "3": 2
+      },
+      "failure_by_required_evidence_count": {
+        "1": 7,
+        "2": 29,
+        "3": 2,
+        "4": 1
+      }
+    },
+    "at_3": {
+      "k": 3,
+      "total_rows": 100,
+      "retrieval_not_applicable": 12,
+      "evidence_scored": 88,
+      "success": 73,
+      "failure": 15,
+      "failure_categories": {
+        "document_missing": 5,
+        "section_missing": 10
+      },
+      "failure_by_difficulty": {
+        "boundary": 4,
+        "direct": 2,
+        "judgment": 3,
+        "multi_document": 5,
+        "revision": 1
+      },
+      "failure_by_answer_type": {
+        "判断要": 3,
+        "根拠十分": 12
+      },
+      "failure_by_required_document_count": {
+        "1": 8,
+        "2": 5,
+        "3": 2
+      },
+      "failure_by_required_evidence_count": {
+        "1": 3,
+        "2": 9,
+        "3": 2,
+        "4": 1
+      }
+    },
+    "at_5": {
+      "k": 5,
+      "total_rows": 100,
+      "retrieval_not_applicable": 12,
+      "evidence_scored": 88,
+      "success": 78,
+      "failure": 10,
+      "failure_categories": {
+        "document_missing": 3,
+        "section_missing": 7
+      },
+      "failure_by_difficulty": {
+        "boundary": 2,
+        "direct": 2,
+        "multi_document": 5,
+        "revision": 1
+      },
+      "failure_by_answer_type": {
+        "根拠十分": 10
+      },
+      "failure_by_required_document_count": {
+        "1": 5,
+        "2": 3,
+        "3": 2
+      },
+      "failure_by_required_evidence_count": {
+        "1": 2,
+        "2": 5,
+        "3": 2,
+        "4": 1
+      }
+    }
+  },
+  "output": "eval/results/large_formal_contextual_heading.csv"
+}

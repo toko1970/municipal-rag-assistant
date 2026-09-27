@@ -1,0 +1,34 @@
+{
+  "Q061": {
+    "required_patterns": ["前月", "15日"],
+    "ordered_patterns": []
+  },
+  "Q141": {
+    "required_patterns": ["10日以内"],
+    "ordered_patterns": []
+  },
+  "Q151": {
+    "required_patterns": ["(受付|受け付け)", "経路", "支給額", "システム.*登録"],
+    "ordered_patterns": ["(受付|受け付け)", "経路", "支給額", "システム.*登録"]
+  },
+  "Q266": {
+    "required_patterns": ["15日以内"],
+    "ordered_patterns": []
+  },
+  "Q301": {
+    "required_patterns": ["扶養実態", "生計維持", "(総合|一律|個別)"],
+    "ordered_patterns": []
+  },
+  "Q351": {
+    "required_patterns": ["住所変更届", "(必要|提出)"],
+    "ordered_patterns": []
+  },
+  "Q381": {
+    "required_patterns": ["(受付|受け付け)", "口座情報", "システム.*登録", "テスト"],
+    "ordered_patterns": ["(受付|受け付け)", "口座情報", "システム.*登録", "テスト"]
+  },
+  "Q446": {
+    "required_patterns": ["本人名義", "15[,.]?000円", "住居届", "契約書", "支払", "30日以内"],
+    "ordered_patterns": []
+  }
+}

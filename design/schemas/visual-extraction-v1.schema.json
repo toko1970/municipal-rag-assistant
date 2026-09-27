@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rag/visual-extraction-v1.schema.json",
+  "title": "Visual extraction v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "title",
+    "page",
+    "bbox",
+    "source_image_sha256",
+    "confidence",
+    "data"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "kind": {
+      "enum": ["table", "flowchart", "form", "timeline"]
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "page": { "type": "integer", "minimum": 1 },
+    "bbox": { "$ref": "#/$defs/bbox" },
+    "source_image_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "confidence": { "$ref": "#/$defs/confidence" },
+    "data": {
+      "oneOf": [
+        { "$ref": "#/$defs/table" },
+        { "$ref": "#/$defs/flowchart" },
+        { "$ref": "#/$defs/form" },
+        { "$ref": "#/$defs/timeline" }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "table" } } },
+      "then": { "properties": { "data": { "$ref": "#/$defs/table" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "flowchart" } } },
+      "then": { "properties": { "data": { "$ref": "#/$defs/flowchart" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "form" } } },
+      "then": { "properties": { "data": { "$ref": "#/$defs/form" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "timeline" } } },
+      "then": { "properties": { "data": { "$ref": "#/$defs/timeline" } } }
+    }
+  ],
+  "$defs": {
+    "bbox": {
+      "description": "Top-left origin, normalized to page width/height, rounded to 4 decimals.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x0", "y0", "x1", "y1"],
+      "properties": {
+        "x0": { "type": "number", "minimum": 0, "maximum": 1 },
+        "y0": { "type": "number", "minimum": 0, "maximum": 1 },
+        "x1": { "type": "number", "minimum": 0, "maximum": 1 },
+        "y1": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "value", "review_required"],
+      "properties": {
+        "source": { "enum": ["engine", "provider_self_report", "unavailable"] },
+        "value": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "review_required": { "type": "boolean" }
+      }
+    },
+    "table": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "row_count", "column_count", "cells"],
+      "properties": {
+        "type": { "const": "table" },
+        "row_count": { "type": "integer", "minimum": 1 },
+        "column_count": { "type": "integer", "minimum": 1 },
+        "cells": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["row", "column", "row_span", "column_span", "text", "bbox"],
+            "properties": {
+              "row": { "type": "integer", "minimum": 0 },
+              "column": { "type": "integer", "minimum": 0 },
+              "row_span": { "type": "integer", "minimum": 1 },
+              "column_span": { "type": "integer", "minimum": 1 },
+              "text": { "type": "string" },
+              "bbox": { "$ref": "#/$defs/bbox" }
+            }
+          }
+        }
+      }
+    },
+    "flowchart": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "nodes", "edges"],
+      "properties": {
+        "type": { "const": "flowchart" },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "text", "node_type", "bbox"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "text": { "type": "string" },
+              "node_type": { "enum": ["start", "process", "decision", "end"] },
+              "bbox": { "$ref": "#/$defs/bbox" }
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["from", "to", "condition", "bbox"],
+            "properties": {
+              "from": { "type": "string", "minLength": 1 },
+              "to": { "type": "string", "minLength": 1 },
+              "condition": { "type": ["string", "null"] },
+              "bbox": { "$ref": "#/$defs/bbox" }
+            }
+          }
+        }
+      }
+    },
+    "form": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "fields"],
+      "properties": {
+        "type": { "const": "form" },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label", "example_value", "bbox"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "label": { "type": "string", "minLength": 1 },
+              "example_value": { "type": ["string", "null"] },
+              "bbox": { "$ref": "#/$defs/bbox" }
+            }
+          }
+        }
+      }
+    },
+    "timeline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "events"],
+      "properties": {
+        "type": { "const": "timeline" },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "date_or_offset", "action", "bbox"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "date_or_offset": { "type": "string", "minLength": 1 },
+              "action": { "type": "string", "minLength": 1 },
+              "bbox": { "$ref": "#/$defs/bbox" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,7 +1,5 @@
-from langchain_core.messages import HumanMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
-
-from config import GOOGLE_API_KEY, LLM_MODEL_NAME
+from config import LLM_MODEL_NAME, RAG_BACKEND
+from src.llm_provider import GeminiProvider
 from src.retriever import retrieve_documents_with_score
 from src.logger import save_rag_log
 
@@ -97,12 +95,32 @@ def build_prompt(question: str, context: str) -> str:
     return prompt
 
 
-def generate_answer(question: str) -> dict:
+def generate_answer(
+    question: str,
+    retrieve_fn=None,
+    record_log: bool = True,
+    llm_provider=None,
+) -> dict:
     """
     質問に対して、Retriever検索とLLM回答生成を行う。
     """
 
-    results = retrieve_documents_with_score(question)
+    if (
+        RAG_BACKEND == "qdrant"
+        and retrieve_fn is None
+        and llm_provider is None
+        and record_log
+    ):
+        from src.rag_v2 import generate_qdrant_answer
+
+        return generate_qdrant_answer(question)
+    if RAG_BACKEND not in {"chroma", "qdrant"}:
+        raise ValueError(f"未対応のRAG_BACKENDです: {RAG_BACKEND}")
+
+    if retrieve_fn is None:
+        retrieve_fn = retrieve_documents_with_score
+
+    results = retrieve_fn(question)
 
     context = build_context(results)
 
@@ -111,24 +129,20 @@ def generate_answer(question: str) -> dict:
         context=context,
     )
 
-    llm = ChatGoogleGenerativeAI(
-        model=LLM_MODEL_NAME,
-        google_api_key=GOOGLE_API_KEY,
-        temperature=0,
-    )
-
-    response = llm.invoke(
-        [HumanMessage(content=prompt)]
-    )
+    if llm_provider is None:
+        llm_provider = GeminiProvider(LLM_MODEL_NAME)
+    response = llm_provider.generate(prompt)
 
     result = {
         "question": question,
-        "answer": response.content,
+        "answer": response.text,
         "retrieved_documents": results,
         "references": build_references(results),
+        "generation": response.metadata(),
     }
 
-    save_rag_log(result)
+    if record_log:
+        save_rag_log(result)
 
     return result
 

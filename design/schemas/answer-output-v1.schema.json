@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rag/answer-output-v1.schema.json",
+  "title": "Grounded answer output v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "claims", "missing_conditions"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim_id", "ordinal", "text", "evidence_element_ids", "evidence_kind"],
+        "properties": {
+          "claim_id": { "type": "string", "pattern": "^claim-[1-9][0-9]*$" },
+          "ordinal": { "type": "integer", "minimum": 1 },
+          "text": { "type": "string", "minLength": 1 },
+          "evidence_element_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "evidence_kind": {
+            "enum": ["text", "table_cell", "flow_edge", "form_field", "timeline_event"]
+          }
+        }
+      }
+    },
+    "missing_conditions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

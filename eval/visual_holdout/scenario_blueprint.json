@@ -1,0 +1,57 @@
+{
+  "blueprint_version": "1.0",
+  "split": "sealed_holdout",
+  "scenario_count": 20,
+  "scenario_ids": [
+    "VH001",
+    "VH002",
+    "VH003",
+    "VH004",
+    "VH005",
+    "VH006",
+    "VH007",
+    "VH008",
+    "VH009",
+    "VH010",
+    "VH011",
+    "VH012",
+    "VH013",
+    "VH014",
+    "VH015",
+    "VH016",
+    "VH017",
+    "VH018",
+    "VH019",
+    "VH020"
+  ],
+  "visual_type_counts": {
+    "process_flow": 4,
+    "decision_flow": 4,
+    "table": 4,
+    "form": 3,
+    "timeline": 2,
+    "revision_comparison": 3
+  },
+  "expected_classification_counts": {
+    "grounded": 12,
+    "needs_judgment": 4,
+    "insufficient_documents": 4
+  },
+  "difficulty_counts": {
+    "direct": 6,
+    "multi_element": 6,
+    "boundary_or_revision": 4,
+    "paraphrase_or_typo": 4
+  },
+  "document_family_policy": {
+    "development_overlap_allowed": false,
+    "minimum_distinct_families": 6
+  },
+  "sealed_fields": [
+    "scenario_to_document_mapping",
+    "scenario_expected_classification",
+    "scenario_gold_answer",
+    "scenario_evidence",
+    "extraction_gold"
+  ]
+}

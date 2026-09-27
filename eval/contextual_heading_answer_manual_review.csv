@@ -1,0 +1,17 @@
+question_id,retrieval_variant,manual_answer_grade,label_correct,question_relevance,grounded_in_retrieved_evidence,review_note
+Q061,baseline,full,1,1,1,期限を正しく回答
+Q061,contextual_heading,full,1,1,1,期限を正しく回答
+Q141,baseline,error,0,0,not_assessable,表示条件の不整合で回答を返せなかった
+Q141,contextual_heading,full,1,1,1,変更日から10日以内を正しく回答
+Q151,baseline,incorrect,0,0,1,必要な処理手順を取得できず文書不足
+Q151,contextual_heading,partial,1,1,1,経路確認・支給額確認・システム登録は正しいが受付を省略
+Q266,baseline,incorrect,0,0,1,提出期限を取得できず文書不足
+Q266,contextual_heading,full,1,1,1,事由発生日から15日以内を正しく回答
+Q301,baseline,full,1,1,1,個別事情の確認が必要と正しく回答
+Q301,contextual_heading,full,1,1,1,個別事情の確認が必要と正しく回答
+Q351,baseline,full,1,1,1,住所変更届が必要と正しく回答
+Q351,contextual_heading,full,1,1,1,直接の手続節はTop-5外だが届出義務の根拠で正しく回答
+Q381,baseline,incorrect,1,0,1,別手続の処理順には忠実だが質問対象の口座変更へ答えていない
+Q381,contextual_heading,full,1,1,1,受付後の口座情報確認・システム登録・テスト確認を正しく回答
+Q446,baseline,partial,0,1,1,要件・書類・期限は正しいが日付で解消できる版競合を誤判定
+Q446,contextual_heading,error,0,0,not_assessable,提出期限がTop-5外となり表示条件の不整合で回答を返せなかった

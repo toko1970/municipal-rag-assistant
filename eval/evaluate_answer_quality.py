@@ -162,6 +162,12 @@ def main() -> None:
         default=5,
         help="APIの連続呼び出し間隔。テスト時は0を指定できる",
     )
+    parser.add_argument(
+        "--method",
+        choices=("vector", "contextual"),
+        default="vector",
+        help="回答生成に使う検索方式",
+    )
     args = parser.parse_args()
 
     questions = load_evaluation_questions(args.input)
@@ -174,8 +180,15 @@ def main() -> None:
         if found_ids != requested_ids:
             missing = sorted(requested_ids - found_ids)
             parser.error(f"質問IDが見つかりません: {missing}")
+    generate_fn = None
+    if args.method == "contextual":
+        from eval.contextual_answer import generate_contextual_answer
+
+        generate_fn = generate_contextual_answer
+
     records = evaluate_answer_quality(
         questions,
+        generate_fn=generate_fn,
         delay_seconds=args.delay_seconds,
     )
     save_results(records, args.output)

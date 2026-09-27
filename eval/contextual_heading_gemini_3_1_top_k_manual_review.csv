@@ -1,0 +1,17 @@
+question_id,retrieval_variant,manual_answer_grade,label_correct,question_relevance,grounded_in_retrieved_evidence,review_note
+Q061,contextual_heading_top_5,full,1,1,1,前月15日を正しく回答
+Q061,contextual_heading_top_8,full,1,1,1,前月15日を正しく回答
+Q141,contextual_heading_top_5,full,1,1,1,変更日から10日以内を正しく回答
+Q141,contextual_heading_top_8,full,1,1,1,変更日から10日以内を正しく回答
+Q151,contextual_heading_top_5,full,1,1,1,受付・経路確認・支給額確認・システム登録を正しい順序で回答
+Q151,contextual_heading_top_8,full,1,1,1,受付・経路確認・支給額確認・システム登録を正しい順序で回答
+Q266,contextual_heading_top_5,full,1,1,1,事由発生日から15日以内を正しく回答
+Q266,contextual_heading_top_8,full,1,1,1,事由発生日から15日以内を正しく回答
+Q301,contextual_heading_top_5,full,1,1,1,個別事情の確認が必要として正しく判断要に分類
+Q301,contextual_heading_top_8,partial,0,1,1,回答内容は正しいが個別事情を要する質問を根拠十分に誤分類
+Q351,contextual_heading_top_5,partial,1,1,1,届出義務は示したが転居時に提出が必要という直接回答が弱い
+Q351,contextual_heading_top_8,full,1,1,1,転居時の住所変更届と14日以内の期限を正しく回答
+Q381,contextual_heading_top_5,full,1,1,1,受付・口座情報確認・システム登録・テスト確認を正しく回答
+Q381,contextual_heading_top_8,full,1,1,1,受付・口座情報確認・システム登録・テスト確認を正しく回答
+Q446,contextual_heading_top_5,incorrect,0,0,1,期限根拠がなく安全に文書不足としたが質問には回答できない
+Q446,contextual_heading_top_8,full,1,1,1,改正後要件・必要書類・入居日から30日以内を正しく回答
