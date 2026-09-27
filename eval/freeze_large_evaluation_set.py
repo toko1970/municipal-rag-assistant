@@ -11,7 +11,32 @@ from eval.generate_large_evaluation_set import OUTPUT_FILE, generate_records, sa
 
 REVIEW_FILE = Path("eval/evaluation_scenario_review.csv")
 MANIFEST_FILE = Path("eval/evaluation_set_manifest.json")
+ROW_SCHEMA_FILE = Path("design/schemas/text-evaluation-row-v1.schema.json")
 VERSION = "1.0"
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+DEVELOPMENT_DOCUMENTS = (
+    ("DOC-001", "salary_rules", Path("docs/01_salary_rules.md")),
+    ("DOC-002", "allowance_notice", Path("docs/02_allowance_notice.md")),
+    ("DOC-003", "hr_faq", Path("docs/03_hr_faq.md")),
+    ("DOC-004", "procedure_manual", Path("docs/04_procedure_manual.md")),
+    ("DOC-005", "revision_notice", Path("docs/05_revision_notice.md")),
+)
+
+
+def file_hash(path: Path) -> str:
+    return sha256(path.read_bytes()).hexdigest()
+
+
+def existing_approval_date(path: Path) -> str:
+    if path.is_file():
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+            approved_on = value.get("approved_on")
+            if isinstance(approved_on, str) and approved_on:
+                return approved_on
+        except (json.JSONDecodeError, OSError):
+            pass
+    return date.today().isoformat()
 
 
 def load_reviews(path: Path) -> list[dict]:
@@ -68,13 +93,31 @@ def freeze_evaluation_set(
         record["review_status"] = "user_approved"
     save_records(records, output_path)
 
+    documents = []
+    for document_id, document_family, relative_path in DEVELOPMENT_DOCUMENTS:
+        document_path = REPOSITORY_ROOT / relative_path
+        documents.append(
+            {
+                "document_id": document_id,
+                "document_family": document_family,
+                "path": str(relative_path),
+                "sha256": file_hash(document_path),
+            }
+        )
+    row_schema_path = REPOSITORY_ROOT / ROW_SCHEMA_FILE
     manifest = {
         "version": VERSION,
-        "approved_on": date.today().isoformat(),
+        "split": "development",
+        "approved_on": existing_approval_date(manifest_path),
         "approved_scenarios": len(reviews),
         "questions": len(records),
         "evaluation_file": str(output_path),
-        "sha256": sha256(output_path.read_bytes()).hexdigest(),
+        "sha256": file_hash(output_path),
+        "row_schema": {
+            "path": str(ROW_SCHEMA_FILE),
+            "sha256": file_hash(row_schema_path),
+        },
+        "documents": documents,
     }
     manifest_path.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",

@@ -21,6 +21,9 @@ feedback_data/
 # Sealed visual holdout: source PDFs and gold stay with the gold custodian.
 eval/visual_holdout/.sealed/
 
+# Sealed text holdout: source Markdown and gold stay with the gold custodian.
+eval/text_holdout/.sealed/
+
 # Mac
 .DS_Store
 

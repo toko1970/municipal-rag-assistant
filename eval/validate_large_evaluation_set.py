@@ -3,6 +3,9 @@
 from collections import Counter, defaultdict
 from pathlib import Path
 import csv
+import json
+
+from jsonschema import Draft202012Validator
 
 from eval.evaluate_retrieval import expected_document_ids, expected_evidence
 from src.chunking import split_documents
@@ -10,6 +13,7 @@ from src.document_loader import load_markdown_documents
 
 
 EVALUATION_FILE = Path("eval/evaluation_questions_500.csv")
+ROW_SCHEMA_FILE = Path("design/schemas/text-evaluation-row-v1.schema.json")
 EXPECTED_VARIANTS = {"formal", "staff_consultation", "concise", "colloquial", "noisy"}
 ANSWER_TYPES = {"根拠十分", "判断要", "文書不足"}
 REVIEW_STATUSES = {"assistant_reviewed", "user_approved"}
@@ -32,8 +36,27 @@ def load_rows(path: Path = EVALUATION_FILE) -> list[dict]:
         return list(csv.DictReader(file))
 
 
-def validate_rows(rows: list[dict], evidence_catalog=None) -> dict:
+def load_row_schema(path: Path = ROW_SCHEMA_FILE) -> dict:
+    with path.open(encoding="utf-8") as file:
+        value = json.load(file)
+    if not isinstance(value, dict):
+        raise ValueError(f"row schemaがJSON objectではありません: {path}")
+    return value
+
+
+def validate_row_schema(rows: list[dict], schema: dict) -> list[str]:
+    validator = Draft202012Validator(schema)
     errors = []
+    for index, row in enumerate(rows, start=1):
+        for error in validator.iter_errors(row):
+            location = ".".join(str(part) for part in error.path) or "$"
+            errors.append(f"row {index}.{location}: {error.message}")
+    return errors
+
+
+def validate_rows(rows: list[dict], evidence_catalog=None, row_schema=None) -> dict:
+    schema = row_schema if row_schema is not None else load_row_schema()
+    errors = validate_row_schema(rows, schema)
     if len(rows) != 500:
         errors.append(f"質問数が500件ではありません: {len(rows)}")
 

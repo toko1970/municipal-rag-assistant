@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/text-evaluation-row-v1.schema.json",
+  "title": "Text RAG development evaluation row v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "question_id",
+    "scenario_id",
+    "question",
+    "topic",
+    "variant_type",
+    "expected_document_ids",
+    "expected_heading",
+    "expected_answer_type",
+    "difficulty",
+    "expected_evidence",
+    "expected_answer_key",
+    "review_status"
+  ],
+  "properties": {
+    "question_id": {"type": "string", "pattern": "^Q[0-9]{3}$"},
+    "scenario_id": {"type": "string", "pattern": "^S[0-9]{3}$"},
+    "question": {"type": "string", "minLength": 1},
+    "topic": {"type": "string", "minLength": 1},
+    "variant_type": {
+      "enum": ["formal", "staff_consultation", "concise", "colloquial", "noisy"]
+    },
+    "expected_document_ids": {"type": "string"},
+    "expected_heading": {"type": "string"},
+    "expected_answer_type": {"enum": ["根拠十分", "判断要", "文書不足"]},
+    "difficulty": {
+      "enum": [
+        "boundary",
+        "direct",
+        "judgment",
+        "multi_document",
+        "near_miss",
+        "paraphrase",
+        "practical",
+        "revision",
+        "unanswerable"
+      ]
+    },
+    "expected_evidence": {"type": "string"},
+    "expected_answer_key": {"type": "string", "minLength": 1},
+    "review_status": {"enum": ["assistant_reviewed", "user_approved"]}
+  }
+}

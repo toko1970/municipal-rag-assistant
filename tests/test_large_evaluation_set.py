@@ -1,6 +1,7 @@
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import csv
+import json
 import unittest
 
 from eval.create_scenario_review_sheet import create_review_rows
@@ -76,6 +77,15 @@ class LargeEvaluationSetTest(unittest.TestCase):
                 {row["review_status"] for row in frozen}, {"user_approved"}
             )
             self.assertEqual(manifest["approved_scenarios"], 100)
+            self.assertEqual(manifest["split"], "development")
+            self.assertEqual(len(manifest["documents"]), 5)
+            self.assertEqual(
+                len({item["document_family"] for item in manifest["documents"]}), 5
+            )
+            schema = json.loads(
+                Path(manifest["row_schema"]["path"]).read_text(encoding="utf-8")
+            )
+            self.assertEqual(schema["title"], "Text RAG development evaluation row v1")
             self.assertTrue(manifest_path.exists())
 
 

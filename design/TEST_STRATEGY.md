@@ -60,7 +60,7 @@ DockerのPostgreSQLとQdrant、架空fixtureを使う。
 | 図表development 30 | PDF・図表実装とparameter調整 | 利用可 |
 | 図表sealed holdout 20 | 最終受入 | 質問文だけ実行可。goldは結果確定まで利用不可 |
 
-splitはscenario単位とし、同じ答え・根拠・文書版を共有する派生質問は同じsplitへ置く。ユーザーをgold custodianとし、質問文とgoldのSHA-256だけをrepositoryへcommitする。gold本体はcommit対象外のローカルartifactへ保存し、候補・run ID・予測結果を固定してから開封する。図表sealed holdoutでは未知文書への取込性能も測るため、source PDF本体もcommit対象外のローカルartifactへ保存し、候補実装を固定した後に初めて入力する。開封日時とhash一致をrun manifestへ記録し、開封後はそのsetを再びsealed扱いにせず次版のholdoutを作る。実装後に不具合を発見しても、holdoutを削除せず失敗として残す。
+splitはscenario単位とし、同じ答え・根拠・文書版を共有する派生質問は同じsplitへ置く。ユーザーをgold custodianとし、質問文とgoldのSHA-256だけをrepositoryへcommitする。gold本体はcommit対象外のローカルartifactへ保存し、候補・run ID・予測結果を固定してから開封する。未知文書への取込性能も測るため、text sealed holdoutのsource Markdownと図表sealed holdoutのsource PDFもcommit対象外のローカルartifactへ保存し、候補実装を固定した後に初めて入力する。開封日時とhash一致をrun manifestへ記録し、開封後はそのsetを再びsealed扱いにせず次版のholdoutを作る。実装後に不具合を発見しても、holdoutを削除せず失敗として残す。
 
 text sealed holdoutは、既存5文書と制度名、文書ID、見出し、文面を共有しない新しい架空文書familyを使う。50 scenarioにformalとparaphrase/noisyの2表現を用意し、評価時は100表現を実行する。正解条件を共有する2表現を独立scenarioとして数えず、合否指標は50 scenarioを同じ重みで集計する。構成は事前に次へ固定する。
 

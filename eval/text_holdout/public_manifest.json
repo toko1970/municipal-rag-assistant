@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "holdout_id": "text-sealed-holdout-v1",
+  "state": "PLANNED",
+  "paths_relative_to": "repository_root",
+  "manifest_schema": {
+    "path": "design/schemas/text-holdout-public-manifest-v1.schema.json",
+    "sha256": "2269b5df9513b8932e8cfcef6c4689d8854cef161e68925c9acd287de493e997"
+  },
+  "gold_schema": {
+    "path": "design/schemas/text-holdout-gold-v1.schema.json",
+    "sha256": "f6be0904b88c5baf518e55df76f6258eeb582a1920a4461f45594b8e267f46ed"
+  },
+  "blueprint": {
+    "path": "eval/text_holdout/scenario_blueprint.json",
+    "sha256": "f77e0393ae4fbc6c25283ada91fc04757557dd9d3fc4f5fc9651077a6013d71e"
+  },
+  "development_manifest": {
+    "path": "eval/evaluation_set_manifest.json",
+    "sha256": "58867d06af1359fd8499b8e1ea20380b5569e6d42a66eed7545c2b9e6000a17c"
+  },
+  "questions": null,
+  "documents": [],
+  "gold": null,
+  "candidate": null,
+  "predictions": null,
+  "opening": null,
+  "results": null
+}

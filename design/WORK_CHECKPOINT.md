@@ -1,8 +1,8 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-27
-- 状態: visual評価境界は完成。Phase 0 contract conformanceで残要求を特定
-- Git: visual holdoutのSEALED公開artifactをcommit済み。sealed PDF・goldは`.gitignore`対象
+- 状態: text sealed holdoutのcustody contract完成。custodianによるartifact生成前
+- Git: visual holdoutは`SEALED`。text holdoutは`PLANNED`で、両方のsealed本体は`.gitignore`対象
 
 ## 1. 完了したこと
 
@@ -45,11 +45,15 @@
 - 実装タスクでは公開manifestだけを検証し、`sealed_content_opened=False`を維持した。
 - 制限解除後に公開artifactを再検証し、72 test、lint、diff検査が成功した。
 - Phase 0 contract conformance ledgerを作成し、proved 8件、weak 1件、unimplemented 6件、not applicable 1件、矛盾0件と判定した。Phase 4対象の抽出精度evaluatorは引継ぎ項目とした。
+- text sealed holdoutの50 scenario ID、100表現、分類30/10/10、難度15/15/10/10をblueprintで固定した。
+- text holdoutの公開manifest Schema、非公開gold Schema、状態遷移、hash、family分離、公開質問の2表現pairを検査するvalidatorとtestを追加した。
+- 既存500問のmanifestへdevelopment split、5文書family、文書・質問・row Schemaのhashを追加し、各CSV行をJSON Schemaでも検査するようにした。
+- source Markdownも候補実装固定まで非公開にするcustody方針と、別タスク用handoffを追加した。実文書、公開質問、goldはまだ生成していない。
 
 ## 2. 未完了・次回反映すること
 
-- 既存100シナリオ・500問をtext development / regression setとして新しい論理locatorへ移行する計画を具体化する。
-- text sealed holdoutの架空文書family、質問、commit対象外goldを作る。
+- text sealed holdoutのcustodianタスクで、架空文書family、公開質問、commit対象外goldを作り`SEALED`へ進める。
+- 既存100シナリオ・500問を新しい論理locatorへ移行する処理は、Phase 2以降のingestion実装で具体化する。
 - native text、scan、回転、曖昧/低品質PDF fixtureを作る。
 - Cloud SQL、GCS、Qdrant Cloud、Geminiの接続・費用spikeをserviceごとに行う。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
@@ -60,9 +64,9 @@
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
 3. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)の未実装とweakを確認する。
-4. text sealed holdout 50 scenario / 100表現のcustody contractを設計する。
-5. text holdoutの別文書family、公開質問、非公開gold、manifestを作る。
-6. native text、scan、回転、曖昧/低品質PDF fixtureへ順に進む。
+4. [`eval/text_holdout/CUSTODIAN_HANDOFF.md`](../eval/text_holdout/CUSTODIAN_HANDOFF.md)を別のcustodianタスクへ渡す。
+5. 実装タスクでは返却された公開manifestだけを検証し、sealed本文とgoldを開かない。
+6. text holdoutを`SEALED`へ進めた後、native text、scan、回転、曖昧/低品質PDF fixtureへ順に進む。
 
 ## 4. 完了したvisual fixture学習単位
 
@@ -144,12 +148,15 @@ tests/test_visual_fixture_validation.py
 git status --short
 git diff --check
 .venv/bin/python -m eval.validate_visual_holdout_protocol eval/visual_holdout/public_manifest.json
+.venv/bin/python -m eval.validate_text_holdout_protocol eval/text_holdout/public_manifest.json
 .venv/bin/python -m pytest -q tests
 .venv/bin/python -m ruff check .
 find design -maxdepth 3 -type f -print | sort
 python3 -m json.tool design/schemas/visual-extraction-v1.schema.json >/dev/null
 python3 -m json.tool design/schemas/answer-output-v1.schema.json >/dev/null
 python3 -m json.tool design/schemas/classification-output-v1.schema.json >/dev/null
+python3 -m json.tool design/schemas/text-holdout-public-manifest-v1.schema.json >/dev/null
+python3 -m json.tool design/schemas/text-holdout-gold-v1.schema.json >/dev/null
 ```
 
 ## 8. 利用枠checkpoint

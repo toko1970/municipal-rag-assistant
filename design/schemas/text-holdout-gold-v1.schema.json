@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/text-holdout-gold-v1.schema.json",
+  "title": "Text sealed holdout gold v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "holdout_id", "scenario_count", "scenarios"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "holdout_id": {"type": "string", "minLength": 1},
+    "scenario_count": {"const": 50},
+    "scenarios": {
+      "type": "array",
+      "minItems": 50,
+      "maxItems": 50,
+      "items": {"$ref": "#/$defs/scenario"}
+    }
+  },
+  "$defs": {
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenario_id",
+        "difficulty",
+        "expected_classification",
+        "expected_corpus_answerability",
+        "expected_document_ids",
+        "expected_evidence",
+        "expected_answer_key",
+        "missing_conditions"
+      ],
+      "properties": {
+        "scenario_id": {"type": "string", "pattern": "^TH[0-9]{3}$"},
+        "difficulty": {
+          "enum": [
+            "single_document_direct",
+            "multi_document",
+            "boundary_or_effective_date",
+            "similar_or_absent"
+          ]
+        },
+        "expected_classification": {
+          "enum": ["grounded", "needs_judgment", "insufficient_documents"]
+        },
+        "expected_corpus_answerability": {"type": "boolean"},
+        "expected_document_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "expected_evidence": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["document_id", "heading"],
+            "properties": {
+              "document_id": {"type": "string", "minLength": 1},
+              "heading": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "expected_answer_key": {"type": "string", "minLength": 1},
+        "missing_conditions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}
