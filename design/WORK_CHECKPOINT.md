@@ -1,8 +1,8 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-27
-- 状態: text sealed holdoutのcustody contract完成。custodianによるartifact生成前
-- Git: visual holdoutは`SEALED`。text holdoutは`PLANNED`で、両方のsealed本体は`.gitignore`対象
+- 状態: text・visual sealed holdoutが完成。次はextraction edge fixture
+- Git: text・visual holdoutは`SEALED`で、両方のsealed本体は`.gitignore`対象
 
 ## 1. 完了したこと
 
@@ -48,11 +48,14 @@
 - text sealed holdoutの50 scenario ID、100表現、分類30/10/10、難度15/15/10/10をblueprintで固定した。
 - text holdoutの公開manifest Schema、非公開gold Schema、状態遷移、hash、family分離、公開質問の2表現pairを検査するvalidatorとtestを追加した。
 - 既存500問のmanifestへdevelopment split、5文書family、文書・質問・row Schemaのhashを追加し、各CSV行をJSON Schemaでも検査するようにした。
-- source Markdownも候補実装固定まで非公開にするcustody方針と、別タスク用handoffを追加した。実文書、公開質問、goldはまだ生成していない。
+- source Markdownも候補実装固定まで非公開にするcustody方針と、別タスク用handoffを追加した。
+- custodian loopで架空Markdown 10文書・5 family、50 scenario・100表現を作成し、text holdoutを`SEALED`へ進めた。
+- text holdoutは分類30/10/10、難度15/15/10/10、Quality streak 50件連続成功、修復0回、hash全件一致を確認した。
+- 実装タスクでは公開manifestだけを再検証し、`sealed_content_opened=False`、全test 82件、lint、diff検査の成功を確認した。
+- Phase 0 ledgerのP0-03とP0-13を`proved`へ更新した。
 
 ## 2. 未完了・次回反映すること
 
-- text sealed holdoutのcustodianタスクで、架空文書family、公開質問、commit対象外goldを作り`SEALED`へ進める。
 - 既存100シナリオ・500問を新しい論理locatorへ移行する処理は、Phase 2以降のingestion実装で具体化する。
 - native text、scan、回転、曖昧/低品質PDF fixtureを作る。
 - Cloud SQL、GCS、Qdrant Cloud、Geminiの接続・費用spikeをserviceごとに行う。
@@ -64,9 +67,8 @@
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
 3. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)の未実装とweakを確認する。
-4. [`eval/text_holdout/CUSTODIAN_HANDOFF.md`](../eval/text_holdout/CUSTODIAN_HANDOFF.md)を別のcustodianタスクへ渡す。
-5. 実装タスクでは返却された公開manifestだけを検証し、sealed本文とgoldを開かない。
-6. text holdoutを`SEALED`へ進めた後、native text、scan、回転、曖昧/低品質PDF fixtureへ順に進む。
+4. native text PDF fixtureの入力、期待全文、page/bbox、validator、testをEvidence-first sliceで追加する。
+5. native text完了後、scan、回転、曖昧/低品質PDF fixtureへ一種類ずつ進む。
 
 ## 4. 完了したvisual fixture学習単位
 
