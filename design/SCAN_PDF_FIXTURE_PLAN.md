@@ -2,7 +2,7 @@
 
 - 記録日: 2026-09-27
 - 対象: Phase 0 / P0-09
-- 状態: 設計済み、未実装
+- 状態: 実装・検証済み
 - 外部API: 使用しない
 
 ## 1. この学習単位の目的
@@ -95,7 +95,7 @@ goldには少なくとも次を持たせる。
 | `expected_full_text` | 読み順を含む正解全文 |
 | `critical_values` | 日付、金額、期限など完全一致させる値 |
 | `input_characteristics` | text layerなし、300 dpi、回転0度、cleanを明示 |
-| `review` | confidence未取得と人手確認要否を明示 |
+| `confidence` | confidence未取得と人手確認要否を明示 |
 | `pages[].regions` | 領域ID、正解文字列、正規化bbox |
 
 confidenceはOCRモデルが返す観測値であり、fixture生成時には存在しない。このfixtureでは`source: unavailable`、`value: null`、`review_required: true`とし、未観測値を推測で埋めない。
@@ -164,3 +164,12 @@ Tesseractは必須条件にしない。production候補はGemini structured OCR�
 5. 再生成hash、対象test、全test、lintを確認する。
 6. P0-09の証拠をledgerへ記録する。
 
+## 11. 実装結果
+
+- 画像のみのA4 PDF、300 dpiのsource PNG、再描画PNG、gold、manifestを作成した。
+- PyMuPDFでtext layerが空、埋め込み画像1件、回転0度であることを確認した。
+- 正解OCR候補を受理し、重要値の改変とその他の本文差分を拒否するtestを追加した。
+- scanは`review_required=true`だけを許可し、自動承認への改変をSchemaで拒否する。
+- 5 artifactはgenerator再実行後も同一SHA-256を維持した。
+- 目視確認、対象test 6件、全test 93件、Ruff、diff検査が成功した。
+- 外部OCRとクラウドAPIは使用していない。

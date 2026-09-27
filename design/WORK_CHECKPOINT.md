@@ -1,7 +1,7 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-27
-- 状態: native text PDF fixture完成。日本語scan PDF fixtureは設計済み、実装待ち
+- 状態: native text・日本語scan PDF fixture完成。次は回転ページfixture
 - Git: text・visual holdoutは`SEALED`で、両方のsealed本体は`.gitignore`対象
 
 ## 1. 完了したこと
@@ -59,11 +59,16 @@
 - 全文比較はparserが加える空行と行端空白だけを正規化し、文字列と読み順は完全一致を要求する。
 - Phase 0 ledgerのP0-08を`proved`へ更新した。
 - [`SCAN_PDF_FIXTURE_PLAN.md`](SCAN_PDF_FIXTURE_PLAN.md)へ、日本語scan PDF fixtureの入力、gold、validator、Phase 4との境界、受入条件を記録した。
+- 日本語scan PDF、300 dpi source PNG、再描画画像、期待全文・重要値・region bboxを持つgold、専用manifest、Schema、validator、testを追加した。
+- PyMuPDFでtext layerが空、埋め込み画像1件、A4、回転0度を確認し、scanを`review_required=true`へ固定した。
+- 正解OCR候補を受理し、重要値の改変とその他の本文差分を拒否する比較規則を実装した。
+- 5 artifactを再生成して全SHA-256が一致し、対象test 6件、全test 93件、lint、diff検査が成功した。
+- Phase 0 ledgerのP0-09を`proved`へ更新した。
 
 ## 2. 未完了・次回反映すること
 
 - 既存100シナリオ・500問を新しい論理locatorへ移行する処理は、Phase 2以降のingestion実装で具体化する。
-- scan、回転、曖昧/低品質PDF fixtureを作る。
+- 回転、曖昧/低品質PDF fixtureを作る。
 - Cloud SQL、GCS、Qdrant Cloud、Geminiの接続・費用spikeをserviceごとに行う。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
@@ -73,8 +78,8 @@
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
 3. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)の未実装とweakを確認する。
-4. [`SCAN_PDF_FIXTURE_PLAN.md`](SCAN_PDF_FIXTURE_PLAN.md)に従い、日本語scan PDF fixtureをEvidence-first sliceで追加する。
-5. scan完了後、回転、曖昧/低品質PDF fixtureへ一種類ずつ進む。
+4. 回転ページfixtureの対象角度、補正前後の座標契約、validatorの境界を確認する。
+5. 回転完了後、曖昧/低品質PDF fixtureへ進む。
 
 ## 4. 完了したvisual fixture学習単位
 
@@ -173,3 +178,5 @@ python3 -m json.tool design/schemas/text-holdout-gold-v1.schema.json >/dev/null
 残り3 fixtureの連続run開始時点は5時間枠35%使用、週間枠65%使用、完了後は5時間枠41%、週間枠66%使用だった。停止基準80%未満のため有限runを完了した。数値は次回まで維持されるとは限らないため、再開時にUsageを再取得し、`LEARNING_AND_USAGE_PLAN.md`の作業モードを決める。
 
 2026-09-27の中断時点は5時間枠92%使用、週間枠74%使用だった。停止準備基準のため新しい実装とcommitを行わず、公開変更を未commitのまま残した。再開時点は5時間枠1%、週間枠0%で、公開変更の検証を完了した。reset creditは3件あるが、ユーザーの明示的な確認なしに使用しない。
+
+日本語scan PDF fixture開始時点は5時間枠0%使用、週間枠14%使用だった。通常モードでEvidence-first sliceを1回実行し、修正roundなしで成功した。reset creditは使用していない。
