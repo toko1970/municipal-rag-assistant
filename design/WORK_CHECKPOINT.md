@@ -115,6 +115,10 @@
 - Q381 baselineは別手続の取得文へ忠実でも質問には不適合だった。現行classifierのgrounding判定だけでは質問適合性を保証できないことを失敗例として記録した。
 - Q141 baselineとQ446 candidateの生成・分類間の表示不整合を、成功まで再試行せず`分類・表示失敗`として保存した。Q446回帰が残るためactive collectionへの切替は保留した。
 - 回帰評価追加後、外部APIなしの全test 153件、実PostgreSQL・Qdrant統合test 1件、Ruff、diff検査が成功した。
+- contextual headingのTop-5〜10をformal 100問で比較した。Top-8はQ351とQ446の直接根拠を回復できる最小値で、全根拠見出しHitを78/88から82/88へ改善した。
+- Top-8の平均context文字数はTop-5比1.63倍だった。回答評価はQ061・Q141の正解維持まで確認したが、Gemini 2.5 FlashのFree tier日次20 request上限でQ151開始時に停止した。
+- Top-8回答runnerは正常結果と品質上の失敗を固定し、429 quota errorだけをreset後に再実行する。途中結果と再開コマンドは`eval/CONTEXTUAL_HEADING_TOP_K_EVALUATION.md`へ保存した。
+- Top-k比較と再開制御の追加後、外部APIなしの全test 156件、Ruff、diff検査が成功した。
 
 ## 2. 未完了・次回反映すること
 
@@ -125,7 +129,7 @@
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
 - Streamlit画面を`RAG_BACKEND=qdrant`で起動して、質問・引用・feedbackの画面操作を通すsmoke testは未実施である。
 - Streamlitの実ブラウザから実Gemini・PostgreSQLへ接続する最終smoke testは未実施である。画面配線とcore実動は別々に検証済み。
-- 次はcontextual headingを固定し、複数根拠質問で必要節を落とさない最小変更としてtop-k拡大または多様性を考慮した取得を比較する。Q446の期限回復、Q151の網羅性、追加ノイズとtoken増加を同じ8問で測る。
+- Gemini API quota reset後、Top-8回答評価を同じCSVから再開する。残りQ151、Q266、Q301、Q351、Q381、Q446について、Q446の回復、既存正解の維持、追加tokenを確認する。
 
 ## 3. 次回最初に行うこと
 

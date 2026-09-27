@@ -137,28 +137,37 @@ def save_results(records: dict[tuple[str, str], dict], path: Path) -> None:
         writer.writerows(records.values())
 
 
-def evaluate_pair(
+def should_reuse_record(record: dict) -> bool:
+    """Keep measured outcomes, but allow retrying a quota-limited API attempt."""
+    error = record.get("error", "")
+    return not error or not is_rate_limit_error(error)
+
+
+def evaluate_variants(
     questions: list[dict],
     *,
     query_vectors: dict[str, list[float]],
     criteria: dict[str, dict],
     output_path: Path,
     delay_seconds: float,
+    indexes: dict[str, QdrantVectorIndex] | None = None,
+    top_k: int = TOP_K,
 ) -> dict[tuple[str, str], dict]:
     records = load_existing(output_path)
     generator = GeminiProvider(LLM_MODEL_NAME)
     classifier = GeminiProvider(CLASSIFIER_MODEL_NAME)
     answer_schema = load_schema(ANSWER_SCHEMA_PATH)
     classification_schema = load_schema(CLASSIFICATION_SCHEMA_PATH)
-    indexes = {
-        "baseline": QdrantVectorIndex(collection_name=QDRANT_COLLECTION_NAME),
-        "contextual_heading": QdrantVectorIndex(collection_name=COLLECTION_NAME),
-    }
+    if indexes is None:
+        indexes = {
+            "baseline": QdrantVectorIndex(collection_name=QDRANT_COLLECTION_NAME),
+            "contextual_heading": QdrantVectorIndex(collection_name=COLLECTION_NAME),
+        }
 
     for row in questions:
         for variant, index in indexes.items():
             key = (row["question_id"], variant)
-            if key in records:
+            if key in records and should_reuse_record(records[key]):
                 continue
             logger = EvaluationLogger()
             started = time.perf_counter()
@@ -174,7 +183,7 @@ def evaluate_pair(
                     event_logger=logger,
                     answer_schema=answer_schema,
                     classification_schema=classification_schema,
-                    top_k=TOP_K,
+                    top_k=top_k,
                 )
             except Exception as exception:
                 error = f"{type(exception).__name__}: {exception}"
@@ -256,7 +265,11 @@ def main() -> None:
     parser.add_argument("--criteria", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--delay-seconds", type=float, default=1)
+    parser.add_argument("--top-k", type=int, default=TOP_K)
+    parser.add_argument("--contextual-only", action="store_true")
     args = parser.parse_args()
+    if args.top_k < 1:
+        raise ValueError("top-kは1以上で指定してください")
 
     changed_ids = changed_evidence_at_5_ids(
         args.baseline_retrieval, args.candidate_retrieval
@@ -267,12 +280,21 @@ def main() -> None:
     }
     questions = [questions_by_id[question_id] for question_id in changed_ids]
     query_vectors = load_baseline_query_vectors(args.query_cache, questions)
-    records = evaluate_pair(
+    indexes = None
+    if args.contextual_only:
+        indexes = {
+            f"contextual_heading_top_{args.top_k}": QdrantVectorIndex(
+                collection_name=COLLECTION_NAME
+            )
+        }
+    records = evaluate_variants(
         questions,
         query_vectors=query_vectors,
         criteria=criteria,
         output_path=args.output,
         delay_seconds=args.delay_seconds,
+        indexes=indexes,
+        top_k=args.top_k,
     )
     completed = [row for row in records.values() if not row["error"]]
     print(

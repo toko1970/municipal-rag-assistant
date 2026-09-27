@@ -7,6 +7,7 @@ from eval.evaluate_contextual_answer_candidate import (
     changed_evidence_at_5_ids,
     content_key_ok,
     load_criteria,
+    should_reuse_record,
 )
 
 
@@ -54,3 +55,11 @@ def test_criteria_must_be_fixed_for_exact_target_set(tmp_path: Path) -> None:
     assert set(load_criteria(path, ["Q1"])) == {"Q1"}
     with pytest.raises(ValueError, match="質問ID"):
         load_criteria(path, ["Q1", "Q2"])
+
+
+def test_resume_retries_only_rate_limit_errors() -> None:
+    assert should_reuse_record({"error": ""})
+    assert should_reuse_record({"error": "ValueError: 表示条件不整合"})
+    assert not should_reuse_record(
+        {"error": "RESOURCE_EXHAUSTED: 429 quota exceeded"}
+    )
