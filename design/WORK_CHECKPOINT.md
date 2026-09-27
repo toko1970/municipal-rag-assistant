@@ -134,27 +134,27 @@
 - GitHub Actionsの通常CIから`integration` markerを分離した。GitHub RunnerにPostgreSQL・Qdrantを起動していない状態で統合テストだけが接続失敗したためで、外部service非依存159件と、ローカル実DB統合1件を別々に実行して成功を確認した。
 - 初回production CDはCloud Run Job作成前の`gcloud run jobs deploy`で停止し、Cloud Run serviceは更新されなかった。`--args`先頭の`-m`がgcloudのoptionとして解釈されたため、ハイフン引数を必要としない`cloud_bootstrap.py` entrypointへ変更した。
 - 修正後の2回目のproduction CDはimage buildと設定検証を通過したが、Cloud Run Job作成前に停止した。Cloud Run service用の`--add-cloudsql-instances`をJobにも使用していたため、Jobで受け付ける`--set-cloudsql-instances`へ変更した。サービス更新はskipされ、公開revisionは変更されていない。
+- 3回目のproduction CDは全工程に成功した。bootstrap execution `municipal-rag-bootstrap-jtkms`はmigration head、5文書・86要素、Qdrant 86 point、missing 0、unexpected 0、代表質問`根拠十分`・参照8件を記録した。
+- revision `municipal-rag-assistant-00005-rwd`へcommit `4a621fcb938b37d718cb294c51870733531387e7`を反映し、traffic 100%、`Ready=True`、health `ok`、トップページHTTP 200を確認した。
+- 公開実ブラウザで「給与支給日はいつですか？」を実行し、毎月21日、休日は直前営業日という回答、`根拠十分`、参照8件を確認した。「採用した」とsmoke用コメントを送信し、保存成功表示を確認した。
 
 ## 2. 未完了・次回反映すること
 
 - 既存100シナリオ・500問を新しい論理locatorへ移行する処理は、Phase 2以降のingestion実装で具体化する。
-- Cloud SQL、GCS、Qdrant Cloud、Geminiのread-only調査は完了した。Cloud SQLとQdrant Cloudのresource作成・接続確認も完了し、次はGitHub production variablesの設定とCloud Runへの公開反映を行う。
+- Cloud SQL、Qdrant Cloud、Gemini 3.1を使うtext RAG v2の公開反映とブラウザsmokeは完了した。Cloud SQL上の最新公開requestを直接read-only SQLで結合する監査は未完了である。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
 - Streamlit画面の質問・引用8件・feedback保存は`RAG_BACKEND=qdrant`の実接続smokeで確認済み。既定backendもQdrantへ変更した。
-- Streamlitの実ブラウザから実Gemini・PostgreSQLへ接続する最終smoke testは未実施である。画面配線とcore実動は別々に検証済み。
-- 次はCloud Runへ反映する構成差と外部Qdrant・PostgreSQL接続先を確認する。ローカル実装済みとクラウド未接続をREADME・面接説明で区別する。
+- 公開text RAG v2は実ブラウザで質問、分類、回答、参照8件、feedback保存まで確認済みである。次の主要実装はPDF・図表runtime取込と画像付き回答のvertical sliceである。
 
 ## 3. 次回最初に行うこと
 
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
-3. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)の未実装とweakを確認する。
-4. [`GCS_CONNECTION_SPIKE_RUNBOOK.md`](GCS_CONNECTION_SPIKE_RUNBOOK.md)に従い、bucket名の不在、runtime service account impersonation、当日価格をread-onlyで確認する。
-5. 固定bucket、IAM、1 object round trip、費用上限、cleanupを提示し、resource変更の明示的な承認を得る。
-6. [`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)のWork Package AをEvidence-first feature loop、最大3 roundで開始する。
-7. 2026-09-27のGCS実行ではruntime identityのupload・metadata取得まで一度成功したが、Token Creatorの一時bindingが2分以内に安定して反映されないrunもあった。全runでbucket不在と一時binding削除を確認し、追加IAM変更を止めてWork Package Aを先行する。
+3. 公開Cloud SQLの最新request・retrieval・generation・classification・feedbackをread-only SQLで結合し、go-live監査を閉じる。
+4. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)のPDF・図表runtime未実装項目を確認する。
+5. [`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)に沿ってPDF・図表の最小vertical sliceを開始する。
 
 ## 4. 完了したvisual fixture学習単位
 
