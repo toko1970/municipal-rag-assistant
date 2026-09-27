@@ -5,7 +5,7 @@
 - 対象: Cloud SQL for PostgreSQL、Cloud Storage、Qdrant Cloud、Gemini Developer API
 - 対象リージョン: 既存Cloud Runに合わせて原則`asia-northeast1`
 - 費用表記: USD、税・為替・契約別割引を含まない
-- 現在の結論: **接続試験の実行前。4 serviceとも承認後の最小spikeが必要**
+- 現在の結論: **Gemini最小spikeは成功。GCS、Qdrant Cloud、Cloud SQLは承認後の最小spikeが必要**
 
 ## 1. この文書が支える判断
 
@@ -72,11 +72,11 @@ Free tierとPaid tierでは、rate limitだけでなく送信内容の取扱い�
 
 ### 4.2 Cloud Storage
 
-**状態: `READY_FOR_APPROVAL`（既存bucketのread-only確認は`VERIFIED`、アプリ用bucketは未作成）**
+**状態: `RUNBOOK_READY_APPROVAL_REQUIRED`（既存bucketのread-only確認は`VERIFIED`、短命bucketは未作成）**
 
 | 項目 | 方針・証拠 |
 |---|---|
-| 接続先 | アプリ原本・ページ画像専用のregional Standard bucketを`asia-northeast1`へ新設する。Terraform stateやCloud Build bucketは流用しない |
+| 接続先 | Phase 0では短命な専用regional Standard bucketを`asia-northeast1`へ作り、試験後に削除する。Terraform stateやCloud Build bucketは流用しない。本番用bucketはPhase 1でTerraform管理する |
 | 認証 | localはADC、Cloud Runはruntime service accountのADCを使う。鍵fileをrepositoryやcontainerへ置かない |
 | 最小試験 | 小さな架空objectをgeneration precondition付きでuploadし、metadata・SHA-256を確認してdownloadし、同一性確認後にobjectと試験bucketを削除する |
 | 権限 | 試験bucketだけに必要なobject read/write/delete権限を付ける。project全体の広いStorage Adminをruntimeへ付けない |
@@ -174,4 +174,4 @@ Free clusterは接続・filter・named vectorの学習には適する。一方�
 
 4 serviceの責務と最小試験は設計可能で、実行順序も決められる。GeminiはSecret照合、1 request、構造化応答、token、Paid list price換算まで確認した。GCSはcontrol planeのread-only状態までで、Qdrant CloudとCloud SQLを含むPhase 0の接続要件はまだ完了していない。
 
-Gemini spikeの実行結果は[`GEMINI_CONNECTION_SPIKE_RUNBOOK.md`](GEMINI_CONNECTION_SPIKE_RUNBOOK.md)と[`gemini_connection_spike_phase0.json`](../eval/results/gemini_connection_spike_phase0.json)へ記録した。次は既存GCSを対象に、runtime service accountで小objectをput/get/deleteできるか、操作費用と削除確認を含む最小spikeを設計する。
+Gemini spikeの実行結果は[`GEMINI_CONNECTION_SPIKE_RUNBOOK.md`](GEMINI_CONNECTION_SPIKE_RUNBOOK.md)と[`gemini_connection_spike_phase0.json`](../eval/results/gemini_connection_spike_phase0.json)へ記録した。GCSは[`GCS_CONNECTION_SPIKE_RUNBOOK.md`](GCS_CONNECTION_SPIKE_RUNBOOK.md)へ、既存bucketを流用せず短命bucketを使う理由、runtime service accountによるput/get/delete、generation precondition、費用上限、cleanupを固定した。次はread-only preflight後に実行内容を提示し、resource変更の明示的な承認を得る。
