@@ -303,6 +303,12 @@ flowchart LR
 
 文書だけの変更で全testを毎回実行しない。失敗を隠すskip、閾値緩和、blind retryは行わない。
 
+### 自律実行
+
+各Work Packageの開始後は、リポジトリ内の実装、local service操作、test、評価、commit、push、draft PR更新を連続して行う。軽微な実装判断では停止せず、coherent slice完了時に証拠と学習事項をまとめる。
+
+cloud resource変更、合意済み上限を超えるAPI費用、merge、production deploy、destructive migration、sealed holdout開封、credit使用だけを承認gateとして残す。承認待ちでは依存しないlocal作業へ切り替える。
+
 ## 10. 並行化と順序
 
 Work Package Aはデータ契約を確定するため最初に行う。Aのschemaとinterfaceが固まった後は、次を並行可能とする。
@@ -328,7 +334,7 @@ Work Package Aはデータ契約を確定するため最初に行う。Aのschem
 
 ## 12. 直近の順序
 
-1. [`GCS_CONNECTION_SPIKE_RUNBOOK.md`](GCS_CONNECTION_SPIKE_RUNBOOK.md)のread-only preflightと承認済みspikeを完了する。
-2. この計画を既存production referenceへ反映し、Phase 0を閉じる。
-3. Work Package AのEvidence-first loopを開始する。
-4. `compose.yaml`、migration、repository interface、Markdown ingest、Qdrant検索、PostgreSQL log、Streamlitを一つの縦方向sliceで完成させる。
+1. [`GCS_CONNECTION_SPIKE_RUNBOOK.md`](GCS_CONNECTION_SPIKE_RUNBOOK.md)の実測とcleanup証拠を保存し、IAM伝播待ちは外部blockerとして追跡する。
+2. Work Package AのEvidence-first loopを開始する。
+3. `compose.yaml`、migration、repository interface、Markdown ingest、Qdrant検索、PostgreSQL log、Streamlitを一つの縦方向sliceで完成させる。
+4. Work Package Aのlocal integration完了後、GCSを再開してPhase 0を閉じる。

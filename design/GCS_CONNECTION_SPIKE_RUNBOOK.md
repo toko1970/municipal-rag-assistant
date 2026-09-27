@@ -1,7 +1,7 @@
 # GCS object round-trip spike 実行票
 
 - 作成日: 2026-09-27
-- 状態: `READY_FOR_REVIEW`
+- 状態: `BLOCKED_IMPERSONATION`
 - 対象service: Google Cloud Storage
 - 対象project: `municipal-rag-portfolio`
 - 対象region: `asia-northeast1`
@@ -121,21 +121,35 @@ operation_cost_upper_bound =
 
 すべて満たした場合だけ`READY_TO_EXECUTE`へ進める。
 
-- [ ] ユーザーがbucket作成、bucket-level IAM追加、object round trip、object・bucket削除を明示的に承認した。
-- [ ] Codexの5時間枠と週間枠を確認し、5時間枠が80%未満である。
-- [ ] `git status`を確認し、無関係な変更を把握した。
-- [ ] bucket名が存在しないことをread-onlyで確認した。存在する場合は削除・流用せず停止する。
-- [ ] Cloud Storage APIが有効である。
-- [ ] 開発者ADCのactive accountとprojectを確認した。account情報は結果fileへ保存しない。
-- [ ] runtime service accountのimpersonationが可能である。access tokenは出力しない。
-- [ ] 当日の東京Standard storage、Class A/B、soft deleteの公式仕様を再確認した。
-- [ ] 固定payloadのsizeとSHA-256をlocalで再計算した。
+- [ ] ユーザーが一時的なToken Creator付与・削除、bucket作成、bucket-level IAM追加、object round trip、object・bucket削除を明示的に承認した。
+- [x] Codexの表示中の利用枠を確認し、週間枠0%である。5時間枠は表示されていない。
+- [x] `git status`を確認し、今回の自律実行方針の変更だけである。
+- [x] bucket名が存在しないことをread-onlyで確認した。`404 Not Found`だった。
+- [x] Cloud Storage APIが有効である。
+- [x] 開発者ADCのactive accountが1件あり、projectが`municipal-rag-portfolio`であることを確認した。account情報は結果fileへ保存しない。
+- [ ] runtime service accountのimpersonationが可能である。`iam.serviceAccounts.getAccessToken`不足で停止した。access tokenは出力していない。
+- [x] 当日の単一region Standard storage、Class A `$0.005 / 1,000`、Class B `$0.0004 / 1,000`、soft delete既定7日と`0`による無効化を公式資料で再確認した。
+- [x] 固定payloadのsize `131 bytes`とSHA-256をlocalで再計算した。
 - [ ] bucket作成commandがsoft delete `0`、uniform access、public access preventionを明示している。
 - [ ] cleanup手順を先に用意し、失敗後も追加objectを作らず削除へ進める。
+
+### 6.1 2026-09-27 preflight結果
+
+resource作成前のimpersonation確認で、開発者ADCにruntime service accountの`iam.serviceAccounts.getAccessToken`がなく停止した。bucket、object、IAM bindingは作成・変更していない。
+
+次の実行では、active accountへruntime service account単体の`roles/iam.serviceAccountTokenCreator`を一時付与する。round tripとcleanup後に同じbindingを削除し、project-wide roleは付与しない。この一時IAM変更をbucket・object操作と同じ一回の承認へまとめる。
+
+### 6.2 実行結果と停止判断
+
+IAM伝播を考慮して実行方法を修正しながら試した結果、1回のrunではruntime identityによる条件付きuploadとmetadata取得まで成功した。すべてのrunで固定bucketの不在と一時Token Creator bindingの削除を確認している。個別結果は[`gcs_connection_spike_attempts.jsonl`](../eval/results/gcs_connection_spike_attempts.jsonl)へ残した。
+
+一時Token Creator bindingの反映時間が10秒から2分超まで安定せず、付与・削除の反復自体が次の確認へ影響するため、追加runを停止する。最終結果は`BLOCKED_IMPERSONATION`のまま保持し、GCS非依存のWork Package Aを先に進める。再開時は、一時bindingを十分な伝播時間だけ保持する方法、またはCloud Run revisionからruntime identityを直接検証する方法を比較して一つを選ぶ。
 
 ## 7. 固定実行手順
 
 application levelでは各mutating stepを1回だけ実行する。失敗時に同じstepを自動再実行しない。gcloudまたはservice側の内部retry回数は別途取得できないため、generation preconditionで同じ名前への重複変更を防ぐ。
+
+IAM bindingの反映には遅延があり得るため、一時Token Creator付与後のread-only token確認は10秒間隔、最大12回（約2分）、bucket-level `objectUser`付与後の空bucket listは10秒間隔、最大4回とする。IAM付与、bucket作成、IAM追加、object変更は同じrun内で再実行しない。
 
 1. bucket名の不在を確認する。
 2. runtime service accountのimpersonation可否を、tokenを表示せず確認する。失敗したらresource作成前に停止する。
@@ -145,7 +159,7 @@ application levelでは各mutating stepを1回だけ実行する。失敗時に�
 6. 試験bucketに限り、runtime service accountへ`roles/storage.objectUser`を付与する。
 7. runtime identityで`if-generation-match=0`を付けてobjectを1件uploadする。
 8. runtime identityでobject metadataを取得し、generation、size、content type、custom SHA-256を記録する。
-9. 取得したgenerationを指定してruntime identityでdownloadし、local SHA-256を照合する。
+9. 取得したgenerationをobject URLへ明示してruntime identityでその世代をdownloadし、local SHA-256を照合する。
 10. 同じgenerationを`if-generation-match`へ指定してruntime identityでobjectを削除する。
 11. objectをdescribeして`404 Not Found`を確認する。別のgenerationやobjectがあればbucketを削除せず停止する。
 12. 開発者ADCで空のbucketを削除する。
@@ -207,6 +221,7 @@ access token、ADC credential、IAM token、credential path、stack trace、環�
 | `IAM_FAILED` | bucket-level role付与に失敗。objectを作らずcleanup |
 | `UPLOAD_FAILED` | 条件付きuploadに失敗。再uploadしない |
 | `METADATA_FAILED` | generation、size、metadataを検証できない |
+| `DOWNLOAD_FAILED` | 明示したgenerationのobjectをdownloadできない |
 | `HASH_MISMATCH` | download fileのSHA-256が固定値と異なる |
 | `DELETE_FAILED` | 指定generationのobject削除に失敗 |
 | `CLEANUP_BLOCKED_UNEXPECTED_OBJECT` | 固定object以外を検出。自動削除しない |
@@ -237,4 +252,3 @@ access token、ADC credential、IAM token、credential path、stack trace、環�
 - [Soft delete](https://docs.cloud.google.com/storage/docs/soft-delete)
 - [Request preconditions](https://docs.cloud.google.com/storage/docs/request-preconditions)
 - [Cloud Storage pricing](https://cloud.google.com/storage/pricing)
-

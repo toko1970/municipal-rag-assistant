@@ -1,7 +1,7 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-27
-- 状態: 短期集中実装scope確定。次はGCS spike後にtext RAG v2の縦方向実装
+- 状態: GCS spikeはIAM伝播の不安定さを記録して安全にcleanup済み。Work Package Aのtext RAG v2へ移行
 - Git: text・visual holdoutは`SEALED`で、両方のsealed本体は`.gitignore`対象
 
 ## 1. 完了したこと
@@ -89,7 +89,8 @@
 3. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)の未実装とweakを確認する。
 4. [`GCS_CONNECTION_SPIKE_RUNBOOK.md`](GCS_CONNECTION_SPIKE_RUNBOOK.md)に従い、bucket名の不在、runtime service account impersonation、当日価格をread-onlyで確認する。
 5. 固定bucket、IAM、1 object round trip、費用上限、cleanupを提示し、resource変更の明示的な承認を得る。
-6. GCS spike完了後、[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)のWork Package AをEvidence-first feature loop、最大3 roundで開始する。
+6. [`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)のWork Package AをEvidence-first feature loop、最大3 roundで開始する。
+7. 2026-09-27のGCS実行ではruntime identityのupload・metadata取得まで一度成功したが、Token Creatorの一時bindingが2分以内に安定して反映されないrunもあった。全runでbucket不在と一時binding削除を確認し、追加IAM変更を止めてWork Package Aを先行する。
 
 ## 4. 完了したvisual fixture学習単位
 
