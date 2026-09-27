@@ -199,7 +199,7 @@ def main():
     parser.add_argument("--output", type=Path, help="質問ごとの結果を保存するCSV")
     parser.add_argument(
         "--method",
-        choices=("vector", "hybrid", "contextual"),
+        choices=("vector", "hybrid", "contextual", "qdrant"),
         default="vector",
     )
     args = parser.parse_args()
@@ -209,6 +209,10 @@ def main():
         from eval.hybrid_retriever import retrieve_documents_with_score as retrieve_fn
     elif args.method == "contextual":
         from eval.contextual_retriever import (
+            retrieve_documents_with_score as retrieve_fn,
+        )
+    elif args.method == "qdrant":
+        from eval.qdrant_retriever import (
             retrieve_documents_with_score as retrieve_fn,
         )
     else:

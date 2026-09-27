@@ -90,3 +90,20 @@ class QdrantVectorIndex:
             )
             hits.append(SearchHit(element=element, score=float(point.score), rank=rank))
         return hits
+
+    def list_point_ids(self) -> set[UUID]:
+        if not self.client.collection_exists(self.collection_name):
+            return set()
+        point_ids: set[UUID] = set()
+        offset = None
+        while True:
+            points, offset = self.client.scroll(
+                collection_name=self.collection_name,
+                limit=256,
+                offset=offset,
+                with_payload=False,
+                with_vectors=False,
+            )
+            point_ids.update(UUID(str(point.id)) for point in points)
+            if offset is None:
+                return point_ids

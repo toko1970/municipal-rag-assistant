@@ -147,6 +147,16 @@ class PostgresDocumentRepository:
             for row in rows:
                 row.index_status = status
 
+    def list_indexed_element_ids(self) -> set[UUID]:
+        with self.session_factory() as session:
+            return set(
+                session.scalars(
+                    select(ContentElementRow.id).where(
+                        ContentElementRow.index_status == "INDEXED"
+                    )
+                ).all()
+            )
+
     def upsert_embedding_profile(
         self,
         profile_key: str,

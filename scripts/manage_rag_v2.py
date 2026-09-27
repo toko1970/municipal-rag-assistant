@@ -53,11 +53,33 @@ def rebuild_qdrant() -> dict[str, int]:
     return ingest_markdown_documents(repository, index)
 
 
+def reconcile() -> dict[str, object]:
+    repository = PostgresDocumentRepository(session_factory())
+    expected = repository.list_indexed_element_ids()
+    actual = QdrantVectorIndex().list_point_ids()
+    missing = sorted(str(item) for item in expected - actual)
+    unexpected = sorted(str(item) for item in actual - expected)
+    return {
+        "postgres_indexed_elements": len(expected),
+        "qdrant_points": len(actual),
+        "missing_in_qdrant": missing,
+        "unexpected_in_qdrant": unexpected,
+        "consistent": not missing and not unexpected,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "command",
-        choices=("migrate", "health", "ingest", "rebuild-qdrant", "query"),
+        choices=(
+            "migrate",
+            "health",
+            "ingest",
+            "rebuild-qdrant",
+            "reconcile",
+            "query",
+        ),
     )
     parser.add_argument("--question")
     args = parser.parse_args()
@@ -70,6 +92,8 @@ def main() -> int:
         result = ingest()
     elif args.command == "rebuild-qdrant":
         result = rebuild_qdrant()
+    elif args.command == "reconcile":
+        result = reconcile()
     else:
         if not args.question:
             parser.error("queryには--questionが必要です")

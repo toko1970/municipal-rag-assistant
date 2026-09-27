@@ -88,6 +88,12 @@
 - 成功request `0c9f6daf-b31d-4ae2-b3ce-ae14cf1ede5a`は、検索5件、表示claim 2件、根拠link 2件をSQL一つで結合確認した。
 - 実動時の生成はGemini 2.5 Flashで1,725 tokens、分類はGemini 3.1 Flash Liteで1,424 tokensだった。
 - 外部APIなしの全test 133件、実PostgreSQL・Qdrant統合test 1件、Ruffが成功した。
+- Streamlitの質問入力、回答、参照展開、feedback送信をAppTestで検証した。UI testではLLMをfake化し、画面配線だけを独立確認した。
+- PostgreSQLの`INDEXED` IDとQdrant point IDを全件照合する`reconcile` CLIを追加した。
+- Qdrant collectionを削除し、5文書・86要素を同じEmbeddingで再構築した。再構築前後とも欠落0件、余分0件だった。
+- 同じGemini Embedding、chunk、top-k、実用質問16件でChromaとQdrantを比較し、Hit@1は11/16、Hit@3・Hit@5は16/16で一致した。取得文書・見出しの順位差も0件だった。
+- ベクトルDB移行による精度向上は主張せず、Qdrantの採用理由を責務分離、安定ID、filter・検索実験の拡張性として評価記録へ残した。
+- 外部APIなしの全test 136件、実PostgreSQL・Qdrant統合test 1件、Ruffが成功した。
 
 ## 2. 未完了・次回反映すること
 
@@ -97,7 +103,8 @@
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
 - Streamlit画面を`RAG_BACKEND=qdrant`で起動して、質問・引用・feedbackの画面操作を通すsmoke testは未実施である。
-- Qdrantを空にして再構築するrebuild検証と、Chroma baselineとの同条件比較はWork Package A後半で行う。
+- Streamlitの実ブラウザから実Gemini・PostgreSQLへ接続する最終smoke testは未実施である。画面配線とcore実動は別々に検証済み。
+- 次は実用質問より難しいdevelopment setでQdrant baselineを測り、Hit@1失敗を含む検索失敗の傾向を分類する。
 
 ## 3. 次回最初に行うこと
 
