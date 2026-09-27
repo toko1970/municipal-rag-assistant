@@ -1,7 +1,7 @@
 # Gemini one-call connection spike 実行票
 
 - 作成日: 2026-09-27
-- 状態: `BLOCKED_PENDING_SECRET_MATCH_AND_APPROVAL`
+- 状態: `EXECUTED_SUCCESS`
 - 対象service: Gemini Developer API
 - 対象model: `gemini-3.1-flash-lite`
 - 外部API呼出上限: **1回**
@@ -123,17 +123,17 @@ estimated_cost_usd =
 
 すべて満たした場合だけ`READY_TO_EXECUTE`へ進める。
 
-- [ ] ユーザーが、この実行票による1 requestを明示的に承認した。
-- [ ] Codex利用率が80%未満である。
-- [ ] `git status`を確認し、無関係な変更を把握した。
-- [ ] model IDが現在利用可能であることを公式model pageで確認した。
-- [ ] Gemini keyの種類とtierをAI Studioで確認した。
-- [ ] Paidの場合、project spend capの有無を確認した。
-- [ ] credential値を表示・保存しない取得経路を確認した。
-- [ ] runnerのmock testでAPI clientの呼出回数が1回、retry 0回になることを確認した。
-- [ ] 固定入力とSchemaがこの文書と一致する。
-- [ ] 最新priceで上限費用を再計算し、`$0.01`未満である。
-- [ ] 結果fileにsecret、prompt以外の入力、個人情報が入らないことを確認した。
+- [x] ユーザーが、この実行票による1 requestを明示的に承認した。
+- [x] Codex利用率が80%未満である。
+- [x] `git status`を確認し、無関係な変更を把握した。
+- [x] model IDが現在利用可能であることを公式model pageで確認した。
+- [x] Gemini keyの種類とtierをAI Studioで確認した。
+- [x] Paidの場合、project spend capの有無を確認した。Free tierのため`not_applicable`。
+- [x] credential値を表示・保存しない取得経路を確認した。
+- [x] runnerのmock testでAPI clientの呼出回数が1回、retry 0回になることを確認した。
+- [x] 固定入力とSchemaがこの文書と一致する。
+- [x] 最新priceで上限費用を再計算し、`$0.01`未満である。
+- [x] 結果fileにsecret、prompt以外の入力、個人情報が入らないことを確認した。
 
 ## 8. 実行手順
 
@@ -241,4 +241,24 @@ request IDは既存LangChain経路で取得できなかった実績があるた�
 - 公式仕様では、AI Studioで新規作成されるkeyはauth keyであり、2026年9月以降はstandard keyが拒否される。このためauth key確認を実行gateとして維持する。
 - Secret Manager version 1がAI Studioに表示されたkeyと同一かは、payloadを開かないread-only metadataだけでは証明できなかった。
 
-したがって現在のterminal stateは`BLOCKED_KEY_METADATA`で、API呼出は0回のままである。次は明示的な承認後にSecretをprocess memoryへだけ取得し、画面へ表示せずAI Studioのmasked keyと照合する。一致してauth key・Free tierを確認できた場合だけ、同じ承認範囲内で固定promptを1 request送る。照合できない場合はAPIを呼ばず停止する。
+この時点のterminal stateは`BLOCKED_KEY_METADATA`で、API呼出は0回だった。その後、ユーザーの明示的な承認を得てSecretをprocess memoryへだけ取得し、画面へ表示せずAI Studioのmasked keyと照合した。
+
+## 15. 実行結果
+
+- 実行日時: 2026-09-27 15:29 JST
+- terminal state: `SUCCESS`
+- model: request/responseともに`gemini-3.1-flash-lite`
+- key: masked keyとの照合成功、authorization key、Free tier
+- API request: 1回
+- retry: 0回
+- latency: 1.408788秒
+- input: 54 tokens
+- output: 51 tokens
+- total: 105 tokens
+- 価格表上の推定請求額: Free tierは`$0`。Paid list price換算は`$0.00009000`
+- structured response: 固定Schemaと期待値に一致
+- request ID: SDK metadataになく`null`
+- Secret: terminal、結果JSON、Git差分への混入なし
+- 証拠: [`gemini_connection_spike_phase0.json`](../eval/results/gemini_connection_spike_phase0.json)
+
+費用の独立再計算は`(54 × 0.25 + 51 × 1.50) / 1,000,000 = $0.00009000`で、結果JSONと一致し、上限`$0.01`を下回った。このspikeでGeminiの認証、構造化出力、usage取得、費用計算、retry 0を確認できた。Cloud Run containerからの疎通とRAG品質は別の検証対象である。

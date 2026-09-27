@@ -1,7 +1,7 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-27
-- 状態: Gemini runner・mock test・dry-run完成。account preflightはSecret照合とAPI 1 requestの承認待ち
+- 状態: Gemini one-call spike成功。次はGCS最小spikeの設計
 - Git: text・visual holdoutは`SEALED`で、両方のsealed本体は`.gitignore`対象
 
 ## 1. 完了したこと
@@ -77,7 +77,7 @@
 ## 2. 未完了・次回反映すること
 
 - 既存100シナリオ・500問を新しい論理locatorへ移行する処理は、Phase 2以降のingestion実装で具体化する。
-- Cloud SQL、GCS、Qdrant Cloud、Geminiのread-only調査は完了した。Geminiから順に承認済みの最小接続spikeを行う。
+- Cloud SQL、GCS、Qdrant Cloud、Geminiのread-only調査は完了した。Gemini最小接続は成功し、次はGCS、Qdrant Cloud、Cloud SQLの順に進める。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
 
@@ -86,8 +86,8 @@
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
 3. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)の未実装とweakを確認する。
-4. [`GEMINI_CONNECTION_SPIKE_RUNBOOK.md`](GEMINI_CONNECTION_SPIKE_RUNBOOK.md)のaccount preflight結果を確認する。
-5. Secret Manager version 1をprocess memoryへ取得してmasked keyと照合すること、および照合成功時のGemini 1 requestについて明示的な承認を得る。
+4. [`CLOUD_SERVICE_SPIKES.md`](CLOUD_SERVICE_SPIKES.md)のGCS項目を確認する。
+5. 既存bucketを使うか、アプリ用bucketを作るかを費用・権限・削除範囲から判断し、put/get/deleteの実行票を作る。
 
 ## 4. 完了したvisual fixture学習単位
 
@@ -198,3 +198,5 @@ Cloud serviceのread-only調査開始時点は5時間枠31%使用、週間枠19%
 Gemini runner品質確認開始時点は5時間枠53%使用、週間枠22%使用だった。8つの固定scenarioをQuality streakとしてmockで検証し、Secret sanitizeの修正roundを2回行った。対象test 11件、全test 117件、Ruff、dry-runが成功した。dry-runはAPI呼出0回、retry 0回、Secret取得なしで、最大費用見込みは`$0.000692`だった。reset creditは使用していない。
 
 Account preflight時点は5時間枠63%使用、週間枠24%使用だった。AI StudioではFree tierの`Default Gemini Project`だけが表示され、Google Cloudの`municipal-rag-portfolio`にはAPI key metadataが0件だった。Secret version 1との同一性はpayloadを開かずには確認できないため、外部API呼出0回のまま`BLOCKED_KEY_METADATA`とした。AI Studioへのproject import、key・billing設定の変更、reset creditの使用は行っていない。
+
+Gemini実行直前は5時間枠69%使用、週間枠25%使用だった。ユーザー承認後、Secret version 1をprocess memoryへだけ取得してAI Studioのmasked keyと照合し、固定promptを1 request送った。`SUCCESS`、retry 0、1.408788秒、input 54・output 51・合計105 tokens、Free tierの価格表上の推定請求額`$0`、Paid list price換算`$0.00009000`だった。固定Schema・期待値一致、Secret非混入、費用再計算一致を確認した。reset creditは使用していない。

@@ -153,7 +153,7 @@ Free clusterは接続・filter・named vectorの学習には適する。一方�
 
 ## 7. 残る不確実性
 
-1. 既存Gemini keyの種類、Free/Paid tier、現在のquota、project spend capはread-only CLIから確認していない。
+1. Geminiはauthorization key、Free tier、1 request成功まで確認した。現在のquota上限とCloud Run containerからの疎通は未確認である。
 2. アプリ用GCS bucketはなく、runtime service accountによるobject round tripは未確認である。
 3. Qdrant Cloud account、利用可能region、Free clusterのwake-up latencyは未確認である。
 4. Cloud SQL Admin APIは無効で、東京の確定quote、instance、IAM login、継続費は未確認である。
@@ -172,6 +172,6 @@ Free clusterは接続・filter・named vectorの学習には適する。一方�
 
 ## 9. 結論
 
-4 serviceの責務と最小試験は設計可能で、実行順序も決められる。現在証明できたのは既存Cloud Run・Gemini secret参照・GCS control planeのread-only状態までであり、Phase 0の接続要件はまだ完了していない。
+4 serviceの責務と最小試験は設計可能で、実行順序も決められる。GeminiはSecret照合、1 request、構造化応答、token、Paid list price換算まで確認した。GCSはcontrol planeのread-only状態までで、Qdrant CloudとCloud SQLを含むPhase 0の接続要件はまだ完了していない。
 
-Gemini spikeの具体的な入力、1回の費用上限、成功条件、secret/key確認、停止手順は[`GEMINI_CONNECTION_SPIKE_RUNBOOK.md`](GEMINI_CONNECTION_SPIKE_RUNBOOK.md)へ固定した。local runner、mock test、dry-runまで完了し、外部API呼出0回、Secret取得なしを確認した。AI StudioとGoogle Cloudをread-onlyで調査したが、Secret version 1と表示keyの同一性はpayloadを開かずには証明できなかった。次はSecret取得とmasked key照合、Gemini 1 requestの明示的な承認を得る。
+Gemini spikeの実行結果は[`GEMINI_CONNECTION_SPIKE_RUNBOOK.md`](GEMINI_CONNECTION_SPIKE_RUNBOOK.md)と[`gemini_connection_spike_phase0.json`](../eval/results/gemini_connection_spike_phase0.json)へ記録した。次は既存GCSを対象に、runtime service accountで小objectをput/get/deleteできるか、操作費用と削除確認を含む最小spikeを設計する。
