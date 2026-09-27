@@ -18,7 +18,12 @@ def get_qdrant_dependencies():
 
 def retrieve_documents_with_score(query: str, top_k: int = TOP_K):
     embeddings, index = get_qdrant_dependencies()
-    hits = index.search(embeddings.embed_query(query), limit=top_k)
+    return retrieve_by_vector(embeddings.embed_query(query), top_k, index=index)
+
+
+def retrieve_by_vector(vector: list[float], top_k: int, *, index=None):
+    index = index or get_qdrant_dependencies()[1]
+    hits = index.search(vector, limit=top_k)
     results = []
     for hit in hits:
         metadata = {

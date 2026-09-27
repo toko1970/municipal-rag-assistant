@@ -94,6 +94,11 @@
 - 同じGemini Embedding、chunk、top-k、実用質問16件でChromaとQdrantを比較し、Hit@1は11/16、Hit@3・Hit@5は16/16で一致した。取得文書・見出しの順位差も0件だった。
 - ベクトルDB移行による精度向上は主張せず、Qdrantの採用理由を責務分離、安定ID、filter・検索実験の拡張性として評価記録へ残した。
 - 外部APIなしの全test 136件、実PostgreSQL・Qdrant統合test 1件、Ruffが成功した。
+- 500問のうち各scenarioのformal表現100件を使い、同一query vectorでChromaとQdrantを比較した。文書不足12件を除く88件で、両backendは全指標・全質問が一致した。
+- Qdrantの全必要文書Hit@5は85/88、全根拠見出しHit@5は74/88だった。Top-5失敗14件を分類し、文書不足3件、文書は揃うが根拠節が不足するもの11件と確認した。
+- 100問を個別にEmbeddingしてFree tierの1分当たりrequest上限へ達した失敗を受け、query Embeddingを1 batch requestへまとめ、条件付きcacheで再利用する比較runnerへ修正した。
+- 検索失敗を再現可能に分類するanalyzer、raw result、集計、代表例、次のEmbedding比較判断を`eval/LARGE_FORMAL_QDRANT_BASELINE.md`へ記録した。
+- cache再利用時はEmbedding API呼出0回で同じraw resultをbyte単位で再生成した。外部APIなしの全test 143件、実PostgreSQL・Qdrant統合test 1件、Ruff、diff検査が成功した。
 
 ## 2. 未完了・次回反映すること
 
@@ -104,7 +109,7 @@
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
 - Streamlit画面を`RAG_BACKEND=qdrant`で起動して、質問・引用・feedbackの画面操作を通すsmoke testは未実施である。
 - Streamlitの実ブラウザから実Gemini・PostgreSQLへ接続する最終smoke testは未実施である。画面配線とcore実動は別々に検証済み。
-- 次は実用質問より難しいdevelopment setでQdrant baselineを測り、Hit@1失敗を含む検索失敗の傾向を分類する。
+- 次は同じformal 100件、chunk、Top-5、Qdrantを固定し、Embeddingだけを変更して根拠見出しHit@5と質問単位の改善・悪化を比較する。
 
 ## 3. 次回最初に行うこと
 

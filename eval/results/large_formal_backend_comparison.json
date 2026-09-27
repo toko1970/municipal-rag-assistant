@@ -1,0 +1,43 @@
+{
+  "input": "eval/evaluation_questions_500.csv",
+  "input_sha256": "1208bdb86358fd5f61c8cf4e86ace3cd03ea5e958cbdc2c838c25e4065d98601",
+  "variant_type": "formal",
+  "questions": 100,
+  "query_vectors": 100,
+  "query_embedding_requests": 1,
+  "embedding_cache_hit": false,
+  "embedding_cache": ".eval_cache/large_formal_query_vectors.json",
+  "embedding_model": "gemini-embedding-001",
+  "chunk_size": 800,
+  "chunk_overlap": 100,
+  "top_k": 5,
+  "chroma_output": "eval/results/large_formal_chroma.csv",
+  "qdrant_output": "eval/results/large_formal_qdrant.csv",
+  "summary": [
+    {
+      "metric": "hit_at_3",
+      "before": 82,
+      "after": 82,
+      "total": 88
+    },
+    {
+      "metric": "hit_at_5",
+      "before": 85,
+      "after": 85,
+      "total": 88
+    },
+    {
+      "metric": "evidence_hit_at_3",
+      "before": 63,
+      "after": 63,
+      "total": 88
+    },
+    {
+      "metric": "evidence_hit_at_5",
+      "before": 74,
+      "after": 74,
+      "total": 88
+    }
+  ],
+  "changed_questions": []
+}

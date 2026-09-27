@@ -188,7 +188,7 @@ def save_results(records: list[dict], output_path: Path) -> None:
     """質問ごとの検索結果をCSVに保存する。"""
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=RESULT_FIELDS)
+        writer = csv.DictWriter(f, fieldnames=RESULT_FIELDS, lineterminator="\n")
         writer.writeheader()
         writer.writerows(records)
 

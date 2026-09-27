@@ -1,0 +1,112 @@
+{
+  "input": "eval/results/large_formal_qdrant.csv",
+  "analysis": {
+    "at_1": {
+      "k": 1,
+      "total_rows": 100,
+      "retrieval_not_applicable": 12,
+      "evidence_scored": 88,
+      "success": 45,
+      "failure": 43,
+      "failure_categories": {
+        "document_missing": 28,
+        "section_missing": 15
+      },
+      "failure_by_difficulty": {
+        "boundary": 8,
+        "direct": 7,
+        "judgment": 6,
+        "multi_document": 9,
+        "near_miss": 5,
+        "practical": 6,
+        "revision": 2
+      },
+      "failure_by_answer_type": {
+        "判断要": 7,
+        "根拠十分": 36
+      },
+      "failure_by_required_document_count": {
+        "1": 24,
+        "2": 17,
+        "3": 2
+      },
+      "failure_by_required_evidence_count": {
+        "1": 11,
+        "2": 29,
+        "3": 2,
+        "4": 1
+      }
+    },
+    "at_3": {
+      "k": 3,
+      "total_rows": 100,
+      "retrieval_not_applicable": 12,
+      "evidence_scored": 88,
+      "success": 63,
+      "failure": 25,
+      "failure_categories": {
+        "document_missing": 6,
+        "section_missing": 19
+      },
+      "failure_by_difficulty": {
+        "boundary": 5,
+        "direct": 3,
+        "judgment": 5,
+        "multi_document": 5,
+        "near_miss": 3,
+        "practical": 3,
+        "revision": 1
+      },
+      "failure_by_answer_type": {
+        "判断要": 5,
+        "根拠十分": 20
+      },
+      "failure_by_required_document_count": {
+        "1": 15,
+        "2": 8,
+        "3": 2
+      },
+      "failure_by_required_evidence_count": {
+        "1": 7,
+        "2": 15,
+        "3": 2,
+        "4": 1
+      }
+    },
+    "at_5": {
+      "k": 5,
+      "total_rows": 100,
+      "retrieval_not_applicable": 12,
+      "evidence_scored": 88,
+      "success": 74,
+      "failure": 14,
+      "failure_categories": {
+        "document_missing": 3,
+        "section_missing": 11
+      },
+      "failure_by_difficulty": {
+        "boundary": 2,
+        "direct": 1,
+        "judgment": 1,
+        "multi_document": 4,
+        "near_miss": 2,
+        "practical": 3,
+        "revision": 1
+      },
+      "failure_by_answer_type": {
+        "判断要": 1,
+        "根拠十分": 13
+      },
+      "failure_by_required_document_count": {
+        "1": 8,
+        "2": 5,
+        "3": 1
+      },
+      "failure_by_required_evidence_count": {
+        "1": 5,
+        "2": 7,
+        "3": 2
+      }
+    }
+  }
+}
