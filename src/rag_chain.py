@@ -1,4 +1,4 @@
-from config import LLM_MODEL_NAME
+from config import LLM_MODEL_NAME, RAG_BACKEND
 from src.llm_provider import GeminiProvider
 from src.retriever import retrieve_documents_with_score
 from src.logger import save_rag_log
@@ -104,6 +104,18 @@ def generate_answer(
     """
     質問に対して、Retriever検索とLLM回答生成を行う。
     """
+
+    if (
+        RAG_BACKEND == "qdrant"
+        and retrieve_fn is None
+        and llm_provider is None
+        and record_log
+    ):
+        from src.rag_v2 import generate_qdrant_answer
+
+        return generate_qdrant_answer(question)
+    if RAG_BACKEND not in {"chroma", "qdrant"}:
+        raise ValueError(f"未対応のRAG_BACKENDです: {RAG_BACKEND}")
 
     if retrieve_fn is None:
         retrieve_fn = retrieve_documents_with_score

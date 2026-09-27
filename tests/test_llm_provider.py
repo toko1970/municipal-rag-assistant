@@ -25,6 +25,79 @@ class LLMProviderTest(unittest.TestCase):
         self.assertEqual(result.output_tokens, 4)
         self.assertEqual(result.request_id, "g-1")
 
+    def test_uses_gemini_native_json_schema(self):
+        schema = {
+            "type": "object",
+            "properties": {"answer": {"type": "string"}},
+            "required": ["answer"],
+        }
+        raw = SimpleNamespace(
+            usage_metadata={"input_tokens": 7, "output_tokens": 2},
+            response_metadata={"model_name": "gemini-structured", "response_id": "g-2"},
+        )
+
+        class Runnable:
+            def invoke(self, prompt):
+                self.prompt = prompt
+                return {
+                    "raw": raw,
+                    "parsed": {"answer": "21日"},
+                    "parsing_error": None,
+                }
+
+        class Client:
+            def __init__(self):
+                self.runnable = Runnable()
+
+            def with_structured_output(self, actual_schema, **kwargs):
+                self.schema = actual_schema
+                self.kwargs = kwargs
+                return self.runnable
+
+        client = Client()
+        result = GeminiProvider("gemini-test", client=client).generate_structured(
+            "質問", schema
+        )
+
+        self.assertEqual(client.schema, schema)
+        self.assertEqual(client.kwargs["method"], "json_schema")
+        self.assertTrue(client.kwargs["include_raw"])
+        self.assertEqual(result.data, {"answer": "21日"})
+        self.assertEqual(result.total_tokens, 9)
+        self.assertEqual(result.request_id, "g-2")
+
+    def test_translates_json_schema_const_for_gemini(self):
+        schema = {
+            "type": "object",
+            "properties": {"schema_version": {"const": "1.0"}},
+        }
+
+        class Runnable:
+            def invoke(self, _prompt):
+                return {
+                    "raw": SimpleNamespace(
+                        usage_metadata={}, response_metadata={}
+                    ),
+                    "parsed": {"schema_version": "1.0"},
+                    "parsing_error": None,
+                }
+
+        class Client:
+            def with_structured_output(self, actual_schema, **_kwargs):
+                self.schema = actual_schema
+                return Runnable()
+
+        client = Client()
+        GeminiProvider("gemini-test", client=client).generate_structured(
+            "質問", schema
+        )
+
+        assert client.schema["properties"]["schema_version"] == {
+            "enum": ["1.0"],
+            "type": "string",
+        }
+        assert schema["properties"]["schema_version"] == {"const": "1.0"}
+
     def test_normalizes_openai_responses_api(self):
         def request(url, api_key, payload):
             self.assertEqual(url, "https://api.openai.com/v1/responses")

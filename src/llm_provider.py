@@ -1,7 +1,8 @@
 """回答生成モデルを共通形式で呼び出すためのプロバイダー。"""
 
 from dataclasses import asdict, dataclass
-from typing import Callable, Protocol
+from copy import deepcopy
+from typing import Any, Callable, Protocol
 from urllib.request import Request, urlopen
 import json
 
@@ -33,6 +34,31 @@ class LLMProvider(Protocol):
     def generate(self, prompt: str) -> LLMResult: ...
 
 
+@dataclass(frozen=True)
+class StructuredLLMResult:
+    provider: str
+    model: str
+    data: dict[str, Any]
+    input_tokens: int = 0
+    output_tokens: int = 0
+    total_tokens: int = 0
+    request_id: str = ""
+
+    def metadata(self) -> dict:
+        data = asdict(self)
+        data.pop("data")
+        return data
+
+
+class StructuredLLMProvider(Protocol):
+    provider_name: str
+    model: str
+
+    def generate_structured(
+        self, prompt: str, schema: dict[str, Any]
+    ) -> StructuredLLMResult: ...
+
+
 def _int_value(mapping: dict, *keys: str) -> int:
     for key in keys:
         value = mapping.get(key)
@@ -50,6 +76,33 @@ def _text_content(content) -> str:
             for item in content
         )
     return str(content)
+
+
+def _gemini_compatible_schema(value: Any) -> Any:
+    """Translate supported JSON Schema semantics to Gemini's schema dialect."""
+
+    if isinstance(value, list):
+        return [_gemini_compatible_schema(item) for item in value]
+    if not isinstance(value, dict):
+        return value
+    result = {
+        key: _gemini_compatible_schema(item)
+        for key, item in deepcopy(value).items()
+        if key != "const"
+    }
+    if "const" in value:
+        constant = value["const"]
+        result["enum"] = [constant]
+        if "type" not in result:
+            if isinstance(constant, str):
+                result["type"] = "string"
+            elif isinstance(constant, bool):
+                result["type"] = "boolean"
+            elif isinstance(constant, int):
+                result["type"] = "integer"
+            elif isinstance(constant, float):
+                result["type"] = "number"
+    return result
 
 
 class GeminiProvider:
@@ -76,6 +129,39 @@ class GeminiProvider:
             provider=self.provider_name,
             model=str(metadata.get("model_name") or self.model),
             text=_text_content(response.content),
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            total_tokens=total_tokens or input_tokens + output_tokens,
+            request_id=str(metadata.get("response_id") or ""),
+        )
+
+    def generate_structured(
+        self, prompt: str, schema: dict[str, Any]
+    ) -> StructuredLLMResult:
+        runnable = self.client.with_structured_output(
+            _gemini_compatible_schema(schema),
+            method="json_schema",
+            include_raw=True,
+        )
+        response = runnable.invoke(prompt)
+        parsing_error = response.get("parsing_error")
+        if parsing_error is not None:
+            raise ValueError(f"Gemini構造化出力の解析に失敗しました: {parsing_error}")
+        parsed = response.get("parsed")
+        if not isinstance(parsed, dict):
+            raise ValueError("Gemini構造化出力がobjectではありません")
+        raw = response.get("raw")
+        usage = dict(getattr(raw, "usage_metadata", None) or {})
+        metadata = dict(getattr(raw, "response_metadata", None) or {})
+        if not usage:
+            usage = dict(metadata.get("usage_metadata") or {})
+        input_tokens = _int_value(usage, "input_tokens", "prompt_token_count")
+        output_tokens = _int_value(usage, "output_tokens", "candidates_token_count")
+        total_tokens = _int_value(usage, "total_tokens", "total_token_count")
+        return StructuredLLMResult(
+            provider=self.provider_name,
+            model=str(metadata.get("model_name") or self.model),
+            data=parsed,
             input_tokens=input_tokens,
             output_tokens=output_tokens,
             total_tokens=total_tokens or input_tokens + output_tokens,

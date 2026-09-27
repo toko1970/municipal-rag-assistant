@@ -1,7 +1,7 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-27
-- 状態: GCS spikeはIAM伝播の不安定さを記録して安全にcleanup済み。Work Package Aのtext RAG v2へ移行
+- 状態: Work Package Aのローカル基盤、文書取込境界、構造化回答・分類・ログの最小縦断経路を実装済み
 - Git: text・visual holdoutは`SEALED`で、両方のsealed本体は`.gitignore`対象
 
 ## 1. 完了したこと
@@ -73,6 +73,21 @@
 - 抽出結果`REVIEW_REQUIRED`、文書版`WAITING_REVIEW`、理由`LOW_CONTRAST`、自動`READY`不可を別項目として固定した。
 - `READY`への改変、理由欠落、測定値改変、逆転bboxを拒否し、5 artifactの再生成hash一致、対象test 7件、全test 106件、lint、diff検査が成功した。
 - Phase 0 ledgerのP0-11を`proved`へ更新した。
+- Docker ComposeへPostgreSQL 18.6とQdrant 1.19.1を追加し、Alembic初期migration、health check、管理CLIを実装した。
+- PostgreSQLを文書・版・content element・利用ログの正本、Qdrantを安定UUIDで再構築可能な検索indexとするadapterを実装した。
+- 同一Markdownの2回取込で文書・要素が増えず、Qdrantのpoint IDがcontent element IDと一致することを実DB統合testで確認した。
+- 回答generatorのclaim、根拠ID、不足条件を検証し、classifierの5要因からコードで「根拠十分／判断要／文書不足」を決める純粋ロジックを実装した。
+- request、retrieval、generation attempt、classification attempt、generation result、claim、evidence、feedbackを一つのrequest IDから追跡できる保存経路を実装した。
+- 分類器がclaim単位の支持判定を返さない現行契約では、`answer_fully_supported=false`のときclaimを推測表示しない安全側の規則をtestへ固定した。
+- 外部APIなしの全test 126件、実PostgreSQL・Qdrant統合test 1件、Ruff、diff whitespace検査が成功した。
+- プロジェクトの`.codex/config.toml`へ`workspace-write`、network許可、Auto-reviewの中間設定を追加した。新しいchatから適用する。
+- Gemini native JSON Schemaを使う構造化providerを実装し、raw responseからmodel・token・request IDを記録するようにした。
+- 標準JSON Schemaの`const`がGemini schema方言で空objectになる実失敗を検出し、adapter内で同値の`enum + type`へ変換した。元schemaは変更していない。
+- `RAG_BACKEND=chroma|qdrant`の切替を実装し、既存UI操作のまま新経路を選べるようにした。評価用の依存注入経路はChroma baseline互換を維持した。
+- 実Markdown 5文書・86要素をPostgreSQLとQdrantへ投入した。最初の実質問はschema方言差により`GENERATION_FAILED`として記録され、修正後の同一質問は`根拠十分`で成功した。
+- 成功request `0c9f6daf-b31d-4ae2-b3ce-ae14cf1ede5a`は、検索5件、表示claim 2件、根拠link 2件をSQL一つで結合確認した。
+- 実動時の生成はGemini 2.5 Flashで1,725 tokens、分類はGemini 3.1 Flash Liteで1,424 tokensだった。
+- 外部APIなしの全test 133件、実PostgreSQL・Qdrant統合test 1件、Ruffが成功した。
 
 ## 2. 未完了・次回反映すること
 
@@ -81,6 +96,8 @@
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
+- Streamlit画面を`RAG_BACKEND=qdrant`で起動して、質問・引用・feedbackの画面操作を通すsmoke testは未実施である。
+- Qdrantを空にして再構築するrebuild検証と、Chroma baselineとの同条件比較はWork Package A後半で行う。
 
 ## 3. 次回最初に行うこと
 
