@@ -1,6 +1,7 @@
 from copy import deepcopy
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
 from eval.validate_text_holdout_protocol import (
     validate_blueprint,
@@ -45,9 +46,37 @@ def valid_questions() -> dict:
     }
 
 
+def planned_manifest() -> dict:
+    manifest = deepcopy(load_json(MANIFEST_PATH))
+    manifest["state"] = "PLANNED"
+    manifest["documents"] = []
+    for field in ("questions", "gold", "candidate", "predictions", "opening", "results"):
+        manifest[field] = None
+    return manifest
+
+
 class TextHoldoutProtocolTest(unittest.TestCase):
-    def test_committed_planned_manifest_is_valid_without_sealed_access(self):
-        manifest = validate_public_manifest(MANIFEST_PATH, REPOSITORY_ROOT)
+    def test_committed_sealed_manifest_is_valid_without_sealed_access(self):
+        with patch(
+            "eval.validate_text_holdout_protocol.validate_sealed_artifacts",
+            side_effect=AssertionError("Public validation must not open sealed content"),
+        ) as sealed_validator:
+            manifest = validate_public_manifest(MANIFEST_PATH, REPOSITORY_ROOT)
+
+        sealed_validator.assert_not_called()
+        self.assertEqual(manifest["state"], "SEALED")
+        self.assertGreaterEqual(
+            len({document["document_family"] for document in manifest["documents"]}), 5
+        )
+        self.assertEqual(manifest["questions"]["scenario_count"], 50)
+        self.assertEqual(manifest["questions"]["expression_count"], 100)
+        self.assertEqual(manifest["gold"]["scenario_count"], 50)
+        for field in ("candidate", "predictions", "opening", "results"):
+            self.assertIsNone(manifest[field])
+
+    def test_planned_manifest_is_valid_before_artifacts_are_created(self):
+        manifest = planned_manifest()
+        validate_state_requirements(manifest)
 
         self.assertEqual(manifest["state"], "PLANNED")
         self.assertEqual(manifest["documents"], [])
@@ -91,14 +120,14 @@ class TextHoldoutProtocolTest(unittest.TestCase):
             validate_public_questions(questions, "text-sealed-holdout-v1")
 
     def test_sealed_state_without_questions_and_gold_is_rejected(self):
-        manifest = deepcopy(load_json(MANIFEST_PATH))
+        manifest = planned_manifest()
         manifest["state"] = "SEALED"
 
         with self.assertRaisesRegex(ValueError, "SEALEDではquestionsが必要"):
             validate_state_requirements(manifest)
 
     def test_planned_state_cannot_claim_frozen_candidate(self):
-        manifest = deepcopy(load_json(MANIFEST_PATH))
+        manifest = planned_manifest()
         manifest["candidate"] = {
             "git_commit": "a" * 40,
             "config_manifest_sha256": "b" * 64,
