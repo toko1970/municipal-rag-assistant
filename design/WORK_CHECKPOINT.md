@@ -99,6 +99,12 @@
 - 100問を個別にEmbeddingしてFree tierの1分当たりrequest上限へ達した失敗を受け、query Embeddingを1 batch requestへまとめ、条件付きcacheで再利用する比較runnerへ修正した。
 - 検索失敗を再現可能に分類するanalyzer、raw result、集計、代表例、次のEmbedding比較判断を`eval/LARGE_FORMAL_QDRANT_BASELINE.md`へ記録した。
 - cache再利用時はEmbedding API呼出0回で同じraw resultをbyte単位で再生成した。外部APIなしの全test 143件、実PostgreSQL・Qdrant統合test 1件、Ruff、diff検査が成功した。
+- Embedding profileごとに入力prefix、次元、provider、分離collectionを固定する比較runnerを実装した。本番用Qdrant collectionは変更していない。
+- formal 100件で`gemini-embedding-2` 768次元と`ruri-v3-310m`を現行`gemini-embedding-001`へ比較した。根拠見出しHit@5は順に72/88、74/88、74/88、最初の正解根拠MRRは0.847、0.815、0.861だった。
+- Gemini 2は根拠Hit@5を3件改善・5件退行、Ruriは4件改善・4件退行した。安定した改善がないため現行Embeddingを維持する判断を`eval/EMBEDDING_MODEL_EVALUATION.md`へ記録した。
+- Gemini 2のbatchはAPI call数ではなく入力100件でFree tier毎分上限へ達することを実測した。文書・質問cacheを分け、完了済み86文書を再送せず別枠で100質問を完了した。
+- Ruriはoptional依存へ分離し、ローカルApple MPSのwarm実測で86要素4.38秒、100質問1.34秒だった。約1.27GBのmodel取得とcold startはこの時間に含まない。
+- Ruriのcache再利用はprovider推論0回でraw resultをbyte単位で再生成した。外部APIなしの全test 147件、実PostgreSQL・Qdrant統合test 1件、Ruff、diff検査が成功した。
 
 ## 2. 未完了・次回反映すること
 
@@ -109,7 +115,7 @@
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
 - Streamlit画面を`RAG_BACKEND=qdrant`で起動して、質問・引用・feedbackの画面操作を通すsmoke testは未実施である。
 - Streamlitの実ブラウザから実Gemini・PostgreSQLへ接続する最終smoke testは未実施である。画面配線とcore実動は別々に検証済み。
-- 次は同じformal 100件、chunk、Top-5、Qdrantを固定し、Embeddingだけを変更して根拠見出しHit@5と質問単位の改善・悪化を比較する。
+- 次は現行Embeddingを固定し、見出しをEmbedding対象本文へ明示的に加えるcontextual headingをformal 100件で比較する。主要指標は根拠見出しHit@5とし、改善・退行を質問単位で残す。
 
 ## 3. 次回最初に行うこと
 
