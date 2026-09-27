@@ -19,7 +19,7 @@
 
 2026-09-22時点で、Cloud Runサービス `municipal-rag-assistant` は `asia-northeast1` に存在し、実行用サービスアカウント `municipal-rag-runtime` とSecret Managerの `gemini-api-key` を参照しています。同日、GitHub Actions用の認証基盤と権限をTerraformで適用しました。適用後の `terraform plan` は変更なしです。既存のCloud RunサービスはTerraformの管理対象に含めていません。
 
-2026-09-27に対象project限定の月額2,000円予算を先行適用し、50%、80%、100%の通知しきい値を確認しました。続いてRAG v2公開用resourceを`12 added, 0 changed, 0 destroyed`で適用しました。Cloud SQLは`RUNNABLE`で、適用後のTerraform planは`No changes`です。Qdrant Free clusterの作成、API keyのSecret version登録、GitHub production variablesの設定は未完了です。
+2026-09-27に対象project限定の月額2,000円予算を先行適用し、50%、80%、100%の通知しきい値を確認しました。続いてRAG v2公開用resourceを`12 added, 0 changed, 0 destroyed`で適用しました。Cloud SQLは`RUNNABLE`で、適用後のTerraform planは`No changes`です。2026-09-28にQdrant Free clusterをGCP Sydneyで作成し、最終database API keyをSecret Managerの`qdrant-api-key` version 5へ登録しました。旧Qdrant keyは削除し、Secret Manager version 1〜4は無効化済みです。残る外部設定はGitHub production variablesです。
 
 ## 検証と適用の順序
 

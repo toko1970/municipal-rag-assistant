@@ -1,7 +1,7 @@
 # Public RAG v2 deployment plan
 
 - 作成日: 2026-09-27
-- 状態: `GCP_INFRA_APPLIED_QDRANT_PENDING`
+- 状態: `GCP_INFRA_APPLIED_QDRANT_CONNECTED`
 - 目的: localで検証したQdrant、PostgreSQL、Gemini 3.1のRAG v2を公開Cloud Runへ反映する
 - Terraform apply: 予算2件とRAG v2基盤12件を追加、0 change、0 destroy
 
@@ -36,7 +36,7 @@ flowchart LR
 | IAM | runtime service accountのCloud SQL Client、2 secretへのSecret Accessor |
 | Credential | 32文字の英数字DB passwordを生成 |
 
-Cloud SQL instanceは`RUNNABLE`、接続名は`municipal-rag-portfolio:asia-northeast1:municipal-rag-postgres`である。`rag-database-url`のversion 1まで作成済みで、`qdrant-api-key`は値を入れる前のsecret containerだけを作成済みである。
+Cloud SQL instanceは`RUNNABLE`、接続名は`municipal-rag-portfolio:asia-northeast1:municipal-rag-postgres`である。`rag-database-url`のversion 1まで作成済みである。Qdrant Free clusterはGCP Sydney（`australia-southeast1`）で`HEALTHY`、database API keyはSecret Managerの`qdrant-api-key` version 5へ登録済みである。
 
 既存Cloud Run、Artifact Registry、WIF、deployer service accountへの変更とresource削除はない。Cloud SQL instanceはTerraformの`deletion_protection = true`とし、誤ったdestroyを拒否する。
 
@@ -83,12 +83,12 @@ Google Cloud側のTerraform apply後に次を設定する。
 
 | 設定先 | 名前 | 値 |
 |---|---|---|
-| Qdrant Cloud | cluster | Free cluster。利用可能な近接regionをconsoleで確認して選択 |
-| Secret Manager | `qdrant-api-key` | clusterのdatabase API key |
+| Qdrant Cloud | cluster | `municipal-rag-portfolio`、GCP `australia-southeast1`、Free tier |
+| Secret Manager | `qdrant-api-key` | database API key。version 5だけを有効化 |
 | GitHub production variable | `QDRANT_URL` | Qdrant HTTPS endpoint |
 | GitHub production variable | `CLOUD_SQL_CONNECTION_NAME` | Terraform output |
 
-Secret値はGitHubへ保存しない。Cloud Runとbootstrap JobはSecret Managerのversion 1を明示して環境変数として受け取る。keyをrotationするときは、新versionの動作確認後にworkflowのversion番号を更新する。
+Secret値はGitHubへ保存しない。Cloud Runとbootstrap JobはSecret Managerのversion 5を明示して環境変数として受け取る。2026-09-28にversion 5からQdrantの`/collections`へHTTP 200で接続できることを確認し、旧database API keyをQdrant Cloudから削除、Secret Manager version 1〜4を無効化した。keyをrotationするときは、新versionの動作確認後にworkflowのversion番号を更新する。
 
 ## 6. Go-live判定
 

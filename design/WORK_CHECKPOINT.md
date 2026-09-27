@@ -129,11 +129,13 @@
 - production composition rootからQ446相当を質問し、request `99fdf2e4-36f9-41af-a7ba-5941f14029de`で根拠十分の完全回答を得た。SQLでretrieval 8、generation 1、classification 1、visible claim 4、evidence link 7を確認した。
 - `RAG_BACKEND=qdrant`のStreamlit実UI経路で同じ質問を実行し、request `5c3aeecd-3c69-48e0-8805-07cc36cd6734`で根拠十分、参照8件、UI exception 0を確認した。「採用した」feedback 1件がPostgreSQLへ保存されたこともSQLで確認した。
 - production統合後、外部APIなしの全test 157件、実PostgreSQL・Qdrant統合test 1件、Ruff、diff検査が成功した。
+- Qdrant Cloud Free cluster `municipal-rag-portfolio`をGCP Sydneyで作成し、`HEALTHY`を確認した。最終database API keyをSecret Manager `qdrant-api-key` version 5へ保存し、`/collections`へのHTTP 200、JWT subjectとQdrant key IDの一致を確認した。
+- Qdrant Cloudの旧database API keyはすべて削除し、Secret Manager version 1〜4を無効化した。CDのbootstrap JobとCloud Run serviceはversion 5を明示参照する。
 
 ## 2. 未完了・次回反映すること
 
 - 既存100シナリオ・500問を新しい論理locatorへ移行する処理は、Phase 2以降のingestion実装で具体化する。
-- Cloud SQL、GCS、Qdrant Cloud、Geminiのread-only調査は完了した。Gemini最小接続は成功し、次はGCS、Qdrant Cloud、Cloud SQLの順に進める。
+- Cloud SQL、GCS、Qdrant Cloud、Geminiのread-only調査は完了した。Cloud SQLとQdrant Cloudのresource作成・接続確認も完了し、次はGitHub production variablesの設定とCloud Runへの公開反映を行う。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
