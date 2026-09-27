@@ -1,7 +1,7 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-27
-- 状態: native text PDF fixture完成。次は日本語scan PDF fixture
+- 状態: native text PDF fixture完成。日本語scan PDF fixtureは設計済み、実装待ち
 - Git: text・visual holdoutは`SEALED`で、両方のsealed本体は`.gitignore`対象
 
 ## 1. 完了したこと
@@ -58,6 +58,7 @@
 - 4 artifactを再生成して全SHA-256が一致し、対象test 5件、全test 87件、lint、diff検査が成功した。
 - 全文比較はparserが加える空行と行端空白だけを正規化し、文字列と読み順は完全一致を要求する。
 - Phase 0 ledgerのP0-08を`proved`へ更新した。
+- [`SCAN_PDF_FIXTURE_PLAN.md`](SCAN_PDF_FIXTURE_PLAN.md)へ、日本語scan PDF fixtureの入力、gold、validator、Phase 4との境界、受入条件を記録した。
 
 ## 2. 未完了・次回反映すること
 
@@ -72,7 +73,7 @@
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
 3. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)の未実装とweakを確認する。
-4. 日本語scan PDF fixtureの入力、期待全文、重要値、OCR前後の契約をEvidence-first sliceで追加する。
+4. [`SCAN_PDF_FIXTURE_PLAN.md`](SCAN_PDF_FIXTURE_PLAN.md)に従い、日本語scan PDF fixtureをEvidence-first sliceで追加する。
 5. scan完了後、回転、曖昧/低品質PDF fixtureへ一種類ずつ進む。
 
 ## 4. 完了したvisual fixture学習単位
