@@ -599,10 +599,17 @@ CIではpushとプルリクエスト時に、外部APIを呼ばないテスト�
 ```bash
 pip install -r requirements-dev.txt
 python -m ruff check .
-python -m pytest -q tests
+python -m pytest -q -m "not integration" tests
 ```
 
-実際の文書ベクトル検索とGeminiを使う評価はこのCIには含めず、評価セットや検索方式を変更した際に別途実行します。
+PostgreSQLとQdrantを実際に使う統合テストは通常CIから分離しています。ローカルで両serviceを起動した後、次のコマンドで明示的に実行します。
+
+```bash
+docker compose up -d postgres qdrant
+python -m pytest -q -m integration tests/integration
+```
+
+実際の文書ベクトル検索とGeminiを使う評価もこのCIには含めず、評価セットや検索方式を変更した際に別途実行します。
 
 難問20件での実検索評価、同一質問による方式比較、改善と退行の個別例は [eval/HARD_EVALUATION.md](eval/HARD_EVALUATION.md) に記録しています。採用したcontextual heading、Top-8、Gemini 3.1 Flash-LiteはローカルのRAG v2経路へ反映済みです。2026-09-27時点の公開Cloud Runは旧Chroma版で、RAG v2は未反映です。コード、設定、外部serviceの差分は [Cloud Run / local RAG v2 gap analysis](design/CLOUD_RUN_RAG_V2_GAP_ANALYSIS.md) に記録しています。
 

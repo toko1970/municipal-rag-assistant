@@ -131,6 +131,7 @@
 - production統合後、外部APIなしの全test 157件、実PostgreSQL・Qdrant統合test 1件、Ruff、diff検査が成功した。
 - Qdrant Cloud Free cluster `municipal-rag-portfolio`をGCP Sydneyで作成し、`HEALTHY`を確認した。最終database API keyをSecret Manager `qdrant-api-key` version 5へ保存し、`/collections`へのHTTP 200、JWT subjectとQdrant key IDの一致を確認した。
 - Qdrant Cloudの旧database API keyはすべて削除し、Secret Manager version 1〜4を無効化した。CDのbootstrap JobとCloud Run serviceはversion 5を明示参照する。
+- GitHub Actionsの通常CIから`integration` markerを分離した。GitHub RunnerにPostgreSQL・Qdrantを起動していない状態で統合テストだけが接続失敗したためで、外部service非依存159件と、ローカル実DB統合1件を別々に実行して成功を確認した。
 
 ## 2. 未完了・次回反映すること
 
