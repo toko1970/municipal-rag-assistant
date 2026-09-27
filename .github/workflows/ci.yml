@@ -98,7 +98,7 @@ jobs:
             --service-account=municipal-rag-runtime@municipal-rag-portfolio.iam.gserviceaccount.com
             --add-cloudsql-instances=${{ env.CLOUD_SQL_CONNECTION_NAME }}
             --command=python
-            --args=-m,scripts.manage_rag_v2,bootstrap-cloud
+            --args=cloud_bootstrap.py
             --cpu=1
             --memory=1Gi
             --max-retries=0
