@@ -1,7 +1,7 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-27
-- 状態: cloud serviceのread-only調査完了。次はGeminiの最小接続spike実行票と承認
+- 状態: Gemini one-call spike実行票完成。次は外部呼出なしのrunner・mock test
 - Git: text・visual holdoutは`SEALED`で、両方のsealed本体は`.gitignore`対象
 
 ## 1. 完了したこと
@@ -86,8 +86,8 @@
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
 3. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)の未実装とweakを確認する。
-4. [`CLOUD_SERVICE_SPIKES.md`](CLOUD_SERVICE_SPIKES.md)からGeminiの実行票を作り、1 request、概算`$0.01`未満、停止手順を固定する。
-5. 外部APIを呼ぶ前に実行票を提示してユーザー承認を得る。
+4. [`GEMINI_CONNECTION_SPIKE_RUNBOOK.md`](GEMINI_CONNECTION_SPIKE_RUNBOOK.md)に従い、外部呼出なしのrunner、mock test、dry-runを実装する。
+5. dry-run結果と実行差分を提示し、credential取得とGemini 1 requestの明示的な承認を得る。
 
 ## 4. 完了したvisual fixture学習単位
 
