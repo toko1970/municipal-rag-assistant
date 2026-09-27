@@ -132,6 +132,7 @@
 - Qdrant Cloud Free cluster `municipal-rag-portfolio`をGCP Sydneyで作成し、`HEALTHY`を確認した。最終database API keyをSecret Manager `qdrant-api-key` version 5へ保存し、`/collections`へのHTTP 200、JWT subjectとQdrant key IDの一致を確認した。
 - Qdrant Cloudの旧database API keyはすべて削除し、Secret Manager version 1〜4を無効化した。CDのbootstrap JobとCloud Run serviceはversion 5を明示参照する。
 - GitHub Actionsの通常CIから`integration` markerを分離した。GitHub RunnerにPostgreSQL・Qdrantを起動していない状態で統合テストだけが接続失敗したためで、外部service非依存159件と、ローカル実DB統合1件を別々に実行して成功を確認した。
+- 初回production CDはCloud Run Job作成前の`gcloud run jobs deploy`で停止し、Cloud Run serviceは更新されなかった。`--args`先頭の`-m`がgcloudのoptionとして解釈されたため、ハイフン引数を必要としない`cloud_bootstrap.py` entrypointへ変更した。
 
 ## 2. 未完了・次回反映すること
 
