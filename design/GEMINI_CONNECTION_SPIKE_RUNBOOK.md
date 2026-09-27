@@ -1,7 +1,7 @@
 # Gemini one-call connection spike 実行票
 
 - 作成日: 2026-09-27
-- 状態: `READY_FOR_REVIEW`
+- 状態: `BLOCKED_PENDING_SECRET_MATCH_AND_APPROVAL`
 - 対象service: Gemini Developer API
 - 対象model: `gemini-3.1-flash-lite`
 - 外部API呼出上限: **1回**
@@ -76,6 +76,7 @@ key metadataを確認できない場合、またはversion 1がstandard keyだ�
 
 ```text
 次の架空文書から届出期限の日数を抽出してください。
+evidence_textには架空文書を一字一句そのまま引用してください。
 架空文書: 扶養親族変更届は、事由発生日から15日以内に提出する。
 ```
 
@@ -213,3 +214,31 @@ request IDは既存LangChain経路で取得できなかった実績があるた�
 ## 12. 承認境界
 
 この実行票の作成はAPI呼出の承認ではない。local runnerとmock testは外部呼出なしで準備できる。Secret Manager version 1のpayload取得とGeminiへの1 requestは、実装とdry-run結果をreview可能にした後、ユーザーの明示的な承認を得て実行する。この方法はCloud Runが参照するsecretの有効性を確かめるが、Cloud Run runtime service accountのsecret accessとcontainerからの疎通までは証明しない。
+
+## 13. Local preparation結果
+
+- 実装: [`gemini_connection_spike.py`](../eval/gemini_connection_spike.py)
+- mock test: [`test_gemini_connection_spike.py`](../tests/test_gemini_connection_spike.py)
+- Quality streak対象: dry-run、正常系、key metadata block、認証失敗、quota失敗、Schema不一致、usage欠落、費用超過
+- 修正round: 2回。Secret取得後のclient初期化例外もSecretでsanitizeし、preflight block時にSecret取得関数を呼ばない回帰testと、client初期化失敗時にSecretを結果へ書かない回帰testを追加した
+- 対象test: `11 passed`
+- 全test: `117 passed`。既存dependency由来のDeprecationWarning 5件あり
+- Ruff: success
+- dry-run: `DRY_RUN_OK`、`api_call_count=0`、`retry_count=0`、`secret_accessed=false`
+- projected max cost: `$0.000692`、上限`$0.01`
+- 証拠file: dry-runでは未作成
+
+この時点ではSecret Manager payloadの取得もGemini API呼出も行っていない。
+
+## 14. Account preflight結果
+
+2026-09-27にAI StudioとGoogle Cloudをread-onlyで確認した。
+
+- AI Studioに表示されたのは`Default Gemini Project`（`gen-lang-client-0752406780`）の1 keyだけだった。
+- 表示されたkeyの作成日は2026-06-07、tierはFreeだった。Paid tierではないためspend capは`not_applicable`とする。
+- Google Cloudの`municipal-rag-portfolio`に対するAPI Keys APIの一覧結果は0件だった。
+- `municipal-rag-portfolio`をAI Studioへimportする操作や、key・billing設定の作成・変更は行っていない。
+- 公式仕様では、AI Studioで新規作成されるkeyはauth keyであり、2026年9月以降はstandard keyが拒否される。このためauth key確認を実行gateとして維持する。
+- Secret Manager version 1がAI Studioに表示されたkeyと同一かは、payloadを開かないread-only metadataだけでは証明できなかった。
+
+したがって現在のterminal stateは`BLOCKED_KEY_METADATA`で、API呼出は0回のままである。次は明示的な承認後にSecretをprocess memoryへだけ取得し、画面へ表示せずAI Studioのmasked keyと照合する。一致してauth key・Free tierを確認できた場合だけ、同じ承認範囲内で固定promptを1 request送る。照合できない場合はAPIを呼ばず停止する。

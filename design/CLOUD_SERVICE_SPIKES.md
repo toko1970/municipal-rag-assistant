@@ -174,4 +174,4 @@ Free clusterは接続・filter・named vectorの学習には適する。一方�
 
 4 serviceの責務と最小試験は設計可能で、実行順序も決められる。現在証明できたのは既存Cloud Run・Gemini secret参照・GCS control planeのread-only状態までであり、Phase 0の接続要件はまだ完了していない。
 
-Gemini spikeの具体的な入力、1回の費用上限、成功条件、secret/key確認、停止手順は[`GEMINI_CONNECTION_SPIKE_RUNBOOK.md`](GEMINI_CONNECTION_SPIKE_RUNBOOK.md)へ固定した。次は外部呼出をしないlocal runnerとmock testを用意し、dry-run結果をreview可能にしてから、credential取得とAPI 1 requestの承認を得る。
+Gemini spikeの具体的な入力、1回の費用上限、成功条件、secret/key確認、停止手順は[`GEMINI_CONNECTION_SPIKE_RUNBOOK.md`](GEMINI_CONNECTION_SPIKE_RUNBOOK.md)へ固定した。local runner、mock test、dry-runまで完了し、外部API呼出0回、Secret取得なしを確認した。AI StudioとGoogle Cloudをread-onlyで調査したが、Secret version 1と表示keyの同一性はpayloadを開かずには証明できなかった。次はSecret取得とmasked key照合、Gemini 1 requestの明示的な承認を得る。

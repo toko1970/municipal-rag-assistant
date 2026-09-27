@@ -1,7 +1,7 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-27
-- 状態: Gemini one-call spike実行票完成。次は外部呼出なしのrunner・mock test
+- 状態: Gemini runner・mock test・dry-run完成。account preflightはSecret照合とAPI 1 requestの承認待ち
 - Git: text・visual holdoutは`SEALED`で、両方のsealed本体は`.gitignore`対象
 
 ## 1. 完了したこと
@@ -86,8 +86,8 @@
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
 3. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)の未実装とweakを確認する。
-4. [`GEMINI_CONNECTION_SPIKE_RUNBOOK.md`](GEMINI_CONNECTION_SPIKE_RUNBOOK.md)に従い、外部呼出なしのrunner、mock test、dry-runを実装する。
-5. dry-run結果と実行差分を提示し、credential取得とGemini 1 requestの明示的な承認を得る。
+4. [`GEMINI_CONNECTION_SPIKE_RUNBOOK.md`](GEMINI_CONNECTION_SPIKE_RUNBOOK.md)のaccount preflight結果を確認する。
+5. Secret Manager version 1をprocess memoryへ取得してmasked keyと照合すること、および照合成功時のGemini 1 requestについて明示的な承認を得る。
 
 ## 4. 完了したvisual fixture学習単位
 
@@ -194,3 +194,7 @@ python3 -m json.tool design/schemas/text-holdout-gold-v1.schema.json >/dev/null
 低品質scan fixture開始時点は5時間枠16%使用、週間枠17%使用だった。低コントラスト1種類のreview-gate loopを1回実行し、修正roundなしで成功した。reset creditは使用していない。
 
 Cloud serviceのread-only調査開始時点は5時間枠31%使用、週間枠19%使用だった。Research-to-artifact loopを2 pass以内で実行し、[`CLOUD_SERVICE_SPIKES.md`](CLOUD_SERVICE_SPIKES.md)へ4 serviceの現状、認証、最小試験、費用、停止、承認境界を記録した。resource作成、API有効化、権限変更、外部API呼出は行っていない。P0-15は`unimplemented`から`weak`へ変更し、実接続後に再判定する。reset creditは使用していない。
+
+Gemini runner品質確認開始時点は5時間枠53%使用、週間枠22%使用だった。8つの固定scenarioをQuality streakとしてmockで検証し、Secret sanitizeの修正roundを2回行った。対象test 11件、全test 117件、Ruff、dry-runが成功した。dry-runはAPI呼出0回、retry 0回、Secret取得なしで、最大費用見込みは`$0.000692`だった。reset creditは使用していない。
+
+Account preflight時点は5時間枠63%使用、週間枠24%使用だった。AI StudioではFree tierの`Default Gemini Project`だけが表示され、Google Cloudの`municipal-rag-portfolio`にはAPI key metadataが0件だった。Secret version 1との同一性はpayloadを開かずには確認できないため、外部API呼出0回のまま`BLOCKED_KEY_METADATA`とした。AI Studioへのproject import、key・billing設定の変更、reset creditの使用は行っていない。
