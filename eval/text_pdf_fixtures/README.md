@@ -64,3 +64,18 @@ goldはOCR出力から作らず、画像へ描画する既知の文章と座標�
 ```
 
 validatorは、text layerが空であること、埋め込み画像、A4寸法、回転角、source PNGの寸法・dpi、Schema、bbox、hash、`review_required=true`を検査する。testでは正解全文を合格させ、重要値の改変とその他の文字差分を拒否する。
+
+## 回転scan PDF
+
+`rotated_scan_dev_090`、`180`、`270`は、同じclean scanへPDFのページ回転情報だけを設定した一因子実験である。正立0度は`scan_text_dev_001`が担当する。
+
+goldのregion bboxは、回転表示上の座標ではなく、正立source画像の左上原点・0〜1座標で保持する。回転を0度へ正規化した画像が正立reference画像と同一SHA-256になることで、期待座標をそのまま適用できることを確認する。
+
+```bash
+.venv/bin/python -m eval.text_pdf_fixtures.generate_rotated_scan_fixtures
+.venv/bin/python -m eval.validate_rotated_scan_fixture \
+  eval/text_pdf_fixtures/manifests/rotation_development_manifest.json
+.venv/bin/python -m pytest -q tests/test_rotated_scan_fixture.py
+```
+
+このfixtureが扱うのはPDFの`/Rotate`情報である。画素自体が横向き・逆向きのscanに対する画像方向推定はPhase 4の別検証とする。

@@ -1,7 +1,7 @@
 # 作業再開checkpoint
 
 - 記録日: 2026-09-27
-- 状態: native text・日本語scan PDF fixture完成。次は回転ページfixture
+- 状態: native text・日本語scan・回転ページfixture完成。次は曖昧/低品質scan fixture
 - Git: text・visual holdoutは`SEALED`で、両方のsealed本体は`.gitignore`対象
 
 ## 1. 完了したこと
@@ -64,11 +64,15 @@
 - 正解OCR候補を受理し、重要値の改変とその他の本文差分を拒否する比較規則を実装した。
 - 5 artifactを再生成して全SHA-256が一致し、対象test 6件、全test 93件、lint、diff検査が成功した。
 - Phase 0 ledgerのP0-09を`proved`へ更新した。
+- PDFの`/Rotate`を90/180/270度へ設定した3 fixture、raw表示画像、正規化画像、gold、manifest、専用Schema、validator、testを追加した。
+- 0度の正立scanと非0度3種類を揃え、正規化画像がすべて正立referenceと同一SHA-256へ戻ることを確認した。
+- 回転角、media box、表示寸法、text layerなし、埋め込み画像、正立regionを検査し、13 artifactの再生成hash一致、対象test 6件、全test 99件、lint、diff検査が成功した。
+- Phase 0 ledgerのP0-10を`proved`へ更新した。
 
 ## 2. 未完了・次回反映すること
 
 - 既存100シナリオ・500問を新しい論理locatorへ移行する処理は、Phase 2以降のingestion実装で具体化する。
-- 回転、曖昧/低品質PDF fixtureを作る。
+- 曖昧/低品質PDF fixtureを作る。
 - Cloud SQL、GCS、Qdrant Cloud、Geminiの接続・費用spikeをserviceごとに行う。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
@@ -78,8 +82,8 @@
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
 3. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)の未実装とweakを確認する。
-4. 回転ページfixtureの対象角度、補正前後の座標契約、validatorの境界を確認する。
-5. 回転完了後、曖昧/低品質PDF fixtureへ進む。
+4. 曖昧/低品質scanで`REVIEW_REQUIRED`へ遷移させる観測値と失敗条件を確認する。
+5. P0-11完了後、service別のcloud接続・費用spikeへ進む。
 
 ## 4. 完了したvisual fixture学習単位
 
@@ -180,3 +184,5 @@ python3 -m json.tool design/schemas/text-holdout-gold-v1.schema.json >/dev/null
 2026-09-27の中断時点は5時間枠92%使用、週間枠74%使用だった。停止準備基準のため新しい実装とcommitを行わず、公開変更を未commitのまま残した。再開時点は5時間枠1%、週間枠0%で、公開変更の検証を完了した。reset creditは3件あるが、ユーザーの明示的な確認なしに使用しない。
 
 日本語scan PDF fixture開始時点は5時間枠0%使用、週間枠14%使用だった。通常モードでEvidence-first sliceを1回実行し、修正roundなしで成功した。reset creditは使用していない。
+
+回転ページfixture開始時点は5時間枠7%使用、週間枠15%使用だった。90/180/270度のEvidence-first sliceを1回実行し、修正roundなしで成功した。reset creditは使用していない。

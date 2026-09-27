@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rag/rotated-scan-extraction-v1.schema.json",
+  "title": "Rotated scanned text PDF extraction fixture v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "title",
+    "page_count",
+    "expected_full_text",
+    "critical_values",
+    "input_characteristics",
+    "normalization",
+    "confidence",
+    "pages"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "kind": {"const": "rotated_scanned_text"},
+    "title": {"type": "string", "minLength": 1},
+    "page_count": {"const": 1},
+    "expected_full_text": {"type": "string", "minLength": 1},
+    "critical_values": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "input_characteristics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text_layer_expected",
+        "dpi",
+        "rotation_degrees",
+        "quality"
+      ],
+      "properties": {
+        "text_layer_expected": {"const": false},
+        "dpi": {"const": 300},
+        "rotation_degrees": {"enum": [90, 180, 270]},
+        "quality": {"const": "clean"}
+      }
+    },
+    "normalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_rotation_degrees", "coordinate_space"],
+      "properties": {
+        "target_rotation_degrees": {"const": 0},
+        "coordinate_space": {"const": "upright_source"}
+      }
+    },
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "value", "review_required"],
+      "properties": {
+        "source": {"const": "unavailable"},
+        "value": {"type": "null"},
+        "review_required": {"const": true}
+      }
+    },
+    "pages": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {"$ref": "#/$defs/page"}
+    }
+  },
+  "$defs": {
+    "bbox": {
+      "description": "Upright source coordinates with a top-left origin, normalized to 0..1.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x0", "y0", "x1", "y1"],
+      "properties": {
+        "x0": {"type": "number", "minimum": 0, "maximum": 1},
+        "y0": {"type": "number", "minimum": 0, "maximum": 1},
+        "x1": {"type": "number", "minimum": 0, "maximum": 1},
+        "y1": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "textRegion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "text", "bbox"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "text": {"type": "string", "minLength": 1},
+        "bbox": {"$ref": "#/$defs/bbox"}
+      }
+    },
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "page",
+        "media_width_points",
+        "media_height_points",
+        "displayed_width_points",
+        "displayed_height_points",
+        "source_image_sha256",
+        "expected_normalized_image_sha256",
+        "expected_text",
+        "regions"
+      ],
+      "properties": {
+        "page": {"const": 1},
+        "media_width_points": {"type": "number", "exclusiveMinimum": 0},
+        "media_height_points": {"type": "number", "exclusiveMinimum": 0},
+        "displayed_width_points": {"type": "number", "exclusiveMinimum": 0},
+        "displayed_height_points": {"type": "number", "exclusiveMinimum": 0},
+        "source_image_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "expected_normalized_image_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "expected_text": {"type": "string", "minLength": 1},
+        "regions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/textRegion"}
+        }
+      }
+    }
+  }
+}
