@@ -604,7 +604,7 @@ python -m pytest -q tests
 
 実際の文書ベクトル検索とGeminiを使う評価はこのCIには含めず、評価セットや検索方式を変更した際に別途実行します。
 
-難問20件での実検索評価、同一質問による方式比較、改善と退行の個別例は [eval/HARD_EVALUATION.md](eval/HARD_EVALUATION.md) に記録しています。採用したcontextual heading、Top-8、Gemini 3.1 Flash-LiteはローカルのRAG v2経路へ反映済みです。公開Cloud Runの反映状況はデプロイ後の証拠で別途更新します。
+難問20件での実検索評価、同一質問による方式比較、改善と退行の個別例は [eval/HARD_EVALUATION.md](eval/HARD_EVALUATION.md) に記録しています。採用したcontextual heading、Top-8、Gemini 3.1 Flash-LiteはローカルのRAG v2経路へ反映済みです。2026-09-27時点の公開Cloud Runは旧Chroma版で、RAG v2は未反映です。コード、設定、外部serviceの差分は [Cloud Run / local RAG v2 gap analysis](design/CLOUD_RUN_RAG_V2_GAP_ANALYSIS.md) に記録しています。
 
 ---
 
@@ -662,7 +662,7 @@ python -m pytest -q tests
 
 ### 10.7 ログ・フィードバックの永続化
 
-現在、実行ログと利用者フィードバックはコンテナ内のファイルへ保存しています。Cloud Runのファイルシステムは永続ストレージではないため、インスタンスの終了や再作成によってデータが失われる可能性があります。
+公開Cloud Runでは、実行ログと利用者フィードバックをコンテナ内のファイルへ保存しています。Cloud Runのファイルシステムは永続ストレージではないため、インスタンスの終了や再作成によってデータが失われる可能性があります。ローカルRAG v2ではPostgreSQLへの保存を実装・検証済みですが、公開環境には未接続です。
 
 今後はCloud LoggingやCloud Storage、データベースなどの利用を検討し、ログやフィードバックを継続的な分析に活用できる構成へ改善したいと考えています。
 

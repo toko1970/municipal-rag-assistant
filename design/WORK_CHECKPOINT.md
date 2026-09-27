@@ -266,3 +266,5 @@ Gemini実行直前は5時間枠69%使用、週間枠25%使用だった。ユー�
 GCS実行票の作成開始時点は5時間枠74%使用、週間枠26%使用だった。固定checklist方式で、既存bucketを流用しない短命bucket、control/data plane identity分離、runtime service accountのbucket限定`roles/storage.objectUser`、131 bytesの架空payload、generation precondition、soft delete無効化、費用上限`$0.01`、cleanupを[`GCS_CONNECTION_SPIKE_RUNBOOK.md`](GCS_CONNECTION_SPIKE_RUNBOOK.md)へ固定した。完了時点は5時間枠80%、週間枠27%のため、read-only preflightとresource操作は開始せずcheckpointで停止した。bucket作成、IAM変更、object操作、reset credit使用は行っていない。
 
 Contextual heading回答回帰評価の開始時点は週間枠4%、完了時点は5%だった。表示されたsecondary 5時間枠はなかった。固定8問・16回答の有限runと全件確認を完了し、reset creditは使用していない。
+
+Cloud Run / local RAG v2差分確認の開始時点は週間枠7%で、表示されたsecondary 5時間枠はなかった。公開serviceはcommit `486a9ff`、revision `municipal-rag-assistant-00004-vv9`で`Ready=True`、healthは`ok`だった。Cloud Runの環境変数はGemini secret参照だけで、PostgreSQLとQdrantの接続設定はなかった。local HEADは41 commit先のQdrant既定構成であるため、imageだけを現行CDで反映すると質問時に接続失敗する可能性が高い。詳細と推奨する公開境界を[`CLOUD_RUN_RAG_V2_GAP_ANALYSIS.md`](CLOUD_RUN_RAG_V2_GAP_ANALYSIS.md)へ記録した。resource、IAM、API、secret、trafficは変更していない。

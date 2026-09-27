@@ -32,7 +32,7 @@ Phase 0の最後に、各serviceの最小接続試験をどの順序・認証・
 
 ### 3.1 Repository
 
-- 現行アプリはChromaをローカル永続化し、ログとfeedbackをJSONLへ保存する。Qdrant、PostgreSQL、Cloud Storageのclient依存と接続コードはまだない。
+- このread-only調査時点では現行アプリはChromaをローカル永続化し、ログとfeedbackをJSONLへ保存していた。その後、local RAG v2へQdrantとPostgreSQLのclient、migration、接続コードを実装した。公開Cloud Runは2026-09-27時点で旧commitのままである。現在差分は[`CLOUD_RUN_RAG_V2_GAP_ANALYSIS.md`](CLOUD_RUN_RAG_V2_GAP_ANALYSIS.md)を参照する。
 - `config.py`の現行回答モデルは`gemini-3.1-flash-lite`、Embeddingは`gemini-embedding-001`である。回答モデルは構造化経路のTop-5・Top-8比較後に2.5 Flashから変更した。
 - 目標仕様はPostgreSQLを正本、Qdrantを再構築可能な検索index、Cloud Storageを原本・画像の保存先にする。分類器の基準候補は`gemini-3.1-flash-lite`である。
 - `.env`の内容は読まず、変数名だけを確認した。存在したのは`GOOGLE_API_KEY`だけで、Qdrant・PostgreSQL・Cloud Storage用の変数はなかった。
@@ -43,10 +43,10 @@ Phase 0の最後に、各serviceの最小接続試験をどの順序・認証・
 |---|---|---|
 | Cloud Run | `municipal-rag-assistant`は`asia-northeast1`で、`municipal-rag-runtime` service accountを使用 | 現在の実行identityとregionを確認した |
 | Gemini secret | Cloud Runの`GOOGLE_API_KEY`はSecret Managerの`gemini-api-key` version 1を参照 | secret参照は存在する。keyの種類・tier・現在のAPI疎通は未確認 |
-| Cloud SQL | Cloud SQL Admin APIは無効。確認時のenable確認には`N`で応答され、変更なし | instanceの存在・接続・費用は未検証。repositoryにも接続実装はない |
+| Cloud SQL | Cloud SQL Admin APIは無効。確認時のenable確認には`N`で応答され、変更なし | instanceの存在・接続・費用は未検証。local接続実装は後続工程で追加したが、Cloud Runには未接続 |
 | Cloud Storage API | 有効 | control planeへのread-only accessを確認した |
 | 既存GCS | Terraform state bucketは東京、Cloud Build bucketはUS。合計使用量は72,788 bytes | 既存bucketは別責務であり、アプリ文書保存先には流用しない |
-| Qdrant Cloud | endpoint、API key、client依存がrepositoryにない | accountやclusterが存在しないとは断定できない。今回のscopeからは接続不能 |
+| Qdrant Cloud | endpoint、API keyがCloud Runにない。client依存は後続工程でrepositoryへ追加した | accountやclusterが存在しないとは断定できない。公開Cloud Runからは接続不能 |
 
 Terraform state bucketには非current versionを新しい版10件で削除するlifecycleがある。Cloud Run runtime service accountを対象にしたproject IAMのread-only照会は直接bindingを返さなかった。ただし、継承role、bucket単位IAM、custom roleまではこの結果だけで否定できない。
 
