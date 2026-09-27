@@ -11,14 +11,15 @@
 - Cloud SQL for PostgreSQLの最小zonal instance、database、user、接続URL secret。
 - Qdrant Cloud APIキーを格納するsecret container。secret versionはcluster作成後に別途登録します。
 - Cloud Run runtime service accountのCloud SQL接続権限と、RAG v2用secretの参照権限。
+- 対象project限定のCloud Billing月額予算と通知しきい値。
 
-シークレットの値やサービスアカウント鍵はTerraformに保存しません。
+サービスアカウント鍵とQdrant APIキーの値はTerraformに保存しません。Terraformが生成するDB passwordと接続URLはsensitive valueとして非公開GCS stateへ保存します。
 
 ## 現在の状態
 
 2026-09-22時点で、Cloud Runサービス `municipal-rag-assistant` は `asia-northeast1` に存在し、実行用サービスアカウント `municipal-rag-runtime` とSecret Managerの `gemini-api-key` を参照しています。同日、GitHub Actions用の認証基盤と権限をTerraformで適用しました。適用後の `terraform plan` は変更なしです。既存のCloud RunサービスはTerraformの管理対象に含めていません。
 
-2026-09-27にRAG v2公開用resourceを追加し、Terraform planで`12 add, 0 change, 0 destroy`を確認しました。このplanはまだapplyしていません。Cloud SQLの継続費、Qdrant Free clusterの作成、Secret version登録を確認してから適用します。
+2026-09-27に対象project限定の月額2,000円予算を先行適用し、50%、80%、100%の通知しきい値を確認しました。続いてRAG v2公開用resourceを`12 added, 0 changed, 0 destroyed`で適用しました。Cloud SQLは`RUNNABLE`で、適用後のTerraform planは`No changes`です。Qdrant Free clusterの作成、API keyのSecret version登録、GitHub production variablesの設定は未完了です。
 
 ## 検証と適用の順序
 

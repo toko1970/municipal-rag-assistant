@@ -27,3 +27,15 @@ variable "cloud_sql_tier" {
   type        = string
   default     = "db-f1-micro"
 }
+
+variable "billing_account_id" {
+  description = "Billing account used by the municipal-rag-portfolio project."
+  type        = string
+  default     = "01D3CC-E463CE-291ED3"
+}
+
+variable "monthly_budget_jpy" {
+  description = "Monthly alert budget for this portfolio project in JPY."
+  type        = number
+  default     = 2000
+}

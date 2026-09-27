@@ -1,9 +1,9 @@
 # Public RAG v2 deployment plan
 
 - 作成日: 2026-09-27
-- 状態: `PLAN_READY_NOT_APPLIED`
+- 状態: `GCP_INFRA_APPLIED_QDRANT_PENDING`
 - 目的: localで検証したQdrant、PostgreSQL、Gemini 3.1のRAG v2を公開Cloud Runへ反映する
-- Terraform plan: 12 add、0 change、0 destroy
+- Terraform apply: 予算2件とRAG v2基盤12件を追加、0 change、0 destroy
 
 ## 1. 公開構成
 
@@ -24,9 +24,9 @@ flowchart LR
 
 ローカルのPostgreSQL containerをCloud SQLへ、Qdrant containerをQdrant Cloudへ置き換える。アプリケーションのrepositoryとvector index interfaceは維持する。
 
-## 2. Terraform plan
+## 2. Terraform apply
 
-2026-09-27に既存GCS backendのstateをrefreshし、次のplanを保存した。
+2026-09-27に既存GCS backendのstateをrefreshし、予算を先行適用した後、次のRAG v2基盤を適用した。適用後のplanは`No changes`だった。
 
 | 分類 | 追加resource |
 |---|---|
@@ -35,6 +35,8 @@ flowchart LR
 | Secret | `rag-database-url`とversion、`qdrant-api-key`のcontainer |
 | IAM | runtime service accountのCloud SQL Client、2 secretへのSecret Accessor |
 | Credential | 32文字の英数字DB passwordを生成 |
+
+Cloud SQL instanceは`RUNNABLE`、接続名は`municipal-rag-portfolio:asia-northeast1:municipal-rag-postgres`である。`rag-database-url`のversion 1まで作成済みで、`qdrant-api-key`は値を入れる前のsecret containerだけを作成済みである。
 
 既存Cloud Run、Artifact Registry、WIF、deployer service accountへの変更とresource削除はない。Cloud SQL instanceはTerraformの`deletion_protection = true`とし、誤ったdestroyを拒否する。
 
@@ -54,6 +56,8 @@ DB passwordと接続URLはTerraform stateにsensitive valueとして保存され
 Cloud Run、Secret Manager、Gemini、network、税、為替は利用量により別途発生する。`db-f1-micro`はshared CPUでSLA対象外である。Qdrant Free clusterは学習・demo用で、未使用時のsuspendや削除条件を受け入れる。
 
 Cloud SQLは`activation_policy = ALWAYS`のため、質問がない時間もinstance料金が発生する。公開を終了するときは、必要な評価証拠を保存し、deletion protectionを明示的に解除してdestroyする。
+
+課金resourceより先に、このprojectだけを対象とする月額2,000円のCloud Billing予算をTerraformで作成した。実費の50%、80%、100%で標準のrole-based email通知を送る。予算は利用停止や上限固定を行う機能ではなく、超過を知らせるガードレールである。請求先アカウントには以前から全project対象の月額1,000円予算もあり、対象範囲が異なるため維持する。
 
 ## 4. CDの順序
 
@@ -75,7 +79,7 @@ Cloud RunとCloud SQLの接続にはCloud SQL Auth Proxy統合のUnix socketを�
 
 ## 5. 外部設定
 
-Terraform apply後に次を設定する。
+Google Cloud側のTerraform apply後に次を設定する。
 
 | 設定先 | 名前 | 値 |
 |---|---|---|

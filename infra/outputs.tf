@@ -17,3 +17,8 @@ output "qdrant_api_key_secret" {
   description = "Add one Qdrant database API key version to this secret after creating the cluster."
   value       = google_secret_manager_secret.qdrant_api_key.secret_id
 }
+
+output "monthly_budget_name" {
+  description = "Cloud Billing budget protecting the portfolio project."
+  value       = google_billing_budget.rag_portfolio.name
+}
