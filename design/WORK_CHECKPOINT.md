@@ -110,6 +110,11 @@
 - 根拠Hit@5は6件改善・2件退行した。Q351は必要文書がTop-5から外れ、Q446は複数根拠のうち提出期限が押し出されたため、回答品質比較前にはactive collectionへ切り替えない。
 - 初回の文書86要素Embeddingは1 API call、2.32秒だった。cache再実行はAPI呼出0回でraw resultがbyte単位で一致した。
 - 外部APIなしの全test 149件、実PostgreSQL・Qdrant統合test 1件、Ruff、diff検査が成功した。
+- 根拠見出しHit@5が変化した8問を、同一query vector・generator・classifier・top-kでbaselineとcontextual headingへ通す回答回帰評価を実施した。
+- contextual headingは期待ラベル一致を4/8から7/8、必須内容一致を4/8から6/8、全件確認の完全回答を3/8から6/8へ改善した。Q151は受付を省略して部分回答、Q446は提出期限がTop-5外となり表示失敗した。
+- Q381 baselineは別手続の取得文へ忠実でも質問には不適合だった。現行classifierのgrounding判定だけでは質問適合性を保証できないことを失敗例として記録した。
+- Q141 baselineとQ446 candidateの生成・分類間の表示不整合を、成功まで再試行せず`分類・表示失敗`として保存した。Q446回帰が残るためactive collectionへの切替は保留した。
+- 回帰評価追加後、外部APIなしの全test 153件、実PostgreSQL・Qdrant統合test 1件、Ruff、diff検査が成功した。
 
 ## 2. 未完了・次回反映すること
 
@@ -120,7 +125,7 @@
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
 - Streamlit画面を`RAG_BACKEND=qdrant`で起動して、質問・引用・feedbackの画面操作を通すsmoke testは未実施である。
 - Streamlitの実ブラウザから実Gemini・PostgreSQLへ接続する最終smoke testは未実施である。画面配線とcore実動は別々に検証済み。
-- 次はcontextual heading candidateの回答生成・分類をbaselineと同じdevelopment質問で比較し、検索改善が最終回答と根拠なし断定を悪化させないことを確認する。
+- 次はcontextual headingを固定し、複数根拠質問で必要節を落とさない最小変更としてtop-k拡大または多様性を考慮した取得を比較する。Q446の期限回復、Q151の網羅性、追加ノイズとtoken増加を同じ8問で測る。
 
 ## 3. 次回最初に行うこと
 
@@ -245,3 +250,5 @@ Account preflight時点は5時間枠63%使用、週間枠24%使用だった。AI
 Gemini実行直前は5時間枠69%使用、週間枠25%使用だった。ユーザー承認後、Secret version 1をprocess memoryへだけ取得してAI Studioのmasked keyと照合し、固定promptを1 request送った。`SUCCESS`、retry 0、1.408788秒、input 54・output 51・合計105 tokens、Free tierの価格表上の推定請求額`$0`、Paid list price換算`$0.00009000`だった。固定Schema・期待値一致、Secret非混入、費用再計算一致を確認した。reset creditは使用していない。
 
 GCS実行票の作成開始時点は5時間枠74%使用、週間枠26%使用だった。固定checklist方式で、既存bucketを流用しない短命bucket、control/data plane identity分離、runtime service accountのbucket限定`roles/storage.objectUser`、131 bytesの架空payload、generation precondition、soft delete無効化、費用上限`$0.01`、cleanupを[`GCS_CONNECTION_SPIKE_RUNBOOK.md`](GCS_CONNECTION_SPIKE_RUNBOOK.md)へ固定した。完了時点は5時間枠80%、週間枠27%のため、read-only preflightとresource操作は開始せずcheckpointで停止した。bucket作成、IAM変更、object操作、reset credit使用は行っていない。
+
+Contextual heading回答回帰評価の開始時点は週間枠4%、完了時点は5%だった。表示されたsecondary 5時間枠はなかった。固定8問・16回答の有限runと全件確認を完了し、reset creditは使用していない。

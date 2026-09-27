@@ -55,12 +55,17 @@ def load_baseline_query_vectors(
     question_texts = [row["question"] for row in questions]
     if payload.get("embedding_model") != EMBEDDING_MODEL_NAME:
         raise ValueError("baseline query cacheのEmbeddingモデルが一致しません")
-    if payload.get("questions") != question_texts:
-        raise ValueError("baseline query cacheの質問と評価対象が一致しません")
+    cached_questions = payload.get("questions", [])
     vectors = payload.get("vectors", [])
-    if len(vectors) != len(question_texts):
+    if len(vectors) != len(cached_questions):
         raise ValueError("baseline query cacheのvector数が一致しません")
-    return dict(zip(question_texts, vectors, strict=True))
+    if len(set(cached_questions)) != len(cached_questions):
+        raise ValueError("baseline query cacheに重複した質問があります")
+    cached_vectors = dict(zip(cached_questions, vectors, strict=True))
+    missing = [question for question in question_texts if question not in cached_vectors]
+    if missing:
+        raise ValueError("baseline query cacheに評価対象の質問がありません")
+    return {question: cached_vectors[question] for question in question_texts}
 
 
 def file_sha256(path: Path) -> str:
