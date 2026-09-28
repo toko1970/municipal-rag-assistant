@@ -1,0 +1,17 @@
+{
+  "completed_count": 3,
+  "control_regression_ids": [
+    "Q446"
+  ],
+  "estimated_cost_usd": 0.0045505,
+  "gate_passed": false,
+  "input_tokens": 8662,
+  "logical_external_calls": 7,
+  "max_cost_usd": 0.015,
+  "output_tokens": 1590,
+  "scenario_count": 3,
+  "sealed_holdout_accessed": false,
+  "stop_reason": "COMPLETED",
+  "target_count": 1,
+  "target_improvement_count": 1
+}

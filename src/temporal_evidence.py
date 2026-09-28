@@ -64,6 +64,10 @@ def _question_domains(question: str) -> set[str]:
         for phrase, domain in QUESTION_DOMAIN_ALIASES.items()
         if phrase in question
     )
+    if "家賃" in question and any(
+        phrase in question for phrase in ("入居", "住宅", "賃貸")
+    ):
+        domains.add("住居手当")
     return domains
 
 

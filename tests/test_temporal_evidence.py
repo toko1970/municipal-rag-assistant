@@ -168,3 +168,22 @@ def test_prompt_builder_prepends_guidance_only_when_applicable() -> None:
     )
 
     assert prompt.startswith("版適用情報:")
+
+
+def test_housing_facts_map_to_allowance_without_explicit_policy_name() -> None:
+    revised = _hit(
+        1,
+        heading1="4. 住居手当の改正",
+        heading2="改正後",
+        effective_date="2025-10-01",
+        role="revision_history",
+        content="月額家賃が15,000円を超える場合に対象とする。",
+    )
+
+    instruction = temporal_prompt_instruction(
+        "2025年10月に家賃15,500円の住宅へ入居した場合の要件は？",
+        [revised],
+    )
+
+    assert instruction is not None
+    assert "住居手当" in instruction
