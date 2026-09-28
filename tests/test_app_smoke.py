@@ -22,7 +22,7 @@ def test_streamlit_question_references_and_feedback_flow() -> None:
                 "score": 0.9,
                 "source": "01_salary_rules.md",
                 "visual_asset": {
-                    "local_path": str(fixture_image),
+                    "content": fixture_image.read_bytes(),
                     "page_number": 1,
                 },
             }

@@ -90,9 +90,9 @@ if st.session_state.result is not None:
 
             with st.expander(f"参照 {i}: {document_name} / {heading}"):
                 visual_asset = ref.get("visual_asset")
-                if visual_asset and visual_asset.get("local_path"):
+                if visual_asset and visual_asset.get("content"):
                     st.image(
-                        visual_asset["local_path"],
+                        visual_asset["content"],
                         caption=(
                             f"{document_name} p.{visual_asset.get('page_number', '?')}"
                         ),

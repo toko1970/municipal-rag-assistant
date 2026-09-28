@@ -239,7 +239,7 @@ def test_visual_hit_uses_verified_image_and_returns_display_metadata(tmp_path) -
     )
     asset = VisualEvidenceAsset(
         element_id=element.id,
-        local_path=str(path),
+        storage_uri=path.as_uri(),
         mime_type="image/png",
         page_number=1,
         sha256=hashlib.sha256(content).hexdigest(),
@@ -291,7 +291,7 @@ def test_visual_hit_uses_verified_image_and_returns_display_metadata(tmp_path) -
     assert generator.media == [(content, "image/png")]
     assert "申請者へ差戻し" in generator.prompt
     visual = result["references"][0]["visual_asset"]
-    assert visual["local_path"] == str(path)
+    assert visual["content"] == content
     assert visual["page_number"] == 1
 
 
@@ -309,7 +309,7 @@ def test_visual_hash_mismatch_is_logged_as_generation_failure(tmp_path) -> None:
     )
     asset = VisualEvidenceAsset(
         element_id=element.id,
-        local_path=str(path),
+        storage_uri=path.as_uri(),
         mime_type="image/png",
         page_number=1,
         sha256="0" * 64,

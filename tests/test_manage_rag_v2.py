@@ -85,7 +85,7 @@ def test_ingest_visual_wires_reviewed_candidate_to_runtime_boundaries(
     with (
         patch("scripts.manage_rag_v2.PostgresDocumentRepository") as repository,
         patch("scripts.manage_rag_v2.QdrantVectorIndex") as vector_index,
-        patch("scripts.manage_rag_v2.LocalAssetStore") as asset_store,
+        patch("scripts.manage_rag_v2.get_asset_store") as asset_store,
         patch("scripts.manage_rag_v2.get_embeddings") as embeddings,
         patch(
             "scripts.manage_rag_v2.ingest_visual_pdf", return_value=expected

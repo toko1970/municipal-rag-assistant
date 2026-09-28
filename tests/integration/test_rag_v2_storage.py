@@ -29,7 +29,7 @@ from src.persistence.repositories import (
     PostgresEventLogger,
 )
 from src.qdrant_index import QdrantVectorIndex
-from src.asset_store import LocalAssetStore
+from src.asset_store import LocalAssetReader, LocalAssetStore
 from src.visual_ingestion import ingest_visual_pdf, render_pdf_page
 
 
@@ -234,7 +234,9 @@ def test_visual_pdf_round_trip_is_idempotent(tmp_path: Path) -> None:
             assert asset.sha256 == extraction["source_image_sha256"]
             loaded_asset = repository.get_visual_assets([UUID(element_id)])[0]
             assert loaded_asset.element_id == UUID(element_id)
-            assert loaded_asset.read_verified() == Path(asset.local_path).read_bytes()
+            assert LocalAssetReader().read(loaded_asset) == render_pdf_page(
+                pdf_path, 1
+            ).png
         assert first["element_id"] == second["element_id"]
         assert len(list((tmp_path / "assets").rglob("*.png"))) == 1
         hits = index.search([1.0, 0.0, 0.0], limit=1)

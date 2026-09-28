@@ -8,6 +8,7 @@ from config import (
     LLM_MODEL_NAME,
     TOP_K,
 )
+from src.asset_backend import get_asset_reader
 from src.embeddings import get_embeddings
 from src.llm_provider import GeminiProvider
 from src.persistence.database import get_session_factory
@@ -37,4 +38,5 @@ def generate_qdrant_answer(question: str) -> dict:
         classification_schema=load_schema(CLASSIFICATION_SCHEMA_PATH),
         top_k=TOP_K,
         visual_asset_loader=repository.get_visual_assets,
+        asset_reader=get_asset_reader(),
     )

@@ -161,7 +161,7 @@ class PostgresDocumentRepository:
                     VisualAssetRow(
                         id=uuid4(),
                         content_element_id=element.id,
-                        local_path=asset.local_path,
+                        storage_uri=asset.storage_uri,
                         mime_type=asset.mime_type,
                         page_number=element.page_number or 1,
                         sha256=asset.sha256,
@@ -169,7 +169,7 @@ class PostgresDocumentRepository:
                     )
                 )
             else:
-                existing_asset.local_path = asset.local_path
+                existing_asset.storage_uri = asset.storage_uri
                 existing_asset.mime_type = asset.mime_type
                 existing_asset.sha256 = asset.sha256
                 existing_asset.bbox = bbox
@@ -242,7 +242,7 @@ class PostgresDocumentRepository:
         return [
             VisualEvidenceAsset(
                 element_id=row.content_element_id,
-                local_path=row.local_path,
+                storage_uri=row.storage_uri,
                 mime_type=row.mime_type,
                 page_number=row.page_number,
                 sha256=row.sha256,

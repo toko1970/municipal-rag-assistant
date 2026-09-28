@@ -12,8 +12,8 @@ from alembic.config import Config
 from sqlalchemy import select
 from sqlalchemy.orm import Session, sessionmaker
 
-from config import BASE_DIR, DATABASE_URL, LLM_MODEL_NAME, VISUAL_ASSET_DIR
-from src.asset_store import LocalAssetStore
+from config import BASE_DIR, DATABASE_URL, LLM_MODEL_NAME
+from src.asset_backend import get_asset_store
 from src.embeddings import get_embeddings
 from src.ingestion import ingest_markdown_documents
 from src.llm_provider import GeminiProvider
@@ -85,7 +85,7 @@ def ingest_visual(
         reviewed=True,
         repository=PostgresDocumentRepository(session_factory()),
         vector_index=QdrantVectorIndex(),
-        asset_store=LocalAssetStore(VISUAL_ASSET_DIR),
+        asset_store=get_asset_store(),
         embeddings=get_embeddings(),
     )
 

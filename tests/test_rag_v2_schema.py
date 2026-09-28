@@ -17,3 +17,10 @@ def test_required_rag_v2_tables_are_declared() -> None:
         "claim_evidence",
         "feedback",
     }
+
+
+def test_visual_asset_uses_backend_neutral_storage_uri() -> None:
+    columns = Base.metadata.tables["visual_assets"].columns
+
+    assert "storage_uri" in columns
+    assert "local_path" not in columns

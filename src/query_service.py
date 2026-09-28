@@ -16,7 +16,7 @@ from src.answering import (
     render_display_answer,
     validate_answer_evidence,
 )
-from src.asset_store import VisualEvidenceAsset
+from src.asset_store import AssetReader, LocalAssetReader, VisualEvidenceAsset
 from src.contracts import SearchHit, VectorIndex
 from src.llm_provider import StructuredLLMProvider, StructuredLLMResult
 
@@ -51,10 +51,11 @@ def _evidence_payload(
     hits: list[SearchHit],
     visual_assets: dict[UUID, VisualEvidenceAsset] | None = None,
     *,
-    include_local_path: bool = False,
+    display_content: dict[UUID, bytes] | None = None,
 ) -> list[dict]:
     result = []
     visual_assets = visual_assets or {}
+    display_content = display_content or {}
     attachment_indexes = {
         element_id: index
         for index, element_id in enumerate(visual_assets, start=1)
@@ -82,8 +83,8 @@ def _evidence_payload(
                 "bbox": asset.bbox,
                 "attachment_index": attachment_indexes[hit.element.id],
             }
-            if include_local_path:
-                payload["visual_asset"]["local_path"] = asset.local_path
+            if hit.element.id in display_content:
+                payload["visual_asset"]["content"] = display_content[hit.element.id]
         result.append(payload)
     return result
 
@@ -153,6 +154,7 @@ def answer_question(
     classification_schema: dict,
     top_k: int = 5,
     visual_asset_loader: Callable[[list[UUID]], list[VisualEvidenceAsset]] | None = None,
+    asset_reader: AssetReader | None = None,
     max_visual_assets: int = 3,
 ) -> dict:
     if max_visual_assets < 0:
@@ -163,6 +165,7 @@ def answer_question(
 
     generation_result = None
     visual_assets: dict[UUID, VisualEvidenceAsset] = {}
+    visual_content: dict[UUID, bytes] = {}
     try:
         if visual_asset_loader is not None:
             loaded_assets = visual_asset_loader([hit.element.id for hit in hits])
@@ -177,9 +180,14 @@ def answer_question(
         if visual_assets:
             if not hasattr(generator, "generate_structured_with_media"):
                 raise TypeError("図表根拠にはmultimodal対応generatorが必要です")
+            reader = asset_reader or LocalAssetReader()
+            visual_content = {
+                element_id: reader.read(asset)
+                for element_id, asset in visual_assets.items()
+            }
             media = [
-                (asset.read_verified(), asset.mime_type)
-                for asset in visual_assets.values()
+                (visual_content[element_id], asset.mime_type)
+                for element_id, asset in visual_assets.items()
             ]
             generation_result = generator.generate_structured_with_media(
                 prompt, answer_schema, media=media
@@ -261,7 +269,7 @@ def answer_question(
         "answer_label": display.label,
         "claims": _claim_log_rows(display),
         "references": _evidence_payload(
-            hits, visual_assets, include_local_path=True
+            hits, visual_assets, display_content=visual_content
         ),
         "generation": generation_result.metadata(),
         "visual_evidence_count": len(visual_assets),

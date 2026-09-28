@@ -22,6 +22,8 @@ LOGS_DIR = BASE_DIR / "logs"
 VISUAL_ASSET_DIR = Path(
     os.getenv("VISUAL_ASSET_DIR", str(BASE_DIR / ".rag_assets"))
 )
+VISUAL_ASSET_BACKEND = os.getenv("VISUAL_ASSET_BACKEND", "local")
+GCS_VISUAL_ASSET_BUCKET = os.getenv("GCS_VISUAL_ASSET_BUCKET", "")
 
 RAG_LOG_PATH = LOGS_DIR / "rag_logs.jsonl"
 FEEDBACK_LOG_PATH = LOGS_DIR / "feedback_logs.jsonl"

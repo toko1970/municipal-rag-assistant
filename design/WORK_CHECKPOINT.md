@@ -152,6 +152,7 @@
 - 図表回答30 scenario用のbounded evaluatorを追加した。development以外を拒否し、インメモリQdrant、最大scenario・費用、scenarioごとの費用予約、retry 0、error fail-fast、逐次JSONL、条件一致resumeを固定した。VD001 pilot v2は分類・必須fixture検索・回答内容が成功し、input 17,871、output 247 tokens、標準料金換算US$0.00483825、15.38秒だった。v1のartifact保存失敗も上書きせず保存した。詳細は[`VISUAL_ANSWER_BASELINE.md`](../eval/VISUAL_ANSWER_BASELINE.md)に記録した。
 - 図表回答baseline 30/30を完了した。必須fixture検索30/30、分類28/30、API error 0、input 573,290・output 9,468 tokens、標準料金換算US$0.1575245、平均10.08秒だった。分類失敗は`needs_judgment`の2件だけで、どちらも検索成功後の生成・分類境界だった。Codex初回内容reviewはpass 27、partial 1、fail 2で、ユーザー確認前の値として分離保存した。
 - `VD004`の根拠外読み替えをpromptだけで防ぐRevolveを2候補試した。v2はVD004単体を改善したが、全体runのVD003で誤記「モレ」を「不備」へ対応できず表示契約違反となった。誤字を許可したv3も同じ退行を再現したため、両候補を不採用にして`answer-claims-v1`へ戻した。次の改善はclaim locatorまたは生成・分類の決定的不整合処理とする。
+- visual asset境界をLocal/GCSで差替可能にした。DB列を`local_path`から`storage_uri`へ非破壊migrationし、Localは`file://`、GCSは`gs://`を保存する。GCSはcreate-only precondition、content hash key、重複時hash照合を使い、readerはdownload後にSHA-256を再検証する。回答時の同じbytesをGeminiとStreamlitへ渡すため、Cloud Runの一時filesystemに依存しない。cloud bucketとIAMはまだ作成・変更していない。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
@@ -163,8 +164,9 @@
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
 3. `VD004`の根拠外読み替えと`VD024`の判断要/文書不足境界に限定した候補を、同じ30 scenarioで比較する。
-4. 現在のLocalAssetStore境界をGCS adapterへ差し替え、Cloud Runから画像を取得・表示できるようにする。
-5. development候補と内容reviewを固定した後にだけ、visual sealed holdoutの実行可否をユーザーへ確認する。
+4. Terraformへprivate application bucketとruntime object権限を追加し、具体的な費用・rollbackを提示してapply承認を得る。
+5. reviewed 6 fixtureをGCS・Cloud SQL・Qdrant Cloudへ登録し、Cloud Runで画像付き質問をsmokeする。
+6. development候補と内容reviewを固定した後にだけ、visual sealed holdoutの実行可否をユーザーへ確認する。
 
 ## 4. 完了したvisual fixture学習単位
 

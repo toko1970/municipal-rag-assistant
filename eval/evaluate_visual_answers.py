@@ -145,7 +145,7 @@ def prepare_visual_corpus(
         )
         assets[element.id] = VisualEvidenceAsset(
             element_id=element.id,
-            local_path=stored.local_path,
+            storage_uri=stored.storage_uri,
             mime_type=stored.mime_type,
             page_number=page.page_number,
             sha256=stored.sha256,
@@ -179,12 +179,16 @@ def _usage(result: dict[str, Any]) -> tuple[int, int]:
 
 
 def _portable_references(references: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    portable = _json_safe(references)
-    for reference in portable:
-        visual_asset = reference.get("visual_asset")
+    without_binary = []
+    for reference in references:
+        item = dict(reference)
+        visual_asset = item.get("visual_asset")
         if isinstance(visual_asset, dict):
-            visual_asset.pop("local_path", None)
-    return portable
+            visual_asset = dict(visual_asset)
+            visual_asset.pop("content", None)
+            item["visual_asset"] = visual_asset
+        without_binary.append(item)
+    return _json_safe(without_binary)
 
 
 def _json_safe(value: Any) -> Any:
