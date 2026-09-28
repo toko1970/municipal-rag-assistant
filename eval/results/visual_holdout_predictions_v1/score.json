@@ -1,0 +1,71 @@
+{
+  "candidate_git_commit": "6a2d7e628ba91eb939f13edbe37eaab2a23f026a",
+  "extraction": {
+    "extraction_attempt_count": 2,
+    "gate_evaluated_count": 1,
+    "gate_passed_count": 0,
+    "records": [
+      {
+        "document_id": "vh_doc_a7",
+        "metrics": {
+          "element_recall": 0.5555555555555556,
+          "gate_passed": false,
+          "gold_elements": 9,
+          "important_values_exact": false,
+          "kind": "flowchart",
+          "matched_elements": 5,
+          "mean_bbox_iou": 0.8057170990966703
+        },
+        "schema_error": null,
+        "schema_status": "VALID"
+      },
+      {
+        "document_id": "vh_doc_m2",
+        "metrics": null,
+        "schema_error": "ValueError: flowchartにはstart nodeが1件必要です",
+        "schema_status": "INVALID"
+      }
+    ],
+    "schema_invalid_count": 1,
+    "schema_valid_count": 1,
+    "sealed_document_count": 6,
+    "unattempted_document_count": 4
+  },
+  "failure_attribution": {
+    "cascading_blocked_scenarios": 20,
+    "detail": "ValueError: flowchartにはstart nodeが1件必要です",
+    "failed_document_id": "vh_doc_m2",
+    "primary_category": "visual_extraction_schema_failure"
+  },
+  "gold_hash_verified": {
+    "extraction": true,
+    "scenario": true
+  },
+  "holdout_id": "visual-sealed-holdout-v1",
+  "holdout_reusable_as_unseen": false,
+  "pipeline_stage_status": {
+    "answer_classification": "NOT_EXECUTED",
+    "answer_generation": "NOT_EXECUTED",
+    "retrieval": "NOT_EXECUTED",
+    "visual_extraction": "FAILED"
+  },
+  "prediction_sha256": "4572a4475ab550fa272dc062ef6dcf927e28b339d9c01e99e85b98d30ff07e71",
+  "run_id": "visual_holdout_predictions_v1",
+  "scenarios": {
+    "answer_content_evaluated_count": 0,
+    "blocked_by_extraction_error_count": 20,
+    "classification_accuracy": null,
+    "classification_correct_count": 0,
+    "classification_evaluated_count": 0,
+    "completed_answer_count": 0,
+    "end_to_end_success_count": 0,
+    "end_to_end_success_rate": 0.0,
+    "expected_classification_counts": {
+      "grounded": 12,
+      "insufficient_documents": 4,
+      "needs_judgment": 4
+    },
+    "scenario_count": 20
+  },
+  "schema_version": "1.0"
+}

@@ -187,6 +187,21 @@ def validate_prediction_artifact(
         raise ValueError("prediction固定前にgoldへアクセスしてはいけません")
 
 
+def validate_result_artifact(
+    manifest: dict[str, Any], repository_root: Path
+) -> None:
+    if STATE_ORDER[manifest["state"]] < STATE_ORDER["CONSUMED"]:
+        return
+    results = manifest["results"]
+    path = checked_path(repository_root, results["path"])
+    verify_hash(path, results["sha256"], "results")
+    score = load_json(path)
+    if score.get("holdout_id") != manifest["holdout_id"]:
+        raise ValueError("scoreのholdout_idがpublic manifestと一致しません")
+    if score.get("holdout_reusable_as_unseen") is not False:
+        raise ValueError("consumed holdoutを未見評価として再利用できません")
+
+
 def validate_sealed_artifacts(manifest: dict[str, Any], sealed_root: Path) -> None:
     if STATE_ORDER[manifest["state"]] < STATE_ORDER["SEALED"]:
         raise ValueError("PLANNEDではsealed artifactの照合を実行できません")
@@ -230,6 +245,7 @@ def validate_public_manifest(
     validate_development_family_separation(manifest, repository_root)
     validate_candidate_artifact(manifest, repository_root)
     validate_prediction_artifact(manifest, repository_root)
+    validate_result_artifact(manifest, repository_root)
     if sealed_root is not None:
         validate_sealed_artifacts(manifest, sealed_root)
     return manifest

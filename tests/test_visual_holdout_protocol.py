@@ -9,6 +9,7 @@ from eval.validate_visual_holdout_protocol import (
     validate_candidate_artifact,
     validate_prediction_artifact,
     validate_public_manifest,
+    validate_result_artifact,
     validate_state_requirements,
 )
 
@@ -22,7 +23,7 @@ class VisualHoldoutProtocolTest(unittest.TestCase):
     def test_committed_candidate_is_valid_without_opening_sealed_content(self):
         manifest = validate_public_manifest(MANIFEST_PATH, REPOSITORY_ROOT)
 
-        self.assertEqual(manifest["state"], "OPENED")
+        self.assertEqual(manifest["state"], "CONSUMED")
         self.assertGreaterEqual(len(manifest["documents"]), 6)
         self.assertEqual(manifest["questions"]["count"], 20)
         self.assertEqual(
@@ -33,7 +34,7 @@ class VisualHoldoutProtocolTest(unittest.TestCase):
         self.assertEqual(manifest["predictions"]["attempt_count"], 20)
         self.assertTrue(manifest["opening"]["extraction_hash_verified"])
         self.assertTrue(manifest["opening"]["scenario_hash_verified"])
-        self.assertIsNone(manifest["results"])
+        self.assertEqual(manifest["results"]["count"], 20)
 
     def test_candidate_hash_change_is_rejected(self):
         manifest = deepcopy(load_json(MANIFEST_PATH))
@@ -48,6 +49,13 @@ class VisualHoldoutProtocolTest(unittest.TestCase):
 
         with self.assertRaisesRegex(ValueError, "SHA-256が一致しません"):
             validate_prediction_artifact(manifest, REPOSITORY_ROOT)
+
+    def test_result_hash_change_is_rejected(self):
+        manifest = deepcopy(load_json(MANIFEST_PATH))
+        manifest["results"]["sha256"] = "0" * 64
+
+        with self.assertRaisesRegex(ValueError, "SHA-256が一致しません"):
+            validate_result_artifact(manifest, REPOSITORY_ROOT)
 
     def test_blueprint_fixes_all_twenty_scenario_ids_and_margins(self):
         blueprint = load_json(BLUEPRINT_PATH)
