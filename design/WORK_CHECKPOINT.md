@@ -324,4 +324,6 @@ Cloud Run / local RAG v2差分確認の開始時点は週間枠7%で、表示さ
 
 総合回答成功率を対象に、RAG側と回答分類器側の改善手法を[`RAG_AND_CLASSIFIER_IMPROVEMENT_RESEARCH.md`](../eval/RAG_AND_CLASSIFIER_IMPROVEMENT_RESEARCH.md)へ統合した。分類失敗9件は、分類器だけで総合成功へ変えられる高確度4件、検索完全性またはgold境界に論点がある2件、Generator・表示契約とのcross-layer問題3件に分けた。分類器候補には現行Gemini、Jevのfactor別5 Noul、多言語NLIがあるが、Jevは公開直後で日本語制度文書の独立評価が不足しているため置換を前提にしない。RAG側はQdrant Hybrid Search、Generator required facets、条件付きQuery Decompositionを候補とし、分類器実験と分離して評価する。sealed holdout、外部API、production設定は使用・変更していない。
 
-優先順位を失敗件数ではなく限界効果で再確認した。分類器だけで総合成功へ変わる高確度対象は、取得根拠と回答本文が正しい`Q046`、`Q086`、`Q301`、`Q316`の4件である。`Q126`は検索完全性、`VD024`はgold境界、残る3件はcross-layerの論点がある。次はVersion Resolverの基盤を再利用した個別・所管判断専用resolverを、4件とhard negative controlだけで小比較する。gate通過時だけ130件回帰へ進み、Geminiで不十分または運用費が高い場合に同じ入力でJev・多言語NLIを比較する。これにより、広い3方式比較を先に行う計画を取り下げ、期待改善件数、実装・評価工数、API費用、退行リスクで施策を選ぶ。
+優先順位を失敗件数ではなく限界効果で再確認した。分類器だけで総合成功へ変わる高確度対象は、取得根拠と回答本文が正しい`Q046`、`Q086`、`Q301`、`Q316`の4件である。`Q126`は検索完全性、`VD024`はgold境界、残る3件はcross-layerの論点がある。
+
+ユーザーとの再確認により、分類器モデルの技術選定を説明できることもポートフォリオ上の便益へ含め、モデル比較を先に行う。現状の130件には最終3ラベルのgoldはあるが5 factorのgoldはないため、既存分類development case、観測済み失敗、hard negative controlから分類専用benchmarkを作り、factor goldをmodel実行前に固定する。現行Gemini、Jev 5 Noul、多言語NLIをこの小benchmarkで比較し、gate通過候補だけを保存済み130件へ適用する。全候補を130件実行しない。モデル選定後、Version Resolverの基盤を再利用した個別・所管判断専用resolverへ進む。比較指標はfactor・最終ラベルmacro F1、重大誤り、総合回答成功、費用、遅延、API errorとする。Jev外部APIはread-only preflight後に上限付きrunを別途行い、sealed holdoutは使わない。

@@ -254,9 +254,11 @@ holdoutを見て閾値を調整しない。dataが少ない段階では、複雑
 ### 7.1 固定条件
 
 - Retrieval、Generator、Top-8、Embedding、取得根拠を固定する。
-- 同じ130件の保存済み入力を全候補へ渡す。
-- 最終3ラベルだけでなく5 factorを比較する。
-- text 100とvisual 30、期待3分類、難易度を分けて集計する。
+- 現在の130件には最終3ラベルのgoldはあるが、5 factorすべてのgoldはない。この状態でfactor精度を130件分測ったとは説明しない。
+- 第一段階では、既存の分類prompt development case、現在の分類失敗、hard negative controlから分類専用benchmarkを作り、5 factorを人手annotationする。対象一覧とgoldをmodel実行前に固定する。
+- 同じ分類専用benchmarkを現行Gemini、Jev 5 Noul、多言語NLIへ渡す。
+- 第二段階では、第一段階のgateを通った候補だけを保存済み130件へ適用し、最終3ラベルと総合回答成功を測る。全候補を130件実行しない。
+- textとvisual、期待3分類、難易度を分けて集計する。
 - API errorを誤分類と混ぜない。
 - sealed holdoutは候補選択に使わない。
 
@@ -274,7 +276,9 @@ holdoutを見て閾値を調整しない。dataが少ない段階では、複雑
 
 ### 7.3 採用gate
 
-- 現在の分類正解116/130を1件以上改善する。
+- 分類専用benchmarkでfactor macro F1と最終ラベルmacro F1を記録する。
+- `判断要`・`文書不足`を`根拠十分`にする重大誤りを、現行Geminiより増やさない。
+- 有望候補の130件確認では、現在の分類正解116/130を1件以上改善する。同率の場合は、費用・遅延・失敗率を明確に改善しなければ現行を維持する。
 - 現在正しい`判断要`・`文書不足`を`根拠十分`へ変える重大退行0件。
 - 総合回答成功率を1件以上改善する。
 - Q006、Q076、Q196のcross-layer問題を、分類だけで見かけ上成功にしない。
@@ -295,17 +299,20 @@ holdoutを見て閾値を調整しない。dataが少ない段階では、複雑
 
 | 順位 | Work Package | 主対象 | 理由 |
 |---:|---|---|---|
-| 1 | 個別・所管判断専用resolverの小比較 | 高確度4件 | Version Resolverの基盤を再利用でき、生成・検索を変更せず最大4件を直接改善できる |
-| 2 | Qdrant Hybrid Search | 検索3件 | 追加LLM callなしで比較でき、Q291は正解chunkが9位にある |
-| 3 | Generator required facets | 生成の項目欠落3件 | Q066、Q131、VD019へ直接対応できる |
-| 4 | 不足条件の型付け | cross-layer 2件 | Q006、Q076を直せるがSchema・分類・表示の変更を伴う |
-| 5 | 条件付きQuery Decomposition | 検索multi-document | Hybridで残るcaseだけに限定する |
-| 6 | Reranking | 検索順位 | candidate recall確保後に効果を測る |
-| 7 | 単発境界の対策 | Q126、VD024、Q391等 | 追加例を用意してから過適合を避ける |
+| 1 | 分類器モデルの段階比較 | 分類全体 | 技術選定の証拠を作り、候補を小benchmarkで絞ってから130件確認する |
+| 2 | 個別・所管判断専用resolver | 高確度4件 | 比較で選んだmodelとVersion Resolver基盤を使い、最大4件を直接改善できる |
+| 3 | Qdrant Hybrid Search | 検索3件 | 追加LLM callなしで比較でき、Q291は正解chunkが9位にある |
+| 4 | Generator required facets | 生成の項目欠落3件 | Q066、Q131、VD019へ直接対応できる |
+| 5 | 不足条件の型付け | cross-layer 2件 | Q006、Q076を直せるがSchema・分類・表示の変更を伴う |
+| 6 | 条件付きQuery Decomposition | 検索multi-document | Hybridで残るcaseだけに限定する |
+| 7 | Reranking | 検索順位 | candidate recall確保後に効果を測る |
+| 8 | 単発境界の対策 | Q126、VD024、Q391等 | 追加例を用意してから過適合を避ける |
 
-最初から現行Gemini、Jev、多言語NLIを130件すべてで比較すると、integrationと評価の費用に対して直接対象が少ない。最初の実験は既存Geminiを使った個別・所管判断専用resolverを、4件とhard negative controlだけで比較する。既存回答に「個別確認」「総合確認」などの候補信号がある場合だけresolverを呼ぶ構成にすれば、常時二重推論を避けられる。ただし語句だけで最終ラベルを決めず、resolverが質問で求められた結論に未解決判断が残るかを判定する。
+分類器の比較自体には、「既存modelを無検証で使い続けず、本RAGの日本語・根拠付き判断で選定した」というポートフォリオ上の価値がある。そのため改善件数だけでなく、技術選定の説明可能性も便益へ含め、最初のWork Packageへ置く。
 
-小比較がgateを通った候補だけを保存済み130件へ適用する。そこで改善が不十分、退行がある、または条件付きGemini callの運用費が高い場合に、同じresolver入力でJev 5 Noulと多言語NLIを比較する。Jevは外部APIのaccess、費用、データ条件を確認してから有限runを行う。NLIはlocal pilotで入力長と日本語factor判定が成立するかを先に確認できる。Fine-tuningはfactor goldを持つ独立scenarioが増えるまで開始しない。
+ただし、現行Gemini、Jev、多言語NLIを最初から130件すべてで比較しない。最初にfactor gold付きの分類専用benchmarkで候補を絞り、gate通過候補だけを130件確認する。Jevは外部APIのaccess、費用、入力長、データ条件をread-only preflightで確認してから有限runを行う。NLIはlocal pilotで入力長と日本語factor判定が成立するかを先に確認する。Fine-tuningはfactor goldを持つ独立scenarioが増えるまで開始しない。
+
+モデル選定後、個別・所管判断4件へ専用resolverを比較する。既存回答に「個別確認」「総合確認」などの候補信号がある場合だけresolverを呼ぶ構成にすれば、常時二重推論を避けられる。ただし語句だけで最終ラベルを決めず、resolverが質問で求められた結論に未解決判断が残るかを判定する。
 
 ## 9. 結論
 
