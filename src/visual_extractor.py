@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 from dataclasses import dataclass
 from typing import Any, Protocol
 
@@ -26,6 +27,7 @@ class MultimodalStructuredProvider(Protocol):
 
 @dataclass(frozen=True)
 class VisualExtractionCandidate:
+    raw_data: dict[str, Any]
     data: dict[str, Any]
     provider: str
     model: str
@@ -35,6 +37,7 @@ class VisualExtractionCandidate:
     request_id: str
     validation_errors: tuple[str, ...] = ()
     normalized_bbox_count: int = 0
+    normalized_structure_count: int = 0
 
 
 def build_visual_extraction_prompt(*, page_number: int, kind_hint: str) -> str:
@@ -86,6 +89,32 @@ def _expand_coordinate(value: float, half_width: float = 0.0005) -> tuple[float,
     return value - half_width, value + half_width
 
 
+def normalize_table_dimensions(candidate: dict[str, Any]) -> int:
+    if candidate.get("kind") != "table":
+        return 0
+    data = candidate.get("data")
+    if not isinstance(data, dict) or not isinstance(data.get("cells"), list):
+        return 0
+    cells = data["cells"]
+    if not cells:
+        return 0
+    required_rows = max(cell["row"] + cell["row_span"] for cell in cells)
+    required_columns = max(
+        cell["column"] + cell["column_span"] for cell in cells
+    )
+    changes = 0
+    if isinstance(data.get("row_count"), int) and data["row_count"] < required_rows:
+        data["row_count"] = required_rows
+        changes += 1
+    if (
+        isinstance(data.get("column_count"), int)
+        and data["column_count"] < required_columns
+    ):
+        data["column_count"] = required_columns
+        changes += 1
+    return changes
+
+
 def extract_visual_candidate(
     *,
     page: RenderedPage,
@@ -102,7 +131,15 @@ def extract_visual_candidate(
         image=page.png,
         mime_type="image/png",
     )
-    candidate = dict(result.data)
+    return prepare_visual_candidate(result=result, page=page)
+
+
+def prepare_visual_candidate(
+    *, result: StructuredLLMResult, page: RenderedPage
+) -> VisualExtractionCandidate:
+    schema = load_visual_schema()
+    raw_data = deepcopy(result.data)
+    candidate = deepcopy(result.data)
     candidate["schema_version"] = "1.0"
     candidate["page"] = page.page_number
     candidate["source_image_sha256"] = page.sha256
@@ -115,12 +152,14 @@ def extract_visual_candidate(
         candidate["confidence"] = confidence
     confidence["review_required"] = True
     normalized_bbox_count = normalize_candidate_bboxes(candidate)
+    normalized_structure_count = normalize_table_dimensions(candidate)
     validation_errors: tuple[str, ...] = ()
     try:
         validate_gold(candidate, schema)
     except ValueError as error:
         validation_errors = (str(error),)
     return VisualExtractionCandidate(
+        raw_data=raw_data,
         data=candidate,
         provider=result.provider,
         model=result.model,
@@ -130,4 +169,5 @@ def extract_visual_candidate(
         request_id=result.request_id,
         validation_errors=validation_errors,
         normalized_bbox_count=normalized_bbox_count,
+        normalized_structure_count=normalized_structure_count,
     )

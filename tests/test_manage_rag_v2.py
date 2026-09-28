@@ -131,6 +131,7 @@ def test_extract_visual_writes_review_candidate_without_ingesting(
 ) -> None:
     output_path = tmp_path / "candidate.json"
     candidate = VisualExtractionCandidate(
+        raw_data={"schema_version": "1.0", "kind": "flowchart"},
         data={"schema_version": "1.0", "kind": "flowchart"},
         provider="fake",
         model="visual-test",
@@ -140,6 +141,7 @@ def test_extract_visual_writes_review_candidate_without_ingesting(
         request_id="request-1",
         validation_errors=("edge bboxが不正です",),
         normalized_bbox_count=3,
+        normalized_structure_count=1,
     )
     rendered = object()
     with (
@@ -162,6 +164,7 @@ def test_extract_visual_writes_review_candidate_without_ingesting(
     assert result["input_tokens"] == 120
     assert result["validation_errors"] == ["edge bboxが不正です"]
     assert result["normalized_bbox_count"] == 3
+    assert result["normalized_structure_count"] == 1
     extract_candidate.assert_called_once_with(
         page=rendered,
         kind_hint="flowchart",

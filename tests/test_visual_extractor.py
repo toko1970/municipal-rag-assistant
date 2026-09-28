@@ -3,7 +3,11 @@ import json
 from pathlib import Path
 
 from src.llm_provider import StructuredLLMResult
-from src.visual_extractor import extract_visual_candidate, normalize_candidate_bboxes
+from src.visual_extractor import (
+    extract_visual_candidate,
+    normalize_candidate_bboxes,
+    normalize_table_dimensions,
+)
 from src.visual_ingestion import render_pdf_page
 
 
@@ -55,6 +59,8 @@ def test_visual_extractor_binds_page_hash_and_forces_review() -> None:
     assert result.data["page"] == 1
     assert result.data["source_image_sha256"] == page.sha256
     assert result.data["confidence"]["review_required"] is True
+    assert result.raw_data["page"] == 99
+    assert result.raw_data["confidence"]["review_required"] is False
     assert result.prompt_version == "visual-extraction-v1"
     assert result.input_tokens == 100
     assert provider.call["image"] == page.png
@@ -98,3 +104,22 @@ def test_normalize_candidate_bboxes_sorts_and_expands_line_coordinates() -> None
         "x1": 0.9,
         "y1": 0.4005,
     }
+
+
+def test_normalize_table_dimensions_only_expands_undersized_shape() -> None:
+    candidate = {
+        "kind": "table",
+        "data": {
+            "row_count": 1,
+            "column_count": 5,
+            "cells": [
+                {"row": 4, "column": 1, "row_span": 1, "column_span": 4}
+            ],
+        },
+    }
+
+    changes = normalize_table_dimensions(candidate)
+
+    assert changes == 1
+    assert candidate["data"]["row_count"] == 5
+    assert candidate["data"]["column_count"] == 5

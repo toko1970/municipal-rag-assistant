@@ -11,6 +11,14 @@ from typing import Any
 from src.visual_validation import validate_gold
 
 
+EVALUATION_REVISION = "visual-extraction-eval-v2"
+
+
+def comparison_text(value: str | None) -> str | None:
+    if value is None:
+        return None
+    return value.replace("～", "〜")
+
 @dataclass(frozen=True)
 class VisualExtractionMetrics:
     kind: str
@@ -36,9 +44,11 @@ def element_map(extraction: dict[str, Any]) -> dict[tuple[Any, ...], dict[str, f
     kind = extraction["kind"]
     data = extraction["data"]
     if kind == "flowchart":
-        node_text = {node["id"]: node["text"] for node in data["nodes"]}
+        node_text = {
+            node["id"]: comparison_text(node["text"]) for node in data["nodes"]
+        }
         elements = {
-            ("node", node["text"], node["node_type"]): node["bbox"]
+            ("node", comparison_text(node["text"]), node["node_type"]): node["bbox"]
             for node in data["nodes"]
         }
         elements.update(
@@ -47,7 +57,7 @@ def element_map(extraction: dict[str, Any]) -> dict[tuple[Any, ...], dict[str, f
                     "edge",
                     node_text[edge["from"]],
                     node_text[edge["to"]],
-                    edge["condition"],
+                    comparison_text(edge["condition"]),
                 ): edge["bbox"]
                 for edge in data["edges"]
             }
@@ -55,7 +65,11 @@ def element_map(extraction: dict[str, Any]) -> dict[tuple[Any, ...], dict[str, f
         return elements
     if kind == "timeline":
         return {
-            ("event", event["date_or_offset"], event["action"]): event["bbox"]
+            (
+                "event",
+                comparison_text(event["date_or_offset"]),
+                comparison_text(event["action"]),
+            ): event["bbox"]
             for event in data["events"]
         }
     if kind == "table":
@@ -66,12 +80,16 @@ def element_map(extraction: dict[str, Any]) -> dict[tuple[Any, ...], dict[str, f
                 cell["column"],
                 cell["row_span"],
                 cell["column_span"],
-                cell["text"],
+                comparison_text(cell["text"]),
             ): cell["bbox"]
             for cell in data["cells"]
         }
     return {
-        ("field", field["label"], field["example_value"]): field["bbox"]
+        (
+            "field",
+            comparison_text(field["label"]),
+            comparison_text(field["example_value"]),
+        ): field["bbox"]
         for field in data["fields"]
     }
 

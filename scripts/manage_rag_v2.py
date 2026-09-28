@@ -121,6 +121,7 @@ def extract_visual(
         "review_status": "REVIEW_REQUIRED",
         "validation_errors": list(candidate.validation_errors),
         "normalized_bbox_count": candidate.normalized_bbox_count,
+        "normalized_structure_count": candidate.normalized_structure_count,
     }
 
 

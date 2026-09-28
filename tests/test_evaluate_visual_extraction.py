@@ -35,3 +35,15 @@ def test_incorrect_important_value_fails_exact_value_and_recall_gates() -> None:
     assert metrics.element_recall == 10 / 12
     assert metrics.important_values_exact is False
     assert metrics.gate_passed is False
+
+
+def test_equivalent_japanese_wave_dash_is_not_counted_as_content_error() -> None:
+    candidate = copy.deepcopy(GOLD)
+    candidate["data"]["edges"][2]["condition"] = "あ～り"
+    gold = copy.deepcopy(candidate)
+    gold["data"]["edges"][2]["condition"] = "あ〜り"
+
+    metrics = evaluate_visual_extraction(candidate, gold, SCHEMA)
+
+    assert metrics.important_values_exact is True
+    assert metrics.element_recall == 1.0

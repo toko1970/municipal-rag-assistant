@@ -146,6 +146,7 @@
 - PDF・図表runtimeは、レビュー済み抽出JSONを入力にした最小vertical sliceまで実装した。ページ画像の描画・hash照合、Schemaと意味検証、`LocalAssetStore`保存、PostgreSQLのvisual metadata、検索用説明のEmbedding、Qdrant登録を一つのCLI経路で実行できる。Gemini画像抽出、画像付き回答、6 fixture評価は次のroundで実装する。
 - Gemini画像抽出adapterと`extract-visual` CLIを追加した。`flowchart_dev_001`の実モデル試験ではnode 6件・edge 6件・分岐条件を抽出した一方、矢印bboxを端点として返し、意味検証が拒否した。prompt修正でも再現したため、端点の大小整列とゼロ幅線への最小幅付与を決定的な正規化として追加した。保存済み実応答のオフライン再検証はbbox 13件を正規化後、validation error 0件となった。候補は常に`REVIEW_REQUIRED`で、review前にはDBへ登録しない。
 - visual extraction evaluatorを追加し、kindごとの論理要素をIDではなく内容で対応付け、重要値完全一致、要素recall、bbox IoUを同時に測れるようにした。上記のGemini実候補は重要値完全一致、要素recall `12/12 = 1.0`、平均bbox IoU `0.6623`で、固定gate `0.80`未達のため不合格だった。意味抽出と位置抽出の成否を分離して記録できる状態になった。
+- 6 visual fixtureの固定baselineを完了した。残り5件を単一batch、retryなしでGemini 3.1へ送り、input 7,904・output 9,920 tokens、実行5件合計30.626秒を記録した。初期評価は合格2/6、validated 5/6だった。波ダッシュの同値比較を評価revision v2として分離し3/6へ修正し、cell範囲から不足したtable行数だけを補正するRevolve roundで4/6、validated 6/6へ改善した。残るflowchart 2件は重要値・要素Recall 1.0、bbox IoU 0.662/0.629で、人手review対象として自動調整を停止した。詳細は[`VISUAL_EXTRACTION_BASELINE.md`](../eval/VISUAL_EXTRACTION_BASELINE.md)に記録した。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
