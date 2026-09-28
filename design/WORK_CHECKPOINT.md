@@ -335,3 +335,12 @@ Cloud Run / local RAG v2差分確認の開始時点は週間枠7%で、表示さ
 分類専用benchmarkの残り30件を一括レビューし、26件を提案どおり承認した。質問範囲規約との不整合をQ006、Q076、Q176、Q301で発見し、4シナリオ20表現を追加訂正して500問評価セットをv1.2へ更新した。保存済み130件の現在値は総合成功117/130、分類正解121/130、主原因が分類4、生成6、検索3であり、数値差はモデル改善として数えない。少数クラスを維持する明確な文書不足control 2件を追加し、benchmarkは36件（根拠十分21・判断要9・文書不足6、Text 27・Visual 9）、全annotation承認済みとなった。週間利用率32%、外部API call 0、sealed holdout未使用、reset credit未使用である。詳細は[`CLASSIFIER_BENCHMARK_REVIEW.md`](../eval/CLASSIFIER_BENCHMARK_REVIEW.md)を参照する。
 
 分類モデルのread-only preflightを実施した。公式Jevはearly access・label fit型で一般公開APIと価格を確認できず、公開OpenJev 0.8B longも約1.73GB、現TransformersでQwen 3.5未対応、8GB M1でCPUのみのため最初の比較から除外した。日本語を含む27言語のNLI学習を明記したmDeBERTa-v3-baseをlocal pilot第一候補、Gemini 3.1 Flash-Liteをbaselineとした。次は約580MBを1回だけdownloadし、36件のtoken auditで512超過があれば採点前に停止する。外部API call、model download、sealed holdoutは未実施。詳細は[`CLASSIFIER_MODEL_PREFLIGHT.md`](../eval/CLASSIFIER_MODEL_PREFLIGHT.md)を参照する。
+
+2026-09-29にmDeBERTa revision `b5113eb38ab63efdd7f280f8c144ea8b13f978ce`を
+1回downloadし、承認済み36件×5 factorのtoken auditを実施した。180 pair中80 pair、
+36ケース中16ケースが512 tokenを超え、最大802 tokenだった。超過はすべて保存済みTop-8
+回帰ケースである。計画どおりlocal inference前に`BLOCKED_BY_CONTEXT_LIMIT`で停止し、
+外部API call 0、費用US$0、sealed holdout未使用だった。次は、claim-evidence単位のNLI集約か
+4k以上のlocal modelかを入力契約・日本語適性・8GB M1の実行可能性で比較し、設計を一つに
+固定する。Gemini baselineはlocal候補と公平に比較できる状態まで実行しない。結果は
+[`token_audit.json`](../eval/results/classifier_model_mdeberta_pilot_v1/token_audit.json)を参照する。

@@ -1,0 +1,1593 @@
+{
+  "audit": {
+    "case_count": 36,
+    "max_tokens": 512,
+    "maximum_observed_tokens": 802,
+    "over_limit_case_count": 16,
+    "over_limit_pair_count": 80,
+    "over_limit_pairs": [
+      {
+        "case_id": "REG-Q006",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 709
+      },
+      {
+        "case_id": "REG-Q006",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 709
+      },
+      {
+        "case_id": "REG-Q006",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 710
+      },
+      {
+        "case_id": "REG-Q006",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 713
+      },
+      {
+        "case_id": "REG-Q006",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 708
+      },
+      {
+        "case_id": "REG-Q046",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 719
+      },
+      {
+        "case_id": "REG-Q046",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 719
+      },
+      {
+        "case_id": "REG-Q046",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 720
+      },
+      {
+        "case_id": "REG-Q046",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 723
+      },
+      {
+        "case_id": "REG-Q046",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 718
+      },
+      {
+        "case_id": "REG-Q076",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 786
+      },
+      {
+        "case_id": "REG-Q076",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 786
+      },
+      {
+        "case_id": "REG-Q076",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 787
+      },
+      {
+        "case_id": "REG-Q076",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 790
+      },
+      {
+        "case_id": "REG-Q076",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 785
+      },
+      {
+        "case_id": "REG-Q086",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 798
+      },
+      {
+        "case_id": "REG-Q086",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 798
+      },
+      {
+        "case_id": "REG-Q086",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 799
+      },
+      {
+        "case_id": "REG-Q086",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 802
+      },
+      {
+        "case_id": "REG-Q086",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 797
+      },
+      {
+        "case_id": "REG-Q121",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 649
+      },
+      {
+        "case_id": "REG-Q121",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 649
+      },
+      {
+        "case_id": "REG-Q121",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 650
+      },
+      {
+        "case_id": "REG-Q121",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 653
+      },
+      {
+        "case_id": "REG-Q121",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 648
+      },
+      {
+        "case_id": "REG-Q126",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 656
+      },
+      {
+        "case_id": "REG-Q126",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 656
+      },
+      {
+        "case_id": "REG-Q126",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 657
+      },
+      {
+        "case_id": "REG-Q126",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 660
+      },
+      {
+        "case_id": "REG-Q126",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 655
+      },
+      {
+        "case_id": "REG-Q176",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 752
+      },
+      {
+        "case_id": "REG-Q176",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 752
+      },
+      {
+        "case_id": "REG-Q176",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 753
+      },
+      {
+        "case_id": "REG-Q176",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 756
+      },
+      {
+        "case_id": "REG-Q176",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 751
+      },
+      {
+        "case_id": "REG-Q196",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 651
+      },
+      {
+        "case_id": "REG-Q196",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 651
+      },
+      {
+        "case_id": "REG-Q196",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 652
+      },
+      {
+        "case_id": "REG-Q196",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 655
+      },
+      {
+        "case_id": "REG-Q196",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 650
+      },
+      {
+        "case_id": "REG-Q201",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 615
+      },
+      {
+        "case_id": "REG-Q201",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 615
+      },
+      {
+        "case_id": "REG-Q201",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 616
+      },
+      {
+        "case_id": "REG-Q201",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 619
+      },
+      {
+        "case_id": "REG-Q201",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 614
+      },
+      {
+        "case_id": "REG-Q231",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 610
+      },
+      {
+        "case_id": "REG-Q231",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 610
+      },
+      {
+        "case_id": "REG-Q231",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 611
+      },
+      {
+        "case_id": "REG-Q231",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 614
+      },
+      {
+        "case_id": "REG-Q231",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 609
+      },
+      {
+        "case_id": "REG-Q281",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 686
+      },
+      {
+        "case_id": "REG-Q281",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 686
+      },
+      {
+        "case_id": "REG-Q281",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 687
+      },
+      {
+        "case_id": "REG-Q281",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 690
+      },
+      {
+        "case_id": "REG-Q281",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 685
+      },
+      {
+        "case_id": "REG-Q286",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 637
+      },
+      {
+        "case_id": "REG-Q286",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 637
+      },
+      {
+        "case_id": "REG-Q286",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 638
+      },
+      {
+        "case_id": "REG-Q286",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 641
+      },
+      {
+        "case_id": "REG-Q286",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 636
+      },
+      {
+        "case_id": "REG-Q301",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 756
+      },
+      {
+        "case_id": "REG-Q301",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 756
+      },
+      {
+        "case_id": "REG-Q301",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 757
+      },
+      {
+        "case_id": "REG-Q301",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 760
+      },
+      {
+        "case_id": "REG-Q301",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 755
+      },
+      {
+        "case_id": "REG-Q316",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 725
+      },
+      {
+        "case_id": "REG-Q316",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 725
+      },
+      {
+        "case_id": "REG-Q316",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 726
+      },
+      {
+        "case_id": "REG-Q316",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 729
+      },
+      {
+        "case_id": "REG-Q316",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 724
+      },
+      {
+        "case_id": "REG-Q451",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 717
+      },
+      {
+        "case_id": "REG-Q451",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 717
+      },
+      {
+        "case_id": "REG-Q451",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 718
+      },
+      {
+        "case_id": "REG-Q451",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 721
+      },
+      {
+        "case_id": "REG-Q451",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 716
+      },
+      {
+        "case_id": "REG-Q456",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 665
+      },
+      {
+        "case_id": "REG-Q456",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 665
+      },
+      {
+        "case_id": "REG-Q456",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 666
+      },
+      {
+        "case_id": "REG-Q456",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 669
+      },
+      {
+        "case_id": "REG-Q456",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 664
+      }
+    ],
+    "pair_count": 180,
+    "records": [
+      {
+        "case_id": "CPD-T01",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 91
+      },
+      {
+        "case_id": "CPD-T01",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 91
+      },
+      {
+        "case_id": "CPD-T01",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 92
+      },
+      {
+        "case_id": "CPD-T01",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 95
+      },
+      {
+        "case_id": "CPD-T01",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 90
+      },
+      {
+        "case_id": "CPD-T02",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 78
+      },
+      {
+        "case_id": "CPD-T02",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 78
+      },
+      {
+        "case_id": "CPD-T02",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 79
+      },
+      {
+        "case_id": "CPD-T02",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 82
+      },
+      {
+        "case_id": "CPD-T02",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 77
+      },
+      {
+        "case_id": "CPD-T03",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 87
+      },
+      {
+        "case_id": "CPD-T03",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 87
+      },
+      {
+        "case_id": "CPD-T03",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 88
+      },
+      {
+        "case_id": "CPD-T03",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 91
+      },
+      {
+        "case_id": "CPD-T03",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 86
+      },
+      {
+        "case_id": "CPD-T04",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 90
+      },
+      {
+        "case_id": "CPD-T04",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 90
+      },
+      {
+        "case_id": "CPD-T04",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 91
+      },
+      {
+        "case_id": "CPD-T04",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 94
+      },
+      {
+        "case_id": "CPD-T04",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 89
+      },
+      {
+        "case_id": "CPD-T05",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 97
+      },
+      {
+        "case_id": "CPD-T05",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 97
+      },
+      {
+        "case_id": "CPD-T05",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 98
+      },
+      {
+        "case_id": "CPD-T05",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 101
+      },
+      {
+        "case_id": "CPD-T05",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 96
+      },
+      {
+        "case_id": "CPD-T06",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 70
+      },
+      {
+        "case_id": "CPD-T06",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 70
+      },
+      {
+        "case_id": "CPD-T06",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 71
+      },
+      {
+        "case_id": "CPD-T06",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 74
+      },
+      {
+        "case_id": "CPD-T06",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 69
+      },
+      {
+        "case_id": "CPD-V01",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 84
+      },
+      {
+        "case_id": "CPD-V01",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 84
+      },
+      {
+        "case_id": "CPD-V01",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 85
+      },
+      {
+        "case_id": "CPD-V01",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 88
+      },
+      {
+        "case_id": "CPD-V01",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 83
+      },
+      {
+        "case_id": "CPD-V02",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 92
+      },
+      {
+        "case_id": "CPD-V02",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 92
+      },
+      {
+        "case_id": "CPD-V02",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 93
+      },
+      {
+        "case_id": "CPD-V02",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 96
+      },
+      {
+        "case_id": "CPD-V02",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 91
+      },
+      {
+        "case_id": "CPD-V03",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 86
+      },
+      {
+        "case_id": "CPD-V03",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 86
+      },
+      {
+        "case_id": "CPD-V03",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 87
+      },
+      {
+        "case_id": "CPD-V03",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 90
+      },
+      {
+        "case_id": "CPD-V03",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 85
+      },
+      {
+        "case_id": "CPD-V04",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 95
+      },
+      {
+        "case_id": "CPD-V04",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 95
+      },
+      {
+        "case_id": "CPD-V04",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 96
+      },
+      {
+        "case_id": "CPD-V04",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 99
+      },
+      {
+        "case_id": "CPD-V04",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 94
+      },
+      {
+        "case_id": "CPD-V05",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 94
+      },
+      {
+        "case_id": "CPD-V05",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 94
+      },
+      {
+        "case_id": "CPD-V05",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 95
+      },
+      {
+        "case_id": "CPD-V05",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 98
+      },
+      {
+        "case_id": "CPD-V05",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 93
+      },
+      {
+        "case_id": "CPD-V06",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 78
+      },
+      {
+        "case_id": "CPD-V06",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 78
+      },
+      {
+        "case_id": "CPD-V06",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 79
+      },
+      {
+        "case_id": "CPD-V06",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 82
+      },
+      {
+        "case_id": "CPD-V06",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 77
+      },
+      {
+        "case_id": "CPD-T07",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 108
+      },
+      {
+        "case_id": "CPD-T07",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 108
+      },
+      {
+        "case_id": "CPD-T07",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 109
+      },
+      {
+        "case_id": "CPD-T07",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 112
+      },
+      {
+        "case_id": "CPD-T07",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 107
+      },
+      {
+        "case_id": "CPD-V07",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 101
+      },
+      {
+        "case_id": "CPD-V07",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 101
+      },
+      {
+        "case_id": "CPD-V07",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 102
+      },
+      {
+        "case_id": "CPD-V07",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 105
+      },
+      {
+        "case_id": "CPD-V07",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 100
+      },
+      {
+        "case_id": "CMB-T01",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 103
+      },
+      {
+        "case_id": "CMB-T01",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 103
+      },
+      {
+        "case_id": "CMB-T01",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 104
+      },
+      {
+        "case_id": "CMB-T01",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 107
+      },
+      {
+        "case_id": "CMB-T01",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 102
+      },
+      {
+        "case_id": "CMB-T02",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 114
+      },
+      {
+        "case_id": "CMB-T02",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 114
+      },
+      {
+        "case_id": "CMB-T02",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 115
+      },
+      {
+        "case_id": "CMB-T02",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 118
+      },
+      {
+        "case_id": "CMB-T02",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 113
+      },
+      {
+        "case_id": "CMB-T03",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 100
+      },
+      {
+        "case_id": "CMB-T03",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 100
+      },
+      {
+        "case_id": "CMB-T03",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 101
+      },
+      {
+        "case_id": "CMB-T03",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 104
+      },
+      {
+        "case_id": "CMB-T03",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 99
+      },
+      {
+        "case_id": "CMB-V01",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 108
+      },
+      {
+        "case_id": "CMB-V01",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 108
+      },
+      {
+        "case_id": "CMB-V01",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 109
+      },
+      {
+        "case_id": "CMB-V01",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 112
+      },
+      {
+        "case_id": "CMB-V01",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 107
+      },
+      {
+        "case_id": "CMB-T04",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 89
+      },
+      {
+        "case_id": "CMB-T04",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 89
+      },
+      {
+        "case_id": "CMB-T04",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 90
+      },
+      {
+        "case_id": "CMB-T04",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 93
+      },
+      {
+        "case_id": "CMB-T04",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 88
+      },
+      {
+        "case_id": "CMB-V02",
+        "exceeds_limit": false,
+        "factor": "retrieval_sufficient",
+        "token_count": 87
+      },
+      {
+        "case_id": "CMB-V02",
+        "exceeds_limit": false,
+        "factor": "answer_fully_supported",
+        "token_count": 87
+      },
+      {
+        "case_id": "CMB-V02",
+        "exceeds_limit": false,
+        "factor": "requires_case_facts",
+        "token_count": 88
+      },
+      {
+        "case_id": "CMB-V02",
+        "exceeds_limit": false,
+        "factor": "requires_policy_judgment",
+        "token_count": 91
+      },
+      {
+        "case_id": "CMB-V02",
+        "exceeds_limit": false,
+        "factor": "version_conflict",
+        "token_count": 86
+      },
+      {
+        "case_id": "REG-Q006",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 709
+      },
+      {
+        "case_id": "REG-Q006",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 709
+      },
+      {
+        "case_id": "REG-Q006",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 710
+      },
+      {
+        "case_id": "REG-Q006",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 713
+      },
+      {
+        "case_id": "REG-Q006",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 708
+      },
+      {
+        "case_id": "REG-Q046",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 719
+      },
+      {
+        "case_id": "REG-Q046",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 719
+      },
+      {
+        "case_id": "REG-Q046",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 720
+      },
+      {
+        "case_id": "REG-Q046",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 723
+      },
+      {
+        "case_id": "REG-Q046",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 718
+      },
+      {
+        "case_id": "REG-Q076",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 786
+      },
+      {
+        "case_id": "REG-Q076",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 786
+      },
+      {
+        "case_id": "REG-Q076",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 787
+      },
+      {
+        "case_id": "REG-Q076",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 790
+      },
+      {
+        "case_id": "REG-Q076",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 785
+      },
+      {
+        "case_id": "REG-Q086",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 798
+      },
+      {
+        "case_id": "REG-Q086",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 798
+      },
+      {
+        "case_id": "REG-Q086",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 799
+      },
+      {
+        "case_id": "REG-Q086",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 802
+      },
+      {
+        "case_id": "REG-Q086",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 797
+      },
+      {
+        "case_id": "REG-Q121",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 649
+      },
+      {
+        "case_id": "REG-Q121",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 649
+      },
+      {
+        "case_id": "REG-Q121",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 650
+      },
+      {
+        "case_id": "REG-Q121",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 653
+      },
+      {
+        "case_id": "REG-Q121",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 648
+      },
+      {
+        "case_id": "REG-Q126",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 656
+      },
+      {
+        "case_id": "REG-Q126",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 656
+      },
+      {
+        "case_id": "REG-Q126",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 657
+      },
+      {
+        "case_id": "REG-Q126",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 660
+      },
+      {
+        "case_id": "REG-Q126",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 655
+      },
+      {
+        "case_id": "REG-Q176",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 752
+      },
+      {
+        "case_id": "REG-Q176",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 752
+      },
+      {
+        "case_id": "REG-Q176",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 753
+      },
+      {
+        "case_id": "REG-Q176",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 756
+      },
+      {
+        "case_id": "REG-Q176",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 751
+      },
+      {
+        "case_id": "REG-Q196",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 651
+      },
+      {
+        "case_id": "REG-Q196",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 651
+      },
+      {
+        "case_id": "REG-Q196",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 652
+      },
+      {
+        "case_id": "REG-Q196",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 655
+      },
+      {
+        "case_id": "REG-Q196",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 650
+      },
+      {
+        "case_id": "REG-Q201",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 615
+      },
+      {
+        "case_id": "REG-Q201",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 615
+      },
+      {
+        "case_id": "REG-Q201",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 616
+      },
+      {
+        "case_id": "REG-Q201",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 619
+      },
+      {
+        "case_id": "REG-Q201",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 614
+      },
+      {
+        "case_id": "REG-Q231",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 610
+      },
+      {
+        "case_id": "REG-Q231",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 610
+      },
+      {
+        "case_id": "REG-Q231",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 611
+      },
+      {
+        "case_id": "REG-Q231",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 614
+      },
+      {
+        "case_id": "REG-Q231",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 609
+      },
+      {
+        "case_id": "REG-Q281",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 686
+      },
+      {
+        "case_id": "REG-Q281",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 686
+      },
+      {
+        "case_id": "REG-Q281",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 687
+      },
+      {
+        "case_id": "REG-Q281",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 690
+      },
+      {
+        "case_id": "REG-Q281",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 685
+      },
+      {
+        "case_id": "REG-Q286",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 637
+      },
+      {
+        "case_id": "REG-Q286",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 637
+      },
+      {
+        "case_id": "REG-Q286",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 638
+      },
+      {
+        "case_id": "REG-Q286",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 641
+      },
+      {
+        "case_id": "REG-Q286",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 636
+      },
+      {
+        "case_id": "REG-Q301",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 756
+      },
+      {
+        "case_id": "REG-Q301",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 756
+      },
+      {
+        "case_id": "REG-Q301",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 757
+      },
+      {
+        "case_id": "REG-Q301",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 760
+      },
+      {
+        "case_id": "REG-Q301",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 755
+      },
+      {
+        "case_id": "REG-Q316",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 725
+      },
+      {
+        "case_id": "REG-Q316",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 725
+      },
+      {
+        "case_id": "REG-Q316",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 726
+      },
+      {
+        "case_id": "REG-Q316",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 729
+      },
+      {
+        "case_id": "REG-Q316",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 724
+      },
+      {
+        "case_id": "REG-Q451",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 717
+      },
+      {
+        "case_id": "REG-Q451",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 717
+      },
+      {
+        "case_id": "REG-Q451",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 718
+      },
+      {
+        "case_id": "REG-Q451",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 721
+      },
+      {
+        "case_id": "REG-Q451",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 716
+      },
+      {
+        "case_id": "REG-Q456",
+        "exceeds_limit": true,
+        "factor": "retrieval_sufficient",
+        "token_count": 665
+      },
+      {
+        "case_id": "REG-Q456",
+        "exceeds_limit": true,
+        "factor": "answer_fully_supported",
+        "token_count": 665
+      },
+      {
+        "case_id": "REG-Q456",
+        "exceeds_limit": true,
+        "factor": "requires_case_facts",
+        "token_count": 666
+      },
+      {
+        "case_id": "REG-Q456",
+        "exceeds_limit": true,
+        "factor": "requires_policy_judgment",
+        "token_count": 669
+      },
+      {
+        "case_id": "REG-Q456",
+        "exceeds_limit": true,
+        "factor": "version_conflict",
+        "token_count": 664
+      }
+    ]
+  },
+  "dataset": "/Users/hanaokatakaaki/Desktop/rag-portfolio-app/eval/classifier_model_benchmark_v1.json",
+  "dataset_sha256": "d3e6d2ab30c16af89c5eb933966edca10c307eb6adf77a0ac82918da9bdd23cb",
+  "estimated_external_cost_usd": 0,
+  "external_api_calls": 0,
+  "hypotheses": {
+    "answer_fully_supported": "回答の重要な主張は、取得根拠によってすべて支持されている。",
+    "requires_case_facts": "質問が求める結論には、まだ示されていない個別事実が必要である。",
+    "requires_policy_judgment": "必要事実が揃っても、制度所管部署の判断または複数解釈が残る。",
+    "retrieval_sufficient": "取得根拠には、質問へ答えるために必要な情報が揃っている。",
+    "version_conflict": "質問へ適用する文書版を一意に決められない。"
+  },
+  "inference_executed": false,
+  "model": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+  "model_revision": "b5113eb38ab63efdd7f280f8c144ea8b13f978ce",
+  "schema_version": "1.0",
+  "sealed_holdout_used": false,
+  "status": "BLOCKED_BY_CONTEXT_LIMIT",
+  "tokenizer_class": "DebertaV2TokenizerFast",
+  "tokenizer_reported_max_length": 512
+}

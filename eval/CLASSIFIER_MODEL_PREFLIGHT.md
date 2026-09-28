@@ -69,12 +69,39 @@ version_conflict           質問へ適用する文書版を一意に決めら�
 
 36件で5 factorを評価するため180 premise-hypothesis pairとなる。閾値を同じ36件へ最適化すると過適合になるため、最初はモデルの3 class argmaxを保存し、`neutral`を自動でtrueまたはfalseへ潰さず`abstain`としてGemini fallback対象にする。binary thresholdの調整は独立development dataを用意した後に行う。
 
-## 7. 次の有限run
+## 7. Local pilotの実測結果
 
-1. mDeBERTa tokenizerとsafetensorsを1回だけdownloadする。予定downloadは約580MB、外部推論費用は0。
-2. 36件のtoken数を測り、512 token超過が1件でもあれば採点前に停止する。
-3. 超過0件ならCPUで180 pairを一度だけ実行し、raw logits、latency、peak RSS、abstain件数を保存する。
-4. local pilotが技術的に成立した場合だけ、Gemini baselineを最大36 call・retry 0・US$0.05上限で実行する。
-5. OpenJev、MiniLM、GLiClassはこのroundでdownload・実行しない。
+2026年9月29日にmodel revision
+`b5113eb38ab63efdd7f280f8c144ea8b13f978ce`を1回downloadし、承認済み36件を
+5 factorへ展開した180 premise-hypothesis pairのtoken数を監査した。
 
-model download、外部API call、有料設定変更、sealed holdoutはこのpreflightでは実施していない。
+| 項目 | 実測 |
+|---|---:|
+| pair | 180 |
+| 512 token超過 | 80 |
+| 超過case | 16 / 36 |
+| 最大 | 802 token |
+| local inference | 0 pair |
+| external API | 0 call |
+| 外部推論費用 | US$0 |
+
+超過16件はすべて保存済み回帰ケースで、取得Top-8を含む実運用に近い入力だった。
+短いoracle control 20件だけを採点すると候補に有利な標本へ変わるため、予定した
+fail-fastを適用し、model inferenceを実行しなかった。結果は
+[`results/classifier_model_mdeberta_pilot_v1/token_audit.json`](results/classifier_model_mdeberta_pilot_v1/token_audit.json)
+に保存した。
+
+この結果から、512 tokenの一般NLI modelを現行分類器へそのまま差し替えることはできない。
+次に比較を続ける場合は、次のどちらかを新しい入力契約として先に設計する。
+
+1. claimとevidenceの対応単位でNLIを行い、factorへ集約する。
+2. 4k以上を扱える日本語適性のあるlocal modelを選び直す。
+
+1は長文を避けられる一方、`retrieval_sufficient`、`requires_case_facts`、
+`requires_policy_judgment`のように取得集合全体を見るfactorを単純なpair判定へ分解できない。
+2は現状の入力契約を保てる一方、8GB M1でのmemory・latencyと日本語性能を改めて確認する
+必要がある。入力契約を変えずに比較できるGemini baselineを先に有料実行しても、local候補が
+採点不能な現状ではモデル比較にならないため、まだ実行しない。
+
+model downloadとtoken auditだけを実施した。外部API call、有料設定変更、sealed holdoutは
+実施していない。

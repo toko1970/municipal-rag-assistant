@@ -77,6 +77,11 @@ case facts / policy judgment / version conflictが一つでもtrue -> 判断要
 
 read-only preflightの結果、公式Jevはearly accessかつ利用者のlabelへfitする提供形態で、36件だけを使うzero-shot比較を実行できないと判断した。公開OpenJevもlocal環境との互換性とresource条件からこのroundでは保留する。詳細は[`CLASSIFIER_MODEL_PREFLIGHT.md`](CLASSIFIER_MODEL_PREFLIGHT.md)を参照する。
 
+mDeBERTaのtoken auditでは、180 pair中80 pair、36ケース中16ケースが512 tokenを
+超えた。超過は保存済みTop-8を持つ回帰ケースに集中したため、短いcontrolだけを採点せず
+fail-fastした。local inferenceとGemini baselineは未実行であり、この時点でモデル精度の
+優劣は結論づけない。
+
 ### Stage B: 保存済み130件
 
 Stage Aで現行Geminiを上回る可能性がある候補だけを適用する。130件にはfactor goldがないため、ここでは最終ラベルと総合回答成功を測る。全候補を130件実行しない。
