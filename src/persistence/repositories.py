@@ -9,7 +9,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from config import QDRANT_COLLECTION_NAME
-from src.asset_store import StoredAsset
+from src.asset_store import StoredAsset, VisualEvidenceAsset
 from src.contracts import IndexableElement, SearchHit
 from src.persistence.models import (
     AnswerClaimRow,
@@ -224,6 +224,33 @@ class PostgresDocumentRepository:
                     )
                 )
             return result
+
+    def get_visual_assets(
+        self, element_ids: list[UUID]
+    ) -> list[VisualEvidenceAsset]:
+        """Return visual assets in retrieval order for the requested elements."""
+
+        if not element_ids:
+            return []
+        with self.session_factory() as session:
+            rows = session.scalars(
+                select(VisualAssetRow).where(
+                    VisualAssetRow.content_element_id.in_(element_ids)
+                )
+            ).all()
+        by_element = {row.content_element_id: row for row in rows}
+        return [
+            VisualEvidenceAsset(
+                element_id=row.content_element_id,
+                local_path=row.local_path,
+                mime_type=row.mime_type,
+                page_number=row.page_number,
+                sha256=row.sha256,
+                bbox=dict(row.bbox) if row.bbox else None,
+            )
+            for element_id in element_ids
+            if (row := by_element.get(element_id)) is not None
+        ]
 
     def mark_index_status(self, element_ids: list[UUID], status: str) -> None:
         with self.session_factory() as session, session.begin():

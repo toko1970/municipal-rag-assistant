@@ -150,14 +150,32 @@ class GeminiProvider:
         image: bytes,
         mime_type: str,
     ) -> StructuredLLMResult:
+        return self.generate_structured_with_media(
+            prompt,
+            schema,
+            media=[(image, mime_type)],
+        )
+
+    def generate_structured_with_media(
+        self,
+        prompt: str,
+        schema: dict[str, Any],
+        *,
+        media: list[tuple[bytes, str]],
+    ) -> StructuredLLMResult:
+        if not media:
+            return self.generate_structured(prompt, schema)
         message = HumanMessage(
             content=[
                 {"type": "text", "text": prompt},
-                {
-                    "type": "media",
-                    "mime_type": mime_type,
-                    "data": base64.b64encode(image).decode("ascii"),
-                },
+                *[
+                    {
+                        "type": "media",
+                        "mime_type": mime_type,
+                        "data": base64.b64encode(content).decode("ascii"),
+                    }
+                    for content, mime_type in media
+                ],
             ]
         )
         return self._generate_structured_content([message], schema)

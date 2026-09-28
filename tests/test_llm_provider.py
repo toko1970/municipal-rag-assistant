@@ -142,6 +142,35 @@ class LLMProviderTest(unittest.TestCase):
         assert message.content[1]["mime_type"] == "image/png"
         assert message.content[1]["data"] == "cG5nLWJ5dGVz"
 
+    def test_sends_multiple_images_for_structured_gemini_output(self):
+        class Runnable:
+            def invoke(self, content):
+                self.content = content
+                return {
+                    "raw": SimpleNamespace(usage_metadata={}, response_metadata={}),
+                    "parsed": {"answer": "複数図表"},
+                    "parsing_error": None,
+                }
+
+        class Client:
+            def __init__(self):
+                self.runnable = Runnable()
+
+            def with_structured_output(self, _schema, **_kwargs):
+                return self.runnable
+
+        client = Client()
+        GeminiProvider("gemini-test", client=client).generate_structured_with_media(
+            "2枚を確認してください",
+            {"type": "object"},
+            media=[(b"one", "image/png"), (b"two", "image/jpeg")],
+        )
+
+        content = client.runnable.content[0].content
+        assert [item["type"] for item in content] == ["text", "media", "media"]
+        assert content[1]["data"] == "b25l"
+        assert content[2]["mime_type"] == "image/jpeg"
+
     def test_normalizes_openai_responses_api(self):
         def request(url, api_key, payload):
             self.assertEqual(url, "https://api.openai.com/v1/responses")

@@ -6,6 +6,7 @@ import hashlib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Protocol
+from uuid import UUID
 
 
 @dataclass(frozen=True)
@@ -14,6 +15,28 @@ class StoredAsset:
     local_path: str
     mime_type: str
     sha256: str
+
+
+@dataclass(frozen=True)
+class VisualEvidenceAsset:
+    """Metadata needed to verify and use one stored visual evidence image."""
+
+    element_id: UUID
+    local_path: str
+    mime_type: str
+    page_number: int
+    sha256: str
+    bbox: dict[str, float] | None = None
+
+    def read_verified(self) -> bytes:
+        path = Path(self.local_path)
+        content = path.read_bytes()
+        actual = hashlib.sha256(content).hexdigest()
+        if actual != self.sha256:
+            raise ValueError(
+                f"visual assetのSHA-256が一致しません: element_id={self.element_id}"
+            )
+        return content
 
 
 class AssetStore(Protocol):

@@ -1,9 +1,14 @@
+from pathlib import Path
 from unittest.mock import patch
 
 from streamlit.testing.v1 import AppTest
 
 
 def test_streamlit_question_references_and_feedback_flow() -> None:
+    fixture_image = (
+        Path(__file__).resolve().parents[1]
+        / "eval/visual_fixtures/images/flowchart_dev_001_page_001.png"
+    )
     result = {
         "request_id": "00000000-0000-0000-0000-000000000001",
         "question": "給与支給日はいつですか？",
@@ -16,6 +21,10 @@ def test_streamlit_question_references_and_feedback_flow() -> None:
                 "chunk_id": "element-1",
                 "score": 0.9,
                 "source": "01_salary_rules.md",
+                "visual_asset": {
+                    "local_path": str(fixture_image),
+                    "page_number": 1,
+                },
             }
         ],
     }

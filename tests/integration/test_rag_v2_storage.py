@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 import pytest
 from qdrant_client import QdrantClient
@@ -232,6 +232,9 @@ def test_visual_pdf_round_trip_is_idempotent(tmp_path: Path) -> None:
             )
             assert asset is not None
             assert asset.sha256 == extraction["source_image_sha256"]
+            loaded_asset = repository.get_visual_assets([UUID(element_id)])[0]
+            assert loaded_asset.element_id == UUID(element_id)
+            assert loaded_asset.read_verified() == Path(asset.local_path).read_bytes()
         assert first["element_id"] == second["element_id"]
         assert len(list((tmp_path / "assets").rglob("*.png"))) == 1
         hits = index.search([1.0, 0.0, 0.0], limit=1)
