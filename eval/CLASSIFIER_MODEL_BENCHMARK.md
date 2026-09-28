@@ -69,11 +69,13 @@ case facts / policy judgment / version conflictが一つでもtrue -> 判断要
 
 ### Stage A: 小benchmark
 
-- 現行Gemini、Jev 5 Noul、多言語NLIへ同じ36入力を渡す。
+- 現行Geminiと多言語NLIへ同じ36入力を渡す。
 - factor別Precision・Recall・F1、最終ラベルmacro F1、重大誤分類を測る。
 - `判断要`または`文書不足`を`根拠十分`へ変える誤りを重大誤分類とする。
 - API errorと分類誤りを分ける。
 - latency、token、推定費用、local memoryも保存する。
+
+read-only preflightの結果、公式Jevはearly accessかつ利用者のlabelへfitする提供形態で、36件だけを使うzero-shot比較を実行できないと判断した。公開OpenJevもlocal環境との互換性とresource条件からこのroundでは保留する。詳細は[`CLASSIFIER_MODEL_PREFLIGHT.md`](CLASSIFIER_MODEL_PREFLIGHT.md)を参照する。
 
 ### Stage B: 保存済み130件
 

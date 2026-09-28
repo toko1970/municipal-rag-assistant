@@ -1,0 +1,70 @@
+{
+  "artifact_version": "classifier-model-preflight-v1",
+  "benchmark": {
+    "case_count": 36,
+    "path": "eval/classifier_model_benchmark_v1.json",
+    "review_status": "approved"
+  },
+  "external_api_calls": 0,
+  "local_environment": {
+    "accelerator_available": false,
+    "architecture": "arm64",
+    "memory_gb": 8,
+    "platform": "Apple M1",
+    "python_packages": {
+      "accelerate": null,
+      "gliclass": null,
+      "huggingface_hub": "0.36.2",
+      "sentencepiece": "0.2.1",
+      "torch": "2.14.0",
+      "transformers": "4.57.6"
+    }
+  },
+  "models": [
+    {
+      "decision": "baseline_bounded_run",
+      "identifier": "gemini-3.1-flash-lite",
+      "kind": "hosted_structured_llm",
+      "max_calls": 36,
+      "max_cost_usd": 0.05,
+      "retry": 0
+    },
+    {
+      "decision": "exclude_unavailable",
+      "identifier": "JevLM / TypeSafe Jev",
+      "kind": "typed_decision",
+      "reason": "early access and fitted-to-labels delivery; no public general API contract or price confirmed"
+    },
+    {
+      "decision": "defer",
+      "identifier": "AlexWortega/openjev:qwen3.5-0.8b-nli-v2s-long",
+      "kind": "local_typed_decision",
+      "reason": "1.73 GB repository, current Transformers lacks qwen3_5 config, CPU-only local environment"
+    },
+    {
+      "decision": "primary_local_pilot",
+      "download_mb_approx": 580,
+      "identifier": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+      "kind": "local_multilingual_nli",
+      "max_input_tokens": 512,
+      "pair_count": 180,
+      "reason": "Japanese is explicitly included in multilingual NLI training data"
+    },
+    {
+      "decision": "speed_control_only",
+      "download_mb_approx": 450,
+      "identifier": "MoritzLaurer/multilingual-MiniLMv2-L6-mnli-xnli",
+      "kind": "local_multilingual_nli",
+      "max_input_tokens": 514,
+      "reason": "smaller model but Japanese is not explicit in NLI fine-tuning data"
+    }
+  ],
+  "next_run": {
+    "external_inference_cost_usd": 0,
+    "fail_fast_if_any_input_exceeds_tokens": 512,
+    "max_model_downloads": 1,
+    "max_pairs": 180,
+    "retry": 0
+  },
+  "sealed_holdout_accessed": false
+}
