@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from pathlib import Path
 from typing import Callable, Protocol
 from uuid import UUID
@@ -19,11 +19,18 @@ from src.answering import (
 from src.asset_store import AssetReader, LocalAssetReader, VisualEvidenceAsset
 from src.contracts import SearchHit, VectorIndex
 from src.llm_provider import StructuredLLMProvider, StructuredLLMResult
+from src.version_resolution import (
+    build_version_resolution_prompt,
+    parse_version_resolution,
+)
 
 
 GENERATION_PROMPT_VERSION = "answer-claims-v1"
 CLASSIFICATION_PROMPT_VERSION = "answer-classification-v1"
 CLASSIFICATION_DECISION_VERSION = "classification-decision-v1"
+VERSION_RESOLUTION_PROMPT_VERSION = "version-resolution-v2"
+VERSION_RESOLUTION_DECISION_VERSION = "classification-decision-v1+version-resolution-v2"
+VERSION_RESOLUTION_CONFIDENCE_THRESHOLD = 0.80
 
 
 class QueryEventLogger(Protocol):
@@ -169,9 +176,18 @@ def answer_question(
     | None = None,
     asset_reader: AssetReader | None = None,
     max_visual_assets: int = 3,
+    version_resolver: StructuredLLMProvider | None = None,
+    version_resolution_schema: dict | None = None,
+    version_resolution_confidence_threshold: float = (
+        VERSION_RESOLUTION_CONFIDENCE_THRESHOLD
+    ),
 ) -> dict:
     if max_visual_assets < 0:
         raise ValueError("max_visual_assetsは0以上である必要があります")
+    if (version_resolver is None) != (version_resolution_schema is None):
+        raise ValueError("version resolverとschemaは両方指定する必要があります")
+    if not 0 <= version_resolution_confidence_threshold <= 1:
+        raise ValueError("version resolver confidence閾値は0から1で指定してください")
     request_id = event_logger.start_request(question)
     hits = vector_index.search(embed_query(question), limit=top_k)
     event_logger.record_retrieval(request_id, hits)
@@ -181,6 +197,14 @@ def answer_question(
     visual_content: dict[UUID, bytes] = {}
     classification_result = None
     classification = None
+    version_resolution_metadata = {
+        "status": "NOT_CONFIGURED" if version_resolver is None else "NOT_REQUIRED",
+        "applied": False,
+        "fallback_used": False,
+        "prompt_version": VERSION_RESOLUTION_PROMPT_VERSION,
+        "input_tokens": 0,
+        "output_tokens": 0,
+    }
     try:
         if visual_asset_loader is not None:
             loaded_assets = visual_asset_loader([hit.element.id for hit in hits])
@@ -244,6 +268,99 @@ def answer_question(
         )
         classification_data = classification_result.data
         classification = parse_classification_output(classification_data)
+        if classification.factors.version_conflict and version_resolver is not None:
+            resolver_result = None
+            resolver_factors = {"baseline_version_conflict": True, "applied": False}
+            resolver_status = "RESOLUTION_FAILED"
+            resolver_fallback = True
+            resolver_error = None
+            try:
+                resolver_result = version_resolver.generate_structured(
+                    build_version_resolution_prompt(
+                        question, _evidence_payload(hits), answer_data
+                    ),
+                    version_resolution_schema,
+                )
+                resolution = parse_version_resolution(resolver_result.data)
+                retrieved_ids = {hit.element.id for hit in hits}
+                if not set(resolution.evidence_element_ids) <= retrieved_ids:
+                    raise ValueError("resolverが取得外の根拠IDを返しました")
+                resolver_factors.update(
+                    {
+                        "resolved_version_conflict": resolution.version_conflict,
+                        "resolution_basis": resolution.resolution_basis,
+                        "evidence_element_ids": [
+                            str(item) for item in resolution.evidence_element_ids
+                        ],
+                    }
+                )
+                if resolution.confidence < version_resolution_confidence_threshold:
+                    resolver_status = "LOW_CONFIDENCE_FALLBACK"
+                else:
+                    candidate = replace(
+                        classification,
+                        factors=replace(
+                            classification.factors,
+                            version_conflict=resolution.version_conflict,
+                        ),
+                    )
+                    try:
+                        render_display_answer(answer, candidate)
+                    except ValueError as exc:
+                        resolver_status = "DISPLAY_CONTRACT_FALLBACK"
+                        resolver_error = str(exc)
+                    else:
+                        classification = candidate
+                        resolver_status = "SUCCESS"
+                        resolver_fallback = False
+                        resolver_factors["applied"] = True
+                version_resolution_metadata = {
+                    **resolver_result.metadata(),
+                    "status": resolver_status,
+                    "applied": resolver_factors["applied"],
+                    "fallback_used": resolver_fallback,
+                    "prompt_version": VERSION_RESOLUTION_PROMPT_VERSION,
+                    "version_conflict": resolution.version_conflict,
+                    "resolution_basis": resolution.resolution_basis,
+                    "evidence_element_ids": resolver_factors["evidence_element_ids"],
+                    "confidence": resolution.confidence,
+                }
+            except Exception as exc:
+                resolver_error = str(exc)
+                version_resolution_metadata = {
+                    "provider": (
+                        resolver_result.provider
+                        if resolver_result
+                        else version_resolver.provider_name
+                    ),
+                    "model": (
+                        resolver_result.model
+                        if resolver_result
+                        else version_resolver.model
+                    ),
+                    "status": "RESOLUTION_FAILED",
+                    "applied": False,
+                    "fallback_used": True,
+                    "prompt_version": VERSION_RESOLUTION_PROMPT_VERSION,
+                    "input_tokens": resolver_result.input_tokens
+                    if resolver_result
+                    else 0,
+                    "output_tokens": (
+                        resolver_result.output_tokens if resolver_result else 0
+                    ),
+                }
+            event_logger.record_classification_attempt(
+                request_id,
+                provider=version_resolution_metadata["provider"],
+                model=version_resolution_metadata["model"],
+                prompt_version=VERSION_RESOLUTION_PROMPT_VERSION,
+                factors=resolver_factors,
+                derived_label=None,
+                confidence=version_resolution_metadata.get("confidence"),
+                status=resolver_status,
+                fallback_used=resolver_fallback,
+                error_summary=resolver_error[:1000] if resolver_error else None,
+            )
         display = render_display_answer(answer, classification)
     except Exception as exc:
         event_logger.record_classification_attempt(
@@ -276,7 +393,7 @@ def answer_question(
         derived_label=derive_label(classification.factors),
         confidence=classification.confidence,
         status="SUCCESS",
-        fallback_used=False,
+        fallback_used=version_resolution_metadata["fallback_used"],
         error_summary=None,
     )
     event_logger.record_answer_result(
@@ -297,5 +414,10 @@ def answer_question(
         "generation": generation_result.metadata(),
         "visual_evidence_count": len(visual_assets),
         "classification": classification_result.metadata(),
-        "classification_decision_version": CLASSIFICATION_DECISION_VERSION,
+        "classification_decision_version": (
+            VERSION_RESOLUTION_DECISION_VERSION
+            if version_resolver is not None
+            else CLASSIFICATION_DECISION_VERSION
+        ),
+        "version_resolution": version_resolution_metadata,
     }

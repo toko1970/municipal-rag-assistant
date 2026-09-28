@@ -7,10 +7,12 @@ from eval.evaluate_version_resolver import (
     SELECTED_IDS,
     TARGET_IDS,
     TRUE_CONFLICT_IDS,
-    build_version_resolution_prompt,
     summarize,
 )
-from src.version_resolution import parse_version_resolution
+from src.version_resolution import (
+    build_version_resolution_prompt,
+    parse_version_resolution,
+)
 
 
 def response(*, conflict: bool, basis: str) -> dict:

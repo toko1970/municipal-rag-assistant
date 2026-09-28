@@ -42,6 +42,16 @@ class FailingProvider:
         raise RuntimeError("provider unavailable")
 
 
+class CountingProvider(FakeProvider):
+    def __init__(self, response):
+        super().__init__(response)
+        self.calls = 0
+
+    def generate_structured(self, prompt: str, schema: dict):
+        self.calls += 1
+        return super().generate_structured(prompt, schema)
+
+
 class FakeIndex:
     def __init__(self, hits):
         self.hits = hits
@@ -444,3 +454,212 @@ def test_visual_hash_mismatch_is_logged_as_generation_failure(tmp_path) -> None:
 
     assert logger.events[-1][0] == "generation"
     assert logger.events[-1][2]["status"] == "GENERATION_FAILED"
+
+
+def _version_resolution_response(
+    element_id, *, conflict: bool, basis: str, confidence: float
+) -> dict:
+    return {
+        "schema_version": "1.0",
+        "status": "SUCCESS",
+        "version_conflict": conflict,
+        "resolution_basis": basis,
+        "evidence_element_ids": [str(element_id)],
+        "confidence": confidence,
+        "error_code": None,
+    }
+
+
+def _run_version_resolution(
+    *,
+    baseline_conflict: bool,
+    resolver,
+    missing_conditions=None,
+):
+    element = IndexableElement(
+        id=uuid4(),
+        document_id=uuid4(),
+        version_id=uuid4(),
+        document_name="制度改正通知",
+        heading="適用期間",
+        content="2025年10月1日から新版を適用する。",
+    )
+    generator = FakeProvider(
+        {
+            "schema_version": "1.0",
+            "claims": [
+                {
+                    "claim_id": "claim-1",
+                    "ordinal": 1,
+                    "text": "2025年10月は新版を適用します。",
+                    "evidence_element_ids": [str(element.id)],
+                    "evidence_kind": "text",
+                }
+            ],
+            "missing_conditions": missing_conditions or [],
+        }
+    )
+    classifier = FakeProvider(
+        {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "factors": {
+                "retrieval_sufficient": True,
+                "answer_fully_supported": True,
+                "requires_case_facts": False,
+                "requires_policy_judgment": False,
+                "version_conflict": baseline_conflict,
+            },
+            "confidence": 0.9,
+            "error_code": None,
+        }
+    )
+    logger = FakeLogger()
+    result = answer_question(
+        "2025年10月はどの版を適用しますか？",
+        embed_query=lambda _question: [1.0],
+        vector_index=FakeIndex([SearchHit(element, 0.9, 1)]),
+        generator=generator,
+        classifier=classifier,
+        event_logger=logger,
+        answer_schema={},
+        classification_schema={},
+        version_resolver=resolver,
+        version_resolution_schema={},
+    )
+    return result, logger, element
+
+
+def test_version_resolver_is_not_called_without_baseline_conflict() -> None:
+    resolver = CountingProvider({})
+
+    result, logger, _element = _run_version_resolution(
+        baseline_conflict=False,
+        resolver=resolver,
+    )
+
+    assert resolver.calls == 0
+    assert result["answer_label"] == "根拠十分"
+    assert result["version_resolution"]["status"] == "NOT_REQUIRED"
+    classification_events = [
+        event for event in logger.events if event[0] == "classification"
+    ]
+    assert len(classification_events) == 1
+
+
+def test_version_resolver_replaces_only_version_factor() -> None:
+    class SuccessfulResolver:
+        provider_name = "fake"
+        model = "fake-model"
+
+        def generate_structured(self, prompt: str, _schema: dict):
+            element_id = prompt.split('"element_id": "', 1)[1].split('"', 1)[0]
+            data = _version_resolution_response(
+                element_id,
+                conflict=False,
+                basis="effective_period",
+                confidence=1.0,
+            )
+            return StructuredLLMResult("fake", self.model, data, 10, 5, 15)
+
+    result, logger, _ = _run_version_resolution(
+        baseline_conflict=True,
+        resolver=SuccessfulResolver(),
+    )
+
+    assert result["answer_label"] == "根拠十分"
+    assert result["version_resolution"]["status"] == "SUCCESS"
+    assert result["version_resolution"]["applied"] is True
+    classification_events = [
+        event for event in logger.events if event[0] == "classification"
+    ]
+    assert classification_events[0][2]["status"] == "SUCCESS"
+    assert classification_events[1][2]["factors"]["version_conflict"] is False
+
+
+def test_version_resolver_low_confidence_and_display_contract_use_fallback() -> None:
+    class ResolverForRetrievedElement:
+        provider_name = "fake"
+        model = "fake-model"
+
+        def __init__(self, *, confidence: float):
+            self.confidence = confidence
+
+        def generate_structured(self, prompt: str, _schema: dict):
+            element_id = prompt.split('"element_id": "', 1)[1].split('"', 1)[0]
+            data = _version_resolution_response(
+                element_id,
+                conflict=False,
+                basis="effective_period",
+                confidence=self.confidence,
+            )
+            return StructuredLLMResult("fake", self.model, data, 10, 5, 15)
+
+    low_result, low_logger, _ = _run_version_resolution(
+        baseline_conflict=True,
+        resolver=ResolverForRetrievedElement(confidence=0.5),
+    )
+    contract_result, contract_logger, _ = _run_version_resolution(
+        baseline_conflict=True,
+        resolver=ResolverForRetrievedElement(confidence=1.0),
+        missing_conditions=["住居届の提出状況"],
+    )
+
+    assert low_result["answer_label"] == "判断要"
+    assert low_result["version_resolution"]["status"] == "LOW_CONFIDENCE_FALLBACK"
+    low_classification = [
+        event for event in low_logger.events if event[0] == "classification"
+    ]
+    assert low_classification[-1][2]["fallback_used"] is True
+    assert contract_result["answer_label"] == "判断要"
+    assert (
+        contract_result["version_resolution"]["status"] == "DISPLAY_CONTRACT_FALLBACK"
+    )
+    contract_classification = [
+        event for event in contract_logger.events if event[0] == "classification"
+    ]
+    assert contract_classification[-1][2]["fallback_used"] is True
+
+
+def test_version_resolver_provider_failure_keeps_baseline_result() -> None:
+    result, logger, _ = _run_version_resolution(
+        baseline_conflict=True,
+        resolver=FailingProvider(),
+    )
+
+    assert result["answer_label"] == "判断要"
+    assert result["version_resolution"]["status"] == "RESOLUTION_FAILED"
+    assert result["version_resolution"]["fallback_used"] is True
+    classification_events = [
+        event for event in logger.events if event[0] == "classification"
+    ]
+    assert classification_events[0][2]["status"] == "RESOLUTION_FAILED"
+    assert classification_events[-1][2]["factors"]["version_conflict"] is True
+
+
+def test_version_resolver_rejects_evidence_outside_retrieved_hits() -> None:
+    class ResolverWithUnknownEvidence:
+        provider_name = "fake"
+        model = "fake-model"
+
+        def generate_structured(self, _prompt: str, _schema: dict):
+            data = _version_resolution_response(
+                uuid4(),
+                conflict=False,
+                basis="effective_period",
+                confidence=1.0,
+            )
+            return StructuredLLMResult("fake", self.model, data, 10, 5, 15)
+
+    result, logger, _ = _run_version_resolution(
+        baseline_conflict=True,
+        resolver=ResolverWithUnknownEvidence(),
+    )
+
+    assert result["answer_label"] == "判断要"
+    assert result["version_resolution"]["status"] == "RESOLUTION_FAILED"
+    classification_events = [
+        event for event in logger.events if event[0] == "classification"
+    ]
+    assert "取得外" in classification_events[0][2]["error_summary"]
+    assert classification_events[-1][2]["fallback_used"] is True

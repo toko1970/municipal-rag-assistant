@@ -20,7 +20,10 @@ from eval.evaluate_visual_answers import token_cost_usd
 from src.answering import ClassificationFactors, derive_label
 from src.llm_provider import GeminiProvider
 from src.query_service import _evidence_payload, load_schema
-from src.version_resolution import parse_version_resolution
+from src.version_resolution import (
+    build_version_resolution_prompt,
+    parse_version_resolution,
+)
 
 
 DEFAULT_RECORDS = (
@@ -43,33 +46,6 @@ TARGET_IDS = {
 TRUE_CONFLICT_IDS = {"Q176"}
 DIAGNOSTIC_IDS = {"Q291"}
 SELECTED_IDS = TARGET_IDS | TRUE_CONFLICT_IDS | DIAGNOSTIC_IDS
-
-
-def build_version_resolution_prompt(
-    question: str, evidence: list[dict], answer_data: dict
-) -> str:
-    payload = json.dumps(
-        {
-            "question": question,
-            "retrieved_evidence": evidence,
-            "generated_answer": answer_data,
-        },
-        ensure_ascii=False,
-    )
-    return (
-        "version-resolution-v1のJSONだけを返してください。回答全体の十分性、個別事情、"
-        "制度解釈は判定せず、質問へ適用する文書版が一意に決まるかだけを判定します。\n"
-        "- 質問の基準日、根拠の施行日・適用期間、明示された優先規則の順に確認します。\n"
-        "- それらから適用版を一意に決められる場合はversion_conflict=falseです。"
-        "resolution_basisは実際に解決へ使った根拠を選びます。\n"
-        "- 複数版が取得された事実だけでは競合にしません。\n"
-        "- 質問の結論に関係する根拠が一つだけで、他の取得根拠が無関係なら"
-        "version_conflict=false、resolution_basis=single_applicable_sourceです。\n"
-        "- 結論に関係する複数版を上記情報で選べない場合だけversion_conflict=true、"
-        "resolution_basis=unresolvedです。\n"
-        "- evidence_element_idsには判定に使った取得根拠のelement_idだけを入れます。\n"
-        f"判定対象: {payload}"
-    )
 
 
 def _sha256(path: Path) -> str:

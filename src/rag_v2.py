@@ -21,6 +21,9 @@ ANSWER_SCHEMA_PATH = BASE_DIR / "design/schemas/answer-output-v1.schema.json"
 CLASSIFICATION_SCHEMA_PATH = (
     BASE_DIR / "design/schemas/classification-output-v1.schema.json"
 )
+VERSION_RESOLUTION_SCHEMA_PATH = (
+    BASE_DIR / "design/schemas/version-resolution-v1.schema.json"
+)
 
 
 def generate_qdrant_answer(question: str) -> dict:
@@ -36,6 +39,8 @@ def generate_qdrant_answer(question: str) -> dict:
         event_logger=PostgresEventLogger(session_factory),
         answer_schema=load_schema(ANSWER_SCHEMA_PATH),
         classification_schema=load_schema(CLASSIFICATION_SCHEMA_PATH),
+        version_resolver=GeminiProvider(CLASSIFIER_MODEL_NAME),
+        version_resolution_schema=load_schema(VERSION_RESOLUTION_SCHEMA_PATH),
         top_k=TOP_K,
         visual_asset_loader=repository.get_visual_assets,
         asset_reader=get_asset_reader(),

@@ -101,4 +101,4 @@ claimsは「事情を考慮」「総合確認」「即決できない」「個�
 
 7件すべての`version_conflict`自体は解消した一方、2件は`requires_case_facts`へ失敗要因が移り、control 2件では真の`requires_case_facts`が消えた。次の判断では、同一LLMに5要因をまとめて返させたままpromptを追加するか、日付・施行日で解けるversion判定を独立させるかを比較する必要がある。
 
-独立したVersion Resolverの切り出し評価では、修正round後にversion誤検出7/7と真の競合1/1を正しく判定した。条件付き合成では17/17となり、前回のcontrol退行を回避できる。詳細は[`VERSION_RESOLVER_EVALUATION.md`](VERSION_RESOLVER_EVALUATION.md)を参照する。production統合と130問回帰は未実施である。
+独立したVersion Resolverの切り出し評価では、修正round後にversion誤検出7/7と真の競合1/1を正しく判定した。factorだけの条件付き合成は17/17だった。ローカルquery flowへfallbackと表示契約検証を含めて統合し、同じ130問の保存済み出力で回帰したところ、分類失敗は15件から9件、成功は106件から112件となり、退行は0件だった。`Q196`は未確認条件が残るため安全にfallbackし、実改善は6件である。詳細は[`VERSION_RESOLVER_EVALUATION.md`](VERSION_RESOLVER_EVALUATION.md)を参照する。

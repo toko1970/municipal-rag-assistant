@@ -319,3 +319,5 @@ Cloud Run / local RAG v2差分確認の開始時点は週間枠7%で、表示さ
 日本時間16:05の自動再開で同じ比較を完了した。候補は対象7件中5件を改善したが、controlの`Q206`と`Q211`を2件退行させ、採用gateは不合格だった。34 call、retry 0、API error 0、79,215 input tokens、3,427 output tokens、推定US$0.02494425である。候補は本番へ反映せず、130問回帰にも進めていない。失敗原因は、version規則の追加が同じLLM出力内の`requires_case_facts`にも影響したことにある。
 
 責務を分けた専用Version Resolverを9件で評価した。Round 1はboolean 9/9だったが`Q231`の解決根拠種別が不正確だったため、`single_applicable_source`を追加してRound 2を実施した。Round 2はversion誤検出7/7、真の競合1/1、診断1/1、根拠種別・引用も一致し、API error 0、推定US$0.0080555だった。2 round合計はUS$0.01580275である。条件付き合成は17/17だがproduction未統合であり、次はresolver失敗時fallbackとログを実装して130問回帰を行う。詳細は[`VERSION_RESOLVER_EVALUATION.md`](../eval/VERSION_RESOLVER_EVALUATION.md)を参照する。
+
+専用Version Resolverをローカルquery flowへ統合した。既存分類がversion conflictのときだけ呼び、confidence 0.80以上かつ表示契約を満たす場合にversion要因だけを置換する。失敗・低confidence・取得外根拠・表示契約違反では基準分類へfallbackし、resolver attemptと最終分類を別々に記録する。保存済みの同一130問による固定回帰では、対象9件、適用8件、表示契約fallback 1件、改善6件、退行0件だった。主原因は成功106→112、分類失敗15→9、回答生成失敗6、検索失敗3となりgateを通過した。新規API callは0、sealed holdoutは未使用である。Ruff、非integration 243件、ローカルPostgreSQL・Qdrant統合3件が成功した。公開環境へのdeployは未実施。次の最大分類類型は個別・所管判断の見逃し4件である。
