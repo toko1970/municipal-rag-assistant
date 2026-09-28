@@ -73,6 +73,11 @@ Hit@5は2件改善したものの、総合回答成功のpaired評価が完了�
 整理する処理を比較することである。後段Classifierのversion conflict検出だけに依存せず、
 生成時点で有効な規程を選べるかを評価する。
 
+この最小実験は`Q291`と改正前後比較control 3件で実施し、4/4のcomposite successでgateを
+通過した。Q291はQuery Decomposition、生成前版注記、既存Version Resolverの組み合わせで
+「認定月から支給・15日以内」を回答した。詳細は
+[`TEMPORAL_GENERATION_EVALUATION.md`](TEMPORAL_GENERATION_EVALUATION.md)を参照する。
+
 ## 6. 再現手順
 
 検索比較（同名出力を上書きしないため、新しい出力先を使う）:

@@ -160,6 +160,14 @@ Q156の住所変更根拠はdense Top-30外、Q436の住所変更期限は27位�
 ある。後段のVersion ResolverはClassifierがversion conflictを検出した場合だけ動くため、今回の
 Q291のようにGeneratorとClassifierが旧情報を採用したケースを回復できなかった。
 
+生成前版注記のpilotでは、Q291と改正前後比較control 3件がすべて分類・内容・根拠支持に成功した。
+Q291はQuery Decompositionで根拠を揃え、版注記でGeneratorの旧記載採用を防ぎ、既存Version
+Resolverが適用期間から最終分類を解決した。9 logical calls、retry 0、推定US$0.00501575、API
+error 0、sealed holdout未使用である。
+
+同じ決定ロジックの適用範囲はformal 100問中7問で、未評価はQ186、Q191、Q286の3件である。
+productionへ統合する前に、この3件を追加実行して適用対象7件の影響範囲回帰を完了する。
+
 ## 10. 学習上の要点
 
 - 最大件数だけでなく、同じ一手で直せる同質性を確認して優先順位を決める。

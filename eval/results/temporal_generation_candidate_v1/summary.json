@@ -1,0 +1,15 @@
+{
+  "completed_count": 4,
+  "control_composite_correct": 3,
+  "control_count": 3,
+  "estimated_cost_usd": 0.00501575,
+  "gate_passed": true,
+  "input_tokens": 10919,
+  "logical_external_calls": 9,
+  "max_cost_usd": 0.02,
+  "output_tokens": 1524,
+  "scenario_count": 4,
+  "sealed_holdout_accessed": false,
+  "stop_reason": "COMPLETED",
+  "target_composite_ok": true
+}

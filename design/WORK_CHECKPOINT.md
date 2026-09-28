@@ -397,3 +397,14 @@ scenario進んだため、このrunは採用判定不可として監査記録を
 次の最小手順は、生成前に適用時期と新旧根拠を整理する処理をQ291で比較し、検索改善を総合回答
 成功へ接続できるか確認することである。詳細は
 [`QUERY_DECOMPOSITION_EVALUATION.md`](../eval/QUERY_DECOMPOSITION_EVALUATION.md)を参照する。
+
+生成前版注記のpilotをQ291と改正前後比較control 3件で実行した。質問日、対象制度、改正通知の
+effective dateと見出しから優先根拠と旧記載候補をコードで決め、現行generation promptへ注記した。
+Q291はQuery Decomposition、版注記、既存Version Resolverの組み合わせで「認定月から支給・
+15日以内」を正答し、control 3件も正解した。4/4 composite success、9 logical calls、retry 0、
+推定US$0.00501575、API error 0、sealed holdout未使用でgateを通過した。
+
+formal 100問のdry runで同処理の対象は7問と判明した。未評価のQ186、Q191、Q286だけを追加実行し、
+7件の影響範囲回帰を完了することが次の最小手順である。production統合、130問回帰、deployは
+未実施。詳細は
+[`TEMPORAL_GENERATION_EVALUATION.md`](../eval/TEMPORAL_GENERATION_EVALUATION.md)を参照する。

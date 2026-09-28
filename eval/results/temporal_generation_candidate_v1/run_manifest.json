@@ -1,0 +1,55 @@
+{
+  "classifier_model": "gemini-3.1-flash-lite",
+  "content_rules": {
+    "Q291": {
+      "rejected": [
+        "翌月"
+      ],
+      "required": [
+        "(認定された月|認定月)",
+        "15日以内"
+      ]
+    },
+    "Q421": {
+      "rejected": [],
+      "required": [
+        "2\\s*km",
+        "1[.]5\\s*km"
+      ]
+    },
+    "Q426": {
+      "rejected": [],
+      "required": [
+        "16[,.]?000円",
+        "15[,.]?000円"
+      ]
+    },
+    "Q431": {
+      "rejected": [],
+      "required": [
+        "翌月",
+        "(認定された月|認定月)"
+      ]
+    }
+  },
+  "control_ids": [
+    "Q421",
+    "Q426",
+    "Q431"
+  ],
+  "dataset_sha256": "bf93804a604372a8d1e5b295a9906e147f6412e5465bb29e644353693c32ae17",
+  "document_cache_sha256": "1efec62b22bf462f86032d870858c1c737e450ed29b9d01ee9e640d02f173b29",
+  "experiment": "pre-generation-temporal-guidance-v1",
+  "generation_candidate": "deterministic temporal guidance prepended to current prompt",
+  "generator_model": "gemini-3.1-flash-lite",
+  "max_cost_usd": 0.02,
+  "max_logical_external_calls": 12,
+  "production_integrated": false,
+  "query_cache_sha256": "25b2d74d64cbe0e6fa89e79bfc8bffdd837f8a383d9a6b5f44e6e17e8d025200",
+  "retrieval": "query decomposition when a deterministic rule matches; otherwise dense",
+  "retry_count": 0,
+  "sealed_holdout_accessed": false,
+  "subquery_cache_sha256": "edf385107d0b9c207686512df500b2dd121398c4026a69c2660e1b46ad666ebc",
+  "target_id": "Q291",
+  "top_k": 8
+}
