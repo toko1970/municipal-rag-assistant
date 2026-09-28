@@ -1,0 +1,7 @@
+{
+  "dataset_sha256": "66e212c54ce6160b0ff18e677f745bdfcfd0026303d6c4d1afc0a958bd275c2a",
+  "experiment": "query-trigger-robustness-v1",
+  "external_api_calls": 0,
+  "frozen_before_candidate_change": true,
+  "sealed_holdout_accessed": false
+}

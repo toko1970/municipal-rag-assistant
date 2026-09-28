@@ -1,0 +1,156 @@
+{
+  "corpus_count": 500,
+  "expected_scenarios": [
+    "S032",
+    "S059",
+    "S088"
+  ],
+  "external_api_calls": 0,
+  "failed_question_ids": [
+    "Q160",
+    "Q440"
+  ],
+  "false_negative": 2,
+  "false_positive": 0,
+  "precision": 1.0,
+  "recall": 0.8666666666666667,
+  "records": [
+    {
+      "actual_applied": true,
+      "expected_applied": true,
+      "ok": true,
+      "question": "転居後に通勤しなくなった職員の通勤手当はどうしますか？",
+      "question_id": "Q156",
+      "scenario_id": "S032",
+      "variant_type": "formal"
+    },
+    {
+      "actual_applied": true,
+      "expected_applied": true,
+      "ok": true,
+      "question": "職員から相談を受けました。転居後に通勤しなくなった職員の通勤手当はどうしますか？",
+      "question_id": "Q157",
+      "scenario_id": "S032",
+      "variant_type": "staff_consultation"
+    },
+    {
+      "actual_applied": true,
+      "expected_applied": true,
+      "ok": true,
+      "question": "給与事務担当です。転居後に通勤しなくなった職員の通勤手当はどうしますか？",
+      "question_id": "Q158",
+      "scenario_id": "S032",
+      "variant_type": "concise"
+    },
+    {
+      "actual_applied": true,
+      "expected_applied": true,
+      "ok": true,
+      "question": "これって、転居後に通勤しなくなった職員の通勤手当はどうしますか？",
+      "question_id": "Q159",
+      "scenario_id": "S032",
+      "variant_type": "colloquial"
+    },
+    {
+      "actual_applied": false,
+      "expected_applied": true,
+      "ok": false,
+      "question": "すみません、転居後につうきんしなくなった職員の通勤手当はどうしますか？",
+      "question_id": "Q160",
+      "scenario_id": "S032",
+      "variant_type": "noisy"
+    },
+    {
+      "actual_applied": true,
+      "expected_applied": true,
+      "ok": true,
+      "question": "2025年10月の出生について支給開始時期と届出期限をまとめてください。",
+      "question_id": "Q291",
+      "scenario_id": "S059",
+      "variant_type": "formal"
+    },
+    {
+      "actual_applied": true,
+      "expected_applied": true,
+      "ok": true,
+      "question": "職員から相談を受けました。2025年10月の出生について支給開始時期と届出期限をまとめてください。",
+      "question_id": "Q292",
+      "scenario_id": "S059",
+      "variant_type": "staff_consultation"
+    },
+    {
+      "actual_applied": true,
+      "expected_applied": true,
+      "ok": true,
+      "question": "給与事務担当です。2025年10月の出生について支給開始時期と届出期限をまとめてください。",
+      "question_id": "Q293",
+      "scenario_id": "S059",
+      "variant_type": "concise"
+    },
+    {
+      "actual_applied": true,
+      "expected_applied": true,
+      "ok": true,
+      "question": "2025年10月の出生について出る開始時期と届出期限をまとめてください。",
+      "question_id": "Q294",
+      "scenario_id": "S059",
+      "variant_type": "colloquial"
+    },
+    {
+      "actual_applied": true,
+      "expected_applied": true,
+      "ok": true,
+      "question": "すみません、2025年10月の出生について支給開始時期と届出期限をまとめてください。",
+      "question_id": "Q295",
+      "scenario_id": "S059",
+      "variant_type": "noisy"
+    },
+    {
+      "actual_applied": true,
+      "expected_applied": true,
+      "ok": true,
+      "question": "転居で通勤しなくなった場合、通勤手当と住所変更届をどう処理しますか？",
+      "question_id": "Q436",
+      "scenario_id": "S088",
+      "variant_type": "formal"
+    },
+    {
+      "actual_applied": true,
+      "expected_applied": true,
+      "ok": true,
+      "question": "職員から相談を受けました。転居で通勤しなくなった場合、通勤手当と住所変更届をどう処理しますか？",
+      "question_id": "Q437",
+      "scenario_id": "S088",
+      "variant_type": "staff_consultation"
+    },
+    {
+      "actual_applied": true,
+      "expected_applied": true,
+      "ok": true,
+      "question": "給与事務担当です。転居で通勤しなくなった場合、通勤手当と住所変更届をどう処理しますか？",
+      "question_id": "Q438",
+      "scenario_id": "S088",
+      "variant_type": "concise"
+    },
+    {
+      "actual_applied": true,
+      "expected_applied": true,
+      "ok": true,
+      "question": "これって、転居で通勤しなくなった場合、通勤手当と住所変更届をどう処理しますか？",
+      "question_id": "Q439",
+      "scenario_id": "S088",
+      "variant_type": "colloquial"
+    },
+    {
+      "actual_applied": false,
+      "expected_applied": true,
+      "ok": false,
+      "question": "すみません、転居でつうきんしなくなった場合、通勤手当と住所変更届をどう処理しますか？",
+      "question_id": "Q440",
+      "scenario_id": "S088",
+      "variant_type": "noisy"
+    }
+  ],
+  "sealed_holdout_accessed": false,
+  "true_positive": 13
+}

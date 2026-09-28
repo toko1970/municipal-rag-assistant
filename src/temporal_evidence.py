@@ -13,6 +13,10 @@ from src.query_service import build_generation_prompt
 POLICY_DOMAINS = ("通勤手当", "住居手当", "扶養手当")
 QUESTION_DOMAIN_ALIASES = {
     "出生": "扶養手当",
+    "子どもが生まれ": "扶養手当",
+    "赤ちゃんが生まれ": "扶養手当",
+    "出産後": "扶養手当",
+    "子の誕生": "扶養手当",
 }
 TEMPORAL_GENERATION_PROMPT_VERSION = "answer-claims-v1+temporal-guidance-v1"
 
@@ -28,12 +32,20 @@ class TemporalPolicyGuidance:
 
 def extract_question_date(question: str) -> date | None:
     match = re.search(r"(\d{4})年(\d{1,2})月(?:(\d{1,2})日)?", question)
-    if match is None:
+    if match is not None:
+        return date(
+            int(match.group(1)),
+            int(match.group(2)),
+            int(match.group(3) or 1),
+        )
+    era_match = re.search(r"令和(元|\d+)年(\d{1,2})月(?:(\d{1,2})日)?", question)
+    if era_match is None:
         return None
+    era_year = 1 if era_match.group(1) == "元" else int(era_match.group(1))
     return date(
-        int(match.group(1)),
-        int(match.group(2)),
-        int(match.group(3) or 1),
+        2018 + era_year,
+        int(era_match.group(2)),
+        int(era_match.group(3) or 1),
     )
 
 
@@ -75,7 +87,10 @@ def analyze_temporal_evidence(
     question: str, hits: list[SearchHit]
 ) -> TemporalPolicyGuidance | None:
     question_date = extract_question_date(question)
-    comparison_requested = "改正前後" in question or "どう変わ" in question
+    comparison_requested = any(
+        phrase in question
+        for phrase in ("改正前後", "改正の前と後", "改正前と改正後", "どう変わ")
+    )
     if question_date is None and not comparison_requested:
         return None
     question_domains = _question_domains(question)

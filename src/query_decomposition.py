@@ -9,8 +9,50 @@ from collections.abc import Callable
 from src.contracts import SearchHit, VectorIndex
 
 
+MOVE_EVENTS = ("転居", "引っ越", "引越し", "住所を移")
+MOVE_NEGATIONS = (
+    "転居せず",
+    "転居していない",
+    "引っ越していない",
+    "引越していない",
+    "住所を移さず",
+    "住所を移していない",
+)
+COMMUTE_CESSATION = (
+    "通勤しなくな",
+    "通勤していません",
+    "完全在宅",
+    "出勤しなくな",
+    "通勤実態がなく",
+    "在宅勤務のみ",
+    "通勤不要",
+)
+BIRTH_EVENTS = ("出生", "子どもが生まれ", "赤ちゃんが生まれ", "出産後", "子の誕生")
+PAYMENT_START_FACETS = (
+    "支給開始時期",
+    "支給開始月",
+    "開始時期",
+    "開始月",
+    "いつから",
+    "何月分から",
+    "手当が出て",
+)
+DEADLINE_FACETS = (
+    "届出期限",
+    "申請期限",
+    "提出期限",
+    "いつまで",
+    "何日以内",
+    "締切",
+)
+
+
+def _contains_any(question: str, phrases: tuple[str, ...]) -> bool:
+    return any(phrase in question for phrase in phrases)
+
+
 def _date_context(question: str) -> str:
-    match = re.search(r"\d{4}年\d{1,2}月(?:以降)?", question)
+    match = re.search(r"(?:\d{4}年|令和(?:元|\d+)年)\d{1,2}月(?:以降)?", question)
     return f"{match.group(0)} " if match else ""
 
 
@@ -18,13 +60,20 @@ def decompose_query(question: str) -> list[str]:
     """Split supported municipal payroll multi-intent questions without gold data."""
     date = _date_context(question)
 
-    if "転居" in question and "通勤しなく" in question:
+    move_event = _contains_any(question, MOVE_EVENTS) and not _contains_any(
+        question, MOVE_NEGATIONS
+    )
+    if move_event and _contains_any(question, COMMUTE_CESSATION):
         return [
             f"{date}転居 通勤しなくなった 通勤手当 支給停止".strip(),
             f"{date}転居 住所変更届 提出が必要な場合 提出期限".strip(),
         ]
 
-    if "出生" in question and "支給開始時期" in question and "届出期限" in question:
+    if (
+        _contains_any(question, BIRTH_EVENTS)
+        and _contains_any(question, PAYMENT_START_FACETS)
+        and _contains_any(question, DEADLINE_FACETS)
+    ):
         return [
             f"{date}出生 扶養手当 支給開始時期".strip(),
             f"{date}出生 扶養親族変更届 提出期限".strip(),

@@ -39,6 +39,12 @@ def _hit(
 
 def test_extracts_month_as_first_day() -> None:
     assert extract_question_date("2025年10月の出生") is not None
+    assert extract_question_date("令和7年10月の出生") == extract_question_date(
+        "2025年10月の出生"
+    )
+    assert extract_question_date("令和元年5月1日") == extract_question_date(
+        "2019年5月1日"
+    )
     assert extract_question_date("日付なし") is None
 
 
@@ -134,6 +140,10 @@ def test_comparison_keeps_both_versions() -> None:
     assert result.older_conflicting_element_ids == ()
     assert "両方の記載を保持" in temporal_prompt_instruction(
         "扶養手当の支給開始時期は改正前後でどう変わりましたか？",
+        [before, after, unrelated],
+    )
+    assert "両方の記載を保持" in temporal_prompt_instruction(
+        "扶養手当は改正の前と後で何が違いますか？",
         [before, after, unrelated],
     )
 

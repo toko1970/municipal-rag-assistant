@@ -26,6 +26,12 @@ def test_decomposes_supported_multi_intent_questions_without_gold() -> None:
         "2025年10月 出生 扶養手当 支給開始時期",
         "2025年10月 出生 扶養親族変更届 提出期限",
     ]
+    assert decompose_query(
+        "令和7年10月の出生について支給開始時期と届出期限をまとめてください。"
+    ) == [
+        "令和7年10月 出生 扶養手当 支給開始時期",
+        "令和7年10月 出生 扶養親族変更届 提出期限",
+    ]
 
 
 def test_leaves_single_intent_question_unchanged() -> None:
@@ -41,6 +47,26 @@ def test_leaves_unproven_decomposition_rules_unchanged() -> None:
     )
 
     for question in questions:
+        assert decompose_query(question) == [question]
+
+
+def test_decomposes_semantic_paraphrases_but_not_shared_word_boundaries() -> None:
+    assert decompose_query(
+        "引っ越した後は通勤していません。手当の停止と住所変更の手続きを教えてください。"
+    ) != [
+        "引っ越した後は通勤していません。手当の停止と住所変更の手続きを教えてください。"
+    ]
+    assert decompose_query(
+        "子どもが生まれました。扶養手当はいつからで、変更届はいつまでですか？"
+    ) != [
+        "子どもが生まれました。扶養手当はいつからで、変更届はいつまでですか？"
+    ]
+    boundaries = (
+        "転居後に通勤しなくてよいという理解は誤りですか？",
+        "転居せずに完全在宅勤務となった場合、通勤手当はどうなりますか？",
+        "出生に伴う扶養親族変更届の届出期限だけ教えてください。",
+    )
+    for question in boundaries:
         assert decompose_query(question) == [question]
 
 
