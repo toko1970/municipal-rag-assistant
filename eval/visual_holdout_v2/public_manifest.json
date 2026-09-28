@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "holdout_id": "visual-sealed-holdout-v2",
-  "state": "PLANNED",
+  "state": "SEALED",
   "paths_relative_to": "repository_root",
   "manifest_schema": {
     "path": "design/schemas/visual-holdout-public-manifest-v2.schema.json",
@@ -11,9 +11,42 @@
     "path": "eval/visual_holdout_v2/scenario_blueprint.json",
     "sha256": "cd0cca28e828e6a6ea5b7bdb71e1b5316358699361f49bb59128babb71a68109"
   },
-  "questions": null,
-  "documents": [],
-  "gold": null,
+  "questions": {
+    "path": "eval/visual_holdout_v2/questions.json",
+    "sha256": "e0ce0ae4a34d6e2ed74c7b1adfa230df4b7e5dbd56f88263662879e1ac3f13bd",
+    "count": 10
+  },
+  "documents": [
+    {
+      "document_id": "vh2_doc_p4",
+      "document_family": "lq58_payroll_deduction_reconciliation",
+      "kind": "process_flow",
+      "sha256": "7bce1706a307f347ec64879fdd3b6997bec8354cdb1e8705459c7edd452955b2"
+    },
+    {
+      "document_id": "vh2_doc_d8",
+      "document_family": "lq58_archive_sorting_duty_certification",
+      "kind": "decision_flow",
+      "sha256": "4b4a263e4f1cb4370153b86522dc8b2e3de50812d47482e1f8d385ae1d5c2523"
+    },
+    {
+      "document_id": "vh2_doc_t3",
+      "document_family": "lq58_record_inventory_duty_addition",
+      "kind": "table",
+      "sha256": "dc5289c4420abc0ed13c1766eae3f10a9dac27af82c19398f6d6a2ac42d24d61"
+    },
+    {
+      "document_id": "vh2_doc_f6",
+      "document_family": "lq58_payroll_inquiry_delivery_registration",
+      "kind": "form",
+      "sha256": "cc97cfedb3fc3dac9fa34eb0a5547def1ffbf9f77278e5c8dcc20591689f106d"
+    }
+  ],
+  "gold": {
+    "extraction_sha256": "f7e55dc715a45399bb3787f7017513a408a604bccf6aa7be6d8a379f60275bcd",
+    "scenario_sha256": "1d96c79df146717f1aa2b07d337cf838d2827b308af904a0e52b31ecdf959a6e",
+    "scenario_count": 10
+  },
   "candidate": null,
   "predictions": null,
   "opening": null,
