@@ -1,0 +1,39 @@
+{
+  "baseline": {
+    "answer_generation_failure": 6,
+    "classification_failure": 4,
+    "retrieval_failure": 3,
+    "success": 117,
+    "success_rate": 0.9,
+    "total": 130
+  },
+  "candidate": {
+    "answer_generation_failure": 6,
+    "classification_failure": 3,
+    "retrieval_failure": 1,
+    "success": 120,
+    "success_rate": 0.9230769230769231,
+    "total": 130
+  },
+  "candidate_campaign_all_attempts": {
+    "estimated_cost_usd": 0.022901499999999998,
+    "logical_calls": 40
+  },
+  "impact_gate_passed": true,
+  "improved_ids": [
+    "Q286",
+    "Q291",
+    "Q436"
+  ],
+  "integrated_phase_all_attempts": {
+    "estimated_cost_usd": 0.01114625,
+    "logical_calls": 17
+  },
+  "production_deployed": false,
+  "regressed_ids": [],
+  "sealed_holdout_accessed": false,
+  "selected_candidate_records_estimated_cost_usd": 0.012088,
+  "unchanged_failure_ids_in_scope": [
+    "Q156"
+  ]
+}

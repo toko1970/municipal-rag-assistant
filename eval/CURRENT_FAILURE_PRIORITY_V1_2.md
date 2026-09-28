@@ -190,7 +190,19 @@ Q191は15,000円ちょうどを対象外と正答し、Resolverは`effective_per
 採用gateを通過した。失敗3試行はprovider可用性の証拠として残し、実験全体は23 logical calls、
 推定US$0.01175525だった。次はローカルquery flowへ統合し、130問回帰で退行を確認する。
 
-## 10. 学習上の要点
+## 10. production query flow統合結果
+
+production query flowへ候補を接続し、最終コードで規則が発火する10問だけを再評価した。初期の
+Query Decomposition 5規則から、総合成功へつながった出生複合質問と転居・通勤実態消失の2規則
+だけを残した。Q446は住宅分解で一度退行したためDenseへ戻し、質問語から住居手当domainを補う
+版注記だけを適用して成功を維持した。
+
+gold v1.2の統合値は117/130（90.0%）から120/130（92.3%）へ改善した。改善はQ286、Q291、
+Q436、退行0件で、失敗内訳は回答生成6、回答分類3、検索1となった。Q156の検索失敗は残る。
+詳細は[`INTEGRATED_QUERY_CANDIDATE_EVALUATION.md`](INTEGRATED_QUERY_CANDIDATE_EVALUATION.md)を
+参照する。
+
+## 11. 学習上の要点
 
 - 最大件数だけでなく、同じ一手で直せる同質性を確認して優先順位を決める。
 - 分類ラベルが誤っていても、原因がGeneratorの不足条件なら分類器だけを変えない。

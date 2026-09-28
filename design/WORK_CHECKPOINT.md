@@ -449,3 +449,24 @@ status・構造化response・errorとClassifierのstatus・errorを保存する�
 選択品質recordの推定費用US$0.00966975、失敗試行を含む実験全体は23 logical calls、推定
 US$0.01175525である。次の最小手順は候補をローカルquery flowへ統合し、同じ130問で総合回答
 成功と退行を評価すること。production deployは未実施で、実行前に明示承認が必要である。
+
+Query Decompositionと生成前版注記をローカルproduction query flowへ接続した。単一intentは従来の
+query vectorを再利用し、対応複合質問だけ追加Embeddingする。通常質問ではpromptを変更しない。
+production composition rootの接続testを含む非integration 282件が、この統合時点で成功した。
+
+影響範囲評価では、通勤経路変更Q131は生成失敗を改善せず、過払給与Q441は追加検索の便益がなく、
+住宅Q446は一度分類退行した。そのためQuery Decompositionを、改善を確認した出生複合質問と
+転居・通勤実態消失の2規則へ縮小した。Q446はDenseへ戻し、家賃と入居／住宅／賃貸の組合せを
+住居手当domainへ対応付ける版注記だけで成功を維持した。
+
+最終候補をgold v1.2の130問へ影響範囲方式で統合し、総合成功は117/130（90.0%）から
+120/130（92.3%）へ改善した。改善Q286・Q291・Q436、退行0。失敗内訳は回答生成6、回答分類3、
+検索1で、Q156の検索失敗が残る。採用record推定US$0.012088、temporal pilot以降の全試行は
+40 logical calls、推定US$0.0229015、sealed holdout未使用、production deploy未実施である。
+詳細は[`INTEGRATED_QUERY_CANDIDATE_EVALUATION.md`](../eval/INTEGRATED_QUERY_CANDIDATE_EVALUATION.md)
+を参照する。次はbranch全体reviewと実PostgreSQL・Qdrant integration testを行う。
+
+採用候補の最終検証として、非integration 289件、実PostgreSQL・Qdrant integration 3件、Ruff、
+diff検査が成功した。branch差分の自己reviewでも、通常質問の既存検索経路、対象質問だけの追加
+Embedding、非対象質問のprompt維持に新しい問題は見つからなかった。次は成果をreview可能な形へ
+整理し、production deploy前の判断を行う。

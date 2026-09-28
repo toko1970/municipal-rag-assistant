@@ -1,4 +1,4 @@
-"""Deterministic query decomposition for an isolated retrieval experiment."""
+"""Deterministic query decomposition for selected municipal payroll questions."""
 
 from __future__ import annotations
 

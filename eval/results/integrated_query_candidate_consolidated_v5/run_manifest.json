@@ -1,0 +1,36 @@
+{
+  "affected_ids": [
+    "Q156",
+    "Q186",
+    "Q191",
+    "Q286",
+    "Q291",
+    "Q421",
+    "Q426",
+    "Q431",
+    "Q436",
+    "Q446"
+  ],
+  "assessment": "production-integrated-query-candidate-consolidated-v5",
+  "baseline_scenario_count": 130,
+  "production_deployed": false,
+  "sealed_holdout_accessed": false,
+  "selection_rule": "Reuse baseline for questions where final deterministic rules do not fire; use valid fixed-condition candidate records for affected successes; retain deterministic retrieval failure for Q156.",
+  "sources": {
+    "eval/results/integrated_query_candidate_q446_v3/records.jsonl": "23dd8db5d0ba6ad27521b4a6e8520b42a3f9b6cf6faaa9256dc2e8633e498eb3",
+    "eval/results/integrated_query_candidate_q446_v3/run_manifest.json": "e89acbdbde220a8f4191924b83bc74857ed3a23fcf7bfd7acb5f0f7cc0f466c1",
+    "eval/results/integrated_query_candidate_q446_v4/records.jsonl": "fbf1fecf4e3a13f67fa0ba35f9c0e44db4f892747bbbc9e639405e2a67237d83",
+    "eval/results/integrated_query_candidate_q446_v4/run_manifest.json": "e89acbdbde220a8f4191924b83bc74857ed3a23fcf7bfd7acb5f0f7cc0f466c1",
+    "eval/results/integrated_query_candidate_v1/records.jsonl": "83db9d580eadef08db1d5926457ec7c56b4c38304f1e39a50b6dd952ca22df2d",
+    "eval/results/integrated_query_candidate_v1/run_manifest.json": "ad5e9fb2eed58c18d845874ffd0550a8856e357776f7bf2b7cab9fc2b2fcc747",
+    "eval/results/integrated_query_candidate_v2/records.jsonl": "6fdd32b10b1eaf40b193b18cf8340d7a4c31a5c0a217ebcb601660224e7764e2",
+    "eval/results/integrated_query_candidate_v2/run_manifest.json": "2371e3867e5515baaa32a4b1bf7c7c5ab80aa24d3440076b4345cf9439cf32c1",
+    "eval/results/retrieved_regression_e24d7d4_v1/analysis.json": "8f2d11eb5546633fd862f930cedbc29989888ac187a166b72f880bd9781689ed",
+    "eval/results/temporal_generation_scope_consolidated_v3/records.jsonl": "a16ecc4e26a47339d414a96600d37821da23cd1f5bd19aeca3afbddc864cd20f",
+    "eval/results/temporal_generation_scope_consolidated_v3/run_manifest.json": "73352dc97ea5f8cf7fc067aed8ed103d47bbe2ad3a6568067558364f27dabd6a",
+    "src/query_decomposition.py": "f3fa01a7894c1a1e0d05b8b5d2c4c092ce38b1f7642c5e963a1d4c920dbcc456",
+    "src/rag_v2.py": "5de7c3b966886da482840e8bbbb44726fa302ba8cf80f15718a2b7fd23635fb0",
+    "src/temporal_evidence.py": "75f4b9654246bb36aab86e70bde9f46e0eda4485f8d1d151333b3cff96111f43"
+  },
+  "unaffected_scenario_count": 120
+}

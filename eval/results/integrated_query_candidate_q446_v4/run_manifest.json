@@ -1,0 +1,59 @@
+{
+  "classifier_model": "gemini-3.1-flash-lite",
+  "content_rules": {
+    "Q131": [
+      "1[.]5\\s*km",
+      "実際に通勤|実通勤",
+      "届",
+      "10日以内"
+    ],
+    "Q156": [
+      "支給停止|停止",
+      "住所変更届"
+    ],
+    "Q436": [
+      "支給停止|停止",
+      "住所変更届",
+      "14日以内"
+    ],
+    "Q441": [
+      "一括",
+      "分割",
+      "口座変更届",
+      "口座情報.*確認|通帳|キャッシュカード"
+    ],
+    "Q446": [
+      "本人名義",
+      "15[,.]?000円を超",
+      "住居届",
+      "契約書",
+      "支払.*確認|領収書|振込",
+      "30日以内"
+    ]
+  },
+  "control_ids": [
+    "Q441",
+    "Q446"
+  ],
+  "dataset_sha256": "bf93804a604372a8d1e5b295a9906e147f6412e5465bb29e644353693c32ae17",
+  "document_cache_sha256": "1efec62b22bf462f86032d870858c1c737e450ed29b9d01ee9e640d02f173b29",
+  "experiment": "production-integrated-query-candidate-v1",
+  "generation_prompt_version": "answer-claims-v1+temporal-guidance-v1",
+  "generator_model": "gemini-3.1-flash-lite",
+  "max_cost_usd": 0.005,
+  "max_logical_external_calls": 3,
+  "production_deployed": false,
+  "query_cache_sha256": "25b2d74d64cbe0e6fa89e79bfc8bffdd837f8a383d9a6b5f44e6e17e8d025200",
+  "retry_count": 0,
+  "sealed_holdout_accessed": false,
+  "selected_ids": [
+    "Q446"
+  ],
+  "subquery_cache_sha256": "edf385107d0b9c207686512df500b2dd121398c4026a69c2660e1b46ad666ebc",
+  "target_ids": [
+    "Q131",
+    "Q156",
+    "Q436"
+  ],
+  "top_k": 8
+}
