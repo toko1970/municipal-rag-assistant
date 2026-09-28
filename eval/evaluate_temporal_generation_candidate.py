@@ -118,6 +118,14 @@ def _version_resolution_error(result: dict[str, Any] | None) -> str:
     return f"VersionResolverError: {detail}"
 
 
+def _selected_ids(question_id: str | None) -> tuple[str, ...]:
+    if question_id is None:
+        return SELECTED_IDS
+    if question_id not in SELECTED_IDS:
+        raise ValueError(f"影響範囲外のquestion_idです: {question_id}")
+    return (question_id,)
+
+
 def build_temporal_generation_prompt(question: str, hits: list, visual_assets) -> str:
     instruction = temporal_prompt_instruction(question, hits)
     base = build_generation_prompt(question, hits, visual_assets)
@@ -133,14 +141,18 @@ def main() -> int:
     parser.add_argument("--subquery-cache", type=Path, default=DEFAULT_SUBQUERY_CACHE)
     parser.add_argument("--document-cache", type=Path, default=DEFAULT_DOCUMENT_CACHE)
     parser.add_argument("--reuse-dir", type=Path)
+    parser.add_argument("--question-id", choices=SELECTED_IDS)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--max-cost-usd", type=float, required=True)
     args = parser.parse_args()
     if args.output_dir.exists():
         raise FileExistsError(f"評価出力は上書きしません: {args.output_dir}")
+    if args.question_id is not None and args.reuse_dir is not None:
+        raise ValueError("単一質問診断では既存結果を再利用しません")
+    selected_ids = _selected_ids(args.question_id)
     all_questions = load_questions(args.input, "formal")
     by_id = {row["question_id"]: row for row in all_questions}
-    questions = [by_id[question_id] for question_id in SELECTED_IDS]
+    questions = [by_id[question_id] for question_id in selected_ids]
     original_vectors = load_baseline_query_vectors(args.query_cache, all_questions)
     subqueries = list(
         dict.fromkeys(
@@ -228,12 +240,16 @@ def main() -> int:
     args.output_dir.mkdir(parents=True)
     records_path = args.output_dir / "records.jsonl"
     manifest = {
-        "experiment": "pre-generation-temporal-guidance-scope-v2",
+        "experiment": (
+            "pre-generation-temporal-guidance-diagnostic-v1"
+            if args.question_id is not None
+            else "pre-generation-temporal-guidance-scope-v2"
+        ),
         **expected_hashes,
         "target_id": TARGET_ID,
         "pilot_control_ids": list(PILOT_CONTROL_IDS),
         "additional_scope_ids": list(ADDITIONAL_SCOPE_IDS),
-        "selected_ids": list(SELECTED_IDS),
+        "selected_ids": list(selected_ids),
         "content_rules": CONTENT_RULES,
         "retrieval": "query decomposition when a deterministic rule matches; otherwise dense",
         "generation_candidate": "deterministic temporal guidance prepended to current prompt",
@@ -385,7 +401,7 @@ def main() -> int:
         raise RuntimeError("logical external call上限を超えました")
     completed = [row for row in records if not row["error"]]
     summary = {
-        "scope_scenario_count": len(SELECTED_IDS),
+        "scope_scenario_count": len(selected_ids),
         "completed_count": len(completed),
         "reused_count": len(reused_by_id),
         "new_scenario_count": len(pending_questions),
@@ -405,11 +421,13 @@ def main() -> int:
             for row in completed
             if row["question_id"] in ADDITIONAL_SCOPE_IDS
         ),
-        "additional_scope_count": len(ADDITIONAL_SCOPE_IDS),
+        "additional_scope_count": sum(
+            question_id in ADDITIONAL_SCOPE_IDS for question_id in selected_ids
+        ),
         "scope_composite_correct": sum(row["composite_ok"] for row in completed),
         "gate_passed": (
             stop_reason == "COMPLETED"
-            and len(completed) == len(SELECTED_IDS)
+            and len(completed) == len(selected_ids)
             and all(row["composite_ok"] for row in completed)
         ),
         "stop_reason": stop_reason,

@@ -1,5 +1,6 @@
 from eval.evaluate_temporal_generation_candidate import (
     _content_ok,
+    _selected_ids,
     _version_resolution_error,
 )
 
@@ -53,3 +54,7 @@ def test_version_resolver_failure_is_a_scenario_error() -> None:
         )
         == "VersionResolverError: 503 UNAVAILABLE"
     )
+
+
+def test_single_question_diagnostic_limits_the_scope() -> None:
+    assert _selected_ids("Q191") == ("Q191",)
