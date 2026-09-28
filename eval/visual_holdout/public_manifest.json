@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "holdout_id": "visual-sealed-holdout-v1",
-  "state": "PREDICTIONS_FROZEN",
+  "state": "OPENED",
   "paths_relative_to": "repository_root",
   "manifest_schema": {
     "path": "design/schemas/visual-holdout-public-manifest-v1.schema.json",
@@ -70,6 +70,10 @@
     "attempt_count": 20,
     "frozen_at": "2026-09-28T12:02:56+09:00"
   },
-  "opening": null,
+  "opening": {
+    "opened_at": "2026-09-28T12:06:05+09:00",
+    "extraction_hash_verified": true,
+    "scenario_hash_verified": true
+  },
   "results": null
 }

@@ -22,7 +22,7 @@ class VisualHoldoutProtocolTest(unittest.TestCase):
     def test_committed_candidate_is_valid_without_opening_sealed_content(self):
         manifest = validate_public_manifest(MANIFEST_PATH, REPOSITORY_ROOT)
 
-        self.assertEqual(manifest["state"], "PREDICTIONS_FROZEN")
+        self.assertEqual(manifest["state"], "OPENED")
         self.assertGreaterEqual(len(manifest["documents"]), 6)
         self.assertEqual(manifest["questions"]["count"], 20)
         self.assertEqual(
@@ -31,8 +31,9 @@ class VisualHoldoutProtocolTest(unittest.TestCase):
         )
         self.assertTrue((REPOSITORY_ROOT / CANDIDATE_CONFIG_PATH).is_file())
         self.assertEqual(manifest["predictions"]["attempt_count"], 20)
-        for field in ("opening", "results"):
-            self.assertIsNone(manifest[field])
+        self.assertTrue(manifest["opening"]["extraction_hash_verified"])
+        self.assertTrue(manifest["opening"]["scenario_hash_verified"])
+        self.assertIsNone(manifest["results"])
 
     def test_candidate_hash_change_is_rejected(self):
         manifest = deepcopy(load_json(MANIFEST_PATH))
