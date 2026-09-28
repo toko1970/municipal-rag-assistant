@@ -1,0 +1,157 @@
+{
+  "bbox": {
+    "x0": 0.2889,
+    "x1": 0.7111,
+    "y0": 0.1933,
+    "y1": 0.8533
+  },
+  "confidence": {
+    "review_required": true,
+    "source": "provider_self_report",
+    "value": 1.0
+  },
+  "data": {
+    "edges": [
+      {
+        "bbox": {
+          "x0": 0.4944,
+          "x1": 0.5056,
+          "y0": 0.2533,
+          "y1": 0.2933
+        },
+        "condition": null,
+        "from": "node1",
+        "to": "node2"
+      },
+      {
+        "bbox": {
+          "x0": 0.25,
+          "x1": 0.5,
+          "y0": 0.4067,
+          "y1": 0.4733
+        },
+        "condition": "はい",
+        "from": "node2",
+        "to": "node3"
+      },
+      {
+        "bbox": {
+          "x0": 0.5,
+          "x1": 0.75,
+          "y0": 0.4067,
+          "y1": 0.4733
+        },
+        "condition": "いいえ",
+        "from": "node2",
+        "to": "node4"
+      },
+      {
+        "bbox": {
+          "x0": 0.4944,
+          "x1": 0.5056,
+          "y0": 0.5467,
+          "y1": 0.6267
+        },
+        "condition": null,
+        "from": "node3",
+        "to": "node5"
+      },
+      {
+        "bbox": {
+          "x0": 0.4944,
+          "x1": 0.5056,
+          "y0": 0.5467,
+          "y1": 0.6267
+        },
+        "condition": null,
+        "from": "node4",
+        "to": "node5"
+      },
+      {
+        "bbox": {
+          "x0": 0.4944,
+          "x1": 0.5056,
+          "y0": 0.7,
+          "y1": 0.78
+        },
+        "condition": null,
+        "from": "node5",
+        "to": "node6"
+      }
+    ],
+    "nodes": [
+      {
+        "bbox": {
+          "x0": 0.3311,
+          "x1": 0.6689,
+          "y0": 0.1933,
+          "y1": 0.2533
+        },
+        "id": "node1",
+        "node_type": "start",
+        "text": "照合依頼を受領"
+      },
+      {
+        "bbox": {
+          "x0": 0.2889,
+          "x1": 0.7111,
+          "y0": 0.2933,
+          "y1": 0.4067
+        },
+        "id": "node2",
+        "node_type": "decision",
+        "text": "当月の計算は締切済みか"
+      },
+      {
+        "bbox": {
+          "x0": 0.0667,
+          "x1": 0.4333,
+          "y0": 0.4733,
+          "y1": 0.5467
+        },
+        "id": "node3",
+        "node_type": "process",
+        "text": "訂正予約票を作成"
+      },
+      {
+        "bbox": {
+          "x0": 0.5667,
+          "x1": 0.9333,
+          "y0": 0.4733,
+          "y1": 0.5467
+        },
+        "id": "node4",
+        "node_type": "process",
+        "text": "仮計算台帳に追記"
+      },
+      {
+        "bbox": {
+          "x0": 0.3222,
+          "x1": 0.6778,
+          "y0": 0.6267,
+          "y1": 0.7
+        },
+        "id": "node5",
+        "node_type": "process",
+        "text": "照合管理簿に登録"
+      },
+      {
+        "bbox": {
+          "x0": 0.2889,
+          "x1": 0.7111,
+          "y0": 0.78,
+          "y1": 0.8533
+        },
+        "id": "node6",
+        "node_type": "end",
+        "text": "受付番号を通知して終了"
+      }
+    ],
+    "type": "flowchart"
+  },
+  "kind": "flowchart",
+  "page": 1,
+  "schema_version": "1.0",
+  "source_image_sha256": "a66e995ba8366e31d15d843d36f99e3db1a99071c8b746dffb26fca3add17017",
+  "title": "給与控除照合依頼の受付経路"
+}

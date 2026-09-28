@@ -1,0 +1,46 @@
+{
+  "candidate_config_sha256": "7be3edc7221bf82f0b3d942e04329c496ebc00e166cefef4b6c1bfccc1cf550f",
+  "candidate_git_commit": "b943cfbbe8d32ea6dbde9877884cdcc836d8c428",
+  "classifier_model": "gemini-3.1-flash-lite",
+  "document_count": 4,
+  "documents": [
+    {
+      "document_id": "vh2_doc_p4",
+      "sha256": "7bce1706a307f347ec64879fdd3b6997bec8354cdb1e8705459c7edd452955b2"
+    },
+    {
+      "document_id": "vh2_doc_d8",
+      "sha256": "4b4a263e4f1cb4370153b86522dc8b2e3de50812d47482e1f8d385ae1d5c2523"
+    },
+    {
+      "document_id": "vh2_doc_t3",
+      "sha256": "dc5289c4420abc0ed13c1766eae3f10a9dac27af82c19398f6d6a2ac42d24d61"
+    },
+    {
+      "document_id": "vh2_doc_f6",
+      "sha256": "cc97cfedb3fc3dac9fa34eb0a5547def1ffbf9f77278e5c8dcc20591689f106d"
+    }
+  ],
+  "embedding_model": "gemini-embedding-001",
+  "generator_model": "gemini-3.1-flash-lite",
+  "gold_available_to_runner": false,
+  "holdout_id": "visual-sealed-holdout-v2",
+  "logical_external_call_limit": 35,
+  "logical_external_calls": {
+    "answer_classification": 10,
+    "answer_generation": 10,
+    "document_embedding_batch": 1,
+    "question_embedding": 10,
+    "visual_extraction": 4
+  },
+  "max_cost_usd": 0.35,
+  "max_visual_assets": 3,
+  "minimum_reserved_cost_usd": 0.14,
+  "questions_sha256": "e0ce0ae4a34d6e2ed74c7b1adfa230df4b7e5dbd56f88263662879e1ac3f13bd",
+  "retry_count": 0,
+  "run_id": "visual_holdout_predictions_v2",
+  "scenario_count": 10,
+  "sealed_documents_accessed": true,
+  "sealed_gold_accessed": false,
+  "top_k": 8
+}

@@ -1,0 +1,220 @@
+{
+  "bbox": {
+    "x0": 0.0625,
+    "x1": 0.9375,
+    "y0": 0.2648,
+    "y1": 0.6937
+  },
+  "confidence": {
+    "review_required": true,
+    "source": "provider_self_report",
+    "value": 1.0
+  },
+  "data": {
+    "cells": [
+      {
+        "bbox": {
+          "x0": 0.0625,
+          "x1": 0.3542,
+          "y0": 0.2648,
+          "y1": 0.3519
+        },
+        "column": 0,
+        "column_span": 1,
+        "row": 0,
+        "row_span": 1,
+        "text": "実作業時間"
+      },
+      {
+        "bbox": {
+          "x0": 0.3542,
+          "x1": 0.6458,
+          "y0": 0.2648,
+          "y1": 0.3519
+        },
+        "column": 1,
+        "column_span": 1,
+        "row": 0,
+        "row_span": 1,
+        "text": "区分コード"
+      },
+      {
+        "bbox": {
+          "x0": 0.6458,
+          "x1": 0.9375,
+          "y0": 0.2648,
+          "y1": 0.3519
+        },
+        "column": 2,
+        "column_span": 1,
+        "row": 0,
+        "row_span": 1,
+        "text": "１回の加算額"
+      },
+      {
+        "bbox": {
+          "x0": 0.0625,
+          "x1": 0.3542,
+          "y0": 0.3519,
+          "y1": 0.437
+        },
+        "column": 0,
+        "column_span": 1,
+        "row": 1,
+        "row_span": 1,
+        "text": "６０分未満"
+      },
+      {
+        "bbox": {
+          "x0": 0.3542,
+          "x1": 0.6458,
+          "y0": 0.3519,
+          "y1": 0.437
+        },
+        "column": 1,
+        "column_span": 1,
+        "row": 1,
+        "row_span": 1,
+        "text": "Ｋ０"
+      },
+      {
+        "bbox": {
+          "x0": 0.6458,
+          "x1": 0.9375,
+          "y0": 0.3519,
+          "y1": 0.437
+        },
+        "column": 2,
+        "column_span": 1,
+        "row": 1,
+        "row_span": 1,
+        "text": "０円"
+      },
+      {
+        "bbox": {
+          "x0": 0.0625,
+          "x1": 0.3542,
+          "y0": 0.437,
+          "y1": 0.5222
+        },
+        "column": 0,
+        "column_span": 1,
+        "row": 2,
+        "row_span": 1,
+        "text": "６０分以上１２０分未満"
+      },
+      {
+        "bbox": {
+          "x0": 0.3542,
+          "x1": 0.6458,
+          "y0": 0.437,
+          "y1": 0.5222
+        },
+        "column": 1,
+        "column_span": 1,
+        "row": 2,
+        "row_span": 1,
+        "text": "Ｋ１"
+      },
+      {
+        "bbox": {
+          "x0": 0.6458,
+          "x1": 0.9375,
+          "y0": 0.437,
+          "y1": 0.5222
+        },
+        "column": 2,
+        "column_span": 1,
+        "row": 2,
+        "row_span": 1,
+        "text": "７４０円"
+      },
+      {
+        "bbox": {
+          "x0": 0.0625,
+          "x1": 0.3542,
+          "y0": 0.5222,
+          "y1": 0.6074
+        },
+        "column": 0,
+        "column_span": 1,
+        "row": 3,
+        "row_span": 1,
+        "text": "１２０分以上１８０分未満"
+      },
+      {
+        "bbox": {
+          "x0": 0.3542,
+          "x1": 0.6458,
+          "y0": 0.5222,
+          "y1": 0.6074
+        },
+        "column": 1,
+        "column_span": 1,
+        "row": 3,
+        "row_span": 1,
+        "text": "Ｋ２"
+      },
+      {
+        "bbox": {
+          "x0": 0.6458,
+          "x1": 0.9375,
+          "y0": 0.5222,
+          "y1": 0.6074
+        },
+        "column": 2,
+        "column_span": 1,
+        "row": 3,
+        "row_span": 1,
+        "text": "１,４８０円"
+      },
+      {
+        "bbox": {
+          "x0": 0.0625,
+          "x1": 0.3542,
+          "y0": 0.6074,
+          "y1": 0.6926
+        },
+        "column": 0,
+        "column_span": 1,
+        "row": 4,
+        "row_span": 1,
+        "text": "１８０分以上"
+      },
+      {
+        "bbox": {
+          "x0": 0.3542,
+          "x1": 0.6458,
+          "y0": 0.6074,
+          "y1": 0.6926
+        },
+        "column": 1,
+        "column_span": 1,
+        "row": 4,
+        "row_span": 1,
+        "text": "Ｋ３"
+      },
+      {
+        "bbox": {
+          "x0": 0.6458,
+          "x1": 0.9375,
+          "y0": 0.6074,
+          "y1": 0.6926
+        },
+        "column": 2,
+        "column_span": 1,
+        "row": 4,
+        "row_span": 1,
+        "text": "２,２２０円"
+      }
+    ],
+    "column_count": 3,
+    "row_count": 5,
+    "type": "table"
+  },
+  "kind": "table",
+  "page": 1,
+  "schema_version": "1.0",
+  "source_image_sha256": "0b75c08922437c8e4ed6d52c04175edaaa4a97fa671ebba8445b762be5f66ed8",
+  "title": "記録棚卸従事加算の区分表"
+}

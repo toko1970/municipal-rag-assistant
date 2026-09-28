@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "holdout_id": "visual-sealed-holdout-v2",
-  "state": "CANDIDATE_FROZEN",
+  "state": "PREDICTIONS_FROZEN",
   "paths_relative_to": "repository_root",
   "manifest_schema": {
     "path": "design/schemas/visual-holdout-public-manifest-v2.schema.json",
@@ -52,7 +52,12 @@
     "config_manifest_sha256": "7be3edc7221bf82f0b3d942e04329c496ebc00e166cefef4b6c1bfccc1cf550f",
     "frozen_at": "2026-09-28T13:09:25+09:00"
   },
-  "predictions": null,
+  "predictions": {
+    "run_id": "visual_holdout_predictions_v2",
+    "sha256": "b33ea9380ab84fb6a5b8cb3748f89d2055dd8bd619718232d7f2c476ae186d35",
+    "attempt_count": 10,
+    "frozen_at": "2026-09-28T13:13:05+09:00"
+  },
   "opening": null,
   "results": null
 }

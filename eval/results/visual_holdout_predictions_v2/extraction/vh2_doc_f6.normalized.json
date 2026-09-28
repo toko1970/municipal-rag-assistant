@@ -1,0 +1,78 @@
+{
+  "bbox": {
+    "x0": 0.0694,
+    "x1": 0.9306,
+    "y0": 0.2556,
+    "y1": 0.7153
+  },
+  "confidence": {
+    "review_required": true,
+    "source": "provider_self_report",
+    "value": 1.0
+  },
+  "data": {
+    "fields": [
+      {
+        "bbox": {
+          "x0": 0.0694,
+          "x1": 0.9306,
+          "y0": 0.2556,
+          "y1": 0.3333
+        },
+        "example_value": "RC-482",
+        "id": "field_1",
+        "label": "照会受付番号"
+      },
+      {
+        "bbox": {
+          "x0": 0.0694,
+          "x1": 0.9306,
+          "y0": 0.3507,
+          "y1": 0.4285
+        },
+        "example_value": "U-26",
+        "id": "field_2",
+        "label": "受取部署コード"
+      },
+      {
+        "bbox": {
+          "x0": 0.0694,
+          "x1": 0.9306,
+          "y0": 0.4458,
+          "y1": 0.5236
+        },
+        "example_value": "庁内連絡便",
+        "id": "field_3",
+        "label": "通知方法"
+      },
+      {
+        "bbox": {
+          "x0": 0.0694,
+          "x1": 0.9306,
+          "y0": 0.5417,
+          "y1": 0.6194
+        },
+        "example_value": "B-19",
+        "id": "field_4",
+        "label": "受取ボックス番号"
+      },
+      {
+        "bbox": {
+          "x0": 0.0694,
+          "x1": 0.9306,
+          "y0": 0.6375,
+          "y1": 0.7153
+        },
+        "example_value": "2028年5月",
+        "id": "field_5",
+        "label": "適用開始月"
+      }
+    ],
+    "type": "form"
+  },
+  "kind": "form",
+  "page": 1,
+  "schema_version": "1.0",
+  "source_image_sha256": "bd06f6d4b61ab114d1f229c1350635e1f16c8e3560d8af15e494a30bee0cc35a",
+  "title": "給与照会連絡先登録票（記入例）"
+}
