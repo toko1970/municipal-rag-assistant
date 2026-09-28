@@ -4,7 +4,9 @@
 
 [自治体向け制度問い合わせ支援RAGを試す](https://municipal-rag-assistant-280649014820.asia-northeast1.run.app/)
 
-Dockerコンテナ化したアプリケーションを、Google Cloud Run上で公開しています。
+Dockerコンテナ化したRAG v2をGoogle Cloud Run上で公開しています。文書・利用ログはCloud SQL for PostgreSQL、検索indexはQdrant Cloud、回答生成・分類はGemini 3.1 Flash-Liteを使用します。
+
+2026-09-28に公開画面から代表質問を実行し、`根拠十分`の回答、参照8件、フィードバック保存を確認しました。
 
 > 利用がない場合はインスタンスを0件まで縮小する構成のため、初回アクセス時は起動に時間がかかる場合があります。
 
@@ -82,23 +84,29 @@ flowchart TD
 ```mermaid
 flowchart LR
     USER[利用者] -->|HTTPSアクセス| CR[Cloud Run]
-
-    DEV[ローカル開発環境] -->|ソースコードを送信| CB[Cloud Build]
-    CB -->|Dockerイメージを作成| AR[Artifact Registry]
+    DEV[GitHub main] -->|CI成功・production承認| GHA[GitHub Actions]
+    GHA -->|Docker image| AR[Artifact Registry]
+    GHA -->|migration・取込・smoke| JOB[Cloud Run Job]
     AR -->|コンテナイメージを取得| CR
-
-    SM[Secret Manager] -->|Gemini APIキーを提供| CR
-    CR -->|回答生成を依頼| GEMINI[Gemini API]
+    CR --> SQL[(Cloud SQL PostgreSQL)]
+    CR --> QD[(Qdrant Cloud)]
+    CR --> GEMINI[Gemini API]
+    JOB --> SQL
+    JOB --> QD
+    JOB --> GEMINI
+    SM[Secret Manager] --> CR
+    SM --> JOB
 
     subgraph Google Cloud
-        CB
         AR
+        JOB
         CR
+        SQL
         SM
     end
 ```
 
-ソースコードからDockerイメージを作成し、Artifact Registryへ保存したうえで、Cloud Runにデプロイしています。Gemini APIキーはソースコードやコンテナイメージに含めず、Secret ManagerからCloud Runへ提供しています。
+GitHub Actionsがcommit SHA付きDocker imageをArtifact Registryへ保存します。同じimageのCloud Run Jobでmigration、5文書・86要素の取込、PostgreSQLとQdrantの整合性、代表質問を検証し、成功した場合だけCloud Runへ反映します。APIキーとDB接続URLはSecret Managerから実行時に提供します。
 
 ### 回答分類
 
@@ -219,7 +227,7 @@ Practical質問セットでは、質問表現が文書見出しから離れる�
 | Embedding | gemini-embedding-001 | 3072次元ベクトルによる検索性能を確保できるため |
 | UI | Streamlit | Pythonのみで迅速にWebアプリケーションを構築できるため |
 | コンテナ | Docker | 実行環境を統一し、ローカル環境とクラウド環境で同じ構成を再現するため |
-| コンテナビルド | Google Cloud Build | ソースコードからDockerイメージをクラウド上で構築するため |
+| CI/CD | GitHub Actions | test・lint・Terraform検証後、所有者承認を経て同一imageを初期化JobとCloud Runへ反映するため |
 | イメージ管理 | Artifact Registry | 構築したDockerイメージをバージョン付きで管理するため |
 | 実行環境 | Google Cloud Run | コンテナ化したWebアプリケーションを公開し、利用状況に応じて自動でスケーリングするため |
 | シークレット管理 | Secret Manager | Gemini APIキーをソースコードやコンテナイメージに含めず、安全にCloud Runへ提供するため |
@@ -232,7 +240,7 @@ Practical質問セットでは、質問表現が文書見出しから離れる�
 
 回答生成と分類にはGemini 3.1 Flash-Lite、Embeddingにはgemini-embedding-001を利用します。文書名と見出し階層はvector生成時だけ加え、引用表示用の原文は変更しません。
 
-公開環境では、アプリケーションをDockerコンテナ化し、Cloud Buildでイメージを構築しています。作成したイメージはArtifact Registryで管理し、Cloud Run上で実行しています。また、Gemini APIキーはSecret Managerで管理し、専用のサービスアカウントを通じてアプリケーションから参照しています。
+公開環境では、GitHub ActionsがDocker imageを構築してArtifact Registryで管理し、Cloud Run上で実行します。Gemini APIキー、DB接続URL、Qdrant APIキーはSecret Managerで管理し、専用のruntime service accountを通じて参照します。
 
 ## 6. セットアップ手順
 
@@ -294,34 +302,16 @@ docker compose up
 ```
 
 ### 6.8 Google Cloud Runへのデプロイ
-本プロジェクトでは、Cloud BuildでDockerイメージを作成し、Artifact Registryを経由してCloud Runへデプロイしています。
+`main`へのpushで[`.github/workflows/ci.yml`](.github/workflows/ci.yml)がtest、lint、Terraform検証を実行します。成功後にGitHubの`production` environmentで所有者が承認すると、次の順序でデプロイします。
 
-```bash
-gcloud builds submit \
-  --tag asia-northeast1-docker.pkg.dev/municipal-rag-portfolio/municipal-rag-images/municipal-rag-assistant:v1.0.0 \
-  --project municipal-rag-portfolio
-```
+1. commit SHA付きimageをbuildしてArtifact Registryへpushする。
+2. Cloud Run JobでAlembic migration、PostgreSQL・Qdrantへの取込、整合性検査、代表質問を実行する。
+3. Jobが成功した場合だけ同じimageをCloud Run serviceへ反映する。
+4. 公開URLのStreamlit health endpointを検査する。
 
-作成したイメージをCloud Runへデプロイします。
+文書だけを更新する場合はcommit messageへ`[skip deploy]`を含めると、CIを維持したままCloud Runへの再デプロイを省略できます。
 
-```bash
-gcloud run deploy municipal-rag-assistant \
-  --image asia-northeast1-docker.pkg.dev/municipal-rag-portfolio/municipal-rag-images/municipal-rag-assistant:v1.0.0 \
-  --region asia-northeast1 \
-  --project municipal-rag-portfolio \
-  --service-account municipal-rag-runtime@municipal-rag-portfolio.iam.gserviceaccount.com \
-  --set-secrets GOOGLE_API_KEY=gemini-api-key:1 \
-  --memory 1Gi \
-  --cpu 1 \
-  --concurrency 10 \
-  --timeout 300 \
-  --min 0 \
-  --max 1 \
-  --allow-unauthenticated
-```
-
-> [!NOTE]
-> Cloud Runのファイルシステムは永続ストレージではありません。本アプリケーションでは、新しいインスタンスでベクトルDBが存在しない場合、初回の質問時に`docs/`配下の文書から自動的に作成します。
+クラウド構成、費用、失敗時の停止条件は[公開RAG v2デプロイ記録](design/CLOUD_RAG_V2_DEPLOYMENT_PLAN.md)を参照してください。
 >
 > アプリケーションが出力するログやフィードバックもコンテナ内へ保存されるため、インスタンスの終了後も残る永続データとしては扱いません。
 

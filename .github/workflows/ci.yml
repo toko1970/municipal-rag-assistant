@@ -42,7 +42,11 @@ jobs:
 
   deploy:
     needs: [test-and-lint, terraform-check]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.ENABLE_CD == 'true'
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      vars.ENABLE_CD == 'true' &&
+      !contains(github.event.head_commit.message, '[skip deploy]')
     runs-on: ubuntu-latest
     environment: production
     concurrency:

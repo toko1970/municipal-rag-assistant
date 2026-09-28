@@ -1,7 +1,7 @@
 # Public RAG v2 deployment plan
 
 - 作成日: 2026-09-27
-- 状態: `GCP_INFRA_APPLIED_QDRANT_CONNECTED`
+- 状態: `PUBLIC_RAG_V2_LIVE_SMOKE_VERIFIED`
 - 目的: localで検証したQdrant、PostgreSQL、Gemini 3.1のRAG v2を公開Cloud Runへ反映する
 - Terraform apply: 予算2件とRAG v2基盤12件を追加、0 change、0 destroy
 
@@ -100,6 +100,16 @@ Secret値はGitHubへ保存しない。Cloud Runとbootstrap JobはSecret Manage
 - feedback 1件がPostgreSQLへ保存される。
 - SQLでrequest、retrieval、generation、classification、feedbackを結合して取得できる。
 - Cloud Run revisionのcommit SHAと実行日時を記録する。
+
+### 2026-09-28の実測
+
+- GitHub Actions run `36359613114`はtest、lint、Terraform検証、bootstrap Job、service deploy、health checkの全工程が成功した。
+- bootstrap execution `municipal-rag-bootstrap-jtkms`はmigrationをheadへ適用し、5文書・86要素を登録した。PostgreSQLのINDEXED要素86件とQdrant point 86件はmissing 0、unexpected 0だった。
+- bootstrapの代表質問「給与支給日はいつですか？」は`根拠十分`、参照8件で成功した。
+- revision `municipal-rag-assistant-00005-rwd`はcommit `4a621fcb938b37d718cb294c51870733531387e7`のimageを使用し、traffic 100%、`Ready=True`だった。
+- 公開URLのhealth endpointとトップページはHTTP 200だった。実ブラウザから同じ質問を実行し、毎月21日、休日の場合は直前の営業日という回答、`根拠十分`、参照8件を確認した。
+- 公開画面から「採用した」とコメント「公開RAG v2デプロイ後の動作確認」を送信し、「フィードバックを保存しました。」を確認した。
+- request、retrieval、generation、classification、feedbackのSQL結合は同じschemaのローカル実DBで確認済みである。今回のCloud SQLに対する直接のread-only SQL監査は、ローカルにADCとCloud SQL Auth Proxyがないため未完了とし、公開画面の保存成功と混同しない。
 
 ## 7. Rollback
 
