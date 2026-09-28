@@ -89,7 +89,7 @@ def test_insufficient_never_displays_generator_claims() -> None:
     assert "今回取得した根拠" in display.text
 
 
-def test_retrieval_failure_takes_precedence_over_case_fact_flag() -> None:
+def test_case_fact_flag_takes_precedence_over_retrieval_failure() -> None:
     classification = parse_classification_output(
         classification_data(
             retrieval_sufficient=False,
@@ -98,7 +98,7 @@ def test_retrieval_failure_takes_precedence_over_case_fact_flag() -> None:
         )
     )
 
-    assert derive_label(classification.factors) == "文書不足"
+    assert derive_label(classification.factors) == "判断要"
 
 
 def test_rejects_citation_not_in_current_retrieval() -> None:

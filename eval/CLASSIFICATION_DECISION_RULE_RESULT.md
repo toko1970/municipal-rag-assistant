@@ -48,15 +48,21 @@ v2は真の`判断要`を`根拠十分`へ緩和した。v3はこの退行を防
 
 既存v1は1回目にtextの同一種別ケースを誤り、2回目は全件正解した。単発の100%は分類器の安定性を保証しない。この揺れに対し、採用した決定規則はLLMを再実行せず、競合する要因の優先順位をコードで固定する。
 
-## 採用内容
+## Oracle evidence段階での暫定判断
 
 - 本番promptは短い既存v1を維持する。
-- 最終ラベルの決定を`classification-decision-v2`として記録する。
+- 最終ラベルの決定を候補`classification-decision-v2`として記録する。
 - `retrieval_sufficient=false`を`requires_case_facts`や`requires_policy_judgment`より優先し、`文書不足`とする。
 - LLMが返した5要因は改変せずログへ残す。
+
+## Retrieved evidence回帰による最終判断
+
+この暫定候補を検索・回答生成込みのdevelopment 130問で回帰したところ、既存v1比で改善0件、退行2件だった。`retrieval_sufficient=false`と`requires_policy_judgment=true`が同時に成立する真の`判断要`を、v2が`文書不足`へ変更したことが原因である。
+
+このためv2は不採用とし、本番決定規則をv1へ戻した。oracle evidenceで全件正解したことだけでは採用せず、実際の前段出力を通す回帰で採否を決める。詳細は[Retrieved-evidence回帰評価](RETRIEVED_EVIDENCE_REGRESSION.md)に記録する。
 
 ## 限界と次の検証
 
 今回の12件・14件は分類器だけを切り出したoracle evidence評価であり、検索と回答生成を含むend-to-end評価ではない。特にv2 holdoutで残った境界値の回答生成失敗はこの対策では解決しない。
 
-次はretrieved evidenceを使うdevelopment回帰で、既存の`判断要`と`文書不足`を`根拠十分`へ誤って緩和しないことを確認する。最終受入には開封済みv2を再利用せず、新しいsealed holdoutを使う。
+retrieved evidence回帰の内容レビューはCodexによる初回判定である。次はproduction v1で残る分類失敗15件を要因別に分け、最大類型へ一つだけ対策を試す。最終受入には開封済みv2を再利用せず、新しいsealed holdoutを使う。

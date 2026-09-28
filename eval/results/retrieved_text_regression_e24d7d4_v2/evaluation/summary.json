@@ -1,0 +1,15 @@
+{
+  "classification_correct": 82,
+  "completed_count": 98,
+  "content_review_pending": 98,
+  "error_count": 2,
+  "estimated_cost_usd": 0.084879,
+  "input_tokens": 205296,
+  "max_cost_usd": 0.3,
+  "output_tokens": 22370,
+  "retrieval_applicable_count": 88,
+  "retrieval_correct": 14,
+  "retrieval_not_applicable": 10,
+  "scenario_count": 100,
+  "stop_reason": "COMPLETED"
+}

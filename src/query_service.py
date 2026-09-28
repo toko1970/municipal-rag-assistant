@@ -23,7 +23,7 @@ from src.llm_provider import StructuredLLMProvider, StructuredLLMResult
 
 GENERATION_PROMPT_VERSION = "answer-claims-v1"
 CLASSIFICATION_PROMPT_VERSION = "answer-classification-v1"
-CLASSIFICATION_DECISION_VERSION = "classification-decision-v2"
+CLASSIFICATION_DECISION_VERSION = "classification-decision-v1"
 
 
 class QueryEventLogger(Protocol):
@@ -179,6 +179,8 @@ def answer_question(
     generation_result = None
     visual_assets: dict[UUID, VisualEvidenceAsset] = {}
     visual_content: dict[UUID, bytes] = {}
+    classification_result = None
+    classification = None
     try:
         if visual_asset_loader is not None:
             loaded_assets = visual_asset_loader([hit.element.id for hit in hits])
@@ -246,12 +248,20 @@ def answer_question(
     except Exception as exc:
         event_logger.record_classification_attempt(
             request_id,
-            provider=classifier.provider_name,
-            model=classifier.model,
+            provider=(
+                classification_result.provider
+                if classification_result
+                else classifier.provider_name
+            ),
+            model=classification_result.model
+            if classification_result
+            else classifier.model,
             prompt_version=CLASSIFICATION_PROMPT_VERSION,
-            factors=None,
-            derived_label=None,
-            confidence=None,
+            factors=asdict(classification.factors) if classification else None,
+            derived_label=(
+                derive_label(classification.factors) if classification else None
+            ),
+            confidence=classification.confidence if classification else None,
             status="CLASSIFICATION_FAILED",
             fallback_used=False,
             error_summary=str(exc)[:1000],

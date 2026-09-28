@@ -165,15 +165,13 @@ def parse_classification_output(data: dict[str, Any]) -> ClassificationResult:
 
 
 def derive_label(factors: ClassificationFactors) -> str:
-    if not factors.retrieval_sufficient:
-        return ANSWER_TYPE_INSUFFICIENT
     if (
         factors.version_conflict
         or factors.requires_case_facts
         or factors.requires_policy_judgment
     ):
         return ANSWER_TYPE_NEEDS_JUDGMENT
-    if not factors.answer_fully_supported:
+    if not factors.retrieval_sufficient or not factors.answer_fully_supported:
         return ANSWER_TYPE_INSUFFICIENT
     return ANSWER_TYPE_SUFFICIENT
 

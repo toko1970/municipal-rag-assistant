@@ -1,6 +1,8 @@
 import hashlib
 from uuid import uuid4
 
+import pytest
+
 from src.asset_store import VisualEvidenceAsset
 from src.contracts import IndexableElement, SearchHit
 from src.llm_provider import StructuredLLMResult
@@ -194,7 +196,7 @@ def test_query_flow_keeps_model_case_fact_flag_without_missing_condition() -> No
         event for event in logger.events if event[0] == "classification"
     )
     assert result["answer_label"] == "判断要"
-    assert result["classification_decision_version"] == "classification-decision-v2"
+    assert result["classification_decision_version"] == "classification-decision-v1"
     assert classification_event[2]["factors"]["requires_case_facts"] is True
 
 
@@ -274,6 +276,57 @@ def test_classification_failure_is_logged_after_successful_generation() -> None:
         "classification",
     ]
     assert logger.events[-1][2]["status"] == "CLASSIFICATION_FAILED"
+
+
+def test_display_contract_failure_preserves_classification_factors() -> None:
+    element = IndexableElement(
+        id=uuid4(),
+        document_id=uuid4(),
+        version_id=uuid4(),
+        document_name="文書",
+        heading="見出し",
+        content="本文",
+    )
+    generator = FakeProvider(
+        {
+            "schema_version": "1.0",
+            "claims": [],
+            "missing_conditions": ["別規程"],
+        }
+    )
+    classifier = FakeProvider(
+        {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "factors": {
+                "retrieval_sufficient": True,
+                "answer_fully_supported": True,
+                "requires_case_facts": False,
+                "requires_policy_judgment": False,
+                "version_conflict": False,
+            },
+            "confidence": 0.9,
+            "error_code": None,
+        }
+    )
+    logger = FakeLogger()
+
+    with pytest.raises(ValueError, match="表示条件"):
+        answer_question(
+            "質問",
+            embed_query=lambda _question: [1.0],
+            vector_index=FakeIndex([SearchHit(element, 0.9, 1)]),
+            generator=generator,
+            classifier=classifier,
+            event_logger=logger,
+            answer_schema={},
+            classification_schema={},
+        )
+
+    event = logger.events[-1][2]
+    assert event["status"] == "CLASSIFICATION_FAILED"
+    assert event["derived_label"] == "根拠十分"
+    assert event["factors"]["retrieval_sufficient"] is True
 
 
 def test_visual_hit_uses_verified_image_and_returns_display_metadata(tmp_path) -> None:

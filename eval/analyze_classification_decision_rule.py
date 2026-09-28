@@ -7,7 +7,22 @@ import json
 from pathlib import Path
 from typing import Any
 
-from src.answering import derive_label, parse_classification_output
+from src.answering import parse_classification_output
+
+
+def _candidate_label(factors) -> str:
+    """Reproduce the evaluated retrieval-first candidate after production rollback."""
+    if not factors.retrieval_sufficient:
+        return "文書不足"
+    if (
+        factors.version_conflict
+        or factors.requires_case_facts
+        or factors.requires_policy_judgment
+    ):
+        return "判断要"
+    if not factors.answer_fully_supported:
+        return "文書不足"
+    return "根拠十分"
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -26,7 +41,7 @@ def analyze(bundle: dict[str, Any], dataset: dict[str, Any]) -> dict[str, Any]:
         if record["error"] is not None or record["response"] is None:
             continue
         raw = parse_classification_output(record["response"])
-        effective_label = derive_label(raw.factors)
+        effective_label = _candidate_label(raw.factors)
         records.append(
             {
                 "case_id": record["case_id"],

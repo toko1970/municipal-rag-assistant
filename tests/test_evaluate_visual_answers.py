@@ -35,12 +35,15 @@ def test_evaluation_records_classification_retrieval_usage_and_review(tmp_path) 
         return {
             "answer": "回答分類: 根拠十分\n\n回答:\n- 答え",
             "answer_label": "根拠十分",
-            "claims": [
-                {"claim_id": "claim-1", "evidence_element_ids": [uuid4()]}
-            ],
+            "claims": [{"claim_id": "claim-1", "evidence_element_ids": [uuid4()]}],
             "references": [{"element_id": "element-1"}],
             "generation": {"input_tokens": 100, "output_tokens": 10},
             "classification": {"input_tokens": 50, "output_tokens": 5},
+            "classification_decision_version": "classification-decision-v2",
+            "_evaluation_classification_factors": {
+                "retrieval_sufficient": True,
+                "answer_fully_supported": True,
+            },
         }
 
     summary = evaluate_visual_answers(
@@ -58,6 +61,8 @@ def test_evaluation_records_classification_retrieval_usage_and_review(tmp_path) 
     assert summary["estimated_cost_usd"] == token_cost_usd(150, 15)
     row = json.loads((tmp_path / "run/records.jsonl").read_text())
     assert row["content_review_status"] == "pending"
+    assert row["classification_decision_version"] == "classification-decision-v2"
+    assert row["classification_factors"]["retrieval_sufficient"] is True
     assert isinstance(row["claims"][0]["evidence_element_ids"][0], str)
 
 

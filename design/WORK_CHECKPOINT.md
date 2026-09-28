@@ -303,3 +303,11 @@ Cloud Run / local RAG v2差分確認の開始時点は週間枠7%で、表示さ
 続いてvisual extraction評価をv4へ更新し、厳密一致に加えてformat-normalized一致を記録するようにした。NFKC、空白、限定した句読点だけを正規化し、負号、時刻区切り、数字、単位、条件語は残す。PR reviewでは、正規化後に異なる要素が同じ比較keyへ潰れる場合を検出してgate不合格にするよう修正した。また、成功したsealed prediction bundleにもgold未参照を明示し、validatorとの契約をそろえた。既存development 6件は厳密・正規化とも完全一致、collision 0件、gate 4/6を維持した。全test 217件とRuffが成功した。詳細は[`VISUAL_FORMAT_NORMALIZATION_EVALUATION.md`](../eval/VISUAL_FORMAT_NORMALIZATION_EVALUATION.md)を参照する。
 
 現在の改善branchは`codex/visual-topology-normalization`である。次はreview後にこのbranchをmergeし、消費済みholdoutを使わず別の小規模sealed holdoutで最終受入を行う。合格後に公開demoへ反映する。mergeと本番deployは明示承認が必要である。
+
+## 10. Retrieved-evidence回帰checkpoint
+
+2026-09-28、週間枠26%・secondary 5時間枠表示なしの状態で、候補`classification-decision-v2`をdevelopment 130問（text 100、visual 30）へ適用した。sealed holdoutは使用していない。採用runはretry 0、API error 0、実測US$0.2424035だった。初版runnerの中止試行US$0.00155475を含む実験全体はUS$0.24395825である。
+
+候補v2は既存v1比で改善0件、退行2件だったため不採用とし、本番規則をv1へ戻した。v1基準では成功106件、回答分類15件、回答生成6件、検索3件で、最大原因は回答分類（24失敗中15件、62.5%）である。詳細は[`RETRIEVED_EVIDENCE_REGRESSION.md`](../eval/RETRIEVED_EVIDENCE_REGRESSION.md)と機械可読な[`analysis.json`](../eval/results/retrieved_regression_e24d7d4_v1/analysis.json)を参照する。
+
+現在のbranchは`codex/visual-holdout-v2`である。次の最小学習単位は、production v1で残る分類失敗15件を要因パターンへ分解し、最大の一類型へ対策を一つだけ試すことである。内容レビューはCodexによる初回判定なので、ポートフォリオの確定値に使う前にユーザー確認を行う。mergeと本番deployには明示承認が必要である。
