@@ -33,6 +33,17 @@ def test_leaves_single_intent_question_unchanged() -> None:
     assert decompose_query(question) == [question]
 
 
+def test_leaves_unproven_decomposition_rules_unchanged() -> None:
+    questions = (
+        "2025年10月に通勤経路が変わり、1.8kmを車通勤する職員の要件と届出期限を教えてください。",
+        "過払給与の返納方法と給与口座変更に必要な書類をまとめてください。",
+        "2025年10月に本人名義で契約し、家賃15,500円を負担する住宅へ入居した場合の要件・書類・期限は？",
+    )
+
+    for question in questions:
+        assert decompose_query(question) == [question]
+
+
 def test_balances_subquery_results_and_removes_duplicates() -> None:
     question = "転居で通勤しなくなった場合、通勤手当と住所変更届をどう処理しますか？"
     first, second = decompose_query(question)

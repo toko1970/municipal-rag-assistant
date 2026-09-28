@@ -12,7 +12,6 @@ from typing import Any
 
 from config import BASE_DIR, CLASSIFIER_MODEL_NAME, LLM_MODEL_NAME, TOP_K
 from eval.compare_contextual_heading import load_baseline_query_vectors
-from eval.compare_embedding_models import load_or_create_vectors
 from eval.embedding_profiles import PROFILES
 from eval.evaluate_contextual_answer_candidate import EvaluationLogger
 from eval.evaluate_models import load_questions
@@ -25,6 +24,7 @@ from eval.evaluate_query_decomposition_answers import (
 from eval.evaluate_retrieved_text_regression import prepare_text_corpus
 from eval.evaluate_visual_answers import token_cost_usd
 from eval.query_decomposition import decompose_query
+from eval.query_decomposition_cache import load_cached_subquery_vectors
 from src.query_service import answer_question, load_schema
 from src.temporal_evidence import (
     TEMPORAL_GENERATION_PROMPT_VERSION,
@@ -173,19 +173,12 @@ def main() -> int:
         f"query:{hashlib.sha256(query.encode()).hexdigest()}" for query in subqueries
     ]
 
-    def cache_miss(_texts: list[str]) -> list[list[float]]:
-        raise ValueError("subquery cacheがありません。APIで暗黙生成しません")
-
-    subquery_vectors, cache_hit, _ = load_or_create_vectors(
+    subquery_vectors = load_cached_subquery_vectors(
         args.subquery_cache,
         profile=profile,
         kind="query-decomposition-v1",
         ids=subquery_ids,
-        texts=subqueries,
-        embed=cache_miss,
     )
-    if not cache_hit:
-        raise AssertionError("subquery cacheを再利用できませんでした")
     vectors = {
         **original_vectors,
         **dict(zip(subqueries, subquery_vectors, strict=True)),

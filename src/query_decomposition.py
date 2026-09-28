@@ -30,37 +30,6 @@ def decompose_query(question: str) -> list[str]:
             f"{date}出生 扶養親族変更届 提出期限".strip(),
         ]
 
-    if "通勤経路" in question and "要件" in question and "届出期限" in question:
-        details = " ".join(
-            match.group(0)
-            for pattern in (r"\d+(?:\.\d+)?km", r"車通勤")
-            if (match := re.search(pattern, question))
-        )
-        return [
-            f"{date}{details} 通勤手当 支給要件".strip(),
-            f"{date}通勤経路変更届 提出期限".strip(),
-        ]
-
-    if "過払給与" in question and "給与口座変更" in question:
-        return ["過払給与 返納方法", "給与口座変更届 必要書類"]
-
-    housing_facets = ("要件", "書類", "期限")
-    if (
-        "家賃" in question
-        and "入居" in question
-        and sum(facet in question for facet in housing_facets) >= 2
-    ):
-        facts = " ".join(
-            match.group(0)
-            for pattern in (r"本人名義", r"家賃[\d,]+円")
-            if (match := re.search(pattern, question))
-        )
-        return [
-            f"{date}{facts} 住居手当 支給要件".strip(),
-            f"{date}住居届 必要書類".strip(),
-            f"{date}住居届 提出期限".strip(),
-        ]
-
     return [question]
 
 
