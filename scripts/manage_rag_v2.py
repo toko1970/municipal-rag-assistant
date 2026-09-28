@@ -12,15 +12,18 @@ from alembic.config import Config
 from sqlalchemy import select
 from sqlalchemy.orm import Session, sessionmaker
 
-from config import BASE_DIR, DATABASE_URL, VISUAL_ASSET_DIR
+from config import BASE_DIR, DATABASE_URL, LLM_MODEL_NAME, VISUAL_ASSET_DIR
 from src.asset_store import LocalAssetStore
 from src.embeddings import get_embeddings
 from src.ingestion import ingest_markdown_documents
+from src.llm_provider import GeminiProvider
 from src.persistence.database import get_engine
 from src.persistence.repositories import PostgresDocumentRepository
 from src.qdrant_index import QdrantVectorIndex
 from src.rag_v2 import generate_qdrant_answer
 from src.visual_ingestion import ingest_visual_pdf
+from src.visual_extractor import extract_visual_candidate
+from src.visual_ingestion import render_pdf_page
 
 
 CLOUD_SMOKE_QUESTION = "給与支給日はいつですか？"
@@ -85,6 +88,40 @@ def ingest_visual(
         asset_store=LocalAssetStore(VISUAL_ASSET_DIR),
         embeddings=get_embeddings(),
     )
+
+
+def extract_visual(
+    *,
+    pdf_path: Path,
+    page_number: int,
+    kind_hint: str,
+    output_path: Path,
+) -> dict[str, object]:
+    if output_path.exists():
+        raise FileExistsError(f"既存の抽出候補は上書きしません: {output_path}")
+    page = render_pdf_page(pdf_path, page_number)
+    candidate = extract_visual_candidate(
+        page=page,
+        kind_hint=kind_hint,
+        provider=GeminiProvider(LLM_MODEL_NAME),
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(candidate.data, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return {
+        "output": str(output_path),
+        "provider": candidate.provider,
+        "model": candidate.model,
+        "prompt_version": candidate.prompt_version,
+        "input_tokens": candidate.input_tokens,
+        "output_tokens": candidate.output_tokens,
+        "request_id": candidate.request_id,
+        "review_status": "REVIEW_REQUIRED",
+        "validation_errors": list(candidate.validation_errors),
+        "normalized_bbox_count": candidate.normalized_bbox_count,
+    }
 
 
 def reconcile() -> dict[str, object]:
@@ -166,6 +203,7 @@ def main() -> int:
             "query",
             "bootstrap-cloud",
             "ingest-visual",
+            "extract-visual",
         ),
     )
     parser.add_argument("--question")
@@ -174,6 +212,11 @@ def main() -> int:
     parser.add_argument("--document-key")
     parser.add_argument("--document-name")
     parser.add_argument("--reviewed", action="store_true")
+    parser.add_argument("--page", type=int, default=1)
+    parser.add_argument(
+        "--kind", choices=("flowchart", "timeline", "table", "form")
+    )
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     if args.command == "migrate":
         migrate()
@@ -208,6 +251,21 @@ def main() -> int:
             document_key=args.document_key,
             document_name=args.document_name,
             reviewed=True,
+        )
+    elif args.command == "extract-visual":
+        required = {
+            "--pdf": args.pdf,
+            "--kind": args.kind,
+            "--output": args.output,
+        }
+        missing = [name for name, value in required.items() if not value]
+        if missing:
+            parser.error(f"extract-visualには{'、'.join(missing)}が必要です")
+        result = extract_visual(
+            pdf_path=args.pdf,
+            page_number=args.page,
+            kind_hint=args.kind,
+            output_path=args.output,
         )
     else:
         if not args.question:

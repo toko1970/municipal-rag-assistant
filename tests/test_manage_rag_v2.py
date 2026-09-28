@@ -7,8 +7,10 @@ import pytest
 from scripts.manage_rag_v2 import (
     CLOUD_SMOKE_QUESTION,
     bootstrap_cloud,
+    extract_visual,
     ingest_visual,
 )
+from src.visual_extractor import VisualExtractionCandidate
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -122,3 +124,61 @@ def test_ingest_visual_rejects_unreviewed_candidate(tmp_path: Path) -> None:
             document_name="通勤手当申請処理フロー",
             reviewed=False,
         )
+
+
+def test_extract_visual_writes_review_candidate_without_ingesting(
+    tmp_path: Path,
+) -> None:
+    output_path = tmp_path / "candidate.json"
+    candidate = VisualExtractionCandidate(
+        data={"schema_version": "1.0", "kind": "flowchart"},
+        provider="fake",
+        model="visual-test",
+        prompt_version="visual-extraction-v1",
+        input_tokens=120,
+        output_tokens=80,
+        request_id="request-1",
+        validation_errors=("edge bboxが不正です",),
+        normalized_bbox_count=3,
+    )
+    rendered = object()
+    with (
+        patch("scripts.manage_rag_v2.render_pdf_page", return_value=rendered),
+        patch("scripts.manage_rag_v2.GeminiProvider") as provider,
+        patch(
+            "scripts.manage_rag_v2.extract_visual_candidate",
+            return_value=candidate,
+        ) as extract_candidate,
+    ):
+        result = extract_visual(
+            pdf_path=tmp_path / "source.pdf",
+            page_number=2,
+            kind_hint="flowchart",
+            output_path=output_path,
+        )
+
+    assert json.loads(output_path.read_text(encoding="utf-8")) == candidate.data
+    assert result["review_status"] == "REVIEW_REQUIRED"
+    assert result["input_tokens"] == 120
+    assert result["validation_errors"] == ["edge bboxが不正です"]
+    assert result["normalized_bbox_count"] == 3
+    extract_candidate.assert_called_once_with(
+        page=rendered,
+        kind_hint="flowchart",
+        provider=provider.return_value,
+    )
+
+
+def test_extract_visual_does_not_overwrite_review_candidate(tmp_path: Path) -> None:
+    output_path = tmp_path / "candidate.json"
+    output_path.write_text("preserve", encoding="utf-8")
+
+    with pytest.raises(FileExistsError, match="上書きしません"):
+        extract_visual(
+            pdf_path=tmp_path / "source.pdf",
+            page_number=1,
+            kind_hint="flowchart",
+            output_path=output_path,
+        )
+
+    assert output_path.read_text(encoding="utf-8") == "preserve"

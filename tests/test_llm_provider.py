@@ -1,6 +1,8 @@
 from types import SimpleNamespace
 import unittest
 
+from langchain_core.messages import HumanMessage
+
 from src.llm_provider import GeminiProvider, MistralProvider, OpenAIProvider
 
 
@@ -97,6 +99,48 @@ class LLMProviderTest(unittest.TestCase):
             "type": "string",
         }
         assert schema["properties"]["schema_version"] == {"const": "1.0"}
+
+    def test_sends_inline_image_for_structured_gemini_output(self):
+        class Runnable:
+            def invoke(self, content):
+                self.content = content
+                return {
+                    "raw": SimpleNamespace(
+                        usage_metadata={}, response_metadata={}
+                    ),
+                    "parsed": {"answer": "図表"},
+                    "parsing_error": None,
+                }
+
+        class Client:
+            def __init__(self):
+                self.runnable = Runnable()
+
+            def with_structured_output(self, _schema, **_kwargs):
+                return self.runnable
+
+        client = Client()
+        result = GeminiProvider(
+            "gemini-test", client=client
+        ).generate_structured_multimodal(
+            "画像を確認してください",
+            {"type": "object"},
+            image=b"png-bytes",
+            mime_type="image/png",
+        )
+
+        assert result.data == {"answer": "図表"}
+        messages = client.runnable.content
+        assert len(messages) == 1
+        message = messages[0]
+        assert isinstance(message, HumanMessage)
+        assert message.content[0] == {
+            "type": "text",
+            "text": "画像を確認してください",
+        }
+        assert message.content[1]["type"] == "media"
+        assert message.content[1]["mime_type"] == "image/png"
+        assert message.content[1]["data"] == "cG5nLWJ5dGVz"
 
     def test_normalizes_openai_responses_api(self):
         def request(url, api_key, payload):

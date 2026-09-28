@@ -144,6 +144,7 @@
 - 既存100シナリオ・500問を新しい論理locatorへ移行する処理は、Phase 2以降のingestion実装で具体化する。
 - Cloud SQL、Qdrant Cloud、Gemini 3.1を使うtext RAG v2は、公開反映、ブラウザsmoke、Cloud SQLの直接read-only監査まで完了した。
 - PDF・図表runtimeは、レビュー済み抽出JSONを入力にした最小vertical sliceまで実装した。ページ画像の描画・hash照合、Schemaと意味検証、`LocalAssetStore`保存、PostgreSQLのvisual metadata、検索用説明のEmbedding、Qdrant登録を一つのCLI経路で実行できる。Gemini画像抽出、画像付き回答、6 fixture評価は次のroundで実装する。
+- Gemini画像抽出adapterと`extract-visual` CLIを追加した。`flowchart_dev_001`の実モデル試験ではnode 6件・edge 6件・分岐条件を抽出した一方、矢印bboxを端点として返し、意味検証が拒否した。prompt修正でも再現したため、端点の大小整列とゼロ幅線への最小幅付与を決定的な正規化として追加した。保存済み実応答のオフライン再検証はbbox 13件を正規化後、validation error 0件となった。候補は常に`REVIEW_REQUIRED`で、review前にはDBへ登録しない。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
@@ -253,6 +254,8 @@ python3 -m json.tool design/schemas/text-holdout-gold-v1.schema.json >/dev/null
 ## 8. 利用枠checkpoint
 
 2026-09-28のPDF・図表runtime開始時点は週間枠13%使用で、secondary 5時間枠は表示されなかった。`flowchart_dev_001`を対象に最大3 roundのEvidence-first sliceを開始し、1 roundで停止条件を満たした。レビュー前の登録拒否、Schema・意味・画像hash検証、決定的な検索表現、LocalAssetStore、PostgreSQL・Qdrantへの冪等登録を実装した。対象test 38件、外部依存を除く全test 164件、実PostgreSQL・Qdrant integration 2件、Ruff、diff検査が成功した。Gemini API呼出とreset creditは使用していない。
+
+同日のGemini画像抽出roundは最大3回で実施した。1回目はAPI送信前のLangChain入力型エラー、2回目と3回目はそれぞれinput/output `1253/1531` tokens、`1318/1594` tokensで応答した。両方とも図の論理構造は取得したがedge bboxが意味検証に失敗し、promptだけでは改善しなかったため追加API再試行を停止した。既存応答で座標正規化を検証し、Schema・意味検証を通過した。API候補は`/tmp`だけに保存し、DB・Qdrantには未登録、reset creditは使用していない。
 
 残り3 fixtureの連続run開始時点は5時間枠35%使用、週間枠65%使用、完了後は5時間枠41%、週間枠66%使用だった。停止基準80%未満のため有限runを完了した。数値は次回まで維持されるとは限らないため、再開時にUsageを再取得し、`LEARNING_AND_USAGE_PLAN.md`の作業モードを決める。
 
