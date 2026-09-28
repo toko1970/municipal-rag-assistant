@@ -42,6 +42,12 @@ gold custodian以外は、予測結果の固定が終わるまでこのdirectory
 
 `CANDIDATE_FROZEN`で固定する設定本体は`candidate_config.json`である。モデル、prompt、Embedding profile、検索件数、画像上限、retry方針、選定に使ったdevelopment artifact、公開Cloud Run revisionを記録し、`public_manifest.json`からSHA-256で参照する。この段階では`.sealed/`を読まない。
 
+予測runnerはgoldのpathを引数に持たない。候補固定後、まず次の`plan`で20問、6 PDF、最大67 logical external call、retry 0、費用上限を確認する。`run`は明示的な開封承認後にだけ実行する。
+
+```bash
+.venv/bin/python -m eval.run_visual_holdout_predictions plan
+```
+
 ## 検証方法
 
 公開情報だけを検証する通常のコマンドは、sealed artifactを読み込まない。
