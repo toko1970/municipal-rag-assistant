@@ -129,7 +129,9 @@ def validate_answer_evidence(
     }
     unknown = cited - retrieved_element_ids
     if unknown:
-        raise ValueError(f"今回取得していない根拠IDが含まれています: {sorted(map(str, unknown))}")
+        raise ValueError(
+            f"今回取得していない根拠IDが含まれています: {sorted(map(str, unknown))}"
+        )
 
 
 def parse_classification_output(data: dict[str, Any]) -> ClassificationResult:
@@ -163,13 +165,15 @@ def parse_classification_output(data: dict[str, Any]) -> ClassificationResult:
 
 
 def derive_label(factors: ClassificationFactors) -> str:
+    if not factors.retrieval_sufficient:
+        return ANSWER_TYPE_INSUFFICIENT
     if (
         factors.version_conflict
         or factors.requires_case_facts
         or factors.requires_policy_judgment
     ):
         return ANSWER_TYPE_NEEDS_JUDGMENT
-    if not factors.retrieval_sufficient or not factors.answer_fully_supported:
+    if not factors.answer_fully_supported:
         return ANSWER_TYPE_INSUFFICIENT
     return ANSWER_TYPE_SUFFICIENT
 
@@ -205,4 +209,6 @@ def render_display_answer(
         lines.extend(f"- {claim.text}" for claim in visible_claims)
     if guidance:
         lines.extend(["", guidance])
-    return DisplayAnswer(label=label, text="\n".join(lines), visible_claims=visible_claims)
+    return DisplayAnswer(
+        label=label, text="\n".join(lines), visible_claims=visible_claims
+    )

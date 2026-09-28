@@ -3,6 +3,7 @@ from uuid import uuid4
 import pytest
 
 from src.answering import (
+    derive_label,
     parse_answer_output,
     parse_classification_output,
     render_display_answer,
@@ -86,6 +87,18 @@ def test_insufficient_never_displays_generator_claims() -> None:
     assert display.label == "文書不足"
     assert "給与は毎月21日に支給されます。" not in display.text
     assert "今回取得した根拠" in display.text
+
+
+def test_retrieval_failure_takes_precedence_over_case_fact_flag() -> None:
+    classification = parse_classification_output(
+        classification_data(
+            retrieval_sufficient=False,
+            answer_fully_supported=False,
+            requires_case_facts=True,
+        )
+    )
+
+    assert derive_label(classification.factors) == "文書不足"
 
 
 def test_rejects_citation_not_in_current_retrieval() -> None:

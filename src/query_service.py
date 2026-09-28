@@ -23,6 +23,7 @@ from src.llm_provider import StructuredLLMProvider, StructuredLLMResult
 
 GENERATION_PROMPT_VERSION = "answer-claims-v1"
 CLASSIFICATION_PROMPT_VERSION = "answer-classification-v1"
+CLASSIFICATION_DECISION_VERSION = "classification-decision-v2"
 
 
 class QueryEventLogger(Protocol):
@@ -57,8 +58,7 @@ def _evidence_payload(
     visual_assets = visual_assets or {}
     display_content = display_content or {}
     attachment_indexes = {
-        element_id: index
-        for index, element_id in enumerate(visual_assets, start=1)
+        element_id: index for index, element_id in enumerate(visual_assets, start=1)
     }
     for hit in hits:
         payload = {
@@ -94,9 +94,7 @@ def build_generation_prompt(
     hits: list[SearchHit],
     visual_assets: dict[UUID, VisualEvidenceAsset] | None = None,
 ) -> str:
-    evidence = json.dumps(
-        _evidence_payload(hits, visual_assets), ensure_ascii=False
-    )
+    evidence = json.dumps(_evidence_payload(hits, visual_assets), ensure_ascii=False)
     return (
         "次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、"
         "answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n"
@@ -108,14 +106,28 @@ def build_generation_prompt(
 def build_classification_prompt(
     question: str, hits: list[SearchHit], answer_data: dict
 ) -> str:
-    payload = json.dumps(
+    return build_classification_prompt_v1_from_payload(
+        question, _evidence_payload(hits), answer_data
+    )
+
+
+def _classification_payload(
+    question: str, evidence: list[dict], answer_data: dict
+) -> str:
+    return json.dumps(
         {
             "question": question,
-            "retrieved_evidence": _evidence_payload(hits),
+            "retrieved_evidence": evidence,
             "generated_answer": answer_data,
         },
         ensure_ascii=False,
     )
+
+
+def build_classification_prompt_v1_from_payload(
+    question: str, evidence: list[dict], answer_data: dict
+) -> str:
+    payload = _classification_payload(question, evidence, answer_data)
     return (
         "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。"
         "corpus全体に答えが存在するかは判定しないでください。\n"
@@ -153,7 +165,8 @@ def answer_question(
     answer_schema: dict,
     classification_schema: dict,
     top_k: int = 5,
-    visual_asset_loader: Callable[[list[UUID]], list[VisualEvidenceAsset]] | None = None,
+    visual_asset_loader: Callable[[list[UUID]], list[VisualEvidenceAsset]]
+    | None = None,
     asset_reader: AssetReader | None = None,
     max_visual_assets: int = 3,
 ) -> dict:
@@ -274,4 +287,5 @@ def answer_question(
         "generation": generation_result.metadata(),
         "visual_evidence_count": len(visual_assets),
         "classification": classification_result.metadata(),
+        "classification_decision_version": CLASSIFICATION_DECISION_VERSION,
     }

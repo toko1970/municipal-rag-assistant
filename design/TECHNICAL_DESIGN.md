@@ -187,9 +187,12 @@ LLMには独立した自由文回答も最終表示modeも生成させない。�
 
 オンラインの最終表示は、検索不足を「対象文書内に存在しない」と断定しない。
 
-1. `version_conflict`、個別事情、制度解釈がある場合は「判断要」。
-2. `retrieval_sufficient=false`または`answer_fully_supported=false`は「文書不足」と表示し、「今回取得した根拠では確認できない」と説明する。
-3. 上記以外は「根拠十分」。
+1. `retrieval_sufficient=false`の場合は「文書不足」と表示し、「今回取得した根拠では確認できない」と説明する。
+2. 根拠が取得できており、`version_conflict`、個別事情、制度解釈がある場合は「判断要」。
+3. 上記に該当せず`answer_fully_supported=false`の場合は「文書不足」。
+4. 上記以外は「根拠十分」。
+
+`retrieval_sufficient=false`と個別事情要因が同時に返った場合は、取得根拠だけでは回答できない事実を優先して「文書不足」とする。`requires_case_facts`を`missing_conditions`の有無だけで無効化すると、generatorが不足条件を出し忘れた真の`判断要`を緩和するため採用しない。
 
 コードは最終ラベルと生成結果を次の規則で整合させる。
 

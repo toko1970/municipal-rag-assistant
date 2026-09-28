@@ -1,0 +1,129 @@
+{
+  "dataset_version": "classification-prompt-development-v2",
+  "split": "development",
+  "evaluation_mode": "oracle_evidence",
+  "case_count": 14,
+  "expected_counts": {
+    "根拠十分": 7,
+    "判断要": 5,
+    "文書不足": 2
+  },
+  "modality_counts": {
+    "text": 7,
+    "visual": 7
+  },
+  "cases": [
+    {
+      "case_id": "CPD-T01",
+      "modality": "text",
+      "question": "2025年10月に通勤距離がちょうど1.5kmなら距離要件を満たしますか？",
+      "expected_label": "根拠十分",
+      "evidence": [{"element_id": "text-01", "content": "2025年10月以降は通勤距離1.5km以上を対象とする。"}],
+      "generated_answer": {"schema_version": "1.0", "claims": [{"claim_id": "claim-1", "ordinal": 1, "text": "1.5km以上なので距離要件を満たします。", "evidence_element_ids": ["text-01"], "evidence_kind": "text"}], "missing_conditions": []}
+    },
+    {
+      "case_id": "CPD-T02",
+      "modality": "text",
+      "question": "通常の給与支給日は毎月何日ですか？",
+      "expected_label": "根拠十分",
+      "evidence": [{"element_id": "text-02", "content": "給与は毎月21日に支給する。"}],
+      "generated_answer": {"schema_version": "1.0", "claims": [{"claim_id": "claim-1", "ordinal": 1, "text": "通常の給与支給日は毎月21日です。", "evidence_element_ids": ["text-02"], "evidence_kind": "text"}], "missing_conditions": []}
+    },
+    {
+      "case_id": "CPD-T03",
+      "modality": "text",
+      "question": "給与を家族名義の口座へ振り込めますか？",
+      "expected_label": "根拠十分",
+      "evidence": [{"element_id": "text-03", "content": "給与は職員本人名義の金融機関口座へ振り込む。"}],
+      "generated_answer": {"schema_version": "1.0", "claims": [{"claim_id": "claim-1", "ordinal": 1, "text": "家族名義の口座には振り込めません。", "evidence_element_ids": ["text-03"], "evidence_kind": "text"}], "missing_conditions": []}
+    },
+    {
+      "case_id": "CPD-T04",
+      "modality": "text",
+      "question": "自動車通勤する職員は通勤手当の距離要件を満たしますか？",
+      "expected_label": "判断要",
+      "evidence": [{"element_id": "text-04", "content": "自動車通勤は通勤距離1.5km以上を対象とする。"}],
+      "generated_answer": {"schema_version": "1.0", "claims": [{"claim_id": "claim-1", "ordinal": 1, "text": "1.5km以上なら距離要件を満たします。", "evidence_element_ids": ["text-04"], "evidence_kind": "text"}], "missing_conditions": ["職員の実通勤距離"]}
+    },
+    {
+      "case_id": "CPD-T05",
+      "modality": "text",
+      "question": "過払給与は一括返納に決定してよいですか？",
+      "expected_label": "判断要",
+      "evidence": [{"element_id": "text-05", "content": "返納方法は職員の事情を考慮し、一括または分割から決定する。"}],
+      "generated_answer": {"schema_version": "1.0", "claims": [{"claim_id": "claim-1", "ordinal": 1, "text": "返納方法は一括または分割から決定します。", "evidence_element_ids": ["text-05"], "evidence_kind": "text"}], "missing_conditions": ["返納方法の決定に必要な職員事情"]}
+    },
+    {
+      "case_id": "CPD-T06",
+      "modality": "text",
+      "question": "来年度の人事評価の点数を教えてください。",
+      "expected_label": "文書不足",
+      "evidence": [{"element_id": "text-06", "content": "給与支給日は毎月21日とする。"}],
+      "generated_answer": {"schema_version": "1.0", "claims": [], "missing_conditions": ["人事評価の資料"]}
+    },
+    {
+      "case_id": "CPD-V01",
+      "modality": "visual",
+      "question": "作業時間がちょうど90分の場合は区分Bに該当しますか？",
+      "expected_label": "根拠十分",
+      "evidence": [{"element_id": "visual-01", "element_type": "table", "content": "区分B: 90分以上120分未満。"}],
+      "generated_answer": {"schema_version": "1.0", "claims": [{"claim_id": "claim-1", "ordinal": 1, "text": "90分以上なので区分Bに該当します。", "evidence_element_ids": ["visual-01"], "evidence_kind": "table_cell"}], "missing_conditions": []}
+    },
+    {
+      "case_id": "CPD-V02",
+      "modality": "visual",
+      "question": "申請内容に不備がなく承認済みの場合、次は何をしますか？",
+      "expected_label": "根拠十分",
+      "evidence": [{"element_id": "visual-02", "element_type": "flowchart", "content": "不備なし → 承認済み → 登録番号を通知 → 終了。"}],
+      "generated_answer": {"schema_version": "1.0", "claims": [{"claim_id": "claim-1", "ordinal": 1, "text": "登録番号を通知して終了します。", "evidence_element_ids": ["visual-02"], "evidence_kind": "flow_edge"}], "missing_conditions": []}
+    },
+    {
+      "case_id": "CPD-V03",
+      "modality": "visual",
+      "question": "実作業時間が30分未満の場合、認定されますか？",
+      "expected_label": "根拠十分",
+      "evidence": [{"element_id": "visual-03", "element_type": "flowchart", "content": "実作業時間30分以上? いいえ → 認定対象外。"}],
+      "generated_answer": {"schema_version": "1.0", "claims": [{"claim_id": "claim-1", "ordinal": 1, "text": "30分未満の場合は認定対象外です。", "evidence_element_ids": ["visual-03"], "evidence_kind": "flow_edge"}], "missing_conditions": []}
+    },
+    {
+      "case_id": "CPD-V04",
+      "modality": "visual",
+      "question": "実作業時間が45分の職員は認定されますか？",
+      "expected_label": "判断要",
+      "evidence": [{"element_id": "visual-04", "element_type": "flowchart", "content": "45分以上 → 事前講習修了? はい → 認定、いいえ → 保留。"}],
+      "generated_answer": {"schema_version": "1.0", "claims": [{"claim_id": "claim-1", "ordinal": 1, "text": "45分以上であることは満たしています。", "evidence_element_ids": ["visual-04"], "evidence_kind": "flow_edge"}], "missing_conditions": ["事前講習の修了状況"]}
+    },
+    {
+      "case_id": "CPD-V05",
+      "modality": "visual",
+      "question": "この職員の作業加算額はいくらですか？",
+      "expected_label": "判断要",
+      "evidence": [{"element_id": "visual-05", "element_type": "table", "content": "60分未満0円、60分以上120分未満600円、120分以上1200円。"}],
+      "generated_answer": {"schema_version": "1.0", "claims": [{"claim_id": "claim-1", "ordinal": 1, "text": "加算額は実作業時間の区分で決まります。", "evidence_element_ids": ["visual-05"], "evidence_kind": "table_cell"}], "missing_conditions": ["職員の実作業時間"]}
+    },
+    {
+      "case_id": "CPD-V06",
+      "modality": "visual",
+      "question": "この帳票の保存年限は何年ですか？",
+      "expected_label": "文書不足",
+      "evidence": [{"element_id": "visual-06", "element_type": "form", "content": "申請者名、所属、提出日を記入する。"}],
+      "generated_answer": {"schema_version": "1.0", "claims": [], "missing_conditions": ["保存年限を定めた文書"]}
+    },
+    {
+      "case_id": "CPD-T07",
+      "modality": "text",
+      "question": "別居している父母をこの職員の扶養親族として認定できますか？",
+      "expected_label": "判断要",
+      "evidence": [{"element_id": "text-07", "content": "別居する父母は、扶養実態と生計維持関係を総合確認して認定する。"}],
+      "generated_answer": {"schema_version": "1.0", "claims": [{"claim_id": "claim-1", "ordinal": 1, "text": "扶養実態と生計維持関係の確認が必要なため、この情報だけでは認定を決定できません。", "evidence_element_ids": ["text-07"], "evidence_kind": "text"}], "missing_conditions": []}
+    },
+    {
+      "case_id": "CPD-V07",
+      "modality": "visual",
+      "question": "実作業時間が45分で事前講習を修了済みなら認定されますか？",
+      "expected_label": "根拠十分",
+      "evidence": [{"element_id": "visual-07", "element_type": "flowchart", "content": "45分以上 → 事前講習修了? はい → 認定、いいえ → 保留。"}],
+      "generated_answer": {"schema_version": "1.0", "claims": [{"claim_id": "claim-1", "ordinal": 1, "text": "45分以上かつ事前講習修了済みなので認定されます。", "evidence_element_ids": ["visual-07"], "evidence_kind": "flow_edge"}], "missing_conditions": []}
+    }
+  ]
+}

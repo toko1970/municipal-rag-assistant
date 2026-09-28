@@ -135,9 +135,67 @@ def test_query_flow_keeps_generation_classification_and_display_separate() -> No
         "classification",
         "answer",
     ]
-    assert logger.events[-1][2]["claims"][0]["evidence_element_ids"] == [
-        element.id
-    ]
+    assert logger.events[-1][2]["claims"][0]["evidence_element_ids"] == [element.id]
+
+
+def test_query_flow_keeps_model_case_fact_flag_without_missing_condition() -> None:
+    element = IndexableElement(
+        id=uuid4(),
+        document_id=uuid4(),
+        version_id=uuid4(),
+        document_name="認定フロー",
+        heading="判定",
+        content="30分未満は認定対象外。",
+    )
+    generator = FakeProvider(
+        {
+            "schema_version": "1.0",
+            "claims": [
+                {
+                    "claim_id": "claim-1",
+                    "ordinal": 1,
+                    "text": "30分未満は認定対象外です。",
+                    "evidence_element_ids": [str(element.id)],
+                    "evidence_kind": "flow_edge",
+                }
+            ],
+            "missing_conditions": [],
+        }
+    )
+    classifier = FakeProvider(
+        {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "factors": {
+                "retrieval_sufficient": True,
+                "answer_fully_supported": True,
+                "requires_case_facts": True,
+                "requires_policy_judgment": False,
+                "version_conflict": False,
+            },
+            "confidence": 0.95,
+            "error_code": None,
+        }
+    )
+    logger = FakeLogger()
+
+    result = answer_question(
+        "30分未満の場合は認定されますか？",
+        embed_query=lambda _question: [1.0],
+        vector_index=FakeIndex([SearchHit(element, 0.9, 1)]),
+        generator=generator,
+        classifier=classifier,
+        event_logger=logger,
+        answer_schema={},
+        classification_schema={},
+    )
+
+    classification_event = next(
+        event for event in logger.events if event[0] == "classification"
+    )
+    assert result["answer_label"] == "判断要"
+    assert result["classification_decision_version"] == "classification-decision-v2"
+    assert classification_event[2]["factors"]["requires_case_facts"] is True
 
 
 def test_generation_failure_is_logged_separately() -> None:
@@ -232,9 +290,7 @@ def test_visual_hit_uses_verified_image_and_returns_display_metadata(tmp_path) -
         element_type="flowchart",
         page_number=1,
         metadata={
-            "visual_extraction": {
-                "nodes": [{"id": "n1", "text": "申請者へ差戻し"}]
-            }
+            "visual_extraction": {"nodes": [{"id": "n1", "text": "申請者へ差戻し"}]}
         },
     )
     asset = VisualEvidenceAsset(
