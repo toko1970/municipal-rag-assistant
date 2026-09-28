@@ -438,3 +438,14 @@ logical calls 2、推定US$0.00104275、retry 0、Resolver未到達、sealed hol
 次回の正確な測定に備え、Classifier失敗時にも部分成功を監査できるよう、評価recordへGeneratorの
 status・構造化response・errorとClassifierのstatus・errorを保存するようにした。実行済みartifactは
 上書きしていない。endpoint安定後に、新しい出力先でQ191を1回だけ実行する。
+
+時間を置いたQ191の3回目の独立runは、Generator・Classifier・Version Resolverの3 logical callsを
+完了した。15,000円ちょうどは対象外と正答し、Resolverは`effective_period`、confidence 1.0で
+版競合を解消して、分類・内容・根拠支持がすべて成功した。input 4,652・output 545 tokens、
+推定US$0.0019805、retry 0、API error 0、sealed holdout未使用である。
+
+既存6件と条件hashを照合して統合し、影響範囲は7/7 composite successで内容品質gateを通過した。
+失敗したResolver 1件、Generator 503、Classifier 503は削除せず運用上の証拠として残した。
+選択品質recordの推定費用US$0.00966975、失敗試行を含む実験全体は23 logical calls、推定
+US$0.01175525である。次の最小手順は候補をローカルquery flowへ統合し、同じ130問で総合回答
+成功と退行を評価すること。production deployは未実施で、実行前に明示承認が必要である。

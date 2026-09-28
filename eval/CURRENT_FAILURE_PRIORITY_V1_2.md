@@ -184,6 +184,12 @@ Classifierが同じ`503 UNAVAILABLE`となった。logical calls 2、推定US$0.
 Resolverには到達していない。503の発生箇所がGeneratorからClassifierへ移動したため、現在の
 測定阻害要因はQ191のロジックより共有endpointの可用性にある。品質gateは6/7のまま変更しない。
 
+時間を置いた3回目の独立runでは、Generator・Classifier・Version Resolverがすべて完了した。
+Q191は15,000円ちょうどを対象外と正答し、Resolverは`effective_period`、confidence 1.0で版競合を
+解消して最終分類`根拠十分`となった。同一条件の有効recordを統合した影響範囲は7/7で、内容品質の
+採用gateを通過した。失敗3試行はprovider可用性の証拠として残し、実験全体は23 logical calls、
+推定US$0.01175525だった。次はローカルquery flowへ統合し、130問回帰で退行を確認する。
+
 ## 10. 学習上の要点
 
 - 最大件数だけでなく、同じ一手で直せる同質性を確認して優先順位を決める。

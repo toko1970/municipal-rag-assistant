@@ -1,0 +1,37 @@
+{
+  "assessment": "pre-generation-temporal-guidance-consolidated-v3",
+  "classifier_model": "gemini-3.1-flash-lite",
+  "condition_hashes": {
+    "dataset_sha256": "bf93804a604372a8d1e5b295a9906e147f6412e5465bb29e644353693c32ae17",
+    "document_cache_sha256": "1efec62b22bf462f86032d870858c1c737e450ed29b9d01ee9e640d02f173b29",
+    "query_cache_sha256": "25b2d74d64cbe0e6fa89e79bfc8bffdd837f8a383d9a6b5f44e6e17e8d025200",
+    "subquery_cache_sha256": "edf385107d0b9c207686512df500b2dd121398c4026a69c2660e1b46ad666ebc"
+  },
+  "generation_candidate": "deterministic temporal guidance prepended to current prompt",
+  "generator_model": "gemini-3.1-flash-lite",
+  "production_integrated": false,
+  "retry_per_run": 0,
+  "sealed_holdout_accessed": false,
+  "selected_ids": [
+    "Q291",
+    "Q421",
+    "Q426",
+    "Q431",
+    "Q186",
+    "Q191",
+    "Q286"
+  ],
+  "selection_rule": "Use the first valid completed result for each scope ID; retain failed attempts separately and do not score them as content-quality outcomes.",
+  "sources": {
+    "eval/results/temporal_generation_q191_diagnostic_v1/records.jsonl": "ebf2f0af689dfe3704b262567eab4cc696206d962e0c4c41ad0bb53e5ca1a822",
+    "eval/results/temporal_generation_q191_diagnostic_v1/run_manifest.json": "9263deb241aac2ca182552df335c9a6fcb3ea42203392bad9445291d0b3ba018",
+    "eval/results/temporal_generation_q191_diagnostic_v2/records.jsonl": "da3ecdc72f9beec3ad93ba2eec33aa42d94c296fbaf40dc351939a504ace8d98",
+    "eval/results/temporal_generation_q191_diagnostic_v2/run_manifest.json": "9263deb241aac2ca182552df335c9a6fcb3ea42203392bad9445291d0b3ba018",
+    "eval/results/temporal_generation_q191_diagnostic_v3/records.jsonl": "ac5625632d4d9cb2a503d0151433caf56611f8fb01d0ab5f07f7fb90c82a3370",
+    "eval/results/temporal_generation_q191_diagnostic_v3/run_manifest.json": "9263deb241aac2ca182552df335c9a6fcb3ea42203392bad9445291d0b3ba018",
+    "eval/results/temporal_generation_scope_v2/records.jsonl": "26f113012487de8bc8e176c6803b9ab99fb5f4410a55f861de6bd5e206c5f6e4",
+    "eval/results/temporal_generation_scope_v2/run_audit.json": "4e4de361a0edb60dcb45171d45537bfaef2e5a41fbe71e1784deebea22ccdc8c",
+    "eval/results/temporal_generation_scope_v2/run_manifest.json": "2b620bbe3b8f77d0f5717cc288bd701b3cfb6c3948ea58ee122cd30dd6b809e2"
+  },
+  "top_k": 8
+}

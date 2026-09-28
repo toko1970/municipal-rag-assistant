@@ -1,0 +1,33 @@
+{
+  "availability_conclusion": "Provider failures are retained as operational evidence and are not treated as content-quality judgments.",
+  "excluded_attempts": [
+    {
+      "question_id": "Q191",
+      "reason": "RESOLUTION_FAILED; detail unavailable",
+      "source": "eval/results/temporal_generation_scope_v2",
+      "stage": "version_resolver"
+    },
+    {
+      "question_id": "Q191",
+      "reason": "503 UNAVAILABLE",
+      "source": "eval/results/temporal_generation_q191_diagnostic_v1",
+      "stage": "generator"
+    },
+    {
+      "question_id": "Q191",
+      "reason": "503 UNAVAILABLE",
+      "source": "eval/results/temporal_generation_q191_diagnostic_v2",
+      "stage": "classifier"
+    }
+  ],
+  "production_integrated": false,
+  "q191_attempts_before_valid_measurement": 3,
+  "q191_valid_measurement_source": "eval/results/temporal_generation_q191_diagnostic_v3",
+  "quality_gate_passed": true,
+  "scope_composite_correct": 7,
+  "scope_scenario_count": 7,
+  "sealed_holdout_accessed": false,
+  "selected_quality_records_estimated_cost_usd": 0.00966975,
+  "total_experiment_campaign_estimated_cost_usd": 0.01175525,
+  "total_experiment_campaign_logical_calls": 23
+}

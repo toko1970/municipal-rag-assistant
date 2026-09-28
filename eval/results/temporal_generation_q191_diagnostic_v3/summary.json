@@ -1,0 +1,19 @@
+{
+  "additional_scope_composite_correct": 1,
+  "additional_scope_count": 1,
+  "completed_count": 1,
+  "gate_passed": true,
+  "historical_reused_estimated_cost_usd": 0,
+  "new_estimated_cost_usd": 0.0019805,
+  "new_input_tokens": 4652,
+  "new_logical_external_calls": 3,
+  "new_max_cost_usd": 0.005,
+  "new_output_tokens": 545,
+  "new_scenario_count": 1,
+  "reused_count": 0,
+  "scope_composite_correct": 1,
+  "scope_scenario_count": 1,
+  "sealed_holdout_accessed": false,
+  "stop_reason": "COMPLETED",
+  "target_composite_ok": false
+}

@@ -138,3 +138,31 @@ Classifier失敗時にも部分成功したGeneratorを監査できるよう、�
 構造化response、errorとclassificationのstatus、errorを保存するよう評価器を更新した。今回のv2
 artifactは実行時点のraw結果として変更しない。次の外部runはendpointが安定してから行い、直後の
 連続retryはしない。
+
+## 10. Q191有効測定と統合判定
+
+時間を置いた3回目の独立runは、Generator、Classifier、Version Resolverの3 logical callsを
+すべて完了した。Q191は「15,000円を超えていないため支給対象外」と回答し、内容、根拠支持、
+最終分類`根拠十分`がすべて成功した。
+
+Classifierが検出した版競合に対し、Version Resolverは`effective_period`を根拠に
+`version_conflict=false`、confidence 1.0を返した。fallbackは使用していない。
+
+- input 4,652・output 545 tokens
+- 推定費用US$0.0019805
+- retry 0、API error 0
+- sealed holdout未使用
+
+既存6件とdataset、query/subquery/document cache、Generator、Classifier、Top-k、候補promptが
+一致することをhashとmanifestで確認した。有効に完了した同一条件のrecordを統合すると、影響範囲
+7件は7/7 composite successとなり、内容品質の採用gateを通過した。統合artifactは
+[`temporal_generation_scope_consolidated_v3`](results/temporal_generation_scope_consolidated_v3/)
+に保存した。
+
+失敗した3試行は削除していない。Resolver失敗1件、Generator 503、Classifier 503を運用上の証拠
+として残し、内容品質の分母からだけ除外した。選択した品質recordの推定費用はUS$0.00966975、
+失敗試行を含む実験全体は23 logical calls、推定US$0.01175525である。
+
+したがって「providerが正常応答した場合の版選択品質」はgate通過、「外部providerの可用性」は
+別の運用リスクという結論にする。次は候補をローカルquery flowへ統合し、同じ130問で総合回答
+成功と退行を評価する。公開deployはその結果を確認した後に判断する。
