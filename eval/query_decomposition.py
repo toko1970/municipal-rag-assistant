@@ -1,0 +1,97 @@
+"""Deterministic query decomposition for an isolated retrieval experiment."""
+
+from __future__ import annotations
+
+import math
+import re
+from collections.abc import Callable
+
+from src.contracts import SearchHit
+
+
+def _date_context(question: str) -> str:
+    match = re.search(r"\d{4}年\d{1,2}月(?:以降)?", question)
+    return f"{match.group(0)} " if match else ""
+
+
+def decompose_query(question: str) -> list[str]:
+    """Split supported municipal payroll multi-intent questions without gold data."""
+    date = _date_context(question)
+
+    if "転居" in question and "通勤しなく" in question:
+        return [
+            f"{date}転居 通勤しなくなった 通勤手当 支給停止".strip(),
+            f"{date}転居 住所変更届 提出が必要な場合 提出期限".strip(),
+        ]
+
+    if "出生" in question and "支給開始時期" in question and "届出期限" in question:
+        return [
+            f"{date}出生 扶養手当 支給開始時期".strip(),
+            f"{date}出生 扶養親族変更届 提出期限".strip(),
+        ]
+
+    if "通勤経路" in question and "要件" in question and "届出期限" in question:
+        details = " ".join(
+            match.group(0)
+            for pattern in (r"\d+(?:\.\d+)?km", r"車通勤")
+            if (match := re.search(pattern, question))
+        )
+        return [
+            f"{date}{details} 通勤手当 支給要件".strip(),
+            f"{date}通勤経路変更届 提出期限".strip(),
+        ]
+
+    if "過払給与" in question and "給与口座変更" in question:
+        return ["過払給与 返納方法", "給与口座変更届 必要書類"]
+
+    housing_facets = ("要件", "書類", "期限")
+    if (
+        "家賃" in question
+        and "入居" in question
+        and sum(facet in question for facet in housing_facets) >= 2
+    ):
+        facts = " ".join(
+            match.group(0)
+            for pattern in (r"本人名義", r"家賃[\d,]+円")
+            if (match := re.search(pattern, question))
+        )
+        return [
+            f"{date}{facts} 住居手当 支給要件".strip(),
+            f"{date}住居届 必要書類".strip(),
+            f"{date}住居届 提出期限".strip(),
+        ]
+
+    return [question]
+
+
+def retrieve_decomposed(
+    question: str,
+    *,
+    top_k: int,
+    search: Callable[[str, int], list[SearchHit]],
+) -> list[SearchHit]:
+    """Reserve an equal candidate quota per intent, then fill from the full query."""
+    subqueries = decompose_query(question)
+    if subqueries == [question]:
+        return search(question, top_k)
+
+    per_intent = max(1, math.ceil(top_k / len(subqueries)))
+    selected: list[SearchHit] = []
+    seen = set()
+
+    def append_unique(hit: SearchHit) -> None:
+        if hit.element.id not in seen and len(selected) < top_k:
+            seen.add(hit.element.id)
+            selected.append(hit)
+
+    for subquery in subqueries:
+        for hit in search(subquery, per_intent):
+            append_unique(hit)
+    if len(selected) < top_k:
+        for hit in search(question, top_k):
+            append_unique(hit)
+
+    return [
+        SearchHit(element=hit.element, score=hit.score, rank=rank)
+        for rank, hit in enumerate(selected, start=1)
+    ]
