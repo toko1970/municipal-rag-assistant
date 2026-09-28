@@ -18,6 +18,9 @@ logs/
 # Feedback
 feedback_data/
 
+# Locally rendered PDF page images
+.rag_assets/
+
 # Sealed visual holdout: source PDFs and gold stay with the gold custodian.
 eval/visual_holdout/.sealed/
 

@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 from uuid import uuid4
 
@@ -21,12 +22,25 @@ from src.persistence.models import (
     GenerationResultRow,
     RagRequestRow,
     RetrievalResultRow,
+    VisualAssetRow,
 )
 from src.persistence.repositories import (
     PostgresDocumentRepository,
     PostgresEventLogger,
 )
 from src.qdrant_index import QdrantVectorIndex
+from src.asset_store import LocalAssetStore
+from src.visual_ingestion import ingest_visual_pdf, render_pdf_page
+
+
+ROOT = Path(__file__).resolve().parents[2]
+
+
+class FakeVisualEmbeddings:
+    def embed_documents(self, texts, task_type):
+        assert task_type == "RETRIEVAL_DOCUMENT"
+        assert "申請者へ差戻し" in texts[0]
+        return [[1.0, 0.0, 0.0]]
 
 
 @pytest.mark.integration
@@ -159,5 +173,74 @@ def test_postgres_qdrant_and_event_log_round_trip(tmp_path: Path) -> None:
             session.execute(
                 delete(EmbeddingProfileRow).where(
                     EmbeddingProfileRow.profile_key == "fake:test:3"
+                )
+            )
+
+
+@pytest.mark.integration
+def test_visual_pdf_round_trip_is_idempotent(tmp_path: Path) -> None:
+    pdf_path = ROOT / "eval/visual_fixtures/documents/flowchart_dev_001.pdf"
+    extraction_path = ROOT / "eval/visual_fixtures/gold/flowchart_dev_001.json"
+    extraction = json.loads(extraction_path.read_text(encoding="utf-8"))
+    extraction["source_image_sha256"] = render_pdf_page(pdf_path, 1).sha256
+    document_key = f"visual-integration-{uuid4()}"
+    factory = sessionmaker(bind=get_engine(), expire_on_commit=False)
+    repository = PostgresDocumentRepository(factory)
+    collection_name = f"visual_integration_{uuid4().hex}"
+    client = QdrantClient(url=QDRANT_URL)
+    index = QdrantVectorIndex(client=client, collection_name=collection_name)
+    kwargs = {
+        "pdf_path": pdf_path,
+        "document_key": document_key,
+        "document_name": "通勤手当申請処理フロー",
+        "extraction": extraction,
+        "reviewed": True,
+        "repository": repository,
+        "vector_index": index,
+        "asset_store": LocalAssetStore(tmp_path / "assets"),
+        "embeddings": FakeVisualEmbeddings(),
+    }
+    element_id = None
+
+    try:
+        first = ingest_visual_pdf(**kwargs)
+        second = ingest_visual_pdf(**kwargs)
+        element_id = first["element_id"]
+
+        with factory() as session:
+            document = session.scalar(
+                select(DocumentRow).where(DocumentRow.document_key == document_key)
+            )
+            assert document is not None
+            assert session.scalar(
+                select(func.count()).select_from(ContentElementRow).where(
+                    ContentElementRow.id == element_id
+                )
+            ) == 1
+            asset = session.scalar(
+                select(VisualAssetRow).where(
+                    VisualAssetRow.content_element_id == element_id
+                )
+            )
+            assert asset is not None
+            assert asset.sha256 == extraction["source_image_sha256"]
+        assert first["element_id"] == second["element_id"]
+        assert len(list((tmp_path / "assets").rglob("*.png"))) == 1
+        hits = index.search([1.0, 0.0, 0.0], limit=1)
+        assert str(hits[0].element.id) == element_id
+        assert hits[0].element.element_type == "flowchart"
+    finally:
+        if client.collection_exists(collection_name):
+            client.delete_collection(collection_name)
+        with factory() as session, session.begin():
+            document = session.scalar(
+                select(DocumentRow).where(DocumentRow.document_key == document_key)
+            )
+            if document is not None:
+                session.delete(document)
+            session.execute(
+                delete(EmbeddingProfileRow).where(
+                    EmbeddingProfileRow.profile_key
+                    == "gemini:gemini-embedding-001:visual-description-v1"
                 )
             )

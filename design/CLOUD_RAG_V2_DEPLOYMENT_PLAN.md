@@ -1,7 +1,7 @@
 # Public RAG v2 deployment plan
 
 - 作成日: 2026-09-27
-- 状態: `PUBLIC_RAG_V2_LIVE_SMOKE_VERIFIED`
+- 状態: `PUBLIC_RAG_V2_GO_LIVE_VERIFIED`
 - 目的: localで検証したQdrant、PostgreSQL、Gemini 3.1のRAG v2を公開Cloud Runへ反映する
 - Terraform apply: 予算2件とRAG v2基盤12件を追加、0 change、0 destroy
 
@@ -109,7 +109,7 @@ Secret値はGitHubへ保存しない。Cloud Runとbootstrap JobはSecret Manage
 - revision `municipal-rag-assistant-00005-rwd`はcommit `4a621fcb938b37d718cb294c51870733531387e7`のimageを使用し、traffic 100%、`Ready=True`だった。
 - 公開URLのhealth endpointとトップページはHTTP 200だった。実ブラウザから同じ質問を実行し、毎月21日、休日の場合は直前の営業日という回答、`根拠十分`、参照8件を確認した。
 - 公開画面から「採用した」とコメント「公開RAG v2デプロイ後の動作確認」を送信し、「フィードバックを保存しました。」を確認した。
-- request、retrieval、generation、classification、feedbackのSQL結合は同じschemaのローカル実DBで確認済みである。今回のCloud SQLに対する直接のread-only SQL監査は、ローカルにADCとCloud SQL Auth Proxyがないため未完了とし、公開画面の保存成功と混同しない。
+- Cloud SQL Auth Proxyを一時起動し、公開ブラウザの最新request `25be953a-bf46-4adf-97f6-5554740107b3`をread-only SQLで監査した。検索8件、生成attempt 1件、分類attempt 1件、表示claim 2件、根拠link 3件、`根拠十分`、`SUCCESS`、feedback「採用した」とsmoke用コメントを一つのrequest IDで結合確認した。
 
 ## 7. Rollback
 

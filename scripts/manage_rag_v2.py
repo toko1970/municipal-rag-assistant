@@ -5,18 +5,22 @@ from __future__ import annotations
 import argparse
 import json
 from collections import Counter
+from pathlib import Path
 
 from alembic import command
 from alembic.config import Config
 from sqlalchemy import select
 from sqlalchemy.orm import Session, sessionmaker
 
-from config import BASE_DIR, DATABASE_URL
+from config import BASE_DIR, DATABASE_URL, VISUAL_ASSET_DIR
+from src.asset_store import LocalAssetStore
+from src.embeddings import get_embeddings
 from src.ingestion import ingest_markdown_documents
 from src.persistence.database import get_engine
 from src.persistence.repositories import PostgresDocumentRepository
 from src.qdrant_index import QdrantVectorIndex
 from src.rag_v2 import generate_qdrant_answer
+from src.visual_ingestion import ingest_visual_pdf
 
 
 CLOUD_SMOKE_QUESTION = "給与支給日はいつですか？"
@@ -55,6 +59,32 @@ def rebuild_qdrant() -> dict[str, int]:
         index.client.delete_collection(index.collection_name)
     repository = PostgresDocumentRepository(session_factory())
     return ingest_markdown_documents(repository, index)
+
+
+def ingest_visual(
+    *,
+    pdf_path: Path,
+    extraction_path: Path,
+    document_key: str,
+    document_name: str,
+    reviewed: bool,
+) -> dict[str, object]:
+    if not reviewed:
+        raise ValueError("図表の登録にはreview完了を示す--reviewedが必要です")
+    extraction = json.loads(extraction_path.read_text(encoding="utf-8"))
+    if not isinstance(extraction, dict):
+        raise ValueError("extractionはJSON objectである必要があります")
+    return ingest_visual_pdf(
+        pdf_path=pdf_path,
+        document_key=document_key,
+        document_name=document_name,
+        extraction=extraction,
+        reviewed=True,
+        repository=PostgresDocumentRepository(session_factory()),
+        vector_index=QdrantVectorIndex(),
+        asset_store=LocalAssetStore(VISUAL_ASSET_DIR),
+        embeddings=get_embeddings(),
+    )
 
 
 def reconcile() -> dict[str, object]:
@@ -135,9 +165,15 @@ def main() -> int:
             "index-info",
             "query",
             "bootstrap-cloud",
+            "ingest-visual",
         ),
     )
     parser.add_argument("--question")
+    parser.add_argument("--pdf", type=Path)
+    parser.add_argument("--extraction", type=Path)
+    parser.add_argument("--document-key")
+    parser.add_argument("--document-name")
+    parser.add_argument("--reviewed", action="store_true")
     args = parser.parse_args()
     if args.command == "migrate":
         migrate()
@@ -154,6 +190,25 @@ def main() -> int:
         result = index_info()
     elif args.command == "bootstrap-cloud":
         result = bootstrap_cloud()
+    elif args.command == "ingest-visual":
+        required = {
+            "--pdf": args.pdf,
+            "--extraction": args.extraction,
+            "--document-key": args.document_key,
+            "--document-name": args.document_name,
+        }
+        missing = [name for name, value in required.items() if not value]
+        if missing:
+            parser.error(f"ingest-visualには{'、'.join(missing)}が必要です")
+        if not args.reviewed:
+            parser.error("ingest-visualにはreview完了を示す--reviewedが必要です")
+        result = ingest_visual(
+            pdf_path=args.pdf,
+            extraction_path=args.extraction,
+            document_key=args.document_key,
+            document_name=args.document_name,
+            reviewed=True,
+        )
     else:
         if not args.question:
             parser.error("queryには--questionが必要です")
