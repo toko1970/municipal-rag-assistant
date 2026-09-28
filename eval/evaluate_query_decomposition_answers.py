@@ -105,13 +105,28 @@ def _provider_error(error: str) -> bool:
         marker in lowered
         for marker in (
             "429",
+            "500",
+            "502",
+            "503",
+            "504",
             "resource_exhausted",
             "serviceunavailable",
+            "unavailable",
             "deadlineexceeded",
             "connectionerror",
             "apierror",
         )
     )
+
+
+def _scenario_logical_calls(logger: EvaluationLogger, result: dict | None) -> int:
+    calls = 1  # generation was attempted
+    if logger.generation.get("status") == "SUCCESS":
+        calls += 1  # classification was attempted
+    resolver = result.get("version_resolution", {}) if result else {}
+    if resolver.get("status") not in (None, "NOT_REQUIRED", "NOT_CONFIGURED"):
+        calls += 1
+    return calls
 
 
 def _content_ok(question_id: str, answer: str) -> bool:
@@ -256,7 +271,7 @@ def main() -> int:
             )
             input_tokens += scenario_input
             output_tokens += scenario_output
-            logical_calls += 2 + int(resolver_data.get("status") != "NOT_REQUIRED")
+            logical_calls += _scenario_logical_calls(logger, result)
 
             answer = result.get("answer", "") if result else ""
             classification_ok = bool(result) and (

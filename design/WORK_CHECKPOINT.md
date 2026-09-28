@@ -384,3 +384,16 @@ required facets pilotを実行した。20 logical calls、retry 0、US$0.0105397
 73/90、既存成功8件退行のため不採用とした。Q156の不足根拠はdense Top-30外、Q436は27位で、
 rerankerでは2件を回復できない。次はQuery Decompositionの有限比較を候補とする。詳細は
 [`BM25_HYBRID_EVALUATION.md`](../eval/BM25_HYBRID_EVALUATION.md)を参照する。
+
+Query Decompositionをformal 100問で比較し、Evidence Hit@5は80/90から82/90へ改善した。
+Q291とQ436を回復し、Hit@5退行0件で検索gateを通過した。11 subqueriesのEmbeddingは1 batch、
+retry 0、保守的費用上限見積りUS$0.0000454で、sealed holdoutは使用していない。
+
+回答回帰ではQ291 candidateが旧ルールを選び内容失敗となった。Q436 candidateは正解したが、
+baselineがGemini 503となりpaired比較は不成立だった。fail-fast文字列判定の不足で503後に1
+scenario進んだため、このrunは採用判定不可として監査記録を保存した。追加retryと追加runは
+行っておらず、production検索も変更していない。
+
+次の最小手順は、生成前に適用時期と新旧根拠を整理する処理をQ291で比較し、検索改善を総合回答
+成功へ接続できるか確認することである。詳細は
+[`QUERY_DECOMPOSITION_EVALUATION.md`](../eval/QUERY_DECOMPOSITION_EVALUATION.md)を参照する。
