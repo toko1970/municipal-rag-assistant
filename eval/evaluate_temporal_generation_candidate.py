@@ -108,6 +108,16 @@ def _content_ok(question_id: str, answer: str) -> bool:
     )
 
 
+def _version_resolution_error(result: dict[str, Any] | None) -> str:
+    if not result:
+        return ""
+    resolver = result.get("version_resolution", {})
+    if resolver.get("status") != "RESOLUTION_FAILED":
+        return ""
+    detail = resolver.get("error_summary") or "structured result unavailable"
+    return f"VersionResolverError: {detail}"
+
+
 def build_temporal_generation_prompt(question: str, hits: list, visual_assets) -> str:
     instruction = temporal_prompt_instruction(question, hits)
     base = build_generation_prompt(question, hits, visual_assets)
@@ -295,6 +305,8 @@ def main() -> int:
             )
         except Exception as exception:
             error = f"{type(exception).__name__}: {exception}"
+
+        error = error or _version_resolution_error(result)
 
         resolver_data = result.get("version_resolution", {}) if result else {}
         generation_input = int(logger.generation.get("input_tokens", 0))

@@ -408,3 +408,16 @@ formal 100問のdry runで同処理の対象は7問と判明した。未評価�
 7件の影響範囲回帰を完了することが次の最小手順である。production統合、130問回帰、deployは
 未実施。詳細は
 [`TEMPORAL_GENERATION_EVALUATION.md`](../eval/TEMPORAL_GENERATION_EVALUATION.md)を参照する。
+
+残るQ186、Q191、Q286を最大9 logical calls、retry 0、US$0.015上限で実行した。Q186とQ286は
+総合成功し、Q191も回答内容は正しかったがVersion Resolverが`RESOLUTION_FAILED`となり、
+影響範囲は6/7で採用gate不合格だった。新規8 logical calls、input 9,033・output 972 tokens、
+推定US$0.00371625で、sealed holdoutは未使用である。
+
+このrunで、内部Resolver失敗が戻り値に理由を残さず、評価器のtop-level errorにも反映されない
+観測欠陥を発見した。Resolverの`error_summary`を戻り値へ追加し、`RESOLUTION_FAILED`をscenario
+errorとして扱う修正と対象testを追加した。実行済みartifactは上書きせず`run_audit.json`で
+有効完了6件へ訂正し、追加retryは行っていない。次の最小手順は、修正済み観測処理でQ191だけを
+独立runし、失敗理由と再現性を確認することである。production統合、130問回帰、merge、deployは
+未実施。詳細は
+[`TEMPORAL_GENERATION_EVALUATION.md`](../eval/TEMPORAL_GENERATION_EVALUATION.md)を参照する。

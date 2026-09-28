@@ -703,6 +703,7 @@ def test_version_resolver_provider_failure_keeps_baseline_result() -> None:
     assert result["answer_label"] == "判断要"
     assert result["version_resolution"]["status"] == "RESOLUTION_FAILED"
     assert result["version_resolution"]["fallback_used"] is True
+    assert result["version_resolution"]["error_summary"]
     classification_events = [
         event for event in logger.events if event[0] == "classification"
     ]

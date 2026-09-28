@@ -352,6 +352,7 @@ def answer_question(
                     "output_tokens": (
                         resolver_result.output_tokens if resolver_result else 0
                     ),
+                    "error_summary": str(exc)[:1000],
                 }
             event_logger.record_classification_attempt(
                 request_id,

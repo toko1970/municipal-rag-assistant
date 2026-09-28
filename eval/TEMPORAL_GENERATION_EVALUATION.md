@@ -68,3 +68,37 @@ runした結果、適用対象は7問だった。今回の4問以外に`Q186`、
 現時点のイベントaliasは`出生 → 扶養手当`だけである。未知の言い換えや新しい制度を自動的に
 理解する汎用分類器ではない。実務では文書取込時に制度topic、valid from/to、supersedesを明示的な
 メタデータとして管理し、この決定ロジックへ渡す設計が望ましい。
+
+## 6. 影響範囲回帰
+
+pilot 4件のdataset・cache・model・Top-k・内容基準のhashと条件を照合して再利用し、dry runで
+判明した残り3件だけを新規実行した。
+
+- 新規対象: `Q186`、`Q191`、`Q286`
+- 最大9 logical calls、retry 0、費用上限US$0.015
+- 実測8 logical calls、input 9,033、output 972 tokens
+- 新規実測費用: US$0.00371625
+- pilotの履歴費用との合計: US$0.008732
+- sealed holdout: 未使用
+
+| ID | 内容 | 分類・pipeline | 総合判定 |
+|---|---|---|---|
+| Q186 | 15,000円超を正答 | 根拠十分 | 成功 |
+| Q191 | 15,000円ちょうどは対象外と正答 | Resolver失敗後に判断要へfallback | 失敗 |
+| Q286 | 認定月から支給を正答 | Resolverがeffective periodで解決 | 成功 |
+
+影響範囲全体は6/7成功で、7/7を要求する採用gateは不合格だった。`Q191`は検索・版選択・回答生成
+には成功しており、残った失敗はClassifierが版競合を検出した後のVersion Resolverである。
+評価時点の戻り値にはResolverの失敗理由が含まれず、APIエラーか構造化出力エラーかは確定できない。
+
+実行時の評価器は、内部の`RESOLUTION_FAILED`をtop-level errorとして数えず、raw summaryの
+`completed_count`を7としていた。生artifactは改変せず、[`run_audit.json`](results/temporal_generation_scope_v2/run_audit.json)
+で有効完了を6件へ訂正した。以後はResolverの`error_summary`を戻り値へ残し、同statusをscenario
+errorとして扱う。今回のretryは行っていない。
+
+## 7. 現時点の判断
+
+生成前版注記は、追加3件すべてで正しい内容を生成したため、版選択対策として有望である。
+一方、公開flowへ統合するには採用gateを満たしていない。次の最小検証は、修正済み観測処理で
+`Q191`だけを独立runし、Resolver失敗の理由と再現性を確認することである。成功した場合でも、
+production統合前に対象7件の証拠と130問回帰の範囲を固定する。

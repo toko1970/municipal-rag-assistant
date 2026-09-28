@@ -1,4 +1,7 @@
-from eval.evaluate_temporal_generation_candidate import _content_ok
+from eval.evaluate_temporal_generation_candidate import (
+    _content_ok,
+    _version_resolution_error,
+)
 
 
 def test_q291_requires_new_rule_and_rejects_old_rule() -> None:
@@ -29,3 +32,24 @@ def test_q191_applies_the_boundary_and_negative_eligibility() -> None:
 def test_q286_requires_recognition_month_and_rejects_next_month() -> None:
     assert _content_ok("Q286", "認定された月から支給します。")
     assert not _content_ok("Q286", "認定事由発生日の翌月から支給します。")
+
+
+def test_version_resolver_failure_is_a_scenario_error() -> None:
+    assert _version_resolution_error(None) == ""
+    assert (
+        _version_resolution_error(
+            {"version_resolution": {"status": "RESOLUTION_FAILED"}}
+        )
+        == "VersionResolverError: structured result unavailable"
+    )
+    assert (
+        _version_resolution_error(
+            {
+                "version_resolution": {
+                    "status": "RESOLUTION_FAILED",
+                    "error_summary": "503 UNAVAILABLE",
+                }
+            }
+        )
+        == "VersionResolverError: 503 UNAVAILABLE"
+    )
