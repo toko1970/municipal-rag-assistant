@@ -82,23 +82,36 @@ def _content_ok(question_id: str, answer: str) -> bool:
     return all(re.search(pattern, answer) for pattern in CONTENT_RULES[question_id])
 
 
+def _selected_ids(requested_ids: list[str] | None) -> tuple[str, ...]:
+    if not requested_ids:
+        return SELECTED_IDS
+    requested = set(requested_ids)
+    if not requested <= set(SELECTED_IDS):
+        raise ValueError("影響範囲外のquestion_idが指定されました")
+    return tuple(
+        question_id for question_id in SELECTED_IDS if question_id in requested
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
     parser.add_argument("--query-cache", type=Path, default=DEFAULT_QUERY_CACHE)
     parser.add_argument("--subquery-cache", type=Path, default=DEFAULT_SUBQUERY_CACHE)
     parser.add_argument("--document-cache", type=Path, default=DEFAULT_DOCUMENT_CACHE)
+    parser.add_argument("--question-ids", nargs="+", choices=SELECTED_IDS)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--max-cost-usd", type=float, required=True)
     args = parser.parse_args()
     if args.output_dir.exists():
         raise FileExistsError(f"評価出力は上書きしません: {args.output_dir}")
-    if args.max_cost_usd < len(SELECTED_IDS) * RESERVE_USD_PER_SCENARIO:
-        raise ValueError("費用上限が5シナリオの予約額を下回っています")
+    selected_ids = _selected_ids(args.question_ids)
+    if args.max_cost_usd < len(selected_ids) * RESERVE_USD_PER_SCENARIO:
+        raise ValueError("費用上限が対象シナリオの予約額を下回っています")
 
     all_questions = load_questions(args.input, "formal")
     by_id = {row["question_id"]: row for row in all_questions}
-    questions = [by_id[question_id] for question_id in SELECTED_IDS]
+    questions = [by_id[question_id] for question_id in selected_ids]
     original_vectors = load_baseline_query_vectors(args.query_cache, all_questions)
     subqueries = list(
         dict.fromkeys(
@@ -139,7 +152,7 @@ def main() -> int:
         "query_cache_sha256": _sha256(args.query_cache),
         "subquery_cache_sha256": _sha256(args.subquery_cache),
         "document_cache_sha256": _sha256(args.document_cache),
-        "selected_ids": list(SELECTED_IDS),
+        "selected_ids": list(selected_ids),
         "target_ids": list(TARGET_IDS),
         "control_ids": list(CONTROL_IDS),
         "content_rules": CONTENT_RULES,
@@ -147,7 +160,7 @@ def main() -> int:
         "classifier_model": CLASSIFIER_MODEL_NAME,
         "top_k": TOP_K,
         "generation_prompt_version": TEMPORAL_GENERATION_PROMPT_VERSION,
-        "max_logical_external_calls": len(SELECTED_IDS) * MAX_CALLS_PER_SCENARIO,
+        "max_logical_external_calls": len(selected_ids) * MAX_CALLS_PER_SCENARIO,
         "retry_count": 0,
         "max_cost_usd": args.max_cost_usd,
         "sealed_holdout_accessed": False,
@@ -255,7 +268,7 @@ def main() -> int:
             stop_reason = "PROVIDER_ERROR_FAIL_FAST"
             break
 
-    if logical_calls > len(SELECTED_IDS) * MAX_CALLS_PER_SCENARIO:
+    if logical_calls > len(selected_ids) * MAX_CALLS_PER_SCENARIO:
         raise RuntimeError("logical external call上限を超えました")
     completed = [record for record in records if record["error"] is None]
     improvement_count = sum(
@@ -268,16 +281,18 @@ def main() -> int:
         for record in completed
         if record["question_id"] in CONTROL_IDS and not record["composite_ok"]
     ]
+    selected_target_ids = set(selected_ids).intersection(TARGET_IDS)
+    required_improvements = len(selected_target_ids) if args.question_ids else 2
     summary = {
-        "scenario_count": len(SELECTED_IDS),
+        "scenario_count": len(selected_ids),
         "completed_count": len(completed),
         "target_improvement_count": improvement_count,
-        "target_count": len(TARGET_IDS),
+        "target_count": len(selected_target_ids),
         "control_regression_ids": control_regressions,
         "gate_passed": (
             stop_reason == "COMPLETED"
-            and len(completed) == len(SELECTED_IDS)
-            and improvement_count >= 2
+            and len(completed) == len(selected_ids)
+            and improvement_count >= required_improvements
             and not control_regressions
         ),
         "logical_external_calls": logical_calls,

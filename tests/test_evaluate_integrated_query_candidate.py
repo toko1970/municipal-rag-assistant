@@ -1,4 +1,4 @@
-from eval.evaluate_integrated_query_candidate import _content_ok
+from eval.evaluate_integrated_query_candidate import _content_ok, _selected_ids
 
 
 def test_content_rules_cover_targets_and_controls() -> None:
@@ -15,3 +15,11 @@ def test_content_rules_cover_targets_and_controls() -> None:
 def test_content_rules_reject_partial_answers() -> None:
     assert not _content_ok("Q131", "1.5km以上なら対象です。")
     assert not _content_ok("Q446", "本人名義なら住居届を提出します。")
+
+
+def test_selects_only_unfinished_questions_in_stable_order() -> None:
+    assert _selected_ids(["Q446", "Q436", "Q441"]) == (
+        "Q436",
+        "Q441",
+        "Q446",
+    )
