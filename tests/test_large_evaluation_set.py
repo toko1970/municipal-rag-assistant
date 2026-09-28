@@ -6,7 +6,7 @@ import unittest
 
 from eval.create_scenario_review_sheet import create_review_rows
 from eval.freeze_large_evaluation_set import freeze_evaluation_set
-from eval.generate_large_evaluation_set import generate_records
+from eval.generate_large_evaluation_set import VARIANT_TYPES, generate_records
 from eval.validate_large_evaluation_set import validate_rows
 
 
@@ -41,13 +41,30 @@ class LargeEvaluationSetTest(unittest.TestCase):
         self.assertTrue(all(not row["expected_document_ids"] for row in unanswerable))
         self.assertTrue(all(not row["expected_evidence"] for row in unanswerable))
 
+    def test_question_scope_corrections_apply_to_every_variant(self):
+        records = generate_records()
+
+        corrected = [
+            row
+            for row in records
+            if row["scenario_id"] in {"S010", "S018", "S064"}
+        ]
+
+        self.assertEqual(len(corrected), 15)
+        self.assertEqual(
+            {row["variant_type"] for row in corrected}, set(VARIANT_TYPES)
+        )
+        self.assertEqual(
+            {row["expected_answer_type"] for row in corrected}, {"根拠十分"}
+        )
+
     def test_review_sheet_has_one_row_per_scenario(self):
         rows = create_review_rows()
 
         self.assertEqual(len(rows), 100)
         self.assertEqual(len({row["scenario_id"] for row in rows}), 100)
         self.assertEqual(
-            sum(row["review_priority"] == "重点確認" for row in rows), 9
+            sum(row["review_priority"] == "重点確認" for row in rows), 10
         )
 
     def test_freezes_only_fully_approved_review_set(self):

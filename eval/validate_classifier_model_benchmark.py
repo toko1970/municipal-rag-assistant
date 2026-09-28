@@ -86,8 +86,8 @@ def validate_benchmark(dataset: dict[str, Any], schema: dict[str, Any]) -> None:
     statuses = Counter(case["annotation_status"] for case in cases)
     if dataset["review_status"] == "approved" and statuses != {"approved": len(cases)}:
         raise ValueError("approved benchmarkには未承認annotationを残せません")
-    if dataset["review_status"] == "draft" and not statuses["requires_adjudication"]:
-        raise ValueError("draft benchmarkには要確認caseが必要です")
+    if dataset["review_status"] == "draft" and statuses["approved"] == len(cases):
+        raise ValueError("全annotationが承認済みならreview_statusもapprovedにします")
 
     if expected_counts["文書不足"] < 6:
         raise ValueError("文書不足caseは6件以上必要です")

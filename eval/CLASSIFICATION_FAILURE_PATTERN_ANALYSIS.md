@@ -1,5 +1,7 @@
 # 回答分類失敗15件の要因分析
 
+> **Gold訂正後の扱い:** この文書は評価セットv1.0を使った当時の分析記録として保持する。その後、分類を「質問が直接求める命題」で行う規約を明文化し、Q046、Q086、Q316を`判断要`から`根拠十分`へ訂正した。3件はモデル改善として数えない。Version Resolver適用済み出力にv1.1 goldを当てた現在値は、総合成功115/130、分類失敗6、回答生成6、検索3、分類ラベル正解119/130である。詳細は[`CLASSIFIER_GOLD_CORRECTION.md`](CLASSIFIER_GOLD_CORRECTION.md)を参照する。
+
 ## 目的
 
 Retrieved-evidence回帰でproductionの`classification-decision-v1`に残った分類失敗15件を、同じ対策で改善できる要因へ分ける。ここでは実装や追加API呼び出しを行わず、保存済みの質問、取得根拠、生成claims、`missing_conditions`、分類5要因を確認した。

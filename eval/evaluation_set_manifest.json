@@ -1,11 +1,11 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "split": "development",
-  "approved_on": "2026-09-23",
+  "approved_on": "2026-09-28",
   "approved_scenarios": 100,
   "questions": 500,
   "evaluation_file": "eval/evaluation_questions_500.csv",
-  "sha256": "1208bdb86358fd5f61c8cf4e86ace3cd03ea5e958cbdc2c838c25e4065d98601",
+  "sha256": "38ab8c8402ebe0bf9897c0af889cfc0d0cf4e01a017b3e53aec1cfe6ade801d7",
   "row_schema": {
     "path": "design/schemas/text-evaluation-row-v1.schema.json",
     "sha256": "3d7d8228736bb6e3a99b2273c99c9aa95c34412816f1d0804bad73844917f924"

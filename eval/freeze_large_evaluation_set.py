@@ -12,7 +12,7 @@ from eval.generate_large_evaluation_set import OUTPUT_FILE, generate_records, sa
 REVIEW_FILE = Path("eval/evaluation_scenario_review.csv")
 MANIFEST_FILE = Path("eval/evaluation_set_manifest.json")
 ROW_SCHEMA_FILE = Path("design/schemas/text-evaluation-row-v1.schema.json")
-VERSION = "1.0"
+VERSION = "1.1"
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 DEVELOPMENT_DOCUMENTS = (
     ("DOC-001", "salary_rules", Path("docs/01_salary_rules.md")),
@@ -32,7 +32,7 @@ def existing_approval_date(path: Path) -> str:
         try:
             value = json.loads(path.read_text(encoding="utf-8"))
             approved_on = value.get("approved_on")
-            if isinstance(approved_on, str) and approved_on:
+            if value.get("version") == VERSION and isinstance(approved_on, str) and approved_on:
                 return approved_on
         except (json.JSONDecodeError, OSError):
             pass

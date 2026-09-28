@@ -11,14 +11,14 @@ Gemini、Jev、多言語NLIを、同じ質問・取得根拠・生成回答で�
 | 項目 | 件数 |
 |---|---:|
 | 合計 | 34 |
-| 根拠十分 | 14 |
-| 判断要 | 14 |
+| 根拠十分 | 17 |
+| 判断要 | 11 |
 | 文書不足 | 6 |
 | Text | 26 |
 | Visual | 8 |
 | factor control | 21 |
-| observed failure | 7 |
-| hard negative | 6 |
+| observed failure | 4 |
+| hard negative | 9 |
 
 factorのtrue件数は次のとおりである。
 
@@ -26,8 +26,8 @@ factorのtrue件数は次のとおりである。
 |---|---:|---:|
 | `retrieval_sufficient` | 28 | 6 |
 | `answer_fully_supported` | 30 | 4 |
-| `requires_case_facts` | 7 | 27 |
-| `requires_policy_judgment` | 4 | 30 |
+| `requires_case_facts` | 6 | 28 |
+| `requires_policy_judgment` | 3 | 31 |
 | `version_conflict` | 3 | 31 |
 
 少数factorのF1は1件の影響が大きい。順位だけで優劣を断定せず、個別結果と件数を併記する。
@@ -52,18 +52,18 @@ case facts / policy judgment / version conflictが一つでもtrue -> 判断要
 それ以外                                                   -> 根拠十分
 ```
 
-## 4. 要確認の4ケース
+## 4. 回答範囲のadjudication結果
 
-benchmarkは現在`draft`であり、次の4ケースをモデル比較前に確定する必要がある。
+モデル比較前に、質問が直接求める命題で分類する規約をユーザーと確認し、次の4ケースを確定した。
 
-| Case | 現在の案 | 確認する境界 |
+| Case | 確定したfactor / label | 理由 |
 |---|---|---|
-| `CPD-T05` | `requires_case_facts=true` | 職員事情の不足として扱うか、裁量判断もtrueとするか |
-| `REG-Q046` | `requires_policy_judgment=true` | 「確認先はどこか」への回答だけで根拠十分とするか、控除額の正否が未解決として判断要とするか |
-| `REG-Q086` | `requires_case_facts=true` | 「必ず一括か」への一般回答だけで根拠十分とするか、返納方法を決める職員事情が不足すると扱うか |
-| `REG-Q316` | `requires_policy_judgment=true` | 「期限後も受付可能か」への回答だけで根拠十分とするか、その後の認定・支給時期まで判断要とするか |
+| `CPD-T05` | case facts=true、policy=true、判断要 | 職員事情が不足し、事情を踏まえた決定にも所管判断が残る |
+| `REG-Q046` | 全判断要因=false、根拠十分 | 確認先は文書から一意に答えられる |
+| `REG-Q086` | 全判断要因=false、根拠十分 | 必ず一括ではないことを文書から答えられる |
+| `REG-Q316` | 全判断要因=false、根拠十分 | 期限後の受付可否は文書から答えられる |
 
-`REG-Q046`、`REG-Q086`、`REG-Q316`は既存の最終ラベルでは`判断要`としてユーザー確認済みだが、5 factorのどれに対応させるかと、質問の回答範囲を明文化するために再確認する。
+Q046、Q086、Q316を含む3シナリオ15表現は、500問評価セットv1.1で`根拠十分`へ訂正した。これはモデルの改善件数に含めない。benchmarkは残る30件のfactor annotationを一括レビューするまで`draft`を維持する。
 
 ## 5. 評価段階
 
@@ -82,9 +82,9 @@ Stage Aで現行Geminiを上回る可能性がある候補だけを適用する�
 ## 6. 採用gate
 
 - Stage Aで重大誤分類を現行Geminiより増やさない。
-- Stage Bで現在の分類正解116/130を1件以上改善する。
+- Stage Bでgold訂正後の分類正解119/130を1件以上改善する。
 - 現在正しい`判断要`・`文書不足`から`根拠十分`への退行は0件。
-- 総合回答成功112/130を1件以上改善する。
+- gold訂正後の総合回答成功115/130を1件以上改善する。
 - 同率なら、費用・遅延・失敗率を明確に改善しない限り現行Geminiを維持する。
 
 ## 7. 再生成と検証

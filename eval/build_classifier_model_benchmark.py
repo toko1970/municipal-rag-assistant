@@ -54,7 +54,7 @@ BASE_ANNOTATIONS: dict[str, tuple[dict[str, bool], str, str]] = {
     "CPD-T02": (factors(True, True), "proposed", "支給日が根拠に明記されている。"),
     "CPD-T03": (factors(True, True), "proposed", "本人名義という明示条件をそのまま適用できる。"),
     "CPD-T04": (factors(True, True, case_facts=True), "proposed", "結論を変える実通勤距離が質問にない。"),
-    "CPD-T05": (factors(True, True, case_facts=True), "requires_adjudication", "職員事情の不足と裁量判断の境界を確認する。"),
+    "CPD-T05": (factors(True, True, case_facts=True, policy=True), "approved", "職員事情が不足し、事情を踏まえた決定にも所管判断が残る。"),
     "CPD-T06": (factors(False, False), "proposed", "取得根拠が質問と無関係で、回答claimもない。"),
     "CPD-V01": (factors(True, True), "proposed", "90分以上という表の境界を直接適用できる。"),
     "CPD-V02": (factors(True, True), "proposed", "flow上の状態と次工程がすべて質問にある。"),
@@ -68,9 +68,9 @@ BASE_ANNOTATIONS: dict[str, tuple[dict[str, bool], str, str]] = {
 
 TEXT_ANNOTATIONS: dict[str, tuple[dict[str, bool], str, str, str]] = {
     "Q006": (factors(False, True), "proposed", "observed_failure", "給料日を定める別規程は未取得だが、別規程が必要というclaim自体は支持される。"),
-    "Q046": (factors(True, True, policy=True), "requires_adjudication", "observed_failure", "確認先の回答で完結するか、控除額の正否までを要求範囲とするか確認する。"),
+    "Q046": (factors(True, True), "approved", "hard_negative", "質問が求める確認先は取得根拠から一意に答えられる。"),
     "Q076": (factors(False, True), "proposed", "observed_failure", "停止割合を定める個別規程は未取得だが、個別規程が必要というclaim自体は支持される。"),
-    "Q086": (factors(True, True, case_facts=True), "requires_adjudication", "observed_failure", "一般的な返納方法の説明で完結するか、職員事情の確定まで必要か確認する。"),
+    "Q086": (factors(True, True), "approved", "hard_negative", "質問は一括返納が必須かを聞いており、必須ではないと答えられる。"),
     "Q121": (factors(True, True), "proposed", "hard_negative", "基準日と施行日から適用版と境界値を解決できる。"),
     "Q126": (factors(True, True), "proposed", "observed_failure", "日付、距離、通勤手段が質問内にあり結論が一意に決まる。"),
     "Q176": (factors(True, True, version=True), "proposed", "factor_control", "基準日がなく、取得された距離基準が競合する。"),
@@ -80,7 +80,7 @@ TEXT_ANNOTATIONS: dict[str, tuple[dict[str, bool], str, str, str]] = {
     "Q281": (factors(True, True), "proposed", "hard_negative", "発生日から改正前ルールを一意に適用できる。"),
     "Q286": (factors(True, True), "proposed", "hard_negative", "発生日から改正後ルールを一意に適用できる。"),
     "Q301": (factors(True, True, case_facts=True), "proposed", "observed_failure", "扶養実態と生計維持関係がなければ認定を確定できない。"),
-    "Q316": (factors(True, True, policy=True), "requires_adjudication", "observed_failure", "受付可否の回答で完結するか、その後の個別取扱いまで要求範囲とするか確認する。"),
+    "Q316": (factors(True, True), "approved", "hard_negative", "質問が求める期限後の受付可否は取得根拠から答えられる。"),
     "Q451": (factors(False, False), "proposed", "factor_control", "退職手当の計算式を示す根拠がない。"),
     "Q456": (factors(False, False), "proposed", "factor_control", "育児休業中の支給割合を示す根拠がない。"),
 }
@@ -252,7 +252,11 @@ def regression_cases() -> list[dict[str, Any]]:
                     "claims": normalize_claims(row["claims"]),
                     "missing_conditions": row["missing_conditions"],
                 },
-                "expected_label": row["expected_label"],
+                "expected_label": (
+                    "根拠十分"
+                    if question_id in {"Q046", "Q086", "Q316"}
+                    else row["expected_label"]
+                ),
                 "expected_factors": expected,
                 "annotation_status": status,
                 "annotation_rationale": rationale,

@@ -168,8 +168,8 @@
       }
     },
     {
-      "annotation_rationale": "職員事情の不足と裁量判断の境界を確認する。",
-      "annotation_status": "requires_adjudication",
+      "annotation_rationale": "職員事情が不足し、事情を踏まえた決定にも所管判断が残る。",
+      "annotation_status": "approved",
       "case_id": "CPD-T05",
       "evidence": [
         {
@@ -180,7 +180,7 @@
       "expected_factors": {
         "answer_fully_supported": true,
         "requires_case_facts": true,
-        "requires_policy_judgment": false,
+        "requires_policy_judgment": true,
         "retrieval_sufficient": true,
         "version_conflict": false
       },
@@ -803,8 +803,8 @@
       }
     },
     {
-      "annotation_rationale": "確認先の回答で完結するか、控除額の正否までを要求範囲とするか確認する。",
-      "annotation_status": "requires_adjudication",
+      "annotation_rationale": "質問が求める確認先は取得根拠から一意に答えられる。",
+      "annotation_status": "approved",
       "case_id": "REG-Q046",
       "evidence": [
         {
@@ -843,11 +843,11 @@
       "expected_factors": {
         "answer_fully_supported": true,
         "requires_case_facts": false,
-        "requires_policy_judgment": true,
+        "requires_policy_judgment": false,
         "retrieval_sufficient": true,
         "version_conflict": false
       },
-      "expected_label": "判断要",
+      "expected_label": "根拠十分",
       "generated_answer": {
         "claims": [
           {
@@ -865,7 +865,7 @@
       },
       "modality": "text",
       "question": "控除額が正しいか判断できない場合はどこへ確認しますか？",
-      "role": "observed_failure",
+      "role": "hard_negative",
       "source": {
         "kind": "retrieved_regression",
         "source_id": "Q046"
@@ -952,8 +952,8 @@
       }
     },
     {
-      "annotation_rationale": "一般的な返納方法の説明で完結するか、職員事情の確定まで必要か確認する。",
-      "annotation_status": "requires_adjudication",
+      "annotation_rationale": "質問は一括返納が必須かを聞いており、必須ではないと答えられる。",
+      "annotation_status": "approved",
       "case_id": "REG-Q086",
       "evidence": [
         {
@@ -991,12 +991,12 @@
       ],
       "expected_factors": {
         "answer_fully_supported": true,
-        "requires_case_facts": true,
+        "requires_case_facts": false,
         "requires_policy_judgment": false,
         "retrieval_sufficient": true,
         "version_conflict": false
       },
-      "expected_label": "判断要",
+      "expected_label": "根拠十分",
       "generated_answer": {
         "claims": [
           {
@@ -1023,7 +1023,7 @@
       },
       "modality": "text",
       "question": "過払給与を必ず一括返納させる必要がありますか？",
-      "role": "observed_failure",
+      "role": "hard_negative",
       "source": {
         "kind": "retrieved_regression",
         "source_id": "Q086"
@@ -1781,8 +1781,8 @@
       }
     },
     {
-      "annotation_rationale": "受付可否の回答で完結するか、その後の個別取扱いまで要求範囲とするか確認する。",
-      "annotation_status": "requires_adjudication",
+      "annotation_rationale": "質問が求める期限後の受付可否は取得根拠から答えられる。",
+      "annotation_status": "approved",
       "case_id": "REG-Q316",
       "evidence": [
         {
@@ -1821,11 +1821,11 @@
       "expected_factors": {
         "answer_fully_supported": true,
         "requires_case_facts": false,
-        "requires_policy_judgment": true,
+        "requires_policy_judgment": false,
         "retrieval_sufficient": true,
         "version_conflict": false
       },
-      "expected_label": "判断要",
+      "expected_label": "根拠十分",
       "generated_answer": {
         "claims": [
           {
@@ -1853,7 +1853,7 @@
       },
       "modality": "text",
       "question": "扶養親族変更届が期限を過ぎた場合も受け付けられますか？",
-      "role": "observed_failure",
+      "role": "hard_negative",
       "source": {
         "kind": "retrieved_regression",
         "source_id": "Q316"
@@ -1984,14 +1984,14 @@
   ],
   "dataset_version": "classifier-model-benchmark-v1",
   "expected_counts": {
-    "判断要": 14,
+    "判断要": 11,
     "文書不足": 6,
-    "根拠十分": 14
+    "根拠十分": 17
   },
   "factor_true_counts": {
     "answer_fully_supported": 30,
-    "requires_case_facts": 7,
-    "requires_policy_judgment": 4,
+    "requires_case_facts": 6,
+    "requires_policy_judgment": 3,
     "retrieval_sufficient": 28,
     "version_conflict": 3
   },
