@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "holdout_id": "visual-sealed-holdout-v2",
-  "state": "SEALED",
+  "state": "CANDIDATE_FROZEN",
   "paths_relative_to": "repository_root",
   "manifest_schema": {
     "path": "design/schemas/visual-holdout-public-manifest-v2.schema.json",
@@ -47,7 +47,11 @@
     "scenario_sha256": "1d96c79df146717f1aa2b07d337cf838d2827b308af904a0e52b31ecdf959a6e",
     "scenario_count": 10
   },
-  "candidate": null,
+  "candidate": {
+    "git_commit": "b943cfbbe8d32ea6dbde9877884cdcc836d8c428",
+    "config_manifest_sha256": "7be3edc7221bf82f0b3d942e04329c496ebc00e166cefef4b6c1bfccc1cf550f",
+    "frozen_at": "2026-09-28T13:09:25+09:00"
+  },
   "predictions": null,
   "opening": null,
   "results": null
