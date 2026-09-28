@@ -10,9 +10,11 @@ from typing import Any
 from jsonschema import Draft202012Validator
 
 from eval.validate_visual_fixture import checked_path, load_json, verify_hash
+from src.visual_ingestion import load_visual_schema
+from src.visual_validation import validate_gold
 
 
-EXPECTED_COUNTS = {
+LEGACY_EXPECTED_COUNTS = {
     "visual_type_counts": {
         "process_flow": 4,
         "decision_flow": 4,
@@ -63,26 +65,35 @@ def validate_blueprint(blueprint: dict[str, Any]) -> None:
         raise ValueError("blueprint splitはsealed_holdoutである必要があります")
     scenario_count = blueprint.get("scenario_count")
     scenario_ids = blueprint.get("scenario_ids")
-    if scenario_count != 20 or not isinstance(scenario_ids, list) or len(scenario_ids) != 20:
-        raise ValueError("blueprintには20件のscenarioが必要です")
+    if not isinstance(scenario_count, int) or scenario_count < 1:
+        raise ValueError("blueprintのscenario_countは1以上の整数が必要です")
+    if not isinstance(scenario_ids, list) or len(scenario_ids) != scenario_count:
+        raise ValueError("blueprintのscenario ID件数がscenario_countと一致しません")
     if len(scenario_ids) != len(set(scenario_ids)):
         raise ValueError("scenario IDが重複しています")
-    if scenario_ids != [f"VH{index:03d}" for index in range(1, 21)]:
-        raise ValueError("scenario IDはVH001からVH020までの順序で固定します")
-    for field, expected in EXPECTED_COUNTS.items():
+    for field in (
+        "visual_type_counts",
+        "expected_classification_counts",
+        "difficulty_counts",
+    ):
         actual = blueprint.get(field)
-        if actual != expected:
-            raise ValueError(f"{field}が事前定義した構成と一致しません")
+        if not isinstance(actual, dict) or not actual:
+            raise ValueError(f"{field}には事前定義した件数が必要です")
+        if any(not isinstance(value, int) or value < 0 for value in actual.values()):
+            raise ValueError(f"{field}の件数は0以上の整数である必要があります")
         if sum(actual.values()) != scenario_count:
             raise ValueError(f"{field}の合計がscenario_countと一致しません")
     policy = blueprint.get("document_family_policy", {})
     if policy.get("development_overlap_allowed") is not False:
         raise ValueError("developmentとのdocument family重複は禁止です")
-    if policy.get("minimum_distinct_families") != 6:
-        raise ValueError("holdoutには最低6つのdocument familyが必要です")
+    minimum_families = policy.get("minimum_distinct_families")
+    if not isinstance(minimum_families, int) or minimum_families < 1:
+        raise ValueError("minimum_distinct_familiesは1以上の整数が必要です")
 
 
-def validate_state_requirements(manifest: dict[str, Any]) -> None:
+def validate_state_requirements(
+    manifest: dict[str, Any], blueprint: dict[str, Any] | None = None
+) -> None:
     stage = STATE_ORDER[manifest["state"]]
     requirements = {
         1: ("questions", "gold"),
@@ -101,15 +112,42 @@ def validate_state_requirements(manifest: dict[str, Any]) -> None:
     if stage == 0 and manifest["documents"]:
         raise ValueError("PLANNEDではdocumentsをまだ設定できません")
     if stage >= 1:
+        blueprint = blueprint or {
+            **LEGACY_EXPECTED_COUNTS,
+            "scenario_count": 20,
+            "document_family_policy": {"minimum_distinct_families": 6},
+        }
+        scenario_count = blueprint["scenario_count"]
+        if manifest["questions"]["count"] != scenario_count:
+            raise ValueError("questions件数がblueprintと一致しません")
+        if manifest["gold"]["scenario_count"] != scenario_count:
+            raise ValueError("gold件数がblueprintと一致しません")
         families = [document["document_family"] for document in manifest["documents"]]
         document_ids = [document["document_id"] for document in manifest["documents"]]
         if len(document_ids) != len(set(document_ids)):
             raise ValueError("document IDが重複しています")
-        if len(set(families)) < 6:
-            raise ValueError("sealed holdoutには6つ以上のdocument familyが必要です")
+        minimum_families = blueprint["document_family_policy"][
+            "minimum_distinct_families"
+        ]
+        if len(set(families)) < minimum_families:
+            raise ValueError(
+                f"sealed holdoutには{minimum_families}つ以上のdocument familyが必要です"
+            )
         kind_counts = Counter(document["kind"] for document in manifest["documents"])
-        if any(kind_counts[kind] == 0 for kind in EXPECTED_COUNTS["visual_type_counts"]):
-            raise ValueError("sealed documentsには6種類すべての図表が必要です")
+        required_kinds = {
+            kind for kind, count in blueprint["visual_type_counts"].items() if count > 0
+        }
+        if any(kind_counts[kind] == 0 for kind in required_kinds):
+            raise ValueError(
+                "sealed documentsにblueprint対象の図表種類が不足しています"
+            )
+
+
+def candidate_config_path(manifest: dict[str, Any], repository_root: Path) -> Path:
+    """Resolve the candidate config next to the holdout blueprint."""
+
+    holdout_dir = Path(manifest["blueprint"]["path"]).parent
+    return checked_path(repository_root, str(holdout_dir / "candidate_config.json"))
 
 
 def validate_development_family_separation(
@@ -141,7 +179,7 @@ def validate_candidate_artifact(
     if STATE_ORDER[manifest["state"]] < STATE_ORDER["CANDIDATE_FROZEN"]:
         return
     candidate = manifest["candidate"]
-    config_path = checked_path(repository_root, CANDIDATE_CONFIG_PATH)
+    config_path = candidate_config_path(manifest, repository_root)
     verify_hash(
         config_path,
         candidate["config_manifest_sha256"],
@@ -165,7 +203,9 @@ def validate_candidate_artifact(
         raise ValueError("prediction runnerからgoldを参照できない設定が必要です")
     for evidence in config.get("development_evidence", []):
         path = checked_path(repository_root, evidence["path"])
-        verify_hash(path, evidence["sha256"], f"development_evidence:{evidence['path']}")
+        verify_hash(
+            path, evidence["sha256"], f"development_evidence:{evidence['path']}"
+        )
 
 
 def validate_prediction_artifact(
@@ -187,9 +227,7 @@ def validate_prediction_artifact(
         raise ValueError("prediction固定前にgoldへアクセスしてはいけません")
 
 
-def validate_result_artifact(
-    manifest: dict[str, Any], repository_root: Path
-) -> None:
+def validate_result_artifact(manifest: dict[str, Any], repository_root: Path) -> None:
     if STATE_ORDER[manifest["state"]] < STATE_ORDER["CONSUMED"]:
         return
     results = manifest["results"]
@@ -202,7 +240,12 @@ def validate_result_artifact(
         raise ValueError("consumed holdoutを未見評価として再利用できません")
 
 
-def validate_sealed_artifacts(manifest: dict[str, Any], sealed_root: Path) -> None:
+def validate_sealed_artifacts(
+    manifest: dict[str, Any],
+    sealed_root: Path,
+    repository_root: Path,
+    blueprint: dict[str, Any],
+) -> None:
     if STATE_ORDER[manifest["state"]] < STATE_ORDER["SEALED"]:
         raise ValueError("PLANNEDではsealed artifactの照合を実行できません")
     for document in manifest["documents"]:
@@ -219,6 +262,57 @@ def validate_sealed_artifacts(manifest: dict[str, Any], sealed_root: Path) -> No
         if not path.is_file():
             raise ValueError(f"sealed goldが存在しません: {path}")
         verify_hash(path, gold[field], field)
+    extraction_gold = load_json(gold_files["extraction_sha256"])
+    visual_schema = load_visual_schema()
+    document_ids = {document["document_id"] for document in manifest["documents"]}
+    extraction_ids = set()
+    for item in extraction_gold.get("documents", []):
+        extraction_ids.add(item["document_id"])
+        validate_gold(item["annotation"], visual_schema)
+    if extraction_ids != document_ids:
+        raise ValueError("extraction goldのdocument IDがpublic manifestと一致しません")
+
+    scenario_gold = load_json(gold_files["scenario_sha256"])
+    if manifest["schema_version"] == "2.0":
+        scenario_schema = load_json(
+            repository_root
+            / "design/schemas/visual-holdout-scenario-gold-v2.schema.json"
+        )
+        validate_schema(scenario_gold, scenario_schema)
+    scenarios = scenario_gold.get("scenarios", [])
+    if scenario_gold.get("scenario_count") != blueprint["scenario_count"]:
+        raise ValueError("scenario gold件数がblueprintと一致しません")
+    if [item.get("scenario_id") for item in scenarios] != blueprint["scenario_ids"]:
+        raise ValueError("scenario goldのIDまたは順序がblueprintと一致しません")
+    for field, scenario_field in (
+        ("visual_type_counts", "visual_type"),
+        ("expected_classification_counts", "expected_classification"),
+        ("difficulty_counts", "difficulty"),
+    ):
+        if Counter(item[scenario_field] for item in scenarios) != Counter(
+            blueprint[field]
+        ):
+            raise ValueError(
+                f"scenario goldの{scenario_field}件数がblueprintと一致しません"
+            )
+    for scenario in scenarios:
+        required_documents = set(scenario.get("required_document_ids", []))
+        if not required_documents.issubset(document_ids):
+            raise ValueError("scenario goldが未知のdocument IDを参照しています")
+        classification = scenario["expected_classification"]
+        answerable = scenario.get("expected_corpus_answerability")
+        evidence = scenario.get("required_evidence", [])
+        missing = scenario.get("missing_conditions", [])
+        if classification == "grounded" and (not answerable or not evidence or missing):
+            raise ValueError("grounded goldのanswerability/evidence条件が不正です")
+        if classification == "needs_judgment" and (
+            not answerable or not evidence or not missing
+        ):
+            raise ValueError("needs_judgment goldの条件が不正です")
+        if classification == "insufficient_documents" and (
+            answerable or required_documents or evidence
+        ):
+            raise ValueError("insufficient_documents goldの条件が不正です")
 
 
 def validate_public_manifest(
@@ -236,25 +330,36 @@ def validate_public_manifest(
     validate_schema(manifest, schema)
     blueprint_path = checked_path(repository_root, manifest["blueprint"]["path"])
     verify_hash(blueprint_path, manifest["blueprint"]["sha256"], "blueprint")
-    validate_blueprint(load_json(blueprint_path))
+    blueprint = load_json(blueprint_path)
+    validate_blueprint(blueprint)
     questions = manifest["questions"]
     if questions is not None:
         questions_path = checked_path(repository_root, questions["path"])
         verify_hash(questions_path, questions["sha256"], "questions")
-    validate_state_requirements(manifest)
+        question_set = load_json(questions_path)
+        if question_set.get("scenario_count") != blueprint["scenario_count"]:
+            raise ValueError("公開質問のscenario_countがblueprintと一致しません")
+        question_ids = [
+            item.get("scenario_id") for item in question_set.get("scenarios", [])
+        ]
+        if question_ids != blueprint["scenario_ids"]:
+            raise ValueError("公開質問のscenario IDまたは順序がblueprintと一致しません")
+    validate_state_requirements(manifest, blueprint)
     validate_development_family_separation(manifest, repository_root)
     validate_candidate_artifact(manifest, repository_root)
     validate_prediction_artifact(manifest, repository_root)
     validate_result_artifact(manifest, repository_root)
     if sealed_root is not None:
-        validate_sealed_artifacts(manifest, sealed_root)
+        validate_sealed_artifacts(manifest, sealed_root, repository_root, blueprint)
     return manifest
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("manifest", type=Path)
-    parser.add_argument("--repository-root", type=Path, default=Path(__file__).resolve().parents[1])
+    parser.add_argument(
+        "--repository-root", type=Path, default=Path(__file__).resolve().parents[1]
+    )
     parser.add_argument("--sealed-root", type=Path)
     args = parser.parse_args()
     manifest = validate_public_manifest(

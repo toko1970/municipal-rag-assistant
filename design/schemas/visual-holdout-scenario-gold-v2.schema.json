@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/visual-holdout-scenario-gold-v2.schema.json",
+  "title": "Visual sealed holdout scenario gold v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "holdout_id", "scenario_count", "scenarios"],
+  "properties": {
+    "schema_version": {"const": "2.0"},
+    "holdout_id": {"type": "string", "minLength": 1},
+    "scenario_count": {"type": "integer", "minimum": 1},
+    "scenarios": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "scenario_id",
+          "visual_type",
+          "difficulty",
+          "expected_classification",
+          "expected_corpus_answerability",
+          "expected_answer_key_terms",
+          "required_document_ids",
+          "required_evidence",
+          "missing_conditions"
+        ],
+        "properties": {
+          "scenario_id": {"type": "string", "pattern": "^VH2-[0-9]{3}$"},
+          "visual_type": {
+            "enum": ["process_flow", "decision_flow", "table", "form"]
+          },
+          "difficulty": {
+            "enum": ["direct", "multi_element", "boundary_or_revision", "paraphrase_or_typo"]
+          },
+          "expected_classification": {
+            "enum": ["grounded", "needs_judgment", "insufficient_documents"]
+          },
+          "expected_corpus_answerability": {"type": "boolean"},
+          "expected_answer_key_terms": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "required_document_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "required_evidence": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["document_id", "element_ref"],
+              "properties": {
+                "document_id": {"type": "string", "minLength": 1},
+                "element_ref": {
+                  "type": "string",
+                  "pattern": "^(node:[^:]+|edge:[^:]+->[^:]+|cell:r[0-9]+c[0-9]+|field:[^:]+)$"
+                }
+              }
+            }
+          },
+          "missing_conditions": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    }
+  }
+}

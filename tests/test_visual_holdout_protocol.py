@@ -17,6 +17,7 @@ from eval.validate_visual_holdout_protocol import (
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 BLUEPRINT_PATH = REPOSITORY_ROOT / "eval/visual_holdout/scenario_blueprint.json"
 MANIFEST_PATH = REPOSITORY_ROOT / "eval/visual_holdout/public_manifest.json"
+V2_MANIFEST_PATH = REPOSITORY_ROOT / "eval/visual_holdout_v2/public_manifest.json"
 
 
 class VisualHoldoutProtocolTest(unittest.TestCase):
@@ -92,13 +93,23 @@ class VisualHoldoutProtocolTest(unittest.TestCase):
             "frozen_at": "2026-09-26T00:00:00+09:00",
         }
 
-        with self.assertRaisesRegex(ValueError, "PLANNEDではcandidateをまだ設定できません"):
+        with self.assertRaisesRegex(
+            ValueError, "PLANNEDではcandidateをまだ設定できません"
+        ):
             validate_state_requirements(manifest)
 
     def test_sealed_directory_is_ignored_by_git(self):
         gitignore = (REPOSITORY_ROOT / ".gitignore").read_text(encoding="utf-8")
 
         self.assertIn("eval/visual_holdout/.sealed/", gitignore.splitlines())
+        self.assertIn("eval/visual_holdout_v2/.sealed/", gitignore.splitlines())
+
+    def test_v2_plan_is_valid_without_opening_sealed_content(self):
+        manifest = validate_public_manifest(V2_MANIFEST_PATH, REPOSITORY_ROOT)
+
+        self.assertEqual(manifest["state"], "PLANNED")
+        self.assertEqual(manifest["holdout_id"], "visual-sealed-holdout-v2")
+        self.assertEqual(manifest["documents"], [])
 
 
 if __name__ == "__main__":

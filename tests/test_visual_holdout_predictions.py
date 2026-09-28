@@ -43,6 +43,21 @@ def test_plan_uses_public_frozen_artifacts_only() -> None:
     assert plan["retry_count"] == 0
 
 
+def test_plan_derives_limits_from_manifest_size() -> None:
+    manifest = {
+        "holdout_id": "visual-sealed-holdout-v2",
+        "candidate": {"git_commit": "a" * 40, "config_manifest_sha256": "b" * 64},
+        "documents": [{"document_id": f"doc-{index}"} for index in range(4)],
+        "questions": {"count": 10},
+    }
+    config = {"execution_policy": {"retry_count": 0}}
+
+    plan = build_execution_plan(manifest, config)
+
+    assert plan["logical_external_call_limit"] == 35
+    assert plan["minimum_reserved_cost_usd"] == pytest.approx(0.14)
+
+
 def test_document_verification_does_not_require_a_gold_directory(
     tmp_path: Path,
 ) -> None:
@@ -111,13 +126,17 @@ def test_freeze_failure_records_twenty_blocked_outcomes(
         "confidence": {"source": "test", "value": 0.1, "review_required": True},
     }
     for suffix in ("raw", "normalized"):
-        (extraction_dir / f"vh_doc_a7.{suffix}.json").write_text(
-            json.dumps(invalid)
-        )
+        (extraction_dir / f"vh_doc_a7.{suffix}.json").write_text(json.dumps(invalid))
     manifest, config = load_frozen_candidate()
     monkeypatch.setattr(runner, "BASE_DIR", tmp_path)
-    monkeypatch.setattr(runner, "QUESTIONS", REPOSITORY_ROOT / "eval/visual_holdout/questions.json")
-    monkeypatch.setattr(runner, "load_frozen_candidate", lambda: (manifest, config))
+    monkeypatch.setattr(
+        runner,
+        "questions_path",
+        lambda _manifest: REPOSITORY_ROOT / "eval/visual_holdout/questions.json",
+    )
+    monkeypatch.setattr(
+        runner, "load_frozen_candidate", lambda _manifest_path: (manifest, config)
+    )
 
     bundle, bundle_hash = freeze_failed_predictions(output_dir)
 

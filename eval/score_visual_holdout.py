@@ -48,12 +48,41 @@ def score_scenarios(
         for item in predictions
         if item.get("status") != "BLOCKED_BY_EXTRACTION_ERROR"
     ]
-    classification_correct = sum(
-        prediction_by_id[item["scenario_id"]].get("predicted_label")
-        == LABELS[item["expected_classification"]]
-        for item in gold_scenarios
-        if prediction_by_id[item["scenario_id"]] in completed
-    )
+    records = []
+    for item in gold_scenarios:
+        prediction = prediction_by_id[item["scenario_id"]]
+        if prediction not in completed:
+            continue
+        classification_ok = (
+            prediction.get("predicted_label") == LABELS[item["expected_classification"]]
+        )
+        required_documents = item.get("required_document_ids", [])
+        retrieved_documents = prediction.get("retrieved_document_ids", [])
+        required_document_retrieved = all(
+            document_id in retrieved_documents for document_id in required_documents
+        )
+        answer = str(prediction.get("answer", "")).casefold()
+        answer_key_terms = item.get("expected_answer_key_terms", [])
+        answer_key_covered = all(
+            str(term).casefold() in answer for term in answer_key_terms
+        )
+        records.append(
+            {
+                "scenario_id": item["scenario_id"],
+                "classification_ok": classification_ok,
+                "required_document_retrieved": required_document_retrieved,
+                "answer_key_covered": answer_key_covered,
+                "end_to_end_success": (
+                    classification_ok
+                    and required_document_retrieved
+                    and answer_key_covered
+                ),
+            }
+        )
+    classification_correct = sum(record["classification_ok"] for record in records)
+    retrieval_correct = sum(record["required_document_retrieved"] for record in records)
+    answer_key_correct = sum(record["answer_key_covered"] for record in records)
+    end_to_end_success = sum(record["end_to_end_success"] for record in records)
     expected_counts = {
         label: sum(item["expected_classification"] == label for item in gold_scenarios)
         for label in LABELS
@@ -68,10 +97,54 @@ def score_scenarios(
             classification_correct / len(completed) if completed else None
         ),
         "answer_content_evaluated_count": len(completed),
-        "end_to_end_success_count": 0,
-        "end_to_end_success_rate": 0.0,
+        "required_document_retrieved_count": retrieval_correct,
+        "required_document_retrieval_rate": (
+            retrieval_correct / len(completed) if completed else None
+        ),
+        "answer_key_covered_count": answer_key_correct,
+        "answer_key_coverage_rate": (
+            answer_key_correct / len(completed) if completed else None
+        ),
+        "end_to_end_success_count": end_to_end_success,
+        "end_to_end_success_rate": end_to_end_success / len(gold_scenarios),
         "expected_classification_counts": expected_counts,
+        "records": records,
     }
+
+
+def acceptance_verdict(
+    *,
+    extraction: dict[str, Any],
+    scenarios: dict[str, Any],
+    thresholds: dict[str, float],
+) -> dict[str, Any]:
+    document_count = extraction["sealed_document_count"]
+    scenario_count = scenarios["scenario_count"]
+    measured = {
+        "schema_valid_document_rate": (
+            extraction["schema_valid_count"] / document_count if document_count else 0.0
+        ),
+        "completed_answer_rate": (
+            scenarios["completed_answer_count"] / scenario_count
+            if scenario_count
+            else 0.0
+        ),
+        "classification_accuracy": scenarios["classification_accuracy"] or 0.0,
+        "required_document_retrieval_rate": (
+            scenarios["required_document_retrieval_rate"] or 0.0
+        ),
+        "answer_key_coverage_rate": scenarios["answer_key_coverage_rate"] or 0.0,
+        "end_to_end_success_rate": scenarios["end_to_end_success_rate"],
+    }
+    checks = {
+        name: {
+            "actual": measured[name],
+            "threshold": threshold,
+            "passed": measured[name] >= threshold,
+        }
+        for name, threshold in thresholds.items()
+    }
+    return {"passed": all(item["passed"] for item in checks.values()), "checks": checks}
 
 
 def score_extractions(
@@ -80,8 +153,7 @@ def score_extractions(
     repository_root: Path,
 ) -> dict[str, Any]:
     gold_by_id = {
-        item["document_id"]: item["annotation"]
-        for item in extraction_gold["documents"]
+        item["document_id"]: item["annotation"] for item in extraction_gold["documents"]
     }
     schema = load_visual_schema()
     results = []
@@ -132,6 +204,10 @@ def score_opened_holdout(
     bundle = load_json(predictions_path)
     extraction_gold = load_json(sealed_root / "gold/extraction_gold.json")
     scenario_gold = load_json(sealed_root / "gold/scenario_gold.json")
+    blueprint = load_json(BASE_DIR / manifest["blueprint"]["path"])
+    extraction = score_extractions(bundle["extractions"], extraction_gold, BASE_DIR)
+    scenarios = score_scenarios(bundle["predictions"], scenario_gold["scenarios"])
+    extraction_failed = extraction["schema_invalid_count"] > 0
     result = {
         "schema_version": "1.0",
         "holdout_id": manifest["holdout_id"],
@@ -143,23 +219,30 @@ def score_opened_holdout(
             "scenario": manifest["opening"]["scenario_hash_verified"],
         },
         "pipeline_stage_status": {
-            "visual_extraction": "FAILED",
-            "retrieval": "NOT_EXECUTED",
-            "answer_generation": "NOT_EXECUTED",
-            "answer_classification": "NOT_EXECUTED",
+            "visual_extraction": "FAILED" if extraction_failed else "COMPLETED",
+            "retrieval": "NOT_EXECUTED" if extraction_failed else "COMPLETED",
+            "answer_generation": "NOT_EXECUTED" if extraction_failed else "COMPLETED",
+            "answer_classification": "NOT_EXECUTED"
+            if extraction_failed
+            else "COMPLETED",
         },
-        "extraction": score_extractions(
-            bundle["extractions"], extraction_gold, BASE_DIR
+        "extraction": extraction,
+        "scenarios": scenarios,
+        "acceptance": acceptance_verdict(
+            extraction=extraction,
+            scenarios=scenarios,
+            thresholds=blueprint["acceptance_thresholds"],
         ),
-        "scenarios": score_scenarios(
-            bundle["predictions"], scenario_gold["scenarios"]
+        "failure_attribution": (
+            {
+                "primary_category": "visual_extraction_schema_failure",
+                "failed_document_id": bundle["summary"]["failed_document_id"],
+                "detail": bundle["summary"]["failure"],
+                "cascading_blocked_scenarios": len(bundle["predictions"]),
+            }
+            if extraction_failed
+            else None
         ),
-        "failure_attribution": {
-            "primary_category": "visual_extraction_schema_failure",
-            "failed_document_id": bundle["summary"]["failed_document_id"],
-            "detail": bundle["summary"]["failure"],
-            "cascading_blocked_scenarios": len(bundle["predictions"]),
-        },
         "holdout_reusable_as_unseen": False,
     }
     if output_path.exists():
@@ -184,7 +267,12 @@ def main() -> int:
             {
                 "run_id": result["run_id"],
                 "sha256": result_hash,
-                "primary_failure": result["failure_attribution"]["primary_category"],
+                "primary_failure": (
+                    result["failure_attribution"]["primary_category"]
+                    if result["failure_attribution"]
+                    else None
+                ),
+                "acceptance_passed": result["acceptance"]["passed"],
                 "end_to_end_success_count": result["scenarios"][
                     "end_to_end_success_count"
                 ],

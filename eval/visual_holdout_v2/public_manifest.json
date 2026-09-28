@@ -1,0 +1,21 @@
+{
+  "schema_version": "2.0",
+  "holdout_id": "visual-sealed-holdout-v2",
+  "state": "PLANNED",
+  "paths_relative_to": "repository_root",
+  "manifest_schema": {
+    "path": "design/schemas/visual-holdout-public-manifest-v2.schema.json",
+    "sha256": "bfcc9b9816a97eb3be5ae184f56ed52f631766da4fc16801d59861f7db6c7298"
+  },
+  "blueprint": {
+    "path": "eval/visual_holdout_v2/scenario_blueprint.json",
+    "sha256": "cd0cca28e828e6a6ea5b7bdb71e1b5316358699361f49bb59128babb71a68109"
+  },
+  "questions": null,
+  "documents": [],
+  "gold": null,
+  "candidate": null,
+  "predictions": null,
+  "opening": null,
+  "results": null
+}

@@ -1,0 +1,65 @@
+{
+  "blueprint_version": "2.0",
+  "split": "sealed_holdout",
+  "scenario_count": 10,
+  "scenario_ids": [
+    "VH2-001",
+    "VH2-002",
+    "VH2-003",
+    "VH2-004",
+    "VH2-005",
+    "VH2-006",
+    "VH2-007",
+    "VH2-008",
+    "VH2-009",
+    "VH2-010"
+  ],
+  "visual_type_counts": {
+    "process_flow": 3,
+    "decision_flow": 3,
+    "table": 2,
+    "form": 2,
+    "timeline": 0,
+    "revision_comparison": 0
+  },
+  "expected_classification_counts": {
+    "grounded": 6,
+    "needs_judgment": 2,
+    "insufficient_documents": 2
+  },
+  "difficulty_counts": {
+    "direct": 3,
+    "multi_element": 3,
+    "boundary_or_revision": 2,
+    "paraphrase_or_typo": 2
+  },
+  "document_family_policy": {
+    "development_overlap_allowed": false,
+    "minimum_distinct_families": 4
+  },
+  "acceptance_scope": {
+    "purpose": "targeted_regression_acceptance_after_visual_topology_normalization",
+    "not_a_full_capability_census": true,
+    "required_document_kinds": [
+      "process_flow",
+      "decision_flow",
+      "table",
+      "form"
+    ]
+  },
+  "acceptance_thresholds": {
+    "schema_valid_document_rate": 1.0,
+    "completed_answer_rate": 1.0,
+    "classification_accuracy": 0.8,
+    "required_document_retrieval_rate": 0.8,
+    "answer_key_coverage_rate": 0.8,
+    "end_to_end_success_rate": 0.7
+  },
+  "sealed_fields": [
+    "scenario_to_document_mapping",
+    "scenario_expected_classification",
+    "scenario_gold_answer",
+    "scenario_evidence",
+    "extraction_gold"
+  ]
+}
