@@ -1,0 +1,233 @@
+{
+  "acceptance": {
+    "checks": {
+      "answer_key_coverage_rate": {
+        "actual": 0.9,
+        "passed": true,
+        "threshold": 0.8
+      },
+      "classification_accuracy": {
+        "actual": 0.7,
+        "passed": false,
+        "threshold": 0.8
+      },
+      "completed_answer_rate": {
+        "actual": 1.0,
+        "passed": true,
+        "threshold": 1.0
+      },
+      "end_to_end_success_rate": {
+        "actual": 0.7,
+        "passed": true,
+        "threshold": 0.7
+      },
+      "required_document_retrieval_rate": {
+        "actual": 1.0,
+        "passed": true,
+        "threshold": 0.8
+      },
+      "schema_valid_document_rate": {
+        "actual": 1.0,
+        "passed": true,
+        "threshold": 1.0
+      }
+    },
+    "passed": false
+  },
+  "candidate_git_commit": "b943cfbbe8d32ea6dbde9877884cdcc836d8c428",
+  "extraction": {
+    "extraction_attempt_count": 4,
+    "gate_evaluated_count": 4,
+    "gate_passed_count": 1,
+    "records": [
+      {
+        "document_id": "vh2_doc_p4",
+        "metrics": {
+          "element_recall": 0.6666666666666666,
+          "format_normalization_collision": false,
+          "format_normalized_element_recall": 1.0,
+          "format_normalized_important_values_exact": true,
+          "format_normalized_matched_elements": 12,
+          "format_normalized_mean_bbox_iou": 0.5961692756512963,
+          "gate_passed": false,
+          "gold_elements": 12,
+          "important_values_exact": false,
+          "kind": "flowchart",
+          "matched_elements": 8,
+          "mean_bbox_iou": 0.6711618672347569
+        },
+        "schema_error": null,
+        "schema_status": "VALID"
+      },
+      {
+        "document_id": "vh2_doc_d8",
+        "metrics": {
+          "element_recall": 0.18181818181818182,
+          "format_normalization_collision": false,
+          "format_normalized_element_recall": 1.0,
+          "format_normalized_important_values_exact": true,
+          "format_normalized_matched_elements": 11,
+          "format_normalized_mean_bbox_iou": 0.6091100116925264,
+          "gate_passed": false,
+          "gold_elements": 11,
+          "important_values_exact": false,
+          "kind": "flowchart",
+          "matched_elements": 2,
+          "mean_bbox_iou": 0.9021224225335609
+        },
+        "schema_error": null,
+        "schema_status": "VALID"
+      },
+      {
+        "document_id": "vh2_doc_t3",
+        "metrics": {
+          "element_recall": 0.13333333333333333,
+          "format_normalization_collision": false,
+          "format_normalized_element_recall": 1.0,
+          "format_normalized_important_values_exact": true,
+          "format_normalized_matched_elements": 15,
+          "format_normalized_mean_bbox_iou": 0.6398637291235123,
+          "gate_passed": false,
+          "gold_elements": 15,
+          "important_values_exact": false,
+          "kind": "table",
+          "matched_elements": 2,
+          "mean_bbox_iou": 0.5533272278124891
+        },
+        "schema_error": null,
+        "schema_status": "VALID"
+      },
+      {
+        "document_id": "vh2_doc_f6",
+        "metrics": {
+          "element_recall": 1.0,
+          "format_normalization_collision": false,
+          "format_normalized_element_recall": 1.0,
+          "format_normalized_important_values_exact": true,
+          "format_normalized_matched_elements": 5,
+          "format_normalized_mean_bbox_iou": 0.9753092709741222,
+          "gate_passed": true,
+          "gold_elements": 5,
+          "important_values_exact": true,
+          "kind": "form",
+          "matched_elements": 5,
+          "mean_bbox_iou": 0.9753092709741222
+        },
+        "schema_error": null,
+        "schema_status": "VALID"
+      }
+    ],
+    "schema_invalid_count": 0,
+    "schema_valid_count": 4,
+    "sealed_document_count": 4,
+    "unattempted_document_count": 0
+  },
+  "failure_attribution": null,
+  "gold_hash_verified": {
+    "extraction": true,
+    "scenario": true
+  },
+  "holdout_id": "visual-sealed-holdout-v2",
+  "holdout_reusable_as_unseen": false,
+  "pipeline_stage_status": {
+    "answer_classification": "COMPLETED",
+    "answer_generation": "COMPLETED",
+    "retrieval": "COMPLETED",
+    "visual_extraction": "COMPLETED"
+  },
+  "prediction_sha256": "b33ea9380ab84fb6a5b8cb3748f89d2055dd8bd619718232d7f2c476ae186d35",
+  "run_id": "visual_holdout_predictions_v2",
+  "scenarios": {
+    "answer_content_evaluated_count": 10,
+    "answer_key_coverage_rate": 0.9,
+    "answer_key_covered_count": 9,
+    "blocked_by_extraction_error_count": 0,
+    "classification_accuracy": 0.7,
+    "classification_correct_count": 7,
+    "classification_evaluated_count": 10,
+    "completed_answer_count": 10,
+    "end_to_end_success_count": 7,
+    "end_to_end_success_rate": 0.7,
+    "expected_classification_counts": {
+      "grounded": 6,
+      "insufficient_documents": 2,
+      "needs_judgment": 2
+    },
+    "records": [
+      {
+        "answer_key_covered": true,
+        "classification_ok": true,
+        "end_to_end_success": true,
+        "required_document_retrieved": true,
+        "scenario_id": "VH2-001"
+      },
+      {
+        "answer_key_covered": true,
+        "classification_ok": false,
+        "end_to_end_success": false,
+        "required_document_retrieved": true,
+        "scenario_id": "VH2-002"
+      },
+      {
+        "answer_key_covered": false,
+        "classification_ok": false,
+        "end_to_end_success": false,
+        "required_document_retrieved": true,
+        "scenario_id": "VH2-003"
+      },
+      {
+        "answer_key_covered": true,
+        "classification_ok": true,
+        "end_to_end_success": true,
+        "required_document_retrieved": true,
+        "scenario_id": "VH2-004"
+      },
+      {
+        "answer_key_covered": true,
+        "classification_ok": true,
+        "end_to_end_success": true,
+        "required_document_retrieved": true,
+        "scenario_id": "VH2-005"
+      },
+      {
+        "answer_key_covered": true,
+        "classification_ok": true,
+        "end_to_end_success": true,
+        "required_document_retrieved": true,
+        "scenario_id": "VH2-006"
+      },
+      {
+        "answer_key_covered": true,
+        "classification_ok": true,
+        "end_to_end_success": true,
+        "required_document_retrieved": true,
+        "scenario_id": "VH2-007"
+      },
+      {
+        "answer_key_covered": true,
+        "classification_ok": true,
+        "end_to_end_success": true,
+        "required_document_retrieved": true,
+        "scenario_id": "VH2-008"
+      },
+      {
+        "answer_key_covered": true,
+        "classification_ok": false,
+        "end_to_end_success": false,
+        "required_document_retrieved": true,
+        "scenario_id": "VH2-009"
+      },
+      {
+        "answer_key_covered": true,
+        "classification_ok": true,
+        "end_to_end_success": true,
+        "required_document_retrieved": true,
+        "scenario_id": "VH2-010"
+      }
+    ],
+    "required_document_retrieval_rate": 1.0,
+    "required_document_retrieved_count": 10,
+    "scenario_count": 10
+  },
+  "schema_version": "1.0"
+}

@@ -104,10 +104,10 @@ class VisualHoldoutProtocolTest(unittest.TestCase):
         self.assertIn("eval/visual_holdout/.sealed/", gitignore.splitlines())
         self.assertIn("eval/visual_holdout_v2/.sealed/", gitignore.splitlines())
 
-    def test_v2_sealed_is_valid_without_opening_sealed_content(self):
+    def test_v2_consumed_record_is_valid_without_reopening_sealed_content(self):
         manifest = validate_public_manifest(V2_MANIFEST_PATH, REPOSITORY_ROOT)
 
-        self.assertEqual(manifest["state"], "SEALED")
+        self.assertEqual(manifest["state"], "CONSUMED")
         self.assertEqual(manifest["holdout_id"], "visual-sealed-holdout-v2")
         self.assertEqual(len(manifest["documents"]), 4)
         self.assertEqual(
@@ -116,8 +116,10 @@ class VisualHoldoutProtocolTest(unittest.TestCase):
         )
         self.assertEqual(manifest["questions"]["count"], 10)
         self.assertEqual(manifest["gold"]["scenario_count"], 10)
-        for field in ("candidate", "predictions", "opening", "results"):
-            self.assertIsNone(manifest[field])
+        self.assertEqual(manifest["predictions"]["attempt_count"], 10)
+        self.assertTrue(manifest["opening"]["extraction_hash_verified"])
+        self.assertTrue(manifest["opening"]["scenario_hash_verified"])
+        self.assertEqual(manifest["results"]["count"], 10)
 
 
 if __name__ == "__main__":

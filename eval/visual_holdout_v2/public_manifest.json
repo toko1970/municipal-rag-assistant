@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "holdout_id": "visual-sealed-holdout-v2",
-  "state": "OPENED",
+  "state": "CONSUMED",
   "paths_relative_to": "repository_root",
   "manifest_schema": {
     "path": "design/schemas/visual-holdout-public-manifest-v2.schema.json",
@@ -63,5 +63,9 @@
     "extraction_hash_verified": true,
     "scenario_hash_verified": true
   },
-  "results": null
+  "results": {
+    "path": "eval/results/visual_holdout_predictions_v2/score.json",
+    "sha256": "9740e7dee91b34cd91045da6349cd0b9254691c7a9a17964d6c88f06a0cf951f",
+    "count": 10
+  }
 }
