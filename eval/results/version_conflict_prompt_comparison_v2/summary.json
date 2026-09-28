@@ -1,0 +1,42 @@
+{
+  "by_prompt": {
+    "baseline": {
+      "attempted": 17,
+      "completed": 17,
+      "control_correct": 10,
+      "correct": 10,
+      "target_correct": 0
+    },
+    "candidate": {
+      "attempted": 17,
+      "completed": 17,
+      "control_correct": 8,
+      "correct": 13,
+      "target_correct": 5
+    }
+  },
+  "case_count": 17,
+  "error_count": 0,
+  "estimated_cost_usd": 0.02494425,
+  "gate": {
+    "control_regression_count": 2,
+    "passed": false,
+    "target_improvement_count": 5
+  },
+  "improvements": [
+    "Q121",
+    "Q201",
+    "Q231",
+    "Q281",
+    "Q416"
+  ],
+  "input_tokens": 79215,
+  "logical_external_call_count": 34,
+  "max_cost_usd": 0.1,
+  "output_tokens": 3427,
+  "regressions": [
+    "Q206",
+    "Q211"
+  ],
+  "stop_reason": "COMPLETED"
+}

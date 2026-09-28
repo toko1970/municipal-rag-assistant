@@ -94,3 +94,9 @@ claimsは「事情を考慮」「総合確認」「即決できない」「個�
 - 全体で改善0件、または重大ラベルの退行が1件でもあれば不採用とする。
 
 この順序なら「最大原因へ一つだけ対策」「同じ評価条件で比較」「効かなかった変更も保存」というポートフォリオの説明を維持できる。
+
+## 実測後の判断
+
+候補promptは対象7件中5件を最終ラベルまで改善したが、個別事情が必要なcontrol `Q206`と`Q211`を`判断要`から`根拠十分`へ退行させた。採用条件のcontrol退行0件を満たさないため不採用とした。詳細は[`VERSION_CONFLICT_PROMPT_EXPERIMENT.md`](VERSION_CONFLICT_PROMPT_EXPERIMENT.md)を参照する。
+
+7件すべての`version_conflict`自体は解消した一方、2件は`requires_case_facts`へ失敗要因が移り、control 2件では真の`requires_case_facts`が消えた。次の判断では、同一LLMに5要因をまとめて返させたままpromptを追加するか、日付・施行日で解けるversion判定を独立させるかを比較する必要がある。
