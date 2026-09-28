@@ -15,6 +15,11 @@
 総合回答成功率は117/130、90.0%である。分類モデル比較の結果、現行Geminiを維持するため、
 次の一手はモデルの一括置換ではなく、最大の残存原因へ限定した変更にする。
 
+回答生成6件は、残存失敗13件の46.2%、全130件の4.6%である。回答分類4件との差は2件なので、
+圧倒的な最大原因ではない。また「生成modelがAPI errorになった」という意味でもない。検索済み
+根拠から、質問に必要な項目を漏れなく、質問外の断定を加えず、根拠間の不一致を保持して回答へ
+変換する工程を最初に失敗原因として割り当てた件数である。
+
 ## 2. 分類4件を先に一括修正しない理由
 
 | ID | 保存出力 | 論点 | 分類器だけで直せるか |
@@ -46,23 +51,58 @@ Visualの類似事例適用境界を含む。専用resolverを一つ追加して
 単純な欠落だけではないが、6件とも「質問が求める命題を先に固定せず、取得根拠から書ける
 内容を広げた」ことが共通している。
 
-## 4. 次の一手
+## 4. 既存Visual prompt実験との重複回避
 
-Generatorへ`required facets`確認を追加する小比較を行う。出力Schemaは変えず、promptだけに
-次の順序を追加する。
+`VD004`には既に`answer-claims-v2`とv3を試している。VD004単体は改善したが、通常の誤字を
+含むcontrol `VD003`を「不備」と対応付けられなくなり、表示契約errorでfail-fastしたため
+不採用だった。詳細は[`VISUAL_ANSWER_BASELINE.md`](VISUAL_ANSWER_BASELINE.md)に残している。
+
+したがって、今回のprompt pilotへVD004・VD019を混ぜない。Visual 2件は、同じ自然言語規則を
+再試行せず、node・edge・cell locator付きSchemaまたは表示契約の構造変更として別に扱う。
+
+## 5. 次の一手
+
+テキスト失敗4件（Q066、Q131、Q386、Q391）に限定し、Generatorへ`required facets`確認を
+追加する小比較を行う。出力Schemaは変えず、promptだけに次の順序を追加する。
 
 1. 質問が明示的に求める命題・項目を内部で列挙する。
 2. 各facetについて取得根拠から支持できるclaimを作る。
 3. 支持できないfacet、個別確認、根拠間の不一致は`missing_conditions`へ残す。
 4. 質問のfacetに不要なclaimを追加しない。
-5. 図の条件と質問事実を対応付けられない場合、分岐結果を断定しない。
 
 これは自由文を長くする変更ではない。既存の構造化`claims`と`missing_conditions`へ、質問範囲
 を漏れなく写すための生成順序である。
 
-## 5. 有限pilot
+### 公開研究との対応
 
-- 対象: 失敗6件と、既に正しいmulti-facet・判断要・Visual境界control。
+- NAACL 2025のSub-question Coverageは、複合質問をcore・background・follow-upへ分け、
+  sub-questionを検索と生成へ利用した方式がbaselineに対して74%の比較勝率を得たと報告する。
+  本pilotでは質問が明示的に求めるcore facetだけを対象にし、回答の長文化を避ける。
+  [Do RAG Systems Cover What Matters?](https://aclanthology.org/2025.naacl-long.301/)
+- Google Cloudのgrounding checkは回答をclaimへ分解し、claim全体が根拠で支持されるかを個別に
+  判定する。一部だけ正しい複合claimを支持済みと扱わない考え方は、Q386とVD004の余分な断定
+  を検出する基準に合う。
+  [Check grounding](https://cloud.google.com/generative-ai-app-builder/docs/check-grounding)
+- Google Researchの2025年研究は、RAGの根拠衝突を一種類として扱わず、衝突類型を明示して
+  LLMへ与えると回答の適切さが改善すると報告する。Q391では、どちらかを多数決で採用せず、
+  「同時適用できない規定」として`missing_conditions`へ残す。
+  [(D)RAGged Into a Conflict](https://research.google/pubs/dragged-into-a-conflict-detecting-and-addressing-conflicting-sources-in-retrieval-augmented-llms/)
+- RAGCheckerはRetrieverとGeneratorをclaim単位の複数指標へ分けて診断する。本pilotでも総合成功
+  だけでなく、facet coverage、根拠外claim、質問外claimを別々に数える。
+  [RAGChecker](https://arxiv.org/abs/2408.08067)
+
+生成後の全回答を別LLMで再検証・再生成する方式もあるが、常時の外部call、遅延、検証modelの
+誤りが増える。現在は13件中6件だけが生成主原因なので、まず1回の生成内でfacet確認を行う。
+小pilotで改善しなければ、次段階として次の構造変更を比較する。
+
+1. Schemaへ`required_facets`と各facetの`answered`・`needs_confirmation`・`conflict`を追加する。
+2. 各claimをfacet IDとevidence IDへ対応付ける。
+3. codeで未対応facet、根拠IDのないclaim、質問外claimを拒否または`判断要`へ縮退させる。
+4. 高リスクまたは矛盾検出時だけ生成後verifierを呼び、全質問の二重LLM化はしない。
+
+## 6. 有限pilot
+
+- 対象: テキスト失敗4件と、既に正しいテキストcontrol 6件。
 - baseline: 保存済み出力を使い、再課金しない。
 - candidate: 保存済みretrievalを固定し、Generatorと現行Classifierだけを呼ぶ。
 - sealed holdout: 使用しない。
@@ -71,18 +111,20 @@ Generatorへ`required facets`確認を追加する小比較を行う。出力Sch
 
 採用gateは次のとおりである。
 
-- 失敗6件の総合成功を2件以上改善する。
+- 失敗4件の総合成功を2件以上改善する。
 - controlの総合成功を1件も退行させない。
 - 根拠にない断定を増やさない。
 - 質問が求める必須facet coverageを改善する。
+- 質問外claimを増やさない。
 - API errorと表示契約errorを分類誤りに混ぜない。
 
 pilotを通過した場合だけ、同じ保存済み130問へ候補を適用する。通過しない場合は本番promptを
 維持し、次に検索3件の再順位付けまたはQuery Decompositionを検討する。
 
-## 6. 学習上の要点
+## 7. 学習上の要点
 
 - 最大件数だけでなく、同じ一手で直せる同質性を確認して優先順位を決める。
 - 分類ラベルが誤っていても、原因がGeneratorの不足条件なら分類器だけを変えない。
 - 評価goldの訂正によって失敗分布が変わったら、古い改善計画をそのまま使わない。
 - 小pilot、control、採用gateを固定してからAPIを呼び、効かなければ130問評価の費用を使わない。
+- 過去に退行したpromptと同じ介入は、対象を変えただけで再実行しない。

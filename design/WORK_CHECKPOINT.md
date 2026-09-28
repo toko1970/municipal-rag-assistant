@@ -363,7 +363,12 @@ creditは未使用。詳細は[`CLASSIFIER_MODEL_COMPARISON.md`](../eval/CLASSIF
 モデル比較後にgold v1.2の残存失敗を再確認した。主原因は回答生成6、分類4、検索3である。
 分類4件はQ126だけが分類器単独の高確度対象で、Q176・Q196はGeneratorの不足条件、VD024は
 Visual類似事例の適用境界を含むため、一つのresolverで安全に一括改善できない。最大かつ共通性
-のある次の一手を、Generatorの`required facets`確認へ変更した。失敗6件とcontrolを使う小pilot
+のある次の一手を、Generatorの`required facets`確認へ変更した。テキスト失敗4件とcontrolを使う小pilot
 を先に行い、2件以上改善・control退行0・根拠外断定増加0を通過した場合だけ130問へ進む。
 この再優先付けではAPIを呼んでいない。詳細は
 [`CURRENT_FAILURE_PRIORITY_V1_2.md`](../eval/CURRENT_FAILURE_PRIORITY_V1_2.md)を参照する。
+
+実装前の重複確認で、VisualのVD004には同種のprompt候補v2/v3を既に試し、VD003を退行させて
+不採用としていたことを確認した。今回のrequired facets pilotはテキスト失敗4件とcontrol 6件
+だけに限定する。Visual 2件はprompt再試行から外し、locator付きSchemaまたは表示契約の構造変更
+として別工程にする。
