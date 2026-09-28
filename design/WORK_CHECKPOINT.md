@@ -313,3 +313,5 @@ Cloud Run / local RAG v2差分確認の開始時点は週間枠7%で、表示さ
 現在のbranchは`codex/visual-holdout-v2`である。次の最小学習単位は、production v1で残る分類失敗15件を要因パターンへ分解し、最大の一類型へ対策を一つだけ試すことである。内容レビューはCodexによる初回判定なので、ポートフォリオの確定値に使う前にユーザー確認を行う。mergeと本番deployには明示承認が必要である。
 
 分類失敗15件の要因分析を[`CLASSIFICATION_FAILURE_PATTERN_ANALYSIS.md`](../eval/CLASSIFICATION_FAILURE_PATTERN_ANALYSIS.md)へ追加した。内訳は、解決済み条件の誤検出8件（version 7、case facts 1）、個別・所管判断の見逃し4件、GeneratorとClassifierの不足判定不整合2件、Visual類似事例の適用境界1件である。実装前の推奨は、最大かつ変更範囲を限定できる`version_conflict`誤検出7件に対する分類prompt比較である。対策対象はユーザーと合意してから固定する。
+
+ユーザー合意後、`version_conflict`だけを変更する候補promptと17件の比較runnerを実装した。開始時のCodex週間枠は28%でsecondary表示なしだった。17件すべてのTop-8を保存済みrunと同一順序で再現後、最大34 call、retry 0、US$0.10上限で開始したが、最初のGemini callがFree Tier日次500 request上限の429となりfail-fastした。成功call 0、token 0、推定費用US$0で、改善度は未評価である。詳細と再開コマンドは[`VERSION_CONFLICT_PROMPT_EXPERIMENT.md`](../eval/VERSION_CONFLICT_PROMPT_EXPERIMENT.md)を参照する。
