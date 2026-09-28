@@ -181,6 +181,10 @@ def answer_question(
     version_resolution_confidence_threshold: float = (
         VERSION_RESOLUTION_CONFIDENCE_THRESHOLD
     ),
+    generation_prompt_builder: Callable[
+        [str, list[SearchHit], dict[UUID, VisualEvidenceAsset] | None], str
+    ] = build_generation_prompt,
+    generation_prompt_version: str = GENERATION_PROMPT_VERSION,
 ) -> dict:
     if max_visual_assets < 0:
         raise ValueError("max_visual_assetsは0以上である必要があります")
@@ -215,7 +219,7 @@ def answer_question(
                 if hit.element.id in loaded_by_id
             }
             visual_assets = dict(list(visual_assets.items())[:max_visual_assets])
-        prompt = build_generation_prompt(question, hits, visual_assets)
+        prompt = generation_prompt_builder(question, hits, visual_assets)
         if visual_assets:
             if not hasattr(generator, "generate_structured_with_media"):
                 raise TypeError("図表根拠にはmultimodal対応generatorが必要です")
@@ -241,7 +245,7 @@ def answer_question(
             request_id,
             provider=generator.provider_name,
             model=generator.model,
-            prompt_version=GENERATION_PROMPT_VERSION,
+            prompt_version=generation_prompt_version,
             response_data=generation_result.data if generation_result else None,
             input_tokens=generation_result.input_tokens if generation_result else 0,
             output_tokens=generation_result.output_tokens if generation_result else 0,
@@ -253,7 +257,7 @@ def answer_question(
         request_id,
         provider=generation_result.provider,
         model=generation_result.model,
-        prompt_version=GENERATION_PROMPT_VERSION,
+        prompt_version=generation_prompt_version,
         response_data=answer_data,
         input_tokens=generation_result.input_tokens,
         output_tokens=generation_result.output_tokens,

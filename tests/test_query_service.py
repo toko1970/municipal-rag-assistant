@@ -52,6 +52,16 @@ class CountingProvider(FakeProvider):
         return super().generate_structured(prompt, schema)
 
 
+class PromptCapturingProvider(FakeProvider):
+    def __init__(self, response):
+        super().__init__(response)
+        self.prompt = None
+
+    def generate_structured(self, prompt: str, schema: dict):
+        self.prompt = prompt
+        return super().generate_structured(prompt, schema)
+
+
 class FakeIndex:
     def __init__(self, hits):
         self.hits = hits
@@ -148,6 +158,69 @@ def test_query_flow_keeps_generation_classification_and_display_separate() -> No
         "answer",
     ]
     assert logger.events[-1][2]["claims"][0]["evidence_element_ids"] == [element.id]
+
+
+def test_query_flow_accepts_bounded_generation_prompt_candidate() -> None:
+    element = IndexableElement(
+        id=uuid4(),
+        document_id=uuid4(),
+        version_id=uuid4(),
+        document_name="給与条例",
+        heading="支給日",
+        content="給与は毎月21日に支給する。",
+    )
+    generator = PromptCapturingProvider(
+        {
+            "schema_version": "1.0",
+            "claims": [
+                {
+                    "claim_id": "claim-1",
+                    "ordinal": 1,
+                    "text": "給与は毎月21日に支給されます。",
+                    "evidence_element_ids": [str(element.id)],
+                    "evidence_kind": "text",
+                }
+            ],
+            "missing_conditions": [],
+        }
+    )
+    classifier = FakeProvider(
+        {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "factors": {
+                "retrieval_sufficient": True,
+                "answer_fully_supported": True,
+                "requires_case_facts": False,
+                "requires_policy_judgment": False,
+                "version_conflict": False,
+            },
+            "confidence": 0.97,
+            "error_code": None,
+        }
+    )
+    logger = FakeLogger()
+
+    answer_question(
+        "給与支給日はいつですか？",
+        embed_query=lambda _question: [1.0],
+        vector_index=FakeIndex([SearchHit(element, 0.9, 1)]),
+        generator=generator,
+        classifier=classifier,
+        event_logger=logger,
+        answer_schema={},
+        classification_schema={},
+        generation_prompt_builder=lambda question, _hits, _assets: (
+            f"candidate: {question}"
+        ),
+        generation_prompt_version="answer-claims-required-facets-v1",
+    )
+
+    assert generator.prompt == "candidate: 給与支給日はいつですか？"
+    generation_event = next(
+        event for event in logger.events if event[0] == "generation"
+    )
+    assert generation_event[2]["prompt_version"] == "answer-claims-required-facets-v1"
 
 
 def test_query_flow_keeps_model_case_fact_flag_without_missing_condition() -> None:
