@@ -53,4 +53,4 @@ Gateはformat-normalized完全一致、recall 0.95以上、mean bbox IoU 0.80以
 
 既存developmentには表記差がなかったため、結果は4/6のまま変わらない。flowchart 2件の不合格理由はmean bbox IoUが0.80未満であり、文字正規化で隠していない。
 
-評価revisionは`visual-extraction-eval-v3`、結果artifactは`eval/results/visual_extraction_candidate_format_normalization_v1/`に保存した。消費済みholdoutは再採点せず、次の新規holdoutからこの評価定義を適用する。
+評価revisionは`visual-extraction-eval-v3`、集計結果は`eval/results/visual_extraction_candidate_format_normalization_v1/summary.json`に保存した。再評価入力には既存baseline rawを使用し、同一内容のraw・normalizedコピーは重複保存しない。消費済みholdoutは再採点せず、次の新規holdoutからこの評価定義を適用する。

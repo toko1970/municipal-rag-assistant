@@ -42,4 +42,4 @@ rootが複数ある、未知node参照がある、非連結である、別位置
 
 developmentの既存品質を悪化させず、発見した失敗型をAPI retryなしで処理できるため採用候補とする。消費済みholdoutでは再実行しない。次回は新しいholdoutを用意して、未知図表での改善効果を測る。
 
-結果artifactは`eval/results/visual_extraction_candidate_topology_v1/`に保存した。
+集計結果は`eval/results/visual_extraction_candidate_topology_v1/summary.json`に保存した。再評価入力には`eval/results/visual_extraction_baseline_gemini_3_1_eval_v2/`の既存rawを使用し、同一内容のraw・normalizedコピーは重複保存しない。
