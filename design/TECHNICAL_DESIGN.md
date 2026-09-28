@@ -116,6 +116,10 @@ Embedding profileの変更や全再構築では新collectionを作り、検証�
 
 初期版ではsparse検索、reranker、画像Embeddingを使わない。本文、図表説明、構造JSONの文章化結果を`text_dense`へ入れ、元画像は回答時にだけ使用する。検索失敗分析後、SudachiPy SplitMode C、BM25 sparse、Reciprocal Rank Fusion（初期候補`k=60`）を一つの独立experimentとして比較する。
 
+回答時は検索順位を保ったまま、図表hitに対応する`visual_assets`をPostgreSQLから取得する。保存画像を読み込む前にSHA-256を照合し、構造JSON、element ID、添付順とともにGeminiへ渡す。画像入力は1回答あたり上位3枚を上限とし、入力費用と遅延を制御する。画像が取得できない、またはhashが一致しない場合は生成失敗として記録し、画像なしで図表回答を続行しない。
+
+`visual_assets.storage_uri`にはローカルで`file://`、Cloud Runで`gs://` URIを保存する。`VISUAL_ASSET_BACKEND`に応じてLocal/GCSのstoreとreaderを差し替え、回答処理は取得bytesのSHA-256をPostgreSQLの値と照合してからGeminiとUIへ渡す。GCS uploadはcontent hashを含むobject keyと`if_generation_match=0`を使い、同じ内容の再実行だけを冪等成功にする。
+
 ### 5.2 Qdrant構成
 
 - Embedding profileごとにコレクションを分ける。

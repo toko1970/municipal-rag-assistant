@@ -4,8 +4,10 @@ from dataclasses import asdict, dataclass
 from copy import deepcopy
 from typing import Any, Callable, Protocol
 from urllib.request import Request, urlopen
+import base64
 import json
 
+from langchain_core.messages import HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 from config import GOOGLE_API_KEY, MISTRAL_API_KEY, OPENAI_API_KEY
@@ -138,12 +140,55 @@ class GeminiProvider:
     def generate_structured(
         self, prompt: str, schema: dict[str, Any]
     ) -> StructuredLLMResult:
+        return self._generate_structured_content(prompt, schema)
+
+    def generate_structured_multimodal(
+        self,
+        prompt: str,
+        schema: dict[str, Any],
+        *,
+        image: bytes,
+        mime_type: str,
+    ) -> StructuredLLMResult:
+        return self.generate_structured_with_media(
+            prompt,
+            schema,
+            media=[(image, mime_type)],
+        )
+
+    def generate_structured_with_media(
+        self,
+        prompt: str,
+        schema: dict[str, Any],
+        *,
+        media: list[tuple[bytes, str]],
+    ) -> StructuredLLMResult:
+        if not media:
+            return self.generate_structured(prompt, schema)
+        message = HumanMessage(
+            content=[
+                {"type": "text", "text": prompt},
+                *[
+                    {
+                        "type": "media",
+                        "mime_type": mime_type,
+                        "data": base64.b64encode(content).decode("ascii"),
+                    }
+                    for content, mime_type in media
+                ],
+            ]
+        )
+        return self._generate_structured_content([message], schema)
+
+    def _generate_structured_content(
+        self, content: Any, schema: dict[str, Any]
+    ) -> StructuredLLMResult:
         runnable = self.client.with_structured_output(
             _gemini_compatible_schema(schema),
             method="json_schema",
             include_raw=True,
         )
-        response = runnable.invoke(prompt)
+        response = runnable.invoke(content)
         parsing_error = response.get("parsing_error")
         if parsing_error is not None:
             raise ValueError(f"Gemini構造化出力の解析に失敗しました: {parsing_error}")

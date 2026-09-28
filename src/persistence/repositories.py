@@ -9,6 +9,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from config import QDRANT_COLLECTION_NAME
+from src.asset_store import StoredAsset, VisualEvidenceAsset
 from src.contracts import IndexableElement, SearchHit
 from src.persistence.models import (
     AnswerClaimRow,
@@ -23,6 +24,7 @@ from src.persistence.models import (
     GenerationResultRow,
     RagRequestRow,
     RetrievalResultRow,
+    VisualAssetRow,
 )
 
 
@@ -89,6 +91,90 @@ class PostgresDocumentRepository:
                     row.review_status = "READY"
         return elements
 
+    def upsert_visual_element(
+        self,
+        *,
+        source_path: str,
+        document_name: str,
+        element: IndexableElement,
+        asset: StoredAsset,
+        bbox: dict[str, float],
+    ) -> IndexableElement:
+        document_key = str(element.metadata["document_key"])
+        content_hash = str(element.metadata["content_hash"])
+        with self.session_factory() as session, session.begin():
+            document = session.get(DocumentRow, element.document_id)
+            if document is None:
+                session.add(
+                    DocumentRow(
+                        id=element.document_id,
+                        document_key=document_key,
+                        title=document_name,
+                        source_type="pdf",
+                    )
+                )
+            else:
+                document.title = document_name
+
+            version = session.get(DocumentVersionRow, element.version_id)
+            if version is None:
+                session.add(
+                    DocumentVersionRow(
+                        id=element.version_id,
+                        document_id=element.document_id,
+                        content_hash=content_hash,
+                        source_path=source_path,
+                        status="READY",
+                    )
+                )
+
+            row = session.get(ContentElementRow, element.id)
+            if row is None:
+                row = ContentElementRow(
+                    id=element.id,
+                    document_version_id=element.version_id,
+                    element_type=element.element_type,
+                    ordinal=0,
+                    page_number=element.page_number,
+                    heading=element.heading,
+                    content_text=element.content,
+                    structured_data=element.metadata,
+                    review_status="READY",
+                    index_status="PENDING",
+                )
+                session.add(row)
+            else:
+                row.page_number = element.page_number
+                row.heading = element.heading
+                row.content_text = element.content
+                row.structured_data = element.metadata
+                row.review_status = "READY"
+
+            existing_asset = session.scalar(
+                select(VisualAssetRow).where(
+                    VisualAssetRow.content_element_id == element.id,
+                    VisualAssetRow.page_number == element.page_number,
+                )
+            )
+            if existing_asset is None:
+                session.add(
+                    VisualAssetRow(
+                        id=uuid4(),
+                        content_element_id=element.id,
+                        storage_uri=asset.storage_uri,
+                        mime_type=asset.mime_type,
+                        page_number=element.page_number or 1,
+                        sha256=asset.sha256,
+                        bbox=bbox,
+                    )
+                )
+            else:
+                existing_asset.storage_uri = asset.storage_uri
+                existing_asset.mime_type = asset.mime_type
+                existing_asset.sha256 = asset.sha256
+                existing_asset.bbox = bbox
+        return element
+
     def get_elements(self, element_ids: list[UUID]) -> list[IndexableElement]:
         if not element_ids:
             return []
@@ -138,6 +224,33 @@ class PostgresDocumentRepository:
                     )
                 )
             return result
+
+    def get_visual_assets(
+        self, element_ids: list[UUID]
+    ) -> list[VisualEvidenceAsset]:
+        """Return visual assets in retrieval order for the requested elements."""
+
+        if not element_ids:
+            return []
+        with self.session_factory() as session:
+            rows = session.scalars(
+                select(VisualAssetRow).where(
+                    VisualAssetRow.content_element_id.in_(element_ids)
+                )
+            ).all()
+        by_element = {row.content_element_id: row for row in rows}
+        return [
+            VisualEvidenceAsset(
+                element_id=row.content_element_id,
+                storage_uri=row.storage_uri,
+                mime_type=row.mime_type,
+                page_number=row.page_number,
+                sha256=row.sha256,
+                bbox=dict(row.bbox) if row.bbox else None,
+            )
+            for element_id in element_ids
+            if (row := by_element.get(element_id)) is not None
+        ]
 
     def mark_index_status(self, element_ids: list[UUID], status: str) -> None:
         with self.session_factory() as session, session.begin():

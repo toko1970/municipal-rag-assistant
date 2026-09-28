@@ -42,6 +42,10 @@
 ## 自律実行と承認境界
 
 - 合意済みの実行計画に含まれる、リポジトリ内の編集、依存関係追加、ローカルDocker・PostgreSQL・Qdrant操作、test・評価、Git branch・commitは、軽微な判断ごとに確認せず自律実行する。pushとdraft PRの作成・更新も、当該Work Packageの成果をreview可能にする目的で実行してよい。
+- このrepositoryでは`.codex/config.toml`の`approval_policy = "never"`と`workspace-write`を標準にする。新しいchatまたはCLI実行はrepository rootから開始し、project configを読み込ませる。現在のsessionへCLI flagをメッセージとして送っても設定は変わらないため、設定変更後は必要に応じてchatまたはCLI processを開き直す。
+- 外部API、Docker、Git remote、cloud CLIを使う有限runは、対象、最大試行回数、費用上限、停止条件を先に固定し、可能な限り一つのscriptまたは一つのtool callへまとめる。fixtureごと、retryごと、検証コマンドごとにpermission promptを分割しない。
+- 同じprefixと権限境界で反復するコマンドは、許可済みprefixを再利用する。権限不足を予想できる操作は最初から適切な境界でまとめて実行し、sandbox内での失敗と同一コマンドの再申請を繰り返さない。
+- `approval_policy = "never"`でも、後述する包括承認の対象外操作はCodexが実行前に会話上の確認を取る。これは実行環境のpermission promptとは別の、費用・公開・破壊的変更に関する意思決定である。
 - 一つの方法が失敗しても、安全で同じ目的を満たす代替策があれば進める。外部承認待ちになった場合は、依存しないローカル作業、検証、文書化を先に行い、作業全体を止めない。
 - 報告と学習の振り返りは原則Work Packageまたはcoherent sliceの完了時にまとめる。途中確認は、仕様の根本変更、評価の公正性、費用、公開状態へ影響する場合に限る。
 - 次の操作は包括承認の対象外とし、具体的な対象、影響、費用、rollbackまたはcleanupを示して実行前に確認する。

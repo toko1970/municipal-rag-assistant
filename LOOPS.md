@@ -62,3 +62,16 @@ Phase 0に関係するTARGET_RAG_SPEC.md、TECHNICAL_DESIGN.md、DATA_MODEL.md�
 契約実装では、AGENTS.md、TEST_STRATEGY.md、既存text development set、visual holdout contractを証拠として読み、50 scenario / 100表現のblueprint、公開manifest、Schema、semantic validator、test、README、custodian handoffだけを作る。source Markdown、公開質問、goldは作らず、別custodianタスクへ渡す。Schemaは形、validatorは件数・意味・hash・状態遷移・family分離を受け持つ。修正は最大2 roundとし、対象testと全test、lint、diff検査が成功、blocked、仕様変更が必要、または利用率80%以上で停止する。
 
 CustodianはEvidence-first feature loopでTH001からTH050を一つずつ作り、各scenarioへformalとparaphrase_or_noisyを1件ずつ割り当てる。全artifact作成後、固定順の50 scenarioをQuality streakとして検査する。失敗時は原因と回帰testを残し、最小修正後にstreakを0へ戻す。50 scenario連続成功、最大2 repair round、同じ失敗が改善しない、仕様変更が必要、または利用率80%以上でcheckpointを残して停止する。実装タスクへ返すのは公開質問、hash、集計、検証結果だけとし、source本文とscenario別goldを漏らさない。
+
+## Visual extraction versioned experiment
+
+図表抽出のprompt、正規化、評価器を、保存済みraw出力と固定評価revisionで一要因ずつ比較する。
+
+- 保存日: 2026-09-28
+- 種別: 公開loopのプロジェクト向けadaptation
+- 元loop: [The Revolve versioned-experiment loop](https://signals.forwardfuture.com/loop-library/loops/revolve-self-improvement-loop/)
+- 元loop更新日: 2026-06-19
+
+### Prompt
+
+6件のvisual development fixture、モデル、prompt、Schema、評価revision、raw出力を固定し、baselineを保存する。各roundは記録済み失敗から一つの仮説だけを実装し、同じraw出力を再評価する。重要値、Recall、bbox IoU、semantic validation、token、遅延を比較し、回帰のない明確な改善だけをcheckpointへ昇格する。評価器を変えた場合は新revisionとしてincumbentから再採点する。合格、改善なし、過適合リスク、blocker、利用率80%以上で停止し、最良checkpoint、失敗例、rollback、次の判断を記録する。

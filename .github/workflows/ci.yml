@@ -59,6 +59,7 @@ jobs:
       IMAGE: asia-northeast1-docker.pkg.dev/municipal-rag-portfolio/municipal-rag-images/municipal-rag-assistant:${{ github.sha }}
       CLOUD_SQL_CONNECTION_NAME: ${{ vars.CLOUD_SQL_CONNECTION_NAME }}
       QDRANT_URL: ${{ vars.QDRANT_URL }}
+      GCS_VISUAL_ASSET_BUCKET: ${{ vars.GCS_VISUAL_ASSET_BUCKET }}
     steps:
       - uses: actions/checkout@v6
       - name: Authenticate to Google Cloud without a service account key
@@ -78,6 +79,7 @@ jobs:
         run: |
           test -n "$CLOUD_SQL_CONNECTION_NAME"
           test -n "$QDRANT_URL"
+          test -n "$GCS_VISUAL_ASSET_BUCKET"
       - name: Initialize and smoke-test RAG v2 dependencies
         uses: google-github-actions/deploy-cloudrun@v3
         with:
@@ -93,6 +95,8 @@ jobs:
             QDRANT_COLLECTION_NAME=municipality_rag_docs_v2_contextual_heading_v1
             LLM_MODEL_NAME=gemini-3.1-flash-lite
             CLASSIFIER_MODEL_NAME=gemini-3.1-flash-lite
+            VISUAL_ASSET_BACKEND=gcs
+            GCS_VISUAL_ASSET_BUCKET=${{ env.GCS_VISUAL_ASSET_BUCKET }}
           secrets_update_strategy: overwrite
           secrets: |-
             GOOGLE_API_KEY=gemini-api-key:1
@@ -122,6 +126,8 @@ jobs:
             QDRANT_COLLECTION_NAME=municipality_rag_docs_v2_contextual_heading_v1
             LLM_MODEL_NAME=gemini-3.1-flash-lite
             CLASSIFIER_MODEL_NAME=gemini-3.1-flash-lite
+            VISUAL_ASSET_BACKEND=gcs
+            GCS_VISUAL_ASSET_BUCKET=${{ env.GCS_VISUAL_ASSET_BUCKET }}
           secrets_update_strategy: overwrite
           secrets: |-
             GOOGLE_API_KEY=gemini-api-key:1

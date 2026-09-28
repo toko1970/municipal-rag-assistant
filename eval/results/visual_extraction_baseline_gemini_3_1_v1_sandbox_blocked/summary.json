@@ -1,0 +1,72 @@
+{
+  "api_calls": 5,
+  "error_count": 5,
+  "fixture_count": 6,
+  "gate_passed_count": 0,
+  "invalid_count": 0,
+  "manifest_version": "1.0",
+  "model": "gemini-3.1-flash-lite",
+  "records": [
+    {
+      "elapsed_seconds": null,
+      "fixture_id": "flowchart_dev_001",
+      "input_tokens": 1318,
+      "kind": "flowchart",
+      "metrics": {
+        "element_recall": 1.0,
+        "gate_passed": false,
+        "gold_elements": 12,
+        "important_values_exact": true,
+        "kind": "flowchart",
+        "matched_elements": 12,
+        "mean_bbox_iou": 0.6623427393281248
+      },
+      "model": "gemini-3.1-flash-lite",
+      "normalized_bbox_count": 13,
+      "output_tokens": 1594,
+      "prompt_version": "visual-extraction-v1",
+      "provider": "gemini",
+      "source": "reused",
+      "status": "VALIDATED",
+      "validation_errors": []
+    },
+    {
+      "error": "ConnectError: [Errno 8] nodename nor servname provided, or not known",
+      "fixture_id": "flowchart_dev_002",
+      "kind": "flowchart",
+      "source": "api",
+      "status": "ERROR"
+    },
+    {
+      "error": "ConnectError: [Errno 8] nodename nor servname provided, or not known",
+      "fixture_id": "timeline_dev_001",
+      "kind": "timeline",
+      "source": "api",
+      "status": "ERROR"
+    },
+    {
+      "error": "ConnectError: [Errno 8] nodename nor servname provided, or not known",
+      "fixture_id": "table_dev_001",
+      "kind": "table",
+      "source": "api",
+      "status": "ERROR"
+    },
+    {
+      "error": "ConnectError: [Errno 8] nodename nor servname provided, or not known",
+      "fixture_id": "form_dev_001",
+      "kind": "form",
+      "source": "api",
+      "status": "ERROR"
+    },
+    {
+      "error": "ConnectError: [Errno 8] nodename nor servname provided, or not known",
+      "fixture_id": "table_dev_002",
+      "kind": "table",
+      "source": "api",
+      "status": "ERROR"
+    }
+  ],
+  "total_input_tokens": 1318,
+  "total_output_tokens": 1594,
+  "validated_count": 1
+}

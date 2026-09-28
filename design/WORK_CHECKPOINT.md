@@ -137,11 +137,22 @@
 - 3回目のproduction CDは全工程に成功した。bootstrap execution `municipal-rag-bootstrap-jtkms`はmigration head、5文書・86要素、Qdrant 86 point、missing 0、unexpected 0、代表質問`根拠十分`・参照8件を記録した。
 - revision `municipal-rag-assistant-00005-rwd`へcommit `4a621fcb938b37d718cb294c51870733531387e7`を反映し、traffic 100%、`Ready=True`、health `ok`、トップページHTTP 200を確認した。
 - 公開実ブラウザで「給与支給日はいつですか？」を実行し、毎月21日、休日は直前営業日という回答、`根拠十分`、参照8件を確認した。「採用した」とsmoke用コメントを送信し、保存成功表示を確認した。
+- Cloud SQL Auth Proxyを一時起動し、公開request `25be953a-bf46-4adf-97f6-5554740107b3`をread-only SQLで監査した。検索8件、生成1件、分類1件、claim 2件、evidence 3件、feedback「採用した」とコメントを結合でき、公開text RAG v2のgo-live条件をすべて確認した。
 
 ## 2. 未完了・次回反映すること
 
 - 既存100シナリオ・500問を新しい論理locatorへ移行する処理は、Phase 2以降のingestion実装で具体化する。
-- Cloud SQL、Qdrant Cloud、Gemini 3.1を使うtext RAG v2の公開反映とブラウザsmokeは完了した。Cloud SQL上の最新公開requestを直接read-only SQLで結合する監査は未完了である。
+- Cloud SQL、Qdrant Cloud、Gemini 3.1を使うtext RAG v2は、公開反映、ブラウザsmoke、Cloud SQLの直接read-only監査まで完了した。
+- PDF・図表runtimeは、レビュー済み抽出JSONを入力にした最小vertical sliceまで実装した。ページ画像の描画・hash照合、Schemaと意味検証、`LocalAssetStore`保存、PostgreSQLのvisual metadata、検索用説明のEmbedding、Qdrant登録を一つのCLI経路で実行できる。Gemini画像抽出、画像付き回答、6 fixture評価は次のroundで実装する。
+- Gemini画像抽出adapterと`extract-visual` CLIを追加した。`flowchart_dev_001`の実モデル試験ではnode 6件・edge 6件・分岐条件を抽出した一方、矢印bboxを端点として返し、意味検証が拒否した。prompt修正でも再現したため、端点の大小整列とゼロ幅線への最小幅付与を決定的な正規化として追加した。保存済み実応答のオフライン再検証はbbox 13件を正規化後、validation error 0件となった。候補は常に`REVIEW_REQUIRED`で、review前にはDBへ登録しない。
+- visual extraction evaluatorを追加し、kindごとの論理要素をIDではなく内容で対応付け、重要値完全一致、要素recall、bbox IoUを同時に測れるようにした。上記のGemini実候補は重要値完全一致、要素recall `12/12 = 1.0`、平均bbox IoU `0.6623`で、固定gate `0.80`未達のため不合格だった。意味抽出と位置抽出の成否を分離して記録できる状態になった。
+- 6 visual fixtureの固定baselineを完了した。残り5件を単一batch、retryなしでGemini 3.1へ送り、input 7,904・output 9,920 tokens、実行5件合計30.626秒を記録した。初期評価は合格2/6、validated 5/6だった。波ダッシュの同値比較を評価revision v2として分離し3/6へ修正し、cell範囲から不足したtable行数だけを補正するRevolve roundで4/6、validated 6/6へ改善した。残るflowchart 2件は重要値・要素Recall 1.0、bbox IoU 0.662/0.629で、人手review対象として自動調整を停止した。詳細は[`VISUAL_EXTRACTION_BASELINE.md`](../eval/VISUAL_EXTRACTION_BASELINE.md)に記録した。
+- reviewed ingestion Quality streakは6 fixture連続成功した。各fixtureを2回登録しても、PostgreSQLの文書・content element・visual asset、Qdrant point、LocalAssetStoreのPNGは各6件のままで、重複0件だった。実PostgreSQL・Qdrant integration testは3件すべて成功した。
+- 画像付き回答のローカルvertical sliceを接続した。Qdrantの図表hit順にPostgreSQLからvisual assetを取得し、保存画像のSHA-256を検証して、構造JSON・element ID・添付順と最大3枚の元画像をGeminiへ渡す。返却referenceにはページ・bbox・画像pathを付け、Streamlitの根拠欄で元画像を表示する。画像欠損・hash不一致は`GENERATION_FAILED`として記録する。Cloud公開時は`LocalAssetStore`をGCS adapterへ差し替える必要がある。
+- 図表回答30 scenario用のbounded evaluatorを追加した。development以外を拒否し、インメモリQdrant、最大scenario・費用、scenarioごとの費用予約、retry 0、error fail-fast、逐次JSONL、条件一致resumeを固定した。VD001 pilot v2は分類・必須fixture検索・回答内容が成功し、input 17,871、output 247 tokens、標準料金換算US$0.00483825、15.38秒だった。v1のartifact保存失敗も上書きせず保存した。詳細は[`VISUAL_ANSWER_BASELINE.md`](../eval/VISUAL_ANSWER_BASELINE.md)に記録した。
+- 図表回答baseline 30/30を完了した。必須fixture検索30/30、分類28/30、API error 0、input 573,290・output 9,468 tokens、標準料金換算US$0.1575245、平均10.08秒だった。分類失敗は`needs_judgment`の2件だけで、どちらも検索成功後の生成・分類境界だった。Codex初回内容reviewはpass 27、partial 1、fail 2で、ユーザー確認前の値として分離保存した。
+- `VD004`の根拠外読み替えをpromptだけで防ぐRevolveを2候補試した。v2はVD004単体を改善したが、全体runのVD003で誤記「モレ」を「不備」へ対応できず表示契約違反となった。誤字を許可したv3も同じ退行を再現したため、両候補を不採用にして`answer-claims-v1`へ戻した。次の改善はclaim locatorまたは生成・分類の決定的不整合処理とする。
+- visual asset境界をLocal/GCSで差替可能にした。DB列を`local_path`から`storage_uri`へ非破壊migrationし、Localは`file://`、GCSは`gs://`を保存する。GCSはcreate-only precondition、content hash key、重複時hash照合を使い、readerはdownload後にSHA-256を再検証する。回答時の同じbytesをGeminiとStreamlitへ渡すため、Cloud Runの一時filesystemに依存しない。cloud bucketとIAMはまだ作成・変更していない。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
@@ -152,9 +163,10 @@
 
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
-3. 公開Cloud SQLの最新request・retrieval・generation・classification・feedbackをread-only SQLで結合し、go-live監査を閉じる。
-4. [`PHASE0_CONFORMANCE.md`](PHASE0_CONFORMANCE.md)のPDF・図表runtime未実装項目を確認する。
-5. [`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)に沿ってPDF・図表の最小vertical sliceを開始する。
+3. `VD004`の根拠外読み替えと`VD024`の判断要/文書不足境界に限定した候補を、同じ30 scenarioで比較する。
+4. Terraformへprivate application bucketとruntime object権限を追加し、具体的な費用・rollbackを提示してapply承認を得る。
+5. reviewed 6 fixtureをGCS・Cloud SQL・Qdrant Cloudへ登録し、Cloud Runで画像付き質問をsmokeする。
+6. development候補と内容reviewを固定した後にだけ、visual sealed holdoutの実行可否をユーザーへ確認する。
 
 ## 4. 完了したvisual fixture学習単位
 
@@ -249,6 +261,10 @@ python3 -m json.tool design/schemas/text-holdout-gold-v1.schema.json >/dev/null
 ```
 
 ## 8. 利用枠checkpoint
+
+2026-09-28のPDF・図表runtime開始時点は週間枠13%使用で、secondary 5時間枠は表示されなかった。`flowchart_dev_001`を対象に最大3 roundのEvidence-first sliceを開始し、1 roundで停止条件を満たした。レビュー前の登録拒否、Schema・意味・画像hash検証、決定的な検索表現、LocalAssetStore、PostgreSQL・Qdrantへの冪等登録を実装した。対象test 38件、外部依存を除く全test 164件、実PostgreSQL・Qdrant integration 2件、Ruff、diff検査が成功した。Gemini API呼出とreset creditは使用していない。
+
+同日のGemini画像抽出roundは最大3回で実施した。1回目はAPI送信前のLangChain入力型エラー、2回目と3回目はそれぞれinput/output `1253/1531` tokens、`1318/1594` tokensで応答した。両方とも図の論理構造は取得したがedge bboxが意味検証に失敗し、promptだけでは改善しなかったため追加API再試行を停止した。既存応答で座標正規化を検証し、Schema・意味検証を通過した。API候補は`/tmp`だけに保存し、DB・Qdrantには未登録、reset creditは使用していない。
 
 残り3 fixtureの連続run開始時点は5時間枠35%使用、週間枠65%使用、完了後は5時間枠41%、週間枠66%使用だった。停止基準80%未満のため有限runを完了した。数値は次回まで維持されるとは限らないため、再開時にUsageを再取得し、`LEARNING_AND_USAGE_PLAN.md`の作業モードを決める。
 

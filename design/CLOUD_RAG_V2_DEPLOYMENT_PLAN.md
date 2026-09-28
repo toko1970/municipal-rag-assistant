@@ -1,7 +1,7 @@
 # Public RAG v2 deployment plan
 
 - 作成日: 2026-09-27
-- 状態: `PUBLIC_RAG_V2_LIVE_SMOKE_VERIFIED`
+- 状態: `PUBLIC_RAG_V2_GO_LIVE_VERIFIED`
 - 目的: localで検証したQdrant、PostgreSQL、Gemini 3.1のRAG v2を公開Cloud Runへ反映する
 - Terraform apply: 予算2件とRAG v2基盤12件を追加、0 change、0 destroy
 
@@ -109,7 +109,7 @@ Secret値はGitHubへ保存しない。Cloud Runとbootstrap JobはSecret Manage
 - revision `municipal-rag-assistant-00005-rwd`はcommit `4a621fcb938b37d718cb294c51870733531387e7`のimageを使用し、traffic 100%、`Ready=True`だった。
 - 公開URLのhealth endpointとトップページはHTTP 200だった。実ブラウザから同じ質問を実行し、毎月21日、休日の場合は直前の営業日という回答、`根拠十分`、参照8件を確認した。
 - 公開画面から「採用した」とコメント「公開RAG v2デプロイ後の動作確認」を送信し、「フィードバックを保存しました。」を確認した。
-- request、retrieval、generation、classification、feedbackのSQL結合は同じschemaのローカル実DBで確認済みである。今回のCloud SQLに対する直接のread-only SQL監査は、ローカルにADCとCloud SQL Auth Proxyがないため未完了とし、公開画面の保存成功と混同しない。
+- Cloud SQL Auth Proxyを一時起動し、公開ブラウザの最新request `25be953a-bf46-4adf-97f6-5554740107b3`をread-only SQLで監査した。検索8件、生成attempt 1件、分類attempt 1件、表示claim 2件、根拠link 3件、`根拠十分`、`SUCCESS`、feedback「採用した」とsmoke用コメントを一つのrequest IDで結合確認した。
 
 ## 7. Rollback
 
@@ -117,6 +117,8 @@ Secret値はGitHubへ保存しない。Cloud Runとbootstrap JobはSecret Manage
 
 公開終了時のdestroyはrollbackと別操作である。Cloud SQLのdeletion protection解除、Qdrant cluster削除、Secret無効化、最終plan確認を順に行う。
 
-## 8. 未実装範囲
+## 8. 図表機能の公開差分
 
-この公開で対象にするのは現時点のtext RAG v2である。PDF・図表はfixture、gold、validatorまで完成しているが、runtime取込と画像付き回答はまだ公開経路へ接続していない。図表vertical sliceの実装後、同じPostgreSQL、Qdrant Cloud、Cloud Runへ追加する。
+2026-09-28に図表vertical slice、30問development評価、Local/GCS asset adapterまで実装した。公開環境では同じPostgreSQL、Qdrant Cloud、Cloud Runへ図表機能を追加し、新しいアプリを増やさない。
+
+公開差分は、private GCS bucket 1件、runtimeのobject作成・参照権限、`storage_uri` migration、レビュー済み6 fixtureのbootstrap登録である。2026-09-28にTerraformを`4 added, 0 changed, 0 destroyed`で適用し、適用後planの`No changes`とGitHub production variable `GCS_VISUAL_ASSET_BUCKET`の設定を確認した。残る承認対象は、PR mergeとそれに続くCloud Run公開切替である。

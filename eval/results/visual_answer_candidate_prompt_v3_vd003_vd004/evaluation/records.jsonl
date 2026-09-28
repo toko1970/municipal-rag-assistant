@@ -1,0 +1,1 @@
+{"scenario_id": "VD003", "question": "申請にモレがあって差し戻した後は、どの工程へ戻りますか？", "expected_classification": "grounded", "content_review_status": "blocked_by_error", "elapsed_seconds": 6.979094708993216, "error": "ValueError: 根拠十分の表示条件を満たしていません"}

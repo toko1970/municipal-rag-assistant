@@ -5,21 +5,31 @@ from __future__ import annotations
 import argparse
 import json
 from collections import Counter
+from pathlib import Path
 
 from alembic import command
 from alembic.config import Config
 from sqlalchemy import select
 from sqlalchemy.orm import Session, sessionmaker
 
-from config import BASE_DIR, DATABASE_URL
+from config import BASE_DIR, DATABASE_URL, LLM_MODEL_NAME
+from src.asset_backend import get_asset_store
+from src.embeddings import get_embeddings
 from src.ingestion import ingest_markdown_documents
+from src.llm_provider import GeminiProvider
 from src.persistence.database import get_engine
 from src.persistence.repositories import PostgresDocumentRepository
 from src.qdrant_index import QdrantVectorIndex
 from src.rag_v2 import generate_qdrant_answer
+from src.visual_ingestion import ingest_visual_pdf
+from src.visual_extractor import extract_visual_candidate
+from src.visual_ingestion import render_pdf_page
 
 
 CLOUD_SMOKE_QUESTION = "給与支給日はいつですか？"
+VISUAL_DEVELOPMENT_MANIFEST = (
+    BASE_DIR / "eval/visual_fixtures/manifests/development_manifest.json"
+)
 
 
 def session_factory() -> sessionmaker[Session]:
@@ -55,6 +65,99 @@ def rebuild_qdrant() -> dict[str, int]:
         index.client.delete_collection(index.collection_name)
     repository = PostgresDocumentRepository(session_factory())
     return ingest_markdown_documents(repository, index)
+
+
+def ingest_visual(
+    *,
+    pdf_path: Path,
+    extraction_path: Path,
+    document_key: str,
+    document_name: str,
+    reviewed: bool,
+) -> dict[str, object]:
+    if not reviewed:
+        raise ValueError("図表の登録にはreview完了を示す--reviewedが必要です")
+    extraction = json.loads(extraction_path.read_text(encoding="utf-8"))
+    if not isinstance(extraction, dict):
+        raise ValueError("extractionはJSON objectである必要があります")
+    return ingest_visual_pdf(
+        pdf_path=pdf_path,
+        document_key=document_key,
+        document_name=document_name,
+        extraction=extraction,
+        reviewed=True,
+        repository=PostgresDocumentRepository(session_factory()),
+        vector_index=QdrantVectorIndex(),
+        asset_store=get_asset_store(),
+        embeddings=get_embeddings(),
+    )
+
+
+def ingest_reviewed_visual_fixtures() -> dict[str, int]:
+    """Publish the six reviewed, fictional visual fixtures idempotently."""
+
+    manifest = json.loads(VISUAL_DEVELOPMENT_MANIFEST.read_text(encoding="utf-8"))
+    repository = PostgresDocumentRepository(session_factory())
+    index = QdrantVectorIndex()
+    store = get_asset_store()
+    embeddings = get_embeddings()
+    ingested = 0
+    for fixture in manifest["fixtures"]:
+        pdf_path = BASE_DIR / fixture["document"]["path"]
+        extraction = json.loads(
+            (BASE_DIR / fixture["gold"]["path"]).read_text(encoding="utf-8")
+        )
+        extraction["source_image_sha256"] = render_pdf_page(
+            pdf_path, int(extraction["page"])
+        ).sha256
+        ingest_visual_pdf(
+            pdf_path=pdf_path,
+            document_key=f"visual-demo-{fixture['fixture_id']}",
+            document_name=str(extraction["title"]),
+            extraction=extraction,
+            reviewed=True,
+            repository=repository,
+            vector_index=index,
+            asset_store=store,
+            embeddings=embeddings,
+        )
+        ingested += 1
+    return {"reviewed_visual_fixtures": ingested}
+
+
+def extract_visual(
+    *,
+    pdf_path: Path,
+    page_number: int,
+    kind_hint: str,
+    output_path: Path,
+) -> dict[str, object]:
+    if output_path.exists():
+        raise FileExistsError(f"既存の抽出候補は上書きしません: {output_path}")
+    page = render_pdf_page(pdf_path, page_number)
+    candidate = extract_visual_candidate(
+        page=page,
+        kind_hint=kind_hint,
+        provider=GeminiProvider(LLM_MODEL_NAME),
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(candidate.data, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return {
+        "output": str(output_path),
+        "provider": candidate.provider,
+        "model": candidate.model,
+        "prompt_version": candidate.prompt_version,
+        "input_tokens": candidate.input_tokens,
+        "output_tokens": candidate.output_tokens,
+        "request_id": candidate.request_id,
+        "review_status": "REVIEW_REQUIRED",
+        "validation_errors": list(candidate.validation_errors),
+        "normalized_bbox_count": candidate.normalized_bbox_count,
+        "normalized_structure_count": candidate.normalized_structure_count,
+    }
 
 
 def reconcile() -> dict[str, object]:
@@ -105,6 +208,7 @@ def index_info() -> dict[str, object]:
 def bootstrap_cloud() -> dict[str, object]:
     migrate()
     ingestion = ingest()
+    visual_ingestion = ingest_reviewed_visual_fixtures()
     consistency = reconcile()
     if not consistency["consistent"]:
         raise RuntimeError("PostgreSQLとQdrantのindexが一致しません")
@@ -112,6 +216,7 @@ def bootstrap_cloud() -> dict[str, object]:
     return {
         "migration": "head",
         "ingestion": ingestion,
+        "visual_ingestion": visual_ingestion,
         "consistency": consistency,
         "smoke": {
             "question": CLOUD_SMOKE_QUESTION,
@@ -135,9 +240,19 @@ def main() -> int:
             "index-info",
             "query",
             "bootstrap-cloud",
+            "ingest-visual",
+            "extract-visual",
         ),
     )
     parser.add_argument("--question")
+    parser.add_argument("--pdf", type=Path)
+    parser.add_argument("--extraction", type=Path)
+    parser.add_argument("--document-key")
+    parser.add_argument("--document-name")
+    parser.add_argument("--reviewed", action="store_true")
+    parser.add_argument("--page", type=int, default=1)
+    parser.add_argument("--kind", choices=("flowchart", "timeline", "table", "form"))
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     if args.command == "migrate":
         migrate()
@@ -154,6 +269,40 @@ def main() -> int:
         result = index_info()
     elif args.command == "bootstrap-cloud":
         result = bootstrap_cloud()
+    elif args.command == "ingest-visual":
+        required = {
+            "--pdf": args.pdf,
+            "--extraction": args.extraction,
+            "--document-key": args.document_key,
+            "--document-name": args.document_name,
+        }
+        missing = [name for name, value in required.items() if not value]
+        if missing:
+            parser.error(f"ingest-visualには{'、'.join(missing)}が必要です")
+        if not args.reviewed:
+            parser.error("ingest-visualにはreview完了を示す--reviewedが必要です")
+        result = ingest_visual(
+            pdf_path=args.pdf,
+            extraction_path=args.extraction,
+            document_key=args.document_key,
+            document_name=args.document_name,
+            reviewed=True,
+        )
+    elif args.command == "extract-visual":
+        required = {
+            "--pdf": args.pdf,
+            "--kind": args.kind,
+            "--output": args.output,
+        }
+        missing = [name for name, value in required.items() if not value]
+        if missing:
+            parser.error(f"extract-visualには{'、'.join(missing)}が必要です")
+        result = extract_visual(
+            pdf_path=args.pdf,
+            page_number=args.page,
+            kind_hint=args.kind,
+            output_path=args.output,
+        )
     else:
         if not args.question:
             parser.error("queryには--questionが必要です")

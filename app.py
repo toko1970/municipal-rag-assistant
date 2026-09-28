@@ -89,6 +89,15 @@ if st.session_state.result is not None:
             source = ref.get("source", "")
 
             with st.expander(f"参照 {i}: {document_name} / {heading}"):
+                visual_asset = ref.get("visual_asset")
+                if visual_asset and visual_asset.get("content"):
+                    st.image(
+                        visual_asset["content"],
+                        caption=(
+                            f"{document_name} p.{visual_asset.get('page_number', '?')}"
+                        ),
+                        width="stretch",
+                    )
                 st.write(f"**文書ID:** {ref.get('document_id')}")
                 st.write(f"**文書名:** {document_name}")
                 st.write(f"**見出し:** {heading}")

@@ -102,7 +102,7 @@ IDはUUIDv5を使用し、`document_version_id + ingestion_run_id + element_type
 | `id` | UUID主キー |
 | `content_element_id` | 対応する要素 |
 | `asset_type` | ページ画像、図表切り出し、帳票領域など |
-| `object_uri` | Cloud Storage上のURI |
+| `storage_uri` | Localでは`file://`、Cloud Storageでは`gs://`のURI |
 | `mime_type` | MIMEタイプ |
 | `sha256` | 画像の同一性確認 |
 | `width` / `height` | 画像寸法 |

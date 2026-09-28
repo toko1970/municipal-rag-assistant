@@ -92,7 +92,7 @@ class VisualAssetRow(TimestampMixin, Base):
         nullable=False,
         index=True,
     )
-    local_path: Mapped[str] = mapped_column(Text, nullable=False)
+    storage_uri: Mapped[str] = mapped_column(Text, nullable=False)
     mime_type: Mapped[str] = mapped_column(String(100), nullable=False)
     page_number: Mapped[int] = mapped_column(Integer, nullable=False)
     sha256: Mapped[str] = mapped_column(String(64), nullable=False)

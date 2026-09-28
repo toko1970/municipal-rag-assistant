@@ -1,0 +1,157 @@
+{
+  "bbox": {
+    "x0": 0.34255,
+    "x1": 0.90745,
+    "y0": 0.13528,
+    "y1": 0.85972
+  },
+  "confidence": {
+    "review_required": true,
+    "source": "provider_self_report",
+    "value": 1.0
+  },
+  "data": {
+    "edges": [
+      {
+        "bbox": {
+          "x0": 0.5,
+          "x1": 0.5,
+          "y0": 0.19444,
+          "y1": 0.24722
+        },
+        "condition": null,
+        "from": "node1",
+        "to": "node2"
+      },
+      {
+        "bbox": {
+          "x0": 0.5,
+          "x1": 0.5,
+          "y0": 0.32778,
+          "y1": 0.38056
+        },
+        "condition": null,
+        "from": "node2",
+        "to": "node3"
+      },
+      {
+        "bbox": {
+          "x0": 0.22553,
+          "x1": 0.35106,
+          "y0": 0.44722,
+          "y1": 0.6
+        },
+        "condition": "あり",
+        "from": "node3",
+        "to": "node4"
+      },
+      {
+        "bbox": {
+          "x0": 0.64894,
+          "x1": 0.77447,
+          "y0": 0.44722,
+          "y1": 0.6
+        },
+        "condition": "なし",
+        "from": "node3",
+        "to": "node5"
+      },
+      {
+        "bbox": {
+          "x0": 0.068085,
+          "x1": 0.27553,
+          "y0": 0.28889,
+          "y1": 0.64028
+        },
+        "condition": "再提出",
+        "from": "node4",
+        "to": "node2"
+      },
+      {
+        "bbox": {
+          "x0": 0.77447,
+          "x1": 0.77447,
+          "y0": 0.68056,
+          "y1": 0.77917
+        },
+        "condition": null,
+        "from": "node5",
+        "to": "node6"
+      }
+    ],
+    "nodes": [
+      {
+        "bbox": {
+          "x0": 0.34255,
+          "x1": 0.65745,
+          "y0": 0.13528,
+          "y1": 0.19444
+        },
+        "id": "node1",
+        "node_type": "start",
+        "text": "申請書を受領"
+      },
+      {
+        "bbox": {
+          "x0": 0.27553,
+          "x1": 0.72447,
+          "y0": 0.24722,
+          "y1": 0.32778
+        },
+        "id": "node2",
+        "node_type": "process",
+        "text": "記載内容・添付書類を確認"
+      },
+      {
+        "bbox": {
+          "x0": 0.35106,
+          "x1": 0.64894,
+          "y0": 0.38056,
+          "y1": 0.51389
+        },
+        "id": "node3",
+        "node_type": "decision",
+        "text": "不備があるか"
+      },
+      {
+        "bbox": {
+          "x0": 0.091489,
+          "x1": 0.35957,
+          "y0": 0.6,
+          "y1": 0.68056
+        },
+        "id": "node4",
+        "node_type": "process",
+        "text": "申請者へ差戻し"
+      },
+      {
+        "bbox": {
+          "x0": 0.64043,
+          "x1": 0.90745,
+          "y0": 0.6,
+          "y1": 0.68056
+        },
+        "id": "node5",
+        "node_type": "process",
+        "text": "給与システムへ登録"
+      },
+      {
+        "bbox": {
+          "x0": 0.61064,
+          "x1": 0.90745,
+          "y0": 0.77917,
+          "y1": 0.85972
+        },
+        "id": "node6",
+        "node_type": "end",
+        "text": "処理完了"
+      }
+    ],
+    "type": "flowchart"
+  },
+  "kind": "flowchart",
+  "page": 1,
+  "schema_version": "1.0",
+  "source_image_sha256": "9129057315b7207b5dee3ae7488f943d7d6904e29c89944a8244f49c65acaf8f",
+  "title": "通勤手当 申請処理フロー（架空）"
+}

@@ -1,0 +1,147 @@
+{
+  "api_calls": 5,
+  "error_count": 0,
+  "fixture_count": 6,
+  "gate_passed_count": 2,
+  "invalid_count": 1,
+  "manifest_version": "1.0",
+  "model": "gemini-3.1-flash-lite",
+  "records": [
+    {
+      "elapsed_seconds": null,
+      "fixture_id": "flowchart_dev_001",
+      "input_tokens": 1318,
+      "kind": "flowchart",
+      "metrics": {
+        "element_recall": 1.0,
+        "gate_passed": false,
+        "gold_elements": 12,
+        "important_values_exact": true,
+        "kind": "flowchart",
+        "matched_elements": 12,
+        "mean_bbox_iou": 0.6623427393281248
+      },
+      "model": "gemini-3.1-flash-lite",
+      "normalized_bbox_count": 13,
+      "output_tokens": 1594,
+      "prompt_version": "visual-extraction-v1",
+      "provider": "gemini",
+      "source": "reused",
+      "status": "VALIDATED",
+      "validation_errors": []
+    },
+    {
+      "elapsed_seconds": 7.020659000001615,
+      "fixture_id": "flowchart_dev_002",
+      "input_tokens": 1318,
+      "kind": "flowchart",
+      "metrics": {
+        "element_recall": 1.0,
+        "gate_passed": false,
+        "gold_elements": 14,
+        "important_values_exact": true,
+        "kind": "flowchart",
+        "matched_elements": 14,
+        "mean_bbox_iou": 0.6294664799774312
+      },
+      "model": "gemini-3.1-flash-lite",
+      "normalized_bbox_count": 15,
+      "output_tokens": 1811,
+      "prompt_version": "visual-extraction-v1",
+      "provider": "gemini",
+      "source": "api",
+      "status": "VALIDATED",
+      "validation_errors": []
+    },
+    {
+      "elapsed_seconds": 4.106287957998575,
+      "fixture_id": "timeline_dev_001",
+      "input_tokens": 1317,
+      "kind": "timeline",
+      "metrics": {
+        "element_recall": 1.0,
+        "gate_passed": true,
+        "gold_elements": 5,
+        "important_values_exact": true,
+        "kind": "timeline",
+        "matched_elements": 5,
+        "mean_bbox_iou": 0.9334133345243989
+      },
+      "model": "gemini-3.1-flash-lite",
+      "normalized_bbox_count": 1,
+      "output_tokens": 849,
+      "prompt_version": "visual-extraction-v1",
+      "provider": "gemini",
+      "source": "api",
+      "status": "VALIDATED",
+      "validation_errors": []
+    },
+    {
+      "elapsed_seconds": 6.523495667002862,
+      "fixture_id": "table_dev_001",
+      "input_tokens": 1317,
+      "kind": "table",
+      "metrics": {
+        "element_recall": 0.8666666666666667,
+        "gate_passed": false,
+        "gold_elements": 15,
+        "important_values_exact": false,
+        "kind": "table",
+        "matched_elements": 13,
+        "mean_bbox_iou": 0.9755200904146337
+      },
+      "model": "gemini-3.1-flash-lite",
+      "normalized_bbox_count": 1,
+      "output_tokens": 2033,
+      "prompt_version": "visual-extraction-v1",
+      "provider": "gemini",
+      "source": "api",
+      "status": "VALIDATED",
+      "validation_errors": []
+    },
+    {
+      "elapsed_seconds": 4.367741707988898,
+      "fixture_id": "form_dev_001",
+      "input_tokens": 1317,
+      "kind": "form",
+      "metrics": {
+        "element_recall": 1.0,
+        "gate_passed": true,
+        "gold_elements": 7,
+        "important_values_exact": true,
+        "kind": "form",
+        "matched_elements": 7,
+        "mean_bbox_iou": 0.9849005292828786
+      },
+      "model": "gemini-3.1-flash-lite",
+      "normalized_bbox_count": 1,
+      "output_tokens": 997,
+      "prompt_version": "visual-extraction-v1",
+      "provider": "gemini",
+      "source": "api",
+      "status": "VALIDATED",
+      "validation_errors": []
+    },
+    {
+      "elapsed_seconds": 8.607397042011144,
+      "fixture_id": "table_dev_002",
+      "input_tokens": 1317,
+      "kind": "table",
+      "metrics": null,
+      "model": "gemini-3.1-flash-lite",
+      "normalized_bbox_count": 20,
+      "output_tokens": 2636,
+      "prompt_version": "visual-extraction-v1",
+      "provider": "gemini",
+      "source": "api",
+      "status": "INVALID",
+      "validation_errors": [
+        "table cellが行列範囲を超えています: cell[17]"
+      ]
+    }
+  ],
+  "skipped_count": 0,
+  "total_input_tokens": 7904,
+  "total_output_tokens": 9920,
+  "validated_count": 5
+}

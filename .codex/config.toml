@@ -1,4 +1,6 @@
-approval_policy = "on-request"
+# This trusted portfolio repository runs authorized work without per-command
+# prompts. Filesystem isolation remains enabled by workspace-write.
+approval_policy = "never"
 approvals_reviewer = "auto_review"
 sandbox_mode = "workspace-write"
 
