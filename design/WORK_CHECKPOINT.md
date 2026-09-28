@@ -149,6 +149,9 @@
 - 6 visual fixtureの固定baselineを完了した。残り5件を単一batch、retryなしでGemini 3.1へ送り、input 7,904・output 9,920 tokens、実行5件合計30.626秒を記録した。初期評価は合格2/6、validated 5/6だった。波ダッシュの同値比較を評価revision v2として分離し3/6へ修正し、cell範囲から不足したtable行数だけを補正するRevolve roundで4/6、validated 6/6へ改善した。残るflowchart 2件は重要値・要素Recall 1.0、bbox IoU 0.662/0.629で、人手review対象として自動調整を停止した。詳細は[`VISUAL_EXTRACTION_BASELINE.md`](../eval/VISUAL_EXTRACTION_BASELINE.md)に記録した。
 - reviewed ingestion Quality streakは6 fixture連続成功した。各fixtureを2回登録しても、PostgreSQLの文書・content element・visual asset、Qdrant point、LocalAssetStoreのPNGは各6件のままで、重複0件だった。実PostgreSQL・Qdrant integration testは3件すべて成功した。
 - 画像付き回答のローカルvertical sliceを接続した。Qdrantの図表hit順にPostgreSQLからvisual assetを取得し、保存画像のSHA-256を検証して、構造JSON・element ID・添付順と最大3枚の元画像をGeminiへ渡す。返却referenceにはページ・bbox・画像pathを付け、Streamlitの根拠欄で元画像を表示する。画像欠損・hash不一致は`GENERATION_FAILED`として記録する。Cloud公開時は`LocalAssetStore`をGCS adapterへ差し替える必要がある。
+- 図表回答30 scenario用のbounded evaluatorを追加した。development以外を拒否し、インメモリQdrant、最大scenario・費用、scenarioごとの費用予約、retry 0、error fail-fast、逐次JSONL、条件一致resumeを固定した。VD001 pilot v2は分類・必須fixture検索・回答内容が成功し、input 17,871、output 247 tokens、標準料金換算US$0.00483825、15.38秒だった。v1のartifact保存失敗も上書きせず保存した。詳細は[`VISUAL_ANSWER_BASELINE.md`](../eval/VISUAL_ANSWER_BASELINE.md)に記録した。
+- 図表回答baseline 30/30を完了した。必須fixture検索30/30、分類28/30、API error 0、input 573,290・output 9,468 tokens、標準料金換算US$0.1575245、平均10.08秒だった。分類失敗は`needs_judgment`の2件だけで、どちらも検索成功後の生成・分類境界だった。Codex初回内容reviewはpass 27、partial 1、fail 2で、ユーザー確認前の値として分離保存した。
+- `VD004`の根拠外読み替えをpromptだけで防ぐRevolveを2候補試した。v2はVD004単体を改善したが、全体runのVD003で誤記「モレ」を「不備」へ対応できず表示契約違反となった。誤字を許可したv3も同じ退行を再現したため、両候補を不採用にして`answer-claims-v1`へ戻した。次の改善はclaim locatorまたは生成・分類の決定的不整合処理とする。
 - 30 scenarioを実行する評価harnessは、Phase 4・5の取込・回答実装と合わせて追加する。
 - Phase 0の全要求が揃った段階でcontract conformance loopを再実行する。
 - 短期集中期間の実行順序は[`PORTFOLIO_DELIVERY_PLAN.md`](PORTFOLIO_DELIVERY_PLAN.md)を正とする。Cloud SQL・Qdrant Cloudの実接続は対応コード完成後へ移し、HA・完全な障害回復・運用自動化はProduction Backlogとして説明する。
@@ -159,9 +162,9 @@
 
 1. Codexの5時間枠・週間枠を確認する。
 2. `git status`と本checkpointを確認する。
-3. 図表development 30 scenarioを実行する回答評価harnessを追加する。
+3. `VD004`の根拠外読み替えと`VD024`の判断要/文書不足境界に限定した候補を、同じ30 scenarioで比較する。
 4. 現在のLocalAssetStore境界をGCS adapterへ差し替え、Cloud Runから画像を取得・表示できるようにする。
-5. development評価で候補を固定した後にだけ、visual sealed holdoutの実行可否をユーザーへ確認する。
+5. development候補と内容reviewを固定した後にだけ、visual sealed holdoutの実行可否をユーザーへ確認する。
 
 ## 4. 完了したvisual fixture学習単位
 

@@ -1,0 +1,17 @@
+{
+  "classification_correct": 2,
+  "completed_count": 2,
+  "content_review_pending": 2,
+  "dataset_version": "visual-development-v1.0",
+  "error_count": 1,
+  "estimated_cost_usd": 0.009725,
+  "input_tokens": 35864,
+  "max_cost_usd": 0.25,
+  "output_tokens": 506,
+  "per_scenario_cost_reserve_usd": 0.01,
+  "records_path": "records.jsonl",
+  "required_fixture_retrieved": 2,
+  "scenario_limit": 30,
+  "split": "development",
+  "stop_reason": "ERROR_FAIL_FAST"
+}

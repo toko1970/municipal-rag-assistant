@@ -1,0 +1,9 @@
+{
+  "status": "HARNESS_FAILED_AFTER_MODEL_RESPONSE",
+  "error_type": "TypeError",
+  "error_summary": "UUID in claims was not JSON serializable",
+  "result_saved": false,
+  "retry_count": 0,
+  "decision": "Preserve this run and use a new run ID after the serialization fix.",
+  "sealed_holdout_accessed": false
+}

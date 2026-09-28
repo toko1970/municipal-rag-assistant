@@ -1,0 +1,24 @@
+{
+  "classification_prompt_version": "answer-classification-v1",
+  "classifier_model": "gemini-3.1-flash-lite",
+  "dataset_path": "eval/visual_fixtures/development_evaluation_set.json",
+  "dataset_sha256": "83394fdd21ff7df0fc00fb41add154b70c9f3dbf9f7bc6f525527d7c4da4ffab",
+  "embedding_model": "gemini-embedding-001",
+  "fixture_manifest_path": "eval/visual_fixtures/manifests/development_manifest.json",
+  "fixture_manifest_sha256": "076626debb3a24e12daf53302bfff1c08b57b7de4f23561b5c892bcf1c3dbe4a",
+  "generation_prompt_version": "answer-claims-v1",
+  "generator_model": "gemini-3.1-flash-lite",
+  "max_cost_usd": 0.02,
+  "max_logical_external_calls": 4,
+  "max_scenarios": 1,
+  "pricing": {
+    "input_usd_per_million_tokens": 0.25,
+    "output_usd_per_million_tokens": 1.5,
+    "source": "https://ai.google.dev/gemini-api/docs/pricing",
+    "verified_on": "2026-09-28"
+  },
+  "retry_count": 0,
+  "scenario_ids": "all",
+  "sealed_holdout_accessed": false,
+  "split": "development"
+}

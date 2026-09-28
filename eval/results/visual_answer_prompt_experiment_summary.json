@@ -1,0 +1,56 @@
+{
+  "experiment": "visual-answer-generation-prompt-equivalence-v1",
+  "method": "Revolve versioned experiment",
+  "fixed_conditions": [
+    "development dataset",
+    "Gemini 3.1 Flash-Lite",
+    "gemini-embedding-001",
+    "in-memory Qdrant",
+    "dense top 5",
+    "max 3 images",
+    "classification prompt v1"
+  ],
+  "rounds": [
+    {
+      "candidate": "answer-claims-v1",
+      "run": "visual_answer_baseline_gemini_3_1_v1",
+      "result": "baseline",
+      "completed": 30,
+      "classification_correct": 28,
+      "errors": 0
+    },
+    {
+      "candidate": "answer-claims-v2",
+      "run": "visual_answer_candidate_prompt_v2_vd004",
+      "result": "target_pass",
+      "completed": 1,
+      "classification_correct": 1,
+      "errors": 0,
+      "note": "VD004 changed from 根拠十分 to 判断要."
+    },
+    {
+      "candidate": "answer-claims-v2",
+      "run": "visual_answer_candidate_prompt_v2_full",
+      "result": "rejected_regression",
+      "completed": 2,
+      "classification_correct": 2,
+      "errors": 1,
+      "note": "VD003 failed display invariant after paraphrase モレ was treated as missing applicability."
+    },
+    {
+      "candidate": "answer-claims-v3",
+      "run": "visual_answer_candidate_prompt_v3_vd003_vd004",
+      "result": "rejected_target_failure",
+      "completed": 0,
+      "classification_correct": 0,
+      "errors": 1,
+      "note": "VD003 repeated the same display invariant failure; fail-fast stopped before VD004."
+    }
+  ],
+  "decision": "Keep answer-claims-v1. Do not tune the prompt further in this experiment.",
+  "next_hypotheses": [
+    "Add node/edge/cell evidence locators to claims.",
+    "Add deterministic consistency handling between missing_conditions and classification factors."
+  ],
+  "sealed_holdout_accessed": false
+}

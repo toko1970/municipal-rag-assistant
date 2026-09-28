@@ -1,0 +1,16 @@
+{
+  "classification_correct": 1,
+  "completed_count": 1,
+  "content_review_pending": 1,
+  "dataset_version": "visual-development-v1.0",
+  "error_count": 0,
+  "estimated_cost_usd": 0.00483825,
+  "input_tokens": 17871,
+  "max_cost_usd": 0.02,
+  "output_tokens": 247,
+  "records_path": "records.jsonl",
+  "required_fixture_retrieved": 1,
+  "scenario_limit": 1,
+  "split": "development",
+  "stop_reason": "SCENARIO_LIMIT_REACHED"
+}

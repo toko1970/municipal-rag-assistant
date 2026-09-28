@@ -259,6 +259,7 @@ def answer_question(
         "question": question,
         "answer": display.text,
         "answer_label": display.label,
+        "claims": _claim_log_rows(display),
         "references": _evidence_payload(
             hits, visual_assets, include_local_path=True
         ),

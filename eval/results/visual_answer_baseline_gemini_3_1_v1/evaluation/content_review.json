@@ -1,0 +1,168 @@
+{
+  "review_version": "visual-answer-content-review-v1",
+  "reviewer": "codex_agent_initial_review",
+  "requires_user_confirmation": true,
+  "criteria": [
+    "期待する回答keyの意味を満たす",
+    "根拠外の断定をしない",
+    "質問に無関係なclaimを混在させない",
+    "不足時に安全な分類と案内を返す"
+  ],
+  "counts": {
+    "pass": 27,
+    "partial": 1,
+    "fail": 2
+  },
+  "records": [
+    {
+      "scenario_id": "VD001",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD002",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD003",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD004",
+      "status": "fail",
+      "reason": "「読みにくい」を図中の「不備」と同一視し、運用基準がないのに登録不可と断定した。生成と分類の両方の失敗。"
+    },
+    {
+      "scenario_id": "VD005",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD006",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD007",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD008",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD009",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD010",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD011",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD012",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD013",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD014",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD015",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD016",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD017",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD018",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD019",
+      "status": "partial",
+      "reason": "職員区分が不明なので確定不能という中心回答は正しいが、申請不備時の差戻しという無関係なclaimを混在させた。"
+    },
+    {
+      "scenario_id": "VD020",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD021",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD022",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD023",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD024",
+      "status": "fail",
+      "reason": "必要な転居時規定がないことは安全に棄却したが、goldの「判断要」ではなく「文書不足」と分類し、個別確認の案内も表示されなかった。"
+    },
+    {
+      "scenario_id": "VD025",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD026",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD027",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD028",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD029",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    },
+    {
+      "scenario_id": "VD030",
+      "status": "pass",
+      "reason": "期待分類と一致し、回答または安全な棄却がexpected answer keyの意味と矛盾しない。"
+    }
+  ]
+}
