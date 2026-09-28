@@ -1,5 +1,6 @@
 from copy import deepcopy
 import hashlib
+import json
 from pathlib import Path
 
 import fitz
@@ -8,6 +9,7 @@ import pytest
 from eval.run_visual_holdout_predictions import (
     MAX_LOGICAL_EXTERNAL_CALLS,
     build_execution_plan,
+    freeze_failed_predictions,
     load_frozen_candidate,
     verify_document_inputs,
 )
@@ -67,3 +69,47 @@ def test_plan_refuses_a_non_frozen_runtime_setting(monkeypatch) -> None:
 
     with pytest.raises(ValueError, match="top_k"):
         runner.load_frozen_candidate()
+
+
+def test_freeze_failure_records_twenty_blocked_outcomes(
+    tmp_path: Path, monkeypatch
+) -> None:
+    import eval.run_visual_holdout_predictions as runner
+
+    output_dir = tmp_path / "failed-run"
+    extraction_dir = output_dir / "extraction"
+    extraction_dir.mkdir(parents=True)
+    (output_dir / "run_manifest.json").write_text(
+        json.dumps(
+            {
+                "run_id": "failed-run",
+                "sealed_gold_accessed": False,
+            }
+        )
+    )
+    invalid = {
+        "schema_version": "1.0",
+        "kind": "flowchart",
+        "title": "invalid",
+        "page": 1,
+        "source_image_sha256": "0" * 64,
+        "bbox": {"x0": 0.1, "y0": 0.1, "x1": 0.9, "y1": 0.9},
+        "data": {"type": "flowchart", "nodes": [], "edges": []},
+        "confidence": {"source": "test", "value": 0.1, "review_required": True},
+    }
+    for suffix in ("raw", "normalized"):
+        (extraction_dir / f"vh_doc_a7.{suffix}.json").write_text(
+            json.dumps(invalid)
+        )
+    manifest, config = load_frozen_candidate()
+    monkeypatch.setattr(runner, "BASE_DIR", tmp_path)
+    monkeypatch.setattr(runner, "QUESTIONS", REPOSITORY_ROOT / "eval/visual_holdout/questions.json")
+    monkeypatch.setattr(runner, "load_frozen_candidate", lambda: (manifest, config))
+
+    bundle, bundle_hash = freeze_failed_predictions(output_dir)
+
+    assert len(bundle["predictions"]) == 20
+    assert bundle["summary"]["question_attempt_count"] == 0
+    assert bundle["summary"]["failed_document_id"] == "vh_doc_a7"
+    assert len(bundle_hash) == 64
+    assert (output_dir / "predictions.json").is_file()

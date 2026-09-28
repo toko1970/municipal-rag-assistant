@@ -48,6 +48,8 @@ gold custodian以外は、予測結果の固定が終わるまでこのdirectory
 .venv/bin/python -m eval.run_visual_holdout_predictions plan
 ```
 
+fail-fastで質問処理前に停止した場合も、20 scenarioそれぞれへblocked outcomeを記録してからhashを固定する。`public_manifest.json`の`attempt_count`は固定したscenario outcome件数であり、実際に質問APIへ送った件数はprediction bundleの`question_attempt_count`へ別記する。候補を修正して同じholdoutを再実行しない。
+
 ## 検証方法
 
 公開情報だけを検証する通常のコマンドは、sealed artifactを読み込まない。

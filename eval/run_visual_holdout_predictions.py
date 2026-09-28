@@ -36,7 +36,12 @@ from src.llm_provider import GeminiProvider
 from src.qdrant_index import QdrantVectorIndex
 from src.query_service import answer_question, load_schema
 from src.visual_extractor import extract_visual_candidate
-from src.visual_ingestion import build_visual_element, render_pdf_page
+from src.visual_ingestion import (
+    build_visual_element,
+    load_visual_schema,
+    render_pdf_page,
+)
+from src.visual_validation import validate_gold
 
 
 PUBLIC_MANIFEST = BASE_DIR / "eval/visual_holdout/public_manifest.json"
@@ -86,8 +91,6 @@ def _portable_references(references: list[dict[str, Any]]) -> list[dict[str, Any
 
 def load_frozen_candidate() -> tuple[dict[str, Any], dict[str, Any]]:
     manifest = validate_public_manifest(PUBLIC_MANIFEST, BASE_DIR)
-    if manifest["state"] != "CANDIDATE_FROZEN":
-        raise ValueError("prediction実行前のstateはCANDIDATE_FROZENである必要があります")
     config = load_json(BASE_DIR / CANDIDATE_CONFIG_PATH)
     expected = {
         "generator model": (config["pipeline"]["generation"]["model"], LLM_MODEL_NAME),
@@ -273,6 +276,8 @@ def run_predictions(
     max_logical_external_calls: int,
 ) -> tuple[dict[str, Any], str]:
     manifest, config = load_frozen_candidate()
+    if manifest["state"] != "CANDIDATE_FROZEN":
+        raise ValueError("prediction実行前のstateはCANDIDATE_FROZENである必要があります")
     plan = build_execution_plan(manifest, config)
     if max_logical_external_calls != MAX_LOGICAL_EXTERNAL_CALLS:
         raise ValueError(
@@ -394,6 +399,91 @@ def run_predictions(
     return bundle, bundle_hash
 
 
+def freeze_failed_predictions(output_dir: Path) -> tuple[dict[str, Any], str]:
+    """Freeze blocked outcomes after a fail-fast run, without another API call."""
+
+    manifest, _config = load_frozen_candidate()
+    run_manifest = load_json(output_dir / "run_manifest.json")
+    if run_manifest.get("sealed_gold_accessed") is not False:
+        raise ValueError("gold未参照のrunだけをfailureとして固定できます")
+    bundle_path = output_dir / "predictions.json"
+    if bundle_path.exists():
+        raise FileExistsError(f"prediction bundleは上書きしません: {bundle_path}")
+
+    extraction_records = []
+    failed_document_id = None
+    failure = None
+    schema = load_visual_schema()
+    for document in manifest["documents"]:
+        document_id = document["document_id"]
+        normalized_path = output_dir / "extraction" / f"{document_id}.normalized.json"
+        raw_path = output_dir / "extraction" / f"{document_id}.raw.json"
+        if not normalized_path.exists():
+            break
+        status = "VALID"
+        error = None
+        try:
+            validate_gold(load_json(normalized_path), schema)
+        except ValueError as exception:
+            status = "INVALID"
+            error = f"{type(exception).__name__}: {exception}"
+            failed_document_id = document_id
+            failure = error
+        extraction_records.append(
+            {
+                "document_id": document_id,
+                "status": status,
+                "error": error,
+                "normalized_path": str(normalized_path.relative_to(BASE_DIR)),
+                "normalized_sha256": _sha256(normalized_path),
+                "raw_path": str(raw_path.relative_to(BASE_DIR)),
+                "raw_sha256": _sha256(raw_path),
+            }
+        )
+        if error:
+            break
+    if failed_document_id is None:
+        raise ValueError("固定対象の抽出失敗が見つかりません")
+
+    questions = load_json(QUESTIONS)
+    predictions = [
+        {
+            "scenario_id": scenario["scenario_id"],
+            "question": scenario["question"],
+            "status": "BLOCKED_BY_EXTRACTION_ERROR",
+            "predicted_label": None,
+            "answer": None,
+            "claims": [],
+            "references": [],
+            "error": failure,
+        }
+        for scenario in questions["scenarios"]
+    ]
+    bundle = {
+        "run_manifest": run_manifest,
+        "extractions": extraction_records,
+        "predictions": predictions,
+        "summary": {
+            "status": "ERROR_FAIL_FAST",
+            "failed_stage": "visual_extraction",
+            "failed_document_id": failed_document_id,
+            "failure": failure,
+            "extraction_attempt_count": len(extraction_records),
+            "valid_extraction_count": sum(
+                item["status"] == "VALID" for item in extraction_records
+            ),
+            "question_attempt_count": 0,
+            "prediction_outcome_count": len(predictions),
+            "answer_external_call_count": 0,
+            "retry_count": 0,
+            "sealed_gold_accessed": False,
+            "token_usage_recoverable_after_fail_fast": False,
+        },
+    }
+    _write_json(bundle_path, bundle)
+    return bundle, _sha256(bundle_path)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -407,11 +497,35 @@ def main() -> int:
         type=int,
         default=MAX_LOGICAL_EXTERNAL_CALLS,
     )
+    freeze_failure = subparsers.add_parser(
+        "freeze-failure",
+        help="fail-fast出力を追加API callなしで20件のblocked outcomeとして固定する",
+    )
+    freeze_failure.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args()
 
     if args.command == "plan":
         manifest, config = load_frozen_candidate()
         print(json.dumps(build_execution_plan(manifest, config), ensure_ascii=False))
+        return 0
+    if args.command == "freeze-failure":
+        bundle, bundle_hash = freeze_failed_predictions(args.output_dir.resolve())
+        print(
+            json.dumps(
+                {
+                    "run_id": bundle["run_manifest"]["run_id"],
+                    "prediction_outcome_count": bundle["summary"][
+                        "prediction_outcome_count"
+                    ],
+                    "question_attempt_count": bundle["summary"][
+                        "question_attempt_count"
+                    ],
+                    "sha256": bundle_hash,
+                    "sealed_gold_accessed": False,
+                },
+                ensure_ascii=False,
+            )
+        )
         return 0
     bundle, bundle_hash = run_predictions(
         documents_dir=args.sealed_documents_dir.resolve(),

@@ -1,0 +1,124 @@
+{
+  "bbox": {
+    "x0": 0.075,
+    "x1": 0.925,
+    "y0": 0.1714,
+    "y1": 0.7
+  },
+  "confidence": {
+    "review_required": true,
+    "source": "engine",
+    "value": 1.0
+  },
+  "data": {
+    "edges": [
+      {
+        "bbox": {
+          "x0": 0.495,
+          "x1": 0.505,
+          "y0": 0.2309,
+          "y1": 0.2857
+        },
+        "condition": null,
+        "from": "node1",
+        "to": "node2"
+      },
+      {
+        "bbox": {
+          "x0": 0.495,
+          "x1": 0.505,
+          "y0": 0.3548,
+          "y1": 0.4095
+        },
+        "condition": null,
+        "from": "node2",
+        "to": "node3"
+      },
+      {
+        "bbox": {
+          "x0": 0.26,
+          "x1": 0.285,
+          "y0": 0.4619,
+          "y1": 0.619
+        },
+        "condition": "不一致",
+        "from": "node3",
+        "to": "node4"
+      },
+      {
+        "bbox": {
+          "x0": 0.715,
+          "x1": 0.74,
+          "y0": 0.4619,
+          "y1": 0.619
+        },
+        "condition": "一致",
+        "from": "node3",
+        "to": "node5"
+      }
+    ],
+    "nodes": [
+      {
+        "bbox": {
+          "x0": 0.3187,
+          "x1": 0.6813,
+          "y0": 0.1714,
+          "y1": 0.2309
+        },
+        "id": "node1",
+        "node_type": "start",
+        "text": "登録票の到着"
+      },
+      {
+        "bbox": {
+          "x0": 0.285,
+          "x1": 0.715,
+          "y0": 0.2857,
+          "y1": 0.3548
+        },
+        "id": "node2",
+        "node_type": "process",
+        "text": "活動記録と登録票を照合"
+      },
+      {
+        "bbox": {
+          "x0": 0.285,
+          "x1": 0.715,
+          "y0": 0.4095,
+          "y1": 0.5143
+        },
+        "id": "node3",
+        "node_type": "decision",
+        "text": "記録は一致？"
+      },
+      {
+        "bbox": {
+          "x0": 0.075,
+          "x1": 0.445,
+          "y0": 0.619,
+          "y1": 0.7
+        },
+        "id": "node4",
+        "node_type": "end",
+        "text": "差異票を発行 照会待ちで終了"
+      },
+      {
+        "bbox": {
+          "x0": 0.555,
+          "x1": 0.925,
+          "y0": 0.619,
+          "y1": 0.7
+        },
+        "id": "node5",
+        "node_type": "end",
+        "text": "交換台帳へ登録 受付番号を通知"
+      }
+    ],
+    "type": "flowchart"
+  },
+  "kind": "flowchart",
+  "page": 1,
+  "schema_version": "1.0",
+  "source_image_sha256": "7d7ce7b75a1f166644fae59a96f950ec1fb765a327e5febc5dab59a7ca9ecea1",
+  "title": "技能交換登録の処理経路（架空）"
+}
