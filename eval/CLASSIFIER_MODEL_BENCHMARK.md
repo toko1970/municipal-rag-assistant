@@ -6,29 +6,29 @@ Gemini、Jev、多言語NLIを、同じ質問・取得根拠・生成回答で�
 
 ## 2. 構成
 
-`classifier-model-benchmark-v1`はdevelopment専用の34ケースである。sealed holdoutではない。
+`classifier-model-benchmark-v1`はdevelopment専用の36ケースである。sealed holdoutではない。
 
 | 項目 | 件数 |
 |---|---:|
-| 合計 | 34 |
-| 根拠十分 | 17 |
-| 判断要 | 11 |
+| 合計 | 36 |
+| 根拠十分 | 21 |
+| 判断要 | 9 |
 | 文書不足 | 6 |
-| Text | 26 |
-| Visual | 8 |
-| factor control | 21 |
-| observed failure | 4 |
+| Text | 27 |
+| Visual | 9 |
+| factor control | 22 |
+| observed failure | 5 |
 | hard negative | 9 |
 
 factorのtrue件数は次のとおりである。
 
 | factor | true | false |
 |---|---:|---:|
-| `retrieval_sufficient` | 28 | 6 |
-| `answer_fully_supported` | 30 | 4 |
-| `requires_case_facts` | 6 | 28 |
-| `requires_policy_judgment` | 3 | 31 |
-| `version_conflict` | 3 | 31 |
+| `retrieval_sufficient` | 30 | 6 |
+| `answer_fully_supported` | 30 | 6 |
+| `requires_case_facts` | 5 | 31 |
+| `requires_policy_judgment` | 3 | 33 |
+| `version_conflict` | 2 | 34 |
 
 少数factorのF1は1件の影響が大きい。順位だけで優劣を断定せず、個別結果と件数を併記する。
 
@@ -63,13 +63,13 @@ case facts / policy judgment / version conflictが一つでもtrue -> 判断要
 | `REG-Q086` | 全判断要因=false、根拠十分 | 必ず一括ではないことを文書から答えられる |
 | `REG-Q316` | 全判断要因=false、根拠十分 | 期限後の受付可否は文書から答えられる |
 
-Q046、Q086、Q316を含む3シナリオ15表現は、500問評価セットv1.1で`根拠十分`へ訂正した。これはモデルの改善件数に含めない。benchmarkは残る30件のfactor annotationを一括レビューするまで`draft`を維持する。
+一括レビューでは同じ規約を残り30ケースにも適用し、Q006、Q076、Q176、Q301にも旧goldとの不整合を発見した。これらを含む4シナリオ20表現を500問評価セットv1.2で`根拠十分`へ訂正した。少数クラスを6件維持するため、明確な文書不足controlを2件追加した。全36ケースのfactor annotationを承認し、benchmarkを`approved`として固定した。これらはgold整備であり、モデルの改善件数に含めない。
 
 ## 5. 評価段階
 
 ### Stage A: 小benchmark
 
-- 現行Gemini、Jev 5 Noul、多言語NLIへ同じ34入力を渡す。
+- 現行Gemini、Jev 5 Noul、多言語NLIへ同じ36入力を渡す。
 - factor別Precision・Recall・F1、最終ラベルmacro F1、重大誤分類を測る。
 - `判断要`または`文書不足`を`根拠十分`へ変える誤りを重大誤分類とする。
 - API errorと分類誤りを分ける。
@@ -82,9 +82,9 @@ Stage Aで現行Geminiを上回る可能性がある候補だけを適用する�
 ## 6. 採用gate
 
 - Stage Aで重大誤分類を現行Geminiより増やさない。
-- Stage Bでgold訂正後の分類正解119/130を1件以上改善する。
+- Stage Bでgold訂正後の分類正解121/130を1件以上改善する。
 - 現在正しい`判断要`・`文書不足`から`根拠十分`への退行は0件。
-- gold訂正後の総合回答成功115/130を1件以上改善する。
+- gold訂正後の総合回答成功117/130を1件以上改善する。
 - 同率なら、費用・遅延・失敗率を明確に改善しない限り現行Geminiを維持する。
 
 ## 7. 再生成と検証

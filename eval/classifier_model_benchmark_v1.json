@@ -1,9 +1,9 @@
 {
-  "case_count": 34,
+  "case_count": 36,
   "cases": [
     {
       "annotation_rationale": "基準日と境界値が質問内にあり、根拠から一意に決まる。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CPD-T01",
       "evidence": [
         {
@@ -44,7 +44,7 @@
     },
     {
       "annotation_rationale": "支給日が根拠に明記されている。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CPD-T02",
       "evidence": [
         {
@@ -85,7 +85,7 @@
     },
     {
       "annotation_rationale": "本人名義という明示条件をそのまま適用できる。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CPD-T03",
       "evidence": [
         {
@@ -126,7 +126,7 @@
     },
     {
       "annotation_rationale": "結論を変える実通勤距離が質問にない。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CPD-T04",
       "evidence": [
         {
@@ -212,7 +212,7 @@
     },
     {
       "annotation_rationale": "取得根拠が質問と無関係で、回答claimもない。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CPD-T06",
       "evidence": [
         {
@@ -245,7 +245,7 @@
     },
     {
       "annotation_rationale": "90分以上という表の境界を直接適用できる。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CPD-V01",
       "evidence": [
         {
@@ -286,7 +286,7 @@
     },
     {
       "annotation_rationale": "flow上の状態と次工程がすべて質問にある。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CPD-V02",
       "evidence": [
         {
@@ -327,7 +327,7 @@
     },
     {
       "annotation_rationale": "30分未満の分岐を直接適用できる。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CPD-V03",
       "evidence": [
         {
@@ -368,7 +368,7 @@
     },
     {
       "annotation_rationale": "事前講習の修了状況が不足している。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CPD-V04",
       "evidence": [
         {
@@ -411,7 +411,7 @@
     },
     {
       "annotation_rationale": "金額を決める実作業時間が不足している。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CPD-V05",
       "evidence": [
         {
@@ -454,7 +454,7 @@
     },
     {
       "annotation_rationale": "保存年限を示す根拠がなく、回答claimもない。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CPD-V06",
       "evidence": [
         {
@@ -487,7 +487,7 @@
     },
     {
       "annotation_rationale": "扶養実態と生計維持関係が不足している。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CPD-T07",
       "evidence": [
         {
@@ -528,7 +528,7 @@
     },
     {
       "annotation_rationale": "flowの二条件が質問内で充足している。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CPD-V07",
       "evidence": [
         {
@@ -569,7 +569,7 @@
     },
     {
       "annotation_rationale": "適用日・優先規則がなく、結論に関係する版競合が残る。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CMB-T01",
       "evidence": [
         {
@@ -610,7 +610,7 @@
     },
     {
       "annotation_rationale": "期間をまたぐ適用規則がなく、版を一意に決められない。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CMB-T02",
       "evidence": [
         {
@@ -651,7 +651,7 @@
     },
     {
       "annotation_rationale": "必要事実が揃っても、根拠が所管課の裁量判断を明示している。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CMB-T03",
       "evidence": [
         {
@@ -692,7 +692,7 @@
     },
     {
       "annotation_rationale": "flowが裁量判断へ到達することを示すが、可否基準は示さない。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "CMB-V01",
       "evidence": [
         {
@@ -732,8 +732,74 @@
       }
     },
     {
-      "annotation_rationale": "給料日を定める別規程は未取得だが、別規程が必要というclaim自体は支持される。",
-      "annotation_status": "proposed",
+      "annotation_rationale": "取得根拠に質問された支給割合がなく、支持できる回答claimもない。",
+      "annotation_status": "approved",
+      "case_id": "CMB-T04",
+      "evidence": [
+        {
+          "content": "給与は毎月21日に支給する。育児休業中の支給割合は記載されていない。",
+          "element_id": "CMB-T04-e1"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "expected_label": "文書不足",
+      "generated_answer": {
+        "claims": [],
+        "missing_conditions": [
+          "質問へ答える根拠文書"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "育児休業中の給与支給割合は何割ですか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "synthetic_control",
+        "source_id": "CMB-T04"
+      }
+    },
+    {
+      "annotation_rationale": "図には経路だけがあり、質問された料金上限の根拠と回答claimがない。",
+      "annotation_status": "approved",
+      "case_id": "CMB-V02",
+      "evidence": [
+        {
+          "content": "自宅 → 駐車場 → 勤務公署。料金に関する記載はない。",
+          "element_id": "CMB-V02-e1"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "expected_label": "文書不足",
+      "generated_answer": {
+        "claims": [],
+        "missing_conditions": [
+          "質問へ答える根拠文書"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "visual",
+      "question": "この通勤経路図から駐車料金の上限額を確認できますか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "synthetic_control",
+        "source_id": "CMB-V02"
+      }
+    },
+    {
+      "annotation_rationale": "質問はこの規程だけで確定できるかを聞いており、別規程によると取得根拠から答えられる。",
+      "annotation_status": "approved",
       "case_id": "REG-Q006",
       "evidence": [
         {
@@ -773,10 +839,10 @@
         "answer_fully_supported": true,
         "requires_case_facts": false,
         "requires_policy_judgment": false,
-        "retrieval_sufficient": false,
+        "retrieval_sufficient": true,
         "version_conflict": false
       },
-      "expected_label": "文書不足",
+      "expected_label": "根拠十分",
       "generated_answer": {
         "claims": [
           {
@@ -872,8 +938,8 @@
       }
     },
     {
-      "annotation_rationale": "停止割合を定める個別規程は未取得だが、個別規程が必要というclaim自体は支持される。",
-      "annotation_status": "proposed",
+      "annotation_rationale": "質問はこの規程だけで割合を判断できるかを聞いており、個別規程によると取得根拠から答えられる。",
+      "annotation_status": "approved",
       "case_id": "REG-Q076",
       "evidence": [
         {
@@ -913,10 +979,10 @@
         "answer_fully_supported": true,
         "requires_case_facts": false,
         "requires_policy_judgment": false,
-        "retrieval_sufficient": false,
+        "retrieval_sufficient": true,
         "version_conflict": false
       },
-      "expected_label": "文書不足",
+      "expected_label": "根拠十分",
       "generated_answer": {
         "claims": [
           {
@@ -1031,7 +1097,7 @@
     },
     {
       "annotation_rationale": "基準日と施行日から適用版と境界値を解決できる。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "REG-Q121",
       "evidence": [
         {
@@ -1120,7 +1186,7 @@
     },
     {
       "annotation_rationale": "日付、距離、通勤手段が質問内にあり結論が一意に決まる。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "REG-Q126",
       "evidence": [
         {
@@ -1207,8 +1273,8 @@
       }
     },
     {
-      "annotation_rationale": "基準日がなく、取得された距離基準が競合する。",
-      "annotation_status": "proposed",
+      "annotation_rationale": "質問は自転車通勤なら必ず支給できるかを聞いており、複数要件があるため必ずではないと答えられる。",
+      "annotation_status": "approved",
       "case_id": "REG-Q176",
       "evidence": [
         {
@@ -1249,9 +1315,9 @@
         "requires_case_facts": false,
         "requires_policy_judgment": false,
         "retrieval_sufficient": true,
-        "version_conflict": true
+        "version_conflict": false
       },
-      "expected_label": "判断要",
+      "expected_label": "根拠十分",
       "generated_answer": {
         "claims": [
           {
@@ -1281,7 +1347,7 @@
       },
       "modality": "text",
       "question": "自転車通勤なら必ず通勤手当を支給できますか？",
-      "role": "factor_control",
+      "role": "observed_failure",
       "source": {
         "kind": "retrieved_regression",
         "source_id": "Q176"
@@ -1289,7 +1355,7 @@
     },
     {
       "annotation_rationale": "質問は家賃要件だけを聞いており、住居届提出状況は結論に不要である。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "REG-Q196",
       "evidence": [
         {
@@ -1379,7 +1445,7 @@
     },
     {
       "annotation_rationale": "2025年9月には旧基準を一意に適用できる。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "REG-Q201",
       "evidence": [
         {
@@ -1468,7 +1534,7 @@
     },
     {
       "annotation_rationale": "一つの手順根拠から処理順を回答できる。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "REG-Q231",
       "evidence": [
         {
@@ -1537,7 +1603,7 @@
     },
     {
       "annotation_rationale": "発生日から改正前ルールを一意に適用できる。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "REG-Q281",
       "evidence": [
         {
@@ -1625,7 +1691,7 @@
     },
     {
       "annotation_rationale": "発生日から改正後ルールを一意に適用できる。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "REG-Q286",
       "evidence": [
         {
@@ -1703,8 +1769,8 @@
       }
     },
     {
-      "annotation_rationale": "扶養実態と生計維持関係がなければ認定を確定できない。",
-      "annotation_status": "proposed",
+      "annotation_rationale": "質問は所属で即決できるかを聞いており、一律判断できないと取得根拠から答えられる。",
+      "annotation_status": "approved",
       "case_id": "REG-Q301",
       "evidence": [
         {
@@ -1742,12 +1808,12 @@
       ],
       "expected_factors": {
         "answer_fully_supported": true,
-        "requires_case_facts": true,
+        "requires_case_facts": false,
         "requires_policy_judgment": false,
         "retrieval_sufficient": true,
         "version_conflict": false
       },
-      "expected_label": "判断要",
+      "expected_label": "根拠十分",
       "generated_answer": {
         "claims": [
           {
@@ -1861,7 +1927,7 @@
     },
     {
       "annotation_rationale": "退職手当の計算式を示す根拠がない。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "REG-Q451",
       "evidence": [
         {
@@ -1922,7 +1988,7 @@
     },
     {
       "annotation_rationale": "育児休業中の支給割合を示す根拠がない。",
-      "annotation_status": "proposed",
+      "annotation_status": "approved",
       "case_id": "REG-Q456",
       "evidence": [
         {
@@ -1984,22 +2050,22 @@
   ],
   "dataset_version": "classifier-model-benchmark-v1",
   "expected_counts": {
-    "判断要": 11,
+    "判断要": 9,
     "文書不足": 6,
-    "根拠十分": 17
+    "根拠十分": 21
   },
   "factor_true_counts": {
     "answer_fully_supported": 30,
-    "requires_case_facts": 6,
+    "requires_case_facts": 5,
     "requires_policy_judgment": 3,
-    "retrieval_sufficient": 28,
-    "version_conflict": 3
+    "retrieval_sufficient": 30,
+    "version_conflict": 2
   },
   "modality_counts": {
-    "text": 26,
-    "visual": 8
+    "text": 27,
+    "visual": 9
   },
-  "review_status": "draft",
+  "review_status": "approved",
   "schema_version": "1.0",
   "source_hashes": {
     ".eval_cache/contextual_heading_gemini_001_documents.json": "1efec62b22bf462f86032d870858c1c737e450ed29b9d01ee9e640d02f173b29",

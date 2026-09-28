@@ -17,7 +17,14 @@ def load(path: Path) -> dict:
 
 
 def test_committed_benchmark_is_valid() -> None:
-    validate_benchmark(load(DATASET), load(SCHEMA))
+    dataset = load(DATASET)
+
+    validate_benchmark(dataset, load(SCHEMA))
+
+    assert dataset["review_status"] == "approved"
+    assert dataset["case_count"] == 36
+    assert dataset["expected_counts"] == {"判断要": 9, "文書不足": 6, "根拠十分": 21}
+    assert {case["annotation_status"] for case in dataset["cases"]} == {"approved"}
 
 
 def test_rejects_label_that_disagrees_with_factor_gold() -> None:
@@ -32,7 +39,7 @@ def test_rejects_label_that_disagrees_with_factor_gold() -> None:
 
 def test_rejects_unapproved_case_in_approved_benchmark() -> None:
     dataset = deepcopy(load(DATASET))
-    dataset["review_status"] = "approved"
+    dataset["cases"][0]["annotation_status"] = "proposed"
 
     with pytest.raises(ValueError, match="未承認annotation"):
         validate_benchmark(dataset, load(SCHEMA))

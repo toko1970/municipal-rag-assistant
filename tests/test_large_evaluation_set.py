@@ -27,7 +27,9 @@ class LargeEvaluationSetTest(unittest.TestCase):
             {row["scenario_id"] for row in records},
             {f"S{number:03d}" for number in range(1, 101)},
         )
-        self.assertEqual({row["review_status"] for row in records}, {"assistant_reviewed"})
+        self.assertEqual(
+            {row["review_status"] for row in records}, {"assistant_reviewed"}
+        )
         self.assertTrue(all(row["expected_answer_key"] for row in records))
 
     def test_unanswerable_questions_have_no_gold_document(self):
@@ -37,23 +39,20 @@ class LargeEvaluationSetTest(unittest.TestCase):
             row for row in records if row["expected_answer_type"] == "文書不足"
         ]
 
-        self.assertEqual(len(unanswerable), 60)
+        self.assertEqual(len(unanswerable), 50)
         self.assertTrue(all(not row["expected_document_ids"] for row in unanswerable))
         self.assertTrue(all(not row["expected_evidence"] for row in unanswerable))
 
     def test_question_scope_corrections_apply_to_every_variant(self):
         records = generate_records()
 
+        corrected_scenarios = {"S002", "S010", "S016", "S018", "S036", "S061", "S064"}
         corrected = [
-            row
-            for row in records
-            if row["scenario_id"] in {"S010", "S018", "S064"}
+            row for row in records if row["scenario_id"] in corrected_scenarios
         ]
 
-        self.assertEqual(len(corrected), 15)
-        self.assertEqual(
-            {row["variant_type"] for row in corrected}, set(VARIANT_TYPES)
-        )
+        self.assertEqual(len(corrected), 35)
+        self.assertEqual({row["variant_type"] for row in corrected}, set(VARIANT_TYPES))
         self.assertEqual(
             {row["expected_answer_type"] for row in corrected}, {"根拠十分"}
         )
@@ -63,9 +62,7 @@ class LargeEvaluationSetTest(unittest.TestCase):
 
         self.assertEqual(len(rows), 100)
         self.assertEqual(len({row["scenario_id"] for row in rows}), 100)
-        self.assertEqual(
-            sum(row["review_priority"] == "重点確認" for row in rows), 10
-        )
+        self.assertEqual(sum(row["review_priority"] == "重点確認" for row in rows), 12)
 
     def test_freezes_only_fully_approved_review_set(self):
         rows = create_review_rows()

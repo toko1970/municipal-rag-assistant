@@ -1,0 +1,84 @@
+{
+  "artifact_version": "classifier-gold-correction-v2",
+  "correction_type": "gold_scope_correction",
+  "corrections": [
+    {
+      "new_label": "根拠十分",
+      "old_label": "文書不足",
+      "question_id": "Q006",
+      "scenario_id": "S002"
+    },
+    {
+      "new_label": "根拠十分",
+      "old_label": "判断要",
+      "question_id": "Q046",
+      "scenario_id": "S010"
+    },
+    {
+      "new_label": "根拠十分",
+      "old_label": "文書不足",
+      "question_id": "Q076",
+      "scenario_id": "S016"
+    },
+    {
+      "new_label": "根拠十分",
+      "old_label": "判断要",
+      "question_id": "Q086",
+      "scenario_id": "S018"
+    },
+    {
+      "new_label": "根拠十分",
+      "old_label": "判断要",
+      "question_id": "Q176",
+      "scenario_id": "S036"
+    },
+    {
+      "new_label": "根拠十分",
+      "old_label": "判断要",
+      "question_id": "Q301",
+      "scenario_id": "S061"
+    },
+    {
+      "new_label": "根拠十分",
+      "old_label": "判断要",
+      "question_id": "Q316",
+      "scenario_id": "S064"
+    }
+  ],
+  "evaluation_set_version": "1.2",
+  "external_api_calls": 0,
+  "model_or_prompt_changed": false,
+  "sealed_holdout_accessed": false,
+  "source_sha256": {
+    "eval/evaluation_set_manifest.json": "ce5751a4ae50ff347e98c3cc0f714cdc4ea6b1445f445fa05ffa6dbd5b0bdadd",
+    "eval/results/version_resolver_regression_v1/analysis.json": "fd81fcbf2462e02f01005de5eb2e0ae456b22460001c63bd7eab3d339bb7b91b"
+  },
+  "summary": {
+    "classification_correct": 121,
+    "classification_mismatches": [
+      "Q066",
+      "Q126",
+      "Q176",
+      "Q196",
+      "Q291",
+      "Q386",
+      "Q391",
+      "VD004",
+      "VD024"
+    ],
+    "primary_causes": {
+      "answer_generation_failure": 6,
+      "classification_failure": 4,
+      "retrieval_failure": 3,
+      "success": 117
+    },
+    "primary_classification_failures": [
+      "Q126",
+      "Q176",
+      "Q196",
+      "VD024"
+    ],
+    "success": 117,
+    "total": 130
+  }
+}

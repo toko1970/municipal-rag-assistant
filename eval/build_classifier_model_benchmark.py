@@ -1,4 +1,4 @@
-"""Build a fixed draft benchmark for comparing answer-classifier models."""
+"""Build the reviewed benchmark for comparing answer-classifier models."""
 
 from __future__ import annotations
 
@@ -50,39 +50,39 @@ def factors(
 
 
 BASE_ANNOTATIONS: dict[str, tuple[dict[str, bool], str, str]] = {
-    "CPD-T01": (factors(True, True), "proposed", "基準日と境界値が質問内にあり、根拠から一意に決まる。"),
-    "CPD-T02": (factors(True, True), "proposed", "支給日が根拠に明記されている。"),
-    "CPD-T03": (factors(True, True), "proposed", "本人名義という明示条件をそのまま適用できる。"),
-    "CPD-T04": (factors(True, True, case_facts=True), "proposed", "結論を変える実通勤距離が質問にない。"),
+    "CPD-T01": (factors(True, True), "approved", "基準日と境界値が質問内にあり、根拠から一意に決まる。"),
+    "CPD-T02": (factors(True, True), "approved", "支給日が根拠に明記されている。"),
+    "CPD-T03": (factors(True, True), "approved", "本人名義という明示条件をそのまま適用できる。"),
+    "CPD-T04": (factors(True, True, case_facts=True), "approved", "結論を変える実通勤距離が質問にない。"),
     "CPD-T05": (factors(True, True, case_facts=True, policy=True), "approved", "職員事情が不足し、事情を踏まえた決定にも所管判断が残る。"),
-    "CPD-T06": (factors(False, False), "proposed", "取得根拠が質問と無関係で、回答claimもない。"),
-    "CPD-V01": (factors(True, True), "proposed", "90分以上という表の境界を直接適用できる。"),
-    "CPD-V02": (factors(True, True), "proposed", "flow上の状態と次工程がすべて質問にある。"),
-    "CPD-V03": (factors(True, True), "proposed", "30分未満の分岐を直接適用できる。"),
-    "CPD-V04": (factors(True, True, case_facts=True), "proposed", "事前講習の修了状況が不足している。"),
-    "CPD-V05": (factors(True, True, case_facts=True), "proposed", "金額を決める実作業時間が不足している。"),
-    "CPD-V06": (factors(False, False), "proposed", "保存年限を示す根拠がなく、回答claimもない。"),
-    "CPD-T07": (factors(True, True, case_facts=True), "proposed", "扶養実態と生計維持関係が不足している。"),
-    "CPD-V07": (factors(True, True), "proposed", "flowの二条件が質問内で充足している。"),
+    "CPD-T06": (factors(False, False), "approved", "取得根拠が質問と無関係で、回答claimもない。"),
+    "CPD-V01": (factors(True, True), "approved", "90分以上という表の境界を直接適用できる。"),
+    "CPD-V02": (factors(True, True), "approved", "flow上の状態と次工程がすべて質問にある。"),
+    "CPD-V03": (factors(True, True), "approved", "30分未満の分岐を直接適用できる。"),
+    "CPD-V04": (factors(True, True, case_facts=True), "approved", "事前講習の修了状況が不足している。"),
+    "CPD-V05": (factors(True, True, case_facts=True), "approved", "金額を決める実作業時間が不足している。"),
+    "CPD-V06": (factors(False, False), "approved", "保存年限を示す根拠がなく、回答claimもない。"),
+    "CPD-T07": (factors(True, True, case_facts=True), "approved", "扶養実態と生計維持関係が不足している。"),
+    "CPD-V07": (factors(True, True), "approved", "flowの二条件が質問内で充足している。"),
 }
 
 TEXT_ANNOTATIONS: dict[str, tuple[dict[str, bool], str, str, str]] = {
-    "Q006": (factors(False, True), "proposed", "observed_failure", "給料日を定める別規程は未取得だが、別規程が必要というclaim自体は支持される。"),
+    "Q006": (factors(True, True), "approved", "observed_failure", "質問はこの規程だけで確定できるかを聞いており、別規程によると取得根拠から答えられる。"),
     "Q046": (factors(True, True), "approved", "hard_negative", "質問が求める確認先は取得根拠から一意に答えられる。"),
-    "Q076": (factors(False, True), "proposed", "observed_failure", "停止割合を定める個別規程は未取得だが、個別規程が必要というclaim自体は支持される。"),
+    "Q076": (factors(True, True), "approved", "observed_failure", "質問はこの規程だけで割合を判断できるかを聞いており、個別規程によると取得根拠から答えられる。"),
     "Q086": (factors(True, True), "approved", "hard_negative", "質問は一括返納が必須かを聞いており、必須ではないと答えられる。"),
-    "Q121": (factors(True, True), "proposed", "hard_negative", "基準日と施行日から適用版と境界値を解決できる。"),
-    "Q126": (factors(True, True), "proposed", "observed_failure", "日付、距離、通勤手段が質問内にあり結論が一意に決まる。"),
-    "Q176": (factors(True, True, version=True), "proposed", "factor_control", "基準日がなく、取得された距離基準が競合する。"),
-    "Q196": (factors(True, True), "proposed", "hard_negative", "質問は家賃要件だけを聞いており、住居届提出状況は結論に不要である。"),
-    "Q201": (factors(True, True), "proposed", "hard_negative", "2025年9月には旧基準を一意に適用できる。"),
-    "Q231": (factors(True, True), "proposed", "hard_negative", "一つの手順根拠から処理順を回答できる。"),
-    "Q281": (factors(True, True), "proposed", "hard_negative", "発生日から改正前ルールを一意に適用できる。"),
-    "Q286": (factors(True, True), "proposed", "hard_negative", "発生日から改正後ルールを一意に適用できる。"),
-    "Q301": (factors(True, True, case_facts=True), "proposed", "observed_failure", "扶養実態と生計維持関係がなければ認定を確定できない。"),
+    "Q121": (factors(True, True), "approved", "hard_negative", "基準日と施行日から適用版と境界値を解決できる。"),
+    "Q126": (factors(True, True), "approved", "observed_failure", "日付、距離、通勤手段が質問内にあり結論が一意に決まる。"),
+    "Q176": (factors(True, True), "approved", "observed_failure", "質問は自転車通勤なら必ず支給できるかを聞いており、複数要件があるため必ずではないと答えられる。"),
+    "Q196": (factors(True, True), "approved", "hard_negative", "質問は家賃要件だけを聞いており、住居届提出状況は結論に不要である。"),
+    "Q201": (factors(True, True), "approved", "hard_negative", "2025年9月には旧基準を一意に適用できる。"),
+    "Q231": (factors(True, True), "approved", "hard_negative", "一つの手順根拠から処理順を回答できる。"),
+    "Q281": (factors(True, True), "approved", "hard_negative", "発生日から改正前ルールを一意に適用できる。"),
+    "Q286": (factors(True, True), "approved", "hard_negative", "発生日から改正後ルールを一意に適用できる。"),
+    "Q301": (factors(True, True), "approved", "observed_failure", "質問は所属で即決できるかを聞いており、一律判断できないと取得根拠から答えられる。"),
     "Q316": (factors(True, True), "approved", "hard_negative", "質問が求める期限後の受付可否は取得根拠から答えられる。"),
-    "Q451": (factors(False, False), "proposed", "factor_control", "退職手当の計算式を示す根拠がない。"),
-    "Q456": (factors(False, False), "proposed", "factor_control", "育児休業中の支給割合を示す根拠がない。"),
+    "Q451": (factors(False, False), "approved", "factor_control", "退職手当の計算式を示す根拠がない。"),
+    "Q456": (factors(False, False), "approved", "factor_control", "育児休業中の支給割合を示す根拠がない。"),
 }
 
 
@@ -178,33 +178,53 @@ def synthetic_cases() -> list[dict[str, Any]]:
             factors(True, True, policy=True),
             "flowが裁量判断へ到達することを示すが、可否基準は示さない。",
         ),
+        (
+            "CMB-T04",
+            "育児休業中の給与支給割合は何割ですか？",
+            "給与は毎月21日に支給する。育児休業中の支給割合は記載されていない。",
+            "",
+            factors(False, False),
+            "取得根拠に質問された支給割合がなく、支持できる回答claimもない。",
+        ),
+        (
+            "CMB-V02",
+            "この通勤経路図から駐車料金の上限額を確認できますか？",
+            "自宅 → 駐車場 → 勤務公署。料金に関する記載はない。",
+            "",
+            factors(False, False),
+            "図には経路だけがあり、質問された料金上限の根拠と回答claimがない。",
+        ),
     ]
     result = []
     for case_id, question, evidence, claim, expected, rationale in rows:
         result.append(
             {
                 "case_id": case_id,
-                "modality": "visual" if case_id.endswith("V01") else "text",
+                "modality": "visual" if "-V" in case_id else "text",
                 "role": "factor_control",
                 "source": {"kind": "synthetic_control", "source_id": case_id},
                 "question": question,
                 "evidence": [{"element_id": f"{case_id}-e1", "content": evidence}],
                 "generated_answer": {
                     "schema_version": "1.0",
-                    "claims": [
-                        {
-                            "claim_id": "claim-1",
-                            "ordinal": 1,
-                            "text": claim,
-                            "evidence_element_ids": [f"{case_id}-e1"],
-                            "evidence_kind": "flow_edge" if case_id.endswith("V01") else "text",
-                        }
-                    ],
-                    "missing_conditions": [],
+                    "claims": (
+                        [
+                            {
+                                "claim_id": "claim-1",
+                                "ordinal": 1,
+                                "text": claim,
+                                "evidence_element_ids": [f"{case_id}-e1"],
+                                "evidence_kind": "flow_edge" if case_id.endswith("V01") else "text",
+                            }
+                        ]
+                        if claim
+                        else []
+                    ),
+                    "missing_conditions": [] if claim else ["質問へ答える根拠文書"],
                 },
-                "expected_label": "判断要",
+                "expected_label": "文書不足" if not expected["retrieval_sufficient"] else "判断要",
                 "expected_factors": expected,
-                "annotation_status": "proposed",
+                "annotation_status": "approved",
                 "annotation_rationale": rationale,
             }
         )
@@ -254,7 +274,7 @@ def regression_cases() -> list[dict[str, Any]]:
                 },
                 "expected_label": (
                     "根拠十分"
-                    if question_id in {"Q046", "Q086", "Q316"}
+                    if question_id in {"Q006", "Q046", "Q076", "Q086", "Q176", "Q301", "Q316"}
                     else row["expected_label"]
                 ),
                 "expected_factors": expected,
@@ -271,7 +291,7 @@ def build() -> dict[str, Any]:
         "schema_version": "1.0",
         "dataset_version": "classifier-model-benchmark-v1",
         "split": "development",
-        "review_status": "draft",
+        "review_status": "approved",
         "case_count": len(cases),
         "expected_counts": dict(Counter(case["expected_label"] for case in cases)),
         "factor_true_counts": {
