@@ -1,8 +1,10 @@
 from eval.evaluate_temporal_generation_candidate import (
+    _attempt_diagnostics,
     _content_ok,
     _selected_ids,
     _version_resolution_error,
 )
+from eval.evaluate_contextual_answer_candidate import EvaluationLogger
 
 
 def test_q291_requires_new_rule_and_rejects_old_rule() -> None:
@@ -58,3 +60,25 @@ def test_version_resolver_failure_is_a_scenario_error() -> None:
 
 def test_single_question_diagnostic_limits_the_scope() -> None:
     assert _selected_ids("Q191") == ("Q191",)
+
+
+def test_attempt_diagnostics_preserves_partial_generation() -> None:
+    logger = EvaluationLogger(
+        generation={
+            "status": "SUCCESS",
+            "response_data": {"claims": [{"text": "生成済み"}]},
+            "error_summary": None,
+        },
+        classification={
+            "status": "CLASSIFICATION_FAILED",
+            "error_summary": "503 UNAVAILABLE",
+        },
+    )
+
+    assert _attempt_diagnostics(logger) == {
+        "generation_status": "SUCCESS",
+        "generation_response_data": {"claims": [{"text": "生成済み"}]},
+        "generation_error_summary": None,
+        "classification_status": "CLASSIFICATION_FAILED",
+        "classification_error_summary": "503 UNAVAILABLE",
+    }

@@ -126,6 +126,16 @@ def _selected_ids(question_id: str | None) -> tuple[str, ...]:
     return (question_id,)
 
 
+def _attempt_diagnostics(logger: EvaluationLogger) -> dict[str, Any]:
+    return {
+        "generation_status": logger.generation.get("status"),
+        "generation_response_data": logger.generation.get("response_data"),
+        "generation_error_summary": logger.generation.get("error_summary"),
+        "classification_status": logger.classification.get("status"),
+        "classification_error_summary": logger.classification.get("error_summary"),
+    }
+
+
 def build_temporal_generation_prompt(question: str, hits: list, visual_assets) -> str:
     instruction = temporal_prompt_instruction(question, hits)
     base = build_generation_prompt(question, hits, visual_assets)
@@ -383,6 +393,7 @@ def main() -> int:
             "output_tokens": scenario_output,
             "estimated_cost_usd": token_cost_usd(scenario_input, scenario_output),
             "version_resolution": resolver_data,
+            **_attempt_diagnostics(logger),
             "elapsed_seconds": time.perf_counter() - started,
             "error": error or None,
         }

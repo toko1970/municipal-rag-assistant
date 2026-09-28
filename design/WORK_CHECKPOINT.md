@@ -428,3 +428,13 @@ Gemini 3.1 Flash-Liteの`503 UNAVAILABLE`となったためfail-fastし、Resolv
 provider障害だった可能性とは整合するが、前回の失敗詳細がないため同一原因とは断定しない。
 追加retryは行っていない。再開時は新しい出力先でQ191を1回だけ実行し、成功時だけ版選択品質を
 採点する。
+
+ユーザー指示でQ191を新しい独立runとして再実行した。Generatorはinput 2,245・output 321
+tokensで成功したが、ClassifierがGemini 3.1 Flash-Liteの`503 UNAVAILABLE`となりfail-fastした。
+logical calls 2、推定US$0.00104275、retry 0、Resolver未到達、sealed holdout未使用である。
+前回診断のGenerator 503から失敗箇所が移動したため、共有endpointの一時的な可用性が測定を
+妨げていると判断し、品質gateは6/7のまま維持した。
+
+次回の正確な測定に備え、Classifier失敗時にも部分成功を監査できるよう、評価recordへGeneratorの
+status・構造化response・errorとClassifierのstatus・errorを保存するようにした。実行済みartifactは
+上書きしていない。endpoint安定後に、新しい出力先でQ191を1回だけ実行する。

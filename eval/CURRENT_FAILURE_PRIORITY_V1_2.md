@@ -179,6 +179,11 @@ error 0、sealed holdout未使用である。
 だったため、Q191の版判定品質について新しい結論は出していない。同じendpointの高負荷が確認
 されたことは前回Resolver失敗のprovider起因仮説と整合するが、前回の詳細がないため確定しない。
 
+ユーザー指示による2回目の独立診断では、Generatorが2,245 input・321 output tokensで成功した後、
+Classifierが同じ`503 UNAVAILABLE`となった。logical calls 2、推定US$0.00104275、retry 0で、
+Resolverには到達していない。503の発生箇所がGeneratorからClassifierへ移動したため、現在の
+測定阻害要因はQ191のロジックより共有endpointの可用性にある。品質gateは6/7のまま変更しない。
+
 ## 10. 学習上の要点
 
 - 最大件数だけでなく、同じ一手で直せる同質性を確認して優先順位を決める。
