@@ -135,7 +135,21 @@ US$0.01053975で完了し、sealed holdoutは使用していない。厳密gate�
 Hybrid Searchまたはrerankingの小比較を優先する。回答生成へ戻る場合は、facet付きSchema、
 衝突時だけの専用処理、質問外claim validatorを個別experimentとして扱う。
 
-## 8. 学習上の要点
+## 8. BM25 Hybrid Searchの結果
+
+現行gold v1.2のformal 100問を使い、contextual dense baselineと、Sudachi SplitMode Cによる
+BM25 sparseをRRFで統合した候補を比較した。Embedding cacheは再利用し、外部API callと費用は0、
+sealed holdoutは未使用である。
+
+対象のQ156・Q291・Q436は1件も改善しなかった。全根拠見出しHit@5は80/90から73/90へ低下し、
+既存成功8件が退行したため不採用とした。詳細は
+[`BM25_HYBRID_EVALUATION.md`](BM25_HYBRID_EVALUATION.md)を参照する。
+
+Q156の住所変更根拠はdense Top-30外、Q436の住所変更期限は27位だった。rerankerは候補集合外の
+根拠を回復できず、Q291だけを直しても検索失敗3件中2件が残る。そのため次の一手はrerankerの
+導入ではなく、複数事項を個別検索へ分けるQuery Decompositionの有限比較とする。
+
+## 9. 学習上の要点
 
 - 最大件数だけでなく、同じ一手で直せる同質性を確認して優先順位を決める。
 - 分類ラベルが誤っていても、原因がGeneratorの不足条件なら分類器だけを変えない。

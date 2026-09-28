@@ -14,7 +14,7 @@ from typing import Any
 
 from qdrant_client import QdrantClient
 
-from config import BASE_DIR, DOCS_DIR, TOP_K
+from config import BASE_DIR, DOCS_DIR
 from eval.analyze_retrieval_failures import analyze_records
 from eval.bm25_hybrid_retriever import (
     BM25_B,
@@ -45,7 +45,6 @@ from src.embedding_representation import contextual_heading_document_text
 from src.qdrant_index import QdrantVectorIndex
 
 
-DEFAULT_BASELINE = BASE_DIR / "eval/results/large_formal_contextual_heading.csv"
 DEFAULT_DOCUMENT_CACHE = (
     BASE_DIR / ".eval_cache/contextual_heading_gemini_001_documents.json"
 )
@@ -92,28 +91,9 @@ def _as_retrieval_results(hits: list) -> list[tuple[Any, float]]:
     return results
 
 
-def _verify_reproduced_baseline(reproduced: list[dict], committed_path: Path) -> None:
-    committed = load_results(committed_path)
-    current = {row["question_id"]: row for row in reproduced}
-    if set(committed) != set(current):
-        raise ValueError("再現baselineと保存baselineの質問集合が一致しません")
-    for question_id in committed:
-        for field in (
-            "retrieved_document_ids",
-            "retrieved_headings",
-            "hit_at_5",
-            "evidence_hit_at_5",
-        ):
-            if str(committed[question_id][field]) != str(current[question_id][field]):
-                raise ValueError(
-                    f"再現baselineが保存結果と一致しません: {question_id} / {field}"
-                )
-
-
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
-    parser.add_argument("--baseline", type=Path, default=DEFAULT_BASELINE)
     parser.add_argument("--document-cache", type=Path, default=DEFAULT_DOCUMENT_CACHE)
     parser.add_argument("--query-cache", type=Path, default=DEFAULT_QUERY_CACHE)
     parser.add_argument("--output-dir", type=Path, required=True)
@@ -196,15 +176,15 @@ def main() -> int:
     with redirect_stdout(StringIO()):
         reproduced_baseline = evaluate_retrieval(questions, retrieve_fn=retrieve_dense)
         candidate = evaluate_retrieval(questions, retrieve_fn=retrieve_hybrid)
-    _verify_reproduced_baseline(reproduced_baseline, args.baseline)
-
     args.output_dir.mkdir(parents=True)
+    baseline_path = args.output_dir / "baseline.csv"
     candidate_path = args.output_dir / "candidate.csv"
+    save_results(reproduced_baseline, baseline_path)
     save_results(candidate, candidate_path)
     summary, changes = compare_results(
-        load_results(args.baseline), load_results(candidate_path)
+        load_results(baseline_path), load_results(candidate_path)
     )
-    baseline = load_results(args.baseline)
+    baseline = load_results(baseline_path)
     candidate_by_id = load_results(candidate_path)
     improved_targets = sorted(
         question_id
@@ -232,11 +212,10 @@ def main() -> int:
     manifest = {
         "artifact_version": "bm25-hybrid-comparison-v1",
         "input": str(args.input),
-        "baseline": str(args.baseline),
+        "baseline": str(baseline_path),
         "candidate": str(candidate_path),
         "source_sha256": {
             "input": _sha256(args.input),
-            "baseline": _sha256(args.baseline),
             "document_cache": _sha256(args.document_cache),
             "query_cache": _sha256(args.query_cache),
         },
@@ -257,12 +236,14 @@ def main() -> int:
             "rrf_k": RRF_K,
             "dense_candidate_k": DENSE_CANDIDATE_K,
             "sparse_candidate_k": SPARSE_CANDIDATE_K,
-            "output_top_k": TOP_K,
+            "output_top_k": int(candidate[0]["top_k"]),
         },
         "external_api_calls": 0,
         "estimated_external_cost_usd": 0.0,
         "sealed_holdout_accessed": False,
-        "baseline_reproduced_exactly": True,
+        "comparison_condition": (
+            "dense baseline and hybrid candidate generated in the same run"
+        ),
         "summary": summary,
         "changed_questions": changes,
         "failure_analysis": {

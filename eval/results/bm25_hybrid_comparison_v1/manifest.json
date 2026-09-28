@@ -1,0 +1,854 @@
+{
+  "artifact_version": "bm25-hybrid-comparison-v1",
+  "baseline": "eval/results/bm25_hybrid_comparison_v1/baseline.csv",
+  "bm25": {
+    "b": 0.75,
+    "document_representation": "contextual_heading_document_text",
+    "k1": 1.2,
+    "tokenizer": "SudachiPy SplitMode.C normalized_form"
+  },
+  "candidate": "eval/results/bm25_hybrid_comparison_v1/candidate.csv",
+  "changed_questions": [
+    {
+      "after_document_at_3": "0",
+      "after_document_at_5": "0",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "0",
+      "before_document_at_3": "0",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "before_evidence_at_5": "0",
+      "difficulty": "multi_document",
+      "question_id": "Q131"
+    },
+    {
+      "after_document_at_3": "0",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "1",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "difficulty": "direct",
+      "question_id": "Q136"
+    },
+    {
+      "after_document_at_3": "0",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "0",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "difficulty": "practical",
+      "question_id": "Q151"
+    },
+    {
+      "after_document_at_3": "1",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "1",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "difficulty": "near_miss",
+      "question_id": "Q176"
+    },
+    {
+      "after_document_at_3": "1",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "1",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "difficulty": "boundary",
+      "question_id": "Q196"
+    },
+    {
+      "after_document_at_3": "1",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "1",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "difficulty": "boundary",
+      "question_id": "Q201"
+    },
+    {
+      "after_document_at_3": "1",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "0",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "before_evidence_at_5": "1",
+      "difficulty": "judgment",
+      "question_id": "Q206"
+    },
+    {
+      "after_document_at_3": "1",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "0",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "difficulty": "direct",
+      "question_id": "Q216"
+    },
+    {
+      "after_document_at_3": "1",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "0",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "before_evidence_at_5": "1",
+      "difficulty": "boundary",
+      "question_id": "Q281"
+    },
+    {
+      "after_document_at_3": "1",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "0",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "before_evidence_at_5": "1",
+      "difficulty": "near_miss",
+      "question_id": "Q301"
+    },
+    {
+      "after_document_at_3": "1",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "1",
+      "after_evidence_at_5": "1",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "before_evidence_at_5": "1",
+      "difficulty": "judgment",
+      "question_id": "Q311"
+    },
+    {
+      "after_document_at_3": "1",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "0",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "difficulty": "near_miss",
+      "question_id": "Q326"
+    },
+    {
+      "after_document_at_3": "1",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "1",
+      "after_evidence_at_5": "1",
+      "before_document_at_3": "0",
+      "before_document_at_5": "0",
+      "before_evidence_at_3": "0",
+      "before_evidence_at_5": "0",
+      "difficulty": "direct",
+      "question_id": "Q351"
+    },
+    {
+      "after_document_at_3": "1",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "0",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "difficulty": "practical",
+      "question_id": "Q381"
+    },
+    {
+      "after_document_at_3": "0",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "1",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "difficulty": "judgment",
+      "question_id": "Q391"
+    },
+    {
+      "after_document_at_3": "1",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "1",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "difficulty": "multi_document",
+      "question_id": "Q421"
+    },
+    {
+      "after_document_at_3": "0",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "1",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "difficulty": "multi_document",
+      "question_id": "Q431"
+    },
+    {
+      "after_document_at_3": "0",
+      "after_document_at_5": "0",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "0",
+      "before_document_at_3": "0",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "before_evidence_at_5": "0",
+      "difficulty": "multi_document",
+      "question_id": "Q436"
+    },
+    {
+      "after_document_at_3": "1",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "0",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "difficulty": "multi_document",
+      "question_id": "Q441"
+    },
+    {
+      "after_document_at_3": "0",
+      "after_document_at_5": "0",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "0",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "before_evidence_at_5": "0",
+      "difficulty": "multi_document",
+      "question_id": "Q446"
+    }
+  ],
+  "comparison_condition": "dense baseline and hybrid candidate generated in the same run",
+  "decision": "DO_NOT_ADOPT",
+  "dense_candidate_diagnostic": {
+    "Q156": {
+      "expected_evidence_ranks": [
+        1,
+        null
+      ],
+      "note": "住所変更届の根拠はTop-30外"
+    },
+    "Q291": {
+      "expected_evidence_ranks": [
+        1,
+        8,
+        9
+      ]
+    },
+    "Q436": {
+      "expected_evidence_ranks": [
+        2,
+        27
+      ]
+    }
+  },
+  "document_hit_at_5_regressions": [
+    "Q131",
+    "Q436",
+    "Q446"
+  ],
+  "elements": 86,
+  "embedding": "gemini-embedding-001 contextual-heading-v1 (cache reused)",
+  "estimated_external_cost_usd": 0.0,
+  "evidence_hit_at_5_regressions": [
+    "Q151",
+    "Q206",
+    "Q216",
+    "Q281",
+    "Q301",
+    "Q326",
+    "Q381",
+    "Q441"
+  ],
+  "external_api_calls": 0,
+  "failure_analysis": {
+    "at_3": {
+      "evidence_scored": 90,
+      "failure": 25,
+      "failure_by_answer_type": {
+        "判断要": 2,
+        "根拠十分": 23
+      },
+      "failure_by_difficulty": {
+        "boundary": 6,
+        "direct": 3,
+        "judgment": 2,
+        "multi_document": 8,
+        "near_miss": 3,
+        "practical": 2,
+        "revision": 1
+      },
+      "failure_by_required_document_count": {
+        "1": 12,
+        "2": 11,
+        "3": 2
+      },
+      "failure_by_required_evidence_count": {
+        "1": 4,
+        "2": 17,
+        "3": 3,
+        "4": 1
+      },
+      "failure_categories": {
+        "document_missing": 9,
+        "section_missing": 16
+      },
+      "k": 3,
+      "retrieval_not_applicable": 10,
+      "success": 65,
+      "total_rows": 100
+    },
+    "at_5": {
+      "evidence_scored": 90,
+      "failure": 17,
+      "failure_by_answer_type": {
+        "判断要": 1,
+        "根拠十分": 16
+      },
+      "failure_by_difficulty": {
+        "boundary": 3,
+        "direct": 2,
+        "judgment": 1,
+        "multi_document": 6,
+        "near_miss": 2,
+        "practical": 2,
+        "revision": 1
+      },
+      "failure_by_required_document_count": {
+        "1": 8,
+        "2": 7,
+        "3": 2
+      },
+      "failure_by_required_evidence_count": {
+        "1": 4,
+        "2": 10,
+        "3": 2,
+        "4": 1
+      },
+      "failure_categories": {
+        "document_missing": 5,
+        "section_missing": 12
+      },
+      "k": 5,
+      "retrieval_not_applicable": 10,
+      "success": 73,
+      "total_rows": 100
+    }
+  },
+  "fusion": {
+    "dense_candidate_k": 20,
+    "method": "RRF",
+    "output_top_k": 5,
+    "rrf_k": 60,
+    "sparse_candidate_k": 20
+  },
+  "gate_passed": false,
+  "improved_target_ids": [],
+  "input": "/Users/hanaokatakaaki/Desktop/rag-portfolio-app/eval/evaluation_questions_500.csv",
+  "questions": 100,
+  "retrieval_applicable_questions": 90,
+  "retrieval_mrr_first_evidence": 0.8275925925925927,
+  "sealed_holdout_accessed": false,
+  "source_sha256": {
+    "document_cache": "1efec62b22bf462f86032d870858c1c737e450ed29b9d01ee9e640d02f173b29",
+    "input": "bf93804a604372a8d1e5b295a9906e147f6412e5465bb29e644353693c32ae17",
+    "query_cache": "25b2d74d64cbe0e6fa89e79bfc8bffdd837f8a383d9a6b5f44e6e17e8d025200"
+  },
+  "summary": [
+    {
+      "after": 81,
+      "before": 85,
+      "metric": "hit_at_3",
+      "total": 90
+    },
+    {
+      "after": 85,
+      "before": 87,
+      "metric": "hit_at_5",
+      "total": 90
+    },
+    {
+      "after": 65,
+      "before": 75,
+      "metric": "evidence_hit_at_3",
+      "total": 90
+    },
+    {
+      "after": 73,
+      "before": 80,
+      "metric": "evidence_hit_at_5",
+      "total": 90
+    }
+  ],
+  "target_ids": [
+    "Q156",
+    "Q291",
+    "Q436"
+  ],
+  "target_sparse_top_20": {
+    "Q156": [
+      {
+        "document_id": "DOC-003",
+        "element_id": "96cab3da-406e-51db-b1b7-508344ac6fa6",
+        "heading": "2. 扶養手当に関するFAQ > Q2. 扶養親族変更届の提出が遅れた場合はどうなりますか？ > 回答",
+        "rank": 1,
+        "score": 13.708767813111713
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "87421d65-02ed-5eb7-9d9a-73df5efb60ae",
+        "heading": "3. 通勤手当に関するFAQ > Q5. 通勤経路を複数利用している場合はどうなりますか？ > 回答",
+        "rank": 2,
+        "score": 13.495354977948367
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "06cd22a8-f303-5454-b0fd-46981b82b2b6",
+        "heading": "5. 届出手続きに関するFAQ > Q11. 添付書類が不足している場合はどうなりますか？ > 回答",
+        "rank": 3,
+        "score": 13.149011501677766
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "5567c7a7-4917-5010-b028-26d51b052c7e",
+        "heading": "4. 住居手当に関するFAQ > Q9. 家賃を夫婦で折半している場合はどうなりますか？ > 回答",
+        "rank": 4,
+        "score": 13.021693871594163
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "24f291d9-7f6e-5def-8af2-ae244fde9d8a",
+        "heading": "3. 通勤手当に関するFAQ > Q7. 自転車通勤の場合も通勤手当は支給されますか？ > 回答",
+        "rank": 5,
+        "score": 11.270378591586418
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "c8caa875-e2bf-58b7-8a2c-8f2c35aa1714",
+        "heading": "2. 通勤手当 > 2.1 支給対象",
+        "rank": 6,
+        "score": 11.241707607509472
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "f9dcceb9-d0c8-5205-84ef-34f232b7917b",
+        "heading": "2. 通勤手当 > 2.4 支給停止",
+        "rank": 7,
+        "score": 11.03923583388529
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "9d197cae-db0d-5e59-8f3d-bc8a38401a95",
+        "heading": "2. 扶養手当に関するFAQ > Q4. 内縁関係の相手は扶養手当の対象になりますか？ > 回答",
+        "rank": 8,
+        "score": 10.550925959967259
+      },
+      {
+        "document_id": "DOC-001",
+        "element_id": "77440b73-51f1-5702-98d0-e08bb33a24b1",
+        "heading": "給与制度規程 > 7. 給与振込口座",
+        "rank": 9,
+        "score": 8.13044731763788
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "0c6cbdd0-7ec7-5d60-8e7b-eee1a99e9b55",
+        "heading": "2. 扶養手当に関するFAQ > Q1. 子どもが生まれた場合、いつから扶養手当が支給されますか？ > 回答",
+        "rank": 10,
+        "score": 7.627805720122123
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "e120f9d6-b535-55d2-81c5-cbfff51f8470",
+        "heading": "4. 扶養手当 > 4.4 扶養親族変更届",
+        "rank": 11,
+        "score": 7.533205723567282
+      },
+      {
+        "document_id": "DOC-001",
+        "element_id": "d0d7071a-334c-578e-bf7f-24e850bfaf70",
+        "heading": "給与制度規程 > 10. 届出義務",
+        "rank": 12,
+        "score": 7.374103407122372
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "0f9d2520-f86f-5a66-afc9-6da4313c7fcf",
+        "heading": "3. 住居手当 > 3.4 支給停止",
+        "rank": 13,
+        "score": 7.312918949719704
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "c626a293-9316-580b-9a23-135e3fbfc8bb",
+        "heading": "2. 扶養手当に関するFAQ > Q3. 別居している父母を扶養親族として認定できますか？ > 回答",
+        "rank": 14,
+        "score": 6.823169048065887
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "87ab8c13-baa6-5932-b06e-ed1830b5884c",
+        "heading": "3. 通勤手当に関するFAQ > Q6. 一時的に勤務地が変わった場合も通勤経路変更届が必要ですか？ > 回答",
+        "rank": 15,
+        "score": 6.675760244487492
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "f0419662-5fda-590a-8660-c66a381eff42",
+        "heading": "2. 通勤手当 > 2.2 支給要件",
+        "rank": 16,
+        "score": 6.534507669078565
+      },
+      {
+        "document_id": "DOC-001",
+        "element_id": "d5ac148d-86a7-5c38-a2fd-21804594e465",
+        "heading": "給与制度規程 > 9. 過払給与の返納",
+        "rank": 17,
+        "score": 6.388193972191286
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "a1118dba-4814-5fa3-bfa7-b2e8155aaedf",
+        "heading": "4. 住居手当に関するFAQ > Q8. 家族名義の住宅に住んでいる場合、住居手当は支給されますか？ > 回答",
+        "rank": 18,
+        "score": 6.360666739999612
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "7b120340-219d-50ae-91dd-c8bbd01cbc99",
+        "heading": "5. 届出手続きに関するFAQ > Q12. 電子メールで届出を提出できますか？ > 回答",
+        "rank": 19,
+        "score": 6.031776853303771
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "0befdb0f-aa7f-5d85-a2f6-20bf55a4edda",
+        "heading": "6. 手当変更時の届出",
+        "rank": 20,
+        "score": 6.007063293090117
+      }
+    ],
+    "Q291": [
+      {
+        "document_id": "DOC-005",
+        "element_id": "fc0f087d-c87d-5c3e-a905-ed44c4ee6e18",
+        "heading": "5. 扶養手当の改正 > 経過措置",
+        "rank": 1,
+        "score": 17.952071829940007
+      },
+      {
+        "document_id": "DOC-005",
+        "element_id": "92c7e5ab-810c-5f52-80a0-c4b684233e91",
+        "heading": "3. 通勤手当の改正 > 経過措置",
+        "rank": 2,
+        "score": 15.557069304396853
+      },
+      {
+        "document_id": "DOC-005",
+        "element_id": "4104abe8-951b-53be-86f8-abc0e6d2c555",
+        "heading": "4. 住居手当の改正 > 経過措置",
+        "rank": 3,
+        "score": 13.96690390882208
+      },
+      {
+        "document_id": "DOC-005",
+        "element_id": "7a7b6298-c68d-5e5e-8497-27a10c258482",
+        "heading": "制度改正通知 > 2. 適用開始日",
+        "rank": 4,
+        "score": 12.515367864911747
+      },
+      {
+        "document_id": "DOC-001",
+        "element_id": "d0d7071a-334c-578e-bf7f-24e850bfaf70",
+        "heading": "給与制度規程 > 10. 届出義務",
+        "rank": 5,
+        "score": 10.046683316677212
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "e41a7b5c-ebcf-5c13-8951-408363901e55",
+        "heading": "5. 届出手続きに関するFAQ > Q10. 提出期限を過ぎた場合でも届出は可能ですか？ > 回答",
+        "rank": 6,
+        "score": 9.554688305288213
+      },
+      {
+        "document_id": "DOC-001",
+        "element_id": "8b53bf31-7651-5830-83b9-38dd3d726e17",
+        "heading": "給与制度規程 > 7. 給与振込口座 > 提出期限",
+        "rank": 7,
+        "score": 9.039496961751885
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "37cd06a5-30ea-53f6-81e5-a00abe8bc519",
+        "heading": "4. 扶養手当 > 4.5 支給開始時期",
+        "rank": 8,
+        "score": 8.599787477799321
+      },
+      {
+        "document_id": "DOC-005",
+        "element_id": "c8173b30-1dab-513f-ade1-171fe6f840eb",
+        "heading": "6. 旧通知の取扱い",
+        "rank": 9,
+        "score": 7.01597496928242
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "f0419662-5fda-590a-8660-c66a381eff42",
+        "heading": "2. 通勤手当 > 2.2 支給要件",
+        "rank": 10,
+        "score": 6.861115682643191
+      },
+      {
+        "document_id": "DOC-001",
+        "element_id": "a077479f-e926-5130-b4cb-71be62095662",
+        "heading": "給与制度規程 > 8. 給与の支給停止",
+        "rank": 11,
+        "score": 6.394992135340576
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "d8637b0f-1d5d-54de-aaa7-dcdd02bcd536",
+        "heading": "4. 扶養手当 > 4.3 認定要件",
+        "rank": 12,
+        "score": 6.385544660073653
+      },
+      {
+        "document_id": "DOC-001",
+        "element_id": "467c2041-0f1c-57db-b8c8-168cf3b8cc58",
+        "heading": "給与制度規程 > 12. 注意事項",
+        "rank": 13,
+        "score": 6.217711109003385
+      },
+      {
+        "document_id": "DOC-001",
+        "element_id": "ab75c15f-3998-5e26-93c5-1b4125c14357",
+        "heading": "給与制度規程 > 11. 制度所管部署",
+        "rank": 14,
+        "score": 6.082972241667437
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "c8caa875-e2bf-58b7-8a2c-8f2c35aa1714",
+        "heading": "2. 通勤手当 > 2.1 支給対象",
+        "rank": 15,
+        "score": 6.035775638783595
+      },
+      {
+        "document_id": "DOC-004",
+        "element_id": "47006737-63bb-5680-9ffa-a514435a162f",
+        "heading": "3. 扶養親族変更届 > 3.1 提出が必要な場合",
+        "rank": 16,
+        "score": 5.962360319030129
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "c626a293-9316-580b-9a23-135e3fbfc8bb",
+        "heading": "2. 扶養手当に関するFAQ > Q3. 別居している父母を扶養親族として認定できますか？ > 回答",
+        "rank": 17,
+        "score": 5.749652075744862
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "a1118dba-4814-5fa3-bfa7-b2e8155aaedf",
+        "heading": "4. 住居手当に関するFAQ > Q8. 家族名義の住宅に住んでいる場合、住居手当は支給されますか？ > 回答",
+        "rank": 18,
+        "score": 5.583823949220197
+      },
+      {
+        "document_id": "DOC-004",
+        "element_id": "07655f5f-c386-519c-91ae-b6875223b289",
+        "heading": "8. システム入力時の確認事項",
+        "rank": 19,
+        "score": 5.529036578058086
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "2e29e1ac-64f3-5e95-b959-238a975e7635",
+        "heading": "3. 住居手当 > 3.1 支給対象",
+        "rank": 20,
+        "score": 5.4649124452841695
+      }
+    ],
+    "Q436": [
+      {
+        "document_id": "DOC-003",
+        "element_id": "5567c7a7-4917-5010-b028-26d51b052c7e",
+        "heading": "4. 住居手当に関するFAQ > Q9. 家賃を夫婦で折半している場合はどうなりますか？ > 回答",
+        "rank": 1,
+        "score": 16.322488491004698
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "87421d65-02ed-5eb7-9d9a-73df5efb60ae",
+        "heading": "3. 通勤手当に関するFAQ > Q5. 通勤経路を複数利用している場合はどうなりますか？ > 回答",
+        "rank": 2,
+        "score": 15.139982595760653
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "06cd22a8-f303-5454-b0fd-46981b82b2b6",
+        "heading": "5. 届出手続きに関するFAQ > Q11. 添付書類が不足している場合はどうなりますか？ > 回答",
+        "rank": 3,
+        "score": 13.820089220844423
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "f9dcceb9-d0c8-5205-84ef-34f232b7917b",
+        "heading": "2. 通勤手当 > 2.4 支給停止",
+        "rank": 4,
+        "score": 13.245071632028582
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "96cab3da-406e-51db-b1b7-508344ac6fa6",
+        "heading": "2. 扶養手当に関するFAQ > Q2. 扶養親族変更届の提出が遅れた場合はどうなりますか？ > 回答",
+        "rank": 5,
+        "score": 12.909578501921477
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "24f291d9-7f6e-5def-8af2-ae244fde9d8a",
+        "heading": "3. 通勤手当に関するFAQ > Q7. 自転車通勤の場合も通勤手当は支給されますか？ > 回答",
+        "rank": 6,
+        "score": 11.547186529091615
+      },
+      {
+        "document_id": "DOC-004",
+        "element_id": "0e927c62-9916-5c86-ab41-4c4eaca3c2b7",
+        "heading": "2. 住所変更届 > 2.1 提出が必要な場合",
+        "rank": 7,
+        "score": 11.162388515150191
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "c8caa875-e2bf-58b7-8a2c-8f2c35aa1714",
+        "heading": "2. 通勤手当 > 2.1 支給対象",
+        "rank": 8,
+        "score": 11.041073127651378
+      },
+      {
+        "document_id": "DOC-004",
+        "element_id": "479f6c94-fa9b-587f-b863-0ef6369b19dd",
+        "heading": "7. 共通注意事項",
+        "rank": 9,
+        "score": 10.8361343635557
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "9d197cae-db0d-5e59-8f3d-bc8a38401a95",
+        "heading": "2. 扶養手当に関するFAQ > Q4. 内縁関係の相手は扶養手当の対象になりますか？ > 回答",
+        "rank": 10,
+        "score": 10.485349158782924
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "a1118dba-4814-5fa3-bfa7-b2e8155aaedf",
+        "heading": "4. 住居手当に関するFAQ > Q8. 家族名義の住宅に住んでいる場合、住居手当は支給されますか？ > 回答",
+        "rank": 11,
+        "score": 9.240316859437213
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "7b120340-219d-50ae-91dd-c8bbd01cbc99",
+        "heading": "5. 届出手続きに関するFAQ > Q12. 電子メールで届出を提出できますか？ > 回答",
+        "rank": 12,
+        "score": 8.692573170403499
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "0f9d2520-f86f-5a66-afc9-6da4313c7fcf",
+        "heading": "3. 住居手当 > 3.4 支給停止",
+        "rank": 13,
+        "score": 8.620166427579274
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "c626a293-9316-580b-9a23-135e3fbfc8bb",
+        "heading": "2. 扶養手当に関するFAQ > Q3. 別居している父母を扶養親族として認定できますか？ > 回答",
+        "rank": 14,
+        "score": 8.604166444138697
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "0c6cbdd0-7ec7-5d60-8e7b-eee1a99e9b55",
+        "heading": "2. 扶養手当に関するFAQ > Q1. 子どもが生まれた場合、いつから扶養手当が支給されますか？ > 回答",
+        "rank": 15,
+        "score": 8.248588721845858
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "e120f9d6-b535-55d2-81c5-cbfff51f8470",
+        "heading": "4. 扶養手当 > 4.4 扶養親族変更届",
+        "rank": 16,
+        "score": 8.093458123324588
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "e41a7b5c-ebcf-5c13-8951-408363901e55",
+        "heading": "5. 届出手続きに関するFAQ > Q10. 提出期限を過ぎた場合でも届出は可能ですか？ > 回答",
+        "rank": 17,
+        "score": 7.923782016101125
+      },
+      {
+        "document_id": "DOC-003",
+        "element_id": "2a39c332-08fb-5f92-b5bf-bf38edb23352",
+        "heading": "7. FAQで判断できない場合",
+        "rank": 18,
+        "score": 7.496676699670016
+      },
+      {
+        "document_id": "DOC-001",
+        "element_id": "d0d7071a-334c-578e-bf7f-24e850bfaf70",
+        "heading": "給与制度規程 > 10. 届出義務",
+        "rank": 19,
+        "score": 7.42406805359314
+      },
+      {
+        "document_id": "DOC-002",
+        "element_id": "f0419662-5fda-590a-8660-c66a381eff42",
+        "heading": "2. 通勤手当 > 2.2 支給要件",
+        "rank": 20,
+        "score": 7.007534672387498
+      }
+    ]
+  },
+  "timing_seconds": {
+    "dense_search_p50": 0.0016944995004450902,
+    "dense_search_p95": 0.0022571659937966615,
+    "hybrid_search_p50": 0.0024031869979808107,
+    "hybrid_search_p95": 0.0033462079882156104
+  }
+}

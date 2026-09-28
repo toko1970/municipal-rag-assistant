@@ -378,3 +378,9 @@ required facets pilotを実行した。20 logical calls、retry 0、US$0.0105397
 届かず、退行も解消しない。本番promptとSchemaは維持し、130問回帰は行わない。次は同質性のある
 検索失敗3件のHybrid Search / reranking比較を優先する。詳細は
 [`GENERATION_FACETS_PROMPT_EXPERIMENT.md`](../eval/GENERATION_FACETS_PROMPT_EXPERIMENT.md)を参照する。
+
+現行gold v1.2のformal 100問で、Sudachi BM25 + RRFをcontextual denseと比較した。外部API call、
+費用、sealed holdout使用はいずれも0。検索失敗3件の改善0、全根拠見出しHit@5は80/90から
+73/90、既存成功8件退行のため不採用とした。Q156の不足根拠はdense Top-30外、Q436は27位で、
+rerankerでは2件を回復できない。次はQuery Decompositionの有限比較を候補とする。詳細は
+[`BM25_HYBRID_EVALUATION.md`](../eval/BM25_HYBRID_EVALUATION.md)を参照する。
