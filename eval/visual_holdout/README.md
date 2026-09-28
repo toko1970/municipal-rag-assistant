@@ -40,6 +40,8 @@ gold custodian以外は、予測結果の固定が終わるまでこのdirectory
 
 各段階はGit commitで履歴を残す。途中の状態を飛ばさず、公開manifestの既存hashを書き換えない。
 
+`CANDIDATE_FROZEN`で固定する設定本体は`candidate_config.json`である。モデル、prompt、Embedding profile、検索件数、画像上限、retry方針、選定に使ったdevelopment artifact、公開Cloud Run revisionを記録し、`public_manifest.json`からSHA-256で参照する。この段階では`.sealed/`を読まない。
+
 ## 検証方法
 
 公開情報だけを検証する通常のコマンドは、sealed artifactを読み込まない。
