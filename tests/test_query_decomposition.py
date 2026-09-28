@@ -1,6 +1,10 @@
 from types import SimpleNamespace
 
-from eval.query_decomposition import decompose_query, retrieve_decomposed
+from src.query_decomposition import (
+    DecomposedVectorIndex,
+    decompose_query,
+    retrieve_decomposed,
+)
 from src.contracts import SearchHit
 
 
@@ -46,3 +50,43 @@ def test_balances_subquery_results_and_removes_duplicates() -> None:
 
     assert [hit.element.id for hit in result] == ["A", "B", "C", "D", "E"]
     assert [hit.rank for hit in result] == [1, 2, 3, 4, 5]
+
+
+def test_vector_index_embeds_only_added_subqueries() -> None:
+    question = "転居で通勤しなくなった場合、通勤手当と住所変更届をどう処理しますか？"
+    first, second = decompose_query(question)
+    vectors = {first: [1.0], second: [2.0]}
+    embedded = []
+
+    class BaseIndex:
+        def search(self, vector, limit):
+            prefix = "A" if vector == [1.0] else "B" if vector == [2.0] else "Q"
+            return [_hit(f"{prefix}{index}", index) for index in range(1, limit + 1)]
+
+    index = DecomposedVectorIndex(
+        question=question,
+        base_index=BaseIndex(),
+        embed_query=lambda query: embedded.append(query) or vectors[query],
+    )
+
+    result = index.search([9.0], limit=4)
+
+    assert embedded == [first, second]
+    assert [hit.element.id for hit in result] == ["A1", "A2", "B1", "B2"]
+
+
+def test_vector_index_preserves_single_query_path() -> None:
+    question = "給与制度規程は常勤職員に適用されますか？"
+
+    class BaseIndex:
+        def search(self, vector, limit):
+            assert vector == [9.0]
+            return [_hit("A", 1)][:limit]
+
+    index = DecomposedVectorIndex(
+        question=question,
+        base_index=BaseIndex(),
+        embed_query=lambda _query: (_ for _ in ()).throw(AssertionError()),
+    )
+
+    assert [hit.element.id for hit in index.search([9.0], 1)] == ["A"]

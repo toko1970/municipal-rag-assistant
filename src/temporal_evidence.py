@@ -7,12 +7,14 @@ from dataclasses import dataclass
 from datetime import date
 
 from src.contracts import SearchHit
+from src.query_service import build_generation_prompt
 
 
 POLICY_DOMAINS = ("通勤手当", "住居手当", "扶養手当")
 QUESTION_DOMAIN_ALIASES = {
     "出生": "扶養手当",
 }
+TEMPORAL_GENERATION_PROMPT_VERSION = "answer-claims-v1+temporal-guidance-v1"
 
 
 @dataclass(frozen=True)
@@ -159,3 +161,11 @@ def temporal_prompt_instruction(question: str, hits: list[SearchHit]) -> str | N
         "旧記載候補が優先根拠と矛盾する場合は採用しないでください。"
         "改正対象と異なる届出期限などの補完根拠はそのまま使用してください。"
     )
+
+
+def build_temporal_generation_prompt(
+    question: str, hits: list[SearchHit], visual_assets: object
+) -> str:
+    base = build_generation_prompt(question, hits, visual_assets)
+    instruction = temporal_prompt_instruction(question, hits)
+    return f"{instruction}\n{base}" if instruction else base

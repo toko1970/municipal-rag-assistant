@@ -25,8 +25,12 @@ from eval.evaluate_query_decomposition_answers import (
 from eval.evaluate_retrieved_text_regression import prepare_text_corpus
 from eval.evaluate_visual_answers import token_cost_usd
 from eval.query_decomposition import decompose_query
-from src.query_service import answer_question, build_generation_prompt, load_schema
-from src.temporal_evidence import temporal_prompt_instruction
+from src.query_service import answer_question, load_schema
+from src.temporal_evidence import (
+    TEMPORAL_GENERATION_PROMPT_VERSION,
+    build_temporal_generation_prompt,
+    temporal_prompt_instruction,
+)
 
 
 ANSWER_SCHEMA = BASE_DIR / "design/schemas/answer-output-v1.schema.json"
@@ -134,14 +138,6 @@ def _attempt_diagnostics(logger: EvaluationLogger) -> dict[str, Any]:
         "classification_status": logger.classification.get("status"),
         "classification_error_summary": logger.classification.get("error_summary"),
     }
-
-
-def build_temporal_generation_prompt(question: str, hits: list, visual_assets) -> str:
-    instruction = temporal_prompt_instruction(question, hits)
-    base = build_generation_prompt(question, hits, visual_assets)
-    if instruction is None:
-        raise ValueError("評価対象に生成前の版適用情報を作成できません")
-    return f"{instruction}\n{base}"
 
 
 def main() -> int:
@@ -327,7 +323,7 @@ def main() -> int:
                 version_resolution_schema=load_schema(VERSION_SCHEMA),
                 top_k=TOP_K,
                 generation_prompt_builder=build_temporal_generation_prompt,
-                generation_prompt_version="answer-claims-v1+temporal-guidance-v1",
+                generation_prompt_version=TEMPORAL_GENERATION_PROMPT_VERSION,
             )
         except Exception as exception:
             error = f"{type(exception).__name__}: {exception}"

@@ -4,6 +4,7 @@ from uuid import UUID
 from src.contracts import SearchHit
 from src.temporal_evidence import (
     analyze_temporal_evidence,
+    build_temporal_generation_prompt,
     extract_question_date,
     temporal_prompt_instruction,
 )
@@ -20,7 +21,12 @@ def _hit(
 ) -> SearchHit:
     element = SimpleNamespace(
         id=UUID(int=value),
+        document_id=UUID(int=100 + value),
+        document_name="テスト文書",
+        heading=f"{heading1} > {heading2}",
         content=content,
+        page_number=None,
+        element_type="text",
         metadata={
             "見出し1": heading1,
             "見出し2": heading2,
@@ -130,3 +136,35 @@ def test_comparison_keeps_both_versions() -> None:
         "扶養手当の支給開始時期は改正前後でどう変わりましたか？",
         [before, after, unrelated],
     )
+
+
+def test_prompt_builder_preserves_normal_questions_without_guidance() -> None:
+    current = _hit(
+        1,
+        heading1="給与制度規程",
+        heading2="支給日",
+        effective_date="2025-04-01",
+        role="primary",
+        content="毎月21日に支給する。",
+    )
+
+    prompt = build_temporal_generation_prompt("給与支給日はいつですか？", [current], {})
+
+    assert not prompt.startswith("版適用情報:")
+
+
+def test_prompt_builder_prepends_guidance_only_when_applicable() -> None:
+    revised = _hit(
+        1,
+        heading1="4. 住居手当の改正",
+        heading2="改正後",
+        effective_date="2025-10-01",
+        role="revision_history",
+        content="住居手当は月額家賃が15,000円を超える場合に対象とする。",
+    )
+
+    prompt = build_temporal_generation_prompt(
+        "2025年10月以降の住居手当の要件は？", [revised], {}
+    )
+
+    assert prompt.startswith("版適用情報:")
