@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rag/classifier-model-benchmark-v1.schema.json",
+  "title": "Classifier model benchmark v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dataset_version",
+    "split",
+    "review_status",
+    "case_count",
+    "expected_counts",
+    "factor_true_counts",
+    "modality_counts",
+    "source_hashes",
+    "cases"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "dataset_version": { "const": "classifier-model-benchmark-v1" },
+    "split": { "const": "development" },
+    "review_status": { "enum": ["draft", "approved"] },
+    "case_count": { "type": "integer", "minimum": 1 },
+    "expected_counts": { "$ref": "#/$defs/counts" },
+    "factor_true_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "retrieval_sufficient",
+        "answer_fully_supported",
+        "requires_case_facts",
+        "requires_policy_judgment",
+        "version_conflict"
+      ],
+      "properties": {
+        "retrieval_sufficient": { "type": "integer", "minimum": 0 },
+        "answer_fully_supported": { "type": "integer", "minimum": 0 },
+        "requires_case_facts": { "type": "integer", "minimum": 0 },
+        "requires_policy_judgment": { "type": "integer", "minimum": 0 },
+        "version_conflict": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "modality_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "visual"],
+      "properties": {
+        "text": { "type": "integer", "minimum": 0 },
+        "visual": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "source_hashes": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+    },
+    "cases": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/case" }
+    }
+  },
+  "$defs": {
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["根拠十分", "判断要", "文書不足"],
+      "properties": {
+        "根拠十分": { "type": "integer", "minimum": 0 },
+        "判断要": { "type": "integer", "minimum": 0 },
+        "文書不足": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "factors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "retrieval_sufficient",
+        "answer_fully_supported",
+        "requires_case_facts",
+        "requires_policy_judgment",
+        "version_conflict"
+      ],
+      "properties": {
+        "retrieval_sufficient": { "type": "boolean" },
+        "answer_fully_supported": { "type": "boolean" },
+        "requires_case_facts": { "type": "boolean" },
+        "requires_policy_judgment": { "type": "boolean" },
+        "version_conflict": { "type": "boolean" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["element_id", "content"],
+      "properties": {
+        "element_id": { "type": "string", "minLength": 1 },
+        "content": { "type": "string", "minLength": 1 }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "ordinal",
+        "text",
+        "evidence_element_ids",
+        "evidence_kind"
+      ],
+      "properties": {
+        "claim_id": { "type": "string", "pattern": "^claim-[1-9][0-9]*$" },
+        "ordinal": { "type": "integer", "minimum": 1 },
+        "text": { "type": "string", "minLength": 1 },
+        "evidence_element_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "evidence_kind": {
+          "enum": ["text", "table_cell", "flow_edge", "form_field", "timeline_event"]
+        }
+      }
+    },
+    "answer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "claims", "missing_conditions"],
+      "properties": {
+        "schema_version": { "const": "1.0" },
+        "claims": { "type": "array", "items": { "$ref": "#/$defs/claim" } },
+        "missing_conditions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "source_id"],
+      "properties": {
+        "kind": { "enum": ["oracle_control", "synthetic_control", "retrieved_regression"] },
+        "source_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "modality",
+        "role",
+        "source",
+        "question",
+        "evidence",
+        "generated_answer",
+        "expected_label",
+        "expected_factors",
+        "annotation_status",
+        "annotation_rationale"
+      ],
+      "properties": {
+        "case_id": { "type": "string", "minLength": 1 },
+        "modality": { "enum": ["text", "visual"] },
+        "role": { "enum": ["factor_control", "observed_failure", "hard_negative"] },
+        "source": { "$ref": "#/$defs/source" },
+        "question": { "type": "string", "minLength": 1 },
+        "evidence": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/evidence" } },
+        "generated_answer": { "$ref": "#/$defs/answer" },
+        "expected_label": { "enum": ["根拠十分", "判断要", "文書不足"] },
+        "expected_factors": { "$ref": "#/$defs/factors" },
+        "annotation_status": { "enum": ["proposed", "requires_adjudication", "approved"] },
+        "annotation_rationale": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
