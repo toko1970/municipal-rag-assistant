@@ -372,3 +372,9 @@ Visual類似事例の適用境界を含むため、一つのresolverで安全に
 不採用としていたことを確認した。今回のrequired facets pilotはテキスト失敗4件とcontrol 6件
 だけに限定する。Visual 2件はprompt再試行から外し、locator付きSchemaまたは表示契約の構造変更
 として別工程にする。
+
+required facets pilotを実行した。20 logical calls、retry 0、US$0.01053975、sealed holdout未使用で、
+厳密gateの改善0/4、control退行4/6となり不採用とした。Q391は意味上改善したが、採用条件の2件へ
+届かず、退行も解消しない。本番promptとSchemaは維持し、130問回帰は行わない。次は同質性のある
+検索失敗3件のHybrid Search / reranking比較を優先する。詳細は
+[`GENERATION_FACETS_PROMPT_EXPERIMENT.md`](../eval/GENERATION_FACETS_PROMPT_EXPERIMENT.md)を参照する。

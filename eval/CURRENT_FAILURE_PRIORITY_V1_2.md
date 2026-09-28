@@ -121,7 +121,21 @@ Visualの類似事例適用境界を含む。専用resolverを一つ追加して
 pilotを通過した場合だけ、同じ保存済み130問へ候補を適用する。通過しない場合は本番promptを
 維持し、次に検索3件の再順位付けまたはQuery Decompositionを検討する。
 
-## 7. 学習上の要点
+## 7. pilot結果
+
+`answer-claims-required-facets-v1`を上記10件で実行した。20 logical calls、retry 0、実測
+US$0.01053975で完了し、sealed holdoutは使用していない。厳密gateでの改善は0件、control退行は
+4件だった。Q391は意味上改善したが、これを人手成功として数えても1件で採用条件へ届かない。
+
+候補promptは不採用とし、本番promptとSchemaは変更しない。回答生成6件は最大の件数ではあるが、
+一つの介入で直せる同質な集合ではないことが実測できた。詳細は
+[`GENERATION_FACETS_PROMPT_EXPERIMENT.md`](GENERATION_FACETS_PROMPT_EXPERIMENT.md)を参照する。
+
+次は、同じ複数文書検索の不足としてまとまっている検索失敗3件へ、追加LLM callを必要としない
+Hybrid Searchまたはrerankingの小比較を優先する。回答生成へ戻る場合は、facet付きSchema、
+衝突時だけの専用処理、質問外claim validatorを個別experimentとして扱う。
+
+## 8. 学習上の要点
 
 - 最大件数だけでなく、同じ一手で直せる同質性を確認して優先順位を決める。
 - 分類ラベルが誤っていても、原因がGeneratorの不足条件なら分類器だけを変えない。

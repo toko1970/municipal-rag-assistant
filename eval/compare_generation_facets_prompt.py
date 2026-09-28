@@ -314,7 +314,11 @@ def main() -> int:
         "baseline_scores": baseline_scores,
         "candidate_scores": candidate_scores,
         "summary": {
-            "completed_count": len(candidate),
+            "attempted_count": len(candidate),
+            "successful_pipeline_count": sum(
+                not record["error"] for record in candidate.values()
+            ),
+            "error_count": sum(bool(record["error"]) for record in candidate.values()),
             "expected_count": len(case_ids),
             "improved_failure_ids": improved,
             "improved_failure_count": len(improved),

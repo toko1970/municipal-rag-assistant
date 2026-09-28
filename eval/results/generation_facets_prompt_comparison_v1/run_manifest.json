@@ -1,0 +1,30 @@
+{
+  "artifact_version": "generation-facets-prompt-comparison-v1",
+  "classifier_model": "gemini-3.1-flash-lite",
+  "control_ids": [
+    "Q166",
+    "Q206",
+    "Q421",
+    "Q431",
+    "Q441",
+    "Q446"
+  ],
+  "failure_ids": [
+    "Q066",
+    "Q131",
+    "Q386",
+    "Q391"
+  ],
+  "fixed_retrieval": true,
+  "generator_model": "gemini-3.1-flash-lite",
+  "max_cost_usd": 0.04,
+  "max_logical_external_calls": 20,
+  "prompt_version": "answer-claims-required-facets-v1",
+  "retry_count": 0,
+  "sealed_holdout_accessed": false,
+  "source_sha256": {
+    "baseline": "c8634ef67deebe0de306d2d8d3b1e0f29eca600f3358315edbbfbeba3f551f3d",
+    "cases": "b695f6fcc5fc2ad743f337177670d264ada06cb0f233de603ce636da83f95de6",
+    "questions": "bf93804a604372a8d1e5b295a9906e147f6412e5465bb29e644353693c32ae17"
+  }
+}
