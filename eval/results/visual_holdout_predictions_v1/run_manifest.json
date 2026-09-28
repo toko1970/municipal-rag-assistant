@@ -1,0 +1,54 @@
+{
+  "candidate_config_sha256": "fff66d278a48a63eda1f4f9e688f13c7841ffe36d16b706acea83eaae46b2f0c",
+  "candidate_git_commit": "6a2d7e628ba91eb939f13edbe37eaab2a23f026a",
+  "classifier_model": "gemini-3.1-flash-lite",
+  "document_count": 6,
+  "documents": [
+    {
+      "document_id": "vh_doc_a7",
+      "sha256": "b5ada4e5a67315d23f3b1b5f932a53c06dc1cab73f7ce876440602f50ea1a0be"
+    },
+    {
+      "document_id": "vh_doc_m2",
+      "sha256": "a049cc7dec1dee71f190db5cf2920c9d22c595702f31dd5976adea7a9c46f9f6"
+    },
+    {
+      "document_id": "vh_doc_k9",
+      "sha256": "0fe4bc51ecb95114f39a56b6b53fd0ebfde55d215b2fc4884755069186fb7a59"
+    },
+    {
+      "document_id": "vh_doc_f4",
+      "sha256": "90cb6e0852ec13436c37590b7bb48f5ebbac07139d7600640e66e275261be62a"
+    },
+    {
+      "document_id": "vh_doc_t6",
+      "sha256": "84ceae86733c4d7979af7cc6a64c2ec584d6c753dcec128a29ccd835aef181bb"
+    },
+    {
+      "document_id": "vh_doc_r8",
+      "sha256": "f42065ba1fce5d972dc1ff3ccba0f3639db2cbb99ef766c2168de67508a124d8"
+    }
+  ],
+  "embedding_model": "gemini-embedding-001",
+  "generator_model": "gemini-3.1-flash-lite",
+  "gold_available_to_runner": false,
+  "holdout_id": "visual-sealed-holdout-v1",
+  "logical_external_call_limit": 67,
+  "logical_external_calls": {
+    "answer_classification": 20,
+    "answer_generation": 20,
+    "document_embedding_batch": 1,
+    "question_embedding": 20,
+    "visual_extraction": 6
+  },
+  "max_cost_usd": 0.35,
+  "max_visual_assets": 3,
+  "minimum_reserved_cost_usd": 0.26,
+  "questions_sha256": "2243869ccb326935875251cca507c5b7612121b86573802088b3434af9c4fbde",
+  "retry_count": 0,
+  "run_id": "visual_holdout_predictions_v1",
+  "scenario_count": 20,
+  "sealed_documents_accessed": true,
+  "sealed_gold_accessed": false,
+  "top_k": 8
+}

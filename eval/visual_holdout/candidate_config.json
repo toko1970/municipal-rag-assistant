@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "holdout_id": "visual-sealed-holdout-v1",
+  "selection_split": "development",
+  "sealed_holdout_accessed": false,
+  "source_git_commit": "6a2d7e628ba91eb939f13edbe37eaab2a23f026a",
+  "frozen_at": "2026-09-28T11:51:49+09:00",
+  "pipeline": {
+    "visual_extraction": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "prompt_version": "visual-extraction-v1"
+    },
+    "embedding": {
+      "provider": "gemini",
+      "model": "gemini-embedding-001",
+      "document_task_type": "RETRIEVAL_DOCUMENT",
+      "query_task_type": "RETRIEVAL_QUERY",
+      "profile_id": "gemini:gemini-embedding-001:contextual-heading-document-v1"
+    },
+    "retrieval": {
+      "backend": "qdrant",
+      "collection": "municipality_rag_docs_v2_contextual_heading_v1",
+      "method": "dense",
+      "top_k": 8
+    },
+    "generation": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "prompt_version": "answer-claims-v1",
+      "max_visual_assets": 3
+    },
+    "classification": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "prompt_version": "answer-classification-v1"
+    },
+    "persistence": {
+      "metadata_and_logs": "postgresql",
+      "visual_assets": "gcs"
+    }
+  },
+  "execution_policy": {
+    "retry_count": 0,
+    "prediction_split": "sealed_holdout",
+    "gold_available_to_runner": false,
+    "stop_on_first_error": true
+  },
+  "development_evidence": [
+    {
+      "path": "eval/results/visual_extraction_candidate_table_shape_v1/summary.json",
+      "sha256": "88e1676535a8cbbad982e228059b03dd5204f670d87a61874490579b27538cd1"
+    },
+    {
+      "path": "eval/results/visual_answer_baseline_gemini_3_1_v1/run_manifest.json",
+      "sha256": "c053f22f484a8ac5b8e0960d40ce5bad1e56682c0a2d432817e90f69736a2e32"
+    },
+    {
+      "path": "eval/results/visual_answer_prompt_experiment_summary.json",
+      "sha256": "72383c31d10ed3775aa942a1c8938d4db98bce356b8eca1baba48e0c8450dab6"
+    }
+  ],
+  "deployed_candidate": {
+    "platform": "cloud_run",
+    "project": "municipal-rag-portfolio",
+    "region": "asia-northeast1",
+    "service": "municipal-rag-assistant",
+    "revision": "municipal-rag-assistant-00006-m8d",
+    "image": "asia-northeast1-docker.pkg.dev/municipal-rag-portfolio/municipal-rag-images/municipal-rag-assistant:6a2d7e628ba91eb939f13edbe37eaab2a23f026a",
+    "url": "https://municipal-rag-assistant-nc2w2lpbba-an.a.run.app"
+  }
+}

@@ -4,8 +4,12 @@ import unittest
 
 from eval.validate_visual_fixture import load_json
 from eval.validate_visual_holdout_protocol import (
+    CANDIDATE_CONFIG_PATH,
     validate_blueprint,
+    validate_candidate_artifact,
+    validate_prediction_artifact,
     validate_public_manifest,
+    validate_result_artifact,
     validate_state_requirements,
 )
 
@@ -16,14 +20,42 @@ MANIFEST_PATH = REPOSITORY_ROOT / "eval/visual_holdout/public_manifest.json"
 
 
 class VisualHoldoutProtocolTest(unittest.TestCase):
-    def test_committed_manifest_is_valid_without_opening_sealed_content(self):
+    def test_committed_candidate_is_valid_without_opening_sealed_content(self):
         manifest = validate_public_manifest(MANIFEST_PATH, REPOSITORY_ROOT)
 
-        self.assertEqual(manifest["state"], "SEALED")
+        self.assertEqual(manifest["state"], "CONSUMED")
         self.assertGreaterEqual(len(manifest["documents"]), 6)
         self.assertEqual(manifest["questions"]["count"], 20)
-        for field in ("candidate", "predictions", "opening", "results"):
-            self.assertIsNone(manifest[field])
+        self.assertEqual(
+            manifest["candidate"]["git_commit"],
+            "6a2d7e628ba91eb939f13edbe37eaab2a23f026a",
+        )
+        self.assertTrue((REPOSITORY_ROOT / CANDIDATE_CONFIG_PATH).is_file())
+        self.assertEqual(manifest["predictions"]["attempt_count"], 20)
+        self.assertTrue(manifest["opening"]["extraction_hash_verified"])
+        self.assertTrue(manifest["opening"]["scenario_hash_verified"])
+        self.assertEqual(manifest["results"]["count"], 20)
+
+    def test_candidate_hash_change_is_rejected(self):
+        manifest = deepcopy(load_json(MANIFEST_PATH))
+        manifest["candidate"]["config_manifest_sha256"] = "0" * 64
+
+        with self.assertRaisesRegex(ValueError, "SHA-256が一致しません"):
+            validate_candidate_artifact(manifest, REPOSITORY_ROOT)
+
+    def test_prediction_hash_change_is_rejected(self):
+        manifest = deepcopy(load_json(MANIFEST_PATH))
+        manifest["predictions"]["sha256"] = "0" * 64
+
+        with self.assertRaisesRegex(ValueError, "SHA-256が一致しません"):
+            validate_prediction_artifact(manifest, REPOSITORY_ROOT)
+
+    def test_result_hash_change_is_rejected(self):
+        manifest = deepcopy(load_json(MANIFEST_PATH))
+        manifest["results"]["sha256"] = "0" * 64
+
+        with self.assertRaisesRegex(ValueError, "SHA-256が一致しません"):
+            validate_result_artifact(manifest, REPOSITORY_ROOT)
 
     def test_blueprint_fixes_all_twenty_scenario_ids_and_margins(self):
         blueprint = load_json(BLUEPRINT_PATH)

@@ -1,0 +1,146 @@
+{
+  "bbox": {
+    "x0": 0.0567,
+    "x1": 0.9233,
+    "y0": 0.1714,
+    "y1": 0.7964
+  },
+  "confidence": {
+    "review_required": true,
+    "source": "engine",
+    "value": 0.95
+  },
+  "data": {
+    "edges": [
+      {
+        "bbox": {
+          "x0": 0.4995,
+          "x1": 0.5005,
+          "y0": 0.2309,
+          "y1": 0.2976
+        },
+        "condition": null,
+        "from": "node1",
+        "to": "node2"
+      },
+      {
+        "bbox": {
+          "x0": 0.1883,
+          "x1": 0.2933,
+          "y0": 0.3571,
+          "y1": 0.4976
+        },
+        "condition": "4時間未満",
+        "from": "node2",
+        "to": "node3"
+      },
+      {
+        "bbox": {
+          "x0": 0.7067,
+          "x1": 0.7167,
+          "y0": 0.3571,
+          "y1": 0.4976
+        },
+        "condition": "4時間以上",
+        "from": "node2",
+        "to": "node4"
+      },
+      {
+        "bbox": {
+          "x0": 0.2333,
+          "x1": 0.51,
+          "y0": 0.5571,
+          "y1": 0.7238
+        },
+        "condition": "未確認",
+        "from": "node4",
+        "to": "node5"
+      },
+      {
+        "bbox": {
+          "x0": 0.7162,
+          "x1": 0.7172,
+          "y0": 0.6167,
+          "y1": 0.7238
+        },
+        "condition": "確認済み",
+        "from": "node4",
+        "to": "node6"
+      }
+    ],
+    "nodes": [
+      {
+        "bbox": {
+          "x0": 0.2933,
+          "x1": 0.7067,
+          "y0": 0.1714,
+          "y1": 0.2309
+        },
+        "id": "node1",
+        "node_type": "process",
+        "text": "当月の夜間対応を集計"
+      },
+      {
+        "bbox": {
+          "x0": 0.2933,
+          "x1": 0.7067,
+          "y0": 0.2976,
+          "y1": 0.4167
+        },
+        "id": "node2",
+        "node_type": "decision",
+        "text": "連続対応が4時間以上？"
+      },
+      {
+        "bbox": {
+          "x0": 0.0567,
+          "x1": 0.32,
+          "y0": 0.4976,
+          "y1": 0.5714
+        },
+        "id": "node3",
+        "node_type": "process",
+        "text": "付与対象外"
+      },
+      {
+        "bbox": {
+          "x0": 0.51,
+          "x1": 0.9233,
+          "y0": 0.4976,
+          "y1": 0.6167
+        },
+        "id": "node4",
+        "node_type": "decision",
+        "text": "所属責任者の確認を受けた？"
+      },
+      {
+        "bbox": {
+          "x0": 0.0567,
+          "x1": 0.41,
+          "y0": 0.7238,
+          "y1": 0.7964
+        },
+        "id": "node5",
+        "node_type": "process",
+        "text": "確認待ちで保留"
+      },
+      {
+        "bbox": {
+          "x0": 0.51,
+          "x1": 0.9233,
+          "y0": 0.7238,
+          "y1": 0.7964
+        },
+        "id": "node6",
+        "node_type": "process",
+        "text": "回復休を半日付与"
+      }
+    ],
+    "type": "flowchart"
+  },
+  "kind": "flowchart",
+  "page": 1,
+  "schema_version": "1.0",
+  "source_image_sha256": "53f4b5810cf8f2181cd7ea760b2b4a733ce854d485a3591f14fe4e3164a7dcd0",
+  "title": "夜間対応回復休の判定（架空）"
+}

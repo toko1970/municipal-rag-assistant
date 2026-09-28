@@ -6,6 +6,7 @@ from src.llm_provider import StructuredLLMResult
 from src.visual_extractor import (
     extract_visual_candidate,
     normalize_candidate_bboxes,
+    normalize_flowchart_roles,
     normalize_table_dimensions,
 )
 from src.visual_ingestion import render_pdf_page
@@ -123,3 +124,81 @@ def test_normalize_table_dimensions_only_expands_undersized_shape() -> None:
     assert changes == 1
     assert candidate["data"]["row_count"] == 5
     assert candidate["data"]["column_count"] == 5
+
+
+def test_normalize_flowchart_roles_uses_connected_graph_topology() -> None:
+    candidate = {
+        "kind": "flowchart",
+        "data": {
+            "nodes": [
+                {"id": "receive", "node_type": "process"},
+                {"id": "check", "node_type": "decision"},
+                {"id": "accept", "node_type": "process"},
+                {"id": "return", "node_type": "process"},
+            ],
+            "edges": [
+                {"from": "receive", "to": "check"},
+                {"from": "check", "to": "accept"},
+                {"from": "check", "to": "return"},
+            ],
+        },
+    }
+
+    changes = normalize_flowchart_roles(candidate)
+
+    assert changes == 3
+    assert [
+        node["node_type"] for node in candidate["data"]["nodes"]
+    ] == ["start", "decision", "end", "end"]
+
+
+def test_normalize_flowchart_roles_leaves_ambiguous_graph_unchanged() -> None:
+    candidate = {
+        "kind": "flowchart",
+        "data": {
+            "nodes": [
+                {"id": "root-a", "node_type": "process"},
+                {"id": "root-b", "node_type": "process"},
+                {"id": "end", "node_type": "process"},
+            ],
+            "edges": [
+                {"from": "root-a", "to": "end"},
+                {"from": "root-b", "to": "end"},
+            ],
+        },
+    }
+    before = copy.deepcopy(candidate)
+
+    changes = normalize_flowchart_roles(candidate)
+
+    assert changes == 0
+    assert candidate == before
+
+
+def test_normalize_flowchart_roles_does_not_change_valid_roles() -> None:
+    candidate = candidate_data()
+
+    changes = normalize_flowchart_roles(candidate)
+
+    assert changes == 0
+
+
+def test_visual_extractor_repairs_process_labels_for_start_and_end() -> None:
+    candidate = candidate_data()
+    expected_roles = [node["node_type"] for node in candidate["data"]["nodes"]]
+    for node in candidate["data"]["nodes"]:
+        if node["node_type"] in {"start", "end"}:
+            node["node_type"] = "process"
+
+    result = extract_visual_candidate(
+        page=render_pdf_page(PDF, 1),
+        kind_hint="flowchart",
+        provider=FakeMultimodalProvider(candidate),
+    )
+
+    assert result.validation_errors == ()
+    assert result.normalized_structure_count == 2
+    assert [node["node_type"] for node in result.data["data"]["nodes"]] == expected_roles
+    assert {
+        node["node_type"] for node in result.raw_data["data"]["nodes"]
+    } == {"process", "decision"}

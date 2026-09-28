@@ -41,6 +41,8 @@ STATE_ORDER = {
     "OPENED": 4,
     "CONSUMED": 5,
 }
+CANDIDATE_CONFIG_PATH = "eval/visual_holdout/candidate_config.json"
+PREDICTIONS_ROOT = "eval/results"
 
 
 def validate_schema(instance: dict[str, Any], schema: dict[str, Any]) -> None:
@@ -131,6 +133,75 @@ def validate_development_family_separation(
         )
 
 
+def validate_candidate_artifact(
+    manifest: dict[str, Any], repository_root: Path
+) -> None:
+    """Verify the frozen candidate without inspecting sealed documents or gold."""
+
+    if STATE_ORDER[manifest["state"]] < STATE_ORDER["CANDIDATE_FROZEN"]:
+        return
+    candidate = manifest["candidate"]
+    config_path = checked_path(repository_root, CANDIDATE_CONFIG_PATH)
+    verify_hash(
+        config_path,
+        candidate["config_manifest_sha256"],
+        "candidate_config",
+    )
+    config = load_json(config_path)
+    if config.get("holdout_id") != manifest["holdout_id"]:
+        raise ValueError("candidate configのholdout_idが一致しません")
+    if config.get("source_git_commit") != candidate["git_commit"]:
+        raise ValueError("candidate configのGit commitが一致しません")
+    if config.get("frozen_at") != candidate["frozen_at"]:
+        raise ValueError("candidate configのfrozen_atが一致しません")
+    if config.get("selection_split") != "development":
+        raise ValueError("candidateはdevelopment splitだけで選定する必要があります")
+    if config.get("sealed_holdout_accessed") is not False:
+        raise ValueError("候補固定時点でsealed holdoutへアクセスしてはいけません")
+    policy = config.get("execution_policy", {})
+    if policy.get("retry_count") != 0:
+        raise ValueError("holdout実行のretry_countは0で固定する必要があります")
+    if policy.get("gold_available_to_runner") is not False:
+        raise ValueError("prediction runnerからgoldを参照できない設定が必要です")
+    for evidence in config.get("development_evidence", []):
+        path = checked_path(repository_root, evidence["path"])
+        verify_hash(path, evidence["sha256"], f"development_evidence:{evidence['path']}")
+
+
+def validate_prediction_artifact(
+    manifest: dict[str, Any], repository_root: Path
+) -> None:
+    if STATE_ORDER[manifest["state"]] < STATE_ORDER["PREDICTIONS_FROZEN"]:
+        return
+    predictions = manifest["predictions"]
+    path = checked_path(
+        repository_root,
+        f"{PREDICTIONS_ROOT}/{predictions['run_id']}/predictions.json",
+    )
+    verify_hash(path, predictions["sha256"], "predictions")
+    bundle = load_json(path)
+    outcomes = bundle.get("predictions")
+    if not isinstance(outcomes, list) or len(outcomes) != predictions["attempt_count"]:
+        raise ValueError("prediction outcome件数がpublic manifestと一致しません")
+    if bundle.get("summary", {}).get("sealed_gold_accessed") is not False:
+        raise ValueError("prediction固定前にgoldへアクセスしてはいけません")
+
+
+def validate_result_artifact(
+    manifest: dict[str, Any], repository_root: Path
+) -> None:
+    if STATE_ORDER[manifest["state"]] < STATE_ORDER["CONSUMED"]:
+        return
+    results = manifest["results"]
+    path = checked_path(repository_root, results["path"])
+    verify_hash(path, results["sha256"], "results")
+    score = load_json(path)
+    if score.get("holdout_id") != manifest["holdout_id"]:
+        raise ValueError("scoreのholdout_idがpublic manifestと一致しません")
+    if score.get("holdout_reusable_as_unseen") is not False:
+        raise ValueError("consumed holdoutを未見評価として再利用できません")
+
+
 def validate_sealed_artifacts(manifest: dict[str, Any], sealed_root: Path) -> None:
     if STATE_ORDER[manifest["state"]] < STATE_ORDER["SEALED"]:
         raise ValueError("PLANNEDではsealed artifactの照合を実行できません")
@@ -172,6 +243,9 @@ def validate_public_manifest(
         verify_hash(questions_path, questions["sha256"], "questions")
     validate_state_requirements(manifest)
     validate_development_family_separation(manifest, repository_root)
+    validate_candidate_artifact(manifest, repository_root)
+    validate_prediction_artifact(manifest, repository_root)
+    validate_result_artifact(manifest, repository_root)
     if sealed_root is not None:
         validate_sealed_artifacts(manifest, sealed_root)
     return manifest

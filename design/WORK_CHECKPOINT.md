@@ -293,3 +293,13 @@ Cloud Run / local RAG v2差分確認の開始時点は週間枠7%で、表示さ
 ユーザー判断により、公開demoもCloud SQL、Qdrant Cloud、Gemini 3.1のRAG v2へ統一する方針へ変更した。週間枠7%から開始し、準備完了時点は8%、secondary 5時間枠は表示されなかった。Qdrant API key対応、Cloud Run Jobの`bootstrap-cloud`、CD設定、Cloud SQL・Secret Manager・IAMのTerraformを実装した。Terraform planは`12 add, 0 change, 0 destroy`で、東京の`db-f1-micro`とHDD 10 GiBは公式価格表から月約`$8.57`と見積もった。160 test、Ruff、workflow YAML、Terraform fmt・validate、Docker build、container内CLIが成功した。resourceはまだapplyしていない。次は費用確認後にTerraform planをapplyし、Qdrant Free clusterとdatabase API keyを作成して、Secret versionとGitHub production variablesを設定する。詳細は[`CLOUD_RAG_V2_DEPLOYMENT_PLAN.md`](CLOUD_RAG_V2_DEPLOYMENT_PLAN.md)を正とする。
 
 同日、週間枠8%・secondary表示なしの状態でクラウド適用を再開した。対象project限定の月額2,000円予算を先行適用し、50%、80%、100%の実費通知を確認した。請求先全体には既存の月額1,000円予算も存在する。続いてRAG v2基盤を`12 added, 0 changed, 0 destroyed`で適用した。Cloud SQL PostgreSQL 16は`RUNNABLE`、database・user・接続URL secret version 1、Qdrant key用secret container、runtime IAMが作成済みで、適用後planは`No changes`だった。次はQdrant Free clusterを作成し、database API keyをSecret Managerへ登録してGitHub production variablesを設定する。reset creditは使用していない。
+
+## 9. Visual sealed holdoutと改善checkpoint
+
+2026-09-28に公開Cloud Run commit `6a2d7e6`をvisual candidateとして固定し、6 PDF・20 scenarioのsealed holdoutをretry 0、最大67 logical external call、費用上限US$0.35で実行した。2件目`vh_doc_m2`の抽出で先頭nodeを`process`と返し、start nodeが0件となってSchema検証でfail-fastした。質問APIは0件で、20 scenarioを`BLOCKED_BY_EXTRACTION_ERROR`として固定した。gold hash照合後の採点では、1件目`vh_doc_a7`も9要素中5要素一致、element recall 0.556、mean bbox IoU 0.806でgate不合格だった。holdoutは`CONSUMED`で、再実行しない。詳細は[`VISUAL_HOLDOUT_PREDICTION_RESULT.md`](../eval/VISUAL_HOLDOUT_PREDICTION_RESULT.md)を参照する。
+
+消費後のdevelopment改善として、連結された一意なflowchartに限り、incoming edgeがない`process`を`start`、outgoing edgeがない`process`を`end`へ補正するtopology normalizationを追加した。既存development 6件はSchema-valid 6/6、gate 4/6を維持し、合成回帰入力では2 nodeの補正後にSchemaを通過した。詳細は[`VISUAL_TOPOLOGY_NORMALIZATION.md`](../eval/VISUAL_TOPOLOGY_NORMALIZATION.md)を参照する。
+
+続いてvisual extraction評価をv4へ更新し、厳密一致に加えてformat-normalized一致を記録するようにした。NFKC、空白、限定した句読点だけを正規化し、負号、時刻区切り、数字、単位、条件語は残す。PR reviewでは、正規化後に異なる要素が同じ比較keyへ潰れる場合を検出してgate不合格にするよう修正した。また、成功したsealed prediction bundleにもgold未参照を明示し、validatorとの契約をそろえた。既存development 6件は厳密・正規化とも完全一致、collision 0件、gate 4/6を維持した。全test 217件とRuffが成功した。詳細は[`VISUAL_FORMAT_NORMALIZATION_EVALUATION.md`](../eval/VISUAL_FORMAT_NORMALIZATION_EVALUATION.md)を参照する。
+
+現在の改善branchは`codex/visual-topology-normalization`である。次はreview後にこのbranchをmergeし、消費済みholdoutを使わず別の小規模sealed holdoutで最終受入を行う。合格後に公開demoへ反映する。mergeと本番deployは明示承認が必要である。

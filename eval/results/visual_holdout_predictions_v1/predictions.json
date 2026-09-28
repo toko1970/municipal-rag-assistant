@@ -1,0 +1,292 @@
+{
+  "extractions": [
+    {
+      "document_id": "vh_doc_a7",
+      "error": null,
+      "normalized_path": "eval/results/visual_holdout_predictions_v1/extraction/vh_doc_a7.normalized.json",
+      "normalized_sha256": "a92a5d587ddf5261249aa41b8d790efa56c99c9d8917046f8e0724b0205c4911",
+      "raw_path": "eval/results/visual_holdout_predictions_v1/extraction/vh_doc_a7.raw.json",
+      "raw_sha256": "3bf150452ca217c668c70f915d68e319669a5ac081b3aa0dc3d40b8e967b4add",
+      "status": "VALID"
+    },
+    {
+      "document_id": "vh_doc_m2",
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "normalized_path": "eval/results/visual_holdout_predictions_v1/extraction/vh_doc_m2.normalized.json",
+      "normalized_sha256": "164dd1a024d4d1047773d252c6d5bae8d72471fa9194e015e8669d6e8e885641",
+      "raw_path": "eval/results/visual_holdout_predictions_v1/extraction/vh_doc_m2.raw.json",
+      "raw_sha256": "e21fd31f03f5650afb18839280b664db4f6c6ad90d62195b2d91aa05274533f3",
+      "status": "INVALID"
+    }
+  ],
+  "predictions": [
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "分散勤務席整備で週２日利用する場合の基本補助月額を教えてください。",
+      "references": [],
+      "scenario_id": "VH001",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "配置希望確認の面談枠はいつ通知されますか？",
+      "references": [],
+      "scenario_id": "VH002",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "技能交換の登録票と活動記録を提出しました。次は受付番号が届きますか？",
+      "references": [],
+      "scenario_id": "VH003",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "緊急連絡中継の担当日が2031年10月１日で１回だけ担当した場合、加算額と精算票の提出期限は？",
+      "references": [],
+      "scenario_id": "VH004",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "伴走指導活動票に添付する記録は何ですか？",
+      "references": [],
+      "scenario_id": "VH005",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "夜間対応が連続５時間でも所属責任者の確認を受けていない場合、どの経路で何になりますか？",
+      "references": [],
+      "scenario_id": "VH006",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "分散勤務席整備を週３日利用します。支給月額はいくらになりますか？",
+      "references": [],
+      "scenario_id": "VH007",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "技能交換登録で、登録票が届いた直後に行う処理は何ですか？",
+      "references": [],
+      "scenario_id": "VH008",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "緊急連絡中継を１回担当しました。精算票を2031年10月２日に出す予定です。加算額はいくらですか？",
+      "references": [],
+      "scenario_id": "VH009",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "伴走指導の活動ひょう、確認欄は自分で書く？ どこへ出す？",
+      "references": [],
+      "scenario_id": "VH010",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "夜間対応は連続５時間でした。回復休を半日もらえますか？",
+      "references": [],
+      "scenario_id": "VH011",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "配置希望確認で希望票の受付が終わってから配置案を本人確認するまで、日付と順序を教えてください。",
+      "references": [],
+      "scenario_id": "VH012",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "技能交換の受けつけ番号を再発行してもらうとき、手数料はいくら？",
+      "references": [],
+      "scenario_id": "VH013",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "分散勤務席整備で週４日利用し貸与席がある場合、減額後の月額はいくらですか？",
+      "references": [],
+      "scenario_id": "VH014",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "緊急連絡の中けい加算、ひと月に対象になる回数は改定でどう変わる？",
+      "references": [],
+      "scenario_id": "VH015",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "夜間対応回復休の未使用分は何か月先まで繰り越せますか？",
+      "references": [],
+      "scenario_id": "VH016",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "技能交換登録で記録が一致した場合の処理と、伴走指導活動票の提出先を教えてください。",
+      "references": [],
+      "scenario_id": "VH017",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "伴走指導活動票は提出後に何年間保管されますか？",
+      "references": [],
+      "scenario_id": "VH018",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "夜間対応が連続でちょうど４時間で所属責任者の確認済みです。回復休はどうなりますか？",
+      "references": [],
+      "scenario_id": "VH019",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    },
+    {
+      "answer": null,
+      "claims": [],
+      "error": "ValueError: flowchartにはstart nodeが1件必要です",
+      "predicted_label": null,
+      "question": "分散勤務席のほじょは所得税がかかるの？",
+      "references": [],
+      "scenario_id": "VH020",
+      "status": "BLOCKED_BY_EXTRACTION_ERROR"
+    }
+  ],
+  "run_manifest": {
+    "candidate_config_sha256": "fff66d278a48a63eda1f4f9e688f13c7841ffe36d16b706acea83eaae46b2f0c",
+    "candidate_git_commit": "6a2d7e628ba91eb939f13edbe37eaab2a23f026a",
+    "classifier_model": "gemini-3.1-flash-lite",
+    "document_count": 6,
+    "documents": [
+      {
+        "document_id": "vh_doc_a7",
+        "sha256": "b5ada4e5a67315d23f3b1b5f932a53c06dc1cab73f7ce876440602f50ea1a0be"
+      },
+      {
+        "document_id": "vh_doc_m2",
+        "sha256": "a049cc7dec1dee71f190db5cf2920c9d22c595702f31dd5976adea7a9c46f9f6"
+      },
+      {
+        "document_id": "vh_doc_k9",
+        "sha256": "0fe4bc51ecb95114f39a56b6b53fd0ebfde55d215b2fc4884755069186fb7a59"
+      },
+      {
+        "document_id": "vh_doc_f4",
+        "sha256": "90cb6e0852ec13436c37590b7bb48f5ebbac07139d7600640e66e275261be62a"
+      },
+      {
+        "document_id": "vh_doc_t6",
+        "sha256": "84ceae86733c4d7979af7cc6a64c2ec584d6c753dcec128a29ccd835aef181bb"
+      },
+      {
+        "document_id": "vh_doc_r8",
+        "sha256": "f42065ba1fce5d972dc1ff3ccba0f3639db2cbb99ef766c2168de67508a124d8"
+      }
+    ],
+    "embedding_model": "gemini-embedding-001",
+    "generator_model": "gemini-3.1-flash-lite",
+    "gold_available_to_runner": false,
+    "holdout_id": "visual-sealed-holdout-v1",
+    "logical_external_call_limit": 67,
+    "logical_external_calls": {
+      "answer_classification": 20,
+      "answer_generation": 20,
+      "document_embedding_batch": 1,
+      "question_embedding": 20,
+      "visual_extraction": 6
+    },
+    "max_cost_usd": 0.35,
+    "max_visual_assets": 3,
+    "minimum_reserved_cost_usd": 0.26,
+    "questions_sha256": "2243869ccb326935875251cca507c5b7612121b86573802088b3434af9c4fbde",
+    "retry_count": 0,
+    "run_id": "visual_holdout_predictions_v1",
+    "scenario_count": 20,
+    "sealed_documents_accessed": true,
+    "sealed_gold_accessed": false,
+    "top_k": 8
+  },
+  "summary": {
+    "answer_external_call_count": 0,
+    "extraction_attempt_count": 2,
+    "failed_document_id": "vh_doc_m2",
+    "failed_stage": "visual_extraction",
+    "failure": "ValueError: flowchartにはstart nodeが1件必要です",
+    "prediction_outcome_count": 20,
+    "question_attempt_count": 0,
+    "retry_count": 0,
+    "sealed_gold_accessed": false,
+    "status": "ERROR_FAIL_FAST",
+    "token_usage_recoverable_after_fail_fast": false,
+    "valid_extraction_count": 1
+  }
+}

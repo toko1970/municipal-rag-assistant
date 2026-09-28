@@ -6,18 +6,34 @@ import argparse
 import json
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
+import unicodedata
 
 from src.visual_validation import validate_gold
 
 
-EVALUATION_REVISION = "visual-extraction-eval-v2"
+EVALUATION_REVISION = "visual-extraction-eval-v4"
 
 
 def comparison_text(value: str | None) -> str | None:
     if value is None:
         return None
     return value.replace("～", "〜")
+
+
+def format_normalized_text(value: str | None) -> str | None:
+    """Remove whitespace and prose separators while preserving value-bearing signs."""
+
+    canonical = comparison_text(value)
+    if canonical is None:
+        return None
+    canonical = unicodedata.normalize("NFKC", canonical)
+    return "".join(
+        character
+        for character in canonical
+        if character not in {"、", "。", ",", "・"} and not character.isspace()
+    )
+
 
 @dataclass(frozen=True)
 class VisualExtractionMetrics:
@@ -27,6 +43,11 @@ class VisualExtractionMetrics:
     element_recall: float
     important_values_exact: bool
     mean_bbox_iou: float
+    format_normalized_matched_elements: int
+    format_normalized_element_recall: float
+    format_normalized_important_values_exact: bool
+    format_normalized_mean_bbox_iou: float
+    format_normalization_collision: bool
     gate_passed: bool
 
 
@@ -40,15 +61,18 @@ def bbox_iou(left: dict[str, float], right: dict[str, float]) -> float:
     return intersection / union if union else 0.0
 
 
-def element_map(extraction: dict[str, Any]) -> dict[tuple[Any, ...], dict[str, float]]:
+def element_map(
+    extraction: dict[str, Any],
+    normalize_text: Callable[[str | None], str | None] = comparison_text,
+) -> dict[tuple[Any, ...], dict[str, float]]:
     kind = extraction["kind"]
     data = extraction["data"]
     if kind == "flowchart":
         node_text = {
-            node["id"]: comparison_text(node["text"]) for node in data["nodes"]
+            node["id"]: normalize_text(node["text"]) for node in data["nodes"]
         }
         elements = {
-            ("node", comparison_text(node["text"]), node["node_type"]): node["bbox"]
+            ("node", normalize_text(node["text"]), node["node_type"]): node["bbox"]
             for node in data["nodes"]
         }
         elements.update(
@@ -57,7 +81,7 @@ def element_map(extraction: dict[str, Any]) -> dict[tuple[Any, ...], dict[str, f
                     "edge",
                     node_text[edge["from"]],
                     node_text[edge["to"]],
-                    comparison_text(edge["condition"]),
+                    normalize_text(edge["condition"]),
                 ): edge["bbox"]
                 for edge in data["edges"]
             }
@@ -67,8 +91,8 @@ def element_map(extraction: dict[str, Any]) -> dict[tuple[Any, ...], dict[str, f
         return {
             (
                 "event",
-                comparison_text(event["date_or_offset"]),
-                comparison_text(event["action"]),
+                normalize_text(event["date_or_offset"]),
+                normalize_text(event["action"]),
             ): event["bbox"]
             for event in data["events"]
         }
@@ -80,18 +104,32 @@ def element_map(extraction: dict[str, Any]) -> dict[tuple[Any, ...], dict[str, f
                 cell["column"],
                 cell["row_span"],
                 cell["column_span"],
-                comparison_text(cell["text"]),
+                normalize_text(cell["text"]),
             ): cell["bbox"]
             for cell in data["cells"]
         }
     return {
         (
             "field",
-            comparison_text(field["label"]),
-            comparison_text(field["example_value"]),
+            normalize_text(field["label"]),
+            normalize_text(field["example_value"]),
         ): field["bbox"]
         for field in data["fields"]
     }
+
+
+def source_element_count(extraction: dict[str, Any]) -> int:
+    """Count elements before normalized dictionary keys can collapse them."""
+
+    kind = extraction["kind"]
+    data = extraction["data"]
+    if kind == "flowchart":
+        return len(data["nodes"]) + len(data["edges"])
+    if kind == "timeline":
+        return len(data["events"])
+    if kind == "table":
+        return len(data["cells"])
+    return len(data["fields"])
 
 
 def evaluate_visual_extraction(
@@ -109,6 +147,11 @@ def evaluate_visual_extraction(
             element_recall=0.0,
             important_values_exact=False,
             mean_bbox_iou=0.0,
+            format_normalized_matched_elements=0,
+            format_normalized_element_recall=0.0,
+            format_normalized_important_values_exact=False,
+            format_normalized_mean_bbox_iou=0.0,
+            format_normalization_collision=False,
             gate_passed=False,
         )
     expected = element_map(gold)
@@ -121,6 +164,31 @@ def evaluate_visual_extraction(
         else 0.0
     )
     exact = expected.keys() == actual.keys()
+    normalized_expected = element_map(gold, format_normalized_text)
+    normalized_actual = element_map(candidate, format_normalized_text)
+    normalization_collision = (
+        len(normalized_expected) != source_element_count(gold)
+        or len(normalized_actual) != source_element_count(candidate)
+    )
+    normalized_matched = normalized_expected.keys() & normalized_actual.keys()
+    normalized_recall = (
+        len(normalized_matched) / len(normalized_expected)
+        if normalized_expected
+        else 1.0
+    )
+    normalized_mean_iou = (
+        sum(
+            bbox_iou(normalized_expected[key], normalized_actual[key])
+            for key in normalized_matched
+        )
+        / len(normalized_matched)
+        if normalized_matched
+        else 0.0
+    )
+    normalized_exact = (
+        not normalization_collision
+        and normalized_expected.keys() == normalized_actual.keys()
+    )
     return VisualExtractionMetrics(
         kind=gold["kind"],
         gold_elements=len(expected),
@@ -128,7 +196,16 @@ def evaluate_visual_extraction(
         element_recall=recall,
         important_values_exact=exact,
         mean_bbox_iou=mean_iou,
-        gate_passed=exact and recall >= 0.95 and mean_iou >= 0.80,
+        format_normalized_matched_elements=len(normalized_matched),
+        format_normalized_element_recall=normalized_recall,
+        format_normalized_important_values_exact=normalized_exact,
+        format_normalized_mean_bbox_iou=normalized_mean_iou,
+        format_normalization_collision=normalization_collision,
+        gate_passed=(
+            normalized_exact
+            and normalized_recall >= 0.95
+            and normalized_mean_iou >= 0.80
+        ),
     )
 
 
