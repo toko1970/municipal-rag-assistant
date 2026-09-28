@@ -22,3 +22,8 @@ output "monthly_budget_name" {
   description = "Cloud Billing budget protecting the portfolio project."
   value       = google_billing_budget.rag_portfolio.name
 }
+
+output "visual_asset_bucket" {
+  description = "Private bucket containing reviewed visual evidence for the public demo."
+  value       = google_storage_bucket.visual_assets.name
+}

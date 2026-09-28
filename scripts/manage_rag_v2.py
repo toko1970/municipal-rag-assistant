@@ -27,6 +27,9 @@ from src.visual_ingestion import render_pdf_page
 
 
 CLOUD_SMOKE_QUESTION = "給与支給日はいつですか？"
+VISUAL_DEVELOPMENT_MANIFEST = (
+    BASE_DIR / "eval/visual_fixtures/manifests/development_manifest.json"
+)
 
 
 def session_factory() -> sessionmaker[Session]:
@@ -88,6 +91,38 @@ def ingest_visual(
         asset_store=get_asset_store(),
         embeddings=get_embeddings(),
     )
+
+
+def ingest_reviewed_visual_fixtures() -> dict[str, int]:
+    """Publish the six reviewed, fictional visual fixtures idempotently."""
+
+    manifest = json.loads(VISUAL_DEVELOPMENT_MANIFEST.read_text(encoding="utf-8"))
+    repository = PostgresDocumentRepository(session_factory())
+    index = QdrantVectorIndex()
+    store = get_asset_store()
+    embeddings = get_embeddings()
+    ingested = 0
+    for fixture in manifest["fixtures"]:
+        pdf_path = BASE_DIR / fixture["document"]["path"]
+        extraction = json.loads(
+            (BASE_DIR / fixture["gold"]["path"]).read_text(encoding="utf-8")
+        )
+        extraction["source_image_sha256"] = render_pdf_page(
+            pdf_path, int(extraction["page"])
+        ).sha256
+        ingest_visual_pdf(
+            pdf_path=pdf_path,
+            document_key=f"visual-demo-{fixture['fixture_id']}",
+            document_name=str(extraction["title"]),
+            extraction=extraction,
+            reviewed=True,
+            repository=repository,
+            vector_index=index,
+            asset_store=store,
+            embeddings=embeddings,
+        )
+        ingested += 1
+    return {"reviewed_visual_fixtures": ingested}
 
 
 def extract_visual(
@@ -173,6 +208,7 @@ def index_info() -> dict[str, object]:
 def bootstrap_cloud() -> dict[str, object]:
     migrate()
     ingestion = ingest()
+    visual_ingestion = ingest_reviewed_visual_fixtures()
     consistency = reconcile()
     if not consistency["consistent"]:
         raise RuntimeError("PostgreSQLとQdrantのindexが一致しません")
@@ -180,6 +216,7 @@ def bootstrap_cloud() -> dict[str, object]:
     return {
         "migration": "head",
         "ingestion": ingestion,
+        "visual_ingestion": visual_ingestion,
         "consistency": consistency,
         "smoke": {
             "question": CLOUD_SMOKE_QUESTION,
@@ -214,9 +251,7 @@ def main() -> int:
     parser.add_argument("--document-name")
     parser.add_argument("--reviewed", action="store_true")
     parser.add_argument("--page", type=int, default=1)
-    parser.add_argument(
-        "--kind", choices=("flowchart", "timeline", "table", "form")
-    )
+    parser.add_argument("--kind", choices=("flowchart", "timeline", "table", "form"))
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     if args.command == "migrate":

@@ -39,3 +39,9 @@ variable "monthly_budget_jpy" {
   type        = number
   default     = 2000
 }
+
+variable "visual_asset_bucket_name" {
+  description = "Private bucket for reviewed visual evidence used by the public demo."
+  type        = string
+  default     = "municipal-rag-portfolio-visual-assets-280649014820"
+}

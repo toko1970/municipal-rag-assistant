@@ -8,6 +8,7 @@ from scripts.manage_rag_v2 import (
     CLOUD_SMOKE_QUESTION,
     bootstrap_cloud,
     extract_visual,
+    ingest_reviewed_visual_fixtures,
     ingest_visual,
 )
 from src.visual_extractor import VisualExtractionCandidate
@@ -29,6 +30,10 @@ def test_bootstrap_cloud_runs_storage_setup_before_answer_smoke() -> None:
             return_value={"documents": 5, "elements": 86},
         ) as ingest,
         patch(
+            "scripts.manage_rag_v2.ingest_reviewed_visual_fixtures",
+            return_value={"reviewed_visual_fixtures": 6},
+        ) as ingest_visuals,
+        patch(
             "scripts.manage_rag_v2.reconcile",
             return_value={
                 "postgres_indexed_elements": 86,
@@ -46,6 +51,7 @@ def test_bootstrap_cloud_runs_storage_setup_before_answer_smoke() -> None:
 
     migrate.assert_called_once_with()
     ingest.assert_called_once_with()
+    ingest_visuals.assert_called_once_with()
     reconcile.assert_called_once_with()
     generate.assert_called_once_with(CLOUD_SMOKE_QUESTION)
     assert result["migration"] == "head"
@@ -61,6 +67,7 @@ def test_bootstrap_cloud_stops_before_smoke_when_indexes_differ() -> None:
     with (
         patch("scripts.manage_rag_v2.migrate"),
         patch("scripts.manage_rag_v2.ingest"),
+        patch("scripts.manage_rag_v2.ingest_reviewed_visual_fixtures"),
         patch(
             "scripts.manage_rag_v2.reconcile",
             return_value={"consistent": False},
@@ -71,6 +78,41 @@ def test_bootstrap_cloud_stops_before_smoke_when_indexes_differ() -> None:
             bootstrap_cloud()
 
     generate.assert_not_called()
+
+
+def test_ingest_reviewed_visual_fixtures_publishes_six_runtime_renders() -> None:
+    rendered = type("Rendered", (), {"sha256": "runtime-render-sha"})()
+    with (
+        patch("scripts.manage_rag_v2.PostgresDocumentRepository") as repository,
+        patch("scripts.manage_rag_v2.QdrantVectorIndex") as vector_index,
+        patch("scripts.manage_rag_v2.get_asset_store") as asset_store,
+        patch("scripts.manage_rag_v2.get_embeddings") as embeddings,
+        patch("scripts.manage_rag_v2.render_pdf_page", return_value=rendered) as render,
+        patch("scripts.manage_rag_v2.ingest_visual_pdf") as ingest_runtime,
+    ):
+        result = ingest_reviewed_visual_fixtures()
+
+    assert result == {"reviewed_visual_fixtures": 6}
+    assert render.call_count == 6
+    assert ingest_runtime.call_count == 6
+    document_keys = {
+        call.kwargs["document_key"] for call in ingest_runtime.call_args_list
+    }
+    assert document_keys == {
+        "visual-demo-flowchart_dev_001",
+        "visual-demo-flowchart_dev_002",
+        "visual-demo-timeline_dev_001",
+        "visual-demo-table_dev_001",
+        "visual-demo-form_dev_001",
+        "visual-demo-table_dev_002",
+    }
+    for call in ingest_runtime.call_args_list:
+        assert call.kwargs["reviewed"] is True
+        assert call.kwargs["extraction"]["source_image_sha256"] == "runtime-render-sha"
+        assert call.kwargs["repository"] is repository.return_value
+        assert call.kwargs["vector_index"] is vector_index.return_value
+        assert call.kwargs["asset_store"] is asset_store.return_value
+        assert call.kwargs["embeddings"] is embeddings.return_value
 
 
 def test_ingest_visual_wires_reviewed_candidate_to_runtime_boundaries(

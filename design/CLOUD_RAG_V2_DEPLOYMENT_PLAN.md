@@ -117,6 +117,8 @@ Secret値はGitHubへ保存しない。Cloud Runとbootstrap JobはSecret Manage
 
 公開終了時のdestroyはrollbackと別操作である。Cloud SQLのdeletion protection解除、Qdrant cluster削除、Secret無効化、最終plan確認を順に行う。
 
-## 8. 未実装範囲
+## 8. 図表機能の公開差分
 
-この公開で対象にするのは現時点のtext RAG v2である。PDF・図表はfixture、gold、validatorまで完成しているが、runtime取込と画像付き回答はまだ公開経路へ接続していない。図表vertical sliceの実装後、同じPostgreSQL、Qdrant Cloud、Cloud Runへ追加する。
+2026-09-28に図表vertical slice、30問development評価、Local/GCS asset adapterまで実装した。公開環境では同じPostgreSQL、Qdrant Cloud、Cloud Runへ図表機能を追加し、新しいアプリを増やさない。
+
+次の公開差分は、private GCS bucket 1件、runtimeのobject作成・参照権限、`storage_uri` migration、レビュー済み6 fixtureのbootstrap登録である。2026-09-28のTerraform planは`4 added, 0 changed, 0 destroyed`で、既存resourceの変更と削除はなかった。bucket apply、IAM変更、Cloud Run公開切替はplan確認後の承認対象とする。
