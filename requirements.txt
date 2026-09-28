@@ -20,6 +20,8 @@ pypdf==6.13.0
 PyMuPDF==1.28.2
 PyYAML==6.0.3
 tiktoken==0.13.0
+SudachiPy==0.7.0
+SudachiDict-core==20260723.1
 
 # Environment
 python-dotenv==1.2.2
