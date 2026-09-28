@@ -41,11 +41,28 @@ DEFAULT_DOCUMENT_CACHE = (
     BASE_DIR / ".eval_cache/contextual_heading_gemini_001_documents.json"
 )
 TARGET_ID = "Q291"
-CONTROL_IDS = ("Q421", "Q426", "Q431")
-SELECTED_IDS = (TARGET_ID, *CONTROL_IDS)
-MAX_LOGICAL_EXTERNAL_CALLS = 12
+PILOT_CONTROL_IDS = ("Q421", "Q426", "Q431")
+PILOT_IDS = (TARGET_ID, *PILOT_CONTROL_IDS)
+ADDITIONAL_SCOPE_IDS = ("Q186", "Q191", "Q286")
+SELECTED_IDS = (*PILOT_IDS, *ADDITIONAL_SCOPE_IDS)
+MAX_LOGICAL_EXTERNAL_CALLS_PER_SCENARIO = 3
 RESERVE_USD_PER_SCENARIO = 0.005
 CONTENT_RULES = {
+    "Q186": {
+        "required": (r"15[,.]?000円", r"超え"),
+        "rejected": (r"16[,.]?000円",),
+    },
+    "Q191": {
+        "required": (
+            r"15[,.]?000円",
+            r"(対象(ではありません|外)|満たしません|満たさない)",
+        ),
+        "rejected": (r"16[,.]?000円",),
+    },
+    "Q286": {
+        "required": (r"(認定された月|認定月)",),
+        "rejected": (r"翌月",),
+    },
     "Q291": {
         "required": (r"(認定された月|認定月)", r"15日以内"),
         "rejected": (r"翌月",),
@@ -76,6 +93,14 @@ def _write_json(path: Path, value: Any) -> None:
     )
 
 
+def _read_jsonl(path: Path) -> list[dict[str, Any]]:
+    return [
+        json.loads(line)
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+
+
 def _content_ok(question_id: str, answer: str) -> bool:
     rule = CONTENT_RULES[question_id]
     return all(re.search(pattern, answer) for pattern in rule["required"]) and not any(
@@ -97,14 +122,12 @@ def main() -> int:
     parser.add_argument("--query-cache", type=Path, default=DEFAULT_QUERY_CACHE)
     parser.add_argument("--subquery-cache", type=Path, default=DEFAULT_SUBQUERY_CACHE)
     parser.add_argument("--document-cache", type=Path, default=DEFAULT_DOCUMENT_CACHE)
+    parser.add_argument("--reuse-dir", type=Path)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--max-cost-usd", type=float, required=True)
     args = parser.parse_args()
     if args.output_dir.exists():
         raise FileExistsError(f"評価出力は上書きしません: {args.output_dir}")
-    if args.max_cost_usd < len(SELECTED_IDS) * RESERVE_USD_PER_SCENARIO:
-        raise ValueError("費用上限が4シナリオの予約額を下回っています")
-
     all_questions = load_questions(args.input, "formal")
     by_id = {row["question_id"]: row for row in all_questions}
     questions = [by_id[question_id] for question_id in SELECTED_IDS]
@@ -143,27 +166,85 @@ def main() -> int:
         prepare_text_corpus(args.document_cache), vectors, decompose=True
     )
 
-    args.output_dir.mkdir(parents=True)
-    records_path = args.output_dir / "records.jsonl"
-    manifest = {
-        "experiment": "pre-generation-temporal-guidance-v1",
+    expected_hashes = {
         "dataset_sha256": _sha256(args.input),
         "query_cache_sha256": _sha256(args.query_cache),
         "subquery_cache_sha256": _sha256(args.subquery_cache),
         "document_cache_sha256": _sha256(args.document_cache),
+    }
+    reused_by_id: dict[str, dict[str, Any]] = {}
+    reuse_manifest = None
+    if args.reuse_dir is not None:
+        reuse_manifest_path = args.reuse_dir / "run_manifest.json"
+        reuse_records_path = args.reuse_dir / "records.jsonl"
+        reuse_manifest = json.loads(reuse_manifest_path.read_text(encoding="utf-8"))
+        for key, value in expected_hashes.items():
+            if reuse_manifest.get(key) != value:
+                raise ValueError(f"再利用artifactの{key}が一致しません")
+        if (
+            reuse_manifest.get("generator_model") != LLM_MODEL_NAME
+            or reuse_manifest.get("classifier_model") != CLASSIFIER_MODEL_NAME
+            or reuse_manifest.get("top_k") != TOP_K
+            or reuse_manifest.get("generation_candidate")
+            != "deterministic temporal guidance prepended to current prompt"
+        ):
+            raise ValueError("再利用artifactの実行条件が一致しません")
+        source_rules = reuse_manifest.get("content_rules", {})
+        for record in _read_jsonl(reuse_records_path):
+            question_id = record.get("question_id")
+            if question_id not in PILOT_IDS:
+                continue
+            if record.get("error") or not record.get("composite_ok"):
+                raise ValueError(f"再利用できないpilot結果です: {question_id}")
+            if source_rules.get(question_id) != {
+                key: list(value) for key, value in CONTENT_RULES[question_id].items()
+            }:
+                raise ValueError(
+                    f"再利用artifactの内容基準が一致しません: {question_id}"
+                )
+            reused_by_id[question_id] = {**record, "reused": True}
+        if set(reused_by_id) != set(PILOT_IDS):
+            raise ValueError("pilot 4件をすべて再利用できません")
+
+    pending_questions = [
+        row for row in questions if row["question_id"] not in reused_by_id
+    ]
+    if args.max_cost_usd < len(pending_questions) * RESERVE_USD_PER_SCENARIO:
+        raise ValueError("費用上限が未評価シナリオの予約額を下回っています")
+    max_logical_external_calls = (
+        len(pending_questions) * MAX_LOGICAL_EXTERNAL_CALLS_PER_SCENARIO
+    )
+
+    args.output_dir.mkdir(parents=True)
+    records_path = args.output_dir / "records.jsonl"
+    manifest = {
+        "experiment": "pre-generation-temporal-guidance-scope-v2",
+        **expected_hashes,
         "target_id": TARGET_ID,
-        "control_ids": list(CONTROL_IDS),
+        "pilot_control_ids": list(PILOT_CONTROL_IDS),
+        "additional_scope_ids": list(ADDITIONAL_SCOPE_IDS),
+        "selected_ids": list(SELECTED_IDS),
         "content_rules": CONTENT_RULES,
         "retrieval": "query decomposition when a deterministic rule matches; otherwise dense",
         "generation_candidate": "deterministic temporal guidance prepended to current prompt",
         "generator_model": LLM_MODEL_NAME,
         "classifier_model": CLASSIFIER_MODEL_NAME,
         "top_k": TOP_K,
-        "max_logical_external_calls": MAX_LOGICAL_EXTERNAL_CALLS,
+        "max_logical_external_calls": max_logical_external_calls,
         "retry_count": 0,
         "max_cost_usd": args.max_cost_usd,
         "sealed_holdout_accessed": False,
         "production_integrated": False,
+        "reuse": (
+            {
+                "source_dir": str(args.reuse_dir),
+                "source_manifest_sha256": _sha256(args.reuse_dir / "run_manifest.json"),
+                "source_records_sha256": _sha256(args.reuse_dir / "records.jsonl"),
+                "reused_ids": sorted(reused_by_id),
+            }
+            if args.reuse_dir is not None
+            else None
+        ),
     }
     _write_json(args.output_dir / "run_manifest.json", manifest)
 
@@ -173,10 +254,18 @@ def main() -> int:
     input_tokens = 0
     output_tokens = 0
     logical_calls = 0
-    records = []
+    records = [
+        reused_by_id[question_id]
+        for question_id in PILOT_IDS
+        if question_id in reused_by_id
+    ]
+    if records:
+        with records_path.open("w", encoding="utf-8") as stream:
+            for record in records:
+                stream.write(json.dumps(record, ensure_ascii=False) + "\n")
     stop_reason = "COMPLETED"
 
-    for row in questions:
+    for row in pending_questions:
         if (
             token_cost_usd(input_tokens, output_tokens) + RESERVE_USD_PER_SCENARIO
             > args.max_cost_usd
@@ -236,7 +325,14 @@ def main() -> int:
         references = result.get("references", []) if result else []
         record = {
             "question_id": row["question_id"],
-            "role": "target" if row["question_id"] == TARGET_ID else "control",
+            "role": (
+                "target"
+                if row["question_id"] == TARGET_ID
+                else "additional_scope"
+                if row["question_id"] in ADDITIONAL_SCOPE_IDS
+                else "control"
+            ),
+            "reused": False,
             "question": row["question"],
             "temporal_instruction": temporal_prompt_instruction(
                 row["question"], logger.retrieval_hits
@@ -273,24 +369,32 @@ def main() -> int:
             stop_reason = "PROVIDER_ERROR_FAIL_FAST"
             break
 
-    if logical_calls > MAX_LOGICAL_EXTERNAL_CALLS:
+    if logical_calls > max_logical_external_calls:
         raise RuntimeError("logical external call上限を超えました")
     completed = [row for row in records if not row["error"]]
     summary = {
-        "scenario_count": len(SELECTED_IDS),
+        "scope_scenario_count": len(SELECTED_IDS),
         "completed_count": len(completed),
-        "logical_external_calls": logical_calls,
-        "input_tokens": input_tokens,
-        "output_tokens": output_tokens,
-        "estimated_cost_usd": token_cost_usd(input_tokens, output_tokens),
-        "max_cost_usd": args.max_cost_usd,
+        "reused_count": len(reused_by_id),
+        "new_scenario_count": len(pending_questions),
+        "new_logical_external_calls": logical_calls,
+        "new_input_tokens": input_tokens,
+        "new_output_tokens": output_tokens,
+        "new_estimated_cost_usd": token_cost_usd(input_tokens, output_tokens),
+        "new_max_cost_usd": args.max_cost_usd,
+        "historical_reused_estimated_cost_usd": sum(
+            float(row.get("estimated_cost_usd", 0)) for row in reused_by_id.values()
+        ),
         "target_composite_ok": any(
             row["question_id"] == TARGET_ID and row["composite_ok"] for row in completed
         ),
-        "control_composite_correct": sum(
-            row["composite_ok"] for row in completed if row["role"] == "control"
+        "additional_scope_composite_correct": sum(
+            row["composite_ok"]
+            for row in completed
+            if row["question_id"] in ADDITIONAL_SCOPE_IDS
         ),
-        "control_count": len(CONTROL_IDS),
+        "additional_scope_count": len(ADDITIONAL_SCOPE_IDS),
+        "scope_composite_correct": sum(row["composite_ok"] for row in completed),
         "gate_passed": (
             stop_reason == "COMPLETED"
             and len(completed) == len(SELECTED_IDS)
