@@ -51,3 +51,7 @@ raw、normalized候補と機械可読summaryは[`visual_extraction_baseline_gemi
 ## 6. sandbox失敗からのharness改善
 
 最初のbatchは現在sessionのnetwork sandboxでDNS解決に失敗した。runnerが同じ接続障害を5件繰り返したため、共有transport errorの後は残りを`SKIPPED`にする回帰処理を追加した。失敗runは[`visual_extraction_baseline_gemini_3_1_v1_sandbox_blocked`](results/visual_extraction_baseline_gemini_3_1_v1_sandbox_blocked/)へ残した。
+
+## 7. reviewed ingestion quality streak
+
+development goldを人が確認済みの候補として使い、6 fixtureを固定順でPostgreSQL、LocalAssetStore、Qdrantへ2回ずつ登録した。6件連続で成功し、再実行後も文書6件、content element 6件、visual asset 6件、Qdrant point 6件、PNG 6件で重複0件だった。実サービスを使うintegration test 3件が成功した。
