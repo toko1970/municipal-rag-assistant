@@ -22,7 +22,7 @@
 
 2026-09-27に対象project限定の月額2,000円予算を先行適用し、50%、80%、100%の通知しきい値を確認しました。続いてRAG v2公開用resourceを`12 added, 0 changed, 0 destroyed`で適用しました。Cloud SQLは`RUNNABLE`で、適用後のTerraform planは`No changes`です。2026-09-28にQdrant Free clusterをGCP Sydneyで作成し、最終database API keyをSecret Managerの`qdrant-api-key` version 5へ登録しました。旧Qdrant keyは削除し、Secret Manager version 1〜4は無効化済みです。
 
-図表公開用bucketは`municipal-rag-portfolio-visual-assets-280649014820`としてplan対象に追加した。uniform bucket-level accessとpublic access preventionを有効にし、soft deleteは7日、`force_destroy=false`とする。runtimeにはbucket単位の`objectCreator`と`objectViewer`だけを付与し、削除権限は与えない。6 fixtureのページ画像は約0.48 MiBで、東京Standard storageを月額US$0.022/GiBとして換算した保存費用は月US$0.000011未満である。2026-09-28の実クラウドとのplanは`4 added, 0 changed, 0 destroyed`だった。apply後にGitHub production variable `GCS_VISUAL_ASSET_BUCKET`を設定する。
+2026-09-28に図表公開用bucket `municipal-rag-portfolio-visual-assets-280649014820`を`4 added, 0 changed, 0 destroyed`で適用した。uniform bucket-level accessとpublic access preventionを有効にし、soft deleteは7日、`force_destroy=false`とした。runtimeにはbucket単位の`objectCreator`と`objectViewer`だけを付与し、削除権限は与えていない。6 fixtureのページ画像は約0.48 MiBで、東京Standard storageを月額US$0.022/GiBとして換算した保存費用は月US$0.000011未満である。適用後のTerraform planは`No changes`で、GitHub production variable `GCS_VISUAL_ASSET_BUCKET`も設定済みである。
 
 ## 検証と適用の順序
 

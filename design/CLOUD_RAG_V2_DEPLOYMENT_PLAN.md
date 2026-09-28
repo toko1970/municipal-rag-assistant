@@ -121,4 +121,4 @@ Secret値はGitHubへ保存しない。Cloud Runとbootstrap JobはSecret Manage
 
 2026-09-28に図表vertical slice、30問development評価、Local/GCS asset adapterまで実装した。公開環境では同じPostgreSQL、Qdrant Cloud、Cloud Runへ図表機能を追加し、新しいアプリを増やさない。
 
-次の公開差分は、private GCS bucket 1件、runtimeのobject作成・参照権限、`storage_uri` migration、レビュー済み6 fixtureのbootstrap登録である。2026-09-28のTerraform planは`4 added, 0 changed, 0 destroyed`で、既存resourceの変更と削除はなかった。bucket apply、IAM変更、Cloud Run公開切替はplan確認後の承認対象とする。
+公開差分は、private GCS bucket 1件、runtimeのobject作成・参照権限、`storage_uri` migration、レビュー済み6 fixtureのbootstrap登録である。2026-09-28にTerraformを`4 added, 0 changed, 0 destroyed`で適用し、適用後planの`No changes`とGitHub production variable `GCS_VISUAL_ASSET_BUCKET`の設定を確認した。残る承認対象は、PR mergeとそれに続くCloud Run公開切替である。
