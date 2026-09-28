@@ -102,3 +102,20 @@ errorとして扱う。今回のretryは行っていない。
 一方、公開flowへ統合するには採用gateを満たしていない。次の最小検証は、修正済み観測処理で
 `Q191`だけを独立runし、Resolver失敗の理由と再現性を確認することである。成功した場合でも、
 production統合前に対象7件の証拠と130問回帰の範囲を固定する。
+
+## 8. Q191単一診断
+
+修正済み観測処理でQ191だけを独立runした。条件は同じdataset・cache・検索・Generator・
+Classifier・Version Resolverとし、最大3 logical calls、retry 0、費用上限US$0.005に固定した。
+
+最初のGenerator呼び出しでGemini 3.1 Flash-Liteが`503 UNAVAILABLE`を返したため、fail-fastした。
+成功call 0、token 0、推定費用US$0、sealed holdout未使用である。Resolverへは到達していない。
+
+この結果はQ191の版判定ロジックの正否を追加評価するものではない。同じmodel endpointの一時的な
+高負荷が実際に発生しているため、前回のResolver失敗もprovider障害だった可能性は高まったが、
+前回の失敗詳細が保存されていない以上、同一原因とは断定しない。成功するまで再試行せず、
+[`temporal_generation_q191_diagnostic_v1`](results/temporal_generation_q191_diagnostic_v1/)を
+provider availability failureとして固定した。
+
+次に再開する場合は、新しい出力先でQ191を1回だけ実行する。成功時は内容・分類・Resolver statusを
+採点し、失敗時は今回追加した`error_summary`で生成・分類・Resolverのどこで失敗したかを区別する。

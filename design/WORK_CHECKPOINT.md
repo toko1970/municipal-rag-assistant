@@ -421,3 +421,10 @@ errorとして扱う修正と対象testを追加した。実行済みartifactは
 独立runし、失敗理由と再現性を確認することである。production統合、130問回帰、merge、deployは
 未実施。詳細は
 [`TEMPORAL_GENERATION_EVALUATION.md`](../eval/TEMPORAL_GENERATION_EVALUATION.md)を参照する。
+
+Q191単一診断を、最大3 logical calls、retry 0、US$0.005上限で開始した。最初のGenerator callが
+Gemini 3.1 Flash-Liteの`503 UNAVAILABLE`となったためfail-fastし、Resolverへは到達しなかった。
+成功call 0、token 0、推定費用US$0、sealed holdout未使用である。前回Resolver失敗の原因が
+provider障害だった可能性とは整合するが、前回の失敗詳細がないため同一原因とは断定しない。
+追加retryは行っていない。再開時は新しい出力先でQ191を1回だけ実行し、成功時だけ版選択品質を
+採点する。
