@@ -9,6 +9,7 @@ import pytest
 from eval.run_visual_holdout_predictions import (
     MAX_LOGICAL_EXTERNAL_CALLS,
     build_execution_plan,
+    build_success_bundle,
     freeze_failed_predictions,
     load_frozen_candidate,
     verify_document_inputs,
@@ -16,6 +17,18 @@ from eval.run_visual_holdout_predictions import (
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_success_bundle_explicitly_records_that_gold_was_not_accessed() -> None:
+    bundle = build_success_bundle(
+        run_manifest={"run_id": "successful-run"},
+        extraction_records=[{"document_id": "vh_doc_test"}],
+        predictions=[{"scenario_id": "VH001"}],
+        input_tokens=100,
+        output_tokens=20,
+    )
+
+    assert bundle["summary"]["sealed_gold_accessed"] is False
 
 
 def test_plan_uses_public_frozen_artifacts_only() -> None:

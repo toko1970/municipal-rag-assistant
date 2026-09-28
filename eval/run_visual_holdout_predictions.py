@@ -268,6 +268,32 @@ def _answer_usage(result: dict[str, Any]) -> tuple[int, int]:
     return input_tokens, output_tokens
 
 
+def build_success_bundle(
+    *,
+    run_manifest: dict[str, Any],
+    extraction_records: list[dict[str, Any]],
+    predictions: list[dict[str, Any]],
+    input_tokens: int,
+    output_tokens: int,
+) -> dict[str, Any]:
+    """Build the immutable success artifact with its gold-access boundary."""
+
+    return {
+        "run_manifest": run_manifest,
+        "extractions": extraction_records,
+        "predictions": predictions,
+        "summary": {
+            "extraction_count": len(extraction_records),
+            "prediction_count": len(predictions),
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "estimated_cost_usd": token_cost_usd(input_tokens, output_tokens),
+            "error_count": 0,
+            "sealed_gold_accessed": False,
+        },
+    }
+
+
 def run_predictions(
     *,
     documents_dir: Path,
@@ -380,19 +406,13 @@ def run_predictions(
                 }
             )
 
-    bundle = {
-        "run_manifest": run_manifest,
-        "extractions": corpus.extraction_records,
-        "predictions": predictions,
-        "summary": {
-            "extraction_count": len(corpus.extraction_records),
-            "prediction_count": len(predictions),
-            "input_tokens": input_tokens,
-            "output_tokens": output_tokens,
-            "estimated_cost_usd": token_cost_usd(input_tokens, output_tokens),
-            "error_count": 0,
-        },
-    }
+    bundle = build_success_bundle(
+        run_manifest=run_manifest,
+        extraction_records=corpus.extraction_records,
+        predictions=predictions,
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
+    )
     bundle_path = output_dir / "predictions.json"
     _write_json(bundle_path, bundle)
     bundle_hash = _sha256(bundle_path)

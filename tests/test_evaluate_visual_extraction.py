@@ -84,3 +84,18 @@ def test_format_normalization_does_not_hide_meaning_change() -> None:
 def test_format_normalization_preserves_value_bearing_signs() -> None:
     assert format_normalized_text("-500円") != format_normalized_text("500円")
     assert format_normalized_text("17:00") != format_normalized_text("1700")
+
+
+def test_format_normalization_collision_cannot_pass_gate() -> None:
+    candidate = copy.deepcopy(GOLD)
+    first = candidate["data"]["nodes"][1]
+    second = candidate["data"]["nodes"][3]
+    first["text"] = "確認、処理"
+    second["text"] = "確認処理"
+    gold = copy.deepcopy(candidate)
+
+    metrics = evaluate_visual_extraction(candidate, gold, SCHEMA)
+
+    assert metrics.format_normalization_collision is True
+    assert metrics.format_normalized_important_values_exact is False
+    assert metrics.gate_passed is False

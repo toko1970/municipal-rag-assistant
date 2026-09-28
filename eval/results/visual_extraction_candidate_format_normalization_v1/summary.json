@@ -1,7 +1,7 @@
 {
   "api_calls": 0,
   "error_count": 0,
-  "evaluation_revision": "visual-extraction-eval-v3",
+  "evaluation_revision": "visual-extraction-eval-v4",
   "fixture_count": 6,
   "gate_passed_count": 4,
   "invalid_count": 0,
@@ -15,16 +15,17 @@
       "kind": "flowchart",
       "metrics": {
         "element_recall": 1.0,
+        "format_normalization_collision": false,
         "format_normalized_element_recall": 1.0,
         "format_normalized_important_values_exact": true,
         "format_normalized_matched_elements": 12,
-        "format_normalized_mean_bbox_iou": 0.6623427393281248,
+        "format_normalized_mean_bbox_iou": 0.6623427393281247,
         "gate_passed": false,
         "gold_elements": 12,
         "important_values_exact": true,
         "kind": "flowchart",
         "matched_elements": 12,
-        "mean_bbox_iou": 0.6623427393281248
+        "mean_bbox_iou": 0.6623427393281247
       },
       "model": "gemini-3.1-flash-lite",
       "normalized_bbox_count": 13,
@@ -43,6 +44,7 @@
       "kind": "flowchart",
       "metrics": {
         "element_recall": 1.0,
+        "format_normalization_collision": false,
         "format_normalized_element_recall": 1.0,
         "format_normalized_important_values_exact": true,
         "format_normalized_matched_elements": 14,
@@ -71,16 +73,17 @@
       "kind": "timeline",
       "metrics": {
         "element_recall": 1.0,
+        "format_normalization_collision": false,
         "format_normalized_element_recall": 1.0,
         "format_normalized_important_values_exact": true,
         "format_normalized_matched_elements": 5,
-        "format_normalized_mean_bbox_iou": 0.9334133345243991,
+        "format_normalized_mean_bbox_iou": 0.9334133345243989,
         "gate_passed": true,
         "gold_elements": 5,
         "important_values_exact": true,
         "kind": "timeline",
         "matched_elements": 5,
-        "mean_bbox_iou": 0.9334133345243991
+        "mean_bbox_iou": 0.9334133345243989
       },
       "model": "gemini-3.1-flash-lite",
       "normalized_bbox_count": 1,
@@ -99,16 +102,17 @@
       "kind": "table",
       "metrics": {
         "element_recall": 1.0,
+        "format_normalization_collision": false,
         "format_normalized_element_recall": 1.0,
         "format_normalized_important_values_exact": true,
         "format_normalized_matched_elements": 15,
-        "format_normalized_mean_bbox_iou": 0.9762802166513496,
+        "format_normalized_mean_bbox_iou": 0.9762802166513497,
         "gate_passed": true,
         "gold_elements": 15,
         "important_values_exact": true,
         "kind": "table",
         "matched_elements": 15,
-        "mean_bbox_iou": 0.9762802166513496
+        "mean_bbox_iou": 0.9762802166513497
       },
       "model": "gemini-3.1-flash-lite",
       "normalized_bbox_count": 1,
@@ -127,6 +131,7 @@
       "kind": "form",
       "metrics": {
         "element_recall": 1.0,
+        "format_normalization_collision": false,
         "format_normalized_element_recall": 1.0,
         "format_normalized_important_values_exact": true,
         "format_normalized_matched_elements": 7,
@@ -155,16 +160,17 @@
       "kind": "table",
       "metrics": {
         "element_recall": 1.0,
+        "format_normalization_collision": false,
         "format_normalized_element_recall": 1.0,
         "format_normalized_important_values_exact": true,
         "format_normalized_matched_elements": 19,
-        "format_normalized_mean_bbox_iou": 0.9362748177151563,
+        "format_normalized_mean_bbox_iou": 0.9362748177151565,
         "gate_passed": true,
         "gold_elements": 19,
         "important_values_exact": true,
         "kind": "table",
         "matched_elements": 19,
-        "mean_bbox_iou": 0.9362748177151563
+        "mean_bbox_iou": 0.9362748177151565
       },
       "model": "gemini-3.1-flash-lite",
       "normalized_bbox_count": 20,

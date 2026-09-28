@@ -300,6 +300,6 @@ Cloud Run / local RAG v2差分確認の開始時点は週間枠7%で、表示さ
 
 消費後のdevelopment改善として、連結された一意なflowchartに限り、incoming edgeがない`process`を`start`、outgoing edgeがない`process`を`end`へ補正するtopology normalizationを追加した。既存development 6件はSchema-valid 6/6、gate 4/6を維持し、合成回帰入力では2 nodeの補正後にSchemaを通過した。詳細は[`VISUAL_TOPOLOGY_NORMALIZATION.md`](../eval/VISUAL_TOPOLOGY_NORMALIZATION.md)を参照する。
 
-続いてvisual extraction評価をv3へ更新し、厳密一致に加えてformat-normalized一致を記録するようにした。NFKC、空白、限定した句読点だけを正規化し、負号、時刻区切り、数字、単位、条件語は残す。既存development 6件は厳密・正規化とも完全一致、gate 4/6を維持した。全test 215件とRuffが成功した。詳細は[`VISUAL_FORMAT_NORMALIZATION_EVALUATION.md`](../eval/VISUAL_FORMAT_NORMALIZATION_EVALUATION.md)を参照する。
+続いてvisual extraction評価をv4へ更新し、厳密一致に加えてformat-normalized一致を記録するようにした。NFKC、空白、限定した句読点だけを正規化し、負号、時刻区切り、数字、単位、条件語は残す。PR reviewでは、正規化後に異なる要素が同じ比較keyへ潰れる場合を検出してgate不合格にするよう修正した。また、成功したsealed prediction bundleにもgold未参照を明示し、validatorとの契約をそろえた。既存development 6件は厳密・正規化とも完全一致、collision 0件、gate 4/6を維持した。全test 217件とRuffが成功した。詳細は[`VISUAL_FORMAT_NORMALIZATION_EVALUATION.md`](../eval/VISUAL_FORMAT_NORMALIZATION_EVALUATION.md)を参照する。
 
-現在の改善branchは`codex/visual-topology-normalization`で、topology実装は`714939f`、format-normalized評価は`6faffe8`である。次はこのbranchのreview・merge後に公開demoへ反映する。mergeと本番deployは明示承認が必要である。改善効果の最終受入には、消費済みholdoutを使わず別のsealed holdoutを作成する。
+現在の改善branchは`codex/visual-topology-normalization`である。次はreview後にこのbranchをmergeし、消費済みholdoutを使わず別の小規模sealed holdoutで最終受入を行う。合格後に公開demoへ反映する。mergeと本番deployは明示承認が必要である。

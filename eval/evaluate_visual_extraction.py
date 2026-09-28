@@ -12,7 +12,7 @@ import unicodedata
 from src.visual_validation import validate_gold
 
 
-EVALUATION_REVISION = "visual-extraction-eval-v3"
+EVALUATION_REVISION = "visual-extraction-eval-v4"
 
 
 def comparison_text(value: str | None) -> str | None:
@@ -47,6 +47,7 @@ class VisualExtractionMetrics:
     format_normalized_element_recall: float
     format_normalized_important_values_exact: bool
     format_normalized_mean_bbox_iou: float
+    format_normalization_collision: bool
     gate_passed: bool
 
 
@@ -117,6 +118,20 @@ def element_map(
     }
 
 
+def source_element_count(extraction: dict[str, Any]) -> int:
+    """Count elements before normalized dictionary keys can collapse them."""
+
+    kind = extraction["kind"]
+    data = extraction["data"]
+    if kind == "flowchart":
+        return len(data["nodes"]) + len(data["edges"])
+    if kind == "timeline":
+        return len(data["events"])
+    if kind == "table":
+        return len(data["cells"])
+    return len(data["fields"])
+
+
 def evaluate_visual_extraction(
     candidate: dict[str, Any],
     gold: dict[str, Any],
@@ -136,6 +151,7 @@ def evaluate_visual_extraction(
             format_normalized_element_recall=0.0,
             format_normalized_important_values_exact=False,
             format_normalized_mean_bbox_iou=0.0,
+            format_normalization_collision=False,
             gate_passed=False,
         )
     expected = element_map(gold)
@@ -150,6 +166,10 @@ def evaluate_visual_extraction(
     exact = expected.keys() == actual.keys()
     normalized_expected = element_map(gold, format_normalized_text)
     normalized_actual = element_map(candidate, format_normalized_text)
+    normalization_collision = (
+        len(normalized_expected) != source_element_count(gold)
+        or len(normalized_actual) != source_element_count(candidate)
+    )
     normalized_matched = normalized_expected.keys() & normalized_actual.keys()
     normalized_recall = (
         len(normalized_matched) / len(normalized_expected)
@@ -165,7 +185,10 @@ def evaluate_visual_extraction(
         if normalized_matched
         else 0.0
     )
-    normalized_exact = normalized_expected.keys() == normalized_actual.keys()
+    normalized_exact = (
+        not normalization_collision
+        and normalized_expected.keys() == normalized_actual.keys()
+    )
     return VisualExtractionMetrics(
         kind=gold["kind"],
         gold_elements=len(expected),
@@ -177,6 +200,7 @@ def evaluate_visual_extraction(
         format_normalized_element_recall=normalized_recall,
         format_normalized_important_values_exact=normalized_exact,
         format_normalized_mean_bbox_iou=normalized_mean_iou,
+        format_normalization_collision=normalization_collision,
         gate_passed=(
             normalized_exact
             and normalized_recall >= 0.95
