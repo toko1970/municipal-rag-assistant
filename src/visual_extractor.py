@@ -115,6 +115,64 @@ def normalize_table_dimensions(candidate: dict[str, Any]) -> int:
     return changes
 
 
+def normalize_flowchart_roles(candidate: dict[str, Any]) -> int:
+    """Infer start/end roles only from one connected, unambiguous graph."""
+
+    if candidate.get("kind") != "flowchart":
+        return 0
+    data = candidate.get("data")
+    if not isinstance(data, dict):
+        return 0
+    nodes = data.get("nodes")
+    edges = data.get("edges")
+    if not isinstance(nodes, list) or not nodes or not isinstance(edges, list):
+        return 0
+    node_by_id = {node.get("id"): node for node in nodes}
+    if None in node_by_id or len(node_by_id) != len(nodes):
+        return 0
+    known_ids = set(node_by_id)
+    if any(
+        edge.get("from") not in known_ids or edge.get("to") not in known_ids
+        for edge in edges
+    ):
+        return 0
+
+    incoming = {node_id: 0 for node_id in known_ids}
+    outgoing = {node_id: [] for node_id in known_ids}
+    for edge in edges:
+        incoming[edge["to"]] += 1
+        outgoing[edge["from"]].append(edge["to"])
+    roots = [node_id for node_id, count in incoming.items() if count == 0]
+    if len(roots) != 1:
+        return 0
+    reachable = {roots[0]}
+    pending = [roots[0]]
+    while pending:
+        current = pending.pop()
+        for destination in outgoing[current]:
+            if destination not in reachable:
+                reachable.add(destination)
+                pending.append(destination)
+    if reachable != known_ids:
+        return 0
+
+    root = node_by_id[roots[0]]
+    start_nodes = [node for node in nodes if node.get("node_type") == "start"]
+    changes = 0
+    if not start_nodes and root.get("node_type") == "process":
+        root["node_type"] = "start"
+        changes += 1
+    elif len(start_nodes) != 1 or start_nodes[0] is not root:
+        return 0
+
+    for node_id, destinations in outgoing.items():
+        node = node_by_id[node_id]
+        if not destinations and node.get("node_type") == "process":
+            node["node_type"] = "end"
+            changes += 1
+    return changes
+
+
 def extract_visual_candidate(
     *,
     page: RenderedPage,
@@ -153,6 +211,7 @@ def prepare_visual_candidate(
     confidence["review_required"] = True
     normalized_bbox_count = normalize_candidate_bboxes(candidate)
     normalized_structure_count = normalize_table_dimensions(candidate)
+    normalized_structure_count += normalize_flowchart_roles(candidate)
     validation_errors: tuple[str, ...] = ()
     try:
         validate_gold(candidate, schema)
