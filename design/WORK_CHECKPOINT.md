@@ -359,3 +359,11 @@ Flash-Liteを最大36 call、retry 0、US$0.05上限で実行し、31/36、macro
 130問Stage Bは行わない。外部APIは合意済み上限内、sealed holdout・production設定・reset
 creditは未使用。詳細は[`CLASSIFIER_MODEL_COMPARISON.md`](../eval/CLASSIFIER_MODEL_COMPARISON.md)
 を参照する。
+
+モデル比較後にgold v1.2の残存失敗を再確認した。主原因は回答生成6、分類4、検索3である。
+分類4件はQ126だけが分類器単独の高確度対象で、Q176・Q196はGeneratorの不足条件、VD024は
+Visual類似事例の適用境界を含むため、一つのresolverで安全に一括改善できない。最大かつ共通性
+のある次の一手を、Generatorの`required facets`確認へ変更した。失敗6件とcontrolを使う小pilot
+を先に行い、2件以上改善・control退行0・根拠外断定増加0を通過した場合だけ130問へ進む。
+この再優先付けではAPIを呼んでいない。詳細は
+[`CURRENT_FAILURE_PRIORITY_V1_2.md`](../eval/CURRENT_FAILURE_PRIORITY_V1_2.md)を参照する。
