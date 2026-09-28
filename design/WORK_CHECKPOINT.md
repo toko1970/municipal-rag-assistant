@@ -349,3 +349,13 @@ Cloud Run / local RAG v2差分確認の開始時点は週間枠7%で、表示さ
 評価セットv1.2へのgold訂正後もv1.0の値だったため全test 1件が失敗することを発見した。
 sealed内容を開かず、公開manifestの参照hashだけを現行v1.2へ更新した。公開validatorで
 文書family分離を再確認し、sealed holdoutのquestions、gold、状態、採点結果は変更していない。
+
+長文local候補として商用利用向け`bge-m3-zeroshot-v2.0-c`を追加し、同じ36件・180 NLI
+pairを閾値調整なしで実行した。最長886 token、推論94.13秒、平均0.523秒/pair、peak RSS
+約1.85 GiBで完走したが、最終ラベル6/36、macro F1 0.153だった。続いて現行Gemini 3.1
+Flash-Liteを最大36 call、retry 0、US$0.05上限で実行し、31/36、macro F1 0.862、API error
+0、実測US$0.0110875だった。両候補とも重大な`根拠十分`誤判定は0件だが、BGE-M3は
+`根拠十分`を一度も予測しない過度に保守的な結果だった。現行Geminiを維持し、local候補の
+130問Stage Bは行わない。外部APIは合意済み上限内、sealed holdout・production設定・reset
+creditは未使用。詳細は[`CLASSIFIER_MODEL_COMPARISON.md`](../eval/CLASSIFIER_MODEL_COMPARISON.md)
+を参照する。

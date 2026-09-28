@@ -1,0 +1,31 @@
+{
+  "case_id": "REG-Q086",
+  "estimated_external_cost_usd": 0,
+  "external_api_calls": 0,
+  "factor": "requires_policy_judgment",
+  "id2label": {
+    "0": "entailment",
+    "1": "not_entailment"
+  },
+  "inference_pair_count": 1,
+  "inference_seconds": 1.454076834008447,
+  "load_seconds": 3.816021582999383,
+  "logits": [
+    -1.5762958526611328,
+    1.1531380414962769
+  ],
+  "model": "MoritzLaurer/bge-m3-zeroshot-v2.0-c",
+  "model_config_max_position_embeddings": 8194,
+  "model_revision": "705510dfe0f35d223a4bf6f5d2695ec5fd162341",
+  "peak_rss_mib": 1415.546875,
+  "probabilities": [
+    0.0612587034702301,
+    0.9387412667274475
+  ],
+  "schema_version": "1.0",
+  "sealed_holdout_used": false,
+  "status": "SUCCESS",
+  "token_count": 886,
+  "tokenizer_effective_max_length": 8192,
+  "tokenizer_original_max_length": 512
+}

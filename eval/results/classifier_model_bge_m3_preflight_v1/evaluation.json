@@ -1,0 +1,3992 @@
+{
+  "audit": "eval/results/classifier_model_bge_m3_preflight_v1/token_audit.json",
+  "dataset": "eval/classifier_model_benchmark_v1.json",
+  "decision_rule": "entailment_probability > not_entailment_probability",
+  "estimated_external_cost_usd": 0,
+  "external_api_calls": 0,
+  "inference_seconds": 94.13354637500015,
+  "load_seconds": 2.391789000001154,
+  "mean_pair_seconds": 0.5229641465277786,
+  "model": "MoritzLaurer/bge-m3-zeroshot-v2.0-c",
+  "model_config_max_position_embeddings": 8194,
+  "model_revision": "705510dfe0f35d223a4bf6f5d2695ec5fd162341",
+  "pair_count": 180,
+  "peak_rss_mib": 1848.90625,
+  "records": [
+    {
+      "case_id": "CPD-T01",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.47267869114875793,
+        0.04510566592216492
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3733704686164856,
+        0.6266295313835144
+      ],
+      "seconds": 0.5118852500017965,
+      "token_count": 97
+    },
+    {
+      "case_id": "CPD-T01",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.8918585777282715,
+        0.4760206341743469
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.202962726354599,
+        0.7970373034477234
+      ],
+      "seconds": 0.16723412500869017,
+      "token_count": 97
+    },
+    {
+      "case_id": "CPD-T01",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.7375484704971313,
+        1.379377841949463
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.04241443797945976,
+        0.9575855135917664
+      ],
+      "seconds": 0.165596375009045,
+      "token_count": 98
+    },
+    {
+      "case_id": "CPD-T01",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.937907338142395,
+        1.6797078847885132
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.02614472433924675,
+        0.9738552570343018
+      ],
+      "seconds": 0.17930795799475163,
+      "token_count": 103
+    },
+    {
+      "case_id": "CPD-T01",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.8930879831314087,
+        0.3778345286846161
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.21909937262535095,
+        0.7809006571769714
+      ],
+      "seconds": 0.173507832994801,
+      "token_count": 96
+    },
+    {
+      "case_id": "CPD-T02",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.4590006470680237,
+        0.045619040727615356
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3764556348323822,
+        0.6235443949699402
+      ],
+      "seconds": 0.14519554199068807,
+      "token_count": 87
+    },
+    {
+      "case_id": "CPD-T02",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.7590208053588867,
+        0.31233882904052734
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.2551445960998535,
+        0.7448554039001465
+      ],
+      "seconds": 0.15666645899182186,
+      "token_count": 87
+    },
+    {
+      "case_id": "CPD-T02",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.7951338291168213,
+        1.4405248165130615
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.03784565627574921,
+        0.9621543288230896
+      ],
+      "seconds": 0.1480892919935286,
+      "token_count": 88
+    },
+    {
+      "case_id": "CPD-T02",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.9749760627746582,
+        1.733039140701294
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.023939022794365883,
+        0.9760609865188599
+      ],
+      "seconds": 0.14754958399862517,
+      "token_count": 93
+    },
+    {
+      "case_id": "CPD-T02",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.9804708957672119,
+        0.4458504617214203
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.19367250800132751,
+        0.8063275218009949
+      ],
+      "seconds": 0.1523673749907175,
+      "token_count": 86
+    },
+    {
+      "case_id": "CPD-T03",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -1.2593275308609009,
+        0.8885601758956909
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.1045287698507309,
+        0.8954712152481079
+      ],
+      "seconds": 0.16699091698683333,
+      "token_count": 94
+    },
+    {
+      "case_id": "CPD-T03",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.167020559310913,
+        0.7620983123779297
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.12684813141822815,
+        0.8731518387794495
+      ],
+      "seconds": 0.14694975000747945,
+      "token_count": 94
+    },
+    {
+      "case_id": "CPD-T03",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.4899730682373047,
+        1.160367488861084
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.06596801429986954,
+        0.9340319037437439
+      ],
+      "seconds": 0.1647836659976747,
+      "token_count": 95
+    },
+    {
+      "case_id": "CPD-T03",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.391044020652771,
+        1.0087840557098389
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.08318581432104111,
+        0.9168142080307007
+      ],
+      "seconds": 0.17315675001009367,
+      "token_count": 100
+    },
+    {
+      "case_id": "CPD-T03",
+      "correct": false,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.23821336030960083,
+        -0.2535858452320099
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.5038430690765381,
+        0.4961569905281067
+      ],
+      "seconds": 0.14748820899694692,
+      "token_count": 93
+    },
+    {
+      "case_id": "CPD-T04",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.7454417943954468,
+        0.3618214726448059
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.24838145077228546,
+        0.7516185641288757
+      ],
+      "seconds": 0.17037141699984204,
+      "token_count": 99
+    },
+    {
+      "case_id": "CPD-T04",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.8387152552604675,
+        0.43658149242401123
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.21835187077522278,
+        0.7816480398178101
+      ],
+      "seconds": 0.17395670799305663,
+      "token_count": 99
+    },
+    {
+      "case_id": "CPD-T04",
+      "correct": false,
+      "expected": true,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.7891391515731812,
+        1.5057247877120972
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.03574780747294426,
+        0.9642521739006042
+      ],
+      "seconds": 0.16472779199830256,
+      "token_count": 100
+    },
+    {
+      "case_id": "CPD-T04",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.8825286626815796,
+        1.5798776149749756
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.03040102683007717,
+        0.9695990085601807
+      ],
+      "seconds": 0.203445749997627,
+      "token_count": 105
+    },
+    {
+      "case_id": "CPD-T04",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -1.0795402526855469,
+        0.5030989646911621
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.1704220324754715,
+        0.8295779824256897
+      ],
+      "seconds": 0.2917627909919247,
+      "token_count": 98
+    },
+    {
+      "case_id": "CPD-T05",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.6258225440979004,
+        0.21284538507461548
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.301815390586853,
+        0.6981845498085022
+      ],
+      "seconds": 0.2059942920022877,
+      "token_count": 104
+    },
+    {
+      "case_id": "CPD-T05",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.9360464811325073,
+        0.4963797926902771
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.1927209347486496,
+        0.8072790503501892
+      ],
+      "seconds": 0.17515616600576323,
+      "token_count": 104
+    },
+    {
+      "case_id": "CPD-T05",
+      "correct": false,
+      "expected": true,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.7858227491378784,
+        1.4657337665557861
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.03727100044488907,
+        0.9627289772033691
+      ],
+      "seconds": 0.1729611670016311,
+      "token_count": 105
+    },
+    {
+      "case_id": "CPD-T05",
+      "correct": false,
+      "expected": true,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -2.1506612300872803,
+        1.933319091796875
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.016561398282647133,
+        0.9834385514259338
+      ],
+      "seconds": 0.17648325000482146,
+      "token_count": 110
+    },
+    {
+      "case_id": "CPD-T05",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.7331876754760742,
+        0.2566453814506531
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.2709450423717499,
+        0.7290549278259277
+      ],
+      "seconds": 0.16926949999469798,
+      "token_count": 103
+    },
+    {
+      "case_id": "CPD-T06",
+      "correct": true,
+      "expected": false,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.9746289253234863,
+        0.6262567639350891
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.16785785555839539,
+        0.8321420550346375
+      ],
+      "seconds": 0.1472155829978874,
+      "token_count": 74
+    },
+    {
+      "case_id": "CPD-T06",
+      "correct": true,
+      "expected": false,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.8794207572937012,
+        1.6233947277069092
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.029232226312160492,
+        0.9707677364349365
+      ],
+      "seconds": 0.15278145800402854,
+      "token_count": 74
+    },
+    {
+      "case_id": "CPD-T06",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.5505754947662354,
+        1.1950340270996094
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.06033509224653244,
+        0.9396649599075317
+      ],
+      "seconds": 0.14897520800877828,
+      "token_count": 75
+    },
+    {
+      "case_id": "CPD-T06",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -2.218860626220703,
+        2.075615644454956
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.013460066169500351,
+        0.986539900302887
+      ],
+      "seconds": 0.1453747920022579,
+      "token_count": 80
+    },
+    {
+      "case_id": "CPD-T06",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.688183069229126,
+        0.24804511666297913
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.28166285157203674,
+        0.7183371186256409
+      ],
+      "seconds": 0.14647795900236815,
+      "token_count": 73
+    },
+    {
+      "case_id": "CPD-V01",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.43548473715782166,
+        -0.003947600722312927
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3937593400478363,
+        0.6062406897544861
+      ],
+      "seconds": 0.15880754200043157,
+      "token_count": 92
+    },
+    {
+      "case_id": "CPD-V01",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.9891926050186157,
+        0.580374538898468
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.17227810621261597,
+        0.827721893787384
+      ],
+      "seconds": 0.15021058300044388,
+      "token_count": 92
+    },
+    {
+      "case_id": "CPD-V01",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.7651503086090088,
+        1.4173929691314697
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.03982796147465706,
+        0.9601719975471497
+      ],
+      "seconds": 0.15323729200463276,
+      "token_count": 93
+    },
+    {
+      "case_id": "CPD-V01",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -2.1066207885742188,
+        1.9126644134521484
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.01764873042702675,
+        0.9823513031005859
+      ],
+      "seconds": 0.17687633400782943,
+      "token_count": 98
+    },
+    {
+      "case_id": "CPD-V01",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -1.1767712831497192,
+        0.6523849964141846
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.1383388191461563,
+        0.8616611957550049
+      ],
+      "seconds": 0.18716008300543763,
+      "token_count": 91
+    },
+    {
+      "case_id": "CPD-V02",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.3212130665779114,
+        -0.15354707837104797
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.4581814110279083,
+        0.5418185591697693
+      ],
+      "seconds": 0.15074808400822803,
+      "token_count": 96
+    },
+    {
+      "case_id": "CPD-V02",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.8324891924858093,
+        0.3907211124897003
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.2273719757795334,
+        0.7726280093193054
+      ],
+      "seconds": 0.15963383400230668,
+      "token_count": 96
+    },
+    {
+      "case_id": "CPD-V02",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.792040467262268,
+        1.408353328704834
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.0391509085893631,
+        0.9608490467071533
+      ],
+      "seconds": 0.16357575000438374,
+      "token_count": 97
+    },
+    {
+      "case_id": "CPD-V02",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -2.2499094009399414,
+        2.0979721546173096
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.012769030407071114,
+        0.9872309565544128
+      ],
+      "seconds": 0.16718337500060443,
+      "token_count": 102
+    },
+    {
+      "case_id": "CPD-V02",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -1.030181884765625,
+        0.5620965957641602
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.16906356811523438,
+        0.8309364318847656
+      ],
+      "seconds": 0.1597324999893317,
+      "token_count": 95
+    },
+    {
+      "case_id": "CPD-V03",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -1.5635554790496826,
+        1.1967583894729614
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.05950678884983063,
+        0.9404932260513306
+      ],
+      "seconds": 0.1523232079925947,
+      "token_count": 92
+    },
+    {
+      "case_id": "CPD-V03",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.8140391111373901,
+        1.4797918796539307
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.03578343614935875,
+        0.9642165899276733
+      ],
+      "seconds": 0.1460088750027353,
+      "token_count": 92
+    },
+    {
+      "case_id": "CPD-V03",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.3416357040405273,
+        0.9275563955307007
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.09370678663253784,
+        0.9062931537628174
+      ],
+      "seconds": 0.15818837500410154,
+      "token_count": 93
+    },
+    {
+      "case_id": "CPD-V03",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.9143216609954834,
+        1.668487310409546
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.027045702561736107,
+        0.9729543328285217
+      ],
+      "seconds": 0.1774785419984255,
+      "token_count": 98
+    },
+    {
+      "case_id": "CPD-V03",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.488008588552475,
+        -0.02233235538005829
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.38564011454582214,
+        0.6143598556518555
+      ],
+      "seconds": 0.15762637500301935,
+      "token_count": 91
+    },
+    {
+      "case_id": "CPD-V04",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.6308353543281555,
+        0.21625348925590515
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.30004391074180603,
+        0.6999560594558716
+      ],
+      "seconds": 0.17879079100384843,
+      "token_count": 100
+    },
+    {
+      "case_id": "CPD-V04",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.0213046073913574,
+        0.6232205033302307
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.16185027360916138,
+        0.8381497263908386
+      ],
+      "seconds": 0.17573491699295118,
+      "token_count": 100
+    },
+    {
+      "case_id": "CPD-V04",
+      "correct": false,
+      "expected": true,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.5337073802947998,
+        1.129766583442688
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.06516338139772415,
+        0.9348366260528564
+      ],
+      "seconds": 0.16874708399700467,
+      "token_count": 101
+    },
+    {
+      "case_id": "CPD-V04",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.7221736907958984,
+        1.3945261240005493
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.042423639446496964,
+        0.957576334476471
+      ],
+      "seconds": 0.1794452909962274,
+      "token_count": 106
+    },
+    {
+      "case_id": "CPD-V04",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.6875945329666138,
+        0.12583665549755096
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.30715978145599365,
+        0.6928401589393616
+      ],
+      "seconds": 0.16546449999441393,
+      "token_count": 99
+    },
+    {
+      "case_id": "CPD-V05",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.39437684416770935,
+        -0.005125880241394043
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.4038976728916168,
+        0.5961024165153503
+      ],
+      "seconds": 0.17307449999498203,
+      "token_count": 104
+    },
+    {
+      "case_id": "CPD-V05",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.1562427282333374,
+        0.7474943399429321
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.12968610227108002,
+        0.8703139424324036
+      ],
+      "seconds": 0.17782079099561088,
+      "token_count": 104
+    },
+    {
+      "case_id": "CPD-V05",
+      "correct": false,
+      "expected": true,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.6052544116973877,
+        1.2332046031951904
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.055280961096286774,
+        0.9447190165519714
+      ],
+      "seconds": 0.16564554200158454,
+      "token_count": 105
+    },
+    {
+      "case_id": "CPD-V05",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -2.057248115539551,
+        1.8426154851913452
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.019842956215143204,
+        0.9801570177078247
+      ],
+      "seconds": 0.16888329198991414,
+      "token_count": 110
+    },
+    {
+      "case_id": "CPD-V05",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.509394645690918,
+        0.031357184052467346
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3680126965045929,
+        0.6319872736930847
+      ],
+      "seconds": 0.1744336249976186,
+      "token_count": 103
+    },
+    {
+      "case_id": "CPD-V06",
+      "correct": true,
+      "expected": false,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.5083897709846497,
+        0.060905709862709045
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.36139941215515137,
+        0.6386006474494934
+      ],
+      "seconds": 0.14165129100729246,
+      "token_count": 80
+    },
+    {
+      "case_id": "CPD-V06",
+      "correct": true,
+      "expected": false,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.7478594779968262,
+        1.4487526416778564
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.03929341211915016,
+        0.9607065320014954
+      ],
+      "seconds": 0.14274570799898356,
+      "token_count": 80
+    },
+    {
+      "case_id": "CPD-V06",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.5037051439285278,
+        1.0860490798950195
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.06980075687170029,
+        0.9301993250846863
+      ],
+      "seconds": 0.15354354200826492,
+      "token_count": 81
+    },
+    {
+      "case_id": "CPD-V06",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -2.225956439971924,
+        2.0502166748046875
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.013705292716622353,
+        0.986294686794281
+      ],
+      "seconds": 0.14990270900307223,
+      "token_count": 86
+    },
+    {
+      "case_id": "CPD-V06",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.752642035484314,
+        0.2383194863796234
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.2707221806049347,
+        0.7292777895927429
+      ],
+      "seconds": 0.18701479201263282,
+      "token_count": 79
+    },
+    {
+      "case_id": "CPD-T07",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.9216012954711914,
+        0.5400505661964417
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.18821480870246887,
+        0.8117851614952087
+      ],
+      "seconds": 0.4055306250083959,
+      "token_count": 115
+    },
+    {
+      "case_id": "CPD-T07",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.464260220527649,
+        1.1126540899276733
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.07063902914524078,
+        0.9293609261512756
+      ],
+      "seconds": 0.17702445799659472,
+      "token_count": 115
+    },
+    {
+      "case_id": "CPD-T07",
+      "correct": false,
+      "expected": true,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.341611623764038,
+        0.9204095005989075
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.09431757777929306,
+        0.905682384967804
+      ],
+      "seconds": 0.17623341699072625,
+      "token_count": 116
+    },
+    {
+      "case_id": "CPD-T07",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.4991748332977295,
+        1.1377829313278198
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.06679742783308029,
+        0.9332025647163391
+      ],
+      "seconds": 0.19261675000598188,
+      "token_count": 121
+    },
+    {
+      "case_id": "CPD-T07",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.26141753792762756,
+        -0.17857730388641357
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.4793018102645874,
+        0.5206982493400574
+      ],
+      "seconds": 0.18255650000355672,
+      "token_count": 114
+    },
+    {
+      "case_id": "CPD-V07",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.4312805235385895,
+        -0.01766258478164673
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3980449438095093,
+        0.6019550561904907
+      ],
+      "seconds": 0.1743035409890581,
+      "token_count": 105
+    },
+    {
+      "case_id": "CPD-V07",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.9232027530670166,
+        0.48901206254959106
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.19588495790958405,
+        0.8041149973869324
+      ],
+      "seconds": 0.1763732919935137,
+      "token_count": 105
+    },
+    {
+      "case_id": "CPD-V07",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.5499998331069946,
+        1.1243934631347656
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.06450137495994568,
+        0.9354986548423767
+      ],
+      "seconds": 0.175633500010008,
+      "token_count": 106
+    },
+    {
+      "case_id": "CPD-V07",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.6160295009613037,
+        1.2566962242126465
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.05351841822266579,
+        0.9464816451072693
+      ],
+      "seconds": 0.1765401250013383,
+      "token_count": 111
+    },
+    {
+      "case_id": "CPD-V07",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.3599022626876831,
+        -0.14734099805355072
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.44705888628959656,
+        0.5529411435127258
+      ],
+      "seconds": 0.1701266250020126,
+      "token_count": 104
+    },
+    {
+      "case_id": "CMB-T01",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -2.485884189605713,
+        2.2311320304870605
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.0088625717908144,
+        0.9911375045776367
+      ],
+      "seconds": 0.19451349999872036,
+      "token_count": 109
+    },
+    {
+      "case_id": "CMB-T01",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.966835379600525,
+        1.6562538146972656
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.026005711406469345,
+        0.9739943146705627
+      ],
+      "seconds": 0.16583270800765604,
+      "token_count": 109
+    },
+    {
+      "case_id": "CMB-T01",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.0733797550201416,
+        0.6271190643310547
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.15440012514591217,
+        0.845599889755249
+      ],
+      "seconds": 0.17070941599376965,
+      "token_count": 110
+    },
+    {
+      "case_id": "CMB-T01",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.5087847709655762,
+        1.150968074798584
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.0653904378414154,
+        0.934609591960907
+      ],
+      "seconds": 0.17892791600024793,
+      "token_count": 115
+    },
+    {
+      "case_id": "CMB-T01",
+      "correct": true,
+      "expected": true,
+      "factor": "version_conflict",
+      "logits": [
+        0.8168063163757324,
+        -1.1844216585159302
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.8809258937835693,
+        0.11907405406236649
+      ],
+      "seconds": 0.1639770839974517,
+      "token_count": 108
+    },
+    {
+      "case_id": "CMB-T02",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -1.1977522373199463,
+        0.7653014659881592
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.12313694506883621,
+        0.8768630623817444
+      ],
+      "seconds": 0.17578391599818133,
+      "token_count": 122
+    },
+    {
+      "case_id": "CMB-T02",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.6142480373382568,
+        1.2474555969238281
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.054079487919807434,
+        0.9459205865859985
+      ],
+      "seconds": 0.18084045800787862,
+      "token_count": 122
+    },
+    {
+      "case_id": "CMB-T02",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.5717793703079224,
+        1.2170026302337646
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.057933393865823746,
+        0.9420666694641113
+      ],
+      "seconds": 0.17099166700791102,
+      "token_count": 123
+    },
+    {
+      "case_id": "CMB-T02",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.3225312232971191,
+        0.8628972768783569
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.10106666386127472,
+        0.8989333510398865
+      ],
+      "seconds": 0.1792761669930769,
+      "token_count": 128
+    },
+    {
+      "case_id": "CMB-T02",
+      "correct": true,
+      "expected": true,
+      "factor": "version_conflict",
+      "logits": [
+        -0.15135851502418518,
+        -0.32255861163139343
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.5426958203315735,
+        0.4573042094707489
+      ],
+      "seconds": 0.1775825830118265,
+      "token_count": 121
+    },
+    {
+      "case_id": "CMB-T03",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.7273144125938416,
+        0.32503753900527954
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.25877371430397034,
+        0.741226315498352
+      ],
+      "seconds": 0.166059666997171,
+      "token_count": 102
+    },
+    {
+      "case_id": "CMB-T03",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.685044288635254,
+        1.338781714439392
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.04636102169752121,
+        0.9536389708518982
+      ],
+      "seconds": 0.17155766699579544,
+      "token_count": 102
+    },
+    {
+      "case_id": "CMB-T03",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.5267293453216553,
+        1.1368143558502197
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.0651591345667839,
+        0.9348407983779907
+      ],
+      "seconds": 0.17213241700665094,
+      "token_count": 103
+    },
+    {
+      "case_id": "CMB-T03",
+      "correct": false,
+      "expected": true,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.9641914367675781,
+        1.652020812034607
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.026180468499660492,
+        0.9738195538520813
+      ],
+      "seconds": 0.1653434999898309,
+      "token_count": 108
+    },
+    {
+      "case_id": "CMB-T03",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.6601780652999878,
+        0.16664090752601624
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3043181002140045,
+        0.6956818699836731
+      ],
+      "seconds": 0.1726824579964159,
+      "token_count": 101
+    },
+    {
+      "case_id": "CMB-V01",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -1.1895092725753784,
+        0.8150601983070374
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.11872398108243942,
+        0.88127601146698
+      ],
+      "seconds": 0.17191608299617656,
+      "token_count": 112
+    },
+    {
+      "case_id": "CMB-V01",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.639644980430603,
+        1.3506464958190918
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.04786639288067818,
+        0.9521335363388062
+      ],
+      "seconds": 0.16571429200121202,
+      "token_count": 112
+    },
+    {
+      "case_id": "CMB-V01",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.356087327003479,
+        0.9475785493850708
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.09081980586051941,
+        0.9091801643371582
+      ],
+      "seconds": 0.1769851249991916,
+      "token_count": 113
+    },
+    {
+      "case_id": "CMB-V01",
+      "correct": false,
+      "expected": true,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.852339267730713,
+        1.5452079772949219
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.03237220644950867,
+        0.967627763748169
+      ],
+      "seconds": 0.18158299999777228,
+      "token_count": 118
+    },
+    {
+      "case_id": "CMB-V01",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.33866167068481445,
+        -0.12025018036365509
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.44561317563056946,
+        0.5543868541717529
+      ],
+      "seconds": 0.1772747920040274,
+      "token_count": 111
+    },
+    {
+      "case_id": "CMB-T04",
+      "correct": true,
+      "expected": false,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -1.381172776222229,
+        1.0396723747253418
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.08159691095352173,
+        0.918403148651123
+      ],
+      "seconds": 0.17983212500985246,
+      "token_count": 99
+    },
+    {
+      "case_id": "CMB-T04",
+      "correct": true,
+      "expected": false,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.9195417165756226,
+        1.6827759742736816
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.026537053287029266,
+        0.9734629988670349
+      ],
+      "seconds": 0.17363862499769311,
+      "token_count": 99
+    },
+    {
+      "case_id": "CMB-T04",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.3150620460510254,
+        0.9321944713592529
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.0955863669514656,
+        0.9044135808944702
+      ],
+      "seconds": 0.1906129169947235,
+      "token_count": 100
+    },
+    {
+      "case_id": "CMB-T04",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.7893893718719482,
+        1.503888726234436
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.035802509635686874,
+        0.9641975164413452
+      ],
+      "seconds": 0.176649916000315,
+      "token_count": 105
+    },
+    {
+      "case_id": "CMB-T04",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.6378063559532166,
+        0.08558052778244019
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3266476094722748,
+        0.6733524203300476
+      ],
+      "seconds": 0.16482154099503532,
+      "token_count": 98
+    },
+    {
+      "case_id": "CMB-V02",
+      "correct": true,
+      "expected": false,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -1.0073131322860718,
+        0.6189079880714417
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.16434869170188904,
+        0.8356513381004333
+      ],
+      "seconds": 0.15114579199871514,
+      "token_count": 91
+    },
+    {
+      "case_id": "CMB-V02",
+      "correct": true,
+      "expected": false,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.710920810699463,
+        1.4093328714370728
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.042279504239559174,
+        0.9577205181121826
+      ],
+      "seconds": 0.15870162499777507,
+      "token_count": 91
+    },
+    {
+      "case_id": "CMB-V02",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.3695114850997925,
+        1.0246789455413818
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.08361679315567017,
+        0.9163832664489746
+      ],
+      "seconds": 0.15196433299570344,
+      "token_count": 92
+    },
+    {
+      "case_id": "CMB-V02",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -2.0305681228637695,
+        1.8103307485580444
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.021022837609052658,
+        0.9789772033691406
+      ],
+      "seconds": 0.16357329099264462,
+      "token_count": 97
+    },
+    {
+      "case_id": "CMB-V02",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.7640448212623596,
+        0.22969824075698853
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.27017340064048767,
+        0.7298266291618347
+      ],
+      "seconds": 0.16023458298877813,
+      "token_count": 90
+    },
+    {
+      "case_id": "REG-Q006",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.6690071225166321,
+        0.29265540838241577
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.2765454351902008,
+        0.7234545350074768
+      ],
+      "seconds": 1.0187905839993618,
+      "token_count": 816
+    },
+    {
+      "case_id": "REG-Q006",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.3539925813674927,
+        0.9999639391899109
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.08675180375576019,
+        0.9132481217384338
+      ],
+      "seconds": 0.9846937920083292,
+      "token_count": 816
+    },
+    {
+      "case_id": "REG-Q006",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -0.9218686819076538,
+        0.44696497917175293
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.20280835032463074,
+        0.7971916794776917
+      ],
+      "seconds": 1.048590582999168,
+      "token_count": 817
+    },
+    {
+      "case_id": "REG-Q006",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.2652230262756348,
+        0.8387802839279175
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.10870831459760666,
+        0.8912916779518127
+      ],
+      "seconds": 1.003273291993537,
+      "token_count": 822
+    },
+    {
+      "case_id": "REG-Q006",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.34269750118255615,
+        -0.09901726245880127
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.43937963247299194,
+        0.5606204271316528
+      ],
+      "seconds": 0.9991068329982227,
+      "token_count": 815
+    },
+    {
+      "case_id": "REG-Q046",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.8162248730659485,
+        0.4431098699569702
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.22108840942382812,
+        0.7789115309715271
+      ],
+      "seconds": 0.9458200830122223,
+      "token_count": 762
+    },
+    {
+      "case_id": "REG-Q046",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.8192291259765625,
+        1.4984726905822754
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.03496887907385826,
+        0.965031087398529
+      ],
+      "seconds": 0.9705370830051834,
+      "token_count": 762
+    },
+    {
+      "case_id": "REG-Q046",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.2827926874160767,
+        0.9024631381034851
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.10108236223459244,
+        0.8989176750183105
+      ],
+      "seconds": 0.9457627079973463,
+      "token_count": 763
+    },
+    {
+      "case_id": "REG-Q046",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.117990493774414,
+        0.6761727333068848
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.14256305992603302,
+        0.8574368953704834
+      ],
+      "seconds": 0.9167653750046156,
+      "token_count": 768
+    },
+    {
+      "case_id": "REG-Q046",
+      "correct": false,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        0.02293282374739647,
+        -0.4339144825935364
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.6122660040855408,
+        0.3877340257167816
+      ],
+      "seconds": 0.9346331249980722,
+      "token_count": 761
+    },
+    {
+      "case_id": "REG-Q076",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.2695392370223999,
+        -0.08881005644798279
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.4549403190612793,
+        0.5450597405433655
+      ],
+      "seconds": 1.0902459170029033,
+      "token_count": 855
+    },
+    {
+      "case_id": "REG-Q076",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.8826546669006348,
+        0.5268075466156006
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.19631889462471008,
+        0.8036811351776123
+      ],
+      "seconds": 1.0455632079974748,
+      "token_count": 855
+    },
+    {
+      "case_id": "REG-Q076",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -0.8329874873161316,
+        0.3912234306335449
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.22719624638557434,
+        0.772803783416748
+      ],
+      "seconds": 1.069331709004473,
+      "token_count": 856
+    },
+    {
+      "case_id": "REG-Q076",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -0.9353504776954651,
+        0.5007571578025818
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.1921488344669342,
+        0.8078511953353882
+      ],
+      "seconds": 1.0614155000075698,
+      "token_count": 861
+    },
+    {
+      "case_id": "REG-Q076",
+      "correct": false,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        0.17383936047554016,
+        -0.5974259376525879
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.6837944984436035,
+        0.3162054717540741
+      ],
+      "seconds": 1.0751999999920372,
+      "token_count": 854
+    },
+    {
+      "case_id": "REG-Q086",
+      "correct": true,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        0.017822321504354477,
+        -0.3662305772304535
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.5948502421379089,
+        0.4051497280597687
+      ],
+      "seconds": 1.0558672080078395,
+      "token_count": 880
+    },
+    {
+      "case_id": "REG-Q086",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.7294522523880005,
+        0.346396267414093
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.25429245829582214,
+        0.745707631111145
+      ],
+      "seconds": 1.0641041250055423,
+      "token_count": 880
+    },
+    {
+      "case_id": "REG-Q086",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.1732792854309082,
+        0.7413279414176941
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.12846413254737854,
+        0.8715358972549438
+      ],
+      "seconds": 1.1044788330036681,
+      "token_count": 881
+    },
+    {
+      "case_id": "REG-Q086",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.5762958526611328,
+        1.1531380414962769
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.0612587034702301,
+        0.9387412667274475
+      ],
+      "seconds": 1.1178307500085793,
+      "token_count": 886
+    },
+    {
+      "case_id": "REG-Q086",
+      "correct": false,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        0.23729544878005981,
+        -0.6387649774551392
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.7060051560401917,
+        0.29399481415748596
+      ],
+      "seconds": 1.0714489169913577,
+      "token_count": 879
+    },
+    {
+      "case_id": "REG-Q121",
+      "correct": true,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.057169366627931595,
+        -0.30578774213790894
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.5618364214897156,
+        0.4381636083126068
+      ],
+      "seconds": 0.8488115000072867,
+      "token_count": 698
+    },
+    {
+      "case_id": "REG-Q121",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.7547507286071777,
+        0.3614411950111389
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.24671834707260132,
+        0.7532816529273987
+      ],
+      "seconds": 0.8565737919998355,
+      "token_count": 698
+    },
+    {
+      "case_id": "REG-Q121",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -0.6352283954620361,
+        0.18902501463890076
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.30486151576042175,
+        0.6951385140419006
+      ],
+      "seconds": 0.8939107090118341,
+      "token_count": 699
+    },
+    {
+      "case_id": "REG-Q121",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -0.9867575764656067,
+        0.5324643850326538
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.179576113820076,
+        0.8204239010810852
+      ],
+      "seconds": 0.8645842909900239,
+      "token_count": 704
+    },
+    {
+      "case_id": "REG-Q121",
+      "correct": false,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        0.016960129141807556,
+        -0.4517750144004822
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.6150843501091003,
+        0.38491564989089966
+      ],
+      "seconds": 0.849100166989956,
+      "token_count": 697
+    },
+    {
+      "case_id": "REG-Q126",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.2544756531715393,
+        -0.08566915988922119
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.4578982889652252,
+        0.5421016812324524
+      ],
+      "seconds": 0.8751203330029966,
+      "token_count": 710
+    },
+    {
+      "case_id": "REG-Q126",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.9932600259780884,
+        0.5980861186981201
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.16919459402561188,
+        0.8308054208755493
+      ],
+      "seconds": 0.9046946669986937,
+      "token_count": 710
+    },
+    {
+      "case_id": "REG-Q126",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -0.5081785321235657,
+        0.0994148850440979
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3526083827018738,
+        0.6473916172981262
+      ],
+      "seconds": 0.8931297920062207,
+      "token_count": 711
+    },
+    {
+      "case_id": "REG-Q126",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -0.7130975723266602,
+        0.24625959992408752
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.27700692415237427,
+        0.7229930758476257
+      ],
+      "seconds": 0.8775693749921629,
+      "token_count": 716
+    },
+    {
+      "case_id": "REG-Q126",
+      "correct": false,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        0.24894708395004272,
+        -0.6605051755905151
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.7128880620002747,
+        0.28711193799972534
+      ],
+      "seconds": 0.8839550830016378,
+      "token_count": 709
+    },
+    {
+      "case_id": "REG-Q176",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.40554291009902954,
+        0.03549274802207947
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3914942443370819,
+        0.6085057854652405
+      ],
+      "seconds": 1.0031817919953028,
+      "token_count": 816
+    },
+    {
+      "case_id": "REG-Q176",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.0251601934432983,
+        0.589260458946228
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.16597576439380646,
+        0.83402419090271
+      ],
+      "seconds": 1.0109292919951258,
+      "token_count": 816
+    },
+    {
+      "case_id": "REG-Q176",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.4307013750076294,
+        1.0419273376464844
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.07779942452907562,
+        0.9222005009651184
+      ],
+      "seconds": 0.9997814999951515,
+      "token_count": 817
+    },
+    {
+      "case_id": "REG-Q176",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.628466248512268,
+        1.2152135372161865
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.05500892922282219,
+        0.9449910521507263
+      ],
+      "seconds": 0.9918173329933779,
+      "token_count": 822
+    },
+    {
+      "case_id": "REG-Q176",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.3504616618156433,
+        -0.1259046345949173
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.4440954625606537,
+        0.5559045076370239
+      ],
+      "seconds": 1.0153176659950987,
+      "token_count": 815
+    },
+    {
+      "case_id": "REG-Q196",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.6056724190711975,
+        0.20096014440059662
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3086085021495819,
+        0.6913914084434509
+      ],
+      "seconds": 0.8972322079935111,
+      "token_count": 724
+    },
+    {
+      "case_id": "REG-Q196",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.6294549703598022,
+        0.21591816842556
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3004043400287628,
+        0.6995956301689148
+      ],
+      "seconds": 0.891853875000379,
+      "token_count": 724
+    },
+    {
+      "case_id": "REG-Q196",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.3884356021881104,
+        1.0203490257263184
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.08250527083873749,
+        0.9174946546554565
+      ],
+      "seconds": 0.89100524999958,
+      "token_count": 725
+    },
+    {
+      "case_id": "REG-Q196",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.5175687074661255,
+        1.1486444473266602
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.06499672681093216,
+        0.9350032806396484
+      ],
+      "seconds": 0.8903899590077344,
+      "token_count": 730
+    },
+    {
+      "case_id": "REG-Q196",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.9033867716789246,
+        0.41022786498069763
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.21188262104988098,
+        0.7881174087524414
+      ],
+      "seconds": 0.916676084001665,
+      "token_count": 723
+    },
+    {
+      "case_id": "REG-Q201",
+      "correct": true,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.03724455088376999,
+        -0.32362955808639526
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.5711109042167664,
+        0.42888912558555603
+      ],
+      "seconds": 0.8412462499982212,
+      "token_count": 677
+    },
+    {
+      "case_id": "REG-Q201",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.25840532779693604,
+        -0.10470986366271973
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.46165159344673157,
+        0.5383484363555908
+      ],
+      "seconds": 0.81921654198959,
+      "token_count": 677
+    },
+    {
+      "case_id": "REG-Q201",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -0.561074435710907,
+        0.181161567568779
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3225153684616089,
+        0.6774846315383911
+      ],
+      "seconds": 0.8085804169968469,
+      "token_count": 678
+    },
+    {
+      "case_id": "REG-Q201",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -0.7307464480400085,
+        0.3152986168861389
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.2599852681159973,
+        0.7400147318840027
+      ],
+      "seconds": 0.843952666997211,
+      "token_count": 683
+    },
+    {
+      "case_id": "REG-Q201",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.5513932704925537,
+        0.09317576885223389
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.34421443939208984,
+        0.6557855606079102
+      ],
+      "seconds": 0.8753180420026183,
+      "token_count": 676
+    },
+    {
+      "case_id": "REG-Q231",
+      "correct": true,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.07897022366523743,
+        -0.31521767377853394
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.5587887167930603,
+        0.4412113130092621
+      ],
+      "seconds": 0.7860770420084009,
+      "token_count": 658
+    },
+    {
+      "case_id": "REG-Q231",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.1498804092407227,
+        0.7571456432342529
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.1293153315782547,
+        0.8706846833229065
+      ],
+      "seconds": 0.8117194580117939,
+      "token_count": 658
+    },
+    {
+      "case_id": "REG-Q231",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.4834579229354858,
+        1.0625332593917847
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.072696253657341,
+        0.927303671836853
+      ],
+      "seconds": 0.8507064590085065,
+      "token_count": 659
+    },
+    {
+      "case_id": "REG-Q231",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.9349170923233032,
+        1.6303589344024658
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.027510911226272583,
+        0.972489058971405
+      ],
+      "seconds": 1.0576075420103734,
+      "token_count": 664
+    },
+    {
+      "case_id": "REG-Q231",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.4566038250923157,
+        -0.018754184246063232
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.39225348830223083,
+        0.6077465415000916
+      ],
+      "seconds": 0.9469784999964759,
+      "token_count": 657
+    },
+    {
+      "case_id": "REG-Q281",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.5516167879104614,
+        0.17590664327144623
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.32573840022087097,
+        0.6742615699768066
+      ],
+      "seconds": 1.0056533750030212,
+      "token_count": 749
+    },
+    {
+      "case_id": "REG-Q281",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.0980443954467773,
+        0.681769609451294
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.1443261057138443,
+        0.8556739091873169
+      ],
+      "seconds": 0.9608788330078823,
+      "token_count": 749
+    },
+    {
+      "case_id": "REG-Q281",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -1.2455631494522095,
+        0.8268182277679443
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.11181031912565231,
+        0.8881896734237671
+      ],
+      "seconds": 1.2236512079980457,
+      "token_count": 750
+    },
+    {
+      "case_id": "REG-Q281",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.58157217502594,
+        1.1346721649169922
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.06202159821987152,
+        0.9379783868789673
+      ],
+      "seconds": 0.9887124590022722,
+      "token_count": 755
+    },
+    {
+      "case_id": "REG-Q281",
+      "correct": true,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.30428433418273926,
+        -0.16887539625167847
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.4661993682384491,
+        0.5338006019592285
+      ],
+      "seconds": 1.0044817079906352,
+      "token_count": 748
+    },
+    {
+      "case_id": "REG-Q286",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.5795585513114929,
+        0.24251244962215424
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3053241968154907,
+        0.6946757435798645
+      ],
+      "seconds": 0.9228808750049211,
+      "token_count": 699
+    },
+    {
+      "case_id": "REG-Q286",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.9732565879821777,
+        0.591522753238678
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.17296192049980164,
+        0.8270381093025208
+      ],
+      "seconds": 0.9030209170014132,
+      "token_count": 699
+    },
+    {
+      "case_id": "REG-Q286",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -0.6518120765686035,
+        0.20517224073410034
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.297969788312912,
+        0.7020301818847656
+      ],
+      "seconds": 0.8777360419917386,
+      "token_count": 700
+    },
+    {
+      "case_id": "REG-Q286",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -0.6816174983978271,
+        0.26849162578582764
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.278862863779068,
+        0.7211371064186096
+      ],
+      "seconds": 0.8543564160063397,
+      "token_count": 705
+    },
+    {
+      "case_id": "REG-Q286",
+      "correct": false,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        -0.01214456558227539,
+        -0.43729478120803833
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.6047149896621704,
+        0.395285040140152
+      ],
+      "seconds": 0.8471607090032194,
+      "token_count": 698
+    },
+    {
+      "case_id": "REG-Q301",
+      "correct": false,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -0.7404826283454895,
+        0.36901426315307617
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.24796470999717712,
+        0.7520353198051453
+      ],
+      "seconds": 0.9961210830078926,
+      "token_count": 801
+    },
+    {
+      "case_id": "REG-Q301",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.1989351511001587,
+        0.8462685346603394
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.11453790962696075,
+        0.8854620456695557
+      ],
+      "seconds": 1.0261082499928307,
+      "token_count": 801
+    },
+    {
+      "case_id": "REG-Q301",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -0.5925297737121582,
+        0.14313846826553345
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3239521086215973,
+        0.6760479211807251
+      ],
+      "seconds": 0.9948126249946654,
+      "token_count": 802
+    },
+    {
+      "case_id": "REG-Q301",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -0.45803898572921753,
+        0.002951696515083313
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.38675081729888916,
+        0.6132491230964661
+      ],
+      "seconds": 0.9987624159984989,
+      "token_count": 807
+    },
+    {
+      "case_id": "REG-Q301",
+      "correct": false,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        0.3830260634422302,
+        -0.8000761270523071
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.7655051350593567,
+        0.2344948798418045
+      ],
+      "seconds": 0.9659699170006206,
+      "token_count": 800
+    },
+    {
+      "case_id": "REG-Q316",
+      "correct": true,
+      "expected": true,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        0.29962024092674255,
+        -0.6475214958190918
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.7205399870872498,
+        0.27946001291275024
+      ],
+      "seconds": 0.988173083998845,
+      "token_count": 770
+    },
+    {
+      "case_id": "REG-Q316",
+      "correct": false,
+      "expected": true,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -0.6113413572311401,
+        0.18397128582000732
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.3110290765762329,
+        0.6889709234237671
+      ],
+      "seconds": 0.9528168329998152,
+      "token_count": 770
+    },
+    {
+      "case_id": "REG-Q316",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -0.8373571038246155,
+        0.3632802367210388
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.23136188089847565,
+        0.7686381936073303
+      ],
+      "seconds": 0.9527012499893317,
+      "token_count": 771
+    },
+    {
+      "case_id": "REG-Q316",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -0.8138415813446045,
+        0.32217949628829956
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.2430516481399536,
+        0.7569484114646912
+      ],
+      "seconds": 0.9543460410059197,
+      "token_count": 776
+    },
+    {
+      "case_id": "REG-Q316",
+      "correct": false,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        0.2565273642539978,
+        -0.7126740217208862
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.7249602675437927,
+        0.2750397026538849
+      ],
+      "seconds": 0.9736827919987263,
+      "token_count": 769
+    },
+    {
+      "case_id": "REG-Q451",
+      "correct": true,
+      "expected": false,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -2.0637624263763428,
+        1.816104531288147
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.020235631614923477,
+        0.9797643423080444
+      ],
+      "seconds": 0.9762771250098012,
+      "token_count": 797
+    },
+    {
+      "case_id": "REG-Q451",
+      "correct": true,
+      "expected": false,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -2.314969062805176,
+        2.122831106185913
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.01168378908187151,
+        0.9883162379264832
+      ],
+      "seconds": 0.9660024580080062,
+      "token_count": 797
+    },
+    {
+      "case_id": "REG-Q451",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -0.46063432097435,
+        0.018071651458740234
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.38255774974823,
+        0.6174423098564148
+      ],
+      "seconds": 0.9624873329885304,
+      "token_count": 798
+    },
+    {
+      "case_id": "REG-Q451",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.2462246417999268,
+        0.7946972250938416
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.11497288942337036,
+        0.8850271105766296
+      ],
+      "seconds": 1.0264502500067465,
+      "token_count": 803
+    },
+    {
+      "case_id": "REG-Q451",
+      "correct": false,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        0.24397505819797516,
+        -0.6449776887893677
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.7086740136146545,
+        0.29132601618766785
+      ],
+      "seconds": 0.9646024590037996,
+      "token_count": 796
+    },
+    {
+      "case_id": "REG-Q456",
+      "correct": true,
+      "expected": false,
+      "factor": "retrieval_sufficient",
+      "logits": [
+        -2.0744357109069824,
+        1.8146191835403442
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.020054277032613754,
+        0.979945719242096
+      ],
+      "seconds": 0.9465055420005228,
+      "token_count": 755
+    },
+    {
+      "case_id": "REG-Q456",
+      "correct": true,
+      "expected": false,
+      "factor": "answer_fully_supported",
+      "logits": [
+        -1.7381997108459473,
+        1.4854334592819214
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.03828597813844681,
+        0.961713969707489
+      ],
+      "seconds": 0.9434549580037128,
+      "token_count": 755
+    },
+    {
+      "case_id": "REG-Q456",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_case_facts",
+      "logits": [
+        -0.3001669645309448,
+        -0.08145427703857422
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.4455387592315674,
+        0.5544612407684326
+      ],
+      "seconds": 0.9734380000008969,
+      "token_count": 756
+    },
+    {
+      "case_id": "REG-Q456",
+      "correct": true,
+      "expected": false,
+      "factor": "requires_policy_judgment",
+      "logits": [
+        -1.169179916381836,
+        0.7566855549812317
+      ],
+      "predicted": false,
+      "probabilities": [
+        0.1272089183330536,
+        0.872791051864624
+      ],
+      "seconds": 0.9637123749998864,
+      "token_count": 761
+    },
+    {
+      "case_id": "REG-Q456",
+      "correct": false,
+      "expected": false,
+      "factor": "version_conflict",
+      "logits": [
+        0.3937133550643921,
+        -0.7895108461380005
+      ],
+      "predicted": true,
+      "probabilities": [
+        0.7655270099639893,
+        0.23447297513484955
+      ],
+      "seconds": 0.9398160839919001,
+      "token_count": 754
+    }
+  ],
+  "schema_version": "1.0",
+  "sealed_holdout_used": false,
+  "status": "SUCCESS",
+  "summary": {
+    "case_results": [
+      {
+        "case_id": "CPD-T01",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CPD-T02",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CPD-T03",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": true
+        },
+        "predicted_label": "判断要"
+      },
+      {
+        "case_id": "CPD-T04",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "判断要",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CPD-T05",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": true,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "判断要",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CPD-T06",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "expected_label": "文書不足",
+        "factor_exact_match": true,
+        "label_correct": true,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CPD-V01",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "visual",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CPD-V02",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "visual",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CPD-V03",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "visual",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CPD-V04",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "判断要",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "visual",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CPD-V05",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "判断要",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "visual",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CPD-V06",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "expected_label": "文書不足",
+        "factor_exact_match": true,
+        "label_correct": true,
+        "modality": "visual",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CPD-T07",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "判断要",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CPD-V07",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "visual",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CMB-T01",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": true
+        },
+        "expected_label": "判断要",
+        "factor_exact_match": false,
+        "label_correct": true,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": true
+        },
+        "predicted_label": "判断要"
+      },
+      {
+        "case_id": "CMB-T02",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": true
+        },
+        "expected_label": "判断要",
+        "factor_exact_match": false,
+        "label_correct": true,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": true
+        },
+        "predicted_label": "判断要"
+      },
+      {
+        "case_id": "CMB-T03",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": true,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "判断要",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CMB-V01",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": true,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "判断要",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "visual",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CMB-T04",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "expected_label": "文書不足",
+        "factor_exact_match": true,
+        "label_correct": true,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "CMB-V02",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "expected_label": "文書不足",
+        "factor_exact_match": true,
+        "label_correct": true,
+        "modality": "visual",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "REG-Q006",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "REG-Q046",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": true
+        },
+        "predicted_label": "判断要"
+      },
+      {
+        "case_id": "REG-Q076",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": true
+        },
+        "predicted_label": "判断要"
+      },
+      {
+        "case_id": "REG-Q086",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": true
+        },
+        "predicted_label": "判断要"
+      },
+      {
+        "case_id": "REG-Q121",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": true
+        },
+        "predicted_label": "判断要"
+      },
+      {
+        "case_id": "REG-Q126",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": true
+        },
+        "predicted_label": "判断要"
+      },
+      {
+        "case_id": "REG-Q176",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "REG-Q196",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "REG-Q201",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "REG-Q231",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "REG-Q281",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "predicted_label": "文書不足"
+      },
+      {
+        "case_id": "REG-Q286",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": true
+        },
+        "predicted_label": "判断要"
+      },
+      {
+        "case_id": "REG-Q301",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": true
+        },
+        "predicted_label": "判断要"
+      },
+      {
+        "case_id": "REG-Q316",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "expected_label": "根拠十分",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": true
+        },
+        "predicted_label": "判断要"
+      },
+      {
+        "case_id": "REG-Q451",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "expected_label": "文書不足",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": true
+        },
+        "predicted_label": "判断要"
+      },
+      {
+        "case_id": "REG-Q456",
+        "critical_error": false,
+        "expected_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "expected_label": "文書不足",
+        "factor_exact_match": false,
+        "label_correct": false,
+        "modality": "text",
+        "predicted_factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": true
+        },
+        "predicted_label": "判断要"
+      }
+    ],
+    "critical_error_count": 0,
+    "factor_exact_match_count": 4,
+    "factor_metrics": {
+      "answer_fully_supported": {
+        "f1": 0.0,
+        "false_negative": 30,
+        "false_positive": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "true_positive": 0
+      },
+      "requires_case_facts": {
+        "f1": 0.0,
+        "false_negative": 5,
+        "false_positive": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "true_positive": 0
+      },
+      "requires_policy_judgment": {
+        "f1": 0.0,
+        "false_negative": 3,
+        "false_positive": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "true_positive": 0
+      },
+      "retrieval_sufficient": {
+        "f1": 0.2857142857142857,
+        "false_negative": 25,
+        "false_positive": 0,
+        "precision": 1.0,
+        "recall": 0.16666666666666666,
+        "true_positive": 5
+      },
+      "version_conflict": {
+        "f1": 0.2666666666666667,
+        "false_negative": 0,
+        "false_positive": 11,
+        "precision": 0.15384615384615385,
+        "recall": 1.0,
+        "true_positive": 2
+      }
+    },
+    "label_accuracy": 0.16666666666666666,
+    "label_correct_count": 6,
+    "label_counts": {
+      "判断要": 13,
+      "文書不足": 23
+    },
+    "label_metrics": {
+      "by_label": {
+        "判断要": {
+          "f1": 0.18181818181818185,
+          "false_negative": 7,
+          "false_positive": 11,
+          "precision": 0.15384615384615385,
+          "recall": 0.2222222222222222,
+          "true_positive": 2
+        },
+        "文書不足": {
+          "f1": 0.27586206896551724,
+          "false_negative": 2,
+          "false_positive": 19,
+          "precision": 0.17391304347826086,
+          "recall": 0.6666666666666666,
+          "true_positive": 4
+        },
+        "根拠十分": {
+          "f1": 0.0,
+          "false_negative": 21,
+          "false_positive": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "true_positive": 0
+        }
+      },
+      "macro_f1": 0.15256008359456638
+    }
+  },
+  "threshold_tuned_on_benchmark": false
+}

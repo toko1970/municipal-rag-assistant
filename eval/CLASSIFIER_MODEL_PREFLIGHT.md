@@ -103,5 +103,11 @@ fail-fastを適用し、model inferenceを実行しなかった。結果は
 必要がある。入力契約を変えずに比較できるGemini baselineを先に有料実行しても、local候補が
 採点不能な現状ではモデル比較にならないため、まだ実行しない。
 
-model downloadとtoken auditだけを実施した。外部API call、有料設定変更、sealed holdoutは
-実施していない。
+その後、model cardが多言語用途と8192 tokenを明記する
+`MoritzLaurer/bge-m3-zeroshot-v2.0-c`を長文候補として追加した。同じ入力契約の180 pairを
+完走できたためGemini baselineも実行し、比較を完了した。結論と実測値は
+[`CLASSIFIER_MODEL_COMPARISON.md`](CLASSIFIER_MODEL_COMPARISON.md)を参照する。
+
+この節のmDeBERTa pilotではmodel downloadとtoken auditだけを実施した。後続比較では
+BGE-M3のlocal推論と、上限を固定したGemini 36 callを実施した。有料設定変更とsealed
+holdoutは実施していない。

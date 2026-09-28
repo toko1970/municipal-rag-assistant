@@ -48,6 +48,14 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def portable_path(path: Path) -> str:
+    root = Path(__file__).resolve().parents[1]
+    try:
+        return str(path.resolve().relative_to(root))
+    except ValueError:
+        return str(path.resolve())
+
+
 def build_premise(case: dict[str, Any]) -> str:
     evidence = "\n".join(
         f"- [{item['element_id']}] {item['content']}" for item in case["evidence"]
@@ -116,7 +124,12 @@ def audit_token_lengths(
 
 
 def run_audit(
-    *, dataset_path: Path, model_path: Path, output_dir: Path, max_tokens: int
+    *,
+    dataset_path: Path,
+    model_path: Path,
+    model_id: str,
+    output_dir: Path,
+    max_tokens: int,
 ) -> dict[str, Any]:
     if output_dir.exists():
         raise FileExistsError(f"結果は上書きしません: {output_dir}")
@@ -134,9 +147,9 @@ def run_audit(
     result = {
         "schema_version": "1.0",
         "status": status,
-        "dataset": str(dataset_path),
+        "dataset": portable_path(dataset_path),
         "dataset_sha256": sha256(dataset_path),
-        "model": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+        "model": model_id,
         "model_revision": model_path.name,
         "tokenizer_class": type(tokenizer).__name__,
         "tokenizer_reported_max_length": tokenizer.model_max_length,
@@ -164,6 +177,7 @@ def main() -> None:
         default=root / "eval/classifier_model_benchmark_v1.json",
     )
     parser.add_argument("--model-path", type=Path, required=True)
+    parser.add_argument("--model-id", required=True)
     parser.add_argument(
         "--output-dir",
         type=Path,
@@ -175,6 +189,7 @@ def main() -> None:
     result = run_audit(
         dataset_path=args.dataset.resolve(),
         model_path=args.model_path.resolve(),
+        model_id=args.model_id,
         output_dir=args.output_dir.resolve(),
         max_tokens=args.max_tokens,
     )

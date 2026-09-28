@@ -82,9 +82,15 @@ mDeBERTaのtoken auditでは、180 pair中80 pair、36ケース中16ケースが
 fail-fastした。local inferenceとGemini baselineは未実行であり、この時点でモデル精度の
 優劣は結論づけない。
 
+後続で8192 tokenのBGE-M3 zero-shot v2.0-cを追加し、同じ全根拠で比較を完了した。Geminiは
+31/36、macro F1 0.862、BGE-M3は6/36、macro F1 0.153だったため、現行Geminiを維持する。
+詳細は[`CLASSIFIER_MODEL_COMPARISON.md`](CLASSIFIER_MODEL_COMPARISON.md)を参照する。
+
 ### Stage B: 保存済み130件
 
 Stage Aで現行Geminiを上回る可能性がある候補だけを適用する。130件にはfactor goldがないため、ここでは最終ラベルと総合回答成功を測る。全候補を130件実行しない。
+
+今回のlocal候補はStage Aで大幅に下回ったため、Stage Bを実行しない。
 
 ## 6. 採用gate
 
