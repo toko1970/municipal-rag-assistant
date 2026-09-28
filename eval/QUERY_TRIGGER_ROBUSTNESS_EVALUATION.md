@@ -43,6 +43,30 @@ Query Decompositionと生成前版注記について、既知質問の改善と�
 最終採用では、別に固定した未使用セットまたはsealed holdoutを使う。sealed holdoutの開封とgold採点は
 別の承認境界とする。
 
+## 検索比較
+
+未知表現の肯定例16件について、同じEmbedding、文書cache、Top 8でDense検索と分解検索を比較した。
+最初の候補は成功4件から9件へ改善したが、subqueryだけで8枠を使い切り、元質問が取得していた
+経過措置を失う退行が3件あった。
+
+質問別例外は追加せず、Top 8の半分をsubquery、残りを元質問へ予約した。再評価では成功が
+4/16から13/16へ改善し、退行は0件になったため検索gateを通過した。Embeddingは初回1 logical call、
+再評価はcache利用で0 call、retry 0、費用上限US$0.001だった。
+
+## 回答比較checkpoint
+
+回答条件を一意に定義できる9件をbaselineと候補で比較する有限runを開始した。最大54 logical calls、
+retry 0、費用上限US$0.10とした。8/18シナリオ終了時にGemini free tierの1分あたり15 request上限で
+429となり、fail-fastした。
+
+- 完了: 8/18シナリオ
+- 中断時点: baseline成功0、候補成功1、改善1、退行0
+- 使用: 15 logical calls、推定US$0.006702
+- 判定: 未完走のため不合格。品質の採否には使用しない
+
+再開時は、新しい出力先を使って全18シナリオを最初から測定する。rate limit回避のための待機を
+評価script内へ暗黙追加せず、run間隔または利用quotaを事前に確認する。
+
 ## 再現コマンド
 
 ```bash
@@ -51,4 +75,8 @@ Query Decompositionと生成前版注記について、既知質問の改善と�
 
 .venv/bin/python -m eval.audit_query_decomposition_corpus \
   --output eval/results/query_trigger_corpus_audit_v1.json
+
+.venv/bin/python -m eval.compare_query_trigger_retrieval \
+  --output-dir eval/results/query_trigger_retrieval_v2 \
+  --max-cost-usd 0.001
 ```

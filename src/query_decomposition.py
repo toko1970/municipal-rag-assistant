@@ -88,12 +88,12 @@ def retrieve_decomposed(
     top_k: int,
     search: Callable[[str, int], list[SearchHit]],
 ) -> list[SearchHit]:
-    """Reserve an equal candidate quota per intent, then fill from the full query."""
+    """Use half the slots for intents and preserve half for the full query."""
     subqueries = decompose_query(question)
     if subqueries == [question]:
         return search(question, top_k)
 
-    per_intent = max(1, math.ceil(top_k / len(subqueries)))
+    per_intent = max(1, math.ceil(top_k / (len(subqueries) * 2)))
     selected: list[SearchHit] = []
     seen = set()
 

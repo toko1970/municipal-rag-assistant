@@ -85,7 +85,7 @@ def test_balances_subquery_results_and_removes_duplicates() -> None:
         search=lambda query, limit: responses[query][:limit],
     )
 
-    assert [hit.element.id for hit in result] == ["A", "B", "C", "D", "E"]
+    assert [hit.element.id for hit in result] == ["A", "B", "D", "F", "G"]
     assert [hit.rank for hit in result] == [1, 2, 3, 4, 5]
 
 
@@ -109,7 +109,7 @@ def test_vector_index_embeds_only_added_subqueries() -> None:
     result = index.search([9.0], limit=4)
 
     assert embedded == [first, second]
-    assert [hit.element.id for hit in result] == ["A1", "A2", "B1", "B2"]
+    assert [hit.element.id for hit in result] == ["A1", "B1", "Q1", "Q2"]
 
 
 def test_vector_index_preserves_single_query_path() -> None:
