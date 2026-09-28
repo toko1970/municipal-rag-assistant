@@ -202,6 +202,8 @@ LLMには独立した自由文回答も最終表示modeも生成させない。�
 
 基準分類器は`gemini-3.1-flash-lite`、temperature 0、JSON Schema固定とする。モデルが利用不能になった場合は設定値を変更し、評価runに実モデル名を残す。Jev等はoracle evidenceとretrieved evidenceの両方で比較し、低確信度（初期値0.80）またはAPI失敗時だけ基準分類器へ1回fallbackする。oracle runでも分類器の出力項目はオンライン時と同じで、`expected_corpus_answerability`は評価基盤が別に保持する。基準分類器自体がtimeout、schema違反、API errorになった場合は`CLASSIFICATION_FAILED`とし、分類付き回答を表示しない。閾値は開発セットで固定し、holdout結果を見て変更しない。
 
+`version_conflict`だけを[`version-resolution-v1.schema.json`](schemas/version-resolution-v1.schema.json)で再判定する専用resolver候補は、切り出しdevelopment評価を通過したがproduction未統合である。統合候補では基準分類器が`version_conflict=true`の場合だけ呼び、成功かつconfidence 0.80以上の場合に限りversion要因だけを置換する。他の4要因は変更せず、失敗・低confidence時は基準分類結果を維持する。採否は同じ130問の回帰後に決める。
+
 JSON Schemaに加え、claim IDとordinalの一意性、ordinalの連続性、引用IDが今回取得したactive世代に属すること、最終ラベルと上記表示規則の整合性をsemantic validatorで確認する。表示本文はvalidator通過後のclaims、classifier factors、固定templateだけから作る。generator/classifierのprovider、model、prompt版はattempt tableへ保存する。
 
 ## 7. 評価の独立性

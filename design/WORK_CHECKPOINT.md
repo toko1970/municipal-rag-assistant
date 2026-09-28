@@ -317,3 +317,5 @@ Cloud Run / local RAG v2差分確認の開始時点は週間枠7%で、表示さ
 ユーザー合意後、`version_conflict`だけを変更する候補promptと17件の比較runnerを実装した。開始時のCodex週間枠は28%でsecondary表示なしだった。17件すべてのTop-8を保存済みrunと同一順序で再現後、最大34 call、retry 0、US$0.10上限で開始したが、最初のGemini callがFree Tier日次500 request上限の429となりfail-fastした。成功call 0、token 0、推定費用US$0で、改善度は未評価である。詳細と再開コマンドは[`VERSION_CONFLICT_PROMPT_EXPERIMENT.md`](../eval/VERSION_CONFLICT_PROMPT_EXPERIMENT.md)を参照する。
 
 日本時間16:05の自動再開で同じ比較を完了した。候補は対象7件中5件を改善したが、controlの`Q206`と`Q211`を2件退行させ、採用gateは不合格だった。34 call、retry 0、API error 0、79,215 input tokens、3,427 output tokens、推定US$0.02494425である。候補は本番へ反映せず、130問回帰にも進めていない。失敗原因は、version規則の追加が同じLLM出力内の`requires_case_facts`にも影響したことにある。
+
+責務を分けた専用Version Resolverを9件で評価した。Round 1はboolean 9/9だったが`Q231`の解決根拠種別が不正確だったため、`single_applicable_source`を追加してRound 2を実施した。Round 2はversion誤検出7/7、真の競合1/1、診断1/1、根拠種別・引用も一致し、API error 0、推定US$0.0080555だった。2 round合計はUS$0.01580275である。条件付き合成は17/17だがproduction未統合であり、次はresolver失敗時fallbackとログを実装して130問回帰を行う。詳細は[`VERSION_RESOLVER_EVALUATION.md`](../eval/VERSION_RESOLVER_EVALUATION.md)を参照する。
