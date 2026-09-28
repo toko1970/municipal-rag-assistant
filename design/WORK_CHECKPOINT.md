@@ -344,3 +344,8 @@ Cloud Run / local RAG v2差分確認の開始時点は週間枠7%で、表示さ
 4k以上のlocal modelかを入力契約・日本語適性・8GB M1の実行可能性で比較し、設計を一つに
 固定する。Gemini baselineはlocal候補と公平に比較できる状態まで実行しない。結果は
 [`token_audit.json`](../eval/results/classifier_model_mdeberta_pilot_v1/token_audit.json)を参照する。
+
+同じ検証で、text sealed holdoutの公開manifestが参照するdevelopment manifestのhashが、
+評価セットv1.2へのgold訂正後もv1.0の値だったため全test 1件が失敗することを発見した。
+sealed内容を開かず、公開manifestの参照hashだけを現行v1.2へ更新した。公開validatorで
+文書family分離を再確認し、sealed holdoutのquestions、gold、状態、採点結果は変更していない。

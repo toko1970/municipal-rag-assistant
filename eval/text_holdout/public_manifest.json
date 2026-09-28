@@ -17,7 +17,7 @@
   },
   "development_manifest": {
     "path": "eval/evaluation_set_manifest.json",
-    "sha256": "58867d06af1359fd8499b8e1ea20380b5569e6d42a66eed7545c2b9e6000a17c"
+    "sha256": "ce5751a4ae50ff347e98c3cc0f714cdc4ea6b1445f445fa05ffa6dbd5b0bdadd"
   },
   "questions": {
     "path": "eval/text_holdout/questions.json",
