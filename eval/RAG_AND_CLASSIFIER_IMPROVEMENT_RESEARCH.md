@@ -85,7 +85,7 @@ Google CloudのRanking APIも、Embedding検索後のchunkを質問への関連�
 | 未確認条件が残る表示境界 | 1 | Q196 | 生成契約＋表示契約 |
 | 図表の類似事例を別事由へ適用する境界 | 1 | VD024 | 分類器＋評価例 |
 
-純粋な分類器比較の直接対象は、まずQ046、Q086、Q126、Q301、Q316、VD024の6件である。Q006、Q076、Q196は、分類器だけを交換するとGeneratorとの契約不整合を隠すおそれがある。
+分類器だけで総合成功へ変わることを高い確度で確認できるのは、Q046、Q086、Q301、Q316の4件である。いずれも必要根拠を取得でき、claimsは個別確認・総合確認・即決不可などを正しく述べている。Q126も回答キーは満たすがgold evidenceの一部がTop-8にないため、検索完全性の論点を残す。VD024は安全な棄却はできているものの、`判断要`と`文書不足`の意味境界にgold disagreementの余地がある。Q006、Q076、Q196は、分類器だけを交換するとGenerator・表示契約との不整合を隠すおそれがある。
 
 ## 5. 分類器側の一般的手法
 
@@ -281,18 +281,31 @@ holdoutを見て閾値を調整しない。dataが少ない段階では、複雑
 - confidenceを使う場合、閾値はholdout前に固定する。
 - provider失敗時のfallbackとログを実装できる。
 
-## 8. 統合した改善優先順位
+## 8. 限界効果に基づく改善優先順位
+
+主原因の件数だけで優先順位を決めない。施策ごとに、次の値を比較する。
+
+```text
+期待効率 = 直接改善が見込める件数 × 成功確度
+           ------------------------------------
+           実装工数 + 評価工数 + API費用 + 退行リスク
+```
+
+これは厳密な金額換算ではなく、候補を同じ観点で比較するためのdecision ruleである。「分類失敗9件」をそのまま分類器の期待改善9件として扱わず、他層を直さず総合成功へ変えられる件数だけを分子に置く。
 
 | 順位 | Work Package | 主対象 | 理由 |
 |---:|---|---|---|
-| 1 | 分類器固定入力比較 | 分類6件 | 最大stageで、Retrieval・Generatorを固定して因果比較できる |
-| 2 | Qdrant Hybrid Search | 検索3件 | 既存基盤を活用し、追加LLMなしで比較できる |
-| 3 | Generator required facets | 生成6件 | 欠落型へ直接対応し、総合成功への上限効果が大きい |
-| 4 | 条件付きQuery Decomposition | 検索multi-document | Hybridで残るcaseだけに限定できる |
-| 5 | Reranking | 検索順位 | candidate recall確保後に効果を測れる |
-| 6 | 矛盾専用検証 | Q391等 | 対象例を追加してから過適合を避ける |
+| 1 | 個別・所管判断専用resolverの小比較 | 高確度4件 | Version Resolverの基盤を再利用でき、生成・検索を変更せず最大4件を直接改善できる |
+| 2 | Qdrant Hybrid Search | 検索3件 | 追加LLM callなしで比較でき、Q291は正解chunkが9位にある |
+| 3 | Generator required facets | 生成の項目欠落3件 | Q066、Q131、VD019へ直接対応できる |
+| 4 | 不足条件の型付け | cross-layer 2件 | Q006、Q076を直せるがSchema・分類・表示の変更を伴う |
+| 5 | 条件付きQuery Decomposition | 検索multi-document | Hybridで残るcaseだけに限定する |
+| 6 | Reranking | 検索順位 | candidate recall確保後に効果を測る |
+| 7 | 単発境界の対策 | Q126、VD024、Q391等 | 追加例を用意してから過適合を避ける |
 
-分類器比較の最初の候補は、現行Gemini、Jev 5 Noul、多言語NLIの3方式とする。Jevは外部APIのaccess、費用、データ条件を確認してから有限runを行う。NLIはlocal pilotで入力長と日本語factor判定が成立するかを先に確認できる。Fine-tuningはfactor goldを持つ独立scenarioが増えるまで開始しない。
+最初から現行Gemini、Jev、多言語NLIを130件すべてで比較すると、integrationと評価の費用に対して直接対象が少ない。最初の実験は既存Geminiを使った個別・所管判断専用resolverを、4件とhard negative controlだけで比較する。既存回答に「個別確認」「総合確認」などの候補信号がある場合だけresolverを呼ぶ構成にすれば、常時二重推論を避けられる。ただし語句だけで最終ラベルを決めず、resolverが質問で求められた結論に未解決判断が残るかを判定する。
+
+小比較がgateを通った候補だけを保存済み130件へ適用する。そこで改善が不十分、退行がある、または条件付きGemini callの運用費が高い場合に、同じresolver入力でJev 5 Noulと多言語NLIを比較する。Jevは外部APIのaccess、費用、データ条件を確認してから有限runを行う。NLIはlocal pilotで入力長と日本語factor判定が成立するかを先に確認できる。Fine-tuningはfactor goldを持つ独立scenarioが増えるまで開始しない。
 
 ## 9. 結論
 
