@@ -106,7 +106,9 @@ gold custodian以外は、候補実装と予測結果の固定が終わるまで
 明示承認後、sealed Markdownだけを初めて候補へ入力する。出力先は新規directoryに限定し、goldはrunnerへ渡さない。
 Gemini Embeddingはbatch内の各contentを100 RPM quotaへ計上するため、30 documentのEmbedding後に
 60秒の計画的cooldownを置いて100 queryを送る。SDK attemptは1回に固定し、429後の自動retryは
-行わない。
+行わない。回答系の無料枠15 RPMにはGenerator、Classifier、Version Resolverで一つのpacerを
+共有し、各callを4.1秒以上離して対応する。provider errorで停止した場合、成功済みpredictionだけを
+hash付きで次runへ引き継ぎ、失敗表現から再開できる。
 
 ```bash
 .venv/bin/python -m eval.run_text_holdout_predictions run \

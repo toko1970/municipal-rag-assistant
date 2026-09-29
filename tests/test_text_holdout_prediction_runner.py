@@ -6,11 +6,13 @@ import pytest
 
 from eval.run_text_holdout_predictions import (
     HoldoutEvaluationLogger,
+    SharedCallPacer,
     _all_query_texts,
     _verify_sealed_documents,
     _logical_calls,
     build_plan,
     freeze_predictions,
+    _write_jsonl,
 )
 
 
@@ -50,6 +52,7 @@ def _candidate() -> dict:
             "retry_count": 0,
             "embedding_sdk_attempts": 1,
             "embedding_phase_cooldown_seconds": 60,
+            "minimum_generative_call_interval_seconds": 4.1,
             "stop_on_provider_error": True,
             "max_logical_external_calls": 8,
             "max_cost_usd": 0.01,
@@ -65,6 +68,7 @@ def test_plan_exposes_bounded_run_without_gold() -> None:
     assert plan["retry_count"] == 0
     assert plan["embedding_sdk_attempts"] == 1
     assert plan["embedding_phase_cooldown_seconds"] == 60
+    assert plan["minimum_generative_call_interval_seconds"] == 4.1
     assert plan["gold_available_to_runner"] is False
 
 
@@ -125,3 +129,27 @@ def test_logical_call_count_includes_conditional_resolver() -> None:
     logger.classification_attempts = [{"status": "SUCCESS"}, {"status": "SUCCESS"}]
 
     assert _logical_calls(logger) == 3
+
+
+def test_jsonl_writer_serializes_uuid(tmp_path: Path) -> None:
+    from uuid import UUID
+
+    path = tmp_path / "records.jsonl"
+    _write_jsonl(path, [{"element_id": UUID(int=0)}])
+
+    assert '"element_id": "00000000-0000-0000-0000-000000000000"' in path.read_text()
+
+
+def test_call_pacer_waits_for_remaining_interval(monkeypatch) -> None:
+    clock = iter((10.0, 12.0, 14.1))
+    sleeps = []
+    monkeypatch.setattr(
+        "eval.run_text_holdout_predictions.time.monotonic", lambda: next(clock)
+    )
+    monkeypatch.setattr("eval.run_text_holdout_predictions.time.sleep", sleeps.append)
+    pacer = SharedCallPacer(4.1)
+
+    pacer.wait()
+    pacer.wait()
+
+    assert sleeps == pytest.approx([2.1])

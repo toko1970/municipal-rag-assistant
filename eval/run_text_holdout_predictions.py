@@ -51,6 +51,41 @@ EMBEDDING_COST_RESERVE_USD = 0.005
 
 
 @dataclass
+class SharedCallPacer:
+    minimum_interval_seconds: float
+    last_call_started: float | None = None
+
+    def wait(self) -> None:
+        if self.last_call_started is not None:
+            remaining = self.minimum_interval_seconds - (
+                time.monotonic() - self.last_call_started
+            )
+            if remaining > 0:
+                time.sleep(remaining)
+        self.last_call_started = time.monotonic()
+
+
+class PacedProvider:
+    """Apply one shared RPM-safe interval across all Gemini answer calls."""
+
+    def __init__(self, provider: GeminiProvider, pacer: SharedCallPacer) -> None:
+        self.provider = provider
+        self.pacer = pacer
+        self.provider_name = provider.provider_name
+        self.model = provider.model
+
+    def generate_structured(self, prompt: str, schema: dict):
+        self.pacer.wait()
+        return self.provider.generate_structured(prompt, schema)
+
+    def generate_structured_with_media(self, prompt: str, schema: dict, *, media):
+        self.pacer.wait()
+        return self.provider.generate_structured_with_media(
+            prompt, schema, media=media
+        )
+
+
+@dataclass
 class HoldoutEvaluationLogger(EvaluationLogger):
     """Retain every classifier/resolver attempt for exact call accounting."""
 
@@ -78,11 +113,19 @@ def _write_json(path: Path, value: Any) -> None:
 def _write_jsonl(path: Path, records: list[dict[str, Any]]) -> None:
     path.write_text(
         "".join(
-            json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n"
+            json.dumps(record, ensure_ascii=False, sort_keys=True, default=str) + "\n"
             for record in records
         ),
         encoding="utf-8",
     )
+
+
+def _read_jsonl(path: Path) -> list[dict[str, Any]]:
+    return [
+        json.loads(line)
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
 
 
 def _sha256(path: Path) -> str:
@@ -147,6 +190,8 @@ def build_plan(
         raise ValueError("embedding SDKは初回を含む1 attemptに固定します")
     if policy["embedding_phase_cooldown_seconds"] < 60:
         raise ValueError("100 RPM quota向けcooldownは60秒以上必要です")
+    if policy["minimum_generative_call_interval_seconds"] < 4:
+        raise ValueError("15 RPM quota向け生成call間隔は4秒以上必要です")
     expressions = _expressions(questions)
     if len(expressions) != manifest["questions"]["expression_count"]:
         raise ValueError("公開質問の表現数がmanifestと一致しません")
@@ -165,6 +210,9 @@ def build_plan(
         "embedding_sdk_attempts": policy["embedding_sdk_attempts"],
         "embedding_phase_cooldown_seconds": policy[
             "embedding_phase_cooldown_seconds"
+        ],
+        "minimum_generative_call_interval_seconds": policy[
+            "minimum_generative_call_interval_seconds"
         ],
         "max_cost_usd": policy["max_cost_usd"],
         "stop_on_provider_error": policy["stop_on_provider_error"],
@@ -237,6 +285,8 @@ def _stop_before_predictions(
     stage: str,
     error: Exception,
     code_level_embedding_calls: int,
+    carried_logical_calls: int,
+    carried_cost_usd: float,
 ) -> dict[str, Any]:
     error_text = f"{type(error).__name__}: {error}"
     summary = {
@@ -250,10 +300,15 @@ def _stop_before_predictions(
         "prediction_count": 0,
         "success_count": 0,
         "failure_count": 0,
-        "logical_external_calls": code_level_embedding_calls,
+        "logical_external_calls": code_level_embedding_calls
+        + carried_logical_calls,
+        "current_run_logical_external_calls": code_level_embedding_calls,
+        "carried_logical_calls": carried_logical_calls,
         "input_tokens": 0,
         "output_tokens": 0,
         "cost_usd": 0.0,
+        "carried_cost_usd": carried_cost_usd,
+        "estimated_total_cost_usd": carried_cost_usd,
         "sealed_gold_opened": False,
         "predictions_frozen": False,
         "error": error_text[:4000],
@@ -270,6 +325,9 @@ def run_predictions(
     questions_path: Path,
     sealed_documents_dir: Path,
     output_dir: Path,
+    carried_logical_calls: int = 0,
+    carried_cost_usd: float = 0.0,
+    resume_predictions_path: Path | None = None,
 ) -> dict[str, Any]:
     if output_dir.exists():
         raise FileExistsError(f"評価出力は上書きしません: {output_dir}")
@@ -277,6 +335,12 @@ def run_predictions(
     candidate = _read_json(candidate_path)
     questions = _read_json(questions_path)
     plan = build_plan(manifest, candidate, questions)
+    if carried_logical_calls < 0 or carried_cost_usd < 0:
+        raise ValueError("carryoverは0以上で指定してください")
+    if carried_logical_calls >= plan["max_logical_external_calls"]:
+        raise ValueError("carryoverがlogical call上限以上です")
+    if carried_cost_usd >= plan["max_cost_usd"]:
+        raise ValueError("carryoverが費用上限以上です")
     paths = _verify_sealed_documents(manifest, sealed_documents_dir)
     expressions = _expressions(questions)
 
@@ -293,6 +357,16 @@ def run_predictions(
         "questions_sha256": _sha256(questions_path),
         "sealed_document_hashes_verified": True,
         "sealed_gold_opened": False,
+        "carried_logical_calls": carried_logical_calls,
+        "carried_cost_usd": carried_cost_usd,
+        "resume_predictions_path": (
+            _portable_path(resume_predictions_path)
+            if resume_predictions_path
+            else None
+        ),
+        "resume_predictions_sha256": (
+            _sha256(resume_predictions_path) if resume_predictions_path else None
+        ),
         **plan,
     }
     _write_json(output_dir / "run_manifest.json", run_manifest)
@@ -311,6 +385,8 @@ def run_predictions(
             stage="DOCUMENT_EMBEDDING",
             error=error,
             code_level_embedding_calls=1,
+            carried_logical_calls=carried_logical_calls,
+            carried_cost_usd=carried_cost_usd,
         )
     # Gemini counts each embedded content against the per-minute quota even when
     # this client issued one batch call. This planned pause separates the 30
@@ -329,6 +405,8 @@ def run_predictions(
             stage="QUERY_EMBEDDING",
             error=error,
             code_level_embedding_calls=2,
+            carried_logical_calls=carried_logical_calls,
+            carried_cost_usd=carried_cost_usd,
         )
     vectors = dict(zip(query_texts, query_vectors, strict=True))
 
@@ -341,9 +419,10 @@ def run_predictions(
 
     generator_model = candidate["pipeline"]["generation"]["model"]
     classifier_model = candidate["pipeline"]["classification"]["model"]
-    generator = _provider(generator_model)
-    classifier = _provider(classifier_model)
-    resolver = _provider(classifier_model)
+    pacer = SharedCallPacer(plan["minimum_generative_call_interval_seconds"])
+    generator = PacedProvider(_provider(generator_model), pacer)
+    classifier = PacedProvider(_provider(classifier_model), pacer)
+    resolver = PacedProvider(_provider(classifier_model), pacer)
     top_k = int(candidate["pipeline"]["retrieval"]["top_k"])
     threshold = float(
         candidate["pipeline"]["classification"]["version_resolver"][
@@ -352,14 +431,29 @@ def run_predictions(
     )
 
     records: list[dict[str, Any]] = []
+    if resume_predictions_path is not None:
+        for record in _read_jsonl(resume_predictions_path):
+            if record.get("status") == "SUCCESS":
+                records.append({**record, "execution_source": "RESUMED_SUCCESS"})
+    completed_keys = {
+        (record["scenario_id"], record["variant_type"]) for record in records
+    }
+    if len(completed_keys) != len(records):
+        raise ValueError("resume predictionに重複があります")
+    if records:
+        _write_jsonl(output_dir / "predictions.jsonl", records)
     total_input_tokens = 0
     total_output_tokens = 0
-    logical_calls = 2
+    logical_calls = 2 + carried_logical_calls
     stop_reason = "COMPLETED"
     for expression in expressions:
+        key = (expression["scenario_id"], expression["variant_type"])
+        if key in completed_keys:
+            continue
         current_cost = (
             token_cost_usd(total_input_tokens, total_output_tokens)
             + EMBEDDING_COST_RESERVE_USD
+            + carried_cost_usd
         )
         if current_cost + RESERVE_USD_PER_EXPRESSION > plan["max_cost_usd"]:
             stop_reason = "COST_LIMIT_REACHED"
@@ -401,6 +495,7 @@ def run_predictions(
         records.append(
             {
                 **expression,
+                "execution_source": "CURRENT_RUN",
                 "status": "SUCCESS" if result else "FAILED",
                 "answer_label": result["answer_label"] if result else None,
                 "answer": result["answer"] if result else None,
@@ -427,6 +522,9 @@ def run_predictions(
         "success_count": sum(record["status"] == "SUCCESS" for record in records),
         "failure_count": sum(record["status"] == "FAILED" for record in records),
         "logical_external_calls": logical_calls,
+        "current_run_logical_external_calls": logical_calls
+        - carried_logical_calls,
+        "carried_logical_calls": carried_logical_calls,
         "input_tokens": total_input_tokens,
         "output_tokens": total_output_tokens,
         "cost_usd": token_cost_usd(total_input_tokens, total_output_tokens),
@@ -434,7 +532,9 @@ def run_predictions(
         "estimated_total_cost_usd": (
             token_cost_usd(total_input_tokens, total_output_tokens)
             + EMBEDDING_COST_RESERVE_USD
+            + carried_cost_usd
         ),
+        "carried_cost_usd": carried_cost_usd,
         "sealed_gold_opened": False,
         "predictions_sha256": _sha256(output_dir / "predictions.jsonl"),
         "completed_at": datetime.now(UTC).isoformat(),
@@ -461,6 +561,10 @@ def freeze_predictions(
     keys = {(row["scenario_id"], row["variant_type"]) for row in records}
     if len(records) != expected or len(keys) != expected:
         raise ValueError("predictionは100件の一意な表現である必要があります")
+    if any(record.get("status") != "SUCCESS" for record in records):
+        raise ValueError("失敗を含むpredictionはfreezeできません")
+    if summary.get("success_count") != expected or summary.get("failure_count") != 0:
+        raise ValueError("summaryが100件成功を示していません")
     manifest["state"] = "PREDICTIONS_FROZEN"
     manifest["predictions"] = {
         "run_id": summary["run_id"],
@@ -485,6 +589,9 @@ def main() -> int:
     run_parser.add_argument("--questions", type=Path, default=DEFAULT_QUESTIONS)
     run_parser.add_argument("--sealed-documents-dir", type=Path, required=True)
     run_parser.add_argument("--output-dir", type=Path, required=True)
+    run_parser.add_argument("--carried-logical-calls", type=int, default=0)
+    run_parser.add_argument("--carried-cost-usd", type=float, default=0.0)
+    run_parser.add_argument("--resume-predictions", type=Path)
     freeze_parser = subparsers.add_parser("freeze")
     freeze_parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     freeze_parser.add_argument("--predictions", type=Path, required=True)
@@ -513,6 +620,9 @@ def main() -> int:
         questions_path=args.questions,
         sealed_documents_dir=args.sealed_documents_dir,
         output_dir=args.output_dir,
+        carried_logical_calls=args.carried_logical_calls,
+        carried_cost_usd=args.carried_cost_usd,
+        resume_predictions_path=args.resume_predictions,
     )
     print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
     return 0 if summary["stop_reason"] == "COMPLETED" else 1

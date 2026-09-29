@@ -1,0 +1,15 @@
+{
+  "completed_at": "2026-09-29T03:59:56.785274+00:00",
+  "error_type": "UUID_NOT_JSON_SERIALIZABLE",
+  "external_calls_max": 5,
+  "external_calls_min": 4,
+  "failed_stage": "FIRST_PREDICTION_WRITE",
+  "prediction_count_frozen": 0,
+  "predictions_frozen": false,
+  "reserved_carryover_cost_usd": 0.002,
+  "reserved_carryover_logical_calls": 5,
+  "run_id": "text-holdout-v1-20260929T035810Z",
+  "sealed_documents_opened": true,
+  "sealed_gold_opened": false,
+  "stop_reason": "LOCAL_ARTIFACT_SERIALIZATION_ERROR"
+}

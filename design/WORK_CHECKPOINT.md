@@ -507,3 +507,14 @@ prediction 0件、Generator・Classifier call 0、gold未開封で、追加run�
 実行制御である。候補configのhashだけを更新し、source candidate commit、モデル、chunk、検索、
 prompt、Top-Kは維持した。次の最小手順は、新しい出力先を使う再run条件について明示承認を得る
 こと。初回失敗出力は上書きせず、goldも引き続き開かない。
+
+修正後runはEmbedding quotaを通過し、保存時のUUID変換漏れを発見して停止した。保存処理を修正し、
+前試行の最大5 calls・US$0.002をcarryoverとして累計上限から控除した。次のrunは8表現成功後、
+TH005 formalのGeneratorで`generate_content_free_tier_requests` 15 RPMに達して429 fail-fastした。
+累計24 logical calls、推定US$0.01415925、gold未開封で、100予測は未固定である。
+
+追加調査結果に合わせ、Generator・Classifier・Version Resolverで共有する4.1秒間隔pacerを追加した。
+成功済み8 predictionだけを次の新規runへ引き継ぎ、provider失敗recordは再実行対象とする。次回は
+carryover 24 calls・US$0.01415925から開始するため、最悪でも累計302 calls・US$0.15を超えない。
+また、100件すべてがSUCCESSでない限り`PREDICTIONS_FROZEN`へ進めない検査を追加した。品質設定と
+goldは変更・参照していない。次の最小手順は、このpacing・resume条件での追加run承認を得ること。
