@@ -557,3 +557,10 @@ paraphraseで再びGemini 503 `high demand`となりfail-fastした。v8は56 pr
 候補失敗2、provider失敗1）、carryover込み136 logical calls、推定US$0.08829025、gold未開封で
 ある。成功と候補失敗の固定は維持されており、次runの再実行対象はTH028のprovider失敗だけである。
 同時刻の連続実行は避け、provider負荷が落ち着いてから再開する。
+
+時間を置いたv9はTH028の503を成功へ変え、追加で12件進んだ後、TH034 paraphraseのGeneratorで
+Gemini 503 `high demand`となりfail-fastした。v9は68 prediction（成功65、候補失敗2、provider
+失敗1）、carryover込み163 logical calls、推定US$0.10529775、gold未開封である。provider
+高負荷中の短時間runを重ねると各runのEmbedding費用を消費するため、次は時間を十分に空け、成功65件
+と候補失敗2件を引き継いでTH034のprovider失敗だけを再実行する。残り32表現を各最大3 callsで処理
+しても累計261 callsで302上限内だが、費用は最悪見積りでUS$0.15に近いため追加runは1回を基本とする。
