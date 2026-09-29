@@ -623,3 +623,13 @@ safe fallbackは監査用status付きで維持し、typed v2は実験artifactだ
 [`ANSWER_CONTRACT_V2_SCOPE_REFINEMENT.md`](../eval/ANSWER_CONTRACT_V2_SCOPE_REFINEMENT.md)を参照する。
 次の最小手順は全ローカル回帰とintegration smokeを確定し、日付route用の小さい未知表現holdoutを
 設計すること。production deploy、sealed holdout開封は実施していない。
+
+日付route判定を、保存済みQuality streakとversioned experimentを組み合わせたbounded loopで
+再評価した。開始時のCodex利用率は50%、対象は`should_use_deadline_calculation()`、最大2修正round、
+外部API 0回と固定した。baselineは20件中11件、適合率54.5%、再現率60.0%で、ISO日付等の
+false negative 4件と、営業日・一般ルール等のfalse positive 5件が見つかった。
+
+第1 roundで、対応日付形式、起算日の明示、具体期限の意図、未対応calendarの除外を一般条件として
+実装した。開発20/20、凍結acceptance 12/12となり、追加修正せず停止した。Gemini・Embedding・
+cloud呼び出しは0、推定API費用US$0。acceptanceはsealed holdoutではなく、実行後に回帰testへ
+昇格した。詳細は[`DEADLINE_ROUTE_LOOP.md`](../eval/DEADLINE_ROUTE_LOOP.md)を参照する。

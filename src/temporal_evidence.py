@@ -211,15 +211,45 @@ def build_answer_contract_v2_prompt(
 
 
 def should_use_deadline_calculation(question: str) -> bool:
-    has_date = bool(
-        re.search(r"\d{4}年\d{1,2}月\d{1,2}日", question)
-        or re.search(r"\d{4}/\d{1,2}/\d{1,2}", question)
+    date_pattern = r"(?:\d{4}年\d{1,2}月\d{1,2}日|\d{4}[/-]\d{1,2}[/-]\d{1,2})"
+    if not re.search(date_pattern, question):
+        return False
+
+    unsupported_calendar = (
+        "営業日",
+        "開庁日",
+        "閉庁日",
+        "休日を除",
+        "土日を除",
     )
-    asks_deadline = any(
-        phrase in question
-        for phrase in ("期限", "締切", "いつまで", "具体的な日付", "何日まで")
+    if any(phrase in question for phrase in unsupported_calendar):
+        return False
+
+    anchor_after_date = re.search(
+        rf"{date_pattern}(?:に|から|を起算日|を基準日)", question
     )
-    return has_date and asks_deadline
+    named_anchor_before_date = re.search(
+        rf"(?:受験日|申請日|受理日|利用開始日|採用日|届出日|起算日|基準日|発生日)"
+        rf"(?:は|が|：|:)\s*{date_pattern}",
+        question,
+    )
+    if not anchor_after_date and not named_anchor_before_date:
+        return False
+
+    concrete_deadline_phrases = (
+        "期限日",
+        "締切日",
+        "締め切り日",
+        "提出日",
+        "提出期日",
+        "期限となる日",
+        "何日まで",
+        "いつまで",
+        "具体的な日付",
+        "具体的な期限日",
+        "暦の上ではいつ",
+    )
+    return any(phrase in question for phrase in concrete_deadline_phrases)
 
 
 def build_deadline_calculation_prompt(
