@@ -12,7 +12,7 @@
 ```mermaid
 flowchart LR
     USER["給与事務担当者<br/>制度・手続きを質問"] --> UI["Streamlit<br/>質問・回答・根拠を表示"]
-    ADMIN["制度・文書管理者<br/>規程・通知・図表を登録・確認"] --> DOCS["PostgreSQL / GCS<br/>文書・版・図表の正本"]
+    ADMIN["制度・文書管理者<br/>抽出候補を確認"] --> DOCS["PostgreSQL / GCS<br/>文書・版・レビュー済み図表"]
     UI --> RAG["AIが担当<br/>検索・回答生成・回答分類"]
     DOCS --> INDEX["Qdrant<br/>検索用index"]
     INDEX --> RAG
@@ -23,7 +23,7 @@ flowchart LR
 ```
 
 - **利用者**: 各所属の給与事務担当者。制度や届出方法を自然文で質問する。
-- **文書管理者**: 制度所管部署。文書の版、取込結果、図表抽出を確認する。
+- **文書管理者**: 制度所管部署を想定。現状はCLIで図表抽出を確認し、レビュー済みデータだけを登録する。
 - **AI**: 関連する文書・節を検索し、根拠に沿った回答案と回答分類を作る。
 - **人が担う判断**: 個別事情や制度解釈が必要な場合は、AIが断定せず担当部署での確認につなげる。
 
@@ -42,7 +42,7 @@ flowchart LR
 
 ## 実装した機能
 
-- Markdown文書、PDF内の表・フローチャートを検索対象として管理
+- Markdown文書と、事前レビュー済みの架空PDF図表6件を検索対象として管理
 - 文書名と見出し階層を加えたEmbeddingとQdrant Top-8検索
 - Gemini 3.1 Flash-Liteによる根拠付き構造化回答
 - `根拠十分`、`判断要`、`文書不足`の回答分類
@@ -62,9 +62,10 @@ flowchart LR
 | Top-k影響8問 | 必須内容一致 6/8 → 8/8 | 費用増を確認した上でTop-8を採用 |
 | 開発用End-to-End 130問 | 総合成功 117/130 → 120/130、退行0 | Query Decompositionと版処理を対象限定で採用 |
 | Sealed text holdout 100表現 | 総合成功83/100、検索100/100 | 分類の過剰な慎重さと期限計算を次の課題として特定 |
+| Holdout後の日付改善 | 新規表現4/4、既存120/130は影響なし | 対象限定の効果を確認。2回目のText holdoutは未実施 |
 | Sealed visual holdout 10問 | End-to-End 70%、分類70% | 事前の分類閾値80%に届かず不合格として記録 |
 
-`Recall@3`は、正解として定めた文書・根拠が検索上位3件以内に含まれた質問の割合です。複数根拠が必要な質問は、すべて取得できた場合だけ成功とします。詳しい定義、フェーズ別の施策、失敗例は[評価レポート案内](eval/reports/README.md)にまとめています。
+`Recall@3`は、正解として定めた文書・根拠が検索上位3件以内に含まれた質問の割合です。複数根拠が必要な質問は、すべて取得できた場合だけ成功とします。詳しい定義、改善手法を選んだ理由、失敗例、未完了事項は[評価レポート案内](eval/reports/README.md)にまとめています。
 
 ## 技術選定
 
@@ -151,7 +152,7 @@ rag-portfolio-app/
 ├── docs/                     # RAGが検索する架空の制度文書5件
 ├── scripts/                  # 取込、接続確認、RAG v2管理コマンド
 ├── eval/                     # 評価set、runner、詳細な実験記録
-│   ├── reports/              # 初見向けのフェーズ別評価サマリー
+│   ├── reports/              # 精度改善の流れと図表RAGの実装境界
 │   ├── results/              # CSV・JSONLなどの機械可読artifact
 │   ├── text_holdout/         # Text sealed holdoutの契約とmanifest
 │   └── visual_holdout_v2/    # 図表sealed holdoutの契約とmanifest
@@ -175,15 +176,16 @@ rag-portfolio-app/
 | 評価指標と改善の流れ | [評価レポート案内](eval/reports/README.md) |
 | RAG全体の処理設計 | [技術設計](design/TECHNICAL_DESIGN.md) |
 | PostgreSQLとQdrantの責務 | [データモデル](design/DATA_MODEL.md) |
-| 精度改善の採否と費用 | [意思決定レポート](eval/ACCURACY_IMPROVEMENT_DECISION_REPORT.md) |
-| 図表RAGの受入結果 | [Visual holdout v2](eval/VISUAL_HOLDOUT_V2_RESULT.md) |
+| 精度改善の原因・手法・採否 | [精度改善の流れ](eval/reports/ACCURACY_IMPROVEMENT.md) |
+| 図表機能の実装済み・未実装範囲 | [図表RAGの実装状況](eval/reports/VISUAL_RAG_STATUS.md) |
 | Cloud Run・Cloud SQL・CI/CD | [公開RAG v2デプロイ記録](design/CLOUD_RAG_V2_DEPLOYMENT_PLAN.md) |
 | 現在の制約と再開地点 | [作業checkpoint](design/WORK_CHECKPOINT.md) |
 
 ## 現時点の限界
 
 - 公開デモはポートフォリオ規模であり、本番相当の可用性・SLAを保証しない。
-- Sealed text holdoutでは、検索後の回答分類と複数文書・版境界に課題が残った。
+- Sealed text holdoutでは、検索後の回答分類と複数文書・版境界に課題が残った。対象限定の日付改善後も、2回目のText sealed holdoutは未実施である。
+- PDF・図表機能はレビュー済みfixtureによるvertical sliceであり、任意PDFのアップロード・レビュー画面は未実装である。
 - 図表holdoutは分類精度の事前閾値に届いておらず、受入不合格として記録している。
 - 具体期限の決定的計算は対象を限定しており、和暦、相対日付、営業日・休日計算は未対応である。
 - 評価値は架空文書と各評価セットに対する結果であり、未知の自治体文書全般への性能を意味しない。
