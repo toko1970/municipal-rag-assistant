@@ -564,3 +564,11 @@ Gemini 503 `high demand`となりfail-fastした。v9は68 prediction（成功65
 高負荷中の短時間runを重ねると各runのEmbedding費用を消費するため、次は時間を十分に空け、成功65件
 と候補失敗2件を引き継いでTH034のprovider失敗だけを再実行する。残り32表現を各最大3 callsで処理
 しても累計261 callsで302上限内だが、費用は最悪見積りでUS$0.15に近いため追加runは1回を基本とする。
+
+Gemini公式の503対応に合わせ、retry 0契約を明示的なbounded retryへ改定した。SDK内部retryは無効の
+まま、503 `UNAVAILABLE/high demand`だけを初回後に最大2回、5.1秒・10.2秒の指数待機と最大1秒の
+jitterで再試行する。429、入力不備、候補pipeline失敗は再試行しない。全attemptを302 calls上限へ
+数え、上限到達時は未完了表現を候補失敗として記録せず停止する。候補の検索・prompt・モデル・出力は
+変更していない。非integration 308件、Ruff、plan、公開manifest validatorが成功し、goldは未開封。
+参考: https://ai.google.dev/gemini-api/docs/troubleshooting および
+https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/api-errors

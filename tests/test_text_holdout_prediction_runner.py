@@ -5,7 +5,9 @@ from pathlib import Path
 import pytest
 
 from eval.run_text_holdout_predictions import (
+    ExternalCallBudget,
     HoldoutEvaluationLogger,
+    PacedProvider,
     SharedCallPacer,
     _all_query_texts,
     _failure_type,
@@ -50,7 +52,11 @@ def _candidate() -> dict:
         "sealed_holdout_accessed": False,
         "execution_policy": {
             "gold_available_to_runner": False,
-            "retry_count": 0,
+            "retry_count": 2,
+            "retryable_status_codes": [503],
+            "retry_backoff_initial_seconds": 5.1,
+            "retry_backoff_max_seconds": 10.2,
+            "retry_jitter_max_seconds": 1.0,
             "embedding_sdk_attempts": 1,
             "embedding_phase_cooldown_seconds": 60,
             "minimum_generative_call_interval_seconds": 5.1,
@@ -66,7 +72,7 @@ def test_plan_exposes_bounded_run_without_gold() -> None:
 
     assert plan["expression_count"] == 2
     assert plan["max_logical_external_calls"] == 8
-    assert plan["retry_count"] == 0
+    assert plan["retry_count"] == 2
     assert plan["embedding_sdk_attempts"] == 1
     assert plan["embedding_phase_cooldown_seconds"] == 60
     assert plan["minimum_generative_call_interval_seconds"] == 5.1
@@ -213,3 +219,69 @@ def test_freeze_accepts_candidate_failure_as_scored_execution_failure(
     )
 
     assert frozen["state"] == "PREDICTIONS_FROZEN"
+
+
+def test_paced_provider_retries_only_503_with_exponential_backoff(
+    monkeypatch,
+) -> None:
+    class Provider:
+        provider_name = "gemini"
+        model = "test"
+
+        def __init__(self) -> None:
+            self.calls = 0
+
+        def generate_structured(self, prompt, schema):
+            self.calls += 1
+            if self.calls < 3:
+                raise RuntimeError("503 UNAVAILABLE high demand")
+            return "ok"
+
+    sleeps = []
+    monkeypatch.setattr("eval.run_text_holdout_predictions.time.sleep", sleeps.append)
+    monkeypatch.setattr(
+        "eval.run_text_holdout_predictions.random.uniform", lambda _low, _high: 0.5
+    )
+    provider = Provider()
+    wrapper = PacedProvider(
+        provider,
+        SharedCallPacer(0),
+        ExternalCallBudget(3),
+        max_retries=2,
+        backoff_initial_seconds=5.1,
+        backoff_max_seconds=10.2,
+        jitter_max_seconds=1.0,
+    )
+
+    assert wrapper.generate_structured("prompt", {}) == "ok"
+    assert wrapper.attempt_count == 3
+    assert wrapper.retry_count == 2
+    assert sleeps == pytest.approx([5.6, 10.7])
+
+
+def test_paced_provider_does_not_retry_429(monkeypatch) -> None:
+    class Provider:
+        provider_name = "gemini"
+        model = "test"
+
+        def generate_structured(self, prompt, schema):
+            raise RuntimeError("429 RESOURCE_EXHAUSTED quota")
+
+    sleeps = []
+    monkeypatch.setattr("eval.run_text_holdout_predictions.time.sleep", sleeps.append)
+    wrapper = PacedProvider(
+        Provider(),
+        SharedCallPacer(0),
+        ExternalCallBudget(3),
+        max_retries=2,
+        backoff_initial_seconds=5.1,
+        backoff_max_seconds=10.2,
+        jitter_max_seconds=1.0,
+    )
+
+    with pytest.raises(RuntimeError, match="429"):
+        wrapper.generate_structured("prompt", {})
+
+    assert wrapper.attempt_count == 1
+    assert wrapper.retry_count == 0
+    assert sleeps == []

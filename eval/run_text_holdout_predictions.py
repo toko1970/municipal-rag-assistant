@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import random
 import time
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
@@ -65,23 +66,79 @@ class SharedCallPacer:
         self.last_call_started = time.monotonic()
 
 
-class PacedProvider:
-    """Apply one shared RPM-safe interval across all Gemini answer calls."""
+class CallLimitReached(RuntimeError):
+    pass
 
-    def __init__(self, provider: GeminiProvider, pacer: SharedCallPacer) -> None:
+
+@dataclass
+class ExternalCallBudget:
+    max_attempts: int
+    attempts: int = 0
+
+    def consume(self) -> None:
+        if self.attempts >= self.max_attempts:
+            raise CallLimitReached("logical external call上限に達しました")
+        self.attempts += 1
+
+
+class PacedProvider:
+    """Pace calls and retry only transient 503s with bounded backoff."""
+
+    def __init__(
+        self,
+        provider: GeminiProvider,
+        pacer: SharedCallPacer,
+        call_budget: ExternalCallBudget,
+        *,
+        max_retries: int,
+        backoff_initial_seconds: float,
+        backoff_max_seconds: float,
+        jitter_max_seconds: float,
+    ) -> None:
         self.provider = provider
         self.pacer = pacer
+        self.call_budget = call_budget
+        self.max_retries = max_retries
+        self.backoff_initial_seconds = backoff_initial_seconds
+        self.backoff_max_seconds = backoff_max_seconds
+        self.jitter_max_seconds = jitter_max_seconds
         self.provider_name = provider.provider_name
         self.model = provider.model
+        self.attempt_count = 0
+        self.retry_count = 0
+
+    @staticmethod
+    def _retryable_503(error: Exception) -> bool:
+        text = f"{type(error).__name__}: {error}".upper()
+        return "503" in text and ("UNAVAILABLE" in text or "HIGH DEMAND" in text)
+
+    def _call(self, operation):
+        for retry_index in range(self.max_retries + 1):
+            if retry_index:
+                delay = min(
+                    self.backoff_initial_seconds * (2 ** (retry_index - 1)),
+                    self.backoff_max_seconds,
+                ) + random.uniform(0, self.jitter_max_seconds)
+                time.sleep(delay)
+                self.retry_count += 1
+            self.pacer.wait()
+            self.call_budget.consume()
+            self.attempt_count += 1
+            try:
+                return operation()
+            except Exception as error:
+                if retry_index >= self.max_retries or not self._retryable_503(error):
+                    raise
+        raise AssertionError("retry loop must return or raise")
 
     def generate_structured(self, prompt: str, schema: dict):
-        self.pacer.wait()
-        return self.provider.generate_structured(prompt, schema)
+        return self._call(lambda: self.provider.generate_structured(prompt, schema))
 
     def generate_structured_with_media(self, prompt: str, schema: dict, *, media):
-        self.pacer.wait()
-        return self.provider.generate_structured_with_media(
-            prompt, schema, media=media
+        return self._call(
+            lambda: self.provider.generate_structured_with_media(
+                prompt, schema, media=media
+            )
         )
 
 
@@ -184,8 +241,20 @@ def build_plan(
         raise ValueError("candidateはsealed holdout未参照で固定する必要があります")
     if policy["gold_available_to_runner"] is not False:
         raise ValueError("prediction runnerへgoldを渡すことは禁止です")
-    if policy["retry_count"] != 0 or not policy["stop_on_provider_error"]:
-        raise ValueError("retry 0 / provider error fail-fastが必要です")
+    if policy["retry_count"] not in {0, 1, 2} or not policy["stop_on_provider_error"]:
+        raise ValueError("retryは最大2回 / provider error fail-fastが必要です")
+    if policy["retry_count"]:
+        if policy["retryable_status_codes"] != [503]:
+            raise ValueError("holdout retryは503だけに限定します")
+        if policy["retry_backoff_initial_seconds"] < 1:
+            raise ValueError("retry backoff初期待機は1秒以上必要です")
+        if (
+            policy["retry_backoff_max_seconds"]
+            < policy["retry_backoff_initial_seconds"]
+        ):
+            raise ValueError("retry backoff上限は初期待機以上が必要です")
+        if policy["retry_jitter_max_seconds"] <= 0:
+            raise ValueError("retry jitterは正数が必要です")
     if policy["embedding_sdk_attempts"] != 1:
         raise ValueError("embedding SDKは初回を含む1 attemptに固定します")
     if policy["embedding_phase_cooldown_seconds"] < 60:
@@ -207,6 +276,12 @@ def build_plan(
         "version_resolution_calls_max": len(expressions),
         "max_logical_external_calls": policy["max_logical_external_calls"],
         "retry_count": policy["retry_count"],
+        "retryable_status_codes": policy.get("retryable_status_codes", []),
+        "retry_backoff_initial_seconds": policy.get(
+            "retry_backoff_initial_seconds", 0
+        ),
+        "retry_backoff_max_seconds": policy.get("retry_backoff_max_seconds", 0),
+        "retry_jitter_max_seconds": policy.get("retry_jitter_max_seconds", 0),
         "embedding_sdk_attempts": policy["embedding_sdk_attempts"],
         "embedding_phase_cooldown_seconds": policy[
             "embedding_phase_cooldown_seconds"
@@ -430,9 +505,21 @@ def run_predictions(
     generator_model = candidate["pipeline"]["generation"]["model"]
     classifier_model = candidate["pipeline"]["classification"]["model"]
     pacer = SharedCallPacer(plan["minimum_generative_call_interval_seconds"])
-    generator = PacedProvider(_provider(generator_model), pacer)
-    classifier = PacedProvider(_provider(classifier_model), pacer)
-    resolver = PacedProvider(_provider(classifier_model), pacer)
+    call_budget = ExternalCallBudget(
+        max_attempts=plan["max_logical_external_calls"]
+        - carried_logical_calls
+        - 2
+    )
+    provider_options = {
+        "call_budget": call_budget,
+        "max_retries": plan["retry_count"],
+        "backoff_initial_seconds": plan["retry_backoff_initial_seconds"],
+        "backoff_max_seconds": plan["retry_backoff_max_seconds"],
+        "jitter_max_seconds": plan["retry_jitter_max_seconds"],
+    }
+    generator = PacedProvider(_provider(generator_model), pacer, **provider_options)
+    classifier = PacedProvider(_provider(classifier_model), pacer, **provider_options)
+    resolver = PacedProvider(_provider(classifier_model), pacer, **provider_options)
     top_k = int(candidate["pipeline"]["retrieval"]["top_k"])
     threshold = float(
         candidate["pipeline"]["classification"]["version_resolver"][
@@ -486,6 +573,10 @@ def run_predictions(
         question = expression["question"]
         index.select_question(question)
         logger = HoldoutEvaluationLogger()
+        attempts_before = call_budget.attempts
+        retries_before = sum(
+            provider.retry_count for provider in (generator, classifier, resolver)
+        )
         started = time.perf_counter()
         result = None
         error = None
@@ -506,13 +597,20 @@ def run_predictions(
                 generation_prompt_builder=build_temporal_generation_prompt,
                 generation_prompt_version=TEMPORAL_GENERATION_PROMPT_VERSION,
             )
+        except CallLimitReached:
+            expression_input, expression_output = _usage(logger, result)
+            total_input_tokens += expression_input
+            total_output_tokens += expression_output
+            stop_reason = "CALL_LIMIT_REACHED"
+            logical_calls = 2 + carried_logical_calls + call_budget.attempts
+            break
         except Exception as exception:
             error = f"{type(exception).__name__}: {exception}"
 
         expression_input, expression_output = _usage(logger, result)
         total_input_tokens += expression_input
         total_output_tokens += expression_output
-        logical_calls += _logical_calls(logger)
+        logical_calls = 2 + carried_logical_calls + call_budget.attempts
         records.append(
             {
                 **expression,
@@ -538,6 +636,12 @@ def run_predictions(
                         else "CANDIDATE"
                     )
                 ),
+                "provider_attempt_count": call_budget.attempts - attempts_before,
+                "provider_retry_count": sum(
+                    provider.retry_count
+                    for provider in (generator, classifier, resolver)
+                )
+                - retries_before,
             }
         )
         _write_jsonl(output_dir / "predictions.jsonl", records)
@@ -556,6 +660,10 @@ def run_predictions(
         ),
         "provider_failure_count": sum(
             _failure_type(record) == "PROVIDER" for record in records
+        ),
+        "provider_attempt_count": call_budget.attempts,
+        "provider_retry_count": sum(
+            provider.retry_count for provider in (generator, classifier, resolver)
         ),
         "logical_external_calls": logical_calls,
         "current_run_logical_external_calls": logical_calls

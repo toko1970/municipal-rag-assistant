@@ -44,7 +44,13 @@
     }
   },
   "execution_policy": {
-    "retry_count": 0,
+    "retry_count": 2,
+    "retryable_status_codes": [
+      503
+    ],
+    "retry_backoff_initial_seconds": 5.1,
+    "retry_backoff_max_seconds": 10.2,
+    "retry_jitter_max_seconds": 1.0,
     "embedding_sdk_attempts": 1,
     "embedding_phase_cooldown_seconds": 60,
     "minimum_generative_call_interval_seconds": 5.1,
@@ -56,7 +62,7 @@
     "predictions_are_immutable": true
   },
   "execution_amendment": {
-    "reason": "The first prediction attempt showed that the embedding SDK defaulted to retries and Gemini counted batched contents against a 100 RPM quota. Later bounded runs showed a 15 RPM generation quota and that a theoretical 4.1 second interval lacked operational headroom. Quality settings are unchanged; the runner uses one SDK attempt, separates embedding phases by 60 seconds, and paces all generation, classification, and resolver calls at least 5.1 seconds apart.",
+    "reason": "The first prediction attempt showed that the embedding SDK defaulted to retries and Gemini counted batched contents against a 100 RPM quota. Later bounded runs showed a 15 RPM generation quota and that a theoretical 4.1 second interval lacked operational headroom. Repeated provider-only continuation runs then encountered intermittent 503 UNAVAILABLE responses. Quality settings are unchanged; embedding remains one SDK attempt, embedding phases remain separated by 60 seconds, all generative calls remain paced by at least 5.1 seconds, and only 503 responses receive at most two explicitly counted retries with exponential backoff and jitter.",
     "failed_run_artifacts": [
       "eval/results/text_holdout_v1_predictions/failure_summary.json",
       "eval/results/text_holdout_v1_predictions_v2/failure_summary.json",
