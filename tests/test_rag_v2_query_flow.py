@@ -4,8 +4,8 @@ from unittest.mock import patch
 from src.query_decomposition import DecomposedVectorIndex
 from src.rag_v2 import generate_qdrant_answer
 from src.temporal_evidence import (
-    TEMPORAL_GENERATION_PROMPT_VERSION,
-    build_temporal_generation_prompt,
+    ANSWER_CONTRACT_V2_PROMPT_VERSION,
+    build_answer_contract_v2_prompt,
 )
 
 
@@ -36,5 +36,5 @@ def test_composition_root_connects_retrieval_and_temporal_candidates() -> None:
     assert kwargs["vector_index"].question == "質問"
     assert kwargs["vector_index"].base_index is base_index
     assert kwargs["vector_index"].embed_query is embed_query
-    assert kwargs["generation_prompt_builder"] is build_temporal_generation_prompt
-    assert kwargs["generation_prompt_version"] == TEMPORAL_GENERATION_PROMPT_VERSION
+    assert kwargs["generation_prompt_builder"] is build_answer_contract_v2_prompt
+    assert kwargs["generation_prompt_version"] == ANSWER_CONTRACT_V2_PROMPT_VERSION

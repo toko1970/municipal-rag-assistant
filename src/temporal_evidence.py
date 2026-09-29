@@ -15,6 +15,7 @@ QUESTION_DOMAIN_ALIASES = {
     "出生": "扶養手当",
 }
 TEMPORAL_GENERATION_PROMPT_VERSION = "answer-claims-v1+temporal-guidance-v1"
+ANSWER_CONTRACT_V2_PROMPT_VERSION = "answer-contract-v2+deadline-calculation-v1"
 
 
 @dataclass(frozen=True)
@@ -173,3 +174,23 @@ def build_temporal_generation_prompt(
     base = build_generation_prompt(question, hits, visual_assets)
     instruction = temporal_prompt_instruction(question, hits)
     return f"{instruction}\n{base}" if instruction else base
+
+
+def build_answer_contract_v2_prompt(
+    question: str, hits: list[SearchHit], visual_assets: object
+) -> str:
+    base = build_temporal_generation_prompt(question, hits, visual_assets).replace(
+        "answer-output-v1", "answer-output-v2"
+    )
+    contract = (
+        "answer-output-v2追加規則:\n"
+        "- missing_conditionsはtype、description、evidence_element_idsを持つobjectにしてください。\n"
+        "- 質問が具体的な期限日を求め、取得根拠に暦日数と起算規則がある場合だけ、"
+        "date_calculationsへ構造化してください。\n"
+        "- 対応するのはcalendar_dayと、next_day_is_day_1またはanchor_day_is_day_1だけです。\n"
+        "- 営業日、休日、閉庁日など未対応の計算は推測せずmissing_conditionsへ入れてください。\n"
+        "- date_calculationsへ入れた具体的な計算結果をclaimsで推測しないでください。"
+        "アプリケーションが決定的に計算します。\n"
+        "- missing_conditionsとdate_calculationsがない場合も空配列を返してください。"
+    )
+    return f"{contract}\n{base}"

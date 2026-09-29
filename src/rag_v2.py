@@ -17,12 +17,12 @@ from src.qdrant_index import QdrantVectorIndex
 from src.query_decomposition import DecomposedVectorIndex
 from src.query_service import answer_question, load_schema
 from src.temporal_evidence import (
-    TEMPORAL_GENERATION_PROMPT_VERSION,
-    build_temporal_generation_prompt,
+    ANSWER_CONTRACT_V2_PROMPT_VERSION,
+    build_answer_contract_v2_prompt,
 )
 
 
-ANSWER_SCHEMA_PATH = BASE_DIR / "design/schemas/answer-output-v1.schema.json"
+ANSWER_SCHEMA_PATH = BASE_DIR / "design/schemas/answer-output-v2.schema.json"
 CLASSIFICATION_SCHEMA_PATH = (
     BASE_DIR / "design/schemas/classification-output-v1.schema.json"
 )
@@ -52,8 +52,8 @@ def generate_qdrant_answer(question: str) -> dict:
         version_resolver=GeminiProvider(CLASSIFIER_MODEL_NAME),
         version_resolution_schema=load_schema(VERSION_RESOLUTION_SCHEMA_PATH),
         top_k=TOP_K,
-        generation_prompt_builder=build_temporal_generation_prompt,
-        generation_prompt_version=TEMPORAL_GENERATION_PROMPT_VERSION,
+        generation_prompt_builder=build_answer_contract_v2_prompt,
+        generation_prompt_version=ANSWER_CONTRACT_V2_PROMPT_VERSION,
         visual_asset_loader=repository.get_visual_assets,
         asset_reader=get_asset_reader(),
     )

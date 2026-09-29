@@ -1,8 +1,6 @@
 import hashlib
 from uuid import uuid4
 
-import pytest
-
 from src.asset_store import VisualEvidenceAsset
 from src.contracts import IndexableElement, SearchHit
 from src.llm_provider import StructuredLLMResult
@@ -361,7 +359,7 @@ def test_classification_failure_is_logged_after_successful_generation() -> None:
     assert logger.events[-1][2]["status"] == "CLASSIFICATION_FAILED"
 
 
-def test_display_contract_failure_preserves_classification_factors() -> None:
+def test_display_contract_inconsistency_returns_safe_fallback_and_preserves_factors() -> None:
     element = IndexableElement(
         id=uuid4(),
         document_id=uuid4(),
@@ -394,22 +392,126 @@ def test_display_contract_failure_preserves_classification_factors() -> None:
     )
     logger = FakeLogger()
 
-    with pytest.raises(ValueError, match="表示条件"):
-        answer_question(
-            "質問",
-            embed_query=lambda _question: [1.0],
-            vector_index=FakeIndex([SearchHit(element, 0.9, 1)]),
-            generator=generator,
-            classifier=classifier,
-            event_logger=logger,
-            answer_schema={},
-            classification_schema={},
-        )
+    result = answer_question(
+        "質問",
+        embed_query=lambda _question: [1.0],
+        vector_index=FakeIndex([SearchHit(element, 0.9, 1)]),
+        generator=generator,
+        classifier=classifier,
+        event_logger=logger,
+        answer_schema={},
+        classification_schema={},
+    )
 
-    event = logger.events[-1][2]
-    assert event["status"] == "CLASSIFICATION_FAILED"
+    event = next(
+        event for event in logger.events if event[0] == "classification"
+    )[2]
+    assert result["answer_label"] == "判断要"
+    assert result["answer_status"] == "PIPELINE_INCONSISTENCY"
+    assert result["degraded"] is True
+    assert result["invariant_code"] == "SUFFICIENT_WITHOUT_CLAIMS"
+    assert event["status"] == "PIPELINE_INCONSISTENCY"
     assert event["derived_label"] == "根拠十分"
     assert event["factors"]["retrieval_sufficient"] is True
+    assert logger.events[-1][0] == "answer"
+    assert logger.events[-1][2]["status"] == "PIPELINE_INCONSISTENCY"
+
+
+def _v2_query_result(*, missing_conditions=None, with_date_calculation=False):
+    element = IndexableElement(
+        id=uuid4(),
+        document_id=uuid4(),
+        version_id=uuid4(),
+        document_name="期限通知",
+        heading="提出期限",
+        content="受験日の翌日を1日目として20暦日目の正午まで。",
+    )
+    generator = FakeProvider(
+        {
+            "schema_version": "2.0",
+            "claims": [
+                {
+                    "claim_id": "claim-1",
+                    "ordinal": 1,
+                    "text": "提出期限は翌日を1日目とした20暦日目です。",
+                    "evidence_element_ids": [str(element.id)],
+                    "evidence_kind": "text",
+                }
+            ],
+            "missing_conditions": missing_conditions or [],
+            "date_calculations": (
+                [
+                    {
+                        "calculation_id": "date-1",
+                        "result_label": "提出期限",
+                        "anchor_date": "2027-10-10",
+                        "offset_value": 20,
+                        "offset_unit": "calendar_day",
+                        "counting_rule": "next_day_is_day_1",
+                        "cutoff_time": "12:00:00",
+                        "evidence_element_ids": [str(element.id)],
+                    }
+                ]
+                if with_date_calculation
+                else []
+            ),
+        }
+    )
+    classifier = FakeProvider(
+        {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "factors": {
+                "retrieval_sufficient": True,
+                "answer_fully_supported": True,
+                "requires_case_facts": False,
+                "requires_policy_judgment": False,
+                "version_conflict": False,
+            },
+            "confidence": 0.9,
+            "error_code": None,
+        }
+    )
+    logger = FakeLogger()
+    result = answer_question(
+        "2027年10月10日から20暦日目の提出期限は？",
+        embed_query=lambda _question: [1.0],
+        vector_index=FakeIndex([SearchHit(element, 0.9, 1)]),
+        generator=generator,
+        classifier=classifier,
+        event_logger=logger,
+        answer_schema={},
+        classification_schema={},
+    )
+    return result, logger, element
+
+
+def test_v2_query_appends_deterministic_deadline_before_classification() -> None:
+    result, _logger, _element = _v2_query_result(with_date_calculation=True)
+
+    assert result["answer_status"] == "SUCCESS"
+    assert "2027年10月30日正午" in result["answer"]
+    assert len(result["claims"]) == 2
+
+
+def test_v2_missing_document_falls_back_without_unhandled_exception() -> None:
+    result, logger, _element = _v2_query_result(
+        missing_conditions=[
+            {
+                "type": "missing_document",
+                "description": "対象制度の規程",
+                "evidence_element_ids": [],
+            }
+        ]
+    )
+
+    assert result["answer_label"] == "文書不足"
+    assert result["answer_status"] == "PIPELINE_INCONSISTENCY"
+    assert result["claims"] == []
+    classification = next(
+        event for event in logger.events if event[0] == "classification"
+    )
+    assert classification[2]["derived_label"] == "根拠十分"
 
 
 def test_visual_hit_uses_verified_image_and_returns_display_metadata(tmp_path) -> None:

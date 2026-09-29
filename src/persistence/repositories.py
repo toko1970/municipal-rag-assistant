@@ -412,6 +412,7 @@ class PostgresEventLogger:
         label: str,
         display_text: str,
         claims: list[dict],
+        status: str = "SUCCESS",
     ) -> UUID:
         result_id = uuid4()
         with self.session_factory() as session, session.begin():
@@ -421,7 +422,7 @@ class PostgresEventLogger:
                     request_id=request_id,
                     final_label=label,
                     display_text=display_text,
-                    status="SUCCESS",
+                    status=status,
                 )
             )
             session.flush()

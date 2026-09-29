@@ -10,14 +10,17 @@ from uuid import UUID
 
 from src.answering import (
     DisplayAnswer,
+    DisplayContractError,
     derive_label,
     parse_answer_output,
     parse_classification_output,
     render_display_answer,
+    render_pipeline_inconsistency,
     validate_answer_evidence,
 )
 from src.asset_store import AssetReader, LocalAssetReader, VisualEvidenceAsset
 from src.contracts import SearchHit, VectorIndex
+from src.deadline_calculator import apply_date_calculations
 from src.llm_provider import StructuredLLMProvider, StructuredLLMResult
 from src.version_resolution import (
     build_version_resolution_prompt,
@@ -161,6 +164,37 @@ def _claim_log_rows(display: DisplayAnswer) -> list[dict]:
     ]
 
 
+def _classification_answer_payload(answer, raw_data: dict) -> dict:
+    if raw_data.get("schema_version") != "2.0":
+        return raw_data
+    return {
+        "schema_version": "2.0",
+        "claims": [
+            {
+                "claim_id": claim.claim_id,
+                "ordinal": claim.ordinal,
+                "text": claim.text,
+                "evidence_element_ids": [
+                    str(value) for value in claim.evidence_element_ids
+                ],
+                "evidence_kind": claim.evidence_kind,
+            }
+            for claim in answer.claims
+        ],
+        "missing_conditions": [
+            {
+                "type": condition.condition_type,
+                "description": condition.description,
+                "evidence_element_ids": [
+                    str(value) for value in condition.evidence_element_ids
+                ],
+            }
+            for condition in answer.missing_conditions
+        ],
+        "date_calculations": raw_data["date_calculations"],
+    }
+
+
 def answer_question(
     question: str,
     *,
@@ -238,7 +272,7 @@ def answer_question(
         else:
             generation_result = generator.generate_structured(prompt, answer_schema)
         answer_data = generation_result.data
-        answer = parse_answer_output(answer_data)
+        answer = apply_date_calculations(parse_answer_output(answer_data))
         validate_answer_evidence(answer, {hit.element.id for hit in hits})
     except Exception as exc:
         event_logger.record_generation_attempt(
@@ -265,9 +299,14 @@ def answer_question(
         error_summary=None,
     )
 
+    classification_status = "SUCCESS"
+    semantic_fallback_used = False
+    semantic_error = None
     try:
         classification_result = classifier.generate_structured(
-            build_classification_prompt(question, hits, answer_data),
+            build_classification_prompt(
+                question, hits, _classification_answer_payload(answer, answer_data)
+            ),
             classification_schema,
         )
         classification_data = classification_result.data
@@ -366,7 +405,13 @@ def answer_question(
                 fallback_used=resolver_fallback,
                 error_summary=resolver_error[:1000] if resolver_error else None,
             )
-        display = render_display_answer(answer, classification)
+        try:
+            display = render_display_answer(answer, classification)
+        except DisplayContractError as exc:
+            display = render_pipeline_inconsistency(answer, classification, exc)
+            classification_status = display.status
+            semantic_fallback_used = True
+            semantic_error = str(exc)
     except Exception as exc:
         event_logger.record_classification_attempt(
             request_id,
@@ -397,21 +442,27 @@ def answer_question(
         factors=asdict(classification.factors),
         derived_label=derive_label(classification.factors),
         confidence=classification.confidence,
-        status="SUCCESS",
-        fallback_used=version_resolution_metadata["fallback_used"],
-        error_summary=None,
+        status=classification_status,
+        fallback_used=(
+            version_resolution_metadata["fallback_used"] or semantic_fallback_used
+        ),
+        error_summary=semantic_error,
     )
     event_logger.record_answer_result(
         request_id,
         label=display.label,
         display_text=display.text,
         claims=_claim_log_rows(display),
+        status=display.status,
     )
     return {
         "request_id": str(request_id),
         "question": question,
         "answer": display.text,
         "answer_label": display.label,
+        "answer_status": display.status,
+        "degraded": display.status != "SUCCESS",
+        "invariant_code": display.invariant_code,
         "claims": _claim_log_rows(display),
         "references": _evidence_payload(
             hits, visual_assets, display_content=visual_content
