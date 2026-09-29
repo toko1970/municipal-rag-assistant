@@ -96,3 +96,35 @@ errorは残らず、DB上の失敗記録だけではprovider statusを確認で�
 
 最初の3項目を実装し、外部APIを使わない回帰378件、実PostgreSQL・Qdrant統合3件、Ruff、Python構文、
 diff検査が成功した。最後の公開受入はPRのreview、merge、deploy後に実施する。
+
+## PR #12の本番反映結果
+
+### リリース証拠
+
+- merge commit: `112434860e50abf0773a083f53ad01cf9334ac9b`
+- GitHub Actions run: `36579889004`
+- 作成revision: `municipal-rag-assistant-00009-j49`
+- test / lint / Terraform / deploy: 成功
+- revision Ready: `True`
+- traffic: latest revisionへ100%
+- Streamlit health: `ok`
+
+CDへ追加した`--to-latest`により、新revisionの作成後にtrafficが自動で`00009-j49`へ切り替わった。
+serviceとcontainer imageのcommit SHAもmerge commitと一致した。PR #11で必要だった手動traffic切替は
+不要になった。
+
+### 公開画面smoke
+
+| 経路 | 結果 | 判定 |
+| --- | --- | --- |
+| 通常テキスト | 毎月21日、休日の場合は直前営業日。根拠表示あり | 合格 |
+| 具体期限 | 429を「Gemini APIの利用上限」と表示し、追加retryなしで停止 | provider制約により未完了 |
+| 図表 | 429後の停止条件に従い未実施 | 未完了 |
+
+新revisionのCloud Loggingに`provider_503_retry`は0件だった。今回の具体期限失敗は503ではなく429として
+扱われ、503だけを再試行する契約とUI表示の分離は公開環境でも確認できた。429後は手動再送を行わず、
+図表質問も実行しなかった。
+
+アプリケーション、health、通常回答、CD traffic切替は合格しているため、trafficは`00009-j49`へ維持する。
+具体期限の意味上の修正と図表経路の最終受入は、Gemini利用枠の回復後に各1回だけ再確認する。現時点では
+未実施項目を公開受入合格とは扱わない。

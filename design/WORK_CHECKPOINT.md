@@ -1,5 +1,18 @@
 # 作業再開checkpoint
 
+## 2026-09-29 最新checkpoint: PR #12本番反映後
+
+PR #12をsquash mergeし、merge commitは`112434860e50abf0773a083f53ad01cf9334ac9b`、GitHub Actions
+runは`36579889004`。CI、Terraform、bootstrap、deployはすべて成功した。Cloud Run revision
+`municipal-rag-assistant-00009-j49`はReadyで、commit SHAはmerge commitと一致し、CDの`--to-latest`に
+よりtrafficが自動で100%切り替わった。healthは`ok`。
+
+公開画面では通常質問が根拠付きで成功した。具体期限質問は429として「利用上限」と正しく表示され、
+Cloud Loggingの503 retry記録は0件だった。停止条件に従って手動retryと図表質問を行っていない。
+trafficは正常な新revisionへ維持する。次の最小手順はGemini利用枠回復後、具体期限と図表を各1回だけ
+再確認し、公開受入を完了すること。詳細は
+[`PUBLIC_RELEASE_RESULT_2026-09-29.md`](PUBLIC_RELEASE_RESULT_2026-09-29.md)を参照する。
+
 ## 2026-09-29 最新checkpoint: 再リリース後に発見した運用修正
 
 PR #11（merge commit `3ed3f4996d80e485aae28f85d9170d0bd3f7e610`）をGitHub Actions run
