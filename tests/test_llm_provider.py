@@ -1,5 +1,6 @@
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 from langchain_core.messages import HumanMessage
 
@@ -7,6 +8,17 @@ from src.llm_provider import GeminiProvider, MistralProvider, OpenAIProvider
 
 
 class LLMProviderTest(unittest.TestCase):
+    def test_disables_sdk_retries_for_application_owned_retry_policy(self):
+        with patch("src.llm_provider.ChatGoogleGenerativeAI") as model:
+            GeminiProvider("gemini-test", api_key="test-key")
+
+        model.assert_called_once_with(
+            model="gemini-test",
+            google_api_key="test-key",
+            temperature=0,
+            retries=0,
+        )
+
     def test_normalizes_gemini_response(self):
         client = SimpleNamespace(
             invoke=lambda _prompt: SimpleNamespace(
