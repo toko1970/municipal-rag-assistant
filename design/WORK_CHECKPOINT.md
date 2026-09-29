@@ -482,3 +482,15 @@ Embedding、非対象質問のprompt維持に新しい問題は見つからな�
 Cloud公開構成と、まだ未deployの92.3%候補を区別する内容へ更新した。次の最小手順は、この差分を
 commit・pushしてPRを確認し、review後にsealed holdout、merge、production deployの承認境界へ
 進むことである。
+
+PR #10をdraftで作成し、GitHub Actions 4 checksの成功とconflictなしを確認した。採用候補を
+commit `5d1ecc50985db681cfa71bddc6cbfcfa99480e40`としてtext sealed holdoutへ固定し、manifestを
+`CANDIDATE_FROZEN`へ進めた。予測runnerはgold pathを受け取らず、10 sealed Markdown・50
+scenario / 100表現を、最大302 logical calls、retry 0、費用上限US$0.15、provider error
+fail-fastで実行する。完走した100予測だけを別操作で固定できる。
+
+gold開封後の採点器も先に用意した。期待分類、期待document、期待evidenceを自動比較し、回答要点は
+文字列一致で決めず100件の内容reviewを確定してから、総合回答成功率、scenario stability、
+Wilson 95%区間、失敗内訳を算出する。非integration 302件とRuff、公開manifest validator、
+plan検査が成功した。sealed Markdownとgoldは未開封で、次の最小手順は上記有限runの明示承認後に
+predictionを実行・固定すること。gold開封と本番deployは、それぞれ別の承認境界である。

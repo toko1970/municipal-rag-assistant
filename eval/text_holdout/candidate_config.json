@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "holdout_id": "text-sealed-holdout-v1",
+  "selection_split": "development",
+  "sealed_holdout_accessed": false,
+  "source_git_commit": "5d1ecc50985db681cfa71bddc6cbfcfa99480e40",
+  "frozen_at": "2026-09-29T03:23:09Z",
+  "pipeline": {
+    "document_loading": {
+      "format": "markdown",
+      "chunking": "markdown-heading-aware-v1"
+    },
+    "embedding": {
+      "provider": "gemini",
+      "model": "gemini-embedding-001",
+      "document_task_type": "RETRIEVAL_DOCUMENT",
+      "query_task_type": "RETRIEVAL_QUERY",
+      "document_representation": "contextual-heading-v1"
+    },
+    "retrieval": {
+      "backend": "qdrant-isolated-in-memory",
+      "method": "dense-with-conditional-query-decomposition-v1",
+      "top_k": 8,
+      "decomposition_rules": [
+        "birth-payment-start-and-filing-deadline",
+        "move-and-commute-cessation"
+      ]
+    },
+    "generation": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "prompt_version": "answer-claims-v1+temporal-guidance-v1"
+    },
+    "classification": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "prompt_version": "answer-classification-v1",
+      "decision_version": "classification-decision-v1",
+      "version_resolver": {
+        "mode": "conditional",
+        "prompt_version": "version-resolution-v2",
+        "confidence_threshold": 0.8
+      }
+    }
+  },
+  "execution_policy": {
+    "retry_count": 0,
+    "prediction_split": "sealed_holdout",
+    "gold_available_to_runner": false,
+    "stop_on_provider_error": true,
+    "max_logical_external_calls": 302,
+    "max_cost_usd": 0.15,
+    "predictions_are_immutable": true
+  },
+  "development_evidence": [
+    {
+      "path": "eval/results/integrated_query_candidate_consolidated_v5/summary.json",
+      "result": "120/130 composite success; 3 improvements; 0 regressions"
+    },
+    {
+      "path": "eval/INTEGRATED_QUERY_CANDIDATE_EVALUATION.md",
+      "result": "local production query flow gate passed"
+    },
+    {
+      "path": "eval/QUERY_TRIGGER_ROBUSTNESS_EVALUATION.md",
+      "result": "broad paraphrase trigger rejected after one end-to-end regression"
+    }
+  ]
+}
