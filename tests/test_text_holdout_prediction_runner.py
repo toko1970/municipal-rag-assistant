@@ -52,7 +52,7 @@ def _candidate() -> dict:
             "retry_count": 0,
             "embedding_sdk_attempts": 1,
             "embedding_phase_cooldown_seconds": 60,
-            "minimum_generative_call_interval_seconds": 4.1,
+            "minimum_generative_call_interval_seconds": 5.1,
             "stop_on_provider_error": True,
             "max_logical_external_calls": 8,
             "max_cost_usd": 0.01,
@@ -68,7 +68,7 @@ def test_plan_exposes_bounded_run_without_gold() -> None:
     assert plan["retry_count"] == 0
     assert plan["embedding_sdk_attempts"] == 1
     assert plan["embedding_phase_cooldown_seconds"] == 60
-    assert plan["minimum_generative_call_interval_seconds"] == 4.1
+    assert plan["minimum_generative_call_interval_seconds"] == 5.1
     assert plan["gold_available_to_runner"] is False
 
 

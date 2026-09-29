@@ -47,7 +47,7 @@
     "retry_count": 0,
     "embedding_sdk_attempts": 1,
     "embedding_phase_cooldown_seconds": 60,
-    "minimum_generative_call_interval_seconds": 4.1,
+    "minimum_generative_call_interval_seconds": 5.1,
     "prediction_split": "sealed_holdout",
     "gold_available_to_runner": false,
     "stop_on_provider_error": true,
@@ -56,11 +56,12 @@
     "predictions_are_immutable": true
   },
   "execution_amendment": {
-    "reason": "The first prediction attempt showed that the embedding SDK defaulted to retries and Gemini counted batched contents against a 100 RPM quota. A later bounded run showed a 15 RPM generation quota. Quality settings are unchanged; the runner uses one SDK attempt, separates embedding phases by 60 seconds, and paces all generation, classification, and resolver calls at least 4.1 seconds apart.",
+    "reason": "The first prediction attempt showed that the embedding SDK defaulted to retries and Gemini counted batched contents against a 100 RPM quota. Later bounded runs showed a 15 RPM generation quota and that a theoretical 4.1 second interval lacked operational headroom. Quality settings are unchanged; the runner uses one SDK attempt, separates embedding phases by 60 seconds, and paces all generation, classification, and resolver calls at least 5.1 seconds apart.",
     "failed_run_artifacts": [
       "eval/results/text_holdout_v1_predictions/failure_summary.json",
       "eval/results/text_holdout_v1_predictions_v2/failure_summary.json",
-      "eval/results/text_holdout_v1_predictions_v3/summary.json"
+      "eval/results/text_holdout_v1_predictions_v3/summary.json",
+      "eval/results/text_holdout_v1_predictions_v4/summary.json"
     ],
     "sealed_gold_opened": false
   },

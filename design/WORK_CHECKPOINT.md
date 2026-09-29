@@ -518,3 +518,10 @@ TH005 formalのGeneratorで`generate_content_free_tier_requests` 15 RPMに達し
 carryover 24 calls・US$0.01415925から開始するため、最悪でも累計302 calls・US$0.15を超えない。
 また、100件すべてがSUCCESSでない限り`PREDICTIONS_FROZEN`へ進めない検査を追加した。品質設定と
 goldは変更・参照していない。次の最小手順は、このpacing・resume条件での追加run承認を得ること。
+
+4.1秒pacerで成功済み8件から再開したrunは、新規7件成功後、TH008 paraphraseのGeneratorで
+15 RPM quotaへ再到達した。成功済みを合わせ15表現、失敗1、累計41 logical calls、推定
+US$0.02538575、gold未開封でfail-fastした。理論上15 calls / 60秒を満たす4.1秒間隔には、rolling
+windowと同projectの利用に対する余裕が不足していた。品質設定は変えず、間隔を5.1秒へ広げて
+約12 RPMとし、成功済み15件を次runへ引き継ぐ。次回carryoverは41 calls・US$0.02538575で、
+残り85件を全て3 calls使う場合でも累計298 callsとなり、302上限内に収まる。

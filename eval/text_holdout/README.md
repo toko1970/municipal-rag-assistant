@@ -107,7 +107,7 @@ gold custodian以外は、候補実装と予測結果の固定が終わるまで
 Gemini Embeddingはbatch内の各contentを100 RPM quotaへ計上するため、30 documentのEmbedding後に
 60秒の計画的cooldownを置いて100 queryを送る。SDK attemptは1回に固定し、429後の自動retryは
 行わない。回答系の無料枠15 RPMにはGenerator、Classifier、Version Resolverで一つのpacerを
-共有し、各callを4.1秒以上離して対応する。provider errorで停止した場合、成功済みpredictionだけを
+共有し、理論上の最短4秒に運用余裕を加えて各callを5.1秒以上離す。provider errorで停止した場合、成功済みpredictionだけを
 hash付きで次runへ引き継ぎ、失敗表現から再開できる。
 
 ```bash
