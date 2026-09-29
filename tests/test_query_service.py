@@ -494,6 +494,77 @@ def test_v2_query_appends_deterministic_deadline_before_classification() -> None
     assert len(result["claims"]) == 2
 
 
+def test_deadline_without_explicit_counting_rule_falls_back_safely() -> None:
+    element = IndexableElement(
+        id=uuid4(),
+        document_id=uuid4(),
+        version_id=uuid4(),
+        document_name="届出・手続きマニュアル",
+        heading="住所変更届 > 提出期限",
+        content="住所変更日から14日以内に提出すること。",
+    )
+    generator = FakeProvider(
+        {
+            "schema_version": "1.1",
+            "claims": [
+                {
+                    "claim_id": "claim-1",
+                    "ordinal": 1,
+                    "text": "住所変更届は住所変更日から14日以内に提出します。",
+                    "evidence_element_ids": [str(element.id)],
+                    "evidence_kind": "text",
+                }
+            ],
+            "missing_conditions": [],
+            "date_calculations": [
+                {
+                    "calculation_id": "date-1",
+                    "result_label": "提出期限日",
+                    "anchor_date": "2027-05-01",
+                    "offset_value": 14,
+                    "offset_unit": "calendar_day",
+                    "counting_rule": "anchor_day_is_day_1",
+                    "cutoff_time": None,
+                    "evidence_element_ids": [str(element.id)],
+                }
+            ],
+        }
+    )
+    classifier = PromptCapturingProvider(
+        {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "factors": {
+                "retrieval_sufficient": True,
+                "answer_fully_supported": True,
+                "requires_case_facts": False,
+                "requires_policy_judgment": False,
+                "version_conflict": False,
+            },
+            "confidence": 0.9,
+            "error_code": None,
+        }
+    )
+
+    result = answer_question(
+        "2027年5月1日に住所変更しました。提出期限日はいつですか？",
+        embed_query=lambda _question: [1.0],
+        vector_index=FakeIndex([SearchHit(element, 0.9, 1)]),
+        generator=generator,
+        classifier=classifier,
+        event_logger=FakeLogger(),
+        answer_schema={},
+        classification_schema={},
+    )
+
+    assert result["answer_label"] == "判断要"
+    assert result["answer_status"] == "PIPELINE_INCONSISTENCY"
+    assert result["invariant_code"] == "SUFFICIENT_WITH_MISSING_CONDITIONS"
+    assert "2027年5月14日" not in result["answer"]
+    assert "起算規則" in result["answer"]
+    assert '"date_calculations": []' in classifier.prompt
+
+
 def test_v2_missing_document_falls_back_without_unhandled_exception() -> None:
     result, logger, _element = _v2_query_result(
         missing_conditions=[

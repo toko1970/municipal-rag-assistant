@@ -20,7 +20,10 @@ from src.answering import (
 )
 from src.asset_store import AssetReader, LocalAssetReader, VisualEvidenceAsset
 from src.contracts import SearchHit, VectorIndex
-from src.deadline_calculator import apply_date_calculations
+from src.deadline_calculator import (
+    apply_date_calculations,
+    require_explicit_counting_rule,
+)
 from src.llm_provider import StructuredLLMProvider, StructuredLLMResult
 from src.version_resolution import (
     build_version_resolution_prompt,
@@ -221,7 +224,25 @@ def _classification_answer_payload(answer, raw_data: dict) -> dict:
             }
             for claim in answer.claims
         ],
-        "date_calculations": raw_data["date_calculations"],
+        "date_calculations": [
+            {
+                "calculation_id": calculation.calculation_id,
+                "result_label": calculation.result_label,
+                "anchor_date": calculation.anchor_date.isoformat(),
+                "offset_value": calculation.offset_value,
+                "offset_unit": calculation.offset_unit,
+                "counting_rule": calculation.counting_rule,
+                "cutoff_time": (
+                    calculation.cutoff_time.isoformat()
+                    if calculation.cutoff_time is not None
+                    else None
+                ),
+                "evidence_element_ids": [
+                    str(value) for value in calculation.evidence_element_ids
+                ],
+            }
+            for calculation in answer.date_calculations
+        ],
     }
     if schema_version == "1.1":
         payload["missing_conditions"] = [
@@ -322,7 +343,12 @@ def answer_question(
         else:
             generation_result = generator.generate_structured(prompt, answer_schema)
         answer_data = generation_result.data
-        answer = apply_date_calculations(parse_answer_output(answer_data))
+        answer = parse_answer_output(answer_data)
+        answer = require_explicit_counting_rule(
+            answer,
+            {hit.element.id: hit.element.content for hit in hits},
+        )
+        answer = apply_date_calculations(answer)
         validate_answer_evidence(answer, {hit.element.id for hit in hits})
     except Exception as exc:
         event_logger.record_generation_attempt(
