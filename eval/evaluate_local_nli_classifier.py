@@ -10,9 +10,6 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
-import torch
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
-
 from eval.run_local_nli_classifier_pilot import (
     FACTOR_HYPOTHESES,
     build_premise,
@@ -116,6 +113,12 @@ def run(
     output_path: Path,
     max_pairs: int,
 ) -> dict[str, Any]:
+    # Heavy local-model dependencies are optional evaluation dependencies.
+    # Keep metric helpers importable in CI, which intentionally installs only
+    # the normal development requirements.
+    import torch
+    from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
     if output_path.exists():
         raise FileExistsError(f"結果は上書きしません: {output_path}")
     dataset = load_json(dataset_path)

@@ -12,9 +12,6 @@ import json
 from pathlib import Path
 from typing import Any, Protocol
 
-from transformers import AutoTokenizer
-
-
 FACTOR_HYPOTHESES = {
     "retrieval_sufficient": "取得根拠には、質問へ答えるために必要な情報が揃っている。",
     "answer_fully_supported": "回答の重要な主張は、取得根拠によってすべて支持されている。",
@@ -131,6 +128,10 @@ def run_audit(
     output_dir: Path,
     max_tokens: int,
 ) -> dict[str, Any]:
+    # transformers is only required when the optional local-model audit runs.
+    # Pure contract helpers remain available to the standard CI environment.
+    from transformers import AutoTokenizer
+
     if output_dir.exists():
         raise FileExistsError(f"結果は上書きしません: {output_dir}")
     dataset = load_json(dataset_path)
