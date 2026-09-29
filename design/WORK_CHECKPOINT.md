@@ -1,5 +1,18 @@
 # 作業再開checkpoint
 
+## 2026-09-29 公開release smokeとrollback
+
+PR #10をsquash mergeし、GitHub Actions run `36569983269`でrevision
+`municipal-rag-assistant-00007-wt2`を作成した。CI、bootstrap Job、health、通常質問、図表質問は成功し、
+bootstrapの503 retryは0件だった。具体期限smokeでは、根拠に起算規則がないにもかかわらず当日を
+1日目と補って期限日を断定したため、公開受入を不合格とした。trafficは直前revision
+`municipal-rag-assistant-00006-m8d`へ100%戻し、Readyとhealth `ok`を確認した。詳細は
+[`PUBLIC_RELEASE_RESULT_2026-09-29.md`](PUBLIC_RELEASE_RESULT_2026-09-29.md)を参照する。
+
+現在のbranchは`codex/validate-deadline-evidence`である。引用根拠に起算規則が明記されていない
+`date_calculations`をコードで破棄し、安全表示へ落とす修正を進めている。再公開には新しいPRのmergeと
+production deployの明示承認が必要である。
+
 ## 2026-09-29 最新checkpoint: sealed text holdout後の対策調査
 
 - Text sealed holdoutの受入採点は完了し、総合回答成功83/100、分類86/100、内容94/100、
