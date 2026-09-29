@@ -1,5 +1,23 @@
 # 作業再開checkpoint
 
+## 2026-09-29 最新checkpoint: sealed text holdout後の対策調査
+
+- Text sealed holdoutの受入採点は完了し、総合回答成功83/100、分類86/100、内容94/100、
+  実行98/100、検索100/100だった。
+- Loop Libraryのclaim-ledger research loopを3 roundへ縮小し、分類校正、具体期限計算、
+  表示契約不整合の対策を一次資料と現行コードに照らして調査した。
+- 調査結果と実験gateは
+  [`SEALED_HOLDOUT_REMEDIATION_RESEARCH.md`](../eval/SEALED_HOLDOUT_REMEDIATION_RESEARCH.md)
+  に記録した。
+- 次のcoherent sliceは、外部APIを使わず、typed missing condition、semantic invariant validator、
+  `PIPELINE_INCONSISTENCY`の安全表示と監査ログを最小実装すること。
+- その後、別sliceで決定的な期限計算を実装し、新規development fixtureで評価する。
+- 分類校正は総合成功を単体で最大11件改善し得る一方、退行リスクが高い。上記2層を整えた後、
+  新規development setでGemini baselineと構造変更を比較する。
+- 今回開封済みのtext holdoutは、候補選択には再利用せず観測済み回帰setとして扱う。
+- `eval/results/text_holdout_v1_predictions_v3`から`v9`の部分予測7ファイルはuntrackedのまま保持する。
+  意図的に削除していない。
+
 - 記録日: 2026-09-27
 - 状態: Work Package Aのローカル基盤、文書取込境界、構造化回答・分類・ログの最小縦断経路を実装済み
 - Git: text・visual holdoutは`SEALED`で、両方のsealed本体は`.gitignore`対象
