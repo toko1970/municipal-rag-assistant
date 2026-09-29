@@ -1,0 +1,32 @@
+{
+  "baseline_composite_success": 4,
+  "candidate_by_group": {
+    "condition": {
+      "success": 2,
+      "total": 4
+    },
+    "control": {
+      "success": 2,
+      "total": 2
+    },
+    "date": {
+      "success": 2,
+      "total": 6
+    }
+  },
+  "candidate_composite_success": 6,
+  "completed_records": 24,
+  "estimated_cost_usd": 0.0095655,
+  "gate_passed": false,
+  "improvements": [
+    "ACV2-D06",
+    "ACV2-M01"
+  ],
+  "input_tokens": 9348,
+  "logical_external_calls": 48,
+  "max_cost_usd": 0.04,
+  "output_tokens": 4819,
+  "paired_scenarios": 12,
+  "regressions": [],
+  "stop_reason": "COMPLETED"
+}

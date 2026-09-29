@@ -1,0 +1,50 @@
+{
+  "case_count": 40,
+  "dataset_version": "query-trigger-robustness-v1",
+  "decomposition": {
+    "exact_match_count": 27,
+    "false_negative": 12,
+    "false_positive": 1,
+    "precision": 0.8,
+    "recall": 0.25,
+    "true_negative": 23,
+    "true_positive": 4
+  },
+  "external_api_calls": 0,
+  "failed_case_ids": [
+    "G03",
+    "G04",
+    "G05",
+    "G06",
+    "G07",
+    "G08",
+    "G11",
+    "G12",
+    "G13",
+    "G14",
+    "G15",
+    "G16",
+    "G19",
+    "G30",
+    "G33",
+    "G35"
+  ],
+  "family_counts": {
+    "birth_positive": 8,
+    "decomposition_boundary": 8,
+    "move_positive": 8,
+    "temporal_boundary": 4,
+    "temporal_positive": 8,
+    "unaffected_control": 4
+  },
+  "sealed_holdout_accessed": false,
+  "temporal_guidance": {
+    "exact_match_count": 37,
+    "false_negative": 3,
+    "false_positive": 0,
+    "precision": 1.0,
+    "recall": 0.7,
+    "true_negative": 30,
+    "true_positive": 7
+  }
+}

@@ -60,7 +60,61 @@ def test_bootstrap_cloud_runs_storage_setup_before_answer_smoke() -> None:
         "request_id": answer["request_id"],
         "answer_label": "根拠十分",
         "references": 1,
+        "provider_503_retries": 0,
     }
+
+
+def test_bootstrap_cloud_retries_only_provider_503_with_exponential_backoff() -> None:
+    answer = {
+        "request_id": "00000000-0000-0000-0000-000000000002",
+        "answer_label": "根拠十分",
+        "references": [{"element_id": "one"}],
+    }
+    sleeps: list[float] = []
+    with (
+        patch("scripts.manage_rag_v2.migrate"),
+        patch("scripts.manage_rag_v2.ingest"),
+        patch("scripts.manage_rag_v2.ingest_reviewed_visual_fixtures"),
+        patch(
+            "scripts.manage_rag_v2.reconcile",
+            return_value={"consistent": True},
+        ),
+        patch(
+            "scripts.manage_rag_v2.generate_qdrant_answer",
+            side_effect=[
+                RuntimeError("503 UNAVAILABLE high demand"),
+                RuntimeError("503 UNAVAILABLE high demand"),
+                answer,
+            ],
+        ) as generate,
+    ):
+        result = bootstrap_cloud(sleep=sleeps.append)
+
+    assert generate.call_count == 3
+    assert sleeps == [5.1, 10.2]
+    assert result["smoke"]["provider_503_retries"] == 2
+
+
+def test_bootstrap_cloud_does_not_retry_non_503_error() -> None:
+    sleeps: list[float] = []
+    with (
+        patch("scripts.manage_rag_v2.migrate"),
+        patch("scripts.manage_rag_v2.ingest"),
+        patch("scripts.manage_rag_v2.ingest_reviewed_visual_fixtures"),
+        patch(
+            "scripts.manage_rag_v2.reconcile",
+            return_value={"consistent": True},
+        ),
+        patch(
+            "scripts.manage_rag_v2.generate_qdrant_answer",
+            side_effect=RuntimeError("401 invalid API key"),
+        ) as generate,
+    ):
+        with pytest.raises(RuntimeError, match="401 invalid API key"):
+            bootstrap_cloud(sleep=sleeps.append)
+
+    generate.assert_called_once_with(CLOUD_SMOKE_QUESTION)
+    assert sleeps == []
 
 
 def test_bootstrap_cloud_stops_before_smoke_when_indexes_differ() -> None:

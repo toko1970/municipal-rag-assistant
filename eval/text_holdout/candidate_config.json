@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "holdout_id": "text-sealed-holdout-v1",
+  "selection_split": "development",
+  "sealed_holdout_accessed": false,
+  "source_git_commit": "5d1ecc50985db681cfa71bddc6cbfcfa99480e40",
+  "frozen_at": "2026-09-29T03:23:09Z",
+  "pipeline": {
+    "document_loading": {
+      "format": "markdown",
+      "chunking": "markdown-heading-aware-v1"
+    },
+    "embedding": {
+      "provider": "gemini",
+      "model": "gemini-embedding-001",
+      "document_task_type": "RETRIEVAL_DOCUMENT",
+      "query_task_type": "RETRIEVAL_QUERY",
+      "document_representation": "contextual-heading-v1"
+    },
+    "retrieval": {
+      "backend": "qdrant-isolated-in-memory",
+      "method": "dense-with-conditional-query-decomposition-v1",
+      "top_k": 8,
+      "decomposition_rules": [
+        "birth-payment-start-and-filing-deadline",
+        "move-and-commute-cessation"
+      ]
+    },
+    "generation": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "prompt_version": "answer-claims-v1+temporal-guidance-v1"
+    },
+    "classification": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "prompt_version": "answer-classification-v1",
+      "decision_version": "classification-decision-v1",
+      "version_resolver": {
+        "mode": "conditional",
+        "prompt_version": "version-resolution-v2",
+        "confidence_threshold": 0.8
+      }
+    }
+  },
+  "execution_policy": {
+    "retry_count": 2,
+    "retryable_status_codes": [
+      503
+    ],
+    "retry_backoff_initial_seconds": 5.1,
+    "retry_backoff_max_seconds": 10.2,
+    "retry_jitter_max_seconds": 1.0,
+    "embedding_sdk_attempts": 1,
+    "embedding_phase_cooldown_seconds": 60,
+    "minimum_generative_call_interval_seconds": 5.1,
+    "prediction_split": "sealed_holdout",
+    "gold_available_to_runner": false,
+    "stop_on_provider_error": true,
+    "max_logical_external_calls": 302,
+    "max_cost_usd": 0.15,
+    "predictions_are_immutable": true
+  },
+  "execution_amendment": {
+    "reason": "The first prediction attempt showed that the embedding SDK defaulted to retries and Gemini counted batched contents against a 100 RPM quota. Later bounded runs showed a 15 RPM generation quota and that a theoretical 4.1 second interval lacked operational headroom. Repeated provider-only continuation runs then encountered intermittent 503 UNAVAILABLE responses. Quality settings are unchanged; embedding remains one SDK attempt, embedding phases remain separated by 60 seconds, all generative calls remain paced by at least 5.1 seconds, and only 503 responses receive at most two explicitly counted retries with exponential backoff and jitter.",
+    "failed_run_artifacts": [
+      "eval/results/text_holdout_v1_predictions/failure_summary.json",
+      "eval/results/text_holdout_v1_predictions_v2/failure_summary.json",
+      "eval/results/text_holdout_v1_predictions_v3/summary.json",
+      "eval/results/text_holdout_v1_predictions_v4/summary.json"
+    ],
+    "sealed_gold_opened": false
+  },
+  "development_evidence": [
+    {
+      "path": "eval/results/integrated_query_candidate_consolidated_v5/summary.json",
+      "result": "120/130 composite success; 3 improvements; 0 regressions"
+    },
+    {
+      "path": "eval/INTEGRATED_QUERY_CANDIDATE_EVALUATION.md",
+      "result": "local production query flow gate passed"
+    },
+    {
+      "path": "eval/QUERY_TRIGGER_ROBUSTNESS_EVALUATION.md",
+      "result": "broad paraphrase trigger rejected after one end-to-end regression"
+    }
+  ]
+}

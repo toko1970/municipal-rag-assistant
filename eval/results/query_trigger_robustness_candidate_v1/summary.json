@@ -1,0 +1,33 @@
+{
+  "case_count": 40,
+  "dataset_version": "query-trigger-robustness-v1",
+  "decomposition": {
+    "exact_match_count": 40,
+    "false_negative": 0,
+    "false_positive": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "true_negative": 24,
+    "true_positive": 16
+  },
+  "external_api_calls": 0,
+  "failed_case_ids": [],
+  "family_counts": {
+    "birth_positive": 8,
+    "decomposition_boundary": 8,
+    "move_positive": 8,
+    "temporal_boundary": 4,
+    "temporal_positive": 8,
+    "unaffected_control": 4
+  },
+  "sealed_holdout_accessed": false,
+  "temporal_guidance": {
+    "exact_match_count": 40,
+    "false_negative": 0,
+    "false_positive": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "true_negative": 30,
+    "true_positive": 10
+  }
+}

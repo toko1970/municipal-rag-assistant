@@ -1,0 +1,3 @@
+# Japanese sparse retrieval experiments. Not installed in the production image.
+SudachiPy==0.7.0
+SudachiDict-core==20260723.1

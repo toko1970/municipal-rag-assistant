@@ -24,9 +24,9 @@ from config import (
     TOP_K,
 )
 from eval.evaluate_visual_answers import EvaluationEventLogger, token_cost_usd
-from eval.validate_visual_fixture import load_json, verify_hash
+from eval.validate_visual_fixture import checked_path, load_json, verify_hash
 from eval.validate_visual_holdout_protocol import (
-    CANDIDATE_CONFIG_PATH,
+    candidate_config_path,
     validate_public_manifest,
 )
 from src.asset_store import LocalAssetStore, VisualEvidenceAsset
@@ -45,12 +45,9 @@ from src.visual_validation import validate_gold
 
 
 PUBLIC_MANIFEST = BASE_DIR / "eval/visual_holdout/public_manifest.json"
-QUESTIONS = BASE_DIR / "eval/visual_holdout/questions.json"
 ANSWER_SCHEMA = BASE_DIR / "design/schemas/answer-output-v1.schema.json"
 CLASSIFICATION_SCHEMA = BASE_DIR / "design/schemas/classification-output-v1.schema.json"
-DOCUMENT_COUNT = 6
-SCENARIO_COUNT = 20
-MAX_LOGICAL_EXTERNAL_CALLS = 67
+MAX_LOGICAL_EXTERNAL_CALLS = 67  # v1 compatibility; plans are derived per manifest.
 DEFAULT_MAX_COST_USD = 0.35
 RESERVE_USD_PER_ITEM = 0.01
 KIND_HINTS = {
@@ -89,9 +86,15 @@ def _portable_references(references: list[dict[str, Any]]) -> list[dict[str, Any
     return _json_safe(portable)
 
 
-def load_frozen_candidate() -> tuple[dict[str, Any], dict[str, Any]]:
-    manifest = validate_public_manifest(PUBLIC_MANIFEST, BASE_DIR)
-    config = load_json(BASE_DIR / CANDIDATE_CONFIG_PATH)
+def questions_path(manifest: dict[str, Any]) -> Path:
+    return checked_path(BASE_DIR, manifest["questions"]["path"])
+
+
+def load_frozen_candidate(
+    manifest_path: Path = PUBLIC_MANIFEST,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    manifest = validate_public_manifest(manifest_path, BASE_DIR)
+    config = load_json(candidate_config_path(manifest, BASE_DIR))
     expected = {
         "generator model": (config["pipeline"]["generation"]["model"], LLM_MODEL_NAME),
         "classifier model": (
@@ -114,33 +117,37 @@ def load_frozen_candidate() -> tuple[dict[str, Any], dict[str, Any]]:
         if frozen != runtime
     ]
     if mismatches:
-        raise ValueError("frozen candidateとruntime設定が一致しません: " + "; ".join(mismatches))
+        raise ValueError(
+            "frozen candidateとruntime設定が一致しません: " + "; ".join(mismatches)
+        )
     return manifest, config
 
 
 def build_execution_plan(
     manifest: dict[str, Any], config: dict[str, Any]
 ) -> dict[str, Any]:
+    document_count = len(manifest["documents"])
+    scenario_count = manifest["questions"]["count"]
+    logical_external_call_limit = document_count + 1 + scenario_count * 3
     return {
         "holdout_id": manifest["holdout_id"],
         "candidate_git_commit": manifest["candidate"]["git_commit"],
         "candidate_config_sha256": manifest["candidate"]["config_manifest_sha256"],
-        "document_count": len(manifest["documents"]),
-        "scenario_count": manifest["questions"]["count"],
-        "logical_external_call_limit": MAX_LOGICAL_EXTERNAL_CALLS,
+        "document_count": document_count,
+        "scenario_count": scenario_count,
+        "logical_external_call_limit": logical_external_call_limit,
         "logical_external_calls": {
-            "visual_extraction": DOCUMENT_COUNT,
+            "visual_extraction": document_count,
             "document_embedding_batch": 1,
-            "question_embedding": SCENARIO_COUNT,
-            "answer_generation": SCENARIO_COUNT,
-            "answer_classification": SCENARIO_COUNT,
+            "question_embedding": scenario_count,
+            "answer_generation": scenario_count,
+            "answer_classification": scenario_count,
         },
         "retry_count": config["execution_policy"]["retry_count"],
         "gold_available_to_runner": False,
         "max_cost_usd": DEFAULT_MAX_COST_USD,
-        "minimum_reserved_cost_usd": (
-            DOCUMENT_COUNT + SCENARIO_COUNT
-        ) * RESERVE_USD_PER_ITEM,
+        "minimum_reserved_cost_usd": (document_count + scenario_count)
+        * RESERVE_USD_PER_ITEM,
     }
 
 
@@ -180,6 +187,7 @@ def prepare_holdout_corpus(
     provider: GeminiProvider,
     embeddings: Any,
     max_cost_usd: float,
+    holdout_id: str,
 ) -> HoldoutCorpus:
     store = LocalAssetStore(asset_dir)
     elements = []
@@ -203,6 +211,8 @@ def prepare_holdout_corpus(
         )
         _write_json(extraction_dir / f"{document_id}.raw.json", candidate.raw_data)
         _write_json(extraction_dir / f"{document_id}.normalized.json", candidate.data)
+        raw_path = extraction_dir / f"{document_id}.raw.json"
+        normalized_path = extraction_dir / f"{document_id}.normalized.json"
         record = {
             "document_id": document_id,
             "public_kind": document["kind"],
@@ -217,6 +227,14 @@ def prepare_holdout_corpus(
             "normalized_bbox_count": candidate.normalized_bbox_count,
             "normalized_structure_count": candidate.normalized_structure_count,
             "validation_errors": list(candidate.validation_errors),
+            "status": "VALID" if not candidate.validation_errors else "INVALID",
+            "error": None
+            if not candidate.validation_errors
+            else "; ".join(candidate.validation_errors),
+            "normalized_path": str(normalized_path.relative_to(BASE_DIR)),
+            "normalized_sha256": _sha256(normalized_path),
+            "raw_path": str(raw_path.relative_to(BASE_DIR)),
+            "raw_sha256": _sha256(raw_path),
         }
         records.append(record)
         if candidate.validation_errors:
@@ -251,10 +269,10 @@ def prepare_holdout_corpus(
     )
     index = QdrantVectorIndex(
         client=QdrantClient(":memory:"),
-        collection_name="visual_sealed_holdout_prediction_v1",
+        collection_name=f"{holdout_id.replace('-', '_')}_prediction",
     )
     index.ensure_collection(len(vectors[0]))
-    index.upsert(elements, vectors, "gemini:visual-sealed-holdout-prediction-v1")
+    index.upsert(elements, vectors, f"gemini:{holdout_id}")
     return HoldoutCorpus(index, assets, document_by_element, records)
 
 
@@ -296,26 +314,34 @@ def build_success_bundle(
 
 def run_predictions(
     *,
+    manifest_path: Path = PUBLIC_MANIFEST,
     documents_dir: Path,
     output_dir: Path,
     max_cost_usd: float,
     max_logical_external_calls: int,
 ) -> tuple[dict[str, Any], str]:
-    manifest, config = load_frozen_candidate()
+    manifest, config = load_frozen_candidate(manifest_path)
     if manifest["state"] != "CANDIDATE_FROZEN":
-        raise ValueError("prediction実行前のstateはCANDIDATE_FROZENである必要があります")
-    plan = build_execution_plan(manifest, config)
-    if max_logical_external_calls != MAX_LOGICAL_EXTERNAL_CALLS:
         raise ValueError(
-            f"logical external call上限は{MAX_LOGICAL_EXTERNAL_CALLS}で固定します"
+            "prediction実行前のstateはCANDIDATE_FROZENである必要があります"
+        )
+    plan = build_execution_plan(manifest, config)
+    if max_logical_external_calls != plan["logical_external_call_limit"]:
+        raise ValueError(
+            "logical external call上限は"
+            f"{plan['logical_external_call_limit']}で固定します"
         )
     if max_cost_usd < plan["minimum_reserved_cost_usd"]:
-        raise ValueError("cost上限が26 item分の事前予約額を下回っています")
+        raise ValueError(
+            "cost上限が"
+            f"{plan['document_count'] + plan['scenario_count']} item分の事前予約額を"
+            "下回っています"
+        )
     if output_dir.exists():
         raise FileExistsError(f"prediction出力は上書きしません: {output_dir}")
 
     documents = verify_document_inputs(manifest, documents_dir)
-    questions = load_json(QUESTIONS)
+    questions = load_json(questions_path(manifest))
     output_dir.mkdir(parents=True)
     extraction_dir = output_dir / "extraction"
     extraction_dir.mkdir()
@@ -331,9 +357,7 @@ def run_predictions(
         "classifier_model": CLASSIFIER_MODEL_NAME,
         "embedding_model": EMBEDDING_MODEL_NAME,
         "top_k": TOP_K,
-        "max_visual_assets": config["pipeline"]["generation"][
-            "max_visual_assets"
-        ],
+        "max_visual_assets": config["pipeline"]["generation"]["max_visual_assets"],
         "sealed_documents_accessed": True,
         "sealed_gold_accessed": False,
         "max_cost_usd": max_cost_usd,
@@ -352,6 +376,7 @@ def run_predictions(
             provider=provider,
             embeddings=embeddings,
             max_cost_usd=max_cost_usd,
+            holdout_id=manifest["holdout_id"],
         )
         input_tokens = sum(item["input_tokens"] for item in corpus.extraction_records)
         output_tokens = sum(item["output_tokens"] for item in corpus.extraction_records)
@@ -377,9 +402,7 @@ def run_predictions(
                     for element_id in ids
                     if element_id in corpus.assets
                 ],
-                max_visual_assets=config["pipeline"]["generation"][
-                    "max_visual_assets"
-                ],
+                max_visual_assets=config["pipeline"]["generation"]["max_visual_assets"],
             )
             scenario_input, scenario_output = _answer_usage(result)
             input_tokens += scenario_input
@@ -419,10 +442,12 @@ def run_predictions(
     return bundle, bundle_hash
 
 
-def freeze_failed_predictions(output_dir: Path) -> tuple[dict[str, Any], str]:
+def freeze_failed_predictions(
+    output_dir: Path, manifest_path: Path = PUBLIC_MANIFEST
+) -> tuple[dict[str, Any], str]:
     """Freeze blocked outcomes after a fail-fast run, without another API call."""
 
-    manifest, _config = load_frozen_candidate()
+    manifest, _config = load_frozen_candidate(manifest_path)
     run_manifest = load_json(output_dir / "run_manifest.json")
     if run_manifest.get("sealed_gold_accessed") is not False:
         raise ValueError("gold未参照のrunだけをfailureとして固定できます")
@@ -465,7 +490,7 @@ def freeze_failed_predictions(output_dir: Path) -> tuple[dict[str, Any], str]:
     if failed_document_id is None:
         raise ValueError("固定対象の抽出失敗が見つかりません")
 
-    questions = load_json(QUESTIONS)
+    questions = load_json(questions_path(manifest))
     predictions = [
         {
             "scenario_id": scenario["scenario_id"],
@@ -506,6 +531,7 @@ def freeze_failed_predictions(output_dir: Path) -> tuple[dict[str, Any], str]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--manifest", type=Path, default=PUBLIC_MANIFEST)
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("plan", help="sealed contentへ触れず実行条件だけを表示する")
     run = subparsers.add_parser("run", help="sealed PDFからpredictionを1回だけ作る")
@@ -515,21 +541,23 @@ def main() -> int:
     run.add_argument(
         "--max-logical-external-calls",
         type=int,
-        default=MAX_LOGICAL_EXTERNAL_CALLS,
+        default=None,
     )
     freeze_failure = subparsers.add_parser(
         "freeze-failure",
-        help="fail-fast出力を追加API callなしで20件のblocked outcomeとして固定する",
+        help="fail-fast出力を追加API callなしで全件のblocked outcomeとして固定する",
     )
     freeze_failure.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args()
 
     if args.command == "plan":
-        manifest, config = load_frozen_candidate()
+        manifest, config = load_frozen_candidate(args.manifest.resolve())
         print(json.dumps(build_execution_plan(manifest, config), ensure_ascii=False))
         return 0
     if args.command == "freeze-failure":
-        bundle, bundle_hash = freeze_failed_predictions(args.output_dir.resolve())
+        bundle, bundle_hash = freeze_failed_predictions(
+            args.output_dir.resolve(), args.manifest.resolve()
+        )
         print(
             json.dumps(
                 {
@@ -549,9 +577,16 @@ def main() -> int:
         return 0
     bundle, bundle_hash = run_predictions(
         documents_dir=args.sealed_documents_dir.resolve(),
+        manifest_path=args.manifest.resolve(),
         output_dir=args.output_dir.resolve(),
         max_cost_usd=args.max_cost_usd,
-        max_logical_external_calls=args.max_logical_external_calls,
+        max_logical_external_calls=(
+            args.max_logical_external_calls
+            if args.max_logical_external_calls is not None
+            else build_execution_plan(*load_frozen_candidate(args.manifest.resolve()))[
+                "logical_external_call_limit"
+            ]
+        ),
     )
     print(
         json.dumps(

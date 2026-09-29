@@ -34,9 +34,7 @@ DEFAULT_FIXTURE_MANIFEST = (
     BASE_DIR / "eval/visual_fixtures/manifests/development_manifest.json"
 )
 ANSWER_SCHEMA = BASE_DIR / "design/schemas/answer-output-v1.schema.json"
-CLASSIFICATION_SCHEMA = (
-    BASE_DIR / "design/schemas/classification-output-v1.schema.json"
-)
+CLASSIFICATION_SCHEMA = BASE_DIR / "design/schemas/classification-output-v1.schema.json"
 PRICING_SOURCE = "https://ai.google.dev/gemini-api/docs/pricing"
 PRICE_VERIFIED_ON = "2026-09-28"
 INPUT_USD_PER_MILLION = 0.25
@@ -76,8 +74,7 @@ def _portable_path(path: Path) -> str:
 
 def token_cost_usd(input_tokens: int, output_tokens: int) -> float:
     return (
-        input_tokens * INPUT_USD_PER_MILLION
-        + output_tokens * OUTPUT_USD_PER_MILLION
+        input_tokens * INPUT_USD_PER_MILLION + output_tokens * OUTPUT_USD_PER_MILLION
     ) / 1_000_000
 
 
@@ -170,11 +167,14 @@ def prepare_visual_corpus(
 def _usage(result: dict[str, Any]) -> tuple[int, int]:
     generation = result.get("generation") or {}
     classification = result.get("classification") or {}
+    version_resolution = result.get("version_resolution") or {}
     return (
         int(generation.get("input_tokens", 0))
-        + int(classification.get("input_tokens", 0)),
+        + int(classification.get("input_tokens", 0))
+        + int(version_resolution.get("input_tokens", 0)),
         int(generation.get("output_tokens", 0))
-        + int(classification.get("output_tokens", 0)),
+        + int(classification.get("output_tokens", 0))
+        + int(version_resolution.get("output_tokens", 0)),
     )
 
 
@@ -231,8 +231,7 @@ def evaluate_visual_answers(
         if scenario["scenario_id"] in completed_ids:
             continue
         if (
-            token_cost_usd(input_tokens, output_tokens)
-            + per_scenario_cost_reserve_usd
+            token_cost_usd(input_tokens, output_tokens) + per_scenario_cost_reserve_usd
             > max_cost_usd
         ):
             stop_reason = "COST_LIMIT_REACHED"
@@ -257,6 +256,8 @@ def evaluate_visual_answers(
                 "difficulty": scenario["difficulty"],
                 "expected_classification": scenario["expected_classification"],
                 "predicted_label": result.get("answer_label"),
+                "answer_status": result.get("answer_status", "SUCCESS"),
+                "invariant_code": result.get("invariant_code"),
                 "classification_ok": result.get("answer_label")
                 == LABELS[scenario["expected_classification"]],
                 "expected_fixture_ids": expected_fixtures,
@@ -268,6 +269,22 @@ def evaluate_visual_answers(
                 "required_evidence": scenario["required_evidence"],
                 "answer": result.get("answer", ""),
                 "claims": _json_safe(result.get("claims", [])),
+                "missing_conditions": _json_safe(
+                    result.get("_evaluation_generation_data", {}).get(
+                        "missing_conditions", []
+                    )
+                ),
+                "date_calculations": _json_safe(
+                    result.get("_evaluation_generation_data", {}).get(
+                        "date_calculations", []
+                    )
+                ),
+                "classification_factors": _json_safe(
+                    result.get("_evaluation_classification_factors")
+                ),
+                "classification_decision_version": result.get(
+                    "classification_decision_version"
+                ),
                 "references": _portable_references(result.get("references", [])),
                 "content_review_status": "pending",
                 "input_tokens": scenario_input,
@@ -327,9 +344,7 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--max-scenarios", type=int, required=True)
     parser.add_argument("--max-cost-usd", type=float, required=True)
-    parser.add_argument(
-        "--per-scenario-cost-reserve-usd", type=float, default=0.01
-    )
+    parser.add_argument("--per-scenario-cost-reserve-usd", type=float, default=0.01)
     parser.add_argument("--resume", action="store_true")
     parser.add_argument(
         "--scenario-id",
@@ -407,13 +422,14 @@ def main() -> int:
         classifier = GeminiProvider(CLASSIFIER_MODEL_NAME)
 
         def generate(question: str) -> dict[str, Any]:
-            return answer_question(
+            event_logger = EvaluationEventLogger()
+            result = answer_question(
                 question,
                 embed_query=embeddings.embed_query,
                 vector_index=corpus.index,
                 generator=generator,
                 classifier=classifier,
-                event_logger=EvaluationEventLogger(),
+                event_logger=event_logger,
                 answer_schema=load_schema(ANSWER_SCHEMA),
                 classification_schema=load_schema(CLASSIFICATION_SCHEMA),
                 top_k=5,
@@ -424,6 +440,12 @@ def main() -> int:
                 ],
                 max_visual_assets=3,
             )
+            result["_evaluation_classification_factors"] = (
+                event_logger.classification_attempts[-1].get("factors")
+                if event_logger.classification_attempts
+                else None
+            )
+            return result
 
         # The manifest stays next to the resumable, append-only evaluation records.
         evaluation_dir = output_dir / "evaluation"

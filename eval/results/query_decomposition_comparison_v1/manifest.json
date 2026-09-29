@@ -1,0 +1,246 @@
+{
+  "artifact_version": "query-decomposition-comparison-v1",
+  "baseline": "eval/results/query_decomposition_comparison_v1/baseline.csv",
+  "candidate": "eval/results/query_decomposition_comparison_v1/candidate.csv",
+  "changed_questions": [
+    {
+      "after_document_at_3": "0",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "0",
+      "before_document_at_3": "0",
+      "before_document_at_5": "0",
+      "before_evidence_at_3": "0",
+      "before_evidence_at_5": "0",
+      "difficulty": "multi_document",
+      "question_id": "Q156"
+    },
+    {
+      "after_document_at_3": "0",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "1",
+      "before_document_at_3": "0",
+      "before_document_at_5": "0",
+      "before_evidence_at_3": "0",
+      "before_evidence_at_5": "0",
+      "difficulty": "multi_document",
+      "question_id": "Q291"
+    },
+    {
+      "after_document_at_3": "0",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "1",
+      "before_document_at_3": "0",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "before_evidence_at_5": "0",
+      "difficulty": "multi_document",
+      "question_id": "Q436"
+    },
+    {
+      "after_document_at_3": "0",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "1",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "1",
+      "before_evidence_at_5": "1",
+      "difficulty": "multi_document",
+      "question_id": "Q441"
+    },
+    {
+      "after_document_at_3": "0",
+      "after_document_at_5": "1",
+      "after_evidence_at_3": "0",
+      "after_evidence_at_5": "0",
+      "before_document_at_3": "1",
+      "before_document_at_5": "1",
+      "before_evidence_at_3": "0",
+      "before_evidence_at_5": "0",
+      "difficulty": "multi_document",
+      "question_id": "Q446"
+    }
+  ],
+  "comparison_condition": "baseline and candidate generated in the same run",
+  "decision": "RUN_ANSWER_REGRESSION",
+  "decomposition": {
+    "decomposed_question_ids": [
+      "Q131",
+      "Q156",
+      "Q291",
+      "Q436",
+      "Q441",
+      "Q446"
+    ],
+    "merge": "equal per-intent quota, deduplicate, fill from original query",
+    "method": "deterministic domain-event and requested-facet rules",
+    "queries_by_question_id": {
+      "Q131": [
+        "2025年10月 1.8km 車通勤 通勤手当 支給要件",
+        "2025年10月 通勤経路変更届 提出期限"
+      ],
+      "Q156": [
+        "転居 通勤しなくなった 通勤手当 支給停止",
+        "転居 住所変更届 提出が必要な場合 提出期限"
+      ],
+      "Q291": [
+        "2025年10月 出生 扶養手当 支給開始時期",
+        "2025年10月 出生 扶養親族変更届 提出期限"
+      ],
+      "Q436": [
+        "転居 通勤しなくなった 通勤手当 支給停止",
+        "転居 住所変更届 提出が必要な場合 提出期限"
+      ],
+      "Q441": [
+        "過払給与 返納方法",
+        "給与口座変更届 必要書類"
+      ],
+      "Q446": [
+        "2025年10月 本人名義 家賃15,500円 住居手当 支給要件",
+        "2025年10月 住居届 必要書類",
+        "2025年10月 住居届 提出期限"
+      ]
+    },
+    "unique_subqueries": 11,
+    "uses_gold_fields": false
+  },
+  "document_hit_at_5_regressions": [],
+  "elements": 86,
+  "embedding": "gemini-embedding-001 contextual-heading-v1",
+  "evidence_hit_at_5_regressions": [],
+  "external_api": {
+    "estimated_cost_upper_bound_usd": 4.5400000000000006e-05,
+    "estimated_tokens_upper_bound": 227,
+    "logical_calls": 1,
+    "max_cost_usd": 0.001,
+    "max_logical_calls": 1,
+    "retry": 0,
+    "subquery_cache_hit": false
+  },
+  "failure_analysis": {
+    "at_3": {
+      "evidence_scored": 90,
+      "failure": 16,
+      "failure_by_answer_type": {
+        "判断要": 2,
+        "根拠十分": 14
+      },
+      "failure_by_difficulty": {
+        "boundary": 4,
+        "direct": 2,
+        "judgment": 2,
+        "multi_document": 6,
+        "near_miss": 1,
+        "revision": 1
+      },
+      "failure_by_required_document_count": {
+        "1": 8,
+        "2": 6,
+        "3": 2
+      },
+      "failure_by_required_evidence_count": {
+        "1": 3,
+        "2": 10,
+        "3": 2,
+        "4": 1
+      },
+      "failure_categories": {
+        "document_missing": 7,
+        "section_missing": 9
+      },
+      "k": 3,
+      "retrieval_not_applicable": 10,
+      "success": 74,
+      "total_rows": 100
+    },
+    "at_5": {
+      "evidence_scored": 90,
+      "failure": 8,
+      "failure_by_answer_type": {
+        "根拠十分": 8
+      },
+      "failure_by_difficulty": {
+        "boundary": 2,
+        "direct": 2,
+        "multi_document": 3,
+        "revision": 1
+      },
+      "failure_by_required_document_count": {
+        "1": 5,
+        "2": 1,
+        "3": 2
+      },
+      "failure_by_required_evidence_count": {
+        "1": 2,
+        "2": 4,
+        "3": 1,
+        "4": 1
+      },
+      "failure_categories": {
+        "document_missing": 1,
+        "section_missing": 7
+      },
+      "k": 5,
+      "retrieval_not_applicable": 10,
+      "success": 82,
+      "total_rows": 100
+    }
+  },
+  "gate_passed": true,
+  "improved_target_ids": [
+    "Q291",
+    "Q436"
+  ],
+  "input": "/Users/hanaokatakaaki/Desktop/rag-portfolio-app/eval/evaluation_questions_500.csv",
+  "questions": 100,
+  "retrieval_applicable_questions": 90,
+  "retrieval_mrr_first_evidence": 0.912037037037037,
+  "sealed_holdout_accessed": false,
+  "source_sha256": {
+    "document_cache": "1efec62b22bf462f86032d870858c1c737e450ed29b9d01ee9e640d02f173b29",
+    "input": "bf93804a604372a8d1e5b295a9906e147f6412e5465bb29e644353693c32ae17",
+    "query_cache": "25b2d74d64cbe0e6fa89e79bfc8bffdd837f8a383d9a6b5f44e6e17e8d025200",
+    "subquery_cache": "edf385107d0b9c207686512df500b2dd121398c4026a69c2660e1b46ad666ebc"
+  },
+  "summary": [
+    {
+      "after": 83,
+      "before": 85,
+      "metric": "hit_at_3",
+      "total": 90
+    },
+    {
+      "after": 89,
+      "before": 87,
+      "metric": "hit_at_5",
+      "total": 90
+    },
+    {
+      "after": 74,
+      "before": 75,
+      "metric": "evidence_hit_at_3",
+      "total": 90
+    },
+    {
+      "after": 82,
+      "before": 80,
+      "metric": "evidence_hit_at_5",
+      "total": 90
+    }
+  ],
+  "target_ids": [
+    "Q156",
+    "Q291",
+    "Q436"
+  ],
+  "timing_seconds": {
+    "baseline_search_p50": 0.0017298124876106158,
+    "baseline_search_p95": 0.0020630829967558384,
+    "candidate_search_p50": 0.001710728494799696,
+    "candidate_search_p95": 0.003285957995103672,
+    "subquery_embedding": 1.4461556669848505
+  }
+}

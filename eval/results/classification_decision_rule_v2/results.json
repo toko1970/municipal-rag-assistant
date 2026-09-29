@@ -1,0 +1,1043 @@
+{
+  "records": [
+    {
+      "case_id": "CPD-T01",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "text",
+      "prompt": "baseline",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-T01",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "text",
+      "prompt": "candidate",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-T01",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "text",
+      "prompt": "candidate_v3",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-T02",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "text",
+      "prompt": "baseline",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-T02",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "text",
+      "prompt": "candidate",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-T02",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "text",
+      "prompt": "candidate_v3",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-T03",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "text",
+      "prompt": "baseline",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-T03",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "text",
+      "prompt": "candidate",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-T03",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "text",
+      "prompt": "candidate_v3",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-T04",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "判断要",
+      "expected_label": "判断要",
+      "modality": "text",
+      "prompt": "baseline",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "判断要"
+    },
+    {
+      "case_id": "CPD-T04",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "判断要",
+      "expected_label": "判断要",
+      "modality": "text",
+      "prompt": "candidate",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "判断要"
+    },
+    {
+      "case_id": "CPD-T04",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "判断要",
+      "expected_label": "判断要",
+      "modality": "text",
+      "prompt": "candidate_v3",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "判断要"
+    },
+    {
+      "case_id": "CPD-T05",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "判断要",
+      "expected_label": "判断要",
+      "modality": "text",
+      "prompt": "baseline",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "判断要"
+    },
+    {
+      "case_id": "CPD-T05",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "判断要",
+      "expected_label": "判断要",
+      "modality": "text",
+      "prompt": "candidate",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "判断要"
+    },
+    {
+      "case_id": "CPD-T05",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "判断要",
+      "expected_label": "判断要",
+      "modality": "text",
+      "prompt": "candidate_v3",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "判断要"
+    },
+    {
+      "case_id": "CPD-T06",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "effective_label": "文書不足",
+      "expected_label": "文書不足",
+      "modality": "text",
+      "prompt": "baseline",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "raw_label": "文書不足"
+    },
+    {
+      "case_id": "CPD-T06",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "effective_label": "文書不足",
+      "expected_label": "文書不足",
+      "modality": "text",
+      "prompt": "candidate",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "raw_label": "文書不足"
+    },
+    {
+      "case_id": "CPD-T06",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "effective_label": "文書不足",
+      "expected_label": "文書不足",
+      "modality": "text",
+      "prompt": "candidate_v3",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "raw_label": "文書不足"
+    },
+    {
+      "case_id": "CPD-V01",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "visual",
+      "prompt": "baseline",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-V01",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "visual",
+      "prompt": "candidate",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-V01",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "visual",
+      "prompt": "candidate_v3",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-V02",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "visual",
+      "prompt": "baseline",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-V02",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "visual",
+      "prompt": "candidate",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-V02",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "visual",
+      "prompt": "candidate_v3",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-V03",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "visual",
+      "prompt": "baseline",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-V03",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "visual",
+      "prompt": "candidate",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-V03",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "visual",
+      "prompt": "candidate_v3",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-V04",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "判断要",
+      "expected_label": "判断要",
+      "modality": "visual",
+      "prompt": "baseline",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "判断要"
+    },
+    {
+      "case_id": "CPD-V04",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "判断要",
+      "expected_label": "判断要",
+      "modality": "visual",
+      "prompt": "candidate",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "判断要"
+    },
+    {
+      "case_id": "CPD-V04",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "判断要",
+      "expected_label": "判断要",
+      "modality": "visual",
+      "prompt": "candidate_v3",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "判断要"
+    },
+    {
+      "case_id": "CPD-V05",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "判断要",
+      "expected_label": "判断要",
+      "modality": "visual",
+      "prompt": "baseline",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "判断要"
+    },
+    {
+      "case_id": "CPD-V05",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "判断要",
+      "expected_label": "判断要",
+      "modality": "visual",
+      "prompt": "candidate",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "判断要"
+    },
+    {
+      "case_id": "CPD-V05",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "判断要",
+      "expected_label": "判断要",
+      "modality": "visual",
+      "prompt": "candidate_v3",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "判断要"
+    },
+    {
+      "case_id": "CPD-V06",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "effective_label": "文書不足",
+      "expected_label": "文書不足",
+      "modality": "visual",
+      "prompt": "baseline",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "raw_label": "文書不足"
+    },
+    {
+      "case_id": "CPD-V06",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "effective_label": "文書不足",
+      "expected_label": "文書不足",
+      "modality": "visual",
+      "prompt": "candidate",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "raw_label": "文書不足"
+    },
+    {
+      "case_id": "CPD-V06",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "effective_label": "文書不足",
+      "expected_label": "文書不足",
+      "modality": "visual",
+      "prompt": "candidate_v3",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "raw_label": "文書不足"
+    },
+    {
+      "case_id": "CPD-T07",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "判断要",
+      "expected_label": "判断要",
+      "modality": "text",
+      "prompt": "baseline",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "判断要"
+    },
+    {
+      "case_id": "CPD-T07",
+      "effective_correct": false,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "判断要",
+      "modality": "text",
+      "prompt": "candidate",
+      "raw_correct": false,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-T07",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "判断要",
+      "expected_label": "判断要",
+      "modality": "text",
+      "prompt": "candidate_v3",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "判断要"
+    },
+    {
+      "case_id": "CPD-V07",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "visual",
+      "prompt": "baseline",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-V07",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "visual",
+      "prompt": "candidate",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    },
+    {
+      "case_id": "CPD-V07",
+      "effective_correct": true,
+      "effective_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "effective_label": "根拠十分",
+      "expected_label": "根拠十分",
+      "modality": "visual",
+      "prompt": "candidate_v3",
+      "raw_correct": true,
+      "raw_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "raw_label": "根拠十分"
+    }
+  ],
+  "summary": {
+    "by_prompt": {
+      "baseline": {
+        "count": 14,
+        "effective_accuracy": 1.0,
+        "effective_correct": 14,
+        "raw_accuracy": 1.0,
+        "raw_correct": 14,
+        "text_effective_correct": 7,
+        "visual_effective_correct": 7
+      },
+      "candidate": {
+        "count": 14,
+        "effective_accuracy": 0.9285714285714286,
+        "effective_correct": 13,
+        "raw_accuracy": 0.9285714285714286,
+        "raw_correct": 13,
+        "text_effective_correct": 6,
+        "visual_effective_correct": 7
+      },
+      "candidate_v3": {
+        "count": 14,
+        "effective_accuracy": 1.0,
+        "effective_correct": 14,
+        "raw_accuracy": 1.0,
+        "raw_correct": 14,
+        "text_effective_correct": 7,
+        "visual_effective_correct": 7
+      }
+    }
+  }
+}

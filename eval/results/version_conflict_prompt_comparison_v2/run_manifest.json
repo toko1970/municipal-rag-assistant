@@ -1,0 +1,15 @@
+{
+  "case_count": 17,
+  "control_count": 10,
+  "document_cache_sha256": "1efec62b22bf462f86032d870858c1c737e450ed29b9d01ee9e640d02f173b29",
+  "experiment": "version-conflict-prompt-v1",
+  "max_cost_usd": 0.1,
+  "max_logical_external_calls": 34,
+  "model": "gemini-3.1-flash-lite",
+  "query_cache_sha256": "25b2d74d64cbe0e6fa89e79bfc8bffdd837f8a383d9a6b5f44e6e17e8d025200",
+  "records_path": "eval/results/retrieved_text_regression_e24d7d4_v2/evaluation/records.jsonl",
+  "records_sha256": "c8634ef67deebe0de306d2d8d3b1e0f29eca600f3358315edbbfbeba3f551f3d",
+  "retry_count": 0,
+  "sealed_holdout_accessed": false,
+  "target_count": 7
+}

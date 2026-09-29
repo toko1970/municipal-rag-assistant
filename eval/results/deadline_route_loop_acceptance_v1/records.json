@@ -1,0 +1,98 @@
+[
+  {
+    "id": "DR-A01",
+    "question": "採用日は2028年4月1日です。届出は何日までですか？",
+    "expected_route": true,
+    "category": "japanese_date_unseen",
+    "predicted_route": true,
+    "correct": true
+  },
+  {
+    "id": "DR-A02",
+    "question": "2029-11-03に利用を開始しました。期限となる日はいつですか？",
+    "expected_route": true,
+    "category": "iso_date_unseen",
+    "predicted_route": true,
+    "correct": true
+  },
+  {
+    "id": "DR-A03",
+    "question": "2030/05/08に受理された場合の締め切り日を教えてください。",
+    "expected_route": true,
+    "category": "slash_spelled_unseen",
+    "predicted_route": true,
+    "correct": true
+  },
+  {
+    "id": "DR-A04",
+    "question": "受理日は2028年7月14日です。期限となる日を計算してください。",
+    "expected_route": true,
+    "category": "named_anchor_unseen",
+    "predicted_route": true,
+    "correct": true
+  },
+  {
+    "id": "DR-A05",
+    "question": "2031年2月28日を起算日として、提出期日はいつですか？",
+    "expected_route": true,
+    "category": "due_date_unseen",
+    "predicted_route": true,
+    "correct": true
+  },
+  {
+    "id": "DR-A06",
+    "question": "2027年9月30日に届出しました。暦の上ではいつまでに手続しますか？",
+    "expected_route": true,
+    "category": "calendar_paraphrase_unseen",
+    "predicted_route": true,
+    "correct": true
+  },
+  {
+    "id": "DR-A07",
+    "question": "申請期限が2028年6月30日という理解でよいですか？",
+    "expected_route": false,
+    "category": "confirmation_unseen",
+    "predicted_route": false,
+    "correct": true
+  },
+  {
+    "id": "DR-A08",
+    "question": "2028年4月1日施行の規程で、届出期限は何日以内ですか？",
+    "expected_route": false,
+    "category": "effective_date_unseen",
+    "predicted_route": false,
+    "correct": true
+  },
+  {
+    "id": "DR-A09",
+    "question": "2029年1月4日から3開庁日後の締切日はいつですか？",
+    "expected_route": false,
+    "category": "office_day_unseen",
+    "predicted_route": false,
+    "correct": true
+  },
+  {
+    "id": "DR-A10",
+    "question": "2027年5月1日時点で住居手当の対象になりますか？",
+    "expected_route": false,
+    "category": "eligibility_unseen",
+    "predicted_route": false,
+    "correct": true
+  },
+  {
+    "id": "DR-A11",
+    "question": "来週受理された場合の期限日はいつですか？",
+    "expected_route": false,
+    "category": "relative_date_unseen",
+    "predicted_route": false,
+    "correct": true
+  },
+  {
+    "id": "DR-A12",
+    "question": "令和10年4月1日を起算日とした提出期日を教えてください。",
+    "expected_route": false,
+    "category": "japanese_era_unseen",
+    "predicted_route": false,
+    "correct": true
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "review_version": "retrieved-regression-review-v1",
+  "reviewer": "codex_agent_initial_review",
+  "requires_user_confirmation": true,
+  "reviewed_text_questions": 100,
+  "reviewed_visual_questions": 30,
+  "primary_cause_precedence": [
+    "retrieval_failure_when_required_evidence_missing_and_content_failed",
+    "answer_generation_failure_when_expected_content_missing_or_unsupported",
+    "classification_failure_when_content_is_usable_but_label_or_display_contract_failed"
+  ],
+  "text_failures": {
+    "retrieval_failure": ["Q156", "Q291", "Q436"],
+    "answer_generation_failure": ["Q066", "Q131", "Q386", "Q391"],
+    "classification_failure": [
+      "Q006", "Q046", "Q076", "Q086", "Q121", "Q126", "Q196",
+      "Q201", "Q231", "Q281", "Q286", "Q301", "Q316", "Q416"
+    ]
+  },
+  "visual_failures": {
+    "retrieval_failure": [],
+    "answer_generation_failure": ["VD004", "VD019"],
+    "classification_failure": ["VD014", "VD024", "VD029"]
+  },
+  "notes": {
+    "Q006_Q076": "generatorは不足条件を返したがclassifierが根拠十分とし、表示契約が拒否した。",
+    "Q121_Q126": "gold evidenceの一部はTop-8にないが、回答キーは満たしており、最終失敗は過剰な判断要分類である。",
+    "VD014_VD029": "classification-decision-v2だけが旧正解ラベル判断要を文書不足へ変更した退行。",
+    "visual_content_review": "モデルtokenと構造化応答が既存baselineと同一だったため、既存30件content reviewを再利用し、表示ラベル差分を追加確認した。"
+  }
+}

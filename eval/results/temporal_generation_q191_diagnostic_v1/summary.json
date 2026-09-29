@@ -1,0 +1,19 @@
+{
+  "additional_scope_composite_correct": 0,
+  "additional_scope_count": 1,
+  "completed_count": 0,
+  "gate_passed": false,
+  "historical_reused_estimated_cost_usd": 0,
+  "new_estimated_cost_usd": 0.0,
+  "new_input_tokens": 0,
+  "new_logical_external_calls": 1,
+  "new_max_cost_usd": 0.005,
+  "new_output_tokens": 0,
+  "new_scenario_count": 1,
+  "reused_count": 0,
+  "scope_composite_correct": 0,
+  "scope_scenario_count": 1,
+  "sealed_holdout_accessed": false,
+  "stop_reason": "PROVIDER_ERROR_FAIL_FAST",
+  "target_composite_ok": false
+}

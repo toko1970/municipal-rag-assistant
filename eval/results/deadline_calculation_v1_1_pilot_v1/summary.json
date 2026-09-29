@@ -1,0 +1,16 @@
+{
+  "completed_count": 8,
+  "control_count": 2,
+  "control_success": 2,
+  "date_count": 6,
+  "date_success": 0,
+  "estimated_cost_usd": 0.0040205,
+  "gate_passed": false,
+  "input_tokens": 3680,
+  "logical_external_calls": 16,
+  "max_cost_usd": 0.015,
+  "output_tokens": 2067,
+  "scenario_count": 8,
+  "sealed_holdout_accessed": false,
+  "stop_reason": "COMPLETED"
+}

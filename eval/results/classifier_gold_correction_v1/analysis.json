@@ -1,0 +1,62 @@
+{
+  "after": {
+    "classification_correct": 119,
+    "primary_causes": {
+      "answer_generation_failure": 6,
+      "classification_failure": 6,
+      "retrieval_failure": 3,
+      "success": 115
+    },
+    "success": 115,
+    "total": 130
+  },
+  "artifact_version": "classifier-gold-correction-v1",
+  "before": {
+    "classification_correct": 116,
+    "primary_causes": {
+      "answer_generation_failure": 6,
+      "classification_failure": 9,
+      "retrieval_failure": 3,
+      "success": 112
+    },
+    "success": 112,
+    "total": 130
+  },
+  "correction_type": "gold_scope_correction",
+  "corrections": [
+    {
+      "new_label": "根拠十分",
+      "old_label": "判断要",
+      "question_id": "Q046",
+      "scenario_id": "S010"
+    },
+    {
+      "new_label": "根拠十分",
+      "old_label": "判断要",
+      "question_id": "Q086",
+      "scenario_id": "S018"
+    },
+    {
+      "new_label": "根拠十分",
+      "old_label": "判断要",
+      "question_id": "Q316",
+      "scenario_id": "S064"
+    }
+  ],
+  "evaluation_set_version": "1.1",
+  "external_api_calls": 0,
+  "model_or_prompt_changed": false,
+  "remaining_classification_failures": [
+    "Q006",
+    "Q076",
+    "Q126",
+    "Q196",
+    "Q301",
+    "VD024"
+  ],
+  "sealed_holdout_accessed": false,
+  "source_sha256": {
+    "eval/evaluation_set_manifest.json": "00274416517c63da636f468878a06d3e8df05231321c6d3b89af51dd5da7a21d",
+    "eval/results/version_resolver_regression_v1/analysis.json": "fd81fcbf2462e02f01005de5eb2e0ae456b22460001c63bd7eab3d339bb7b91b"
+  }
+}

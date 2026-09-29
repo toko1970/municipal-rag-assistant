@@ -1,0 +1,1098 @@
+{
+  "dataset": {
+    "evaluation_mode": "oracle_evidence",
+    "path": "eval/classification_prompt_development_cases_v2.json",
+    "sha256": "211db1c9622aa7c15983cc74a9a80798289fd42865366295273ffd58512fb14e",
+    "version": "classification-prompt-development-v2"
+  },
+  "estimated_cost_usd": 0.0101005,
+  "input_tokens": 14866,
+  "max_cost_usd": 0.1,
+  "max_logical_external_calls": 42,
+  "model": "gemini-3.1-flash-lite",
+  "output_tokens": 4256,
+  "records": [
+    {
+      "case_id": "CPD-T01",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 191,
+      "modality": "text",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "baseline",
+      "prompt_version": "answer-classification-v1",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T01",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 399,
+      "modality": "text",
+      "output_tokens": 100,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate",
+      "prompt_version": "answer-classification-v2",
+      "response": {
+        "confidence": 1,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T01",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 513,
+      "modality": "text",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate_v3",
+      "prompt_version": "answer-classification-v3",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T02",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 166,
+      "modality": "text",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "baseline",
+      "prompt_version": "answer-classification-v1",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T02",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 374,
+      "modality": "text",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate",
+      "prompt_version": "answer-classification-v2",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T02",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 488,
+      "modality": "text",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate_v3",
+      "prompt_version": "answer-classification-v3",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T03",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 171,
+      "modality": "text",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "baseline",
+      "prompt_version": "answer-classification-v1",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T03",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 379,
+      "modality": "text",
+      "output_tokens": 100,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate",
+      "prompt_version": "answer-classification-v2",
+      "response": {
+        "confidence": 1,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T03",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 493,
+      "modality": "text",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate_v3",
+      "prompt_version": "answer-classification-v3",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T04",
+      "correct": true,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 181,
+      "modality": "text",
+      "output_tokens": 102,
+      "predicted_label": "判断要",
+      "prompt": "baseline",
+      "prompt_version": "answer-classification-v1",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T04",
+      "correct": true,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 389,
+      "modality": "text",
+      "output_tokens": 100,
+      "predicted_label": "判断要",
+      "prompt": "candidate",
+      "prompt_version": "answer-classification-v2",
+      "response": {
+        "confidence": 1,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T04",
+      "correct": true,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 503,
+      "modality": "text",
+      "output_tokens": 100,
+      "predicted_label": "判断要",
+      "prompt": "candidate_v3",
+      "prompt_version": "answer-classification-v3",
+      "response": {
+        "confidence": 1,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T05",
+      "correct": true,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 185,
+      "modality": "text",
+      "output_tokens": 100,
+      "predicted_label": "判断要",
+      "prompt": "baseline",
+      "prompt_version": "answer-classification-v1",
+      "response": {
+        "confidence": 1,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T05",
+      "correct": true,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 393,
+      "modality": "text",
+      "output_tokens": 100,
+      "predicted_label": "判断要",
+      "prompt": "candidate",
+      "prompt_version": "answer-classification-v2",
+      "response": {
+        "confidence": 1,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T05",
+      "correct": true,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 507,
+      "modality": "text",
+      "output_tokens": 102,
+      "predicted_label": "判断要",
+      "prompt": "candidate_v3",
+      "prompt_version": "answer-classification-v3",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T06",
+      "correct": true,
+      "error": null,
+      "expected_label": "文書不足",
+      "input_tokens": 117,
+      "modality": "text",
+      "output_tokens": 102,
+      "predicted_label": "文書不足",
+      "prompt": "baseline",
+      "prompt_version": "answer-classification-v1",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T06",
+      "correct": true,
+      "error": null,
+      "expected_label": "文書不足",
+      "input_tokens": 325,
+      "modality": "text",
+      "output_tokens": 100,
+      "predicted_label": "文書不足",
+      "prompt": "candidate",
+      "prompt_version": "answer-classification-v2",
+      "response": {
+        "confidence": 1,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T06",
+      "correct": true,
+      "error": null,
+      "expected_label": "文書不足",
+      "input_tokens": 439,
+      "modality": "text",
+      "output_tokens": 102,
+      "predicted_label": "文書不足",
+      "prompt": "candidate_v3",
+      "prompt_version": "answer-classification-v3",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V01",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 181,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "baseline",
+      "prompt_version": "answer-classification-v1",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V01",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 389,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate",
+      "prompt_version": "answer-classification-v2",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V01",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 503,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate_v3",
+      "prompt_version": "answer-classification-v3",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V02",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 184,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "baseline",
+      "prompt_version": "answer-classification-v1",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V02",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 392,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate",
+      "prompt_version": "answer-classification-v2",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V02",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 506,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate_v3",
+      "prompt_version": "answer-classification-v3",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V03",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 182,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "baseline",
+      "prompt_version": "answer-classification-v1",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V03",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 390,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate",
+      "prompt_version": "answer-classification-v2",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V03",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 504,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate_v3",
+      "prompt_version": "answer-classification-v3",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V04",
+      "correct": true,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 196,
+      "modality": "visual",
+      "output_tokens": 100,
+      "predicted_label": "判断要",
+      "prompt": "baseline",
+      "prompt_version": "answer-classification-v1",
+      "response": {
+        "confidence": 1,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V04",
+      "correct": true,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 404,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "判断要",
+      "prompt": "candidate",
+      "prompt_version": "answer-classification-v2",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V04",
+      "correct": true,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 518,
+      "modality": "visual",
+      "output_tokens": 100,
+      "predicted_label": "判断要",
+      "prompt": "candidate_v3",
+      "prompt_version": "answer-classification-v3",
+      "response": {
+        "confidence": 1,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V05",
+      "correct": true,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 203,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "判断要",
+      "prompt": "baseline",
+      "prompt_version": "answer-classification-v1",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V05",
+      "correct": true,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 411,
+      "modality": "visual",
+      "output_tokens": 100,
+      "predicted_label": "判断要",
+      "prompt": "candidate",
+      "prompt_version": "answer-classification-v2",
+      "response": {
+        "confidence": 1,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V05",
+      "correct": true,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 525,
+      "modality": "visual",
+      "output_tokens": 100,
+      "predicted_label": "判断要",
+      "prompt": "candidate_v3",
+      "prompt_version": "answer-classification-v3",
+      "response": {
+        "confidence": 1,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V06",
+      "correct": true,
+      "error": null,
+      "expected_label": "文書不足",
+      "input_tokens": 130,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "文書不足",
+      "prompt": "baseline",
+      "prompt_version": "answer-classification-v1",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V06",
+      "correct": true,
+      "error": null,
+      "expected_label": "文書不足",
+      "input_tokens": 338,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "文書不足",
+      "prompt": "candidate",
+      "prompt_version": "answer-classification-v2",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V06",
+      "correct": true,
+      "error": null,
+      "expected_label": "文書不足",
+      "input_tokens": 452,
+      "modality": "visual",
+      "output_tokens": 100,
+      "predicted_label": "文書不足",
+      "prompt": "candidate_v3",
+      "prompt_version": "answer-classification-v3",
+      "response": {
+        "confidence": 1,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": false,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T07",
+      "correct": true,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 195,
+      "modality": "text",
+      "output_tokens": 100,
+      "predicted_label": "判断要",
+      "prompt": "baseline",
+      "prompt_version": "answer-classification-v1",
+      "response": {
+        "confidence": 1,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T07",
+      "correct": false,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 403,
+      "modality": "text",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate",
+      "prompt_version": "answer-classification-v2",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-T07",
+      "correct": true,
+      "error": null,
+      "expected_label": "判断要",
+      "input_tokens": 517,
+      "modality": "text",
+      "output_tokens": 100,
+      "predicted_label": "判断要",
+      "prompt": "candidate_v3",
+      "prompt_version": "answer-classification-v3",
+      "response": {
+        "confidence": 1,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V07",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 200,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "baseline",
+      "prompt_version": "answer-classification-v1",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V07",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 408,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate",
+      "prompt_version": "answer-classification-v2",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "case_id": "CPD-V07",
+      "correct": true,
+      "error": null,
+      "expected_label": "根拠十分",
+      "input_tokens": 522,
+      "modality": "visual",
+      "output_tokens": 102,
+      "predicted_label": "根拠十分",
+      "prompt": "candidate_v3",
+      "prompt_version": "answer-classification-v3",
+      "response": {
+        "confidence": 1.0,
+        "error_code": null,
+        "factors": {
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "retrieval_sufficient": true,
+          "version_conflict": false
+        },
+        "schema_version": "1.0",
+        "status": "SUCCESS"
+      }
+    }
+  ],
+  "retry_count": 0,
+  "summary": {
+    "by_prompt": {
+      "baseline": {
+        "accuracy": 1.0,
+        "attempted": 14,
+        "completed": 14,
+        "correct": 14,
+        "text_correct": 7,
+        "visual_correct": 7
+      },
+      "candidate": {
+        "accuracy": 0.9285714285714286,
+        "attempted": 14,
+        "completed": 14,
+        "correct": 13,
+        "text_correct": 6,
+        "visual_correct": 7
+      },
+      "candidate_v3": {
+        "accuracy": 1.0,
+        "attempted": 14,
+        "completed": 14,
+        "correct": 14,
+        "text_correct": 7,
+        "visual_correct": 7
+      }
+    },
+    "case_count": 14,
+    "error_count": 0,
+    "logical_external_call_count": 42
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "affected_question_ids": [
+    "Q191"
+  ],
+  "audit_version": "1.0",
+  "audited_gate_passed": false,
+  "audited_scope_composite_correct": 6,
+  "audited_scope_scenario_count": 7,
+  "audited_valid_completed_count": 6,
+  "corrective_action": "Return resolver error_summary and treat RESOLUTION_FAILED as a scenario error in future runs.",
+  "finding": "The runner did not promote an internal Version Resolver failure to a scenario error.",
+  "production_integrated": false,
+  "q191_observations": {
+    "answer_content_correct": true,
+    "expected_label": "根拠十分",
+    "failure_detail_available": false,
+    "predicted_label": "判断要",
+    "version_resolution_status": "RESOLUTION_FAILED"
+  },
+  "raw_completed_count": 7,
+  "raw_manifest_sha256": "2b620bbe3b8f77d0f5717cc288bd701b3cfb6c3948ea58ee122cd30dd6b809e2",
+  "raw_records_sha256": "26f113012487de8bc8e176c6803b9ab99fb5f4410a55f861de6bd5e206c5f6e4",
+  "raw_summary_sha256": "e82216e3c6d030d26f3655db43982f713ce298954ac1441bb2c9e90cdd165aa3",
+  "retry_performed": false,
+  "sealed_holdout_accessed": false
+}

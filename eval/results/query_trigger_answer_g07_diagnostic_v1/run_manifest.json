@@ -1,0 +1,17 @@
+{
+  "classifier_model": "gemini-3.1-flash-lite",
+  "dataset_sha256": "66e212c54ce6160b0ff18e677f745bdfcfd0026303d6c4d1afc0a958bd275c2a",
+  "document_cache_sha256": "1efec62b22bf462f86032d870858c1c737e450ed29b9d01ee9e640d02f173b29",
+  "experiment": "query-trigger-answer-comparison-v1",
+  "generator_model": "gemini-3.1-flash-lite",
+  "max_cost_usd": 0.02,
+  "max_logical_external_calls": 54,
+  "min_scenario_interval_seconds": 15.0,
+  "query_cache_sha256": "c32b0d1adfe25aaff9fb133bc2a8d7d94228fe4d5b4c8ec4cd61a1971580c4b2",
+  "retry_count": 0,
+  "sealed_holdout_accessed": false,
+  "target_ids": [
+    "G07"
+  ],
+  "top_k": 8
+}

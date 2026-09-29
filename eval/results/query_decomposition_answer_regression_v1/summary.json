@@ -1,0 +1,19 @@
+{
+  "baseline_composite_correct": 0,
+  "candidate_composite_correct": 0,
+  "completed_pair_ids": [
+    "Q291"
+  ],
+  "completed_scenario_count": 3,
+  "estimated_cost_usd": 0.00425825,
+  "gate_passed": false,
+  "improved_ids": [],
+  "input_tokens": 8597,
+  "logical_external_calls": 10,
+  "max_cost_usd": 0.02,
+  "output_tokens": 1406,
+  "regressed_ids": [],
+  "scenario_count": 4,
+  "sealed_holdout_accessed": false,
+  "stop_reason": "COMPLETED"
+}

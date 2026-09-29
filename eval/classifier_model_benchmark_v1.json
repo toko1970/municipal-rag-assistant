@@ -1,0 +1,2077 @@
+{
+  "case_count": 36,
+  "cases": [
+    {
+      "annotation_rationale": "基準日と境界値が質問内にあり、根拠から一意に決まる。",
+      "annotation_status": "approved",
+      "case_id": "CPD-T01",
+      "evidence": [
+        {
+          "content": "2025年10月以降は通勤距離1.5km以上を対象とする。",
+          "element_id": "text-01"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "text-01"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "1.5km以上なので距離要件を満たします。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "2025年10月に通勤距離がちょうど1.5kmなら距離要件を満たしますか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "oracle_control",
+        "source_id": "CPD-T01"
+      }
+    },
+    {
+      "annotation_rationale": "支給日が根拠に明記されている。",
+      "annotation_status": "approved",
+      "case_id": "CPD-T02",
+      "evidence": [
+        {
+          "content": "給与は毎月21日に支給する。",
+          "element_id": "text-02"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "text-02"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "通常の給与支給日は毎月21日です。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "通常の給与支給日は毎月何日ですか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "oracle_control",
+        "source_id": "CPD-T02"
+      }
+    },
+    {
+      "annotation_rationale": "本人名義という明示条件をそのまま適用できる。",
+      "annotation_status": "approved",
+      "case_id": "CPD-T03",
+      "evidence": [
+        {
+          "content": "給与は職員本人名義の金融機関口座へ振り込む。",
+          "element_id": "text-03"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "text-03"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "家族名義の口座には振り込めません。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "給与を家族名義の口座へ振り込めますか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "oracle_control",
+        "source_id": "CPD-T03"
+      }
+    },
+    {
+      "annotation_rationale": "結論を変える実通勤距離が質問にない。",
+      "annotation_status": "approved",
+      "case_id": "CPD-T04",
+      "evidence": [
+        {
+          "content": "自動車通勤は通勤距離1.5km以上を対象とする。",
+          "element_id": "text-04"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "判断要",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "text-04"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "1.5km以上なら距離要件を満たします。"
+          }
+        ],
+        "missing_conditions": [
+          "職員の実通勤距離"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "自動車通勤する職員は通勤手当の距離要件を満たしますか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "oracle_control",
+        "source_id": "CPD-T04"
+      }
+    },
+    {
+      "annotation_rationale": "職員事情が不足し、事情を踏まえた決定にも所管判断が残る。",
+      "annotation_status": "approved",
+      "case_id": "CPD-T05",
+      "evidence": [
+        {
+          "content": "返納方法は職員の事情を考慮し、一括または分割から決定する。",
+          "element_id": "text-05"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": true,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "判断要",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "text-05"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "返納方法は一括または分割から決定します。"
+          }
+        ],
+        "missing_conditions": [
+          "返納方法の決定に必要な職員事情"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "過払給与は一括返納に決定してよいですか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "oracle_control",
+        "source_id": "CPD-T05"
+      }
+    },
+    {
+      "annotation_rationale": "取得根拠が質問と無関係で、回答claimもない。",
+      "annotation_status": "approved",
+      "case_id": "CPD-T06",
+      "evidence": [
+        {
+          "content": "給与支給日は毎月21日とする。",
+          "element_id": "text-06"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "expected_label": "文書不足",
+      "generated_answer": {
+        "claims": [],
+        "missing_conditions": [
+          "人事評価の資料"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "来年度の人事評価の点数を教えてください。",
+      "role": "factor_control",
+      "source": {
+        "kind": "oracle_control",
+        "source_id": "CPD-T06"
+      }
+    },
+    {
+      "annotation_rationale": "90分以上という表の境界を直接適用できる。",
+      "annotation_status": "approved",
+      "case_id": "CPD-V01",
+      "evidence": [
+        {
+          "content": "区分B: 90分以上120分未満。",
+          "element_id": "visual-01"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "visual-01"
+            ],
+            "evidence_kind": "table_cell",
+            "ordinal": 1,
+            "text": "90分以上なので区分Bに該当します。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "visual",
+      "question": "作業時間がちょうど90分の場合は区分Bに該当しますか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "oracle_control",
+        "source_id": "CPD-V01"
+      }
+    },
+    {
+      "annotation_rationale": "flow上の状態と次工程がすべて質問にある。",
+      "annotation_status": "approved",
+      "case_id": "CPD-V02",
+      "evidence": [
+        {
+          "content": "不備なし → 承認済み → 登録番号を通知 → 終了。",
+          "element_id": "visual-02"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "visual-02"
+            ],
+            "evidence_kind": "flow_edge",
+            "ordinal": 1,
+            "text": "登録番号を通知して終了します。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "visual",
+      "question": "申請内容に不備がなく承認済みの場合、次は何をしますか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "oracle_control",
+        "source_id": "CPD-V02"
+      }
+    },
+    {
+      "annotation_rationale": "30分未満の分岐を直接適用できる。",
+      "annotation_status": "approved",
+      "case_id": "CPD-V03",
+      "evidence": [
+        {
+          "content": "実作業時間30分以上? いいえ → 認定対象外。",
+          "element_id": "visual-03"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "visual-03"
+            ],
+            "evidence_kind": "flow_edge",
+            "ordinal": 1,
+            "text": "30分未満の場合は認定対象外です。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "visual",
+      "question": "実作業時間が30分未満の場合、認定されますか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "oracle_control",
+        "source_id": "CPD-V03"
+      }
+    },
+    {
+      "annotation_rationale": "事前講習の修了状況が不足している。",
+      "annotation_status": "approved",
+      "case_id": "CPD-V04",
+      "evidence": [
+        {
+          "content": "45分以上 → 事前講習修了? はい → 認定、いいえ → 保留。",
+          "element_id": "visual-04"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "判断要",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "visual-04"
+            ],
+            "evidence_kind": "flow_edge",
+            "ordinal": 1,
+            "text": "45分以上であることは満たしています。"
+          }
+        ],
+        "missing_conditions": [
+          "事前講習の修了状況"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "visual",
+      "question": "実作業時間が45分の職員は認定されますか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "oracle_control",
+        "source_id": "CPD-V04"
+      }
+    },
+    {
+      "annotation_rationale": "金額を決める実作業時間が不足している。",
+      "annotation_status": "approved",
+      "case_id": "CPD-V05",
+      "evidence": [
+        {
+          "content": "60分未満0円、60分以上120分未満600円、120分以上1200円。",
+          "element_id": "visual-05"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "判断要",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "visual-05"
+            ],
+            "evidence_kind": "table_cell",
+            "ordinal": 1,
+            "text": "加算額は実作業時間の区分で決まります。"
+          }
+        ],
+        "missing_conditions": [
+          "職員の実作業時間"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "visual",
+      "question": "この職員の作業加算額はいくらですか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "oracle_control",
+        "source_id": "CPD-V05"
+      }
+    },
+    {
+      "annotation_rationale": "保存年限を示す根拠がなく、回答claimもない。",
+      "annotation_status": "approved",
+      "case_id": "CPD-V06",
+      "evidence": [
+        {
+          "content": "申請者名、所属、提出日を記入する。",
+          "element_id": "visual-06"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "expected_label": "文書不足",
+      "generated_answer": {
+        "claims": [],
+        "missing_conditions": [
+          "保存年限を定めた文書"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "visual",
+      "question": "この帳票の保存年限は何年ですか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "oracle_control",
+        "source_id": "CPD-V06"
+      }
+    },
+    {
+      "annotation_rationale": "扶養実態と生計維持関係が不足している。",
+      "annotation_status": "approved",
+      "case_id": "CPD-T07",
+      "evidence": [
+        {
+          "content": "別居する父母は、扶養実態と生計維持関係を総合確認して認定する。",
+          "element_id": "text-07"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "判断要",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "text-07"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "扶養実態と生計維持関係の確認が必要なため、この情報だけでは認定を決定できません。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "別居している父母をこの職員の扶養親族として認定できますか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "oracle_control",
+        "source_id": "CPD-T07"
+      }
+    },
+    {
+      "annotation_rationale": "flowの二条件が質問内で充足している。",
+      "annotation_status": "approved",
+      "case_id": "CPD-V07",
+      "evidence": [
+        {
+          "content": "45分以上 → 事前講習修了? はい → 認定、いいえ → 保留。",
+          "element_id": "visual-07"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "visual-07"
+            ],
+            "evidence_kind": "flow_edge",
+            "ordinal": 1,
+            "text": "45分以上かつ事前講習修了済みなので認定されます。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "visual",
+      "question": "実作業時間が45分で事前講習を修了済みなら認定されますか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "oracle_control",
+        "source_id": "CPD-V07"
+      }
+    },
+    {
+      "annotation_rationale": "適用日・優先規則がなく、結論に関係する版競合が残る。",
+      "annotation_status": "approved",
+      "case_id": "CMB-T01",
+      "evidence": [
+        {
+          "content": "旧基準は2.0km以上、新基準は1.5km以上とする。適用日の情報はない。",
+          "element_id": "CMB-T01-e1"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": true
+      },
+      "expected_label": "判断要",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "CMB-T01-e1"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "適用版を一意に決められません。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "基準日を示さず、旧基準と新基準で結論が異なる場合はどちらを使いますか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "synthetic_control",
+        "source_id": "CMB-T01"
+      }
+    },
+    {
+      "annotation_rationale": "期間をまたぐ適用規則がなく、版を一意に決められない。",
+      "annotation_status": "approved",
+      "case_id": "CMB-T02",
+      "evidence": [
+        {
+          "content": "改定前は月額8,000円、改定後は9,000円。施行日は示すが期間をまたぐ場合の規則はない。",
+          "element_id": "CMB-T02-e1"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": true
+      },
+      "expected_label": "判断要",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "CMB-T02-e1"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "期間をまたぐ場合の適用規則がないため確認が必要です。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "改定日をまたぐ期間の手当額は改定前後のどちらで計算しますか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "synthetic_control",
+        "source_id": "CMB-T02"
+      }
+    },
+    {
+      "annotation_rationale": "必要事実が揃っても、根拠が所管課の裁量判断を明示している。",
+      "annotation_status": "approved",
+      "case_id": "CMB-T03",
+      "evidence": [
+        {
+          "content": "期限後申請の遡及認定は、個別事情と制度運用への影響を踏まえて所管課が決定する。",
+          "element_id": "CMB-T03-e1"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": true,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "判断要",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "CMB-T03-e1"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "所管課の決定が必要です。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "期限後申請を遡及して認定してよいですか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "synthetic_control",
+        "source_id": "CMB-T03"
+      }
+    },
+    {
+      "annotation_rationale": "flowが裁量判断へ到達することを示すが、可否基準は示さない。",
+      "annotation_status": "approved",
+      "case_id": "CMB-V01",
+      "evidence": [
+        {
+          "content": "不備なし → 管理者確認 → 管理者が可否を判断。判断基準は図に示されていない。",
+          "element_id": "CMB-V01-e1"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": true,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "判断要",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "CMB-V01-e1"
+            ],
+            "evidence_kind": "flow_edge",
+            "ordinal": 1,
+            "text": "管理者の判断が必要で、この図だけでは承認を確定できません。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "visual",
+      "question": "フローで管理者確認へ進んだ申請はそのまま承認してよいですか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "synthetic_control",
+        "source_id": "CMB-V01"
+      }
+    },
+    {
+      "annotation_rationale": "取得根拠に質問された支給割合がなく、支持できる回答claimもない。",
+      "annotation_status": "approved",
+      "case_id": "CMB-T04",
+      "evidence": [
+        {
+          "content": "給与は毎月21日に支給する。育児休業中の支給割合は記載されていない。",
+          "element_id": "CMB-T04-e1"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "expected_label": "文書不足",
+      "generated_answer": {
+        "claims": [],
+        "missing_conditions": [
+          "質問へ答える根拠文書"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "育児休業中の給与支給割合は何割ですか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "synthetic_control",
+        "source_id": "CMB-T04"
+      }
+    },
+    {
+      "annotation_rationale": "図には経路だけがあり、質問された料金上限の根拠と回答claimがない。",
+      "annotation_status": "approved",
+      "case_id": "CMB-V02",
+      "evidence": [
+        {
+          "content": "自宅 → 駐車場 → 勤務公署。料金に関する記載はない。",
+          "element_id": "CMB-V02-e1"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "expected_label": "文書不足",
+      "generated_answer": {
+        "claims": [],
+        "missing_conditions": [
+          "質問へ答える根拠文書"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "visual",
+      "question": "この通勤経路図から駐車料金の上限額を確認できますか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "synthetic_control",
+        "source_id": "CMB-V02"
+      }
+    },
+    {
+      "annotation_rationale": "質問はこの規程だけで確定できるかを聞いており、別規程によると取得根拠から答えられる。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q006",
+      "evidence": [
+        {
+          "content": "給与制度規程\n3. 給与支給日\n## 3. 給与支給日  \n職員の給与は毎月21日に支給する。  \n支給日が土曜日、日曜日または祝日に当たる場合は、その直前の営業日に支給する。",
+          "element_id": "af70e52d-8387-5a12-a67a-696163f2ad46"
+        },
+        {
+          "content": "給与制度規程\n2. 適用対象\n## 2. 適用対象  \n本規程は、架空市に勤務する常勤職員に適用する。  \n会計年度任用職員その他非常勤職員については、別に定める規程による。  \n---",
+          "element_id": "3f4a54b6-a9ff-51ff-8655-49b80096a40a"
+        },
+        {
+          "content": "給与制度規程\n4. 給与計算期間\n## 4. 給与計算期間  \n給与計算期間は毎月1日から末日までとする。  \n当月の勤務実績および各種届出情報を基に給与計算を行う。  \n---",
+          "element_id": "a6e81e95-88c2-5c31-bf20-256b2fcfa917"
+        },
+        {
+          "content": "給与制度規程\n3. 給与支給日\n### 例  \n| 支給日 | 実際の支給日 |\n|----------|----------|\n| 21日が平日 | 21日 |\n| 21日が土曜日 | 前日の金曜日 |\n| 21日が日曜日 | 直前の金曜日 |\n| 21日が祝日 | 直前の営業日 |  \n---",
+          "element_id": "9fce163e-6cf6-5329-a076-0389c8a1322b"
+        },
+        {
+          "content": "給与制度規程\n12. 注意事項\n## 12. 注意事項  \n本規程は給与支給に関する基本事項を定めたものであり、各種手当の支給要件、認定基準および届出手続きの詳細については、別途定める通知、FAQおよび手続きマニュアルを参照すること。",
+          "element_id": "467c2041-0f1c-57db-b8c8-168cf3b8cc58"
+        },
+        {
+          "content": "給与制度規程\n7. 給与振込口座\n## 7. 給与振込口座  \n給与は職員本人名義の金融機関口座へ振り込む。  \n給与振込口座を変更する場合は、給与口座変更届を提出しなければならない。",
+          "element_id": "77440b73-51f1-5702-98d0-e08bb33a24b1"
+        },
+        {
+          "content": "給与制度規程\n1. 目的\n# 給与制度規程  \n## 1. 目的  \n本規程は、架空市職員の給与支給に関する基本的事項を定め、適正かつ円滑な給与事務の運営を図ることを目的とする。  \n---",
+          "element_id": "5ab5b797-2666-5881-a79c-cd56f06156c0"
+        },
+        {
+          "content": "給与制度規程\n11. 制度所管部署\n## 11. 制度所管部署  \n本規程に関する所管部署は人事給与課とする。  \n本規程に定めのない事項については、人事給与課が別途定める。  \n---",
+          "element_id": "ab75c15f-3998-5e26-93c5-1b4125c14357"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "3f4a54b6-a9ff-51ff-8655-49b80096a40a"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "本規程は常勤職員に適用されるものであり、会計年度任用職員については別に定める規程によるため、この規程だけで給料日を確定することはできません。"
+          }
+        ],
+        "missing_conditions": [
+          "会計年度任用職員の給与支給日を定めた別途規程"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "会計年度任用職員の給料日をこの規程だけで確定できますか？",
+      "role": "observed_failure",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q006"
+      }
+    },
+    {
+      "annotation_rationale": "質問が求める確認先は取得根拠から一意に答えられる。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q046",
+      "evidence": [
+        {
+          "content": "給与制度規程\n6. 控除\n## 6. 控除  \n給与から次の項目を控除する。  \n- 所得税\n- 住民税\n- 共済組合掛金\n- 雇用保険料（対象者のみ）\n- その他法令等に基づく控除  \n控除額に疑義がある場合は、人事給与課へ確認すること。  \n---",
+          "element_id": "a367ffbc-11c9-511e-bc15-e01bf8adb5fa"
+        },
+        {
+          "content": "人事給与FAQ\n# 6. 制度所管部署確認が必要なケース  \n次のようなケースはFAQのみで判断しないこと。  \n- 特殊な扶養関係\n- 海外居住親族の認定\n- 複雑な通勤経路\n- 例外的な住居契約\n- 過去に遡る認定依頼  \nこれらについては制度所管部署の判断を要する。  \n---",
+          "element_id": "3f2c1026-8618-5d89-addc-8bac79b36870"
+        },
+        {
+          "content": "諸手当運用通知\n# 7. 注意事項  \n本通知は一般的な運用を定めるものである。  \n個別事情により判断が必要な場合は、人事給与課へ確認すること。  \n制度解釈に疑義がある場合は、本通知のみで判断せず、FAQおよび制度所管部署の見解を確認すること。",
+          "element_id": "5bed2eee-a4f4-5e76-b879-0149d8fdb5d2"
+        },
+        {
+          "content": "人事給与FAQ\n# 7. FAQで判断できない場合  \nFAQに記載がない事項については推測による判断を行わないこと。  \n制度解釈や個別事情に関する案件は、人事給与課へ確認すること。",
+          "element_id": "2a39c332-08fb-5f92-b5bf-bf38edb23352"
+        },
+        {
+          "content": "制度改正通知\n# 8. 制度所管部署  \n本通知に関する問い合わせ先は人事給与課とする。",
+          "element_id": "f6170805-e414-5ba0-a8e5-b1a138a2bae8"
+        },
+        {
+          "content": "給与制度規程\n9. 過払給与の返納\n## 9. 過払給与の返納  \n給与計算誤りその他の理由により過払給与が発生した場合は、返納を求める。  \n返納方法は以下のいずれかとする。  \n- 一括返納\n- 分割返納  \n返納方法は職員の事情を考慮して決定する。  \n---",
+          "element_id": "d5ac148d-86a7-5c38-a2fd-21804594e465"
+        },
+        {
+          "content": "制度改正通知\n# 7. 注意事項  \n制度改正前後で取扱いが異なる場合がある。  \n適用時期の判断に迷う場合は、人事給与課へ確認すること。  \n---",
+          "element_id": "09d307f6-5eba-52f6-a8e9-caf4195cb7fe"
+        },
+        {
+          "content": "人事給与FAQ\nQ9. 家賃を夫婦で折半している場合はどうなりますか？\n## Q9. 家賃を夫婦で折半している場合はどうなりますか？  \n### 回答  \n負担状況等を確認する必要がある。  \n一律に判断できないため、人事給与課へ確認すること。  \n---",
+          "element_id": "5567c7a7-4917-5010-b028-26d51b052c7e"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "a367ffbc-11c9-511e-bc15-e01bf8adb5fa"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "控除額に疑義がある場合は、人事給与課へ確認する必要があります。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "控除額が正しいか判断できない場合はどこへ確認しますか？",
+      "role": "hard_negative",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q046"
+      }
+    },
+    {
+      "annotation_rationale": "質問はこの規程だけで割合を判断できるかを聞いており、個別規程によると取得根拠から答えられる。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q076",
+      "evidence": [
+        {
+          "content": "給与制度規程\n8. 給与の支給停止\n## 8. 給与の支給停止  \n次のいずれかに該当する場合は、給与の全部または一部の支給を停止することがある。  \n- 休職\n- 停職\n- 長期欠勤\n- その他法令に基づく場合  \n支給停止の詳細な取扱いについては、個別の制度規程による。  \n---",
+          "element_id": "a077479f-e926-5130-b4cb-71be62095662"
+        },
+        {
+          "content": "諸手当運用通知\n2.4 支給停止\n## 2.4 支給停止  \n次の場合は支給を停止する。  \n- 退職した場合\n- 長期休職となった場合\n- 通勤実態がなくなった場合  \n---",
+          "element_id": "f9dcceb9-d0c8-5205-84ef-34f232b7917b"
+        },
+        {
+          "content": "給与制度規程\n12. 注意事項\n## 12. 注意事項  \n本規程は給与支給に関する基本事項を定めたものであり、各種手当の支給要件、認定基準および届出手続きの詳細については、別途定める通知、FAQおよび手続きマニュアルを参照すること。",
+          "element_id": "467c2041-0f1c-57db-b8c8-168cf3b8cc58"
+        },
+        {
+          "content": "給与制度規程\n4. 給与計算期間\n## 4. 給与計算期間  \n給与計算期間は毎月1日から末日までとする。  \n当月の勤務実績および各種届出情報を基に給与計算を行う。  \n---",
+          "element_id": "a6e81e95-88c2-5c31-bf20-256b2fcfa917"
+        },
+        {
+          "content": "給与制度規程\n2. 適用対象\n## 2. 適用対象  \n本規程は、架空市に勤務する常勤職員に適用する。  \n会計年度任用職員その他非常勤職員については、別に定める規程による。  \n---",
+          "element_id": "3f4a54b6-a9ff-51ff-8655-49b80096a40a"
+        },
+        {
+          "content": "給与制度規程\n6. 控除\n## 6. 控除  \n給与から次の項目を控除する。  \n- 所得税\n- 住民税\n- 共済組合掛金\n- 雇用保険料（対象者のみ）\n- その他法令等に基づく控除  \n控除額に疑義がある場合は、人事給与課へ確認すること。  \n---",
+          "element_id": "a367ffbc-11c9-511e-bc15-e01bf8adb5fa"
+        },
+        {
+          "content": "給与制度規程\n3. 給与支給日\n## 3. 給与支給日  \n職員の給与は毎月21日に支給する。  \n支給日が土曜日、日曜日または祝日に当たる場合は、その直前の営業日に支給する。",
+          "element_id": "af70e52d-8387-5a12-a67a-696163f2ad46"
+        },
+        {
+          "content": "給与制度規程\n9. 過払給与の返納\n## 9. 過払給与の返納  \n給与計算誤りその他の理由により過払給与が発生した場合は、返納を求める。  \n返納方法は以下のいずれかとする。  \n- 一括返納\n- 分割返納  \n返納方法は職員の事情を考慮して決定する。  \n---",
+          "element_id": "d5ac148d-86a7-5c38-a2fd-21804594e465"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "a077479f-e926-5130-b4cb-71be62095662"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "休職時の給与支給停止の詳細な取扱いについては、本規程ではなく個別の制度規程に定められています。"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "a077479f-e926-5130-b4cb-71be62095662"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 2,
+            "text": "したがって、この規程だけで休職者の給与を何割停止するかを判断することはできません。"
+          }
+        ],
+        "missing_conditions": [
+          "休職時の給与支給停止の詳細を定めた個別の制度規程"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "休職者の給与を何割停止するか、この規程だけで判断できますか？",
+      "role": "observed_failure",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q076"
+      }
+    },
+    {
+      "annotation_rationale": "質問は一括返納が必須かを聞いており、必須ではないと答えられる。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q086",
+      "evidence": [
+        {
+          "content": "給与制度規程\n9. 過払給与の返納\n## 9. 過払給与の返納  \n給与計算誤りその他の理由により過払給与が発生した場合は、返納を求める。  \n返納方法は以下のいずれかとする。  \n- 一括返納\n- 分割返納  \n返納方法は職員の事情を考慮して決定する。  \n---",
+          "element_id": "d5ac148d-86a7-5c38-a2fd-21804594e465"
+        },
+        {
+          "content": "給与制度規程\n6. 控除\n## 6. 控除  \n給与から次の項目を控除する。  \n- 所得税\n- 住民税\n- 共済組合掛金\n- 雇用保険料（対象者のみ）\n- その他法令等に基づく控除  \n控除額に疑義がある場合は、人事給与課へ確認すること。  \n---",
+          "element_id": "a367ffbc-11c9-511e-bc15-e01bf8adb5fa"
+        },
+        {
+          "content": "人事給与FAQ\nQ10. 提出期限を過ぎた場合でも届出は可能ですか？\n# 5. 届出手続きに関するFAQ  \n## Q10. 提出期限を過ぎた場合でも届出は可能ですか？  \n### 回答  \n届出自体は受け付ける。  \nただし支給開始時期や認定時期に影響する場合がある。  \n詳細は個別確認が必要である。  \n---",
+          "element_id": "e41a7b5c-ebcf-5c13-8951-408363901e55"
+        },
+        {
+          "content": "給与制度規程\n8. 給与の支給停止\n## 8. 給与の支給停止  \n次のいずれかに該当する場合は、給与の全部または一部の支給を停止することがある。  \n- 休職\n- 停職\n- 長期欠勤\n- その他法令に基づく場合  \n支給停止の詳細な取扱いについては、個別の制度規程による。  \n---",
+          "element_id": "a077479f-e926-5130-b4cb-71be62095662"
+        },
+        {
+          "content": "給与制度規程\n5. 給与明細\n## 5. 給与明細  \n給与支給時には給与明細を交付する。  \n給与明細には以下の事項を記載する。  \n- 基本給\n- 諸手当\n- 控除額\n- 支給総額\n- 差引支給額  \n給与明細は電子交付を原則とする。  \n---",
+          "element_id": "91a93f0b-3d56-5239-9187-4b4e153178d5"
+        },
+        {
+          "content": "給与制度規程\n4. 給与計算期間\n## 4. 給与計算期間  \n給与計算期間は毎月1日から末日までとする。  \n当月の勤務実績および各種届出情報を基に給与計算を行う。  \n---",
+          "element_id": "a6e81e95-88c2-5c31-bf20-256b2fcfa917"
+        },
+        {
+          "content": "給与制度規程\n7. 給与振込口座\n## 7. 給与振込口座  \n給与は職員本人名義の金融機関口座へ振り込む。  \n給与振込口座を変更する場合は、給与口座変更届を提出しなければならない。",
+          "element_id": "77440b73-51f1-5702-98d0-e08bb33a24b1"
+        },
+        {
+          "content": "給与制度規程\n3. 給与支給日\n## 3. 給与支給日  \n職員の給与は毎月21日に支給する。  \n支給日が土曜日、日曜日または祝日に当たる場合は、その直前の営業日に支給する。",
+          "element_id": "af70e52d-8387-5a12-a67a-696163f2ad46"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "d5ac148d-86a7-5c38-a2fd-21804594e465"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "過払給与の返納方法は一括返納と分割返納のいずれかであり、必ずしも一括返納である必要はありません。"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "d5ac148d-86a7-5c38-a2fd-21804594e465"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 2,
+            "text": "返納方法は職員の事情を考慮して決定されます。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "過払給与を必ず一括返納させる必要がありますか？",
+      "role": "hard_negative",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q086"
+      }
+    },
+    {
+      "annotation_rationale": "基準日と施行日から適用版と境界値を解決できる。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q121",
+      "evidence": [
+        {
+          "content": "制度改正通知\n改正後\n## 改正後  \n通勤距離が1.5km以上の場合に支給対象とする。",
+          "element_id": "44dea88a-0e6c-51b1-8c4a-0dea2956e1dc"
+        },
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年9月30日以前の認定については旧基準を適用する。  \n---",
+          "element_id": "92c7e5ab-810c-5f52-80a0-c4b684233e91"
+        },
+        {
+          "content": "諸手当運用通知\n2.2 支給要件\n## 2.2 支給要件  \n次のすべてを満たす場合に支給する。  \n- 実際に通勤していること\n- 通勤距離が2km以上であること\n- 届出が提出されていること  \n---",
+          "element_id": "f0419662-5fda-590a-8660-c66a381eff42"
+        },
+        {
+          "content": "制度改正通知\n改正前\n# 3. 通勤手当の改正  \n## 改正前  \n通勤距離が2km以上の場合に支給対象とする。",
+          "element_id": "e0b61cbf-dda3-5ad6-bb0d-6cdbc5a283e7"
+        },
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年10月1日以降の認定から適用する。  \n---",
+          "element_id": "4104abe8-951b-53be-86f8-abc0e6d2c555"
+        },
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年10月1日以降に発生した認定事由について適用する。  \n---",
+          "element_id": "fc0f087d-c87d-5c3e-a905-ed44c4ee6e18"
+        },
+        {
+          "content": "人事給与FAQ\nQ7. 自転車通勤の場合も通勤手当は支給されますか？\n## Q7. 自転車通勤の場合も通勤手当は支給されますか？  \n### 回答  \n諸手当運用通知に定める交通用具利用者に該当する場合は支給対象となる。  \n詳細な認定条件は別途定める。  \n---",
+          "element_id": "24f291d9-7f6e-5def-8af2-ae244fde9d8a"
+        },
+        {
+          "content": "人事給与FAQ\nQ6. 一時的に勤務地が変わった場合も通勤経路変更届が必要ですか？\n## Q6. 一時的に勤務地が変わった場合も通勤経路変更届が必要ですか？  \n### 回答  \n異動の内容や期間によって取扱いが異なる。  \n所属担当者または人事給与課へ確認すること。  \n---",
+          "element_id": "87ab8c13-baa6-5932-b06e-ed1830b5884c"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "4104abe8-951b-53be-86f8-abc0e6d2c555",
+              "fc0f087d-c87d-5c3e-a905-ed44c4ee6e18"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "2025年10月1日以降の認定には改正後の基準が適用されます。"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "44dea88a-0e6c-51b1-8c4a-0dea2956e1dc"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 2,
+            "text": "改正後の基準では、通勤距離が1.5km以上であれば支給対象となります。"
+          },
+          {
+            "claim_id": "claim-3",
+            "evidence_element_ids": [
+              "44dea88a-0e6c-51b1-8c4a-0dea2956e1dc",
+              "4104abe8-951b-53be-86f8-abc0e6d2c555"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 3,
+            "text": "したがって、2025年10月に通勤距離がちょうど1.5kmである場合、距離要件を満たします。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "2025年10月に通勤距離がちょうど1.5kmなら距離要件を満たしますか？",
+      "role": "hard_negative",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q121"
+      }
+    },
+    {
+      "annotation_rationale": "日付、距離、通勤手段が質問内にあり結論が一意に決まる。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q126",
+      "evidence": [
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年9月30日以前の認定については旧基準を適用する。  \n---",
+          "element_id": "92c7e5ab-810c-5f52-80a0-c4b684233e91"
+        },
+        {
+          "content": "制度改正通知\n改正後\n## 改正後  \n通勤距離が1.5km以上の場合に支給対象とする。",
+          "element_id": "44dea88a-0e6c-51b1-8c4a-0dea2956e1dc"
+        },
+        {
+          "content": "制度改正通知\n改正前\n# 3. 通勤手当の改正  \n## 改正前  \n通勤距離が2km以上の場合に支給対象とする。",
+          "element_id": "e0b61cbf-dda3-5ad6-bb0d-6cdbc5a283e7"
+        },
+        {
+          "content": "諸手当運用通知\n2.2 支給要件\n## 2.2 支給要件  \n次のすべてを満たす場合に支給する。  \n- 実際に通勤していること\n- 通勤距離が2km以上であること\n- 届出が提出されていること  \n---",
+          "element_id": "f0419662-5fda-590a-8660-c66a381eff42"
+        },
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年10月1日以降の認定から適用する。  \n---",
+          "element_id": "4104abe8-951b-53be-86f8-abc0e6d2c555"
+        },
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年10月1日以降に発生した認定事由について適用する。  \n---",
+          "element_id": "fc0f087d-c87d-5c3e-a905-ed44c4ee6e18"
+        },
+        {
+          "content": "人事給与FAQ\nQ7. 自転車通勤の場合も通勤手当は支給されますか？\n## Q7. 自転車通勤の場合も通勤手当は支給されますか？  \n### 回答  \n諸手当運用通知に定める交通用具利用者に該当する場合は支給対象となる。  \n詳細な認定条件は別途定める。  \n---",
+          "element_id": "24f291d9-7f6e-5def-8af2-ae244fde9d8a"
+        },
+        {
+          "content": "人事給与FAQ\nQ6. 一時的に勤務地が変わった場合も通勤経路変更届が必要ですか？\n## Q6. 一時的に勤務地が変わった場合も通勤経路変更届が必要ですか？  \n### 回答  \n異動の内容や期間によって取扱いが異なる。  \n所属担当者または人事給与課へ確認すること。  \n---",
+          "element_id": "87ab8c13-baa6-5932-b06e-ed1830b5884c"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "4104abe8-951b-53be-86f8-abc0e6d2c555",
+              "fc0f087d-c87d-5c3e-a905-ed44c4ee6e18"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "2025年10月1日以降の認定には改正後の基準が適用される。"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "44dea88a-0e6c-51b1-8c4a-0dea2956e1dc"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 2,
+            "text": "改正後の通勤手当の支給対象となる通勤距離は1.5km以上である。"
+          },
+          {
+            "claim_id": "claim-3",
+            "evidence_element_ids": [
+              "44dea88a-0e6c-51b1-8c4a-0dea2956e1dc"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 3,
+            "text": "通勤距離が1.4kmの職員は、改正後の支給要件である1.5km以上を満たさないため、支給対象外となる。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "2025年10月に通勤距離1.4kmで車通勤する職員は距離要件を満たしますか？",
+      "role": "observed_failure",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q126"
+      }
+    },
+    {
+      "annotation_rationale": "質問は自転車通勤なら必ず支給できるかを聞いており、複数要件があるため必ずではないと答えられる。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q176",
+      "evidence": [
+        {
+          "content": "人事給与FAQ\nQ7. 自転車通勤の場合も通勤手当は支給されますか？\n## Q7. 自転車通勤の場合も通勤手当は支給されますか？  \n### 回答  \n諸手当運用通知に定める交通用具利用者に該当する場合は支給対象となる。  \n詳細な認定条件は別途定める。  \n---",
+          "element_id": "24f291d9-7f6e-5def-8af2-ae244fde9d8a"
+        },
+        {
+          "content": "諸手当運用通知\n2.2 支給要件\n## 2.2 支給要件  \n次のすべてを満たす場合に支給する。  \n- 実際に通勤していること\n- 通勤距離が2km以上であること\n- 届出が提出されていること  \n---",
+          "element_id": "f0419662-5fda-590a-8660-c66a381eff42"
+        },
+        {
+          "content": "諸手当運用通知\n2.1 支給対象\n# 2. 通勤手当  \n## 2.1 支給対象  \n通勤手当は、自宅から勤務公署まで通勤する職員に支給する。  \n公共交通機関または交通用具を利用して通勤する場合を対象とする。  \n---",
+          "element_id": "c8caa875-e2bf-58b7-8a2c-8f2c35aa1714"
+        },
+        {
+          "content": "制度改正通知\n改正前\n# 3. 通勤手当の改正  \n## 改正前  \n通勤距離が2km以上の場合に支給対象とする。",
+          "element_id": "e0b61cbf-dda3-5ad6-bb0d-6cdbc5a283e7"
+        },
+        {
+          "content": "諸手当運用通知\n2.4 支給停止\n## 2.4 支給停止  \n次の場合は支給を停止する。  \n- 退職した場合\n- 長期休職となった場合\n- 通勤実態がなくなった場合  \n---",
+          "element_id": "f9dcceb9-d0c8-5205-84ef-34f232b7917b"
+        },
+        {
+          "content": "制度改正通知\n改正後\n## 改正後  \n通勤距離が1.5km以上の場合に支給対象とする。",
+          "element_id": "44dea88a-0e6c-51b1-8c4a-0dea2956e1dc"
+        },
+        {
+          "content": "人事給与FAQ\nQ5. 通勤経路を複数利用している場合はどうなりますか？\n# 3. 通勤手当に関するFAQ  \n## Q5. 通勤経路を複数利用している場合はどうなりますか？  \n### 回答  \n最も合理的かつ経済的な経路を基準として認定する。  \nただし個別事情がある場合は確認が必要である。  \n---",
+          "element_id": "87421d65-02ed-5eb7-9d9a-73df5efb60ae"
+        },
+        {
+          "content": "人事給与FAQ\nQ6. 一時的に勤務地が変わった場合も通勤経路変更届が必要ですか？\n## Q6. 一時的に勤務地が変わった場合も通勤経路変更届が必要ですか？  \n### 回答  \n異動の内容や期間によって取扱いが異なる。  \n所属担当者または人事給与課へ確認すること。  \n---",
+          "element_id": "87ab8c13-baa6-5932-b06e-ed1830b5884c"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "24f291d9-7f6e-5def-8af2-ae244fde9d8a",
+              "c8caa875-e2bf-58b7-8a2c-8f2c35aa1714"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "自転車通勤の場合、諸手当運用通知に定める交通用具利用者に該当すれば支給対象となります。"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "f0419662-5fda-590a-8660-c66a381eff42"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 2,
+            "text": "支給には、実際に通勤していること、通勤距離が一定以上であること、届出が提出されていることという要件を満たす必要があります。"
+          }
+        ],
+        "missing_conditions": [
+          "自転車通勤における具体的な通勤距離の基準（1.5km以上か2km以上か）について、諸手当運用通知と制度改正通知の間で整合性を確認する必要があります。"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "自転車通勤なら必ず通勤手当を支給できますか？",
+      "role": "observed_failure",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q176"
+      }
+    },
+    {
+      "annotation_rationale": "質問は家賃要件だけを聞いており、住居届提出状況は結論に不要である。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q196",
+      "evidence": [
+        {
+          "content": "制度改正通知\n改正後\n## 改正後  \n月額家賃が15,000円を超える場合に支給対象とする。",
+          "element_id": "1e6e6b4c-5fc1-5f11-87a0-ae680da7439a"
+        },
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年10月1日以降の認定から適用する。  \n---",
+          "element_id": "4104abe8-951b-53be-86f8-abc0e6d2c555"
+        },
+        {
+          "content": "諸手当運用通知\n3.2 支給要件\n## 3.2 支給要件  \n次の条件を満たす場合に認定する。  \n- 本人名義の賃貸契約であること\n- 月額家賃が16,000円を超えること\n- 住居届を提出していること  \n---",
+          "element_id": "a29f6495-2a5f-5751-a5c0-0c557976c36a"
+        },
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年10月1日以降に発生した認定事由について適用する。  \n---",
+          "element_id": "fc0f087d-c87d-5c3e-a905-ed44c4ee6e18"
+        },
+        {
+          "content": "制度改正通知\n改正前\n# 4. 住居手当の改正  \n## 改正前  \n月額家賃が16,000円を超える場合に支給対象とする。",
+          "element_id": "6180f60c-150f-5365-914e-4a124c28c2b4"
+        },
+        {
+          "content": "人事給与FAQ\nQ8. 家族名義の住宅に住んでいる場合、住居手当は支給されますか？\n# 4. 住居手当に関するFAQ  \n## Q8. 家族名義の住宅に住んでいる場合、住居手当は支給されますか？  \n### 回答  \n住居手当は本人名義の賃貸契約を原則とする。  \nただし個別事情によって確認が必要な場合があるため、人事給与課へ相談すること。  \n---",
+          "element_id": "a1118dba-4814-5fa3-bfa7-b2e8155aaedf"
+        },
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年9月30日以前の認定については旧基準を適用する。  \n---",
+          "element_id": "92c7e5ab-810c-5f52-80a0-c4b684233e91"
+        },
+        {
+          "content": "諸手当運用通知\n3.1 支給対象\n# 3. 住居手当  \n## 3.1 支給対象  \n職員本人が賃貸住宅を契約し、家賃を負担している場合に支給する。  \n---",
+          "element_id": "2e29e1ac-64f3-5e95-b959-238a975e7635"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "1e6e6b4c-5fc1-5f11-87a0-ae680da7439a",
+              "4104abe8-951b-53be-86f8-abc0e6d2c555"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "2025年10月1日以降の認定においては、月額家賃が15,000円を超える場合に支給対象となります。"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "1e6e6b4c-5fc1-5f11-87a0-ae680da7439a"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 2,
+            "text": "月額家賃が15,001円であれば、15,000円を超えているため家賃要件を満たします。"
+          },
+          {
+            "claim_id": "claim-3",
+            "evidence_element_ids": [
+              "2e29e1ac-64f3-5e95-b959-238a975e7635"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 3,
+            "text": "本人名義の賃貸契約であるという要件も満たしています。"
+          }
+        ],
+        "missing_conditions": [
+          "住居届の提出状況"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "2025年10月以降、本人名義で家賃15,001円なら家賃要件を満たしますか？",
+      "role": "hard_negative",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q196"
+      }
+    },
+    {
+      "annotation_rationale": "2025年9月には旧基準を一意に適用できる。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q201",
+      "evidence": [
+        {
+          "content": "諸手当運用通知\n3.2 支給要件\n## 3.2 支給要件  \n次の条件を満たす場合に認定する。  \n- 本人名義の賃貸契約であること\n- 月額家賃が16,000円を超えること\n- 住居届を提出していること  \n---",
+          "element_id": "a29f6495-2a5f-5751-a5c0-0c557976c36a"
+        },
+        {
+          "content": "制度改正通知\n改正前\n# 4. 住居手当の改正  \n## 改正前  \n月額家賃が16,000円を超える場合に支給対象とする。",
+          "element_id": "6180f60c-150f-5365-914e-4a124c28c2b4"
+        },
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年10月1日以降の認定から適用する。  \n---",
+          "element_id": "4104abe8-951b-53be-86f8-abc0e6d2c555"
+        },
+        {
+          "content": "制度改正通知\n改正後\n## 改正後  \n月額家賃が15,000円を超える場合に支給対象とする。",
+          "element_id": "1e6e6b4c-5fc1-5f11-87a0-ae680da7439a"
+        },
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年10月1日以降に発生した認定事由について適用する。  \n---",
+          "element_id": "fc0f087d-c87d-5c3e-a905-ed44c4ee6e18"
+        },
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年9月30日以前の認定については旧基準を適用する。  \n---",
+          "element_id": "92c7e5ab-810c-5f52-80a0-c4b684233e91"
+        },
+        {
+          "content": "人事給与FAQ\nQ9. 家賃を夫婦で折半している場合はどうなりますか？\n## Q9. 家賃を夫婦で折半している場合はどうなりますか？  \n### 回答  \n負担状況等を確認する必要がある。  \n一律に判断できないため、人事給与課へ確認すること。  \n---",
+          "element_id": "5567c7a7-4917-5010-b028-26d51b052c7e"
+        },
+        {
+          "content": "届出・手続きマニュアル\n5.4 処理手順\n## 5.4 処理手順  \n1. 届出受付\n2. 契約書確認\n3. 家賃額確認\n4. 認定審査\n5. システム登録  \n---",
+          "element_id": "bdba3243-7c6c-58d7-a2b3-ed1eb8f607f5"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "92c7e5ab-810c-5f52-80a0-c4b684233e91"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "2025年9月30日以前の認定には旧基準が適用されます。"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "a29f6495-2a5f-5751-a5c0-0c557976c36a",
+              "6180f60c-150f-5365-914e-4a124c28c2b4"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 2,
+            "text": "旧基準では、月額家賃が16,000円を超えることが支給要件です。"
+          },
+          {
+            "claim_id": "claim-3",
+            "evidence_element_ids": [
+              "a29f6495-2a5f-5751-a5c0-0c557976c36a",
+              "6180f60c-150f-5365-914e-4a124c28c2b4"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 3,
+            "text": "家賃が16,000円ちょうどの場合、16,000円を超えていないため、家賃要件を満たしません。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "2025年9月に認定する家賃16,000円の住宅は家賃要件を満たしますか？",
+      "role": "hard_negative",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q201"
+      }
+    },
+    {
+      "annotation_rationale": "一つの手順根拠から処理順を回答できる。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q231",
+      "evidence": [
+        {
+          "content": "届出・手続きマニュアル\n5.4 処理手順\n## 5.4 処理手順  \n1. 届出受付\n2. 契約書確認\n3. 家賃額確認\n4. 認定審査\n5. システム登録  \n---",
+          "element_id": "bdba3243-7c6c-58d7-a2b3-ed1eb8f607f5"
+        },
+        {
+          "content": "届出・手続きマニュアル\n2.4 処理手順\n## 2.4 処理手順  \n1. 届出受付\n2. 添付書類確認\n3. 人事給与システム登録\n4. 登録結果確認  \n---",
+          "element_id": "08440079-b4d2-5f1f-8295-02a15fb48dfb"
+        },
+        {
+          "content": "届出・手続きマニュアル\n5.3 必要書類\n## 5.3 必要書類  \n- 住居届\n- 賃貸借契約書の写し\n- 家賃支払確認書類  \n---",
+          "element_id": "5b70f91c-a2f3-5d69-9a77-6dcc71811c3f"
+        },
+        {
+          "content": "届出・手続きマニュアル\n5.2 提出期限\n## 5.2 提出期限  \n入居日から30日以内に提出すること。  \n---",
+          "element_id": "441d9227-0b15-5ef7-b981-b3929877940d"
+        },
+        {
+          "content": "届出・手続きマニュアル\n# 8. システム入力時の確認事項  \nシステム登録前に次の事項を確認すること。  \n- 添付書類の有無\n- 提出期限内か\n- 認定要件を満たしているか\n- 既存登録との整合性  \n入力後は必ず登録内容を再確認すること。",
+          "element_id": "07655f5f-c386-519c-91ae-b6875223b289"
+        },
+        {
+          "content": "届出・手続きマニュアル\n3.4 処理手順\n## 3.4 処理手順  \n1. 届出受付\n2. 書類審査\n3. 扶養認定確認\n4. システム登録\n5. 認定結果通知  \n---",
+          "element_id": "3a17abf4-af3d-5d5f-8b8b-1b4f4f880f49"
+        },
+        {
+          "content": "届出・手続きマニュアル\n4.4 処理手順\n## 4.4 処理手順  \n1. 届出受付\n2. 経路確認\n3. 支給額確認\n4. システム登録  \n---",
+          "element_id": "f1d73256-9075-5134-a207-d98f9b58228d"
+        },
+        {
+          "content": "届出・手続きマニュアル\n5.1 提出が必要な場合\n# 5. 住居届  \n## 5.1 提出が必要な場合  \n次の場合に提出する。  \n- 賃貸住宅へ入居した場合\n- 住居手当認定を希望する場合  \n---",
+          "element_id": "899b8944-0758-5b3d-91fd-db71ee6ba113"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "bdba3243-7c6c-58d7-a2b3-ed1eb8f607f5"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "住居届の処理手順は、届出受付、契約書確認、家賃額確認、認定審査、システム登録の順で行われます。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "住居届を受け付けてからシステム登録までの流れは？",
+      "role": "hard_negative",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q231"
+      }
+    },
+    {
+      "annotation_rationale": "発生日から改正前ルールを一意に適用できる。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q281",
+      "evidence": [
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年10月1日以降に発生した認定事由について適用する。  \n---",
+          "element_id": "fc0f087d-c87d-5c3e-a905-ed44c4ee6e18"
+        },
+        {
+          "content": "人事給与FAQ\nQ1. 子どもが生まれた場合、いつから扶養手当が支給されますか？\n# 2. 扶養手当に関するFAQ  \n## Q1. 子どもが生まれた場合、いつから扶養手当が支給されますか？  \n### 回答  \n扶養親族変更届を提出し認定された場合、認定事由発生日の翌月から支給する。  \n詳細は諸手当運用通知を参照すること。  \n---",
+          "element_id": "0c6cbdd0-7ec7-5d60-8e7b-eee1a99e9b55"
+        },
+        {
+          "content": "諸手当運用通知\n4.5 支給開始時期\n## 4.5 支給開始時期  \n認定された場合は、認定事由発生日の翌月から支給する。  \n---",
+          "element_id": "37cd06a5-30ea-53f6-81e5-a00abe8bc519"
+        },
+        {
+          "content": "制度改正通知\n改正後\n## 改正後  \n認定事由が確認され認定された月から支給する。",
+          "element_id": "df6247b3-57ae-5d0b-b4a8-408879fbb9d1"
+        },
+        {
+          "content": "制度改正通知\n改正前\n# 5. 扶養手当の改正  \n## 改正前  \n認定事由発生日の翌月から支給する。",
+          "element_id": "6df57fdd-d53f-5ab1-ab44-974292bf3f5d"
+        },
+        {
+          "content": "諸手当運用通知\n4.6 支給停止時期\n## 4.6 支給停止時期  \n支給要件を失った場合は、事由発生日の翌月から支給を停止する。  \n---",
+          "element_id": "cab09180-4a45-52e7-9b53-f3f574ff8704"
+        },
+        {
+          "content": "人事給与FAQ\nQ2. 扶養親族変更届の提出が遅れた場合はどうなりますか？\n## Q2. 扶養親族変更届の提出が遅れた場合はどうなりますか？  \n### 回答  \n認定手続きが遅れる可能性がある。  \n個別の取扱いについては、人事給与課へ確認すること。  \n---",
+          "element_id": "96cab3da-406e-51db-b1b7-508344ac6fa6"
+        },
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年10月1日以降の認定から適用する。  \n---",
+          "element_id": "4104abe8-951b-53be-86f8-abc0e6d2c555"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "0c6cbdd0-7ec7-5d60-8e7b-eee1a99e9b55"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "2025年9月に子どもが生まれた場合、認定事由発生日は2025年9月となります。"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "fc0f087d-c87d-5c3e-a905-ed44c4ee6e18"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 2,
+            "text": "制度改正の経過措置により、2025年10月1日以降に発生した認定事由から新しい支給ルールが適用されます。"
+          },
+          {
+            "claim_id": "claim-3",
+            "evidence_element_ids": [
+              "6df57fdd-d53f-5ab1-ab44-974292bf3f5d",
+              "37cd06a5-30ea-53f6-81e5-a00abe8bc519"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 3,
+            "text": "2025年9月発生の認定事由については改正前のルールが適用され、認定事由発生日の翌月である2025年10月から扶養手当が支給されます。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "2025年9月に子どもが生まれ、扶養認定された場合、扶養手当はいつからですか？",
+      "role": "hard_negative",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q281"
+      }
+    },
+    {
+      "annotation_rationale": "発生日から改正後ルールを一意に適用できる。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q286",
+      "evidence": [
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年10月1日以降に発生した認定事由について適用する。  \n---",
+          "element_id": "fc0f087d-c87d-5c3e-a905-ed44c4ee6e18"
+        },
+        {
+          "content": "諸手当運用通知\n4.5 支給開始時期\n## 4.5 支給開始時期  \n認定された場合は、認定事由発生日の翌月から支給する。  \n---",
+          "element_id": "37cd06a5-30ea-53f6-81e5-a00abe8bc519"
+        },
+        {
+          "content": "人事給与FAQ\nQ1. 子どもが生まれた場合、いつから扶養手当が支給されますか？\n# 2. 扶養手当に関するFAQ  \n## Q1. 子どもが生まれた場合、いつから扶養手当が支給されますか？  \n### 回答  \n扶養親族変更届を提出し認定された場合、認定事由発生日の翌月から支給する。  \n詳細は諸手当運用通知を参照すること。  \n---",
+          "element_id": "0c6cbdd0-7ec7-5d60-8e7b-eee1a99e9b55"
+        },
+        {
+          "content": "制度改正通知\n改正後\n## 改正後  \n認定事由が確認され認定された月から支給する。",
+          "element_id": "df6247b3-57ae-5d0b-b4a8-408879fbb9d1"
+        },
+        {
+          "content": "制度改正通知\n改正前\n# 5. 扶養手当の改正  \n## 改正前  \n認定事由発生日の翌月から支給する。",
+          "element_id": "6df57fdd-d53f-5ab1-ab44-974292bf3f5d"
+        },
+        {
+          "content": "制度改正通知\n経過措置\n## 経過措置  \n2025年10月1日以降の認定から適用する。  \n---",
+          "element_id": "4104abe8-951b-53be-86f8-abc0e6d2c555"
+        },
+        {
+          "content": "諸手当運用通知\n4.6 支給停止時期\n## 4.6 支給停止時期  \n支給要件を失った場合は、事由発生日の翌月から支給を停止する。  \n---",
+          "element_id": "cab09180-4a45-52e7-9b53-f3f574ff8704"
+        },
+        {
+          "content": "人事給与FAQ\nQ2. 扶養親族変更届の提出が遅れた場合はどうなりますか？\n## Q2. 扶養親族変更届の提出が遅れた場合はどうなりますか？  \n### 回答  \n認定手続きが遅れる可能性がある。  \n個別の取扱いについては、人事給与課へ確認すること。  \n---",
+          "element_id": "96cab3da-406e-51db-b1b7-508344ac6fa6"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "fc0f087d-c87d-5c3e-a905-ed44c4ee6e18",
+              "4104abe8-951b-53be-86f8-abc0e6d2c555"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "2025年10月1日以降に発生した認定事由については、改正後の規定が適用されます。"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "df6247b3-57ae-5d0b-b4a8-408879fbb9d1"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 2,
+            "text": "改正後の規定では、認定事由が確認され認定された月から扶養手当が支給されます。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "2025年10月に子どもが生まれ認定された場合、扶養手当はいつからですか？",
+      "role": "hard_negative",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q286"
+      }
+    },
+    {
+      "annotation_rationale": "質問は所属で即決できるかを聞いており、一律判断できないと取得根拠から答えられる。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q301",
+      "evidence": [
+        {
+          "content": "人事給与FAQ\nQ3. 別居している父母を扶養親族として認定できますか？\n## Q3. 別居している父母を扶養親族として認定できますか？  \n### 回答  \n扶養実態、生計維持関係等を総合的に確認する必要がある。  \n一律に判断できないため、人事給与課へ確認すること。  \n---",
+          "element_id": "c626a293-9316-580b-9a23-135e3fbfc8bb"
+        },
+        {
+          "content": "諸手当運用通知\n4.2 扶養親族\n## 4.2 扶養親族  \n扶養親族として認定できる者は次のとおりとする。  \n- 配偶者\n- 子\n- 父母\n- その他人事給与課が認める者  \n---",
+          "element_id": "3d3e4229-f77b-5e46-ae4b-169f2e4ce675"
+        },
+        {
+          "content": "人事給与FAQ\nQ4. 内縁関係の相手は扶養手当の対象になりますか？\n## Q4. 内縁関係の相手は扶養手当の対象になりますか？  \n### 回答  \n本FAQでは判断できない。  \n個別事情により取扱いが異なるため、人事給与課へ確認すること。  \n---",
+          "element_id": "9d197cae-db0d-5e59-8f3d-bc8a38401a95"
+        },
+        {
+          "content": "届出・手続きマニュアル\n3.3 必要書類\n## 3.3 必要書類  \n- 扶養親族変更届\n- 戸籍関係書類\n- 所得証明書（必要に応じて）  \n---",
+          "element_id": "4afe1db9-9515-551f-8238-188a32cd2889"
+        },
+        {
+          "content": "諸手当運用通知\n4.3 認定要件\n## 4.3 認定要件  \n扶養親族は主として職員の収入によって生計を維持していることを要する。  \n---",
+          "element_id": "d8637b0f-1d5d-54de-aaa7-dcdd02bcd536"
+        },
+        {
+          "content": "人事給与FAQ\n# 6. 制度所管部署確認が必要なケース  \n次のようなケースはFAQのみで判断しないこと。  \n- 特殊な扶養関係\n- 海外居住親族の認定\n- 複雑な通勤経路\n- 例外的な住居契約\n- 過去に遡る認定依頼  \nこれらについては制度所管部署の判断を要する。  \n---",
+          "element_id": "3f2c1026-8618-5d89-addc-8bac79b36870"
+        },
+        {
+          "content": "届出・手続きマニュアル\n3.1 提出が必要な場合\n# 3. 扶養親族変更届  \n## 3.1 提出が必要な場合  \n次の場合に提出する。  \n- 結婚\n- 出生\n- 扶養親族の死亡\n- 就職等による扶養要件喪失  \n---",
+          "element_id": "47006737-63bb-5680-9ffa-a514435a162f"
+        },
+        {
+          "content": "届出・手続きマニュアル\n3.4 処理手順\n## 3.4 処理手順  \n1. 届出受付\n2. 書類審査\n3. 扶養認定確認\n4. システム登録\n5. 認定結果通知  \n---",
+          "element_id": "3a17abf4-af3d-5d5f-8b8b-1b4f4f880f49"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "c626a293-9316-580b-9a23-135e3fbfc8bb"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "別居している父母を扶養親族として認定できるかどうかは、扶養実態や生計維持関係等を総合的に確認する必要があるため、所属で即決することはできません。"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "c626a293-9316-580b-9a23-135e3fbfc8bb"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 2,
+            "text": "一律に判断できないため、人事給与課へ確認する必要があります。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "別居している父母を扶養に入れられるか所属で即決できますか？",
+      "role": "observed_failure",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q301"
+      }
+    },
+    {
+      "annotation_rationale": "質問が求める期限後の受付可否は取得根拠から答えられる。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q316",
+      "evidence": [
+        {
+          "content": "人事給与FAQ\nQ2. 扶養親族変更届の提出が遅れた場合はどうなりますか？\n## Q2. 扶養親族変更届の提出が遅れた場合はどうなりますか？  \n### 回答  \n認定手続きが遅れる可能性がある。  \n個別の取扱いについては、人事給与課へ確認すること。  \n---",
+          "element_id": "96cab3da-406e-51db-b1b7-508344ac6fa6"
+        },
+        {
+          "content": "届出・手続きマニュアル\n3.2 提出期限\n## 3.2 提出期限  \n事由発生日から15日以内に提出すること。  \n---",
+          "element_id": "0cf29c18-7d75-55c3-8553-face5061d51c"
+        },
+        {
+          "content": "人事給与FAQ\nQ10. 提出期限を過ぎた場合でも届出は可能ですか？\n# 5. 届出手続きに関するFAQ  \n## Q10. 提出期限を過ぎた場合でも届出は可能ですか？  \n### 回答  \n届出自体は受け付ける。  \nただし支給開始時期や認定時期に影響する場合がある。  \n詳細は個別確認が必要である。  \n---",
+          "element_id": "e41a7b5c-ebcf-5c13-8951-408363901e55"
+        },
+        {
+          "content": "諸手当運用通知\n4.4 扶養親族変更届\n## 4.4 扶養親族変更届  \n扶養状況に変更があった場合は、扶養親族変更届を提出しなければならない。  \n---",
+          "element_id": "e120f9d6-b535-55d2-81c5-cbfff51f8470"
+        },
+        {
+          "content": "届出・手続きマニュアル\n3.1 提出が必要な場合\n# 3. 扶養親族変更届  \n## 3.1 提出が必要な場合  \n次の場合に提出する。  \n- 結婚\n- 出生\n- 扶養親族の死亡\n- 就職等による扶養要件喪失  \n---",
+          "element_id": "47006737-63bb-5680-9ffa-a514435a162f"
+        },
+        {
+          "content": "届出・手続きマニュアル\n3.4 処理手順\n## 3.4 処理手順  \n1. 届出受付\n2. 書類審査\n3. 扶養認定確認\n4. システム登録\n5. 認定結果通知  \n---",
+          "element_id": "3a17abf4-af3d-5d5f-8b8b-1b4f4f880f49"
+        },
+        {
+          "content": "届出・手続きマニュアル\n3.3 必要書類\n## 3.3 必要書類  \n- 扶養親族変更届\n- 戸籍関係書類\n- 所得証明書（必要に応じて）  \n---",
+          "element_id": "4afe1db9-9515-551f-8238-188a32cd2889"
+        },
+        {
+          "content": "諸手当運用通知\n# 6. 手当変更時の届出  \n職員は手当の認定内容に変更が生じた場合、速やかに届出を行うこと。  \n対象となる主な届出は次のとおりである。  \n- 扶養親族変更届\n- 住居届\n- 通勤経路変更届  \n---",
+          "element_id": "0befdb0f-aa7f-5d85-a2f6-20bf55a4edda"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": true,
+        "version_conflict": false
+      },
+      "expected_label": "根拠十分",
+      "generated_answer": {
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "e41a7b5c-ebcf-5c13-8951-408363901e55"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 1,
+            "text": "扶養親族変更届の提出期限を過ぎた場合でも、届出自体は受け付けられます。"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "96cab3da-406e-51db-b1b7-508344ac6fa6",
+              "e41a7b5c-ebcf-5c13-8951-408363901e55"
+            ],
+            "evidence_kind": "text",
+            "ordinal": 2,
+            "text": "ただし、提出が遅れると支給開始時期や認定時期に影響が出る可能性があるため、個別の取扱いについては人事給与課へ確認する必要があります。"
+          }
+        ],
+        "missing_conditions": [],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "扶養親族変更届が期限を過ぎた場合も受け付けられますか？",
+      "role": "hard_negative",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q316"
+      }
+    },
+    {
+      "annotation_rationale": "退職手当の計算式を示す根拠がない。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q451",
+      "evidence": [
+        {
+          "content": "給与制度規程\n4. 給与計算期間\n## 4. 給与計算期間  \n給与計算期間は毎月1日から末日までとする。  \n当月の勤務実績および各種届出情報を基に給与計算を行う。  \n---",
+          "element_id": "a6e81e95-88c2-5c31-bf20-256b2fcfa917"
+        },
+        {
+          "content": "諸手当運用通知\n# 7. 注意事項  \n本通知は一般的な運用を定めるものである。  \n個別事情により判断が必要な場合は、人事給与課へ確認すること。  \n制度解釈に疑義がある場合は、本通知のみで判断せず、FAQおよび制度所管部署の見解を確認すること。",
+          "element_id": "5bed2eee-a4f4-5e76-b879-0149d8fdb5d2"
+        },
+        {
+          "content": "諸手当運用通知\n2.4 支給停止\n## 2.4 支給停止  \n次の場合は支給を停止する。  \n- 退職した場合\n- 長期休職となった場合\n- 通勤実態がなくなった場合  \n---",
+          "element_id": "f9dcceb9-d0c8-5205-84ef-34f232b7917b"
+        },
+        {
+          "content": "給与制度規程\n6. 控除\n## 6. 控除  \n給与から次の項目を控除する。  \n- 所得税\n- 住民税\n- 共済組合掛金\n- 雇用保険料（対象者のみ）\n- その他法令等に基づく控除  \n控除額に疑義がある場合は、人事給与課へ確認すること。  \n---",
+          "element_id": "a367ffbc-11c9-511e-bc15-e01bf8adb5fa"
+        },
+        {
+          "content": "制度改正通知\n改正前\n# 5. 扶養手当の改正  \n## 改正前  \n認定事由発生日の翌月から支給する。",
+          "element_id": "6df57fdd-d53f-5ab1-ab44-974292bf3f5d"
+        },
+        {
+          "content": "給与制度規程\n5. 給与明細\n## 5. 給与明細  \n給与支給時には給与明細を交付する。  \n給与明細には以下の事項を記載する。  \n- 基本給\n- 諸手当\n- 控除額\n- 支給総額\n- 差引支給額  \n給与明細は電子交付を原則とする。  \n---",
+          "element_id": "91a93f0b-3d56-5239-9187-4b4e153178d5"
+        },
+        {
+          "content": "給与制度規程\n12. 注意事項\n## 12. 注意事項  \n本規程は給与支給に関する基本事項を定めたものであり、各種手当の支給要件、認定基準および届出手続きの詳細については、別途定める通知、FAQおよび手続きマニュアルを参照すること。",
+          "element_id": "467c2041-0f1c-57db-b8c8-168cf3b8cc58"
+        },
+        {
+          "content": "給与制度規程\n3. 給与支給日\n### 例  \n| 支給日 | 実際の支給日 |\n|----------|----------|\n| 21日が平日 | 21日 |\n| 21日が土曜日 | 前日の金曜日 |\n| 21日が日曜日 | 直前の金曜日 |\n| 21日が祝日 | 直前の営業日 |  \n---",
+          "element_id": "9fce163e-6cf6-5329-a076-0389c8a1322b"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "expected_label": "文書不足",
+      "generated_answer": {
+        "claims": [],
+        "missing_conditions": [
+          "提供された取得根拠の中に、退職手当の具体的な計算式に関する記載が含まれていません。"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "退職手当の具体的な計算式を教えてください。",
+      "role": "factor_control",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q451"
+      }
+    },
+    {
+      "annotation_rationale": "育児休業中の支給割合を示す根拠がない。",
+      "annotation_status": "approved",
+      "case_id": "REG-Q456",
+      "evidence": [
+        {
+          "content": "人事給与FAQ\nQ1. 子どもが生まれた場合、いつから扶養手当が支給されますか？\n# 2. 扶養手当に関するFAQ  \n## Q1. 子どもが生まれた場合、いつから扶養手当が支給されますか？  \n### 回答  \n扶養親族変更届を提出し認定された場合、認定事由発生日の翌月から支給する。  \n詳細は諸手当運用通知を参照すること。  \n---",
+          "element_id": "0c6cbdd0-7ec7-5d60-8e7b-eee1a99e9b55"
+        },
+        {
+          "content": "給与制度規程\n8. 給与の支給停止\n## 8. 給与の支給停止  \n次のいずれかに該当する場合は、給与の全部または一部の支給を停止することがある。  \n- 休職\n- 停職\n- 長期欠勤\n- その他法令に基づく場合  \n支給停止の詳細な取扱いについては、個別の制度規程による。  \n---",
+          "element_id": "a077479f-e926-5130-b4cb-71be62095662"
+        },
+        {
+          "content": "制度改正通知\n改正前\n# 5. 扶養手当の改正  \n## 改正前  \n認定事由発生日の翌月から支給する。",
+          "element_id": "6df57fdd-d53f-5ab1-ab44-974292bf3f5d"
+        },
+        {
+          "content": "給与制度規程\n3. 給与支給日\n## 3. 給与支給日  \n職員の給与は毎月21日に支給する。  \n支給日が土曜日、日曜日または祝日に当たる場合は、その直前の営業日に支給する。",
+          "element_id": "af70e52d-8387-5a12-a67a-696163f2ad46"
+        },
+        {
+          "content": "諸手当運用通知\n4.5 支給開始時期\n## 4.5 支給開始時期  \n認定された場合は、認定事由発生日の翌月から支給する。  \n---",
+          "element_id": "37cd06a5-30ea-53f6-81e5-a00abe8bc519"
+        },
+        {
+          "content": "人事給与FAQ\nQ3. 別居している父母を扶養親族として認定できますか？\n## Q3. 別居している父母を扶養親族として認定できますか？  \n### 回答  \n扶養実態、生計維持関係等を総合的に確認する必要がある。  \n一律に判断できないため、人事給与課へ確認すること。  \n---",
+          "element_id": "c626a293-9316-580b-9a23-135e3fbfc8bb"
+        },
+        {
+          "content": "諸手当運用通知\n4.6 支給停止時期\n## 4.6 支給停止時期  \n支給要件を失った場合は、事由発生日の翌月から支給を停止する。  \n---",
+          "element_id": "cab09180-4a45-52e7-9b53-f3f574ff8704"
+        },
+        {
+          "content": "制度改正通知\n改正後\n## 改正後  \n認定事由が確認され認定された月から支給する。",
+          "element_id": "df6247b3-57ae-5d0b-b4a8-408879fbb9d1"
+        }
+      ],
+      "expected_factors": {
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "retrieval_sufficient": false,
+        "version_conflict": false
+      },
+      "expected_label": "文書不足",
+      "generated_answer": {
+        "claims": [],
+        "missing_conditions": [
+          "提供された取得根拠には、育児休業中の給与支給割合に関する情報が含まれていません。"
+        ],
+        "schema_version": "1.0"
+      },
+      "modality": "text",
+      "question": "育児休業中の給与は通常の何割支給されますか？",
+      "role": "factor_control",
+      "source": {
+        "kind": "retrieved_regression",
+        "source_id": "Q456"
+      }
+    }
+  ],
+  "dataset_version": "classifier-model-benchmark-v1",
+  "expected_counts": {
+    "判断要": 9,
+    "文書不足": 6,
+    "根拠十分": 21
+  },
+  "factor_true_counts": {
+    "answer_fully_supported": 30,
+    "requires_case_facts": 5,
+    "requires_policy_judgment": 3,
+    "retrieval_sufficient": 30,
+    "version_conflict": 2
+  },
+  "modality_counts": {
+    "text": 27,
+    "visual": 9
+  },
+  "review_status": "approved",
+  "schema_version": "1.0",
+  "source_hashes": {
+    ".eval_cache/contextual_heading_gemini_001_documents.json": "1efec62b22bf462f86032d870858c1c737e450ed29b9d01ee9e640d02f173b29",
+    ".eval_cache/large_formal_query_vectors.json": "25b2d74d64cbe0e6fa89e79bfc8bffdd837f8a383d9a6b5f44e6e17e8d025200",
+    "eval/classification_prompt_development_cases_v2.json": "211db1c9622aa7c15983cc74a9a80798289fd42865366295273ffd58512fb14e",
+    "eval/results/retrieved_text_regression_e24d7d4_v2/evaluation/records.jsonl": "c8634ef67deebe0de306d2d8d3b1e0f29eca600f3358315edbbfbeba3f551f3d"
+  },
+  "split": "development"
+}

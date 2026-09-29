@@ -1,0 +1,13 @@
+{
+  "cases": 12,
+  "correct": 12,
+  "accuracy": 1.0,
+  "precision": 1.0,
+  "recall": 1.0,
+  "true_positive": 6,
+  "true_negative": 6,
+  "false_positive": 0,
+  "false_negative": 0,
+  "external_api_calls": 0,
+  "estimated_api_cost_usd": 0.0
+}

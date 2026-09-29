@@ -191,6 +191,8 @@ LLMには独立した自由文回答も最終表示modeも生成させない。�
 2. `retrieval_sufficient=false`または`answer_fully_supported=false`は「文書不足」と表示し、「今回取得した根拠では確認できない」と説明する。
 3. 上記以外は「根拠十分」。
 
+`retrieval_sufficient=false`を判断要因より優先する候補は、retrieved-evidence回帰で改善0件・図表2件退行だったため採用しない。`requires_case_facts`を`missing_conditions`の有無だけで無効化する案も、真の`判断要`を緩和するため採用しない。
+
 コードは最終ラベルと生成結果を次の規則で整合させる。
 
 - 「根拠十分」: claimが1件以上、全claimがsupport済み、`missing_conditions`が空の場合だけ表示する。
@@ -199,6 +201,10 @@ LLMには独立した自由文回答も最終表示modeも生成させない。�
 - 規則へ適合しない場合は1回再生成し、解消しなければ`CLASSIFICATION_FAILED`として回答表示を止める。
 
 基準分類器は`gemini-3.1-flash-lite`、temperature 0、JSON Schema固定とする。モデルが利用不能になった場合は設定値を変更し、評価runに実モデル名を残す。Jev等はoracle evidenceとretrieved evidenceの両方で比較し、低確信度（初期値0.80）またはAPI失敗時だけ基準分類器へ1回fallbackする。oracle runでも分類器の出力項目はオンライン時と同じで、`expected_corpus_answerability`は評価基盤が別に保持する。基準分類器自体がtimeout、schema違反、API errorになった場合は`CLASSIFICATION_FAILED`とし、分類付き回答を表示しない。閾値は開発セットで固定し、holdout結果を見て変更しない。
+
+`version_conflict`だけを[`version-resolution-v1.schema.json`](schemas/version-resolution-v1.schema.json)で再判定する専用resolverをローカルのquery flowへ統合した。基準分類器が`version_conflict=true`の場合だけ呼び、成功かつconfidence 0.80以上で、置換後も表示契約を満たす場合に限りversion要因だけを置換する。他の4要因は変更しない。API失敗、Schema違反、取得外根拠ID、低confidence、表示契約違反では基準分類結果を維持し、resolverと最終分類を別attemptとして記録する。
+
+保存済みの同一130問へ適用した固定回帰では、resolver call相当9件、適用8件、表示契約fallback 1件だった。主原因ベースの分類失敗は15件から9件、成功は106件から112件となり、既存正解の退行は0件だった。これは保存済みGenerator・基準分類器・Resolver出力を合成した因果比較であり、統合後の新規end-to-end API runや公開環境へのdeployを示すものではない。
 
 JSON Schemaに加え、claim IDとordinalの一意性、ordinalの連続性、引用IDが今回取得したactive世代に属すること、最終ラベルと上記表示規則の整合性をsemantic validatorで確認する。表示本文はvalidator通過後のclaims、classifier factors、固定templateだけから作る。generator/classifierのprovider、model、prompt版はattempt tableへ保存する。
 

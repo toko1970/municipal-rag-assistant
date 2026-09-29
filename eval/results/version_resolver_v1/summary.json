@@ -1,0 +1,19 @@
+{
+  "case_count": 9,
+  "completed_count": 9,
+  "diagnostic_correct": 1,
+  "error_count": 0,
+  "estimated_cost_usd": 0.00774725,
+  "gate": {
+    "passed": true
+  },
+  "input_tokens": 21251,
+  "logical_external_call_count": 9,
+  "max_cost_usd": 0.03,
+  "output_tokens": 1623,
+  "stop_reason": "COMPLETED",
+  "target_correct": 7,
+  "target_count": 7,
+  "true_conflict_control_correct": 1,
+  "true_conflict_control_count": 1
+}

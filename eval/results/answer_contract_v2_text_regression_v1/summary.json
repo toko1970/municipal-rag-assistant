@@ -1,0 +1,18 @@
+{
+  "classification_correct": 9,
+  "completed_count": 13,
+  "content_review_pending": 13,
+  "error_count": 1,
+  "estimated_cost_usd": 0.013666749999999998,
+  "input_tokens": 33235,
+  "logical_external_calls": 28,
+  "max_cost_usd": 0.14,
+  "output_tokens": 3572,
+  "record_count": 14,
+  "retrieval_applicable_count": 13,
+  "retrieval_correct": 13,
+  "scenario_count": 100,
+  "sealed_holdout_accessed": false,
+  "semantic_success": 9,
+  "stop_reason": "PROVIDER_ERROR_FAIL_FAST"
+}

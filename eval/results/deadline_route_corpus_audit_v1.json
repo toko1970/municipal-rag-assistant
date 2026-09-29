@@ -1,0 +1,16 @@
+{
+  "summary": {
+    "questions": 500,
+    "formal_questions": 100,
+    "legacy_route_positive": 0,
+    "current_route_positive": 0,
+    "changed_questions": 0,
+    "formal_legacy_route_positive": 0,
+    "formal_current_route_positive": 0,
+    "formal_changed_questions": 0,
+    "external_api_calls": 0,
+    "estimated_api_cost_usd": 0.0
+  },
+  "changed_records": [],
+  "current_route_records": []
+}

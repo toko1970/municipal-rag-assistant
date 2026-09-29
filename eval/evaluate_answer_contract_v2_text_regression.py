@@ -1,0 +1,465 @@
+"""Evaluate answer-contract v2 on the 100-question text development split."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import time
+from pathlib import Path
+from typing import Any
+
+from config import BASE_DIR, CLASSIFIER_MODEL_NAME, LLM_MODEL_NAME, TOP_K
+from eval.compare_contextual_heading import load_baseline_query_vectors
+from eval.embedding_profiles import PROFILES
+from eval.evaluate_contextual_answer_candidate import EvaluationLogger
+from eval.evaluate_integrated_query_candidate import (
+    _attempt_diagnostics,
+    _provider_error,
+    _scenario_logical_calls,
+)
+from eval.evaluate_models import load_questions
+from eval.evaluate_retrieved_text_regression import (
+    _retrieval_outcome,
+    prepare_text_corpus,
+)
+from eval.evaluate_visual_answers import token_cost_usd
+from eval.query_decomposition_cache import load_cached_subquery_vectors
+from eval.run_text_holdout_predictions import (
+    ExternalCallBudget,
+    PacedProvider,
+    SharedCallPacer,
+)
+from src.llm_provider import GeminiProvider
+from src.query_decomposition import DecomposedVectorIndex, decompose_query
+from src.query_service import (
+    CLASSIFICATION_PROMPT_V2_VERSION,
+    answer_question,
+    build_classification_prompt_v2,
+    load_schema,
+)
+from src.temporal_evidence import (
+    ANSWER_CONTRACT_V2_PROMPT_VERSION,
+    build_answer_contract_v2_prompt,
+)
+
+
+ANSWER_SCHEMA = BASE_DIR / "design/schemas/answer-output-v2.schema.json"
+CLASSIFICATION_SCHEMA = BASE_DIR / "design/schemas/classification-output-v1.schema.json"
+VERSION_SCHEMA = BASE_DIR / "design/schemas/version-resolution-v1.schema.json"
+DEFAULT_INPUT = BASE_DIR / "eval/evaluation_questions_500.csv"
+DEFAULT_QUERY_CACHE = BASE_DIR / ".eval_cache/large_formal_query_vectors.json"
+DEFAULT_SUBQUERY_CACHE = (
+    BASE_DIR / ".eval_cache/query_decomposition_gemini_001_queries.json"
+)
+DEFAULT_DOCUMENT_CACHE = (
+    BASE_DIR / ".eval_cache/contextual_heading_gemini_001_documents.json"
+)
+MAX_SCENARIOS = 100
+MAX_CALLS_PER_SCENARIO = 3
+RESERVE_USD_PER_SCENARIO = 0.0014
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _write_json(path: Path, value: Any) -> None:
+    path.write_text(
+        json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+def _subquery_vectors(
+    questions: list[dict[str, str]], cache_path: Path
+) -> dict[str, list[float]]:
+    subqueries = list(
+        dict.fromkeys(
+            subquery
+            for row in questions
+            for subquery in decompose_query(row["question"])
+            if decompose_query(row["question"]) != [row["question"]]
+        )
+    )
+    profile = PROFILES["gemini-embedding-001"]
+    ids = [
+        f"query:{hashlib.sha256(query.encode()).hexdigest()}" for query in subqueries
+    ]
+    vectors = load_cached_subquery_vectors(
+        cache_path,
+        profile=profile,
+        kind="query-decomposition-v1",
+        ids=ids,
+    )
+    return dict(zip(subqueries, vectors, strict=True))
+
+
+def _classification_ok(row: dict[str, str], result: dict | None) -> bool:
+    return bool(result) and result.get("answer_label") == row["expected_answer_type"]
+
+
+def _record(
+    *,
+    row: dict[str, str],
+    logger: EvaluationLogger,
+    result: dict | None,
+    error: str,
+    elapsed_seconds: float,
+) -> dict[str, Any]:
+    resolver = result.get("version_resolution", {}) if result else {}
+    generation_input = int(logger.generation.get("input_tokens", 0))
+    generation_output = int(logger.generation.get("output_tokens", 0))
+    classification_input = int(logger.classification.get("input_tokens", 0))
+    classification_output = int(logger.classification.get("output_tokens", 0))
+    resolver_input = int(resolver.get("input_tokens", 0))
+    resolver_output = int(resolver.get("output_tokens", 0))
+    input_tokens = generation_input + classification_input + resolver_input
+    output_tokens = generation_output + classification_output + resolver_output
+    generated = logger.generation.get("response_data") or {}
+    retrieval = _retrieval_outcome(row, logger)
+    return {
+        "question_id": row["question_id"],
+        "question": row["question"],
+        "difficulty": row["difficulty"],
+        "expected_label": row["expected_answer_type"],
+        "expected_answer_key": row["expected_answer_key"],
+        **retrieval,
+        "predicted_label": result.get("answer_label") if result else None,
+        "answer_status": result.get("answer_status") if result else None,
+        "invariant_code": result.get("invariant_code") if result else None,
+        "classification_ok": _classification_ok(row, result),
+        "classification_factors": logger.classification.get("factors"),
+        "answer": result.get("answer", "") if result else "",
+        "claims": result.get("claims", []) if result else generated.get("claims", []),
+        "missing_conditions": generated.get("missing_conditions", []),
+        "date_calculations": generated.get("date_calculations", []),
+        "content_review_status": "pending" if result else "blocked_by_error",
+        "input_tokens": input_tokens,
+        "output_tokens": output_tokens,
+        "cost_usd": token_cost_usd(input_tokens, output_tokens),
+        "logical_external_calls": _scenario_logical_calls(logger, result),
+        "version_resolution": resolver,
+        **_attempt_diagnostics(logger),
+        "elapsed_seconds": elapsed_seconds,
+        "error": error or None,
+    }
+
+
+def _summary(
+    records: list[dict[str, Any]],
+    *,
+    stop_reason: str,
+    max_cost_usd: float,
+    scenario_count: int = MAX_SCENARIOS,
+    carried_usage: dict[str, int | float] | None = None,
+) -> dict[str, Any]:
+    carried_usage = carried_usage or {
+        "logical_external_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.0,
+    }
+    completed = [record for record in records if record["error"] is None]
+    current = [
+        record
+        for record in records
+        if record.get("execution_source", "CURRENT_RUN") == "CURRENT_RUN"
+    ]
+    return {
+        "scenario_count": scenario_count,
+        "record_count": len(records),
+        "completed_count": len(completed),
+        "error_count": len(records) - len(completed),
+        "retrieval_applicable_count": sum(
+            bool(record["retrieval_applicable"]) for record in completed
+        ),
+        "retrieval_correct": sum(
+            record["retrieval_ok"] is True for record in completed
+        ),
+        "classification_correct": sum(
+            bool(record["classification_ok"]) for record in completed
+        ),
+        "semantic_success": sum(
+            record["answer_status"] == "SUCCESS" for record in completed
+        ),
+        "content_review_pending": len(completed),
+        "logical_external_calls": int(carried_usage["logical_external_calls"])
+        + sum(int(record["logical_external_calls"]) for record in current),
+        "input_tokens": int(carried_usage["input_tokens"])
+        + sum(int(record["input_tokens"]) for record in current),
+        "output_tokens": int(carried_usage["output_tokens"])
+        + sum(int(record["output_tokens"]) for record in current),
+        "estimated_cost_usd": float(carried_usage["estimated_cost_usd"])
+        + sum(float(record["cost_usd"]) for record in current),
+        "reused_success_count": len(records) - len(current),
+        "carried_usage": carried_usage,
+        "max_cost_usd": max_cost_usd,
+        "stop_reason": stop_reason,
+        "sealed_holdout_accessed": False,
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
+    parser.add_argument("--query-cache", type=Path, default=DEFAULT_QUERY_CACHE)
+    parser.add_argument("--subquery-cache", type=Path, default=DEFAULT_SUBQUERY_CACHE)
+    parser.add_argument("--document-cache", type=Path, default=DEFAULT_DOCUMENT_CACHE)
+    parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--max-logical-external-calls", type=int, required=True)
+    parser.add_argument("--max-cost-usd", type=float, required=True)
+    parser.add_argument("--reuse-dir", type=Path)
+    parser.add_argument("--question-ids", nargs="+")
+    parser.add_argument("--min-seconds-per-scenario", type=float, default=0.0)
+    parser.add_argument("--min-seconds-per-external-call", type=float, default=0.0)
+    parser.add_argument("--max-provider-retries", type=int, default=0)
+    args = parser.parse_args()
+    if args.output_dir.exists():
+        raise FileExistsError(f"評価出力は上書きしません: {args.output_dir}")
+    if args.min_seconds_per_scenario < 0:
+        raise ValueError("min-seconds-per-scenarioは0以上で指定してください")
+    if args.min_seconds_per_external_call < 0:
+        raise ValueError("min-seconds-per-external-callは0以上で指定してください")
+    if not 0 <= args.max_provider_retries <= 2:
+        raise ValueError("max-provider-retriesは0から2で指定してください")
+    all_questions = load_questions(args.input, "formal")
+    if len(all_questions) != MAX_SCENARIOS:
+        raise ValueError(f"formal質問は100件必要です: {len(all_questions)}")
+    if args.question_ids:
+        requested = set(args.question_ids)
+        questions = [row for row in all_questions if row["question_id"] in requested]
+        found = {row["question_id"] for row in questions}
+        if found != requested:
+            raise ValueError(f"question IDが見つかりません: {sorted(requested - found)}")
+    else:
+        questions = all_questions
+    max_calls = len(questions) * MAX_CALLS_PER_SCENARIO
+    if args.max_logical_external_calls > max_calls:
+        raise ValueError(f"logical external call上限は{max_calls}です")
+    if args.max_cost_usd < len(questions) * RESERVE_USD_PER_SCENARIO:
+        raise ValueError("費用上限が対象質問の安全予約額を下回っています")
+
+    original_vectors = load_baseline_query_vectors(args.query_cache, all_questions)
+    vectors = {
+        **original_vectors,
+        **_subquery_vectors(all_questions, args.subquery_cache),
+    }
+    base_index = prepare_text_corpus(args.document_cache)
+    reused: dict[str, dict[str, Any]] = {}
+    carried_usage: dict[str, int | float] = {
+        "logical_external_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.0,
+    }
+    reuse_metadata = None
+    if args.reuse_dir is not None:
+        previous_manifest = json.loads(
+            (args.reuse_dir / "run_manifest.json").read_text(encoding="utf-8")
+        )
+        previous_summary = json.loads(
+            (args.reuse_dir / "summary.json").read_text(encoding="utf-8")
+        )
+        expected_conditions = {
+            "dataset_sha256": _sha256(args.input),
+            "query_cache_sha256": _sha256(args.query_cache),
+            "subquery_cache_sha256": _sha256(args.subquery_cache),
+            "document_cache_sha256": _sha256(args.document_cache),
+            "generation_prompt_version": ANSWER_CONTRACT_V2_PROMPT_VERSION,
+            "classification_prompt_version": CLASSIFICATION_PROMPT_V2_VERSION,
+        }
+        for key, expected in expected_conditions.items():
+            if previous_manifest.get(key) != expected:
+                raise ValueError(f"再利用元の評価条件が一致しません: {key}")
+        for line in (args.reuse_dir / "records.jsonl").read_text(
+            encoding="utf-8"
+        ).splitlines():
+            record = json.loads(line)
+            if record.get("error") is None:
+                reused[record["question_id"]] = {
+                    **record,
+                    "execution_source": "REUSED_SUCCESS",
+                }
+        carried_usage = {
+            key: previous_summary[key]
+            for key in (
+                "logical_external_calls",
+                "input_tokens",
+                "output_tokens",
+                "estimated_cost_usd",
+            )
+        }
+        reuse_metadata = {
+            "source_dir": str(args.reuse_dir),
+            "source_records_sha256": _sha256(args.reuse_dir / "records.jsonl"),
+            "reused_success_ids": sorted(reused),
+            "carried_usage": carried_usage,
+        }
+    args.output_dir.mkdir(parents=True)
+    records_path = args.output_dir / "records.jsonl"
+    manifest = {
+        "experiment": "answer-contract-v2-text-regression-v1",
+        "dataset_sha256": _sha256(args.input),
+        "query_cache_sha256": _sha256(args.query_cache),
+        "subquery_cache_sha256": _sha256(args.subquery_cache),
+        "document_cache_sha256": _sha256(args.document_cache),
+        "generator_model": LLM_MODEL_NAME,
+        "classifier_model": CLASSIFIER_MODEL_NAME,
+        "answer_schema": str(ANSWER_SCHEMA.relative_to(BASE_DIR)),
+        "generation_prompt_version": ANSWER_CONTRACT_V2_PROMPT_VERSION,
+        "classification_prompt_version": CLASSIFICATION_PROMPT_V2_VERSION,
+        "query_decomposition": "query-decomposition-v1",
+        "version_resolver": "version-resolution-v2",
+        "top_k": TOP_K,
+        "scenario_count": len(questions),
+        "scenario_ids": [row["question_id"] for row in questions],
+        "max_logical_external_calls": args.max_logical_external_calls,
+        "retry_count": 0,
+        "max_cost_usd": args.max_cost_usd,
+        "reserve_usd_per_scenario": RESERVE_USD_PER_SCENARIO,
+        "min_seconds_per_scenario": args.min_seconds_per_scenario,
+        "min_seconds_per_external_call": args.min_seconds_per_external_call,
+        "provider_retry_policy": {
+            "max_retries": args.max_provider_retries,
+            "retryable_status_codes": [503],
+            "backoff_initial_seconds": 5.1,
+            "backoff_max_seconds": 10.2,
+            "jitter_max_seconds": 1.0,
+        },
+        "stop_conditions": ["provider error", "cost reserve", "call limit"],
+        "sealed_holdout_accessed": False,
+        "production_deployed": False,
+        "reuse": reuse_metadata,
+    }
+    _write_json(args.output_dir / "run_manifest.json", manifest)
+
+    remaining_call_budget = args.max_logical_external_calls - int(
+        carried_usage["logical_external_calls"]
+    )
+    call_budget = ExternalCallBudget(remaining_call_budget)
+    pacer = SharedCallPacer(args.min_seconds_per_external_call)
+
+    def provider(model: str) -> PacedProvider:
+        return PacedProvider(
+            GeminiProvider(model),
+            pacer,
+            call_budget,
+            max_retries=args.max_provider_retries,
+            backoff_initial_seconds=5.1,
+            backoff_max_seconds=10.2,
+            jitter_max_seconds=1.0,
+        )
+
+    generator = provider(LLM_MODEL_NAME)
+    classifier = provider(CLASSIFIER_MODEL_NAME)
+    resolver = provider(CLASSIFIER_MODEL_NAME)
+    records: list[dict[str, Any]] = list(reused.values())
+    if records:
+        with records_path.open("w", encoding="utf-8") as stream:
+            for record in records:
+                stream.write(json.dumps(record, ensure_ascii=False) + "\n")
+    stop_reason = "COMPLETED"
+    for row in questions:
+        if row["question_id"] in reused:
+            continue
+        current = [
+            record
+            for record in records
+            if record.get("execution_source", "CURRENT_RUN") == "CURRENT_RUN"
+        ]
+        used_calls = int(carried_usage["logical_external_calls"]) + sum(
+            int(record["logical_external_calls"]) for record in current
+        )
+        used_cost = float(carried_usage["estimated_cost_usd"]) + sum(
+            float(record["cost_usd"]) for record in current
+        )
+        if used_calls + MAX_CALLS_PER_SCENARIO > args.max_logical_external_calls:
+            stop_reason = "CALL_LIMIT_REACHED"
+            break
+        if used_cost + RESERVE_USD_PER_SCENARIO > args.max_cost_usd:
+            stop_reason = "COST_LIMIT_REACHED"
+            break
+        logger = EvaluationLogger()
+        attempts_before = call_budget.attempts
+        retries_before = sum(
+            item.retry_count for item in (generator, classifier, resolver)
+        )
+        result = None
+        error = ""
+        started = time.perf_counter()
+        index = DecomposedVectorIndex(
+            question=row["question"],
+            base_index=base_index,
+            embed_query=lambda query: vectors[query],
+        )
+        try:
+            result = answer_question(
+                row["question"],
+                embed_query=lambda query: original_vectors[query],
+                vector_index=index,
+                generator=generator,
+                classifier=classifier,
+                version_resolver=resolver,
+                event_logger=logger,
+                answer_schema=load_schema(ANSWER_SCHEMA),
+                classification_schema=load_schema(CLASSIFICATION_SCHEMA),
+                version_resolution_schema=load_schema(VERSION_SCHEMA),
+                top_k=TOP_K,
+                generation_prompt_builder=build_answer_contract_v2_prompt,
+                generation_prompt_version=ANSWER_CONTRACT_V2_PROMPT_VERSION,
+                classification_prompt_builder=build_classification_prompt_v2,
+                classification_prompt_version=CLASSIFICATION_PROMPT_V2_VERSION,
+            )
+        except Exception as exc:
+            error = f"{type(exc).__name__}: {exc}"
+        record = _record(
+            row=row,
+            logger=logger,
+            result=result,
+            error=error,
+            elapsed_seconds=time.perf_counter() - started,
+        )
+        record["logical_external_calls"] = call_budget.attempts - attempts_before
+        record["provider_retry_count"] = (
+            sum(item.retry_count for item in (generator, classifier, resolver))
+            - retries_before
+        )
+        record["execution_source"] = "CURRENT_RUN"
+        records.append(record)
+        with records_path.open("a", encoding="utf-8") as stream:
+            stream.write(json.dumps(record, ensure_ascii=False, default=str) + "\n")
+        print(
+            f"{row['question_id']}: retrieval={record['retrieval_ok']} "
+            f"classification={record['classification_ok']} "
+            f"status={record['answer_status']} error={error or 'none'}"
+        )
+        if error:
+            stop_reason = (
+                "PROVIDER_ERROR_FAIL_FAST"
+                if _provider_error(error)
+                else "CANDIDATE_ERROR_FAIL_FAST"
+            )
+            break
+        remaining_interval = args.min_seconds_per_scenario - (
+            time.perf_counter() - started
+        )
+        if remaining_interval > 0:
+            time.sleep(remaining_interval)
+
+    summary = _summary(
+        records,
+        stop_reason=stop_reason,
+        max_cost_usd=args.max_cost_usd,
+        scenario_count=len(questions),
+        carried_usage=carried_usage,
+    )
+    if summary["logical_external_calls"] > args.max_logical_external_calls:
+        raise RuntimeError("logical external call上限を超えました")
+    _write_json(args.output_dir / "summary.json", summary)
+    print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
+    return 0 if stop_reason == "COMPLETED" else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

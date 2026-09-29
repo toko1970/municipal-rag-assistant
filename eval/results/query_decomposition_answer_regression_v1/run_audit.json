@@ -1,0 +1,24 @@
+{
+  "audit_version": "query-decomposition-answer-regression-audit-v1",
+  "adoption_gate_usable": false,
+  "actual_logical_external_calls": 8,
+  "provider_error": {
+    "question_id": "Q436",
+    "variant": "baseline",
+    "error": "503 UNAVAILABLE"
+  },
+  "observed_after_provider_error": [
+    {
+      "question_id": "Q436",
+      "variant": "query_decomposition"
+    }
+  ],
+  "invalidating_reason": "The evaluator did not recognize the provider's actual 503 UNAVAILABLE text and continued for one scenario instead of failing fast.",
+  "retry_performed": false,
+  "additional_api_run_performed": false,
+  "sealed_holdout_accessed": false,
+  "partial_findings_only": {
+    "Q291": "Candidate fixed retrieval and classification, but selected the stale next-month rule instead of the post-revision recognition-month rule.",
+    "Q436": "Candidate content passed, but the baseline provider error prevents a paired conclusion."
+  }
+}

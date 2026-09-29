@@ -1,0 +1,20 @@
+{
+  "dataset_sha256": "66e212c54ce6160b0ff18e677f745bdfcfd0026303d6c4d1afc0a958bd275c2a",
+  "document_cache_sha256": "1efec62b22bf462f86032d870858c1c737e450ed29b9d01ee9e640d02f173b29",
+  "embedding_profile": {
+    "collection_name": "municipal_docs_eval_gemini_embedding_001_v1",
+    "dimensions": 3072,
+    "document_prefix": "",
+    "key": "gemini-embedding-001",
+    "model": "gemini-embedding-001",
+    "provider": "google",
+    "query_prefix": "",
+    "remote": true
+  },
+  "experiment": "query-trigger-retrieval-comparison-v1",
+  "max_cost_usd": 0.001,
+  "max_logical_external_calls": 1,
+  "retry_count": 0,
+  "sealed_holdout_accessed": false,
+  "top_k": 8
+}

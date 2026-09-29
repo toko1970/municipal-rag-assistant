@@ -1,0 +1,20 @@
+{
+  "candidate_commit": "e24d7d4",
+  "classification_decision_version": "classification-decision-v2",
+  "classification_prompt_version": "answer-classification-v1",
+  "classifier_model": "gemini-3.1-flash-lite",
+  "dataset_path": "eval/evaluation_questions_500.csv",
+  "dataset_sha256": "1208bdb86358fd5f61c8cf4e86ace3cd03ea5e958cbdc2c838c25e4065d98601",
+  "document_cache_sha256": "1efec62b22bf462f86032d870858c1c737e450ed29b9d01ee9e640d02f173b29",
+  "evaluation_mode": "retrieved_evidence",
+  "generation_prompt_version": "answer-claims-v1",
+  "generator_model": "gemini-3.1-flash-lite",
+  "max_cost_usd": 0.3,
+  "max_logical_external_calls": 200,
+  "query_cache_sha256": "25b2d74d64cbe0e6fa89e79bfc8bffdd837f8a383d9a6b5f44e6e17e8d025200",
+  "reserve_usd_per_scenario": 0.003,
+  "retry_count": 0,
+  "scenario_count": 100,
+  "sealed_holdout_accessed": false,
+  "top_k": 8
+}

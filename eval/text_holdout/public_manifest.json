@@ -1,99 +1,114 @@
 {
-  "schema_version": "1.0",
-  "holdout_id": "text-sealed-holdout-v1",
-  "state": "SEALED",
-  "paths_relative_to": "repository_root",
-  "manifest_schema": {
-    "path": "design/schemas/text-holdout-public-manifest-v1.schema.json",
-    "sha256": "2269b5df9513b8932e8cfcef6c4689d8854cef161e68925c9acd287de493e997"
-  },
-  "gold_schema": {
-    "path": "design/schemas/text-holdout-gold-v1.schema.json",
-    "sha256": "f6be0904b88c5baf518e55df76f6258eeb582a1920a4461f45594b8e267f46ed"
-  },
   "blueprint": {
     "path": "eval/text_holdout/scenario_blueprint.json",
     "sha256": "f77e0393ae4fbc6c25283ada91fc04757557dd9d3fc4f5fc9651077a6013d71e"
   },
+  "candidate": {
+    "config_manifest_sha256": "ba0278c1b9457c00494ac992d596eca981f4489cc5973d17e8fd17142d53a382",
+    "frozen_at": "2026-09-29T04:41:19.777777+00:00",
+    "git_commit": "5d1ecc50985db681cfa71bddc6cbfcfa99480e40"
+  },
   "development_manifest": {
     "path": "eval/evaluation_set_manifest.json",
-    "sha256": "58867d06af1359fd8499b8e1ea20380b5569e6d42a66eed7545c2b9e6000a17c"
-  },
-  "questions": {
-    "path": "eval/text_holdout/questions.json",
-    "sha256": "67af42b0416b31dbfa7980013357392761dd233289f0a219cbcadca64b461f7b",
-    "scenario_count": 50,
-    "expression_count": 100
+    "sha256": "ce5751a4ae50ff347e98c3cc0f714cdc4ea6b1445f445fa05ffa6dbd5b0bdadd"
   },
   "documents": [
     {
-      "document_id": "TXH-A01",
       "document_family": "rotation_relay",
+      "document_id": "TXH-A01",
       "format": "markdown",
       "sha256": "b20097a41d38f482e1fbdc6a18ac03f67870b99bd717b6ee89f7cd0b33fc8d2d"
     },
     {
-      "document_id": "TXH-A02",
       "document_family": "rotation_relay",
+      "document_id": "TXH-A02",
       "format": "markdown",
       "sha256": "7f764345dd4ab1166776321a50e46a78b2674326f63e0939b4771812775f043c"
     },
     {
-      "document_id": "TXH-B01",
       "document_family": "quiet_booth",
+      "document_id": "TXH-B01",
       "format": "markdown",
       "sha256": "4f7fbb41db15d368197d15676a25cb881565d7d275404439d61c0b8e5a36fa5f"
     },
     {
-      "document_id": "TXH-B02",
       "document_family": "quiet_booth",
+      "document_id": "TXH-B02",
       "format": "markdown",
       "sha256": "64bc86b750d85a92ad4e102375fbaa9479bef121a75186a1f7ab41756c1a83fc"
     },
     {
-      "document_id": "TXH-C01",
       "document_family": "skill_exchange",
+      "document_id": "TXH-C01",
       "format": "markdown",
       "sha256": "e46da9116fdbede5db76b907a56f04730e5640a35b4fc0d9dc536c9994b42af4"
     },
     {
-      "document_id": "TXH-C02",
       "document_family": "skill_exchange",
+      "document_id": "TXH-C02",
       "format": "markdown",
       "sha256": "28de9770156427fc06f8c22bf1e7153360bf09b26c27f8a97ef7e0e6bba0baa0"
     },
     {
-      "document_id": "TXH-D01",
       "document_family": "archive_patrol",
+      "document_id": "TXH-D01",
       "format": "markdown",
       "sha256": "d9823eb282973e8e8044d64b3a341426c5583c154c7b59791bb8da2cc2d85dfa"
     },
     {
-      "document_id": "TXH-D02",
       "document_family": "archive_patrol",
+      "document_id": "TXH-D02",
       "format": "markdown",
       "sha256": "ee3d6def91f56cc98556ededdf1990544334f00545430bd097f09d0887621dfb"
     },
     {
-      "document_id": "TXH-E01",
       "document_family": "language_badge",
+      "document_id": "TXH-E01",
       "format": "markdown",
       "sha256": "61550debb10ee5249259b5a5ef3513495d5209516494a153dbc142244fab230b"
     },
     {
-      "document_id": "TXH-E02",
       "document_family": "language_badge",
+      "document_id": "TXH-E02",
       "format": "markdown",
       "sha256": "dac23d422e1c33ec2a5cc35581276a09e212737c65ef82bfd04ee8e17e301451"
     }
   ],
   "gold": {
-    "scenario_sha256": "9b064b36a109550a3d2b410142fff3e365a31131eb3c5c119987486914008196",
+    "expression_count": 100,
     "scenario_count": 50,
-    "expression_count": 100
+    "scenario_sha256": "9b064b36a109550a3d2b410142fff3e365a31131eb3c5c119987486914008196"
   },
-  "candidate": null,
-  "predictions": null,
-  "opening": null,
-  "results": null
+  "gold_schema": {
+    "path": "design/schemas/text-holdout-gold-v1.schema.json",
+    "sha256": "f6be0904b88c5baf518e55df76f6258eeb582a1920a4461f45594b8e267f46ed"
+  },
+  "holdout_id": "text-sealed-holdout-v1",
+  "manifest_schema": {
+    "path": "design/schemas/text-holdout-public-manifest-v1.schema.json",
+    "sha256": "2269b5df9513b8932e8cfcef6c4689d8854cef161e68925c9acd287de493e997"
+  },
+  "opening": {
+    "opened_at": "2026-09-29T08:59:14.427530+00:00",
+    "scenario_hash_verified": true
+  },
+  "paths_relative_to": "repository_root",
+  "predictions": {
+    "attempt_count": 100,
+    "frozen_at": "2026-09-29T08:56:32.199642+00:00",
+    "run_id": "text-holdout-v1-20260929T084927Z",
+    "sha256": "4d39ffabc578446073013d8b969dfaae40f498de5060024a036f4e32f3eff0c3"
+  },
+  "questions": {
+    "expression_count": 100,
+    "path": "eval/text_holdout/questions.json",
+    "scenario_count": 50,
+    "sha256": "67af42b0416b31dbfa7980013357392761dd233289f0a219cbcadca64b461f7b"
+  },
+  "results": {
+    "path": "eval/results/text_holdout_v1_acceptance/results.json",
+    "sha256": "1b70ddd8ed6cba06a0d00ef97e6892762a4113e2e92dcaf01b17afeb683f9c68"
+  },
+  "schema_version": "1.0",
+  "state": "CONSUMED"
 }

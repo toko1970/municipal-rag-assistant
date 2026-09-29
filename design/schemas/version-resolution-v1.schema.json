@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rag/version-resolution-v1.schema.json",
+  "title": "Version resolution v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "version_conflict",
+    "resolution_basis",
+    "evidence_element_ids",
+    "confidence",
+    "error_code"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "status": { "enum": ["SUCCESS", "RESOLUTION_FAILED"] },
+    "version_conflict": { "type": ["boolean", "null"] },
+    "resolution_basis": {
+      "enum": [
+        "question_date",
+        "effective_period",
+        "precedence_rule",
+        "single_applicable_source",
+        "unresolved",
+        null
+      ]
+    },
+    "evidence_element_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "format": "uuid" }
+    },
+    "confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+    "error_code": { "type": ["string", "null"] }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "SUCCESS" } } },
+      "then": {
+        "properties": {
+          "version_conflict": { "type": "boolean" },
+          "resolution_basis": {
+            "enum": [
+              "question_date",
+              "effective_period",
+              "precedence_rule",
+              "single_applicable_source",
+              "unresolved"
+            ]
+          },
+          "evidence_element_ids": { "minItems": 1 },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "error_code": { "type": "null" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "RESOLUTION_FAILED" } } },
+      "then": {
+        "properties": {
+          "version_conflict": { "type": "null" },
+          "resolution_basis": { "type": "null" },
+          "evidence_element_ids": { "maxItems": 0 },
+          "confidence": { "type": "null" },
+          "error_code": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  ]
+}

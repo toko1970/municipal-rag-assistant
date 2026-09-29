@@ -1,0 +1,15 @@
+{
+  "completed_count": 1,
+  "control_regression_ids": [],
+  "estimated_cost_usd": 0.00273225,
+  "gate_passed": false,
+  "input_tokens": 6195,
+  "logical_external_calls": 5,
+  "max_cost_usd": 0.025,
+  "output_tokens": 789,
+  "scenario_count": 5,
+  "sealed_holdout_accessed": false,
+  "stop_reason": "PROVIDER_ERROR_FAIL_FAST",
+  "target_count": 3,
+  "target_improvement_count": 0
+}

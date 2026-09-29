@@ -3,26 +3,39 @@
 from __future__ import annotations
 
 import json
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from pathlib import Path
 from typing import Callable, Protocol
 from uuid import UUID
 
 from src.answering import (
     DisplayAnswer,
+    DisplayContractError,
     derive_label,
     parse_answer_output,
     parse_classification_output,
     render_display_answer,
+    render_pipeline_inconsistency,
     validate_answer_evidence,
 )
 from src.asset_store import AssetReader, LocalAssetReader, VisualEvidenceAsset
 from src.contracts import SearchHit, VectorIndex
+from src.deadline_calculator import apply_date_calculations
 from src.llm_provider import StructuredLLMProvider, StructuredLLMResult
+from src.version_resolution import (
+    build_version_resolution_prompt,
+    parse_version_resolution,
+)
 
 
 GENERATION_PROMPT_VERSION = "answer-claims-v1"
 CLASSIFICATION_PROMPT_VERSION = "answer-classification-v1"
+CLASSIFICATION_PROMPT_V2_VERSION = "answer-classification-v2+typed-contract"
+DEADLINE_CLASSIFICATION_PROMPT_VERSION = "answer-classification-v1+verified-date-v1"
+CLASSIFICATION_DECISION_VERSION = "classification-decision-v1"
+VERSION_RESOLUTION_PROMPT_VERSION = "version-resolution-v2"
+VERSION_RESOLUTION_DECISION_VERSION = "classification-decision-v1+version-resolution-v2"
+VERSION_RESOLUTION_CONFIDENCE_THRESHOLD = 0.80
 
 
 class QueryEventLogger(Protocol):
@@ -57,8 +70,7 @@ def _evidence_payload(
     visual_assets = visual_assets or {}
     display_content = display_content or {}
     attachment_indexes = {
-        element_id: index
-        for index, element_id in enumerate(visual_assets, start=1)
+        element_id: index for index, element_id in enumerate(visual_assets, start=1)
     }
     for hit in hits:
         payload = {
@@ -94,9 +106,7 @@ def build_generation_prompt(
     hits: list[SearchHit],
     visual_assets: dict[UUID, VisualEvidenceAsset] | None = None,
 ) -> str:
-    evidence = json.dumps(
-        _evidence_payload(hits, visual_assets), ensure_ascii=False
-    )
+    evidence = json.dumps(_evidence_payload(hits, visual_assets), ensure_ascii=False)
     return (
         "次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、"
         "answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n"
@@ -108,17 +118,68 @@ def build_generation_prompt(
 def build_classification_prompt(
     question: str, hits: list[SearchHit], answer_data: dict
 ) -> str:
-    payload = json.dumps(
+    return build_classification_prompt_v1_from_payload(
+        question, _evidence_payload(hits), answer_data
+    )
+
+
+def _classification_payload(
+    question: str, evidence: list[dict], answer_data: dict
+) -> str:
+    return json.dumps(
         {
             "question": question,
-            "retrieved_evidence": _evidence_payload(hits),
+            "retrieved_evidence": evidence,
             "generated_answer": answer_data,
         },
         ensure_ascii=False,
     )
+
+
+def build_classification_prompt_v1_from_payload(
+    question: str, evidence: list[dict], answer_data: dict
+) -> str:
+    payload = _classification_payload(question, evidence, answer_data)
     return (
         "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。"
         "corpus全体に答えが存在するかは判定しないでください。\n"
+        f"判定対象: {payload}"
+    )
+
+
+def build_classification_prompt_v2(
+    question: str, hits: list[SearchHit], answer_data: dict
+) -> str:
+    payload = _classification_payload(question, _evidence_payload(hits), answer_data)
+    return (
+        "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。"
+        "corpus全体に答えが存在するかは判定しないでください。\n"
+        "answer-output-v2のmissing_conditionsは、Generatorが残した未解決条件です。"
+        "質問に明記された事実は回答上の既知事実として扱い、事実が質問に書かれていることだけを理由に"
+        "requires_case_facts=trueにしないでください。\n"
+        "date_calculationsから追加された具体日claimはアプリケーションが検証済みです。"
+        "起算日、日数、数え方が揃っている場合、計算結果を再確認するためだけに"
+        "requires_case_facts=trueにしないでください。\n"
+        "質問が『所属だけで決められるか』『確認先はどこか』を尋ね、根拠からその可否や確認先を"
+        "一意に答えられる場合は、実際の支給判断と区別してください。"
+        "実際の結論に制度所管課の裁量が残る場合だけrequires_policy_judgment=trueです。\n"
+        "基準日そのものが質問にない場合はrequires_case_factsです。必要な基準日が揃っても適用版を"
+        "一意に決められない場合だけversion_conflictです。\n"
+        f"判定対象: {payload}"
+    )
+
+
+def build_deadline_classification_prompt(
+    question: str, hits: list[SearchHit], answer_data: dict
+) -> str:
+    payload = _classification_payload(question, _evidence_payload(hits), answer_data)
+    return (
+        "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。"
+        "corpus全体に答えが存在するかは判定しないでください。\n"
+        "質問に明記された起算日は回答上の既知事実です。"
+        "date_calculationsを基にアプリケーションが追加した具体日claimは検証済みです。"
+        "起算日、暦日数、数え方が揃っている場合、計算結果を再確認するためだけに"
+        "requires_case_facts=trueにしないでください。\n"
         f"判定対象: {payload}"
     )
 
@@ -142,6 +203,44 @@ def _claim_log_rows(display: DisplayAnswer) -> list[dict]:
     ]
 
 
+def _classification_answer_payload(answer, raw_data: dict) -> dict:
+    schema_version = raw_data.get("schema_version")
+    if schema_version == "1.0":
+        return raw_data
+    payload = {
+        "schema_version": schema_version,
+        "claims": [
+            {
+                "claim_id": claim.claim_id,
+                "ordinal": claim.ordinal,
+                "text": claim.text,
+                "evidence_element_ids": [
+                    str(value) for value in claim.evidence_element_ids
+                ],
+                "evidence_kind": claim.evidence_kind,
+            }
+            for claim in answer.claims
+        ],
+        "date_calculations": raw_data["date_calculations"],
+    }
+    if schema_version == "1.1":
+        payload["missing_conditions"] = [
+            condition.description for condition in answer.missing_conditions
+        ]
+    else:
+        payload["missing_conditions"] = [
+            {
+                "type": condition.condition_type,
+                "description": condition.description,
+                "evidence_element_ids": [
+                    str(value) for value in condition.evidence_element_ids
+                ],
+            }
+            for condition in answer.missing_conditions
+        ]
+    return payload
+
+
 def answer_question(
     question: str,
     *,
@@ -153,12 +252,30 @@ def answer_question(
     answer_schema: dict,
     classification_schema: dict,
     top_k: int = 5,
-    visual_asset_loader: Callable[[list[UUID]], list[VisualEvidenceAsset]] | None = None,
+    visual_asset_loader: Callable[[list[UUID]], list[VisualEvidenceAsset]]
+    | None = None,
     asset_reader: AssetReader | None = None,
     max_visual_assets: int = 3,
+    version_resolver: StructuredLLMProvider | None = None,
+    version_resolution_schema: dict | None = None,
+    version_resolution_confidence_threshold: float = (
+        VERSION_RESOLUTION_CONFIDENCE_THRESHOLD
+    ),
+    generation_prompt_builder: Callable[
+        [str, list[SearchHit], dict[UUID, VisualEvidenceAsset] | None], str
+    ] = build_generation_prompt,
+    generation_prompt_version: str = GENERATION_PROMPT_VERSION,
+    classification_prompt_builder: Callable[
+        [str, list[SearchHit], dict], str
+    ] = build_classification_prompt,
+    classification_prompt_version: str = CLASSIFICATION_PROMPT_VERSION,
 ) -> dict:
     if max_visual_assets < 0:
         raise ValueError("max_visual_assetsは0以上である必要があります")
+    if (version_resolver is None) != (version_resolution_schema is None):
+        raise ValueError("version resolverとschemaは両方指定する必要があります")
+    if not 0 <= version_resolution_confidence_threshold <= 1:
+        raise ValueError("version resolver confidence閾値は0から1で指定してください")
     request_id = event_logger.start_request(question)
     hits = vector_index.search(embed_query(question), limit=top_k)
     event_logger.record_retrieval(request_id, hits)
@@ -166,6 +283,16 @@ def answer_question(
     generation_result = None
     visual_assets: dict[UUID, VisualEvidenceAsset] = {}
     visual_content: dict[UUID, bytes] = {}
+    classification_result = None
+    classification = None
+    version_resolution_metadata = {
+        "status": "NOT_CONFIGURED" if version_resolver is None else "NOT_REQUIRED",
+        "applied": False,
+        "fallback_used": False,
+        "prompt_version": VERSION_RESOLUTION_PROMPT_VERSION,
+        "input_tokens": 0,
+        "output_tokens": 0,
+    }
     try:
         if visual_asset_loader is not None:
             loaded_assets = visual_asset_loader([hit.element.id for hit in hits])
@@ -176,7 +303,7 @@ def answer_question(
                 if hit.element.id in loaded_by_id
             }
             visual_assets = dict(list(visual_assets.items())[:max_visual_assets])
-        prompt = build_generation_prompt(question, hits, visual_assets)
+        prompt = generation_prompt_builder(question, hits, visual_assets)
         if visual_assets:
             if not hasattr(generator, "generate_structured_with_media"):
                 raise TypeError("図表根拠にはmultimodal対応generatorが必要です")
@@ -195,14 +322,14 @@ def answer_question(
         else:
             generation_result = generator.generate_structured(prompt, answer_schema)
         answer_data = generation_result.data
-        answer = parse_answer_output(answer_data)
+        answer = apply_date_calculations(parse_answer_output(answer_data))
         validate_answer_evidence(answer, {hit.element.id for hit in hits})
     except Exception as exc:
         event_logger.record_generation_attempt(
             request_id,
             provider=generator.provider_name,
             model=generator.model,
-            prompt_version=GENERATION_PROMPT_VERSION,
+            prompt_version=generation_prompt_version,
             response_data=generation_result.data if generation_result else None,
             input_tokens=generation_result.input_tokens if generation_result else 0,
             output_tokens=generation_result.output_tokens if generation_result else 0,
@@ -214,7 +341,7 @@ def answer_question(
         request_id,
         provider=generation_result.provider,
         model=generation_result.model,
-        prompt_version=GENERATION_PROMPT_VERSION,
+        prompt_version=generation_prompt_version,
         response_data=answer_data,
         input_tokens=generation_result.input_tokens,
         output_tokens=generation_result.output_tokens,
@@ -222,23 +349,136 @@ def answer_question(
         error_summary=None,
     )
 
+    classification_status = "SUCCESS"
+    semantic_fallback_used = False
+    semantic_error = None
     try:
         classification_result = classifier.generate_structured(
-            build_classification_prompt(question, hits, answer_data),
+            classification_prompt_builder(
+                question, hits, _classification_answer_payload(answer, answer_data)
+            ),
             classification_schema,
         )
         classification_data = classification_result.data
         classification = parse_classification_output(classification_data)
-        display = render_display_answer(answer, classification)
+        if classification.factors.version_conflict and version_resolver is not None:
+            resolver_result = None
+            resolver_factors = {"baseline_version_conflict": True, "applied": False}
+            resolver_status = "RESOLUTION_FAILED"
+            resolver_fallback = True
+            resolver_error = None
+            try:
+                resolver_result = version_resolver.generate_structured(
+                    build_version_resolution_prompt(
+                        question, _evidence_payload(hits), answer_data
+                    ),
+                    version_resolution_schema,
+                )
+                resolution = parse_version_resolution(resolver_result.data)
+                retrieved_ids = {hit.element.id for hit in hits}
+                if not set(resolution.evidence_element_ids) <= retrieved_ids:
+                    raise ValueError("resolverが取得外の根拠IDを返しました")
+                resolver_factors.update(
+                    {
+                        "resolved_version_conflict": resolution.version_conflict,
+                        "resolution_basis": resolution.resolution_basis,
+                        "evidence_element_ids": [
+                            str(item) for item in resolution.evidence_element_ids
+                        ],
+                    }
+                )
+                if resolution.confidence < version_resolution_confidence_threshold:
+                    resolver_status = "LOW_CONFIDENCE_FALLBACK"
+                else:
+                    candidate = replace(
+                        classification,
+                        factors=replace(
+                            classification.factors,
+                            version_conflict=resolution.version_conflict,
+                        ),
+                    )
+                    try:
+                        render_display_answer(answer, candidate)
+                    except ValueError as exc:
+                        resolver_status = "DISPLAY_CONTRACT_FALLBACK"
+                        resolver_error = str(exc)
+                    else:
+                        classification = candidate
+                        resolver_status = "SUCCESS"
+                        resolver_fallback = False
+                        resolver_factors["applied"] = True
+                version_resolution_metadata = {
+                    **resolver_result.metadata(),
+                    "status": resolver_status,
+                    "applied": resolver_factors["applied"],
+                    "fallback_used": resolver_fallback,
+                    "prompt_version": VERSION_RESOLUTION_PROMPT_VERSION,
+                    "version_conflict": resolution.version_conflict,
+                    "resolution_basis": resolution.resolution_basis,
+                    "evidence_element_ids": resolver_factors["evidence_element_ids"],
+                    "confidence": resolution.confidence,
+                }
+            except Exception as exc:
+                resolver_error = str(exc)
+                version_resolution_metadata = {
+                    "provider": (
+                        resolver_result.provider
+                        if resolver_result
+                        else version_resolver.provider_name
+                    ),
+                    "model": (
+                        resolver_result.model
+                        if resolver_result
+                        else version_resolver.model
+                    ),
+                    "status": "RESOLUTION_FAILED",
+                    "applied": False,
+                    "fallback_used": True,
+                    "prompt_version": VERSION_RESOLUTION_PROMPT_VERSION,
+                    "input_tokens": resolver_result.input_tokens
+                    if resolver_result
+                    else 0,
+                    "output_tokens": (
+                        resolver_result.output_tokens if resolver_result else 0
+                    ),
+                    "error_summary": str(exc)[:1000],
+                }
+            event_logger.record_classification_attempt(
+                request_id,
+                provider=version_resolution_metadata["provider"],
+                model=version_resolution_metadata["model"],
+                prompt_version=VERSION_RESOLUTION_PROMPT_VERSION,
+                factors=resolver_factors,
+                derived_label=None,
+                confidence=version_resolution_metadata.get("confidence"),
+                status=resolver_status,
+                fallback_used=resolver_fallback,
+                error_summary=resolver_error[:1000] if resolver_error else None,
+            )
+        try:
+            display = render_display_answer(answer, classification)
+        except DisplayContractError as exc:
+            display = render_pipeline_inconsistency(answer, classification, exc)
+            classification_status = display.status
+            semantic_fallback_used = True
+            semantic_error = str(exc)
     except Exception as exc:
         event_logger.record_classification_attempt(
             request_id,
-            provider=classifier.provider_name,
-            model=classifier.model,
-            prompt_version=CLASSIFICATION_PROMPT_VERSION,
-            factors=None,
-            derived_label=None,
-            confidence=None,
+            provider=(
+                classification_result.provider
+                if classification_result
+                else classifier.provider_name
+            ),
+            model=classification_result.model
+            if classification_result
+            else classifier.model,
+            prompt_version=classification_prompt_version,
+            factors=asdict(classification.factors) if classification else None,
+            derived_label=(
+                derive_label(classification.factors) if classification else None
+            ),
+            confidence=classification.confidence if classification else None,
             status="CLASSIFICATION_FAILED",
             fallback_used=False,
             error_summary=str(exc)[:1000],
@@ -248,25 +488,31 @@ def answer_question(
         request_id,
         provider=classification_result.provider,
         model=classification_result.model,
-        prompt_version=CLASSIFICATION_PROMPT_VERSION,
+        prompt_version=classification_prompt_version,
         factors=asdict(classification.factors),
         derived_label=derive_label(classification.factors),
         confidence=classification.confidence,
-        status="SUCCESS",
-        fallback_used=False,
-        error_summary=None,
+        status=classification_status,
+        fallback_used=(
+            version_resolution_metadata["fallback_used"] or semantic_fallback_used
+        ),
+        error_summary=semantic_error,
     )
     event_logger.record_answer_result(
         request_id,
         label=display.label,
         display_text=display.text,
         claims=_claim_log_rows(display),
+        status=display.status,
     )
     return {
         "request_id": str(request_id),
         "question": question,
         "answer": display.text,
         "answer_label": display.label,
+        "answer_status": display.status,
+        "degraded": display.status != "SUCCESS",
+        "invariant_code": display.invariant_code,
         "claims": _claim_log_rows(display),
         "references": _evidence_payload(
             hits, visual_assets, display_content=visual_content
@@ -274,4 +520,10 @@ def answer_question(
         "generation": generation_result.metadata(),
         "visual_evidence_count": len(visual_assets),
         "classification": classification_result.metadata(),
+        "classification_decision_version": (
+            VERSION_RESOLUTION_DECISION_VERSION
+            if version_resolver is not None
+            else CLASSIFICATION_DECISION_VERSION
+        ),
+        "version_resolution": version_resolution_metadata,
     }

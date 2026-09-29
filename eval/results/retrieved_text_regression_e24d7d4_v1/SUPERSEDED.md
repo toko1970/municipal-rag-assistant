@@ -1,0 +1,5 @@
+# Superseded runner attempt
+
+このrunは2問目の表示契約エラーを外部APIエラーと同様にfail-fastしたため、100問回帰の結果には使用しない。品質上の失敗を記録しつつprovider errorだけで停止するようrunnerを修正し、`retrieved_text_regression_e24d7d4_v2`で全100問を実行した。
+
+この試行の4 logical callとUS$0.00155475は削除せず、実験全体の費用へ含める。初版の`retrieval_correct`はheading pathの記録不備があるため、検索評価にも使用しない。

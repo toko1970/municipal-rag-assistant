@@ -1,0 +1,43 @@
+{
+  "actual_logical_external_calls": 26,
+  "adjudication_version": "answer-contract-v2-pilot-adjudication-v1",
+  "candidate_by_group": {
+    "condition": {
+      "success": 4,
+      "total": 4
+    },
+    "control": {
+      "success": 2,
+      "total": 2
+    },
+    "date": {
+      "success": 6,
+      "total": 6
+    }
+  },
+  "candidate_composite_success": 12,
+  "cost_measurement_complete": false,
+  "cost_measurement_note": "candidate classification token usage was omitted because the logger matched only the v1 prompt version; do not present the lower bound as exact cost",
+  "gold_adjudication": {
+    "ACV2-M03": "old question asked whether the department alone could decide and was answerable; replaced with an actual exception eligibility decision",
+    "ACV2-M04": "case_fact and version_conflict are both accepted because the missing date leaves the applicable version unresolved"
+  },
+  "improvements": [
+    "ACV2-D01",
+    "ACV2-D02",
+    "ACV2-D04",
+    "ACV2-D05",
+    "ACV2-D06",
+    "ACV2-M01",
+    "ACV2-M04"
+  ],
+  "proceed_to_130_question_regression": true,
+  "provider_errors": 0,
+  "quality_gate_passed": true,
+  "regressions": [],
+  "reported_cost_usd_lower_bound": 0.0057075,
+  "retry_count": 0,
+  "scenario_count": 12,
+  "source_records": "records.jsonl",
+  "source_summary": "summary.json"
+}

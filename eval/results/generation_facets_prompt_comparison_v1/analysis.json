@@ -1,0 +1,284 @@
+{
+  "baseline_scores": {
+    "Q066": {
+      "classification_ok": false,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": false,
+      "required_facets_ok": false,
+      "required_pattern_results": {
+        "確認": false,
+        "翌月以降": true
+      }
+    },
+    "Q131": {
+      "classification_ok": true,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": false,
+      "required_facets_ok": false,
+      "required_pattern_results": {
+        "10日以内": true,
+        "1\\.5km以上": true,
+        "実際に通勤|実通勤": false,
+        "届出": false
+      }
+    },
+    "Q166": {
+      "classification_ok": true,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": true,
+      "required_facets_ok": true,
+      "required_pattern_results": {
+        "合理的": true,
+        "確認|判断": true,
+        "経済的": true
+      }
+    },
+    "Q206": {
+      "classification_ok": true,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": true,
+      "required_facets_ok": true,
+      "required_pattern_results": {
+        "本人名義": true,
+        "確認|相談": true
+      }
+    },
+    "Q386": {
+      "classification_ok": false,
+      "forbidden_claims_ok": false,
+      "forbidden_pattern_results": {
+        "不備.{0,12}受け付けられません": true
+      },
+      "overall_success": false,
+      "required_facets_ok": false,
+      "required_pattern_results": {
+        "受け付け": true,
+        "確認": false
+      }
+    },
+    "Q391": {
+      "classification_ok": false,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": false,
+      "required_facets_ok": false,
+      "required_pattern_results": {
+        "受付できません": true,
+        "確認": false,
+        "認定.{0,12}完了": true
+      }
+    },
+    "Q421": {
+      "classification_ok": true,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": true,
+      "required_facets_ok": true,
+      "required_pattern_results": {
+        "1\\.5km以上": true,
+        "2km以上": true
+      }
+    },
+    "Q431": {
+      "classification_ok": true,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": true,
+      "required_facets_ok": true,
+      "required_pattern_results": {
+        "翌月": true,
+        "認定された月": true
+      }
+    },
+    "Q441": {
+      "classification_ok": true,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": true,
+      "required_facets_ok": true,
+      "required_pattern_results": {
+        "一括返納": true,
+        "分割返納": true,
+        "給与口座変更届": true,
+        "通帳|口座情報確認書類": true
+      }
+    },
+    "Q446": {
+      "classification_ok": true,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": true,
+      "required_facets_ok": true,
+      "required_pattern_results": {
+        "15,000円を超える": true,
+        "30日以内": true,
+        "住居届": true,
+        "家賃支払確認書類": true,
+        "本人名義": true,
+        "賃貸借契約書": true
+      }
+    }
+  },
+  "candidate_scores": {
+    "Q066": {
+      "classification_ok": true,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": false,
+      "required_facets_ok": false,
+      "required_pattern_results": {
+        "確認": true,
+        "翌月以降": false
+      }
+    },
+    "Q131": {
+      "classification_ok": false,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": false,
+      "required_facets_ok": false,
+      "required_pattern_results": {
+        "10日以内": true,
+        "1\\.5km以上": true,
+        "実際に通勤|実通勤": false,
+        "届出": false
+      }
+    },
+    "Q166": {
+      "classification_ok": true,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": true,
+      "required_facets_ok": true,
+      "required_pattern_results": {
+        "合理的": true,
+        "確認|判断": true,
+        "経済的": true
+      }
+    },
+    "Q206": {
+      "classification_ok": true,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": true,
+      "required_facets_ok": true,
+      "required_pattern_results": {
+        "本人名義": true,
+        "確認|相談": true
+      }
+    },
+    "Q386": {
+      "classification_ok": false,
+      "forbidden_claims_ok": false,
+      "forbidden_pattern_results": {
+        "不備.{0,12}受け付けられません": true
+      },
+      "overall_success": false,
+      "required_facets_ok": true,
+      "required_pattern_results": {
+        "受け付け": true,
+        "確認": true
+      }
+    },
+    "Q391": {
+      "classification_ok": true,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": false,
+      "required_facets_ok": false,
+      "required_pattern_results": {
+        "受付できません": false,
+        "確認": true,
+        "認定.{0,12}完了": true
+      }
+    },
+    "Q421": {
+      "classification_ok": false,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": false,
+      "required_facets_ok": true,
+      "required_pattern_results": {
+        "1\\.5km以上": true,
+        "2km以上": true
+      }
+    },
+    "Q431": {
+      "classification_ok": true,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": false,
+      "required_facets_ok": true,
+      "required_pattern_results": {
+        "翌月": true,
+        "認定された月": true
+      }
+    },
+    "Q441": {
+      "classification_ok": true,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": false,
+      "required_facets_ok": true,
+      "required_pattern_results": {
+        "一括返納": true,
+        "分割返納": true,
+        "給与口座変更届": true,
+        "通帳|口座情報確認書類": true
+      }
+    },
+    "Q446": {
+      "classification_ok": false,
+      "forbidden_claims_ok": true,
+      "forbidden_pattern_results": {},
+      "overall_success": false,
+      "required_facets_ok": false,
+      "required_pattern_results": {
+        "15,000円を超える": true,
+        "30日以内": true,
+        "住居届": true,
+        "家賃支払確認書類": true,
+        "本人名義": false,
+        "賃貸借契約書": true
+      }
+    }
+  },
+  "manual_review": {
+    "note": "Q391は受付できません/受付できないの表記差で厳密regex gate外。成功に読み替えても採用条件未達かつcontrol退行4件。評価後にgateは変更しない。",
+    "reviewed_ids": [
+      "Q066",
+      "Q131",
+      "Q386",
+      "Q391"
+    ],
+    "semantically_improved_ids": [
+      "Q391"
+    ]
+  },
+  "summary": {
+    "attempted_count": 10,
+    "decision": "DO_NOT_ADOPT",
+    "error_count": 3,
+    "estimated_cost_usd": 0.01053975,
+    "expected_count": 10,
+    "gate_passed": false,
+    "improved_failure_count": 0,
+    "improved_failure_ids": [],
+    "input_tokens": 21435,
+    "logical_external_calls": 20,
+    "output_tokens": 3454,
+    "regressed_control_count": 4,
+    "regressed_control_ids": [
+      "Q421",
+      "Q431",
+      "Q441",
+      "Q446"
+    ],
+    "stop_reason": "COMPLETED",
+    "successful_pipeline_count": 7
+  }
+}

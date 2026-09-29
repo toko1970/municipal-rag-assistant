@@ -1,0 +1,22 @@
+{
+  "billable_cost_usd": null,
+  "classification_calls": 0,
+  "code_level_embedding_calls": 2,
+  "completed_at": "2026-09-29T03:54:14.935216+00:00",
+  "error_type": "429 RESOURCE_EXHAUSTED",
+  "exact_sdk_attempt_count": null,
+  "failed_stage": "QUERY_EMBEDDING",
+  "failure_count": 0,
+  "generation_calls": 0,
+  "prediction_count": 0,
+  "predictions_frozen": false,
+  "provider_retry_after_seconds": 54,
+  "quota_limit_per_minute": 100,
+  "quota_metric": "embed_content_free_tier_requests",
+  "run_id": "text-holdout-v1-20260929T035203Z",
+  "sdk_retry_policy_discovered": "google-genai default up to 5 attempts including initial call",
+  "sealed_documents_opened": true,
+  "sealed_gold_opened": false,
+  "stop_reason": "PROVIDER_ERROR_FAIL_FAST",
+  "success_count": 0
+}

@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import time
 from collections import Counter
 from pathlib import Path
+from typing import Callable, TypeVar
 
 from alembic import command
 from alembic.config import Config
@@ -27,9 +29,55 @@ from src.visual_ingestion import render_pdf_page
 
 
 CLOUD_SMOKE_QUESTION = "給与支給日はいつですか？"
+SMOKE_MAX_503_RETRIES = 2
+SMOKE_BACKOFF_INITIAL_SECONDS = 5.1
+SMOKE_BACKOFF_MAX_SECONDS = 10.2
 VISUAL_DEVELOPMENT_MANIFEST = (
     BASE_DIR / "eval/visual_fixtures/manifests/development_manifest.json"
 )
+
+T = TypeVar("T")
+
+
+def _is_retryable_provider_503(error: Exception) -> bool:
+    text = str(error).upper()
+    return "503" in text and ("UNAVAILABLE" in text or "HIGH DEMAND" in text)
+
+
+def run_with_503_backoff(
+    operation: Callable[[], T],
+    *,
+    sleep: Callable[[float], None] = time.sleep,
+    max_retries: int = SMOKE_MAX_503_RETRIES,
+    backoff_initial_seconds: float = SMOKE_BACKOFF_INITIAL_SECONDS,
+    backoff_max_seconds: float = SMOKE_BACKOFF_MAX_SECONDS,
+) -> tuple[T, int]:
+    """Retry only transient Gemini 503 errors with a bounded exponential delay."""
+
+    for retry_count in range(max_retries + 1):
+        try:
+            return operation(), retry_count
+        except Exception as error:
+            if retry_count >= max_retries or not _is_retryable_provider_503(error):
+                raise
+            delay = min(
+                backoff_initial_seconds * (2**retry_count),
+                backoff_max_seconds,
+            )
+            print(
+                json.dumps(
+                    {
+                        "event": "provider_503_retry",
+                        "retry": retry_count + 1,
+                        "max_retries": max_retries,
+                        "backoff_seconds": delay,
+                    },
+                    ensure_ascii=False,
+                    sort_keys=True,
+                )
+            )
+            sleep(delay)
+    raise AssertionError("unreachable")
 
 
 def session_factory() -> sessionmaker[Session]:
@@ -205,14 +253,19 @@ def index_info() -> dict[str, object]:
     }
 
 
-def bootstrap_cloud() -> dict[str, object]:
+def bootstrap_cloud(
+    *, sleep: Callable[[float], None] = time.sleep
+) -> dict[str, object]:
     migrate()
     ingestion = ingest()
     visual_ingestion = ingest_reviewed_visual_fixtures()
     consistency = reconcile()
     if not consistency["consistent"]:
         raise RuntimeError("PostgreSQLとQdrantのindexが一致しません")
-    answer = generate_qdrant_answer(CLOUD_SMOKE_QUESTION)
+    answer, provider_503_retries = run_with_503_backoff(
+        lambda: generate_qdrant_answer(CLOUD_SMOKE_QUESTION),
+        sleep=sleep,
+    )
     return {
         "migration": "head",
         "ingestion": ingestion,
@@ -223,6 +276,7 @@ def bootstrap_cloud() -> dict[str, object]:
             "request_id": answer["request_id"],
             "answer_label": answer["answer_label"],
             "references": len(answer["references"]),
+            "provider_503_retries": provider_503_retries,
         },
     }
 

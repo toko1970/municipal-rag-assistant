@@ -24,6 +24,7 @@ eval/results/*/assets/
 
 # Sealed visual holdout: source PDFs and gold stay with the gold custodian.
 eval/visual_holdout/.sealed/
+eval/visual_holdout_v2/.sealed/
 
 # Sealed text holdout: source Markdown and gold stay with the gold custodian.
 eval/text_holdout/.sealed/

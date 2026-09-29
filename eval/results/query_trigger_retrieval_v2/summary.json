@@ -1,0 +1,23 @@
+{
+  "baseline_success": 4,
+  "candidate_success": 13,
+  "case_count": 16,
+  "embedding_logical_external_calls": 0,
+  "gate_passed": true,
+  "improved_ids": [
+    "G01",
+    "G02",
+    "G03",
+    "G04",
+    "G05",
+    "G06",
+    "G08",
+    "G09",
+    "G15"
+  ],
+  "max_cost_usd": 0.001,
+  "max_logical_external_calls": 1,
+  "regressed_ids": [],
+  "retry_count": 0,
+  "sealed_holdout_accessed": false
+}

@@ -140,6 +140,10 @@ DOC-001〜DOC-004を主な回答根拠文書として扱い、DOC-005は制度�
 
 本プロジェクトでは、検索性能評価および回答品質評価を実施し、システムの有効性を検証しました。
 
+失敗原因のPareto分析から、有限pilot、採否判断、最終的な総合回答成功率への寄与までを
+[RAG精度改善の意思決定レポート](eval/ACCURACY_IMPROVEMENT_DECISION_REPORT.md)にまとめています。
+成功した変更だけでなく、退行や費用を理由に不採用とした変更も同じ流れで確認できます。
+
 難問20件による追加評価では、検索結果だけでなく回答内容と失敗原因も質問単位で記録しています。詳細は [難問検索評価](eval/HARD_EVALUATION.md)、[難問回答品質評価](eval/HARD_ANSWER_EVALUATION.md)、[親見出しをEmbeddingへ加える検索実験](eval/CONTEXTUAL_HEADING_EVALUATION.md) を参照してください。
 
 より多様な誤回答の傾向を測るため、[給与事務担当者向け500問評価セット](eval/LARGE_EVALUATION_SET.md)も用意しています。100シナリオの人手確認には[シナリオレビュー表](eval/evaluation_scenario_review.csv)を使用します。回答生成モデルの比較方針と概算費用は[LLMモデル候補](eval/LLM_MODEL_CANDIDATES.md)に記録しています。
@@ -601,7 +605,7 @@ python -m pytest -q -m integration tests/integration
 
 実際の文書ベクトル検索とGeminiを使う評価もこのCIには含めず、評価セットや検索方式を変更した際に別途実行します。
 
-難問20件での実検索評価、同一質問による方式比較、改善と退行の個別例は [eval/HARD_EVALUATION.md](eval/HARD_EVALUATION.md) に記録しています。採用したcontextual heading、Top-8、Gemini 3.1 Flash-LiteはローカルのRAG v2経路へ反映済みです。2026-09-27時点の公開Cloud Runは旧Chroma版で、RAG v2は未反映です。コード、設定、外部serviceの差分は [Cloud Run / local RAG v2 gap analysis](design/CLOUD_RUN_RAG_V2_GAP_ANALYSIS.md) に記録しています。
+難問20件での実検索評価、同一質問による方式比較、改善と退行の個別例は [eval/HARD_EVALUATION.md](eval/HARD_EVALUATION.md) に記録しています。採用したcontextual heading、Top-8、Gemini 3.1 Flash-Liteは公開RAG v2へ反映済みです。2026-09-29にローカル採用したQuery Decomposition、生成前版注記、条件付きVersion Resolverは、gold v1.2で総合回答成功117/130（90.0%）から120/130（92.3%）、退行0を確認した次回公開候補です。さらに具体的な暦日期限だけを決定的Python計算へ渡す候補は、新規表現4/4で生成・計算・分類・表示に成功しました。固定130問にはroute対象がないため120/130は維持値であり、日付改善後の総合holdout値は未測定です。実験経過と公開前の状態は [RAG精度改善の意思決定レポート](eval/ACCURACY_IMPROVEMENT_DECISION_REPORT.md) と [対象限定release gate](eval/POST_HOLDOUT_TARGETED_RELEASE_GATE.md) に記録しています。
 
 ---
 
@@ -625,11 +629,11 @@ python -m pytest -q -m integration tests/integration
 
 ---
 
-### 10.3 ハイブリッド検索の導入
+### 10.3 ハイブリッド検索の再検討条件
 
-現在はベクトル検索のみを利用しています。
+SudachiによるBM25とDense検索をRRFで統合する方式をformal 100問で比較しましたが、対象の検索失敗3件を改善せず、全根拠見出しHit@5が80/90から73/90へ低下したため採用しませんでした。
 
-今後はキーワード検索（BM25等）とベクトル検索を組み合わせたハイブリッド検索を導入し、制度名や届出名称などの固有語に対する検索性能向上を検討しています。
+文書数や固有語検索の比率が増えた場合は、sparse方式、tokenizer、融合重みを固定した新しい評価単位として再検討します。
 
 ---
 
@@ -657,17 +661,17 @@ python -m pytest -q -m integration tests/integration
 
 ---
 
-### 10.7 ログ・フィードバックの永続化
+### 10.7 ログ・フィードバックの分析
 
-公開Cloud Runでは、実行ログと利用者フィードバックをコンテナ内のファイルへ保存しています。Cloud Runのファイルシステムは永続ストレージではないため、インスタンスの終了や再作成によってデータが失われる可能性があります。ローカルRAG v2ではPostgreSQLへの保存を実装・検証済みですが、公開環境には未接続です。
+公開Cloud Runの質問、検索結果、生成・分類attempt、表示claim、根拠link、利用者フィードバックはCloud SQL for PostgreSQLへ保存します。2026-09-28の公開確認では、一つのrequest IDからこれらのデータをSQLで結合できることを確認しました。
 
-今後はCloud LoggingやCloud Storage、データベースなどの利用を検討し、ログやフィードバックを継続的な分析に活用できる構成へ改善したいと考えています。
+次は根拠不足、判断要、低評価フィードバックを定期的に集計し、評価セットへ追加する候補を抽出します。個人情報を保存しない架空データで運用します。
 
 ---
 
 ### 10.8 ビルド・デプロイの自動化
 
-公開環境への初回デプロイでは、Cloud Buildでコンテナイメージを作成し、Cloud Runへ手動で反映しました。
+公開環境への初回デプロイでは、Cloud Buildでコンテナイメージを作成し、Cloud Runへ手動で反映しました。現在はGitHub ActionsによるCDへ移行しています。
 
 GitHub ActionsにCIとCDジョブを追加し、GitHubからGoogle Cloudへ接続する認証基盤をTerraformで適用しました。`main` へのpush後にCIが成功すると、`production` 環境の所有者承認を経て、コンテナイメージを作成し既存のCloud Runサービスへ反映する構成です。設定と運用手順は [infra/README.md](infra/README.md) に記載しています。
 

@@ -1,0 +1,47 @@
+{
+  "artifact_version": "generation-facets-pilot-cases-v1",
+  "failure_ids": ["Q066", "Q131", "Q386", "Q391"],
+  "control_ids": ["Q166", "Q206", "Q421", "Q431", "Q441", "Q446"],
+  "cases": {
+    "Q066": {
+      "required_patterns": ["翌月以降", "確認"],
+      "forbidden_patterns": []
+    },
+    "Q131": {
+      "required_patterns": ["1\\.5km以上", "実際に通勤|実通勤", "届出", "10日以内"],
+      "forbidden_patterns": []
+    },
+    "Q386": {
+      "required_patterns": ["受け付け", "確認"],
+      "forbidden_patterns": ["不備.{0,12}受け付けられません"]
+    },
+    "Q391": {
+      "required_patterns": ["受付できません", "認定.{0,12}完了", "確認"],
+      "forbidden_patterns": []
+    },
+    "Q166": {
+      "required_patterns": ["合理的", "経済的", "確認|判断"],
+      "forbidden_patterns": []
+    },
+    "Q206": {
+      "required_patterns": ["本人名義", "確認|相談"],
+      "forbidden_patterns": []
+    },
+    "Q421": {
+      "required_patterns": ["2km以上", "1\\.5km以上"],
+      "forbidden_patterns": []
+    },
+    "Q431": {
+      "required_patterns": ["翌月", "認定された月"],
+      "forbidden_patterns": []
+    },
+    "Q441": {
+      "required_patterns": ["一括返納", "分割返納", "給与口座変更届", "通帳|口座情報確認書類"],
+      "forbidden_patterns": []
+    },
+    "Q446": {
+      "required_patterns": ["15,000円を超える", "本人名義", "住居届", "賃貸借契約書", "家賃支払確認書類", "30日以内"],
+      "forbidden_patterns": []
+    }
+  }
+}

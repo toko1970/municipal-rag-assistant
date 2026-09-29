@@ -94,3 +94,32 @@ gold custodian以外は、候補実装と予測結果の固定が終わるまで
 - SHA-256は内容を公開せず、後で開いたartifactが先に固定した版と同一か確認する。
 - developmentとholdoutのdocument familyを分けると、既知の制度文面への暗記ではなく未知文書への汎化を測れる。
 - 一度開封したholdoutは失敗分析へ使えるが、次の最終受入には新しいholdout版が必要になる。
+
+## 候補固定後の予測
+
+外部APIを呼ぶ前に、公開情報だけから実行上限を確認する。この`plan`はsealed Markdownもgoldも読まない。
+
+```bash
+.venv/bin/python -m eval.run_text_holdout_predictions plan
+```
+
+明示承認後、sealed Markdownだけを初めて候補へ入力する。出力先は新規directoryに限定し、goldはrunnerへ渡さない。
+Gemini Embeddingはbatch内の各contentを100 RPM quotaへ計上するため、30 documentのEmbedding後に
+60秒の計画的cooldownを置いて100 queryを送る。SDK attemptは1回に固定し、429後の自動retryは
+行わない。回答系の無料枠15 RPMにはGenerator、Classifier、Version Resolverで一つのpacerを
+共有し、理論上の最短4秒に運用余裕を加えて各callを5.1秒以上離す。provider errorで停止した場合、成功済みpredictionだけを
+hash付きで次runへ引き継ぎ、失敗表現から再開できる。
+
+```bash
+.venv/bin/python -m eval.run_text_holdout_predictions run \
+  --sealed-documents-dir eval/text_holdout/.sealed/documents \
+  --output-dir eval/results/text_holdout_v1_predictions
+```
+
+100表現が完走した場合だけ予測を固定する。途中停止artifactは原因調査に使えるが、`PREDICTIONS_FROZEN`には進めない。
+
+```bash
+.venv/bin/python -m eval.run_text_holdout_predictions freeze \
+  --predictions eval/results/text_holdout_v1_predictions/predictions.jsonl \
+  --summary eval/results/text_holdout_v1_predictions/summary.json
+```

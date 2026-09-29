@@ -1,0 +1,33 @@
+{
+  "by_prompt": {
+    "baseline": {
+      "attempted": 1,
+      "completed": 0,
+      "control_correct": 0,
+      "correct": 0,
+      "target_correct": 0
+    },
+    "candidate": {
+      "attempted": 0,
+      "completed": 0,
+      "control_correct": 0,
+      "correct": 0,
+      "target_correct": 0
+    }
+  },
+  "case_count": 17,
+  "error_count": 1,
+  "estimated_cost_usd": 0.0,
+  "gate": {
+    "control_regression_count": 0,
+    "passed": false,
+    "target_improvement_count": 0
+  },
+  "improvements": [],
+  "input_tokens": 0,
+  "logical_external_call_count": 1,
+  "max_cost_usd": 0.1,
+  "output_tokens": 0,
+  "regressions": [],
+  "stop_reason": "PROVIDER_ERROR_FAIL_FAST"
+}

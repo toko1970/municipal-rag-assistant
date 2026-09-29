@@ -1,0 +1,25 @@
+{
+  "carried_usage": {
+    "estimated_cost_usd": 0.007417,
+    "input_tokens": 20884,
+    "logical_external_calls": 18,
+    "output_tokens": 1464
+  },
+  "classification_correct": 88,
+  "completed_count": 100,
+  "content_review_pending": 100,
+  "error_count": 0,
+  "estimated_cost_usd": 0.1070345,
+  "input_tokens": 259676,
+  "logical_external_calls": 204,
+  "max_cost_usd": 0.14,
+  "output_tokens": 28077,
+  "record_count": 100,
+  "retrieval_applicable_count": 90,
+  "retrieval_correct": 86,
+  "reused_success_count": 8,
+  "scenario_count": 100,
+  "sealed_holdout_accessed": false,
+  "semantic_success": 93,
+  "stop_reason": "COMPLETED"
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": "2.0",
+  "holdout_id": "visual-sealed-holdout-v2",
+  "selection_split": "development",
+  "sealed_holdout_accessed": false,
+  "source_git_commit": "b943cfbbe8d32ea6dbde9877884cdcc836d8c428",
+  "frozen_at": "2026-09-28T13:09:25+09:00",
+  "pipeline": {
+    "visual_extraction": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "prompt_version": "visual-extraction-v1",
+      "normalization": [
+        "flowchart-role-topology-v1",
+        "table-and-format-normalization-v1"
+      ]
+    },
+    "embedding": {
+      "provider": "gemini",
+      "model": "gemini-embedding-001",
+      "document_task_type": "RETRIEVAL_DOCUMENT",
+      "query_task_type": "RETRIEVAL_QUERY",
+      "profile_id": "gemini:gemini-embedding-001:contextual-heading-document-v1"
+    },
+    "retrieval": {
+      "backend": "qdrant",
+      "collection": "municipality_rag_docs_v2_contextual_heading_v1",
+      "method": "dense",
+      "top_k": 8
+    },
+    "generation": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "prompt_version": "answer-claims-v1",
+      "max_visual_assets": 3
+    },
+    "classification": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "prompt_version": "answer-classification-v1"
+    },
+    "persistence": {
+      "metadata_and_logs": "isolated evaluation artifacts",
+      "visual_assets": "temporary local directory"
+    }
+  },
+  "execution_policy": {
+    "retry_count": 0,
+    "prediction_split": "sealed_holdout",
+    "gold_available_to_runner": false,
+    "stop_on_first_error": true,
+    "logical_external_call_limit": 35,
+    "max_cost_usd": 0.35
+  },
+  "development_evidence": [
+    {
+      "path": "eval/results/visual_extraction_candidate_topology_v1/summary.json",
+      "sha256": "2b82be8580e13081637d2e560b693a279cad5d256bf8af18366febedaa0ff941"
+    },
+    {
+      "path": "eval/results/visual_extraction_candidate_format_normalization_v1/summary.json",
+      "sha256": "4588bf04363f98dbafe0733a130a2e0f6e3a25fe3de2fde0ce857b9562c1319a"
+    },
+    {
+      "path": "eval/results/visual_answer_prompt_experiment_summary.json",
+      "sha256": "72383c31d10ed3775aa942a1c8938d4db98bce356b8eca1baba48e0c8450dab6"
+    }
+  ],
+  "execution_environment": {
+    "mode": "local_isolated",
+    "vector_backend": "qdrant_in_memory",
+    "source_tree_matches_candidate_for": ["src", "config.py"]
+  }
+}
