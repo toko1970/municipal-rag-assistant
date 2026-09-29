@@ -7,6 +7,12 @@ PR #10をsquash mergeし、GitHub ActionsからCloud Run revision
 具体期限smokeで根拠にない起算規則の補完を検出したため、公開受入は不合格とした。trafficは直前の
 `municipal-rag-assistant-00006-m8d`へ100%戻した。
 
+根拠契約をコードで強制する修正をPR #11で反映し、revision
+`municipal-rag-assistant-00008-9kt`を再リリースした。通常質問とhealthは合格した。一方、CDが新revisionを
+作成してもrollback先に固定されたtrafficを自動で戻さない問題と、公開UIがすべてのGeminiエラーを
+「利用上限」と表示する問題を発見した。trafficは手動で新revisionへ切り替えたが、具体期限と図表の
+公開受入はprovider errorのため未完了である。確認できていない項目を合格とは扱わない。
+
 ## リリース証拠
 
 - merge commit: `c1b8e4b6b0cefbed9b76379bca42c894e5697624`
@@ -45,3 +51,48 @@ PR #10をsquash mergeし、GitHub ActionsからCloud Run revision
 引用された根拠本文に、選択された起算規則を示す明示表現があるかコードで検証する。明示がなければ
 日付計算を破棄し、「期限日を確定するための起算規則」をmissing conditionへ追加する。文書を観測した
 回答に合わせて書き換えず、根拠契約をコードで強制する。
+
+## PR #11による修正後の再リリース
+
+### リリース証拠
+
+- merge commit: `3ed3f4996d80e485aae28f85d9170d0bd3f7e610`
+- GitHub Actions run: `36573652613`
+- 作成revision: `municipal-rag-assistant-00008-9kt`
+- test / lint / Terraform: 成功
+- Docker image build / push: 成功
+- bootstrap Job: 成功
+- Streamlit health: `ok`
+
+### 発見したCDの問題
+
+Cloud Runのrollbackでtrafficをrevision `00006-m8d`へ固定した後は、deploy actionが新revision
+`00008-9kt`を作成してもtrafficが自動でlatestへ戻らなかった。workflowのhealth checkはdeploy actionが
+返したservice URLを使うため、実際には旧revisionへ到達したまま成功していた。公開受入のため、trafficを
+`00008-9kt`へ手動で100%切り替え、Readyとhealthを再確認した。
+
+次回からはdeploy後、health checkの前に
+`gcloud run services update-traffic municipal-rag-assistant --to-latest`を実行する。これにより、revisionの
+作成と公開trafficの切替を別々に検証できる。
+
+### 公開画面smoke
+
+| 経路 | 結果 | 判定 |
+| --- | --- | --- |
+| 通常テキスト | 給与支給日の回答と根拠表示に成功 | 合格 |
+| 具体期限 | UIがGemini errorを「利用上限」と表示 | 未完了 |
+| 図表 | provider error後に追加API呼び出しを停止したため未実施 | 未完了 |
+
+UIは`ChatGoogleGenerativeAIError`を内容によらず429相当として表示していた。このため、実際の原因が
+429 `RESOURCE_EXHAUSTED`か503 `UNAVAILABLE/high demand`か判別できなかった。Cloud Loggingにも
+errorは残らず、DB上の失敗記録だけではprovider statusを確認できない。
+
+## PR #12候補の運用修正
+
+- 503だけを5.1秒、10.2秒の指数バックオフで最大2回再試行する処理をbootstrapとUIで共用する。
+- 429は再試行せず利用上限、503は再試行後に一時混雑、それ以外は通信エラーとして表示する。
+- deploy後にCloud Run trafficをlatestへ明示的に切り替えてからhealthを確認する。
+- 修正後の公開受入では、通常テキスト、具体期限、図表の3経路を再確認する。
+
+最初の3項目を実装し、外部APIを使わない回帰378件、実PostgreSQL・Qdrant統合3件、Ruff、Python構文、
+diff検査が成功した。最後の公開受入はPRのreview、merge、deploy後に実施する。

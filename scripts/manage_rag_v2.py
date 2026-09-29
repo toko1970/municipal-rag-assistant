@@ -7,7 +7,7 @@ import json
 import time
 from collections import Counter
 from pathlib import Path
-from typing import Callable, TypeVar
+from typing import Callable
 
 from alembic import command
 from alembic.config import Config
@@ -21,6 +21,7 @@ from src.ingestion import ingest_markdown_documents
 from src.llm_provider import GeminiProvider
 from src.persistence.database import get_engine
 from src.persistence.repositories import PostgresDocumentRepository
+from src.provider_retry import run_with_503_backoff
 from src.qdrant_index import QdrantVectorIndex
 from src.rag_v2 import generate_qdrant_answer
 from src.visual_ingestion import ingest_visual_pdf
@@ -29,56 +30,9 @@ from src.visual_ingestion import render_pdf_page
 
 
 CLOUD_SMOKE_QUESTION = "給与支給日はいつですか？"
-SMOKE_MAX_503_RETRIES = 2
-SMOKE_BACKOFF_INITIAL_SECONDS = 5.1
-SMOKE_BACKOFF_MAX_SECONDS = 10.2
 VISUAL_DEVELOPMENT_MANIFEST = (
     BASE_DIR / "eval/visual_fixtures/manifests/development_manifest.json"
 )
-
-T = TypeVar("T")
-
-
-def _is_retryable_provider_503(error: Exception) -> bool:
-    text = str(error).upper()
-    return "503" in text and ("UNAVAILABLE" in text or "HIGH DEMAND" in text)
-
-
-def run_with_503_backoff(
-    operation: Callable[[], T],
-    *,
-    sleep: Callable[[float], None] = time.sleep,
-    max_retries: int = SMOKE_MAX_503_RETRIES,
-    backoff_initial_seconds: float = SMOKE_BACKOFF_INITIAL_SECONDS,
-    backoff_max_seconds: float = SMOKE_BACKOFF_MAX_SECONDS,
-) -> tuple[T, int]:
-    """Retry only transient Gemini 503 errors with a bounded exponential delay."""
-
-    for retry_count in range(max_retries + 1):
-        try:
-            return operation(), retry_count
-        except Exception as error:
-            if retry_count >= max_retries or not _is_retryable_provider_503(error):
-                raise
-            delay = min(
-                backoff_initial_seconds * (2**retry_count),
-                backoff_max_seconds,
-            )
-            print(
-                json.dumps(
-                    {
-                        "event": "provider_503_retry",
-                        "retry": retry_count + 1,
-                        "max_retries": max_retries,
-                        "backoff_seconds": delay,
-                    },
-                    ensure_ascii=False,
-                    sort_keys=True,
-                )
-            )
-            sleep(delay)
-    raise AssertionError("unreachable")
-
 
 def session_factory() -> sessionmaker[Session]:
     return sessionmaker(bind=get_engine(), expire_on_commit=False)

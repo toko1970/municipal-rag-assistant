@@ -136,5 +136,11 @@ jobs:
             QDRANT_API_KEY=qdrant-api-key:5
           flags: >-
             --add-cloudsql-instances=${{ env.CLOUD_SQL_CONNECTION_NAME }}
+      - name: Route traffic to the latest ready revision
+        run: >-
+          gcloud run services update-traffic municipal-rag-assistant
+          --project=municipal-rag-portfolio
+          --region=asia-northeast1
+          --to-latest
       - name: Check Streamlit health endpoint
         run: curl --fail --retry 5 --retry-delay 10 "${{ steps.deploy.outputs.url }}/_stcore/health"

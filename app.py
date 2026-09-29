@@ -4,6 +4,7 @@ from langchain_google_genai.chat_models import ChatGoogleGenerativeAIError
 
 from src.rag_chain import generate_answer
 from src.feedback import save_feedback, VALID_FEEDBACK_VALUES
+from src.provider_retry import classify_provider_error, run_with_503_backoff
 
 
 st.set_page_config(
@@ -50,13 +51,30 @@ if generate_button:
 
         try:
             with st.spinner("回答を生成しています..."):
-                result = generate_answer(question)
+                result, _provider_503_retries = run_with_503_backoff(
+                    lambda: generate_answer(question)
+                )
 
             st.session_state.result = result
             st.success("回答を生成しました。")
 
-        except ChatGoogleGenerativeAIError:
-            st.error("Gemini APIの利用上限に達しました。時間を置いて再実行してください。")
+        except ChatGoogleGenerativeAIError as error:
+            error_kind = classify_provider_error(error)
+            if error_kind == "rate_limit":
+                st.error(
+                    "Gemini APIの利用上限に達しました。"
+                    "時間を置いて再実行してください。"
+                )
+            elif error_kind == "unavailable":
+                st.error(
+                    "Gemini APIが一時的に混雑しています。"
+                    "時間を置いて再実行してください。"
+                )
+            else:
+                st.error(
+                    "Gemini APIとの通信中にエラーが発生しました。"
+                    "時間を置いて再実行してください。"
+                )
 
         except Exception:
             st.error("回答の生成中にエラーが発生しました。時間を置いて再実行してください。")
