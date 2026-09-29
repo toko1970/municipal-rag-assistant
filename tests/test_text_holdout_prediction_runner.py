@@ -8,6 +8,7 @@ from eval.run_text_holdout_predictions import (
     HoldoutEvaluationLogger,
     SharedCallPacer,
     _all_query_texts,
+    _failure_type,
     _verify_sealed_documents,
     _logical_calls,
     build_plan,
@@ -153,3 +154,62 @@ def test_call_pacer_waits_for_remaining_interval(monkeypatch) -> None:
     pacer.wait()
 
     assert sleeps == pytest.approx([2.1])
+
+
+def test_failure_type_keeps_candidate_failure_and_retries_provider_failure() -> None:
+    assert _failure_type({"status": "FAILED", "error": "ValueError: invalid"}) == (
+        "CANDIDATE"
+    )
+    assert _failure_type(
+        {"status": "FAILED", "error": "ServerError: 503 UNAVAILABLE"}
+    ) == "PROVIDER"
+    assert _failure_type({"status": "SUCCESS", "error": None}) is None
+
+
+def test_freeze_accepts_candidate_failure_as_scored_execution_failure(
+    tmp_path: Path,
+) -> None:
+    import json
+
+    manifest_path = tmp_path / "manifest.json"
+    predictions_path = tmp_path / "predictions.jsonl"
+    summary_path = tmp_path / "summary.json"
+    manifest_path.write_text(json.dumps(_manifest()), encoding="utf-8")
+    _write_jsonl(
+        predictions_path,
+        [
+            {
+                "scenario_id": "TH001",
+                "variant_type": "formal",
+                "status": "SUCCESS",
+                "failure_type": None,
+            },
+            {
+                "scenario_id": "TH001",
+                "variant_type": "paraphrase_or_noisy",
+                "status": "FAILED",
+                "failure_type": "CANDIDATE",
+                "error": "ValueError: invalid",
+            },
+        ],
+    )
+    summary_path.write_text(
+        json.dumps(
+            {
+                "stop_reason": "COMPLETED",
+                "run_id": "run",
+                "success_count": 1,
+                "failure_count": 1,
+                "provider_failure_count": 0,
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    frozen = freeze_predictions(
+        manifest_path=manifest_path,
+        predictions_path=predictions_path,
+        summary_path=summary_path,
+    )
+
+    assert frozen["state"] == "PREDICTIONS_FROZEN"

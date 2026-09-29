@@ -542,3 +542,12 @@ US$0.02383025、carryover込み98 calls・US$0.0616995、gold未開封である�
 引き継ぐとholdout評価を有利に選別するおそれがあるため、次runは直ちに行わない。次の最小手順は、
 provider失敗だけを再実行対象とし、TH014のような候補pipelineの失敗を評価対象として固定できるよう、
 resume・freeze規則をgoldを開かずに監査することである。
+
+resume・freeze規則を修正し、成功recordと非providerの候補失敗を固定して引き継ぎ、503等のprovider
+失敗だけを再実行対象にした。候補失敗を含む100件は実行失敗として採点可能にし、provider失敗が
+残るbundleはfreezeできない検査を追加した。v7はTH014を候補失敗として保持し、TH021の503だけを
+再実行して成功した。その後、TH026 paraphraseで同じ表示条件`ValueError`が発生したため2件目の
+候補失敗として保持し、TH027 paraphraseのGeneratorがGemini 503 `high demand`となって
+fail-fastした。v7は54 prediction（成功51、候補失敗2、provider失敗1）、carryover込み128
+logical calls、推定US$0.080328、gold未開封である。次runは成功51件と候補失敗2件だけを引き継ぎ、
+TH027のprovider失敗だけを再実行する。

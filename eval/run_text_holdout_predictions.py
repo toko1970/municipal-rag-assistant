@@ -278,6 +278,16 @@ def _retrieval_rows(logger: EvaluationLogger) -> list[dict[str, Any]]:
     ]
 
 
+def _failure_type(record: dict[str, Any]) -> str | None:
+    """Separate retryable provider interruption from a candidate pipeline failure."""
+    if record.get("status") == "SUCCESS":
+        return None
+    explicit = record.get("failure_type")
+    if explicit in {"PROVIDER", "CANDIDATE"}:
+        return explicit
+    return "PROVIDER" if _provider_error(str(record.get("error") or "")) else "CANDIDATE"
+
+
 def _stop_before_predictions(
     *,
     output_dir: Path,
@@ -433,8 +443,19 @@ def run_predictions(
     records: list[dict[str, Any]] = []
     if resume_predictions_path is not None:
         for record in _read_jsonl(resume_predictions_path):
-            if record.get("status") == "SUCCESS":
-                records.append({**record, "execution_source": "RESUMED_SUCCESS"})
+            failure_type = _failure_type(record)
+            if failure_type != "PROVIDER":
+                records.append(
+                    {
+                        **record,
+                        "failure_type": failure_type,
+                        "execution_source": (
+                            "RESUMED_SUCCESS"
+                            if record.get("status") == "SUCCESS"
+                            else "RESUMED_CANDIDATE_FAILURE"
+                        ),
+                    }
+                )
     completed_keys = {
         (record["scenario_id"], record["variant_type"]) for record in records
     }
@@ -508,6 +529,15 @@ def run_predictions(
                 "cost_usd": token_cost_usd(expression_input, expression_output),
                 "elapsed_seconds": time.perf_counter() - started,
                 "error": error,
+                "failure_type": (
+                    None
+                    if result
+                    else (
+                        "PROVIDER"
+                        if error and _provider_error(error)
+                        else "CANDIDATE"
+                    )
+                ),
             }
         )
         _write_jsonl(output_dir / "predictions.jsonl", records)
@@ -521,6 +551,12 @@ def run_predictions(
         "prediction_count": len(records),
         "success_count": sum(record["status"] == "SUCCESS" for record in records),
         "failure_count": sum(record["status"] == "FAILED" for record in records),
+        "candidate_failure_count": sum(
+            _failure_type(record) == "CANDIDATE" for record in records
+        ),
+        "provider_failure_count": sum(
+            _failure_type(record) == "PROVIDER" for record in records
+        ),
         "logical_external_calls": logical_calls,
         "current_run_logical_external_calls": logical_calls
         - carried_logical_calls,
@@ -561,10 +597,12 @@ def freeze_predictions(
     keys = {(row["scenario_id"], row["variant_type"]) for row in records}
     if len(records) != expected or len(keys) != expected:
         raise ValueError("predictionは100件の一意な表現である必要があります")
-    if any(record.get("status") != "SUCCESS" for record in records):
-        raise ValueError("失敗を含むpredictionはfreezeできません")
-    if summary.get("success_count") != expected or summary.get("failure_count") != 0:
-        raise ValueError("summaryが100件成功を示していません")
+    if any(_failure_type(record) == "PROVIDER" for record in records):
+        raise ValueError("provider失敗を含むpredictionはfreezeできません")
+    if summary.get("success_count", 0) + summary.get("failure_count", 0) != expected:
+        raise ValueError("summaryが100件の完了を示していません")
+    if summary.get("provider_failure_count", 0) != 0:
+        raise ValueError("summaryにprovider失敗が残っています")
     manifest["state"] = "PREDICTIONS_FROZEN"
     manifest["predictions"] = {
         "run_id": summary["run_id"],
