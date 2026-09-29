@@ -1,5 +1,22 @@
 # 作業再開checkpoint
 
+## 2026-09-29 最新checkpoint: 再リリース後に発見した運用修正
+
+PR #11（merge commit `3ed3f4996d80e485aae28f85d9170d0bd3f7e610`）をGitHub Actions run
+`36573652613`で再リリースし、revision `municipal-rag-assistant-00008-9kt`を作成した。通常質問とhealthは
+成功した。Cloud Runのtrafficがrollback先へ固定されたままだったため、新revisionへ手動で100%切り替えた。
+
+具体期限smokeではGemini provider errorとなったが、現行UIはすべての
+`ChatGoogleGenerativeAIError`を「利用上限」と表示するため、429と503を識別できなかった。追加API呼び出しは
+停止し、図表smokeも未実施である。公開受入は未完了で、trafficはReadyかつhealthが成功している
+`00008-9kt`へ維持している。
+
+現在のbranchは`codex/release-retry-and-traffic`。503限定のbounded exponential backoffを共通moduleへ
+移し、UIの429・503・その他error表示を分離し、CDに`--to-latest`を追加した。外部APIを使わない回帰
+378件、実PostgreSQL・Qdrant integration 3件、Ruff、Python構文、diff検査は成功した。次の最小手順は
+commit・push・PR reviewへ進むこと。mergeとproduction deployは明示承認境界である。詳細は
+[`PUBLIC_RELEASE_RESULT_2026-09-29.md`](PUBLIC_RELEASE_RESULT_2026-09-29.md)を参照する。
+
 ## 2026-09-29 公開release smokeとrollback
 
 PR #10をsquash mergeし、GitHub Actions run `36569983269`でrevision
@@ -9,9 +26,8 @@ bootstrapの503 retryは0件だった。具体期限smokeでは、根拠に起�
 `municipal-rag-assistant-00006-m8d`へ100%戻し、Readyとhealth `ok`を確認した。詳細は
 [`PUBLIC_RELEASE_RESULT_2026-09-29.md`](PUBLIC_RELEASE_RESULT_2026-09-29.md)を参照する。
 
-現在のbranchは`codex/validate-deadline-evidence`である。引用根拠に起算規則が明記されていない
-`date_calculations`をコードで破棄し、安全表示へ落とす修正を進めている。再公開には新しいPRのmergeと
-production deployの明示承認が必要である。
+この問題はPR #11で修正済みである。引用根拠に起算規則が明記されていない`date_calculations`をコードで
+破棄し、安全表示へ落とす。再公開後の経過は上の最新checkpointを参照する。
 
 ## 2026-09-29 最新checkpoint: sealed text holdout後の対策調査
 
