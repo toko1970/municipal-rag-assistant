@@ -48,6 +48,8 @@ def _candidate() -> dict:
         "execution_policy": {
             "gold_available_to_runner": False,
             "retry_count": 0,
+            "embedding_sdk_attempts": 1,
+            "embedding_phase_cooldown_seconds": 60,
             "stop_on_provider_error": True,
             "max_logical_external_calls": 8,
             "max_cost_usd": 0.01,
@@ -61,6 +63,8 @@ def test_plan_exposes_bounded_run_without_gold() -> None:
     assert plan["expression_count"] == 2
     assert plan["max_logical_external_calls"] == 8
     assert plan["retry_count"] == 0
+    assert plan["embedding_sdk_attempts"] == 1
+    assert plan["embedding_phase_cooldown_seconds"] == 60
     assert plan["gold_available_to_runner"] is False
 
 

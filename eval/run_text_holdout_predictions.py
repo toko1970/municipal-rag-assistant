@@ -15,6 +15,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from google import genai
+from google.genai.types import HttpOptions, HttpRetryOptions
 from langchain_google_genai import ChatGoogleGenerativeAI
 from qdrant_client import QdrantClient
 
@@ -104,6 +106,17 @@ def _provider(model: str) -> GeminiProvider:
     return GeminiProvider(model, client=client)
 
 
+def _embeddings_without_sdk_retry():
+    """Build the production embedding wrapper with one SDK attempt per call."""
+
+    embeddings = get_embeddings()
+    embeddings.client = genai.Client(
+        api_key=GOOGLE_API_KEY,
+        http_options=HttpOptions(retry_options=HttpRetryOptions(attempts=1)),
+    )
+    return embeddings
+
+
 def _expressions(questions: dict[str, Any]) -> list[dict[str, str]]:
     return [
         {
@@ -130,6 +143,10 @@ def build_plan(
         raise ValueError("prediction runnerへgoldを渡すことは禁止です")
     if policy["retry_count"] != 0 or not policy["stop_on_provider_error"]:
         raise ValueError("retry 0 / provider error fail-fastが必要です")
+    if policy["embedding_sdk_attempts"] != 1:
+        raise ValueError("embedding SDKは初回を含む1 attemptに固定します")
+    if policy["embedding_phase_cooldown_seconds"] < 60:
+        raise ValueError("100 RPM quota向けcooldownは60秒以上必要です")
     expressions = _expressions(questions)
     if len(expressions) != manifest["questions"]["expression_count"]:
         raise ValueError("公開質問の表現数がmanifestと一致しません")
@@ -145,6 +162,10 @@ def build_plan(
         "version_resolution_calls_max": len(expressions),
         "max_logical_external_calls": policy["max_logical_external_calls"],
         "retry_count": policy["retry_count"],
+        "embedding_sdk_attempts": policy["embedding_sdk_attempts"],
+        "embedding_phase_cooldown_seconds": policy[
+            "embedding_phase_cooldown_seconds"
+        ],
         "max_cost_usd": policy["max_cost_usd"],
         "stop_on_provider_error": policy["stop_on_provider_error"],
         "gold_available_to_runner": policy["gold_available_to_runner"],
@@ -209,6 +230,39 @@ def _retrieval_rows(logger: EvaluationLogger) -> list[dict[str, Any]]:
     ]
 
 
+def _stop_before_predictions(
+    *,
+    output_dir: Path,
+    run_id: str,
+    stage: str,
+    error: Exception,
+    code_level_embedding_calls: int,
+) -> dict[str, Any]:
+    error_text = f"{type(error).__name__}: {error}"
+    summary = {
+        "run_id": run_id,
+        "stop_reason": (
+            "PROVIDER_ERROR_FAIL_FAST"
+            if _provider_error(error_text)
+            else "PREPARATION_ERROR"
+        ),
+        "failed_stage": stage,
+        "prediction_count": 0,
+        "success_count": 0,
+        "failure_count": 0,
+        "logical_external_calls": code_level_embedding_calls,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "sealed_gold_opened": False,
+        "predictions_frozen": False,
+        "error": error_text[:4000],
+        "completed_at": datetime.now(UTC).isoformat(),
+    }
+    _write_json(output_dir / "summary.json", summary)
+    return summary
+
+
 def run_predictions(
     *,
     manifest_path: Path,
@@ -244,16 +298,38 @@ def run_predictions(
     _write_json(output_dir / "run_manifest.json", run_manifest)
 
     elements = [element for path in paths for element in build_markdown_elements(path)]
-    embeddings = get_embeddings()
-    document_vectors = embeddings.embed_documents(
-        [contextual_heading_document_text(element) for element in elements],
-        task_type=candidate["pipeline"]["embedding"]["document_task_type"],
-    )
+    embeddings = _embeddings_without_sdk_retry()
+    try:
+        document_vectors = embeddings.embed_documents(
+            [contextual_heading_document_text(element) for element in elements],
+            task_type=candidate["pipeline"]["embedding"]["document_task_type"],
+        )
+    except Exception as error:
+        return _stop_before_predictions(
+            output_dir=output_dir,
+            run_id=run_id,
+            stage="DOCUMENT_EMBEDDING",
+            error=error,
+            code_level_embedding_calls=1,
+        )
+    # Gemini counts each embedded content against the per-minute quota even when
+    # this client issued one batch call. This planned pause separates the 30
+    # document contents from the 100 query contents; it is quota pacing, not retry.
+    time.sleep(plan["embedding_phase_cooldown_seconds"])
     query_texts = _all_query_texts(expressions)
-    query_vectors = embeddings.embed_documents(
-        query_texts,
-        task_type=candidate["pipeline"]["embedding"]["query_task_type"],
-    )
+    try:
+        query_vectors = embeddings.embed_documents(
+            query_texts,
+            task_type=candidate["pipeline"]["embedding"]["query_task_type"],
+        )
+    except Exception as error:
+        return _stop_before_predictions(
+            output_dir=output_dir,
+            run_id=run_id,
+            stage="QUERY_EMBEDDING",
+            error=error,
+            code_level_embedding_calls=2,
+        )
     vectors = dict(zip(query_texts, query_vectors, strict=True))
 
     base_index = QdrantVectorIndex(

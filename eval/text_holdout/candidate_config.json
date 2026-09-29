@@ -45,12 +45,19 @@
   },
   "execution_policy": {
     "retry_count": 0,
+    "embedding_sdk_attempts": 1,
+    "embedding_phase_cooldown_seconds": 60,
     "prediction_split": "sealed_holdout",
     "gold_available_to_runner": false,
     "stop_on_provider_error": true,
     "max_logical_external_calls": 302,
     "max_cost_usd": 0.15,
     "predictions_are_immutable": true
+  },
+  "execution_amendment": {
+    "reason": "The first prediction attempt showed that the embedding SDK defaulted to retries and Gemini counted batched contents against a 100 RPM quota. Quality settings are unchanged; the runner now uses one SDK attempt and separates document and query embedding phases by 60 seconds.",
+    "failed_run_artifact": "eval/results/text_holdout_v1_predictions/failure_summary.json",
+    "sealed_gold_opened": false
   },
   "development_evidence": [
     {

@@ -494,3 +494,16 @@ gold開封後の採点器も先に用意した。期待分類、期待document�
 Wilson 95%区間、失敗内訳を算出する。非integration 302件とRuff、公開manifest validator、
 plan検査が成功した。sealed Markdownとgoldは未開封で、次の最小手順は上記有限runの明示承認後に
 predictionを実行・固定すること。gold開封と本番deployは、それぞれ別の承認境界である。
+
+承認済みtext holdout predictionの初回runは、30 document chunksのEmbedding後、100 queryの
+EmbeddingでGemini無料枠の`embed_content_free_tier_requests` 100 RPMに達し、429で停止した。
+prediction 0件、Generator・Classifier call 0、gold未開封で、追加runは行っていない。さらに
+`google-genai` SDKが既定で初回を含む最大5 attemptを使うことが判明したため、当初のretry 0契約と
+実装が一致していなかった。失敗artifactは
+`eval/results/text_holdout_v1_predictions/failure_summary.json`へ保存した。
+
+品質設定を変えず、Embedding SDKを1 attemptへ固定し、30 documentと100 queryのphase間に
+60秒の計画的cooldownを入れた。これは429後のretryではなく、事前にquota windowを分離する
+実行制御である。候補configのhashだけを更新し、source candidate commit、モデル、chunk、検索、
+prompt、Top-Kは維持した。次の最小手順は、新しい出力先を使う再run条件について明示承認を得る
+こと。初回失敗出力は上書きせず、goldも引き続き開かない。

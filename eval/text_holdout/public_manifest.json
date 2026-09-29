@@ -94,8 +94,8 @@
   },
   "candidate": {
     "git_commit": "5d1ecc50985db681cfa71bddc6cbfcfa99480e40",
-    "config_manifest_sha256": "e6b4aeb82165ab0bd1a8006186dc06b1ea392a0d19fdfc8e7cce5db5c3dd815a",
-    "frozen_at": "2026-09-29T03:23:09Z"
+    "config_manifest_sha256": "e27ef295c20b1e58494ee813446f6a73398e5b0162ef4b0caca13822981fb9fc",
+    "frozen_at": "2026-09-29T03:55:06.265281+00:00"
   },
   "predictions": null,
   "opening": null,
