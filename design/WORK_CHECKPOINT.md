@@ -1,5 +1,15 @@
 # 作業再開checkpoint
 
+## 2026-09-29 最新checkpoint: SDK内部retryの明示化
+
+Google AI Studioの実測ではGemini 3.1 Flash LiteがRPM 2/15、TPM 4.5K/250K、RPD 10/500で、公開smokeの
+429は日次上限到達とは判断できなかった。追加調査で`ChatGoogleGenerativeAI`の既定値が`retries=6`と
+判明したため、アプリ側の「429はretryしない」という契約をSDK内部まで保証できていなかった。
+
+`GeminiProvider`で`retries=0`を明示し、503は既存の外側のbounded retryだけへ一本化する。次の最小手順は
+外部APIなしの回帰、実storage integration、Ruffを確定し、PR reviewへ進むこと。production deploy後に
+具体期限と図表を各1回だけ再確認する。
+
 ## 2026-09-29 最新checkpoint: PR #12本番反映後
 
 PR #12をsquash mergeし、merge commitは`112434860e50abf0773a083f53ad01cf9334ac9b`、GitHub Actions

@@ -116,6 +116,7 @@ class GeminiProvider:
             model=model,
             google_api_key=api_key or GOOGLE_API_KEY,
             temperature=temperature,
+            retries=0,
         )
 
     def generate(self, prompt: str) -> LLMResult:

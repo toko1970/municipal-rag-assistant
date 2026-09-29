@@ -128,3 +128,14 @@ serviceとcontainer imageのcommit SHAもmerge commitと一致した。PR #11で
 アプリケーション、health、通常回答、CD traffic切替は合格しているため、trafficは`00009-j49`へ維持する。
 具体期限の意味上の修正と図表経路の最終受入は、Gemini利用枠の回復後に各1回だけ再確認する。現時点では
 未実施項目を公開受入合格とは扱わない。
+
+### 429後の追加調査
+
+Google AI StudioでDefault Gemini Projectの直近1時間を確認したところ、Gemini 3.1 Flash Liteは
+RPM 2/15、TPM 4.5K/250K、RPD 10/500で、表示上は日次上限に達していなかった。一方、productionで
+使う`ChatGoogleGenerativeAI`は既定`retries=6`であり、アプリケーション側が429を再試行しなくても
+SDK内部で再試行し得ることが分かった。
+
+API呼び出し上限をコードで保証するため、`GeminiProvider`生成時に`retries=0`を明示する。503の再試行は
+既存の`run_with_503_backoff`だけが担当し、429は最初のprovider errorで停止させる。修正後に具体期限と
+図表の公開smokeを各1回だけ再実行する。
