@@ -167,11 +167,14 @@ def prepare_visual_corpus(
 def _usage(result: dict[str, Any]) -> tuple[int, int]:
     generation = result.get("generation") or {}
     classification = result.get("classification") or {}
+    version_resolution = result.get("version_resolution") or {}
     return (
         int(generation.get("input_tokens", 0))
-        + int(classification.get("input_tokens", 0)),
+        + int(classification.get("input_tokens", 0))
+        + int(version_resolution.get("input_tokens", 0)),
         int(generation.get("output_tokens", 0))
-        + int(classification.get("output_tokens", 0)),
+        + int(classification.get("output_tokens", 0))
+        + int(version_resolution.get("output_tokens", 0)),
     )
 
 
@@ -253,6 +256,8 @@ def evaluate_visual_answers(
                 "difficulty": scenario["difficulty"],
                 "expected_classification": scenario["expected_classification"],
                 "predicted_label": result.get("answer_label"),
+                "answer_status": result.get("answer_status", "SUCCESS"),
+                "invariant_code": result.get("invariant_code"),
                 "classification_ok": result.get("answer_label")
                 == LABELS[scenario["expected_classification"]],
                 "expected_fixture_ids": expected_fixtures,
@@ -264,6 +269,16 @@ def evaluate_visual_answers(
                 "required_evidence": scenario["required_evidence"],
                 "answer": result.get("answer", ""),
                 "claims": _json_safe(result.get("claims", [])),
+                "missing_conditions": _json_safe(
+                    result.get("_evaluation_generation_data", {}).get(
+                        "missing_conditions", []
+                    )
+                ),
+                "date_calculations": _json_safe(
+                    result.get("_evaluation_generation_data", {}).get(
+                        "date_calculations", []
+                    )
+                ),
                 "classification_factors": _json_safe(
                     result.get("_evaluation_classification_factors")
                 ),
