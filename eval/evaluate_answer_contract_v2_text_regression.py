@@ -15,7 +15,6 @@ from eval.embedding_profiles import PROFILES
 from eval.evaluate_contextual_answer_candidate import EvaluationLogger
 from eval.evaluate_integrated_query_candidate import (
     _attempt_diagnostics,
-    _provider,
     _provider_error,
     _scenario_logical_calls,
 )
@@ -26,6 +25,12 @@ from eval.evaluate_retrieved_text_regression import (
 )
 from eval.evaluate_visual_answers import token_cost_usd
 from eval.query_decomposition_cache import load_cached_subquery_vectors
+from eval.run_text_holdout_predictions import (
+    ExternalCallBudget,
+    PacedProvider,
+    SharedCallPacer,
+)
+from src.llm_provider import GeminiProvider
 from src.query_decomposition import DecomposedVectorIndex, decompose_query
 from src.query_service import (
     CLASSIFICATION_PROMPT_V2_VERSION,
@@ -207,11 +212,17 @@ def main() -> int:
     parser.add_argument("--reuse-dir", type=Path)
     parser.add_argument("--question-ids", nargs="+")
     parser.add_argument("--min-seconds-per-scenario", type=float, default=0.0)
+    parser.add_argument("--min-seconds-per-external-call", type=float, default=0.0)
+    parser.add_argument("--max-provider-retries", type=int, default=0)
     args = parser.parse_args()
     if args.output_dir.exists():
         raise FileExistsError(f"評価出力は上書きしません: {args.output_dir}")
     if args.min_seconds_per_scenario < 0:
         raise ValueError("min-seconds-per-scenarioは0以上で指定してください")
+    if args.min_seconds_per_external_call < 0:
+        raise ValueError("min-seconds-per-external-callは0以上で指定してください")
+    if not 0 <= args.max_provider_retries <= 2:
+        raise ValueError("max-provider-retriesは0から2で指定してください")
     all_questions = load_questions(args.input, "formal")
     if len(all_questions) != MAX_SCENARIOS:
         raise ValueError(f"formal質問は100件必要です: {len(all_questions)}")
@@ -308,6 +319,14 @@ def main() -> int:
         "max_cost_usd": args.max_cost_usd,
         "reserve_usd_per_scenario": RESERVE_USD_PER_SCENARIO,
         "min_seconds_per_scenario": args.min_seconds_per_scenario,
+        "min_seconds_per_external_call": args.min_seconds_per_external_call,
+        "provider_retry_policy": {
+            "max_retries": args.max_provider_retries,
+            "retryable_status_codes": [503],
+            "backoff_initial_seconds": 5.1,
+            "backoff_max_seconds": 10.2,
+            "jitter_max_seconds": 1.0,
+        },
         "stop_conditions": ["provider error", "cost reserve", "call limit"],
         "sealed_holdout_accessed": False,
         "production_deployed": False,
@@ -315,9 +334,26 @@ def main() -> int:
     }
     _write_json(args.output_dir / "run_manifest.json", manifest)
 
-    generator = _provider(LLM_MODEL_NAME)
-    classifier = _provider(CLASSIFIER_MODEL_NAME)
-    resolver = _provider(CLASSIFIER_MODEL_NAME)
+    remaining_call_budget = args.max_logical_external_calls - int(
+        carried_usage["logical_external_calls"]
+    )
+    call_budget = ExternalCallBudget(remaining_call_budget)
+    pacer = SharedCallPacer(args.min_seconds_per_external_call)
+
+    def provider(model: str) -> PacedProvider:
+        return PacedProvider(
+            GeminiProvider(model),
+            pacer,
+            call_budget,
+            max_retries=args.max_provider_retries,
+            backoff_initial_seconds=5.1,
+            backoff_max_seconds=10.2,
+            jitter_max_seconds=1.0,
+        )
+
+    generator = provider(LLM_MODEL_NAME)
+    classifier = provider(CLASSIFIER_MODEL_NAME)
+    resolver = provider(CLASSIFIER_MODEL_NAME)
     records: list[dict[str, Any]] = list(reused.values())
     if records:
         with records_path.open("w", encoding="utf-8") as stream:
@@ -345,6 +381,10 @@ def main() -> int:
             stop_reason = "COST_LIMIT_REACHED"
             break
         logger = EvaluationLogger()
+        attempts_before = call_budget.attempts
+        retries_before = sum(
+            item.retry_count for item in (generator, classifier, resolver)
+        )
         result = None
         error = ""
         started = time.perf_counter()
@@ -379,6 +419,11 @@ def main() -> int:
             result=result,
             error=error,
             elapsed_seconds=time.perf_counter() - started,
+        )
+        record["logical_external_calls"] = call_budget.attempts - attempts_before
+        record["provider_retry_count"] = (
+            sum(item.retry_count for item in (generator, classifier, resolver))
+            - retries_before
         )
         record["execution_source"] = "CURRENT_RUN"
         records.append(record)
