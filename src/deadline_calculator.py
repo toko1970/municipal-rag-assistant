@@ -27,11 +27,15 @@ def _format_deadline(value: date, cutoff: time | None) -> str:
     rendered = f"{value.year}年{value.month}月{value.day}日"
     if cutoff is None:
         return rendered
-    if cutoff == time(12, 0):
+    local_cutoff = cutoff.replace(tzinfo=None)
+    if local_cutoff == time(12, 0):
         return f"{rendered}正午"
-    if cutoff.second:
-        return f"{rendered}{cutoff.hour}時{cutoff.minute:02d}分{cutoff.second:02d}秒"
-    return f"{rendered}{cutoff.hour}時{cutoff.minute:02d}分"
+    if local_cutoff.second:
+        return (
+            f"{rendered}{local_cutoff.hour}時{local_cutoff.minute:02d}分"
+            f"{local_cutoff.second:02d}秒"
+        )
+    return f"{rendered}{local_cutoff.hour}時{local_cutoff.minute:02d}分"
 
 
 def apply_date_calculations(answer: StructuredAnswer) -> StructuredAnswer:

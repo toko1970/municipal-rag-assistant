@@ -15,7 +15,12 @@ from src.persistence.database import get_session_factory
 from src.persistence.repositories import PostgresDocumentRepository, PostgresEventLogger
 from src.qdrant_index import QdrantVectorIndex
 from src.query_decomposition import DecomposedVectorIndex
-from src.query_service import answer_question, load_schema
+from src.query_service import (
+    CLASSIFICATION_PROMPT_V2_VERSION,
+    answer_question,
+    build_classification_prompt_v2,
+    load_schema,
+)
 from src.temporal_evidence import (
     ANSWER_CONTRACT_V2_PROMPT_VERSION,
     build_answer_contract_v2_prompt,
@@ -54,6 +59,8 @@ def generate_qdrant_answer(question: str) -> dict:
         top_k=TOP_K,
         generation_prompt_builder=build_answer_contract_v2_prompt,
         generation_prompt_version=ANSWER_CONTRACT_V2_PROMPT_VERSION,
+        classification_prompt_builder=build_classification_prompt_v2,
+        classification_prompt_version=CLASSIFICATION_PROMPT_V2_VERSION,
         visual_asset_loader=repository.get_visual_assets,
         asset_reader=get_asset_reader(),
     )

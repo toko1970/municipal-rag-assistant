@@ -67,6 +67,16 @@ def test_calendar_day_calculation_handles_month_end_and_noon() -> None:
     )
 
 
+def test_utc_suffix_is_treated_as_local_policy_cutoff_not_timezone_conversion() -> None:
+    answer = parse_answer_output(
+        _v2_answer(str(uuid4()), cutoff_time="12:00:00.000Z")
+    )
+
+    enriched = apply_date_calculations(answer)
+
+    assert enriched.claims[-1].text == "提出期限は2027年10月30日正午です。"
+
+
 def test_calendar_day_calculation_handles_leap_year_and_year_boundary() -> None:
     leap = parse_answer_output(
         _v2_answer(str(uuid4()), anchor_date="2028-02-28", offset_value=1)

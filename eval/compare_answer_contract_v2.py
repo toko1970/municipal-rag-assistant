@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import time
@@ -15,7 +16,14 @@ from config import BASE_DIR, CLASSIFIER_MODEL_NAME, LLM_MODEL_NAME
 from eval.evaluate_visual_answers import token_cost_usd
 from src.contracts import IndexableElement, SearchHit
 from src.llm_provider import GeminiProvider
-from src.query_service import answer_question, load_schema
+from src.query_service import (
+    CLASSIFICATION_PROMPT_V2_VERSION,
+    CLASSIFICATION_PROMPT_VERSION,
+    answer_question,
+    build_classification_prompt,
+    build_classification_prompt_v2,
+    load_schema,
+)
 from src.temporal_evidence import (
     ANSWER_CONTRACT_V2_PROMPT_VERSION,
     TEMPORAL_GENERATION_PROMPT_VERSION,
@@ -115,10 +123,10 @@ SCENARIOS = (
     {
         "id": "ACV2-M03",
         "group": "condition",
-        "question": "例外事情がある場合でも所属だけで支給可否を確定できますか。",
-        "evidence": "例外事情がある場合は制度所管課が事情を総合考慮して支給可否を決定する。",
+        "question": "災害による提出遅延があります。今回、例外として支給対象に認められますか。",
+        "evidence": "災害等の例外事情がある場合、制度所管課が事情を総合考慮して支給可否を決定する。",
         "expected_label": "判断要",
-        "required": (r"(制度所管課|総合考慮|確認が必要)",),
+        "required": (r"(制度所管課|総合考慮|確認が必要|支給可否)",),
         "condition_type": "policy_judgment",
         "date_calculation": False,
     },
@@ -129,7 +137,7 @@ SCENARIOS = (
         "evidence": "旧通知は上限5,000円、新通知は上限6,000円とする。新通知の施行日は2027年10月1日である。",
         "expected_label": "判断要",
         "required": (r"(基準日|適用する文書版|確認が必要)",),
-        "condition_type": "version_conflict",
+        "condition_type": "case_fact",
         "date_calculation": False,
     },
     {
@@ -239,20 +247,46 @@ def _write_json(path: Path, value: Any) -> None:
     )
 
 
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--max-logical-external-calls", type=int, required=True)
     parser.add_argument("--max-cost-usd", type=float, required=True)
+    parser.add_argument("--reuse-dir", type=Path)
     args = parser.parse_args()
     if args.output_dir.exists():
         raise FileExistsError(f"評価出力は上書きしません: {args.output_dir}")
     if args.max_logical_external_calls > MAX_LOGICAL_EXTERNAL_CALLS:
         raise ValueError("このpilotのlogical external call上限は48です")
-    required_variants = len(SCENARIOS) * 2
-    if args.max_logical_external_calls < required_variants * 2:
-        raise ValueError("12 scenarioのpaired比較には48 callsが必要です")
-    if args.max_cost_usd < required_variants * RESERVE_USD_PER_VARIANT:
+    reused_baselines: dict[str, dict[str, Any]] = {}
+    if args.reuse_dir is not None:
+        source_records = args.reuse_dir / "records.jsonl"
+        if not source_records.exists():
+            raise FileNotFoundError(f"再利用元recordsがありません: {source_records}")
+        scenario_by_id = {scenario["id"]: scenario for scenario in SCENARIOS}
+        for line in source_records.read_text(encoding="utf-8").splitlines():
+            record = json.loads(line)
+            scenario = scenario_by_id.get(record.get("scenario_id"))
+            if (
+                scenario is not None
+                and record.get("variant") == "baseline"
+                and record.get("question") == scenario["question"]
+                and not record.get("error")
+            ):
+                reused_baselines[scenario["id"]] = {
+                    **record,
+                    "execution_source": "REUSED_BASELINE",
+                }
+    pending_variants = len(SCENARIOS) + (len(SCENARIOS) - len(reused_baselines))
+    if args.max_logical_external_calls < pending_variants * 2:
+        raise ValueError(
+            f"未実行{pending_variants} variantsには{pending_variants * 2} callsが必要です"
+        )
+    if args.max_cost_usd < pending_variants * RESERVE_USD_PER_VARIANT:
         raise ValueError("費用上限が安全予約額を下回っています")
 
     args.output_dir.mkdir(parents=True)
@@ -267,15 +301,32 @@ def main() -> int:
         "max_cost_usd": args.max_cost_usd,
         "retry_count": 0,
         "sealed_holdout_accessed": False,
+        "gold_adjudication": {
+            "ACV2-M03": "質問を実際の例外適用可否へ変更し、policy judgmentの反対例にした",
+            "ACV2-M04": "基準日自体の欠落はversion conflictではなくcase factとした",
+        },
         "baseline_schema": str(BASELINE_SCHEMA.relative_to(BASE_DIR)),
         "candidate_schema": str(CANDIDATE_SCHEMA.relative_to(BASE_DIR)),
         "stop_conditions": ["provider error", "cost reserve exhausted", "call limit"],
+        "reuse": (
+            {
+                "source_dir": str(args.reuse_dir),
+                "source_records_sha256": _sha256(args.reuse_dir / "records.jsonl"),
+                "reused_baseline_ids": sorted(reused_baselines),
+            }
+            if args.reuse_dir is not None
+            else None
+        ),
     }
     _write_json(args.output_dir / "run_manifest.json", manifest)
 
     generator = GeminiProvider(LLM_MODEL_NAME)
     classifier = GeminiProvider(CLASSIFIER_MODEL_NAME)
-    records = []
+    records = list(reused_baselines.values())
+    if records:
+        with records_path.open("w", encoding="utf-8") as stream:
+            for record in records:
+                stream.write(json.dumps(record, ensure_ascii=False) + "\n")
     logical_calls = 0
     input_tokens = 0
     output_tokens = 0
@@ -299,6 +350,8 @@ def main() -> int:
         element = _element(scenario)
         hit = SearchHit(element=element, score=1.0, rank=1)
         for variant, schema_path, prompt_builder, prompt_version in variants:
+            if variant == "baseline" and scenario["id"] in reused_baselines:
+                continue
             if logical_calls + 2 > args.max_logical_external_calls:
                 stop_reason = "CALL_LIMIT_REACHED"
                 break
@@ -326,6 +379,16 @@ def main() -> int:
                     top_k=1,
                     generation_prompt_builder=prompt_builder,
                     generation_prompt_version=prompt_version,
+                    classification_prompt_builder=(
+                        build_classification_prompt_v2
+                        if variant == "candidate"
+                        else build_classification_prompt
+                    ),
+                    classification_prompt_version=(
+                        CLASSIFICATION_PROMPT_V2_VERSION
+                        if variant == "candidate"
+                        else CLASSIFICATION_PROMPT_VERSION
+                    ),
                 )
             except Exception as exc:
                 error = f"{type(exc).__name__}: {exc}"
@@ -389,6 +452,7 @@ def main() -> int:
                 ),
                 "elapsed_seconds": time.perf_counter() - started,
                 "error": error or None,
+                "execution_source": "CURRENT_RUN",
             }
             records.append(record)
             with records_path.open("a", encoding="utf-8") as stream:
@@ -448,6 +512,7 @@ def main() -> int:
         "completed_records": len(records),
         "paired_scenarios": len(paired_ids),
         "logical_external_calls": logical_calls,
+        "reused_baselines": len(reused_baselines),
         "input_tokens": input_tokens,
         "output_tokens": output_tokens,
         "estimated_cost_usd": token_cost_usd(input_tokens, output_tokens),

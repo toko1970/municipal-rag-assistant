@@ -185,6 +185,10 @@ def build_answer_contract_v2_prompt(
     contract = (
         "answer-output-v2追加規則:\n"
         "- missing_conditionsはtype、description、evidence_element_idsを持つobjectにしてください。\n"
+        "- case_factは質問の結論に必要だが質問中にない個別事実、policy_judgmentは必要事実が揃っても"
+        "制度所管課の裁量が残る場合、missing_documentは必要文書が取得根拠にない場合です。\n"
+        "- version_conflictは必要な基準日が揃っても適用版を一意に決められない場合です。"
+        "基準日そのものがない場合はcase_factにしてください。\n"
         "- 質問が具体的な期限日を求め、取得根拠に暦日数と起算規則がある場合だけ、"
         "date_calculationsへ構造化してください。\n"
         "- 対応するのはcalendar_dayと、next_day_is_day_1またはanchor_day_is_day_1だけです。\n"

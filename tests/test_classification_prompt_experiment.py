@@ -8,7 +8,10 @@ from eval.compare_classification_prompts import (
     summarize,
     validate_cases,
 )
-from src.query_service import build_classification_prompt_v1_from_payload
+from src.query_service import (
+    build_classification_prompt_v1_from_payload,
+    build_classification_prompt_v2,
+)
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
@@ -41,6 +44,17 @@ def test_candidate_prompt_defines_a_concrete_missing_fact_boundary() -> None:
     assert "一般的な『個別事情の確認』を推測" in prompt
     assert "以上・以下・未満・超" in prompt
     assert "一般的な『個別事情の確認』を推測" not in baseline
+
+
+def test_production_v2_prompt_treats_computed_dates_as_verified() -> None:
+    prompt = build_classification_prompt_v2(
+        "2027年10月10日から20暦日目は？",
+        [],
+        {"date_calculations": [{"calculation_id": "date-1"}]},
+    )
+
+    assert "アプリケーションが検証済み" in prompt
+    assert "requires_case_facts=trueにしない" in prompt
 
 
 def test_example_prompt_and_adversarial_cases_cover_both_directions() -> None:

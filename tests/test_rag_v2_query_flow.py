@@ -2,6 +2,10 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from src.query_decomposition import DecomposedVectorIndex
+from src.query_service import (
+    CLASSIFICATION_PROMPT_V2_VERSION,
+    build_classification_prompt_v2,
+)
 from src.rag_v2 import generate_qdrant_answer
 from src.temporal_evidence import (
     ANSWER_CONTRACT_V2_PROMPT_VERSION,
@@ -38,3 +42,5 @@ def test_composition_root_connects_retrieval_and_temporal_candidates() -> None:
     assert kwargs["vector_index"].embed_query is embed_query
     assert kwargs["generation_prompt_builder"] is build_answer_contract_v2_prompt
     assert kwargs["generation_prompt_version"] == ANSWER_CONTRACT_V2_PROMPT_VERSION
+    assert kwargs["classification_prompt_builder"] is build_classification_prompt_v2
+    assert kwargs["classification_prompt_version"] == CLASSIFICATION_PROMPT_V2_VERSION
