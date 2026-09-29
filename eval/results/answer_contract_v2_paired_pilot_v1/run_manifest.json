@@ -1,0 +1,21 @@
+{
+  "baseline_schema": "design/schemas/answer-output-v1.schema.json",
+  "candidate_schema": "design/schemas/answer-output-v2.schema.json",
+  "classifier_model": "gemini-3.1-flash-lite",
+  "experiment": "answer-contract-v2-paired-pilot-v1",
+  "generator_model": "gemini-3.1-flash-lite",
+  "max_cost_usd": 0.04,
+  "max_logical_external_calls": 48,
+  "retry_count": 0,
+  "scenario_count": 12,
+  "sealed_holdout_accessed": false,
+  "stop_conditions": [
+    "provider error",
+    "cost reserve exhausted",
+    "call limit"
+  ],
+  "variants": [
+    "baseline",
+    "candidate"
+  ]
+}

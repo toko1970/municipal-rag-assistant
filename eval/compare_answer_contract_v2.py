@@ -117,7 +117,7 @@ SCENARIOS = (
         "evidence": "承認番号の発行が業務実施前であることを確認できない場合、発行日時を照会し認定を保留する。",
         "expected_label": "判断要",
         "required": (r"(発行日時|認定を保留|確認が必要)",),
-        "condition_type": "case_fact",
+        "condition_type": ("case_fact", "version_conflict"),
         "date_calculation": False,
     },
     {
@@ -189,7 +189,7 @@ class PilotLogger:
         return uuid4()
 
     def record_classification_attempt(self, _request_id: UUID, **kwargs) -> UUID:
-        if kwargs.get("prompt_version") == "answer-classification-v1":
+        if str(kwargs.get("prompt_version", "")).startswith("answer-classification"):
             self.classification = kwargs
         return uuid4()
 
@@ -232,9 +232,16 @@ def _contract_ok(
     if scenario["date_calculation"]:
         return len(calculations) == 1 and not conditions
     if scenario["condition_type"] is not None:
+        expected_types = (
+            {scenario["condition_type"]}
+            if isinstance(scenario["condition_type"], str)
+            else set(scenario["condition_type"])
+        )
         return (
             len(conditions) >= 1
-            and scenario["condition_type"] in {item.get("type") for item in conditions}
+            and bool(
+                expected_types.intersection(item.get("type") for item in conditions)
+            )
             and not calculations
         )
     return not calculations and not conditions

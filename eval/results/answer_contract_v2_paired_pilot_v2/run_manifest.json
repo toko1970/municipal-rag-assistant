@@ -1,0 +1,42 @@
+{
+  "baseline_schema": "design/schemas/answer-output-v1.schema.json",
+  "candidate_schema": "design/schemas/answer-output-v2.schema.json",
+  "classifier_model": "gemini-3.1-flash-lite",
+  "experiment": "answer-contract-v2-paired-pilot-v1",
+  "generator_model": "gemini-3.1-flash-lite",
+  "gold_adjudication": {
+    "ACV2-M03": "質問を実際の例外適用可否へ変更し、policy judgmentの反対例にした",
+    "ACV2-M04": "基準日自体の欠落はversion conflictではなくcase factとした"
+  },
+  "max_cost_usd": 0.025,
+  "max_logical_external_calls": 26,
+  "retry_count": 0,
+  "reuse": {
+    "reused_baseline_ids": [
+      "ACV2-C01",
+      "ACV2-C02",
+      "ACV2-D01",
+      "ACV2-D02",
+      "ACV2-D03",
+      "ACV2-D04",
+      "ACV2-D05",
+      "ACV2-D06",
+      "ACV2-M01",
+      "ACV2-M02",
+      "ACV2-M04"
+    ],
+    "source_dir": "eval/results/answer_contract_v2_paired_pilot_v1",
+    "source_records_sha256": "e5dcfa2b27d6281eb52695a2c1967838622a184e6d314becda78e2b15bf320aa"
+  },
+  "scenario_count": 12,
+  "sealed_holdout_accessed": false,
+  "stop_conditions": [
+    "provider error",
+    "cost reserve exhausted",
+    "call limit"
+  ],
+  "variants": [
+    "baseline",
+    "candidate"
+  ]
+}
