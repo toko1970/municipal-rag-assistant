@@ -1,0 +1,23 @@
+{
+  "candidate_failure_count": 2,
+  "carried_cost_usd": 0.10529775,
+  "carried_logical_calls": 163,
+  "completed_at": "2026-09-29T08:56:15.584421+00:00",
+  "cost_usd": 0.03389325,
+  "current_run_logical_external_calls": 69,
+  "embedding_cost_reserve_usd": 0.005,
+  "estimated_total_cost_usd": 0.14419099999999999,
+  "failure_count": 2,
+  "input_tokens": 76359,
+  "logical_external_calls": 232,
+  "output_tokens": 9869,
+  "prediction_count": 100,
+  "predictions_sha256": "4d39ffabc578446073013d8b969dfaae40f498de5060024a036f4e32f3eff0c3",
+  "provider_attempt_count": 67,
+  "provider_failure_count": 0,
+  "provider_retry_count": 1,
+  "run_id": "text-holdout-v1-20260929T084927Z",
+  "sealed_gold_opened": false,
+  "stop_reason": "COMPLETED",
+  "success_count": 98
+}

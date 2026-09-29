@@ -572,3 +572,10 @@ jitterで再試行する。429、入力不備、候補pipeline失敗は再試行
 変更していない。非integration 308件、Ruff、plan、公開manifest validatorが成功し、goldは未開封。
 参考: https://ai.google.dev/gemini-api/docs/troubleshooting および
 https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/api-errors
+
+指数バックオフを適用したv10は、v9の成功65件と候補失敗2件を固定してTH034の503から再開し、
+100 predictionを完走した。途中の503は1回のretryで回復し、最大2 retryは消費しなかった。最終結果は
+成功98、候補pipeline失敗2（TH014 formal、TH026 paraphrase）、provider失敗0、累計232/302
+logical calls、推定US$0.144191/US$0.15である。100件の一意性とprediction hashを確認し、public
+manifestを`PREDICTIONS_FROZEN`へ進めた。goldは未開封で、公開validatorとRuffが成功した。
+次の工程は、ユーザーの明示承認後にgoldを開封し、固定済みpredictionを受入採点することである。
