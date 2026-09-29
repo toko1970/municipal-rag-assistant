@@ -43,6 +43,10 @@ Query Decompositionと生成前版注記について、既知質問の改善と�
 最終採用では、別に固定した未使用セットまたはsealed holdoutを使う。sealed holdoutの開封とgold採点は
 別の承認境界とする。
 
+その後の回答比較で退行が確認されたため、この一般化triggerはproductionへ採用しなかった。
+再現用の候補ロジックは`eval/rejected_query_trigger_candidate.py`と
+`eval/rejected_temporal_trigger_candidate.py`へ隔離し、runtimeは130問で退行0だった狭い規則を使う。
+
 ## 検索比較
 
 未知表現の肯定例16件について、同じEmbedding、文書cache、Top 8でDense検索と分解検索を比較した。

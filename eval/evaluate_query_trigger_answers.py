@@ -22,9 +22,9 @@ from eval.evaluate_query_decomposition_answers import (
 from eval.evaluate_retrieved_text_regression import prepare_text_corpus
 from eval.evaluate_visual_answers import token_cost_usd
 from eval.query_decomposition_cache import load_cached_subquery_vectors
-from src.query_decomposition import decompose_query
 from src.query_service import answer_question, load_schema
-from src.temporal_evidence import build_temporal_generation_prompt
+from eval.rejected_query_trigger_candidate import decompose_query, retrieve_decomposed
+from eval.rejected_temporal_trigger_candidate import build_temporal_generation_prompt
 
 
 INPUT = BASE_DIR / "eval/query_trigger_robustness_cases.json"
@@ -45,6 +45,29 @@ CONTENT_RULES = {
 }
 CONTENT_RULES["G06"] += (r"14日以内",)
 CONTENT_RULES["G07"] += (r"14日以内",)
+
+
+class CandidateQuestionAwareIndex:
+    """Run the rejected broad trigger without changing production retrieval."""
+
+    def __init__(self, base_index, vectors: dict[str, list[float]]):
+        self.base_index = base_index
+        self.vectors = vectors
+        self.question = ""
+
+    def select_question(self, question: str) -> None:
+        self.question = question
+
+    def search(self, _query_vector: list[float], limit: int):
+        if not self.question:
+            raise RuntimeError("検索前に質問が選択されていません")
+        return retrieve_decomposed(
+            self.question,
+            top_k=limit,
+            search=lambda query, top_k: self.base_index.search(
+                self.vectors[query], top_k
+            ),
+        )
 
 
 def _sha256(path: Path) -> str:
@@ -90,7 +113,7 @@ def main() -> int:
     base_index = prepare_text_corpus(DOCUMENT_CACHE)
     indexes = {
         "baseline": QuestionAwareIndex(base_index, vectors_by_text, decompose=False),
-        "candidate": QuestionAwareIndex(base_index, vectors_by_text, decompose=True),
+        "candidate": CandidateQuestionAwareIndex(base_index, vectors_by_text),
     }
     args.output_dir.mkdir(parents=True)
     manifest = {

@@ -26,12 +26,6 @@ def test_decomposes_supported_multi_intent_questions_without_gold() -> None:
         "2025年10月 出生 扶養手当 支給開始時期",
         "2025年10月 出生 扶養親族変更届 提出期限",
     ]
-    assert decompose_query(
-        "令和7年10月の出生について支給開始時期と届出期限をまとめてください。"
-    ) == [
-        "令和7年10月 出生 扶養手当 支給開始時期",
-        "令和7年10月 出生 扶養親族変更届 提出期限",
-    ]
 
 
 def test_leaves_single_intent_question_unchanged() -> None:
@@ -50,23 +44,13 @@ def test_leaves_unproven_decomposition_rules_unchanged() -> None:
         assert decompose_query(question) == [question]
 
 
-def test_decomposes_semantic_paraphrases_but_not_shared_word_boundaries() -> None:
-    assert decompose_query(
-        "引っ越した後は通勤していません。手当の停止と住所変更の手続きを教えてください。"
-    ) != [
-        "引っ越した後は通勤していません。手当の停止と住所変更の手続きを教えてください。"
-    ]
-    assert decompose_query(
-        "子どもが生まれました。扶養手当はいつからで、変更届はいつまでですか？"
-    ) != [
-        "子どもが生まれました。扶養手当はいつからで、変更届はいつまでですか？"
-    ]
-    boundaries = (
-        "転居後に通勤しなくてよいという理解は誤りですか？",
-        "転居せずに完全在宅勤務となった場合、通勤手当はどうなりますか？",
-        "出生に伴う扶養親族変更届の届出期限だけ教えてください。",
+def test_leaves_rejected_broad_paraphrase_rules_unchanged() -> None:
+    questions = (
+        "引っ越した後は通勤していません。手当の停止と住所変更の手続きを教えてください。",
+        "子どもが生まれました。扶養手当はいつからで、変更届はいつまでですか？",
     )
-    for question in boundaries:
+
+    for question in questions:
         assert decompose_query(question) == [question]
 
 
@@ -85,7 +69,7 @@ def test_balances_subquery_results_and_removes_duplicates() -> None:
         search=lambda query, limit: responses[query][:limit],
     )
 
-    assert [hit.element.id for hit in result] == ["A", "B", "D", "F", "G"]
+    assert [hit.element.id for hit in result] == ["A", "B", "C", "D", "E"]
     assert [hit.rank for hit in result] == [1, 2, 3, 4, 5]
 
 
@@ -109,7 +93,7 @@ def test_vector_index_embeds_only_added_subqueries() -> None:
     result = index.search([9.0], limit=4)
 
     assert embedded == [first, second]
-    assert [hit.element.id for hit in result] == ["A1", "B1", "Q1", "Q2"]
+    assert [hit.element.id for hit in result] == ["A1", "A2", "B1", "B2"]
 
 
 def test_vector_index_preserves_single_query_path() -> None:

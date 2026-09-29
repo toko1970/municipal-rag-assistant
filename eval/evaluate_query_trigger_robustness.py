@@ -12,8 +12,11 @@ from uuid import UUID
 
 from config import BASE_DIR
 from src.contracts import SearchHit
-from src.query_decomposition import decompose_query
-from src.temporal_evidence import POLICY_DOMAINS, analyze_temporal_evidence
+from eval.rejected_query_trigger_candidate import decompose_query
+from eval.rejected_temporal_trigger_candidate import (
+    POLICY_DOMAINS,
+    analyze_temporal_evidence,
+)
 
 
 DEFAULT_INPUT = BASE_DIR / "eval/query_trigger_robustness_cases.json"

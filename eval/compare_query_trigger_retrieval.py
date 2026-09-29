@@ -11,7 +11,7 @@ from config import BASE_DIR, GOOGLE_API_KEY
 from eval.compare_embedding_models import load_or_create_vectors
 from eval.embedding_profiles import PROFILES, GeminiOneEmbedder
 from eval.evaluate_retrieved_text_regression import prepare_text_corpus
-from src.query_decomposition import decompose_query, retrieve_decomposed
+from eval.rejected_query_trigger_candidate import decompose_query, retrieve_decomposed
 
 
 DEFAULT_INPUT = BASE_DIR / "eval/query_trigger_robustness_cases.json"

@@ -470,3 +470,15 @@ production composition rootの接続testを含む非integration 282件が、こ�
 diff検査が成功した。branch差分の自己reviewでも、通常質問の既存検索経路、対象質問だけの追加
 Embedding、非対象質問のprompt維持に新しい問題は見つからなかった。次は成果をreview可能な形へ
 整理し、production deploy前の判断を行う。
+
+未知言い換えへ広げたtrigger候補は、検索比較では改善したがend-to-end 9件で退行1件となり、
+追加answerability promptも改善0・退行1だったためproduction不採用とした。runtimeの
+`query_decomposition.py`と`temporal_evidence.py`を、130問で120/130・退行0を確認した
+`e923b54`の狭い候補へ戻した。一般化候補は再現用のeval moduleへ隔離し、40件のtrigger評価が
+再び100%で完走することを確認した。
+
+公開前回帰は、非integration 294件、実PostgreSQL・Qdrant integration 3件、Ruff、diff検査が
+すべて成功した。READMEの旧Chroma・ファイルログという古い記述も、現在のCloud SQL・Qdrant
+Cloud公開構成と、まだ未deployの92.3%候補を区別する内容へ更新した。次の最小手順は、この差分を
+commit・pushしてPRを確認し、review後にsealed holdout、merge、production deployの承認境界へ
+進むことである。

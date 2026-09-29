@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 from config import BASE_DIR
-from src.query_decomposition import decompose_query
+from eval.rejected_query_trigger_candidate import decompose_query
 
 
 DEFAULT_INPUT = BASE_DIR / "eval/evaluation_questions_500.csv"
