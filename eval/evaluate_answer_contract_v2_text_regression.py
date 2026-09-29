@@ -143,9 +143,24 @@ def _record(
 
 
 def _summary(
-    records: list[dict[str, Any]], *, stop_reason: str, max_cost_usd: float
+    records: list[dict[str, Any]],
+    *,
+    stop_reason: str,
+    max_cost_usd: float,
+    carried_usage: dict[str, int | float] | None = None,
 ) -> dict[str, Any]:
+    carried_usage = carried_usage or {
+        "logical_external_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.0,
+    }
     completed = [record for record in records if record["error"] is None]
+    current = [
+        record
+        for record in records
+        if record.get("execution_source", "CURRENT_RUN") == "CURRENT_RUN"
+    ]
     return {
         "scenario_count": MAX_SCENARIOS,
         "record_count": len(records),
@@ -164,12 +179,16 @@ def _summary(
             record["answer_status"] == "SUCCESS" for record in completed
         ),
         "content_review_pending": len(completed),
-        "logical_external_calls": sum(
-            int(record["logical_external_calls"]) for record in records
-        ),
-        "input_tokens": sum(int(record["input_tokens"]) for record in records),
-        "output_tokens": sum(int(record["output_tokens"]) for record in records),
-        "estimated_cost_usd": sum(float(record["cost_usd"]) for record in records),
+        "logical_external_calls": int(carried_usage["logical_external_calls"])
+        + sum(int(record["logical_external_calls"]) for record in current),
+        "input_tokens": int(carried_usage["input_tokens"])
+        + sum(int(record["input_tokens"]) for record in current),
+        "output_tokens": int(carried_usage["output_tokens"])
+        + sum(int(record["output_tokens"]) for record in current),
+        "estimated_cost_usd": float(carried_usage["estimated_cost_usd"])
+        + sum(float(record["cost_usd"]) for record in current),
+        "reused_success_count": len(records) - len(current),
+        "carried_usage": carried_usage,
         "max_cost_usd": max_cost_usd,
         "stop_reason": stop_reason,
         "sealed_holdout_accessed": False,
@@ -185,6 +204,7 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--max-logical-external-calls", type=int, required=True)
     parser.add_argument("--max-cost-usd", type=float, required=True)
+    parser.add_argument("--reuse-dir", type=Path)
     args = parser.parse_args()
     if args.output_dir.exists():
         raise FileExistsError(f"評価出力は上書きしません: {args.output_dir}")
@@ -199,6 +219,56 @@ def main() -> int:
     original_vectors = load_baseline_query_vectors(args.query_cache, questions)
     vectors = {**original_vectors, **_subquery_vectors(questions, args.subquery_cache)}
     base_index = prepare_text_corpus(args.document_cache)
+    reused: dict[str, dict[str, Any]] = {}
+    carried_usage: dict[str, int | float] = {
+        "logical_external_calls": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.0,
+    }
+    reuse_metadata = None
+    if args.reuse_dir is not None:
+        previous_manifest = json.loads(
+            (args.reuse_dir / "run_manifest.json").read_text(encoding="utf-8")
+        )
+        previous_summary = json.loads(
+            (args.reuse_dir / "summary.json").read_text(encoding="utf-8")
+        )
+        expected_conditions = {
+            "dataset_sha256": _sha256(args.input),
+            "query_cache_sha256": _sha256(args.query_cache),
+            "subquery_cache_sha256": _sha256(args.subquery_cache),
+            "document_cache_sha256": _sha256(args.document_cache),
+            "generation_prompt_version": ANSWER_CONTRACT_V2_PROMPT_VERSION,
+            "classification_prompt_version": CLASSIFICATION_PROMPT_V2_VERSION,
+        }
+        for key, expected in expected_conditions.items():
+            if previous_manifest.get(key) != expected:
+                raise ValueError(f"再利用元の評価条件が一致しません: {key}")
+        for line in (args.reuse_dir / "records.jsonl").read_text(
+            encoding="utf-8"
+        ).splitlines():
+            record = json.loads(line)
+            if record.get("error") is None:
+                reused[record["question_id"]] = {
+                    **record,
+                    "execution_source": "REUSED_SUCCESS",
+                }
+        carried_usage = {
+            key: previous_summary[key]
+            for key in (
+                "logical_external_calls",
+                "input_tokens",
+                "output_tokens",
+                "estimated_cost_usd",
+            )
+        }
+        reuse_metadata = {
+            "source_dir": str(args.reuse_dir),
+            "source_records_sha256": _sha256(args.reuse_dir / "records.jsonl"),
+            "reused_success_ids": sorted(reused),
+            "carried_usage": carried_usage,
+        }
     args.output_dir.mkdir(parents=True)
     records_path = args.output_dir / "records.jsonl"
     manifest = {
@@ -223,17 +293,33 @@ def main() -> int:
         "stop_conditions": ["provider error", "cost reserve", "call limit"],
         "sealed_holdout_accessed": False,
         "production_deployed": False,
+        "reuse": reuse_metadata,
     }
     _write_json(args.output_dir / "run_manifest.json", manifest)
 
     generator = _provider(LLM_MODEL_NAME)
     classifier = _provider(CLASSIFIER_MODEL_NAME)
     resolver = _provider(CLASSIFIER_MODEL_NAME)
-    records: list[dict[str, Any]] = []
+    records: list[dict[str, Any]] = list(reused.values())
+    if records:
+        with records_path.open("w", encoding="utf-8") as stream:
+            for record in records:
+                stream.write(json.dumps(record, ensure_ascii=False) + "\n")
     stop_reason = "COMPLETED"
     for row in questions:
-        used_calls = sum(int(record["logical_external_calls"]) for record in records)
-        used_cost = sum(float(record["cost_usd"]) for record in records)
+        if row["question_id"] in reused:
+            continue
+        current = [
+            record
+            for record in records
+            if record.get("execution_source", "CURRENT_RUN") == "CURRENT_RUN"
+        ]
+        used_calls = int(carried_usage["logical_external_calls"]) + sum(
+            int(record["logical_external_calls"]) for record in current
+        )
+        used_cost = float(carried_usage["estimated_cost_usd"]) + sum(
+            float(record["cost_usd"]) for record in current
+        )
         if used_calls + MAX_CALLS_PER_SCENARIO > args.max_logical_external_calls:
             stop_reason = "CALL_LIMIT_REACHED"
             break
@@ -276,6 +362,7 @@ def main() -> int:
             error=error,
             elapsed_seconds=time.perf_counter() - started,
         )
+        record["execution_source"] = "CURRENT_RUN"
         records.append(record)
         with records_path.open("a", encoding="utf-8") as stream:
             stream.write(json.dumps(record, ensure_ascii=False, default=str) + "\n")
@@ -292,7 +379,12 @@ def main() -> int:
             )
             break
 
-    summary = _summary(records, stop_reason=stop_reason, max_cost_usd=args.max_cost_usd)
+    summary = _summary(
+        records,
+        stop_reason=stop_reason,
+        max_cost_usd=args.max_cost_usd,
+        carried_usage=carried_usage,
+    )
     if summary["logical_external_calls"] > args.max_logical_external_calls:
         raise RuntimeError("logical external call上限を超えました")
     _write_json(args.output_dir / "summary.json", summary)
