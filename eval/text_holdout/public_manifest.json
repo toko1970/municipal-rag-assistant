@@ -88,7 +88,10 @@
     "path": "design/schemas/text-holdout-public-manifest-v1.schema.json",
     "sha256": "2269b5df9513b8932e8cfcef6c4689d8854cef161e68925c9acd287de493e997"
   },
-  "opening": null,
+  "opening": {
+    "opened_at": "2026-09-29T08:59:14.427530+00:00",
+    "scenario_hash_verified": true
+  },
   "paths_relative_to": "repository_root",
   "predictions": {
     "attempt_count": 100,
@@ -102,7 +105,10 @@
     "scenario_count": 50,
     "sha256": "67af42b0416b31dbfa7980013357392761dd233289f0a219cbcadca64b461f7b"
   },
-  "results": null,
+  "results": {
+    "path": "eval/results/text_holdout_v1_acceptance/results.json",
+    "sha256": "1b70ddd8ed6cba06a0d00ef97e6892762a4113e2e92dcaf01b17afeb683f9c68"
+  },
   "schema_version": "1.0",
-  "state": "PREDICTIONS_FROZEN"
+  "state": "CONSUMED"
 }

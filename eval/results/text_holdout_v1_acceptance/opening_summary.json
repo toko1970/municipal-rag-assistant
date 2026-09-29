@@ -1,0 +1,9 @@
+{
+  "completed_at": "2026-09-29T09:01:14.447948+00:00",
+  "content_review_status": "COMPLETED",
+  "opened_at": "2026-09-29T08:59:14.427530+00:00",
+  "prediction_hash_verified": true,
+  "review_path": "eval/results/text_holdout_v1_acceptance/content_review.jsonl",
+  "review_sha256": "ebb0affd7d36abb14109c2499cfec64272cdeec84af55dfc0eb9849611ca5a27",
+  "scenario_hash_verified": true
+}

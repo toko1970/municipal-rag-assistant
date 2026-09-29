@@ -56,7 +56,7 @@ def planned_manifest() -> dict:
 
 
 class TextHoldoutProtocolTest(unittest.TestCase):
-    def test_committed_candidate_manifest_is_valid_without_sealed_access(self):
+    def test_committed_consumed_manifest_is_valid_without_sealed_access(self):
         with patch(
             "eval.validate_text_holdout_protocol.validate_sealed_artifacts",
             side_effect=AssertionError("Public validation must not open sealed content"),
@@ -64,16 +64,15 @@ class TextHoldoutProtocolTest(unittest.TestCase):
             manifest = validate_public_manifest(MANIFEST_PATH, REPOSITORY_ROOT)
 
         sealed_validator.assert_not_called()
-        self.assertEqual(manifest["state"], "CANDIDATE_FROZEN")
+        self.assertEqual(manifest["state"], "CONSUMED")
         self.assertGreaterEqual(
             len({document["document_family"] for document in manifest["documents"]}), 5
         )
         self.assertEqual(manifest["questions"]["scenario_count"], 50)
         self.assertEqual(manifest["questions"]["expression_count"], 100)
         self.assertEqual(manifest["gold"]["scenario_count"], 50)
-        self.assertIsNotNone(manifest["candidate"])
-        for field in ("predictions", "opening", "results"):
-            self.assertIsNone(manifest[field])
+        for field in ("candidate", "predictions", "opening", "results"):
+            self.assertIsNotNone(manifest[field])
 
     def test_planned_manifest_is_valid_before_artifacts_are_created(self):
         manifest = planned_manifest()

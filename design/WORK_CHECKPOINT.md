@@ -579,3 +579,15 @@ https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/api-errors
 logical calls、推定US$0.144191/US$0.15である。100件の一意性とprediction hashを確認し、public
 manifestを`PREDICTIONS_FROZEN`へ進めた。goldは未開封で、公開validatorとRuffが成功した。
 次の工程は、ユーザーの明示承認後にgoldを開封し、固定済みpredictionを受入採点することである。
+
+ユーザー承認後、固定済みprediction hashを再確認してgoldを開封し、100表現を受入採点した。総合回答
+成功83/100（83.0%、Wilson 95% 74.5%–89.1%）、scenario stability 39/50（78.0%、
+64.8%–87.2%）。document retrievalとevidence retrievalは各100/100、回答分類86/100、回答内容
+94/100、実行98/100だった。総合失敗17件の最大要因は分類14件で、内訳は`根拠十分→判断要`9件、
+`判断要→根拠十分`3件、実行失敗による分類不能2件。内容失敗は、具体期限を起算規則までしか返さない
+TH011・TH039の各2表現と、候補pipeline実行失敗2件である。詳細は
+[`TEXT_HOLDOUT_ACCEPTANCE_RESULTS.md`](../eval/TEXT_HOLDOUT_ACCEPTANCE_RESULTS.md)へ保存した。
+
+public manifestは`CONSUMED`へ進み、同じsealed holdoutを追加改善の選択に再利用しない。次の最小手順は、
+holdoutで判明した分類の過剰慎重と具体期限計算不足を、開発評価側へ一般化したfixtureとして追加し、
+改善候補を開発セットで選ぶことである。

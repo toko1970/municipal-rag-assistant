@@ -238,6 +238,13 @@ def finalize_score(
     }
     results_path = output_dir / "results.json"
     _write_json(results_path, summary)
+    opening_summary_path = output_dir / "opening_summary.json"
+    if opening_summary_path.exists():
+        opening_summary = load_json(opening_summary_path)
+        opening_summary["content_review_status"] = "COMPLETED"
+        opening_summary["review_sha256"] = _sha256(review_path)
+        opening_summary["completed_at"] = summary["scored_at"]
+        _write_json(opening_summary_path, opening_summary)
     manifest["state"] = "CONSUMED"
     manifest["results"] = {
         "path": _portable_path(results_path),
