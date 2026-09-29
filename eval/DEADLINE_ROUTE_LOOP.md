@@ -56,6 +56,14 @@ baselineの誤りごとの特例や質問IDはproduction codeへ入れていな�
 - 新しい起算日の名詞は列挙へ追加が必要になる可能性がある。運用ログでfalse negativeを監視する。
 - 本番反映前には、日付生成・分類・表示までを含む回帰と既存130問の退行確認を別に行う。
 
+## 後続のrelease gate
+
+固定500問を旧routeと新routeで監査した結果、formal 100問を含めて発火・判定変更は0件だった。
+そのため既存130問を再生成せず、保存済み120/130を維持値として再利用した。新しく対応した表現4件は
+生成、決定的計算、分類、表示まで4/4で成功した。8 logical calls、推定US$0.002326、provider error
+0である。詳細は[`POST_HOLDOUT_TARGETED_RELEASE_GATE.md`](POST_HOLDOUT_TARGETED_RELEASE_GATE.md)を
+参照する。
+
 ## 再実行
 
 ```bash

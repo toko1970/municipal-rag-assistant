@@ -605,7 +605,7 @@ python -m pytest -q -m integration tests/integration
 
 実際の文書ベクトル検索とGeminiを使う評価もこのCIには含めず、評価セットや検索方式を変更した際に別途実行します。
 
-難問20件での実検索評価、同一質問による方式比較、改善と退行の個別例は [eval/HARD_EVALUATION.md](eval/HARD_EVALUATION.md) に記録しています。採用したcontextual heading、Top-8、Gemini 3.1 Flash-Liteは公開RAG v2へ反映済みです。2026-09-29にローカル採用したQuery Decomposition、生成前版注記、条件付きVersion Resolverは、gold v1.2で総合回答成功117/130（90.0%）から120/130（92.3%）、退行0を確認した次回公開候補です。実験経過と公開前の状態は [RAG精度改善の意思決定レポート](eval/ACCURACY_IMPROVEMENT_DECISION_REPORT.md) に記録しています。
+難問20件での実検索評価、同一質問による方式比較、改善と退行の個別例は [eval/HARD_EVALUATION.md](eval/HARD_EVALUATION.md) に記録しています。採用したcontextual heading、Top-8、Gemini 3.1 Flash-Liteは公開RAG v2へ反映済みです。2026-09-29にローカル採用したQuery Decomposition、生成前版注記、条件付きVersion Resolverは、gold v1.2で総合回答成功117/130（90.0%）から120/130（92.3%）、退行0を確認した次回公開候補です。さらに具体的な暦日期限だけを決定的Python計算へ渡す候補は、新規表現4/4で生成・計算・分類・表示に成功しました。固定130問にはroute対象がないため120/130は維持値であり、日付改善後の総合holdout値は未測定です。実験経過と公開前の状態は [RAG精度改善の意思決定レポート](eval/ACCURACY_IMPROVEMENT_DECISION_REPORT.md) と [対象限定release gate](eval/POST_HOLDOUT_TARGETED_RELEASE_GATE.md) に記録しています。
 
 ---
 

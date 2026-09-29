@@ -1,0 +1,29 @@
+{
+  "classification_prompt_version": "answer-classification-v1+verified-date-v1",
+  "classifier_model": "gemini-3.1-flash-lite",
+  "experiment": "deadline-route-e2e-v1",
+  "generation_prompt_version": "answer-claims-v1.1+deadline-calculation-v1",
+  "generator_model": "gemini-3.1-flash-lite",
+  "max_cost_usd": 0.01,
+  "max_logical_external_calls": 12,
+  "production_deployed": false,
+  "provider_retry_policy": {
+    "backoff_seconds": [
+      5.1,
+      10.2
+    ],
+    "jitter_max_seconds": 1.0,
+    "max_retries": 2,
+    "minimum_call_interval_seconds": 5.1,
+    "retryable_status_codes": [
+      503
+    ]
+  },
+  "scenario_ids": [
+    "DRE2E-01",
+    "DRE2E-02",
+    "DRE2E-03",
+    "DRE2E-04"
+  ],
+  "sealed_holdout_accessed": false
+}

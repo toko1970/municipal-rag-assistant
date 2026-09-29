@@ -1,0 +1,46 @@
+{
+  "assessment": "post-holdout-targeted-release-gate-v1",
+  "development_regression": {
+    "success": 120,
+    "total": 130,
+    "success_rate": 0.9230769230769231,
+    "result_reused": true,
+    "reason": "固定500問のformal 100問で日付route変更対象が0件で、図表30問は別経路のため"
+  },
+  "deadline_route_corpus_audit": {
+    "questions": 500,
+    "formal_questions": 100,
+    "legacy_route_positive": 0,
+    "current_route_positive": 0,
+    "changed_questions": 0,
+    "formal_legacy_route_positive": 0,
+    "formal_current_route_positive": 0,
+    "formal_changed_questions": 0,
+    "external_api_calls": 0,
+    "estimated_api_cost_usd": 0.0
+  },
+  "deadline_e2e": {
+    "completed_count": 4,
+    "composite_success": 4,
+    "estimated_cost_usd": 0.002326,
+    "gate_passed": true,
+    "input_tokens": 1822,
+    "logical_external_calls": 8,
+    "max_cost_usd": 0.01,
+    "output_tokens": 1247,
+    "scenario_count": 4,
+    "sealed_holdout_accessed": false,
+    "stop_reason": "COMPLETED"
+  },
+  "release_gate_passed": true,
+  "new_external_api_calls": 8,
+  "new_estimated_cost_usd": 0.002326,
+  "sealed_holdout_reused": false,
+  "production_deployed": false,
+  "claim_boundary": "120/130は既存development回帰の維持値であり、日付改善による上昇値ではない。日付改善の新規証拠はtargeted end-to-end 4/4である。",
+  "source_sha256": {
+    "eval/results/integrated_query_candidate_consolidated_v5/summary.json": "c595635196c1f0b7a3b204c8457ed3110f48cc642db4f56be07e30bdc6a4a3eb",
+    "eval/results/deadline_route_corpus_audit_v1.json": "59cb720b6f5eb3cadcc2873a7c3e3eda1410c08c458662790e79109727fef6df",
+    "eval/results/deadline_route_e2e_v1/summary.json": "71ec79cd377631df93dc2a40730f9ce4902640295aea4c278784e869663326fd"
+  }
+}

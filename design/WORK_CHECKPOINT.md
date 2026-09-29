@@ -633,3 +633,19 @@ false negative 4件と、営業日・一般ルール等のfalse positive 5件が
 実装した。開発20/20、凍結acceptance 12/12となり、追加修正せず停止した。Gemini・Embedding・
 cloud呼び出しは0、推定API費用US$0。acceptanceはsealed holdoutではなく、実行後に回帰testへ
 昇格した。詳細は[`DEADLINE_ROUTE_LOOP.md`](../eval/DEADLINE_ROUTE_LOOP.md)を参照する。
+
+日付routeの公開前影響監査として、固定500問を旧判定と新判定で比較した。全500問、formal 100問
+ともroute発火・判定変更は0件だった。130問回帰の残る30問はvisual別経路であるため、日付変更による
+再生成対象は0件と確定した。保存済み120/130は維持値として再利用し、改善値とは扱わない。
+
+新規route表現4件だけを生成・決定的計算・分類・表示まで通し、4/4総合成功だった。8 logical calls、
+input 1,822・output 1,247 tokens、推定US$0.002326、provider error 0、sealed holdout未使用である。
+第1 roundでgateを通過したため第2 roundは行わなかった。統合release gateは合格。次の最小手順は
+非integration・integration・Ruffを確定し、PR差分をreviewしてmerge・production deployの承認境界へ
+進むこと。詳細は[`POST_HOLDOUT_TARGETED_RELEASE_GATE.md`](../eval/POST_HOLDOUT_TARGETED_RELEASE_GATE.md)
+を参照する。
+
+release候補の固定checklistとして、非integration 368件、実PostgreSQL・Qdrant integration 3件、
+Ruff、diff検査がすべて成功した。評価結果とREADMEは、既存130問の維持値120/130と、新規日付表現
+4/4を分けて記載している。次はcommit・push後のPR reviewで、mergeとproduction deployは明示承認が
+必要である。
