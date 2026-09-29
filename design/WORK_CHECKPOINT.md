@@ -551,3 +551,9 @@ resume・freeze規則を修正し、成功recordと非providerの候補失敗を
 fail-fastした。v7は54 prediction（成功51、候補失敗2、provider失敗1）、carryover込み128
 logical calls、推定US$0.080328、gold未開封である。次runは成功51件と候補失敗2件だけを引き継ぎ、
 TH027のprovider失敗だけを再実行する。
+
+v8はv7の成功51件と候補失敗2件を引き継ぎ、TH027の503を再実行して成功した。次のTH028
+paraphraseで再びGemini 503 `high demand`となりfail-fastした。v8は56 prediction（成功53、
+候補失敗2、provider失敗1）、carryover込み136 logical calls、推定US$0.08829025、gold未開封で
+ある。成功と候補失敗の固定は維持されており、次runの再実行対象はTH028のprovider失敗だけである。
+同時刻の連続実行は避け、provider負荷が落ち着いてから再開する。
