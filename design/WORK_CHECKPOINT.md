@@ -525,3 +525,9 @@ US$0.02538575、gold未開封でfail-fastした。理論上15 calls / 60秒を�
 windowと同projectの利用に対する余裕が不足していた。品質設定は変えず、間隔を5.1秒へ広げて
 約12 RPMとし、成功済み15件を次runへ引き継ぐ。次回carryoverは41 calls・US$0.02538575で、
 残り85件を全て3 calls使う場合でも累計298 callsとなり、302上限内に収まる。
+
+5.1秒pacerで成功済み15件から再開したrunは、TH008 paraphraseを成功へ変えた後、TH009 formalの
+GeneratorでGemini 503 `high demand`となりfail-fastした。成功済みは16表現、失敗1、累計47
+logical calls、推定US$0.03286925、gold未開封である。RPM制限ではなくproviderの一時的な可用性
+障害で、pacing変更の追加根拠にはしない。成功16件はhash付きpartial artifactに保持し、次回は
+carryover 47 calls・US$0.03286925で残り84件から再開できる。追加runは未実行。
