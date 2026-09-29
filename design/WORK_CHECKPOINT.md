@@ -531,3 +531,14 @@ GeneratorでGemini 503 `high demand`となりfail-fastした。成功済みは16
 logical calls、推定US$0.03286925、gold未開封である。RPM制限ではなくproviderの一時的な可用性
 障害で、pacing変更の追加根拠にはしない。成功16件はhash付きpartial artifactに保持し、次回は
 carryover 47 calls・US$0.03286925で残り84件から再開できる。追加runは未実行。
+
+予定したheartbeatが14:11を過ぎても実行artifactを作成しなかったため、同じ承認済み条件で手動再開
+した。v5の成功16件を引き継いだv6は、合計41 prediction（成功39、失敗2）まで進み、TH021 formalの
+GeneratorでGemini 503 `high demand`を検出してfail-fastした。今回51 logical calls、推定
+US$0.02383025、carryover込み98 calls・US$0.0616995、gold未開封である。
+
+もう1件の失敗はTH014 formalで、provider障害ではなく、分類結果が根拠十分を示した一方で表示条件を
+満たさず`ValueError`となったアプリケーション上の失敗である。このrecordを単純に再実行して成功だけを
+引き継ぐとholdout評価を有利に選別するおそれがあるため、次runは直ちに行わない。次の最小手順は、
+provider失敗だけを再実行対象とし、TH014のような候補pipelineの失敗を評価対象として固定できるよう、
+resume・freeze規則をgoldを開かずに監査することである。
