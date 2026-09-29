@@ -15,7 +15,7 @@ QUESTION_DOMAIN_ALIASES = {
     "出生": "扶養手当",
 }
 TEMPORAL_GENERATION_PROMPT_VERSION = "answer-claims-v1+temporal-guidance-v1"
-ANSWER_CONTRACT_V2_PROMPT_VERSION = "answer-contract-v2+deadline-calculation-v1"
+ANSWER_CONTRACT_V2_PROMPT_VERSION = "answer-contract-v2.2+deadline-calculation-v1"
 
 
 @dataclass(frozen=True)
@@ -189,6 +189,15 @@ def build_answer_contract_v2_prompt(
         "制度所管課の裁量が残る場合、missing_documentは必要文書が取得根拠にない場合です。\n"
         "- version_conflictは必要な基準日が揃っても適用版を一意に決められない場合です。"
         "基準日そのものがない場合はcase_factにしてください。\n"
+        "- missing_conditionsへ入れるのは、質問が明示的に求める結論を答えるために必須の未解決条件だけです。"
+        "質問が求めていない例外、将来の個別適用、より細かな日付・金額・手続は追加しないでください。\n"
+        "- 質問が一般ルール、選択肢、項目一覧を尋ねる場合、取得根拠からその範囲を答えられれば"
+        "missing_conditionsは空です。各選択肢を個別事案へ適用するための事情は不足条件にしません。\n"
+        "- claimsも質問が明示的に求める対象と範囲へ限定してください。取得根拠に関連制度の記載があっても、"
+        "質問と異なる手当・対象者・手続の規則や、結論に不要な周辺情報を追加しないでください。\n"
+        "- 質問が『この規程だけで確定・判断できるか』を尋ね、取得根拠が別規程によることを明示する場合、"
+        "『この規程だけでは判断できない』という結論は根拠付きで回答済みです。"
+        "別規程自体をmissing_documentへ入れないでください。\n"
         "- 質問が具体的な期限日を求め、取得根拠に暦日数と起算規則がある場合だけ、"
         "date_calculationsへ構造化してください。\n"
         "- 対応するのはcalendar_dayと、next_day_is_day_1またはanchor_day_is_day_1だけです。\n"

@@ -52,7 +52,6 @@ DEFAULT_DOCUMENT_CACHE = (
 )
 MAX_SCENARIOS = 100
 MAX_CALLS_PER_SCENARIO = 3
-MAX_LOGICAL_EXTERNAL_CALLS = MAX_SCENARIOS * MAX_CALLS_PER_SCENARIO
 RESERVE_USD_PER_SCENARIO = 0.0014
 
 
@@ -147,6 +146,7 @@ def _summary(
     *,
     stop_reason: str,
     max_cost_usd: float,
+    scenario_count: int = MAX_SCENARIOS,
     carried_usage: dict[str, int | float] | None = None,
 ) -> dict[str, Any]:
     carried_usage = carried_usage or {
@@ -162,7 +162,7 @@ def _summary(
         if record.get("execution_source", "CURRENT_RUN") == "CURRENT_RUN"
     ]
     return {
-        "scenario_count": MAX_SCENARIOS,
+        "scenario_count": scenario_count,
         "record_count": len(records),
         "completed_count": len(completed),
         "error_count": len(records) - len(completed),
@@ -205,19 +205,32 @@ def main() -> int:
     parser.add_argument("--max-logical-external-calls", type=int, required=True)
     parser.add_argument("--max-cost-usd", type=float, required=True)
     parser.add_argument("--reuse-dir", type=Path)
+    parser.add_argument("--question-ids", nargs="+")
     args = parser.parse_args()
     if args.output_dir.exists():
         raise FileExistsError(f"評価出力は上書きしません: {args.output_dir}")
-    if args.max_logical_external_calls > MAX_LOGICAL_EXTERNAL_CALLS:
-        raise ValueError("logical external call上限は300です")
-    if args.max_cost_usd < MAX_SCENARIOS * RESERVE_USD_PER_SCENARIO:
-        raise ValueError("費用上限が100問の安全予約額を下回っています")
+    all_questions = load_questions(args.input, "formal")
+    if len(all_questions) != MAX_SCENARIOS:
+        raise ValueError(f"formal質問は100件必要です: {len(all_questions)}")
+    if args.question_ids:
+        requested = set(args.question_ids)
+        questions = [row for row in all_questions if row["question_id"] in requested]
+        found = {row["question_id"] for row in questions}
+        if found != requested:
+            raise ValueError(f"question IDが見つかりません: {sorted(requested - found)}")
+    else:
+        questions = all_questions
+    max_calls = len(questions) * MAX_CALLS_PER_SCENARIO
+    if args.max_logical_external_calls > max_calls:
+        raise ValueError(f"logical external call上限は{max_calls}です")
+    if args.max_cost_usd < len(questions) * RESERVE_USD_PER_SCENARIO:
+        raise ValueError("費用上限が対象質問の安全予約額を下回っています")
 
-    questions = load_questions(args.input, "formal")
-    if len(questions) != MAX_SCENARIOS:
-        raise ValueError(f"formal質問は100件必要です: {len(questions)}")
-    original_vectors = load_baseline_query_vectors(args.query_cache, questions)
-    vectors = {**original_vectors, **_subquery_vectors(questions, args.subquery_cache)}
+    original_vectors = load_baseline_query_vectors(args.query_cache, all_questions)
+    vectors = {
+        **original_vectors,
+        **_subquery_vectors(all_questions, args.subquery_cache),
+    }
     base_index = prepare_text_corpus(args.document_cache)
     reused: dict[str, dict[str, Any]] = {}
     carried_usage: dict[str, int | float] = {
@@ -286,6 +299,7 @@ def main() -> int:
         "version_resolver": "version-resolution-v2",
         "top_k": TOP_K,
         "scenario_count": len(questions),
+        "scenario_ids": [row["question_id"] for row in questions],
         "max_logical_external_calls": args.max_logical_external_calls,
         "retry_count": 0,
         "max_cost_usd": args.max_cost_usd,
@@ -383,6 +397,7 @@ def main() -> int:
         records,
         stop_reason=stop_reason,
         max_cost_usd=args.max_cost_usd,
+        scenario_count=len(questions),
         carried_usage=carried_usage,
     )
     if summary["logical_external_calls"] > args.max_logical_external_calls:

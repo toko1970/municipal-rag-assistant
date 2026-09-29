@@ -7,6 +7,7 @@ from config import BASE_DIR
 from src.answering import parse_answer_output
 from src.deadline_calculator import apply_date_calculations, calculate_deadline
 from src.query_service import load_schema
+from src.temporal_evidence import build_answer_contract_v2_prompt
 
 
 def _v2_answer(
@@ -111,3 +112,12 @@ def test_v2_missing_condition_preserves_type_and_evidence() -> None:
 
     assert answer.missing_conditions[0].condition_type == "missing_document"
     assert answer.missing_conditions[0].description == "書庫整理奨励金の規程"
+
+
+def test_v2_prompt_limits_missing_conditions_to_question_scope() -> None:
+    prompt = build_answer_contract_v2_prompt("一覧は？", [], None)
+
+    assert "質問が明示的に求める結論" in prompt
+    assert "一般ルール、選択肢、項目一覧" in prompt
+    assert "claimsも質問が明示的に求める対象と範囲" in prompt
+    assert "別規程自体をmissing_documentへ入れない" in prompt
