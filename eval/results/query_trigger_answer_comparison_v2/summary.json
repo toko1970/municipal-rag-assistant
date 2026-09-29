@@ -1,0 +1,22 @@
+{
+  "completed_scenarios": 18,
+  "estimated_cost_usd": 0.019009,
+  "gate_passed": false,
+  "improved_ids": [
+    "G01",
+    "G04",
+    "G09"
+  ],
+  "logical_external_calls": 36,
+  "max_cost_usd": 0.1,
+  "max_logical_external_calls": 54,
+  "regressed_ids": [
+    "G07"
+  ],
+  "sealed_holdout_accessed": false,
+  "stop_reason": "COMPLETED",
+  "success_by_variant": {
+    "baseline": 1,
+    "candidate": 3
+  }
+}

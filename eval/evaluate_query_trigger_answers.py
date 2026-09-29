@@ -35,6 +35,7 @@ CLASSIFICATION_SCHEMA = BASE_DIR / "design/schemas/classification-output-v1.sche
 VERSION_SCHEMA = BASE_DIR / "design/schemas/version-resolution-v1.schema.json"
 TARGET_IDS = {f"G{index:02d}" for index in range(1, 9)} | {"G09"}
 MAX_CALLS = len(TARGET_IDS) * 2 * 3
+MIN_SAFE_SCENARIO_INTERVAL_SECONDS = 15.0
 CONTENT_RULES = {
     **{
         f"G{index:02d}": (r"支給停止|停止", r"住所変更届|住所.*届")
@@ -50,18 +51,36 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _pacing_delay(last_started: float | None, now: float, interval: float) -> float:
+    if last_started is None:
+        return 0.0
+    return max(0.0, interval - (now - last_started))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--max-cost-usd", type=float, required=True)
+    parser.add_argument("--question-ids", nargs="+", choices=sorted(TARGET_IDS))
+    parser.add_argument(
+        "--min-scenario-interval-seconds",
+        type=float,
+        default=MIN_SAFE_SCENARIO_INTERVAL_SECONDS,
+    )
     args = parser.parse_args()
     if args.output_dir.exists():
         raise FileExistsError(f"評価出力は上書きしません: {args.output_dir}")
-    if args.max_cost_usd < 0.09 or args.max_cost_usd > 0.10:
-        raise ValueError("費用上限はUS$0.09以上US$0.10以下に固定してください")
+    selected_ids = set(args.question_ids or TARGET_IDS)
+    minimum_cost_reserve = len(selected_ids) * 2 * 0.005
+    if args.max_cost_usd < minimum_cost_reserve or args.max_cost_usd > 0.10:
+        raise ValueError(
+            f"費用上限はUS${minimum_cost_reserve:.2f}以上US$0.10以下にしてください"
+        )
+    if args.min_scenario_interval_seconds < MIN_SAFE_SCENARIO_INTERVAL_SECONDS:
+        raise ValueError("シナリオ開始間隔は15秒以上にしてください")
 
     payload = json.loads(INPUT.read_text(encoding="utf-8"))
-    cases = [case for case in payload["cases"] if case["id"] in TARGET_IDS]
+    cases = [case for case in payload["cases"] if case["id"] in selected_ids]
     texts = [case["question"] for case in payload["cases"] if case["family"] in {"move_positive", "birth_positive"}]
     texts += list(dict.fromkeys(query for text in texts for query in decompose_query(text) if query != text))
     profile = PROFILES["gemini-embedding-001"]
@@ -79,12 +98,13 @@ def main() -> int:
         "dataset_sha256": _sha256(INPUT),
         "query_cache_sha256": _sha256(QUERY_CACHE),
         "document_cache_sha256": _sha256(DOCUMENT_CACHE),
-        "target_ids": sorted(TARGET_IDS),
+        "target_ids": sorted(selected_ids),
         "generator_model": LLM_MODEL_NAME,
         "classifier_model": CLASSIFIER_MODEL_NAME,
         "top_k": 8,
         "max_logical_external_calls": MAX_CALLS,
         "max_cost_usd": args.max_cost_usd,
+        "min_scenario_interval_seconds": args.min_scenario_interval_seconds,
         "retry_count": 0,
         "sealed_holdout_accessed": False,
     }
@@ -95,11 +115,20 @@ def main() -> int:
     records = []
     logical_calls = input_tokens = output_tokens = 0
     stop_reason = "COMPLETED"
+    last_scenario_started = None
     for case in cases:
         for variant, index in indexes.items():
             if token_cost_usd(input_tokens, output_tokens) + 0.005 > args.max_cost_usd:
                 stop_reason = "COST_LIMIT_REACHED"
                 break
+            delay = _pacing_delay(
+                last_scenario_started,
+                time.monotonic(),
+                args.min_scenario_interval_seconds,
+            )
+            if delay:
+                time.sleep(delay)
+            last_scenario_started = time.monotonic()
             index.select_question(case["question"])
             logger = EvaluationLogger()
             result = None
@@ -124,8 +153,17 @@ def main() -> int:
             support_ok = bool(result) and bool((logger.classification.get("factors") or {}).get("answer_fully_supported"))
             generation = logger.generation
             classification = logger.classification
-            scenario_in = int(generation.get("input_tokens", 0)) + int(classification.get("input_tokens", 0))
-            scenario_out = int(generation.get("output_tokens", 0)) + int(classification.get("output_tokens", 0))
+            version_resolution = result.get("version_resolution", {}) if result else {}
+            scenario_in = (
+                int(generation.get("input_tokens", 0))
+                + int(classification.get("input_tokens", 0))
+                + int(version_resolution.get("input_tokens", 0))
+            )
+            scenario_out = (
+                int(generation.get("output_tokens", 0))
+                + int(classification.get("output_tokens", 0))
+                + int(version_resolution.get("output_tokens", 0))
+            )
             input_tokens += scenario_in
             output_tokens += scenario_out
             logical_calls += _scenario_logical_calls(logger, result)
@@ -135,6 +173,10 @@ def main() -> int:
                 "content_ok": content_ok, "classification_ok": classification_ok,
                 "support_ok": support_ok,
                 "composite_ok": retrieval_ok and content_ok and classification_ok and support_ok,
+                "generation_response_data": generation.get("response_data"),
+                "classification_factors": classification.get("factors"),
+                "classification_derived_label": classification.get("derived_label"),
+                "version_resolution": version_resolution,
                 "estimated_cost_usd": token_cost_usd(scenario_in, scenario_out),
                 "elapsed_seconds": time.perf_counter() - started, "error": error or None,
             }
@@ -155,7 +197,10 @@ def main() -> int:
     summary = {
         "completed_scenarios": len(records), "success_by_variant": by_variant,
         "improved_ids": improvements, "regressed_ids": regressions,
-        "gate_passed": stop_reason == "COMPLETED" and by_variant["candidate"] > by_variant["baseline"] and not regressions,
+        "gate_passed": stop_reason == "COMPLETED"
+        and len(records) == len(selected_ids) * 2
+        and by_variant["candidate"] > by_variant["baseline"]
+        and not regressions,
         "logical_external_calls": logical_calls, "max_logical_external_calls": MAX_CALLS,
         "estimated_cost_usd": token_cost_usd(input_tokens, output_tokens),
         "max_cost_usd": args.max_cost_usd, "stop_reason": stop_reason,
