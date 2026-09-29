@@ -206,9 +206,12 @@ def main() -> int:
     parser.add_argument("--max-cost-usd", type=float, required=True)
     parser.add_argument("--reuse-dir", type=Path)
     parser.add_argument("--question-ids", nargs="+")
+    parser.add_argument("--min-seconds-per-scenario", type=float, default=0.0)
     args = parser.parse_args()
     if args.output_dir.exists():
         raise FileExistsError(f"評価出力は上書きしません: {args.output_dir}")
+    if args.min_seconds_per_scenario < 0:
+        raise ValueError("min-seconds-per-scenarioは0以上で指定してください")
     all_questions = load_questions(args.input, "formal")
     if len(all_questions) != MAX_SCENARIOS:
         raise ValueError(f"formal質問は100件必要です: {len(all_questions)}")
@@ -304,6 +307,7 @@ def main() -> int:
         "retry_count": 0,
         "max_cost_usd": args.max_cost_usd,
         "reserve_usd_per_scenario": RESERVE_USD_PER_SCENARIO,
+        "min_seconds_per_scenario": args.min_seconds_per_scenario,
         "stop_conditions": ["provider error", "cost reserve", "call limit"],
         "sealed_holdout_accessed": False,
         "production_deployed": False,
@@ -392,6 +396,11 @@ def main() -> int:
                 else "CANDIDATE_ERROR_FAIL_FAST"
             )
             break
+        remaining_interval = args.min_seconds_per_scenario - (
+            time.perf_counter() - started
+        )
+        if remaining_interval > 0:
+            time.sleep(remaining_interval)
 
     summary = _summary(
         records,
