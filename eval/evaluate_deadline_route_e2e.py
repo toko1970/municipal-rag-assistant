@@ -214,7 +214,7 @@ def main() -> int:
 
     summary = {
         "scenario_count": len(ROUTE_VARIANTS),
-        "completed_count": len(records),
+        "completed_count": sum(record["error"] is None for record in records),
         "composite_success": sum(record["composite_ok"] for record in records),
         "gate_passed": stop_reason == "COMPLETED"
         and len(records) == len(ROUTE_VARIANTS)
