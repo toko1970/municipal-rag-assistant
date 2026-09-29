@@ -1,0 +1,16 @@
+{
+  "baseline_success": 3,
+  "candidate_success": 2,
+  "completed_cases": 9,
+  "estimated_cost_usd": 0.0091185,
+  "gate_passed": false,
+  "improved_ids": [],
+  "logical_external_calls": 18,
+  "max_cost_usd": 0.05,
+  "max_logical_external_calls": 27,
+  "regressed_ids": [
+    "G01"
+  ],
+  "sealed_holdout_accessed": false,
+  "stop_reason": "COMPLETED"
+}
