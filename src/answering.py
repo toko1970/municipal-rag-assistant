@@ -105,7 +105,7 @@ def _parse_missing_conditions(
 ) -> tuple[MissingCondition, ...]:
     if not isinstance(raw_missing, list):
         raise ValueError("missing_conditionsは配列である必要があります")
-    if schema_version == "1.0":
+    if schema_version in {"1.0", "1.1"}:
         if not all(isinstance(item, str) and item.strip() for item in raw_missing):
             raise ValueError("missing_conditionsは空でない文字列だけを許可します")
         descriptions = [item.strip() for item in raw_missing]
@@ -223,7 +223,7 @@ def parse_answer_output(data: dict[str, Any]) -> StructuredAnswer:
     )
     if set(data) != expected:
         raise ValueError("回答出力のtop-level項目がschemaと一致しません")
-    if schema_version not in {"1.0", "2.0"}:
+    if schema_version not in {"1.0", "1.1", "2.0"}:
         raise ValueError("未対応の回答schema versionです")
     raw_claims = data["claims"]
     raw_missing = data["missing_conditions"]
@@ -281,7 +281,7 @@ def parse_answer_output(data: dict[str, Any]) -> StructuredAnswer:
         tuple(claims),
         _parse_missing_conditions(raw_missing, schema_version=schema_version),
         _parse_date_calculations(data["date_calculations"])
-        if schema_version == "2.0"
+        if schema_version in {"1.1", "2.0"}
         else (),
     )
 

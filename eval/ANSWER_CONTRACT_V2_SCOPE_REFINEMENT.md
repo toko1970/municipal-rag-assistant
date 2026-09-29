@@ -59,6 +59,40 @@ Schemaや追加LLM callは増やさず、次の一般規則をGenerator prompt�
 - 全件を完走する前に採用gateが数学的に達成不能になったら停止する方が、費用対効果が高い。
 - prompt修正は個別IDの語句へ合わせず、「質問の明示範囲」という再利用可能な規則にする。
 
+## 全テキスト回帰とv2の不採用
+
+v2.2をformal 100問で評価した。最初のrunは8問成功後に15 RPMの429で停止したため、成功recordと
+失敗試行を引き継ぎ、既存holdout runnerで検証済みの5.1秒pacerと503限定bounded backoffを再利用した。
+最終runは100問を完走し、累計204 logical calls、US$0.1070345、provider error 0、provider retry 0
+だった。
+
+内容review前の機械gateで、分類一致88/100、semantic success 93/100だった。不一致または
+`PIPELINE_INCONSISTENCY`は15件あり、既存成功だった質問も含むため退行0の採用条件を満たさない。
+`date_calculations`は100問では0件であり、広いtyped condition変更の退行を、日付計算の便益で
+相殺する構成にもなっていない。この時点で図表30問は実行せず、v2をproduction候補から外した。
+
+## 最終採用候補: 日付限定v1.1
+
+変更を分離し、既存v1の文字列`missing_conditions`へ`date_calculations`だけを加えた
+`answer-output-v1.1`を作成した。通常質問は既存v1を使い、具体的な起算日が質問にあり、具体的な
+期限日を尋ねる場合だけv1.1へ決定的にrouteする。
+
+最初のv1.1 pilotでは日付計算6/6、control 2/2だったが、classifier v1が質問中の日付を個別事情と
+解釈し、日付6件を`判断要`にした。そこで日付routeだけに、質問中の起算日は既知事実であり、
+アプリが追加した具体日claimは検証済みと伝える補足を加えた。再評価は日付6/6、control 2/2の
+総合成功で、16 logical calls、US$0.0040205、provider error 0だった。
+
+最終的な判断は次のとおりである。
+
+- 通常質問は、既に120/130を確認したv1生成・classifier v1を維持する。
+- 具体的な暦日期限だけ、v1.1、決定的date calculator、日付専用classifier補足を使う。
+- typed missing conditionと広いclassifier v2は、実測退行により不採用とする。
+- safe fallbackは、pipeline矛盾を隠さず表示・監査できるため維持する。
+- 日付routeの未知表現は次の小さいholdout対象とし、同じ100問を再生成しない。
+
+今回のv2.0以降の回帰・scope pilot・日付pilotは、失敗試行を含め303 logical calls、推定
+US$0.1488915だった。上限US$0.20以内で、採用不能が判明した時点では後続の図表30問を停止した。
+
 ## Artifact
 
 - `eval/results/answer_contract_v2_text_regression_v1`
@@ -66,3 +100,6 @@ Schemaや追加LLM callは増やさず、次の一般規則をGenerator prompt�
 - `eval/results/answer_contract_v2_scope_pilot_v1`
 - `eval/results/answer_contract_v2_claim_scope_pilot_v1`
 - `eval/results/answer_contract_v2_claim_scope_q081_v1`
+- `eval/results/answer_contract_v2_text_regression_v5`
+- `eval/results/deadline_calculation_v1_1_pilot_v1`
+- `eval/results/deadline_calculation_v1_1_pilot_v2`

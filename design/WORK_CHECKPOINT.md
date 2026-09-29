@@ -609,3 +609,17 @@ TH011・TH039の各2表現と、候補pipeline実行失敗2件である。詳細
 public manifestは`CONSUMED`へ進み、同じsealed holdoutを追加改善の選択に再利用しない。次の最小手順は、
 holdoutで判明した分類の過剰慎重と具体期限計算不足を、開発評価側へ一般化したfixtureとして追加し、
 改善候補を開発セットで選ぶことである。
+
+回答契約v2、typed missing condition、決定的な暦日計算を合成12件でpilotした後、formal 100問へ
+段階評価した。初期v2は17問で既存成功5件を退行させたため早期停止し、質問範囲gateを追加した
+v2.2は小pilotを通過した。しかし100問回帰では分類一致88/100、semantic success 93/100、
+不一致15件となり、広いtyped condition変更は不採用とした。100問runは204 logical calls、
+US$0.1070345、provider error 0で完走し、採用gate不合格時点で図表30問を実行しなかった。
+
+改善を分離し、通常質問は既存v1生成・classifier v1を維持し、具体的な起算日と期限日を質問する場合
+だけ`answer-output-v1.1`、決定的date calculator、日付専用classifier補足へrouteする構成へ縮小した。
+日付6件とcontrol 2件の再評価は8/8総合成功、16 logical calls、US$0.0040205、provider error 0。
+safe fallbackは監査用status付きで維持し、typed v2は実験artifactだけ残した。詳細は
+[`ANSWER_CONTRACT_V2_SCOPE_REFINEMENT.md`](../eval/ANSWER_CONTRACT_V2_SCOPE_REFINEMENT.md)を参照する。
+次の最小手順は全ローカル回帰とintegration smokeを確定し、日付route用の小さい未知表現holdoutを
+設計すること。production deploy、sealed holdout開封は実施していない。

@@ -1,0 +1,31 @@
+{
+  "adoption_gate_passed": false,
+  "classification_correct": 88,
+  "completed_count": 100,
+  "date_calculation_count": 0,
+  "estimated_cost_usd": 0.1070345,
+  "logical_external_calls": 204,
+  "pre_content_failure_ids": [
+    "Q166",
+    "Q176",
+    "Q196",
+    "Q211",
+    "Q231",
+    "Q251",
+    "Q281",
+    "Q301",
+    "Q316",
+    "Q331",
+    "Q386",
+    "Q391",
+    "Q396",
+    "Q436",
+    "Q441"
+  ],
+  "provider_error_count": 0,
+  "provider_retry_count": 0,
+  "reason": "Classification or semantic contract failed before full content review, including regressions of previously successful development questions.",
+  "sealed_holdout_accessed": false,
+  "semantic_success": 93,
+  "visual_regression_executed": false
+}

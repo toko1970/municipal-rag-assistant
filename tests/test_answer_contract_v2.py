@@ -121,3 +121,19 @@ def test_v2_prompt_limits_missing_conditions_to_question_scope() -> None:
     assert "一般ルール、選択肢、項目一覧" in prompt
     assert "claimsも質問が明示的に求める対象と範囲" in prompt
     assert "別規程自体をmissing_documentへ入れない" in prompt
+
+
+def test_v1_1_schema_keeps_string_conditions_and_adds_date_calculation() -> None:
+    evidence_id = str(uuid4())
+    data = _v2_answer(evidence_id)
+    data["schema_version"] = "1.1"
+    data["missing_conditions"] = ["個別確認"]
+    schema = load_schema(BASE_DIR / "design/schemas/answer-output-v1.1.schema.json")
+
+    jsonschema.Draft202012Validator(
+        schema, format_checker=jsonschema.FormatChecker()
+    ).validate(data)
+    parsed = parse_answer_output(data)
+
+    assert parsed.missing_conditions[0].condition_type == "unspecified"
+    assert parsed.date_calculations[0].offset_value == 20

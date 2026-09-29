@@ -16,6 +16,7 @@ QUESTION_DOMAIN_ALIASES = {
 }
 TEMPORAL_GENERATION_PROMPT_VERSION = "answer-claims-v1+temporal-guidance-v1"
 ANSWER_CONTRACT_V2_PROMPT_VERSION = "answer-contract-v2.2+deadline-calculation-v1"
+DEADLINE_CALCULATION_PROMPT_VERSION = "answer-claims-v1.1+deadline-calculation-v1"
 
 
 @dataclass(frozen=True)
@@ -207,3 +208,35 @@ def build_answer_contract_v2_prompt(
         "- missing_conditionsとdate_calculationsがない場合も空配列を返してください。"
     )
     return f"{contract}\n{base}"
+
+
+def should_use_deadline_calculation(question: str) -> bool:
+    has_date = bool(
+        re.search(r"\d{4}年\d{1,2}月\d{1,2}日", question)
+        or re.search(r"\d{4}/\d{1,2}/\d{1,2}", question)
+    )
+    asks_deadline = any(
+        phrase in question
+        for phrase in ("期限", "締切", "いつまで", "具体的な日付", "何日まで")
+    )
+    return has_date and asks_deadline
+
+
+def build_deadline_calculation_prompt(
+    question: str, hits: list[SearchHit], visual_assets: object
+) -> str:
+    base = build_temporal_generation_prompt(question, hits, visual_assets).replace(
+        "answer-output-v1", "answer-output-v1.1"
+    )
+    rules = (
+        "answer-output-v1.1追加規則:\n"
+        "- 取得根拠に暦日数と起算規則があり、質問が具体的な期限日を求める場合だけ、"
+        "date_calculationsへ構造化してください。\n"
+        "- 対応するのはcalendar_dayと、next_day_is_day_1またはanchor_day_is_day_1だけです。\n"
+        "- 営業日、休日、閉庁日など未対応の計算は推測せず、従来どおりmissing_conditionsへ"
+        "文字列で入れてください。\n"
+        "- date_calculationsへ入れた具体的な計算結果をclaimsで推測しないでください。"
+        "アプリケーションが決定的に計算します。\n"
+        "- date_calculationsがない場合も空配列を返してください。"
+    )
+    return f"{rules}\n{base}"

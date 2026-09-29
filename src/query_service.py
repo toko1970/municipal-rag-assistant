@@ -31,6 +31,7 @@ from src.version_resolution import (
 GENERATION_PROMPT_VERSION = "answer-claims-v1"
 CLASSIFICATION_PROMPT_VERSION = "answer-classification-v1"
 CLASSIFICATION_PROMPT_V2_VERSION = "answer-classification-v2+typed-contract"
+DEADLINE_CLASSIFICATION_PROMPT_VERSION = "answer-classification-v1+verified-date-v1"
 CLASSIFICATION_DECISION_VERSION = "classification-decision-v1"
 VERSION_RESOLUTION_PROMPT_VERSION = "version-resolution-v2"
 VERSION_RESOLUTION_DECISION_VERSION = "classification-decision-v1+version-resolution-v2"
@@ -168,6 +169,21 @@ def build_classification_prompt_v2(
     )
 
 
+def build_deadline_classification_prompt(
+    question: str, hits: list[SearchHit], answer_data: dict
+) -> str:
+    payload = _classification_payload(question, _evidence_payload(hits), answer_data)
+    return (
+        "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。"
+        "corpus全体に答えが存在するかは判定しないでください。\n"
+        "質問に明記された起算日は回答上の既知事実です。"
+        "date_calculationsを基にアプリケーションが追加した具体日claimは検証済みです。"
+        "起算日、暦日数、数え方が揃っている場合、計算結果を再確認するためだけに"
+        "requires_case_facts=trueにしないでください。\n"
+        f"判定対象: {payload}"
+    )
+
+
 def load_schema(path: Path) -> dict:
     data = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
@@ -188,10 +204,11 @@ def _claim_log_rows(display: DisplayAnswer) -> list[dict]:
 
 
 def _classification_answer_payload(answer, raw_data: dict) -> dict:
-    if raw_data.get("schema_version") != "2.0":
+    schema_version = raw_data.get("schema_version")
+    if schema_version == "1.0":
         return raw_data
-    return {
-        "schema_version": "2.0",
+    payload = {
+        "schema_version": schema_version,
         "claims": [
             {
                 "claim_id": claim.claim_id,
@@ -204,7 +221,14 @@ def _classification_answer_payload(answer, raw_data: dict) -> dict:
             }
             for claim in answer.claims
         ],
-        "missing_conditions": [
+        "date_calculations": raw_data["date_calculations"],
+    }
+    if schema_version == "1.1":
+        payload["missing_conditions"] = [
+            condition.description for condition in answer.missing_conditions
+        ]
+    else:
+        payload["missing_conditions"] = [
             {
                 "type": condition.condition_type,
                 "description": condition.description,
@@ -213,9 +237,8 @@ def _classification_answer_payload(answer, raw_data: dict) -> dict:
                 ],
             }
             for condition in answer.missing_conditions
-        ],
-        "date_calculations": raw_data["date_calculations"],
-    }
+        ]
+    return payload
 
 
 def answer_question(
