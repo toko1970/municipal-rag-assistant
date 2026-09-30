@@ -235,6 +235,20 @@ def test_unknown_claim_reference_fails_closed() -> None:
     assert decision.invariant_code == "UNKNOWN_CLAIM"
 
 
+def test_review_type_must_match_referenced_condition() -> None:
+    assessment = _assessment(review_type="case_fact")
+    assessment["human_review_requirements"][0]["type"] = "policy_judgment"
+
+    decision = _decide(
+        _contract(),
+        _answer(review_type="case_fact"),
+        _classification(assessment),
+    )
+
+    assert decision.status == "PIPELINE_INCONSISTENCY"
+    assert decision.invariant_code == "REVIEW_CONDITION_TYPE_MISMATCH"
+
+
 def test_every_requested_facet_must_be_assessed_once() -> None:
     decision = _decide(
         _contract(facets=2),

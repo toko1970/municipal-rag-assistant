@@ -65,14 +65,62 @@ def test_composition_root_routes_concrete_deadline_to_v1_1() -> None:
         patch("src.rag_v2.get_asset_reader", return_value=object()),
         patch("src.rag_v2.answer_question", return_value={}) as answer,
     ):
-        generate_qdrant_answer("2027年10月10日に受験しました。提出期限は何日までですか？")
+        generate_qdrant_answer(
+            "2027年10月10日に受験しました。提出期限は何日までですか？"
+        )
 
     kwargs = answer.call_args.kwargs
     assert kwargs["answer_schema"]["properties"]["schema_version"]["const"] == "1.1"
     assert kwargs["generation_prompt_builder"] is build_deadline_calculation_prompt
     assert kwargs["generation_prompt_version"] == DEADLINE_CALCULATION_PROMPT_VERSION
-    assert kwargs["classification_prompt_builder"] is build_deadline_classification_prompt
+    assert (
+        kwargs["classification_prompt_builder"] is build_deadline_classification_prompt
+    )
     assert (
         kwargs["classification_prompt_version"]
         == DEADLINE_CLASSIFICATION_PROMPT_VERSION
     )
+
+
+def test_composition_root_routes_opt_in_v2_to_candidate_contracts() -> None:
+    embeddings = SimpleNamespace(embed_query=lambda _question: [1.0])
+    repository = SimpleNamespace(get_visual_assets=lambda _ids: [])
+    expected = {"answer": "candidate"}
+
+    with (
+        patch("src.rag_v2.CLASSIFICATION_CONTRACT_VERSION", "v2"),
+        patch("src.rag_v2.get_embeddings", return_value=embeddings),
+        patch("src.rag_v2.get_session_factory", return_value=object()),
+        patch("src.rag_v2.PostgresDocumentRepository", return_value=repository),
+        patch("src.rag_v2.PostgresEventLogger", return_value=object()),
+        patch("src.rag_v2.QdrantVectorIndex", return_value=object()),
+        patch("src.rag_v2.GeminiProvider", return_value=object()),
+        patch("src.rag_v2.get_asset_reader", return_value=object()),
+        patch("src.rag_v2.answer_question_v2", return_value=expected) as answer_v2,
+    ):
+        result = generate_qdrant_answer("質問")
+
+    assert result == expected
+    kwargs = answer_v2.call_args.kwargs
+    assert (
+        kwargs["question_contract_schema"]["properties"]["schema_version"]["const"]
+        == "1.0"
+    )
+    assert (
+        kwargs["answer_schema"]["properties"]["schema_version"]["const"]
+        == "3.0-candidate"
+    )
+    assert (
+        kwargs["classification_schema"]["properties"]["schema_version"]["const"]
+        == "2.0-candidate"
+    )
+
+
+def test_composition_root_rejects_unknown_contract_version_before_io() -> None:
+    with patch("src.rag_v2.CLASSIFICATION_CONTRACT_VERSION", "v3"):
+        try:
+            generate_qdrant_answer("質問")
+        except ValueError as exc:
+            assert "v1またはv2" in str(exc)
+        else:
+            raise AssertionError("unknown contract version was accepted")

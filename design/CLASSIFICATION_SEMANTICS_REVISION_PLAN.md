@@ -1,7 +1,7 @@
 # 回答分類セマンティクス改訂計画
 
 - 作成日: 2026-09-30
-- 状態: WP1（契約とローカル判定）完了、WP2 candidate経路の実装前
+- 状態: WP1・WP2完了、WP3限定API mechanism testの実行前
 - 対象: `根拠十分`、`判断要`、`文書不足`の判定責務
 - 非対象: 制度所管部署との回答一致の証明、corpus全体に適用可能な規則が存在しないことのオンライン証明
 
@@ -100,13 +100,12 @@ question input + document rule + verified calculation -> derived claim
 - `GENERATION_INCOMPLETE`を`文書不足`へ混ぜない。
 - `判断要`では完全支持されたclaimだけを表示する。
 
-### 5.2 [`src/query_service.py`](../src/query_service.py)
+### 5.2 [`src/query_service_v2.py`](../src/query_service_v2.py)
 
-- Question Contract、answer v3、classification v2のprompt builderとversion定数を追加する。
-- v1/v2をdependency injectionで切り替える。
-- Question Contract生成と検索を並列化できる境界を設ける。
+- 公開中v1の`src/query_service.py`を変更せず、Question Contract、answer v3、classification v2のprompt builderとversion定数を独立moduleへ追加する。
+- Question Contract生成と検索を並列化する。
 - Resolverは`version_conflict`を返す現行契約を維持し、v2の`human_review_requirements`だけを補正する。
-- request logにcontract、facet assessment、decision versionを保存する。
+- Contractを専用prompt versionの`classification_attempts`へ、最終facet assessment、Contract snapshot、decision versionを最終分類attemptのJSONBへ保存する。
 
 ### 5.3 [`src/rag_v2.py`](../src/rag_v2.py)と[`config.py`](../config.py)
 
@@ -118,7 +117,7 @@ question input + document rule + verified calculation -> derived claim
 
 `classification_attempts.factors`はJSONB、`derived_label`は文字列なのでDB migrationは不要である。prompt versionとdecision versionでv1/v2を区別する。
 
-Question Contract自体を恒久保存する場合は、既存`generation_attempts.response_data`へ混ぜず、新しいattempt種別または専用tableを別Work Packageで検討する。最小実装では評価artifactと構造化ログに保存する。
+Question Contractは既存`generation_attempts.response_data`へ混ぜず、`question-contract-v1`のprompt versionを持つ独立した`classification_attempts`行へ保存する。これは分類根拠として扱うためではなく、外部API attemptと入力構造を再現するためである。専用tableは利用目的が増えた場合に別Work Packageで検討する。
 
 ## 6. 修正するテスト
 
@@ -263,9 +262,9 @@ Gate C通過時だけ130問paired回帰を行う。
 
 ### WP2: candidate経路
 
-対象: `src/query_service.py`、`src/rag_v2.py`、`config.py`、logging、query flow test。
+対象: `src/query_service_v2.py`、`src/rag_v2.py`、`config.py`、logging、query flow test。
 
-完了条件: feature flag下でv2が動き、既定v1に退行がない。
+完了条件: feature flag下でv2が動き、既定v1に退行がない。**2026-09-30完了。外部API呼出0回、公開切替なし。**
 
 ### WP3: 限定API mechanism test
 

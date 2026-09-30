@@ -308,6 +308,13 @@ Qdrantには検索とPostgreSQL参照に必要な最小情報だけを持たせ�
   "prompt_version": "classification-facet-v2",
   "decision_version": "classification-rubric-v2.0",
   "factors": {
+    "question_contract": {
+      "schema_version": "1.0",
+      "requested_facets": [
+        {"facet_id": "facet-1", "requirement": "給与支給日", "answer_type": "date"}
+      ],
+      "input_facts": []
+    },
     "facet_assessments": [
       {
         "facet_id": "facet-1",
@@ -320,7 +327,7 @@ Qdrantには検索とPostgreSQL参照に必要な最小情報だけを持たせ�
 }
 ```
 
-v2のQuestion Contractは質問入力の構造であって分類根拠そのものではない。最小実装では評価artifactと構造化request logへ保存し、恒久保存用の専用tableは利用目的が確定した時点で別途設計する。
+v2のQuestion Contractは質問入力の構造であって分類根拠そのものではない。最小実装では`question-contract-v1`の独立attemptと最終分類attempt内のsnapshotへ保存する。前者はAPI試行の監査、後者はfacet判定の再現に使う。恒久保存用の専用tableは利用目的が増えた時点で別途設計する。
 
 回答本文とは別に、回答中の各重要主張と`content_element_id`の対応を保存する。金額、日付、期限、要件、可否に根拠IDがない場合は`根拠十分`として返さない。
 

@@ -170,7 +170,7 @@ LLMには独立した自由文回答も最終表示modeも生成させない。�
 
 公開中のオンライン分類器は[`classification-output-v1.schema.json`](schemas/classification-output-v1.schema.json)を使う。改訂候補は[`classification-output-v2-candidate.schema.json`](schemas/classification-output-v2-candidate.schema.json)に従い、最終ラベルではなくfacetごとの`evidence_coverage`、`claim_support`、`human_review_requirements`を返す。語義は[`CLASSIFICATION_RUBRIC_V2.md`](CLASSIFICATION_RUBRIC_V2.md)を正とする。
 
-v2のparser、参照validator、決定表は[`src/classification_contract_v2.py`](../src/classification_contract_v2.py)へ分離する。公開中v1の`src/answering.py`へ候補ロジックを混在させず、WP2でfeature flag下のquery flowから呼び出す。
+v2のparser、参照validator、決定表は[`src/classification_contract_v2.py`](../src/classification_contract_v2.py)へ、query flowは[`src/query_service_v2.py`](../src/query_service_v2.py)へ分離する。公開中v1の`src/answering.py`と`src/query_service.py`へ候補ロジックを混在させない。`CLASSIFICATION_CONTRACT_VERSION=v2`の場合だけ候補経路を使い、既定値は評価gate通過まで`v1`とする。
 
 `human_review_requirements`のtypeは、結論を変える個別事実`case_fact`、文書が明示的に残す裁量`policy_judgment`、通常の基準日選択では解消しない`version_conflict`に限定する。質問内の事実はQuestion Contractの`input_facts`であり、取得文書の判断基準との関係を確認する前にreview要件へ変換しない。
 
@@ -202,6 +202,8 @@ v2の最終結果はsemantic validator通過後にコードで決める。
 基準分類器は`gemini-3.1-flash-lite`、temperature 0、JSON Schema固定とする。モデルが利用不能になった場合は設定値を変更し、評価runに実モデル名を残す。Jev等はoracle evidenceとretrieved evidenceの両方で比較し、低確信度（初期値0.80）またはAPI失敗時だけ基準分類器へ1回fallbackする。oracle runでも分類器の出力項目はオンライン時と同じで、`expected_corpus_answerability`は評価基盤が別に保持する。基準分類器自体がtimeout、schema違反、API errorになった場合は`CLASSIFICATION_FAILED`とし、分類付き回答を表示しない。閾値は開発セットで固定し、holdout結果を見て変更しない。
 
 `version_conflict`だけを[`version-resolution-v1.schema.json`](schemas/version-resolution-v1.schema.json)で再判定する専用resolverをローカルのquery flowへ統合した。公開中のv1では`version_conflict=true`の場合だけ呼び、成功かつconfidence 0.80以上でversion要因だけを置換する。v2候補では同じresolverを`version_conflict`型のreview要件にだけ接続し、他facetのevidence・claim・review判定は変更しない。API失敗、Schema違反、取得外根拠ID、低confidence、表示契約違反では基準分類結果を維持し、resolverと最終分類を別attemptとして記録する。
+
+Question Contract生成と検索は独立しているため並列実行する。Contractの外部API attemptは検索結果の成否と切り離して記録する。Contract失敗、回答生成失敗、分類失敗、参照整合性違反はそれぞれ異なるstatusで保存し、分類付き回答を返さない。最終分類attemptにはContract snapshot、facet assessment、`classification-rubric-v2.0`を保存し、同じDB schema上のv1ログと区別する。
 
 保存済みの同一130問へ適用した固定回帰では、resolver call相当9件、適用8件、表示契約fallback 1件だった。主原因ベースの分類失敗は15件から9件、成功は106件から112件となり、既存正解の退行は0件だった。これは保存済みGenerator・基準分類器・Resolver出力を合成した因果比較であり、統合後の新規end-to-end API runや公開環境へのdeployを示すものではない。
 

@@ -117,6 +117,15 @@ class ClassificationDecisionV2:
     invariant_code: str | None = None
 
 
+@dataclass(frozen=True)
+class DisplayAnswerV2:
+    label: str | None
+    text: str
+    visible_claims: tuple[AnswerClaimV3, ...]
+    status: str
+    invariant_code: str | None = None
+
+
 class ClassificationContractV2Error(ValueError):
     def __init__(self, message: str, *, code: str):
         super().__init__(message)
@@ -392,6 +401,19 @@ def validate_classification_contract_v2(
             require_known(
                 set(review.condition_ids), set(conditions_by_id), "UNKNOWN_CONDITION"
             )
+            if not review.condition_ids:
+                raise ClassificationContractV2Error(
+                    "reviewに対応するconditionがありません",
+                    code="REVIEW_WITHOUT_CONDITION",
+                )
+            if any(
+                conditions_by_id[condition_id].condition_type != review.requirement_type
+                for condition_id in review.condition_ids
+            ):
+                raise ClassificationContractV2Error(
+                    "reviewとconditionのtypeが一致しません",
+                    code="REVIEW_CONDITION_TYPE_MISMATCH",
+                )
             if any(
                 assessment.facet_id not in conditions_by_id[condition_id].facet_ids
                 for condition_id in review.condition_ids
@@ -439,3 +461,55 @@ def decide_classification_v2(
     except ClassificationContractV2Error as exc:
         return ClassificationDecisionV2("PIPELINE_INCONSISTENCY", None, exc.code)
     return derive_label_v2(classification)
+
+
+def render_display_answer_v2(
+    answer: StructuredAnswerV3,
+    classification: ClassificationResultV2,
+    decision: ClassificationDecisionV2,
+) -> DisplayAnswerV2:
+    if decision.status == "PIPELINE_INCONSISTENCY":
+        return DisplayAnswerV2(
+            label=None,
+            text="回答処理の整合性を確認できませんでした。",
+            visible_claims=(),
+            status=decision.status,
+            invariant_code=decision.invariant_code,
+        )
+    if decision.status == "GENERATION_INCOMPLETE":
+        return DisplayAnswerV2(
+            label=None,
+            text="必要な回答項目を根拠付きで生成できませんでした。",
+            visible_claims=(),
+            status=decision.status,
+            invariant_code=decision.invariant_code,
+        )
+    if decision.label == ANSWER_TYPE_INSUFFICIENT:
+        return DisplayAnswerV2(
+            label=decision.label,
+            text=(
+                f"回答分類: {decision.label}\n\n"
+                "今回取得した根拠では回答を確認できませんでした。"
+            ),
+            visible_claims=(),
+            status="SUCCESS",
+        )
+
+    visible_claims = answer.claims
+    lines = [f"回答分類: {decision.label}", "", "回答:"]
+    lines.extend(f"- {claim.text}" for claim in visible_claims)
+    if decision.label == ANSWER_TYPE_NEEDS_JUDGMENT:
+        reasons = list(
+            dict.fromkeys(
+                review.description
+                for assessment in classification.facet_assessments
+                for review in assessment.human_review_requirements
+            )
+        )
+        lines.extend(["", "確認が必要です: " + "、".join(reasons)])
+    return DisplayAnswerV2(
+        label=decision.label,
+        text="\n".join(lines),
+        visible_claims=visible_claims,
+        status="SUCCESS",
+    )
