@@ -170,6 +170,8 @@ LLMには独立した自由文回答も最終表示modeも生成させない。�
 
 公開中のオンライン分類器は[`classification-output-v1.schema.json`](schemas/classification-output-v1.schema.json)を使う。改訂候補は[`classification-output-v2-candidate.schema.json`](schemas/classification-output-v2-candidate.schema.json)に従い、最終ラベルではなくfacetごとの`evidence_coverage`、`claim_support`、`human_review_requirements`を返す。語義は[`CLASSIFICATION_RUBRIC_V2.md`](CLASSIFICATION_RUBRIC_V2.md)を正とする。
 
+v2のparser、参照validator、決定表は[`src/classification_contract_v2.py`](../src/classification_contract_v2.py)へ分離する。公開中v1の`src/answering.py`へ候補ロジックを混在させず、WP2でfeature flag下のquery flowから呼び出す。
+
 `human_review_requirements`のtypeは、結論を変える個別事実`case_fact`、文書が明示的に残す裁量`policy_judgment`、通常の基準日選択では解消しない`version_conflict`に限定する。質問内の事実はQuestion Contractの`input_facts`であり、取得文書の判断基準との関係を確認する前にreview要件へ変換しない。
 
 `corpus_answerability`はオンライン分類器の入力・出力・ログに含めない。通常検索だけではcorpus全体に答えがないことを証明できないためである。これは評価基盤がgold annotationから設定する`expected_corpus_answerability`として管理する。

@@ -1,0 +1,443 @@
+{
+  "schema_version": "1.0",
+  "rubric_version": "classification-rubric-v2.0",
+  "purpose": "opened_holdout_mechanism_test_only",
+  "source_predictions": "eval/results/text_holdout_v1_predictions_v10/predictions.jsonl",
+  "source_predictions_sha256": "4d39ffabc578446073013d8b969dfaae40f498de5060024a036f4e32f3eff0c3",
+  "source_reviews": "eval/results/text_holdout_v1_acceptance/content_review.jsonl",
+  "source_reviews_sha256": "ebb0affd7d36abb14109c2499cfec64272cdeec84af55dfc0eb9849611ca5a27",
+  "external_api_calls": 0,
+  "cases": [
+    {
+      "scenario_id": "TH011",
+      "variant_type": "formal",
+      "source_question": "2027年10月10日に指定認証試験を受験し、受験料8,000円を支払いました。他の条件は全て満たす場合、補助額と提出期限を教えてください。",
+      "source_predicted_label": "根拠十分",
+      "source_content_ok": false,
+      "source_classification_ok": true,
+      "question_contract": {
+        "schema_version": "1.0",
+        "status": "SUCCESS",
+        "requested_facets": [
+          {
+            "facet_id": "facet-1",
+            "requirement": "補助額",
+            "answer_type": "amount"
+          },
+          {
+            "facet_id": "facet-2",
+            "requirement": "具体的な提出期限日と時刻",
+            "answer_type": "date"
+          }
+        ],
+        "input_facts": [
+          {
+            "fact_id": "fact-1",
+            "text": "受験日は2027年10月10日",
+            "fact_type": "date",
+            "applies_to_facet_ids": [
+              "facet-1",
+              "facet-2"
+            ]
+          },
+          {
+            "fact_id": "fact-2",
+            "text": "受験料は8,000円",
+            "fact_type": "amount",
+            "applies_to_facet_ids": [
+              "facet-1"
+            ]
+          },
+          {
+            "fact_id": "fact-3",
+            "text": "その他の条件は満たす",
+            "fact_type": "condition",
+            "applies_to_facet_ids": [
+              "facet-1",
+              "facet-2"
+            ]
+          }
+        ],
+        "error_code": null
+      },
+      "answer_v3": {
+        "schema_version": "3.0-candidate",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "716636ff-a220-5e4d-a913-e27208fe1446"
+            ],
+            "ordinal": 1,
+            "text": "2027年10月10日に受験した場合の補助上限額は6,000円です。",
+            "facet_ids": [
+              "facet-1"
+            ],
+            "input_fact_ids": [
+              "fact-1"
+            ],
+            "calculation_ids": [],
+            "evidence_kind": "text"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "a698f313-ddfa-5b4a-a4f7-5ff63b058c53"
+            ],
+            "ordinal": 2,
+            "text": "受験料実費8,000円と上限額6,000円を比較し、低い方の6,000円が支給されます。",
+            "facet_ids": [
+              "facet-1"
+            ],
+            "input_fact_ids": [
+              "fact-1",
+              "fact-2"
+            ],
+            "calculation_ids": [],
+            "evidence_kind": "text"
+          },
+          {
+            "claim_id": "claim-3",
+            "evidence_element_ids": [
+              "bfed51db-83de-59f4-be1e-fa4e8741170a"
+            ],
+            "ordinal": 3,
+            "text": "提出期限は、受験日の翌日を1日目とした20暦日目の正午までです。",
+            "facet_ids": [
+              "facet-2"
+            ],
+            "input_fact_ids": [
+              "fact-1"
+            ],
+            "calculation_ids": [],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": [],
+        "date_calculations": []
+      },
+      "classification_v2": {
+        "schema_version": "2.0-candidate",
+        "status": "SUCCESS",
+        "facet_assessments": [
+          {
+            "facet_id": "facet-1",
+            "claim_ids": [
+              "claim-1",
+              "claim-2"
+            ],
+            "claim_support": "fully_supported",
+            "evidence_coverage": "sufficient",
+            "human_review_requirements": [],
+            "evidence_element_ids": [
+              "716636ff-a220-5e4d-a913-e27208fe1446",
+              "a698f313-ddfa-5b4a-a4f7-5ff63b058c53"
+            ],
+            "confidence": 1.0
+          },
+          {
+            "facet_id": "facet-2",
+            "claim_ids": [
+              "claim-3"
+            ],
+            "claim_support": "partially_supported",
+            "evidence_coverage": "sufficient",
+            "human_review_requirements": [],
+            "evidence_element_ids": [
+              "bfed51db-83de-59f4-be1e-fa4e8741170a"
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "confidence": 1.0,
+        "error_code": null
+      },
+      "retrieved_element_ids": [
+        "716636ff-a220-5e4d-a913-e27208fe1446",
+        "a698f313-ddfa-5b4a-a4f7-5ff63b058c53",
+        "bfed51db-83de-59f4-be1e-fa4e8741170a",
+        "53e8cc80-4222-5796-bffd-2bedf58cc232",
+        "40f00512-1297-58d1-b568-38d5ab62e520",
+        "e5af52f7-6acc-5437-94b5-25098946b993",
+        "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "3bd9867a-5455-51d6-8d01-fd340795a046"
+      ],
+      "expected_status": "GENERATION_INCOMPLETE",
+      "expected_label": null,
+      "rationale": "文書と期限規則は取得済みだが、具体日2027年10月30日正午を回答していない。"
+    },
+    {
+      "scenario_id": "TH025",
+      "variant_type": "formal",
+      "source_question": "登録職員で勤務計画も登録済みです。静音席午前券の利用料900円を支払いましたが、利用証の施設認定コードが判読できません。補填できますか。",
+      "source_predicted_label": "根拠十分",
+      "source_content_ok": true,
+      "source_classification_ok": false,
+      "question_contract": {
+        "schema_version": "1.0",
+        "status": "SUCCESS",
+        "requested_facets": [
+          {
+            "facet_id": "facet-1",
+            "requirement": "補填可否を確定できるか",
+            "answer_type": "eligibility"
+          }
+        ],
+        "input_facts": [
+          {
+            "fact_id": "fact-1",
+            "text": "職員登録と勤務計画登録は済んでいる",
+            "fact_type": "condition",
+            "applies_to_facet_ids": [
+              "facet-1"
+            ]
+          },
+          {
+            "fact_id": "fact-2",
+            "text": "午前券の利用料900円を支払った",
+            "fact_type": "amount",
+            "applies_to_facet_ids": [
+              "facet-1"
+            ]
+          },
+          {
+            "fact_id": "fact-3",
+            "text": "施設認定コードが判読できない",
+            "fact_type": "condition",
+            "applies_to_facet_ids": [
+              "facet-1"
+            ]
+          }
+        ],
+        "error_code": null
+      },
+      "answer_v3": {
+        "schema_version": "3.0-candidate",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "1bdfa5cc-48d3-50ed-883c-c624ffde2764"
+            ],
+            "ordinal": 1,
+            "text": "施設認定コードが判読できない場合、作業環境室が施設へ確認を行います。",
+            "facet_ids": [
+              "facet-1"
+            ],
+            "input_fact_ids": [
+              "fact-3"
+            ],
+            "calculation_ids": [],
+            "evidence_kind": "text"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "1bdfa5cc-48d3-50ed-883c-c624ffde2764"
+            ],
+            "ordinal": 2,
+            "text": "利用料の支払いのみを根拠として認定することはできず、コードの確認が完了するまでは補填の可否は保留されます。",
+            "facet_ids": [
+              "facet-1"
+            ],
+            "input_fact_ids": [
+              "fact-2",
+              "fact-3"
+            ],
+            "calculation_ids": [],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": [
+          {
+            "condition_id": "condition-1",
+            "type": "case_fact",
+            "description": "判読可能な施設認定コードとその有効性",
+            "facet_ids": [
+              "facet-1"
+            ],
+            "evidence_element_ids": [
+              "1bdfa5cc-48d3-50ed-883c-c624ffde2764"
+            ]
+          }
+        ],
+        "date_calculations": []
+      },
+      "classification_v2": {
+        "schema_version": "2.0-candidate",
+        "status": "SUCCESS",
+        "facet_assessments": [
+          {
+            "facet_id": "facet-1",
+            "claim_ids": [
+              "claim-1",
+              "claim-2"
+            ],
+            "claim_support": "fully_supported",
+            "evidence_coverage": "sufficient",
+            "human_review_requirements": [
+              {
+                "review_id": "review-1",
+                "type": "case_fact",
+                "description": "判読可能な施設認定コードとその有効性",
+                "condition_ids": [
+                  "condition-1"
+                ],
+                "evidence_element_ids": [
+                  "1bdfa5cc-48d3-50ed-883c-c624ffde2764"
+                ]
+              }
+            ],
+            "evidence_element_ids": [
+              "1bdfa5cc-48d3-50ed-883c-c624ffde2764"
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "confidence": 1.0,
+        "error_code": null
+      },
+      "retrieved_element_ids": [
+        "1bdfa5cc-48d3-50ed-883c-c624ffde2764",
+        "f2fb1898-3878-5a41-970a-a98e814d8382",
+        "52e8198f-6642-5555-b558-2d82dee21ff5",
+        "19d809b4-82f9-5cd7-a51c-c8e34de83cb8",
+        "e5af52f7-6acc-5437-94b5-25098946b993",
+        "6a10b3a8-b826-5848-ad41-47a76c1607c3",
+        "6b674821-44fc-5da5-821e-847306a56b62",
+        "bfed51db-83de-59f4-be1e-fa4e8741170a"
+      ],
+      "expected_status": "SUCCESS",
+      "expected_label": "判断要",
+      "rationale": "文書に保留照会の基準があり、施設コードの確認が結論を変える。"
+    },
+    {
+      "scenario_id": "TH031",
+      "variant_type": "formal",
+      "source_question": "対話技能認証補助の登録・事前承認・受験実績は確認済みですが、同じ年度の受給歴が未照合です。本人は初回と申告しています。補助を確定できますか。",
+      "source_predicted_label": "根拠十分",
+      "source_content_ok": true,
+      "source_classification_ok": false,
+      "question_contract": {
+        "schema_version": "1.0",
+        "status": "SUCCESS",
+        "requested_facets": [
+          {
+            "facet_id": "facet-1",
+            "requirement": "補助可否を確定できるか",
+            "answer_type": "eligibility"
+          }
+        ],
+        "input_facts": [
+          {
+            "fact_id": "fact-1",
+            "text": "登録・事前承認・受験実績は確認済み",
+            "fact_type": "condition",
+            "applies_to_facet_ids": [
+              "facet-1"
+            ]
+          },
+          {
+            "fact_id": "fact-2",
+            "text": "同一年度の受給歴が未照合",
+            "fact_type": "condition",
+            "applies_to_facet_ids": [
+              "facet-1"
+            ]
+          },
+          {
+            "fact_id": "fact-3",
+            "text": "本人は初回と申告している",
+            "fact_type": "condition",
+            "applies_to_facet_ids": [
+              "facet-1"
+            ]
+          }
+        ],
+        "error_code": null
+      },
+      "answer_v3": {
+        "schema_version": "3.0-candidate",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "3bd9867a-5455-51d6-8d01-fd340795a046"
+            ],
+            "ordinal": 1,
+            "text": "同一年度の受給歴が未照合である場合、本人が初回と申告していても、照合が完了するまでは補助の可否を確定することはできません。",
+            "facet_ids": [
+              "facet-1"
+            ],
+            "input_fact_ids": [
+              "fact-2",
+              "fact-3"
+            ],
+            "calculation_ids": [],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": [
+          {
+            "condition_id": "condition-1",
+            "type": "case_fact",
+            "description": "同一年度の補助受給歴",
+            "facet_ids": [
+              "facet-1"
+            ],
+            "evidence_element_ids": [
+              "3bd9867a-5455-51d6-8d01-fd340795a046"
+            ]
+          }
+        ],
+        "date_calculations": []
+      },
+      "classification_v2": {
+        "schema_version": "2.0-candidate",
+        "status": "SUCCESS",
+        "facet_assessments": [
+          {
+            "facet_id": "facet-1",
+            "claim_ids": [
+              "claim-1"
+            ],
+            "claim_support": "fully_supported",
+            "evidence_coverage": "sufficient",
+            "human_review_requirements": [
+              {
+                "review_id": "review-1",
+                "type": "case_fact",
+                "description": "同一年度の補助受給歴",
+                "condition_ids": [
+                  "condition-1"
+                ],
+                "evidence_element_ids": [
+                  "3bd9867a-5455-51d6-8d01-fd340795a046"
+                ]
+              }
+            ],
+            "evidence_element_ids": [
+              "3bd9867a-5455-51d6-8d01-fd340795a046"
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "confidence": 1.0,
+        "error_code": null
+      },
+      "retrieved_element_ids": [
+        "3bd9867a-5455-51d6-8d01-fd340795a046",
+        "53e8cc80-4222-5796-bffd-2bedf58cc232",
+        "a698f313-ddfa-5b4a-a4f7-5ff63b058c53",
+        "6b674821-44fc-5da5-821e-847306a56b62",
+        "bfed51db-83de-59f4-be1e-fa4e8741170a",
+        "716636ff-a220-5e4d-a913-e27208fe1446",
+        "40f00512-1297-58d1-b568-38d5ab62e520",
+        "1bdfa5cc-48d3-50ed-883c-c624ffde2764"
+      ],
+      "expected_status": "SUCCESS",
+      "expected_label": "判断要",
+      "rationale": "文書に受給台帳照合の基準があり、本人申告だけでは結論が決まらない。"
+    }
+  ]
+}

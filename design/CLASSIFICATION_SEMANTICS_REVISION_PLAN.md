@@ -1,7 +1,7 @@
 # 回答分類セマンティクス改訂計画
 
 - 作成日: 2026-09-30
-- 状態: Package 1（Rubric・Schema・既存gold監査）完了、runtime実装前
+- 状態: WP1（契約とローカル判定）完了、WP2 candidate経路の実装前
 - 対象: `根拠十分`、`判断要`、`文書不足`の判定責務
 - 非対象: 制度所管部署との回答一致の証明、corpus全体に適用可能な規則が存在しないことのオンライン証明
 
@@ -91,10 +91,10 @@ question input + document rule + verified calculation -> derived claim
 
 ## 5. 修正するアプリケーションコード
 
-### 5.1 [`src/answering.py`](../src/answering.py)
+### 5.1 [`src/classification_contract_v2.py`](../src/classification_contract_v2.py)
 
-- v1 dataclass/parser/decisionを互換性のため残す。
-- v2用のfacet assessment dataclassとparserを追加する。
+- 公開中v1の[`src/answering.py`](../src/answering.py)は変更しない。
+- v2用のQuestion Contract、answer v3、facet assessmentのdataclassとparserを独立moduleへ追加する。
 - `derive_label_v2`を追加し、第2節の決定表だけでラベルを導出する。
 - Schema違反、未知facet、未知claim、取得外evidenceを安全側で拒否する。
 - `GENERATION_INCOMPLETE`を`文書不足`へ混ぜない。
@@ -171,11 +171,13 @@ Question Contract自体を恒久保存する場合は、既存`generation_attemp
 
 Rubric本体は[`CLASSIFICATION_RUBRIC_V2.md`](CLASSIFICATION_RUBRIC_V2.md)、開封済み初回holdout 50 scenarioへの適用結果は[`../eval/CLASSIFICATION_RUBRIC_V2_AUDIT.md`](../eval/CLASSIFICATION_RUBRIC_V2_AUDIT.md)を参照する。監査では旧goldの期待ラベル変更は0件だった。既存goldそのものは書き換えていない。
 
-過去goldやsealed artifactを新定義へ合わせて書き換えない。次のdevelopment fixtureを新規作成する。
+過去goldやsealed artifactを新定義へ合わせて書き換えない。開封済みholdoutの保存済み出力から次のdevelopment fixtureを生成した。
 
 ```text
 eval/classification_contract_v2_development_cases.json
 ```
+
+生成処理は`python -m eval.build_classification_contract_v2_development_fixture`で再現でき、元のpredictionと人手reviewのSHA-256をfixtureへ記録する。
 
 初回holdoutの開封済み失敗をmechanism testとして再利用する。
 
@@ -203,6 +205,17 @@ gold correctionとcandidate改善を分けるため、各caseに`annotation_basi
 4. TH011を改善件数へ数えず、生成不足として分離できることを確認する。
 
 停止条件: 危険側TH025・TH031を`根拠十分`にする組合せが一つでもあればAPI検証へ進まない。
+
+実施結果（2026-09-30）:
+
+- 3 SchemaのDraft 2020-12検証: 成功
+- Question Contract、answer v3、classification v2のparserと参照validator: 実装済み
+- 決定表: `根拠十分`、`判断要`、`文書不足`、`GENERATION_INCOMPLETE`、`PIPELINE_INCONSISTENCY`をunit testで確認
+- TH011: `GENERATION_INCOMPLETE`として分離
+- TH025・TH031: ともに`判断要`を維持
+- 外部API呼出: 0回
+
+したがってGate Aは通過した。これはcandidateモデルの精度向上を示す結果ではなく、次のAPI比較へ進むためのローカル契約検証である。
 
 ### Gate B: 既知ケースの限定API比較
 
@@ -244,9 +257,9 @@ Gate C通過時だけ130問paired回帰を行う。
 
 ### WP1: 契約とローカル判定
 
-対象: 設計資料、3 Schema、`src/answering.py`、構造validator、unit test。
+対象: 設計資料、3 Schema、`src/classification_contract_v2.py`、構造validator、unit test。公開中v1の`src/answering.py`は変更しない。
 
-完了条件: APIなしで決定表と既知case fixtureがすべて通る。
+完了条件: APIなしで決定表と既知case fixtureがすべて通る。**2026-09-30完了。**
 
 ### WP2: candidate経路
 
