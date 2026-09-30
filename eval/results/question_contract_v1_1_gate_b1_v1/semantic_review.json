@@ -1,0 +1,33 @@
+{
+  "review_version": "1.0",
+  "reviewed_completed_cases": 18,
+  "semantic_contract_ok": 15,
+  "semantic_contract_failed": 3,
+  "automated_false_negative_count": 7,
+  "automated_false_positive_count": 0,
+  "cases": [
+    {"case_id": "QC-TH011-paraphrase_or_noisy", "semantic_contract_ok": true, "automated_false_negative": true, "reason": "金額と提出期限を別facetにし、受験日・受験料・全条件充足を保持した。採点正規表現が質問原文の『出す』を許容しなかった。"},
+    {"case_id": "QC-TH022-formal", "semantic_contract_ok": true, "reason": "登録期限と請求期限を別facetにし、終了日時を保持した。"},
+    {"case_id": "QC-TH022-paraphrase_or_noisy", "semantic_contract_ok": true, "reason": "共有された要求文とscope quoteで登録と請求を分離した。"},
+    {"case_id": "QC-TH025-formal", "semantic_contract_ok": true, "automated_false_negative": true, "reason": "補填可否だけをyes_no facetとし、施設コード判読不能を入力事実へ保持した。採点正規表現が『判読できません』を許容しなかった。"},
+    {"case_id": "QC-TH025-paraphrase_or_noisy", "semantic_contract_ok": true, "automated_false_negative": true, "reason": "『補填してもらえる？』を可否facetとして保持し、手続へ書き換えなかった。採点正規表現が『もらえる』を許容しなかった。"},
+    {"case_id": "QC-TH031-formal", "semantic_contract_ok": true, "reason": "補助確定可否だけをfacetとし、受給歴照合結果を未要求facetへ追加しなかった。"},
+    {"case_id": "QC-TH034-formal", "semantic_contract_ok": false, "failure_type": "explicit_input_fact_dropped", "reason": "日付別の2 facetは正しいが、質問に明記された『条件を満たす』をinput factへ保持しなかった。"},
+    {"case_id": "QC-TH034-paraphrase_or_noisy", "semantic_contract_ok": false, "failure_type": "multiple_targets_merged", "reason": "5月31日と6月1日をscope quoteへ抽出したが、対象ごとに答えが変わり得る要求を1 facetへ統合した。"},
+    {"case_id": "QC-TH037-paraphrase_or_noisy", "semantic_contract_ok": true, "reason": "加算額facetと、日付・区画数・全条件充足を保持した。"},
+    {"case_id": "QC-TH041-formal", "semantic_contract_ok": false, "failure_type": "explicit_input_fact_dropped", "reason": "算定額と申請締切を分離したが、『条件を満たす』をinput factへ保持しなかった。"},
+    {"case_id": "QC-TH047-formal", "semantic_contract_ok": true, "reason": "補填額facetと、予約日・利用日・実費・他条件充足を保持した。"},
+    {"case_id": "QC-TH047-paraphrase_or_noisy", "semantic_contract_ok": true, "reason": "補填額facetと、予約日・利用日・実費・他条件充足を保持した。"},
+    {"case_id": "QC-TH001-formal", "semantic_contract_ok": true, "automated_false_negative": true, "reason": "指示条件は説明形、資料は列挙形として正しく分けた。旧annotationのeligibilityはv1.1のresponse shapeではexplanationに相当する。"},
+    {"case_id": "QC-TH001-paraphrase_or_noisy", "semantic_contract_ok": true, "automated_false_negative": true, "reason": "指示条件と請求書類を2 facetへ分けた。旧annotationのeligibilityはv1.1のresponse shapeではexplanationに相当する。"},
+    {"case_id": "QC-TH002-formal", "semantic_contract_ok": true, "automated_false_negative": true, "reason": "二区画分になるかをyes_no facetとし、同一巡回・同一区画・二度点検を入力事実へ保持した。旧採点器は要求文だけに全語句を求めた。"},
+    {"case_id": "QC-TH003-formal", "semantic_contract_ok": true, "reason": "勤続期間計算での扱いをexplanation facetとした。"},
+    {"case_id": "QC-TH008-formal", "semantic_contract_ok": true, "reason": "休務取得可否をyes_no facetとし、取得判断に必要な質問内事実を保持した。"},
+    {"case_id": "QC-TH008-paraphrase_or_noisy", "semantic_contract_ok": true, "automated_false_negative": true, "reason": "『取れる？』をyes_no facetとし、技能交換休務の使用状況を入力事実へ保持した。旧採点器はfacet要求文だけに制度名を求めた。"}
+  ],
+  "slice_results": {
+    "over_abstention": {"reviewed": 9, "semantic_contract_ok": 6},
+    "dangerous_assertion": {"reviewed": 3, "semantic_contract_ok": 3},
+    "control": {"reviewed": 6, "semantic_contract_ok": 6}
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rag/question-contract-v1.1-candidate.schema.json",
+  "title": "Question contract v1.1 candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "requested_facets",
+    "input_facts",
+    "error_code"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.1-candidate" },
+    "status": { "enum": ["SUCCESS", "CONTRACT_FAILED"] },
+    "requested_facets": {
+      "type": "array",
+      "maxItems": 6,
+      "items": { "$ref": "#/$defs/facet" }
+    },
+    "input_facts": {
+      "type": "array",
+      "maxItems": 12,
+      "items": { "$ref": "#/$defs/input_fact" }
+    },
+    "error_code": { "type": ["string", "null"] }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "SUCCESS" } } },
+      "then": {
+        "properties": {
+          "requested_facets": { "minItems": 1 },
+          "error_code": { "type": "null" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "CONTRACT_FAILED" } } },
+      "then": {
+        "properties": {
+          "requested_facets": { "maxItems": 0 },
+          "input_facts": { "maxItems": 0 },
+          "error_code": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "facet_id": {
+      "type": "string",
+      "pattern": "^facet-[1-9][0-9]*$"
+    },
+    "facet_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/facet_id" }
+    },
+    "quote": { "type": "string", "minLength": 1 },
+    "facet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "facet_id",
+        "request_quote",
+        "response_shape",
+        "scope_quotes"
+      ],
+      "properties": {
+        "facet_id": { "$ref": "#/$defs/facet_id" },
+        "request_quote": { "$ref": "#/$defs/quote" },
+        "response_shape": {
+          "enum": [
+            "yes_no",
+            "amount",
+            "date_or_time",
+            "list",
+            "explanation",
+            "other"
+          ]
+        },
+        "scope_quotes": {
+          "type": "array",
+          "uniqueItems": true,
+          "maxItems": 4,
+          "items": { "$ref": "#/$defs/quote" }
+        }
+      }
+    },
+    "input_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fact_id",
+        "source_quote",
+        "fact_type",
+        "applies_to_facet_ids"
+      ],
+      "properties": {
+        "fact_id": { "type": "string", "pattern": "^fact-[1-9][0-9]*$" },
+        "source_quote": { "$ref": "#/$defs/quote" },
+        "fact_type": {
+          "enum": ["condition", "date", "amount", "entity", "event", "other"]
+        },
+        "applies_to_facet_ids": { "$ref": "#/$defs/facet_ids" }
+      }
+    }
+  }
+}
