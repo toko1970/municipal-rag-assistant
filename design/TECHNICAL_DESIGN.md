@@ -168,14 +168,9 @@ LLMには独立した自由文回答も最終表示modeも生成させない。�
 
 ### 6.2 分類要因
 
-オンライン分類器は[`classification-output-v1.schema.json`](schemas/classification-output-v1.schema.json)に従い、ラベルではなく次を返す。
+公開中のオンライン分類器は[`classification-output-v1.schema.json`](schemas/classification-output-v1.schema.json)を使う。改訂候補は[`classification-output-v2-candidate.schema.json`](schemas/classification-output-v2-candidate.schema.json)に従い、最終ラベルではなくfacetごとの`evidence_coverage`、`claim_support`、`human_review_requirements`を返す。語義は[`CLASSIFICATION_RUBRIC_V2.md`](CLASSIFICATION_RUBRIC_V2.md)を正とする。
 
-- `retrieval_sufficient`: 取得根拠だけで回答可能か
-- `answer_fully_supported`: 全重要claimが引用に支持されるか
-- `requires_case_facts`: 個別事情が不足するか
-- `requires_policy_judgment`: 所管部署の解釈が必要か
-- `version_conflict`: 版・文書間の矛盾が解決しているか
-- `confidence`: 0から1
+`human_review_requirements`のtypeは、結論を変える個別事実`case_fact`、文書が明示的に残す裁量`policy_judgment`、通常の基準日選択では解消しない`version_conflict`に限定する。質問内の事実はQuestion Contractの`input_facts`であり、取得文書の判断基準との関係を確認する前にreview要件へ変換しない。
 
 `corpus_answerability`はオンライン分類器の入力・出力・ログに含めない。通常検索だけではcorpus全体に答えがないことを証明できないためである。これは評価基盤がgold annotationから設定する`expected_corpus_answerability`として管理する。
 
@@ -185,24 +180,26 @@ LLMには独立した自由文回答も最終表示modeも生成させない。�
 
 オンラインログを後日人手で確認し、正解根拠とanswerabilityを付けて評価setへ昇格させた場合は、その新しい評価annotationにだけ値を保存する。元のオンラインrequest logへ遡って自動設定しない。
 
-オンラインの最終表示は、検索不足を「対象文書内に存在しない」と断定しない。
+v2の最終結果はsemantic validator通過後にコードで決める。
 
-1. `version_conflict`、個別事情、制度解釈がある場合は「判断要」。
-2. `retrieval_sufficient=false`または`answer_fully_supported=false`は「文書不足」と表示し、「今回取得した根拠では確認できない」と説明する。
-3. 上記以外は「根拠十分」。
+1. Schema・参照・facet完全性違反は`PIPELINE_INCONSISTENCY`。
+2. 一つでも`evidence_coverage=insufficient`なら「文書不足」。
+3. 文書が十分でも`claim_support`が完全でなければ`GENERATION_INCOMPLETE`。
+4. 全claimが完全支持され、review要件があれば「判断要」。
+5. 全claimが完全支持され、review要件がなければ「根拠十分」。
 
-`retrieval_sufficient=false`を判断要因より優先する候補は、retrieved-evidence回帰で改善0件・図表2件退行だったため採用しない。`requires_case_facts`を`missing_conditions`の有無だけで無効化する案も、真の`判断要`を緩和するため採用しない。
+`evidence_coverage=insufficient`のfacetとreview要件の併存は意味的違反として拒否する。取得した文書に判断基準がないまま、人が何を確認すれば結論が決まるかを推測させないためである。
 
 コードは最終ラベルと生成結果を次の規則で整合させる。
 
-- 「根拠十分」: claimが1件以上、全claimがsupport済み、`missing_conditions`が空の場合だけ表示する。
-- 「判断要」: support済みclaimだけを表示し、`missing_conditions`と、個別事情・制度解釈・版競合のfactorから作る固定案内を表示する。
+- 「根拠十分」: 全requested facetに完全支持されたclaimがあり、review要件が空の場合だけ表示する。
+- 「判断要」: 全facetのclaimが完全支持されている場合だけ表示し、review要件から固定案内を表示する。
 - 「文書不足」: generatorのclaimを表示せず、固定案内だけを表示する。
-- 規則へ適合しない場合は1回再生成し、解消しなければ`CLASSIFICATION_FAILED`として回答表示を止める。
+- `GENERATION_INCOMPLETE`または構造不整合では分類付き回答を表示せず、内部failureとして記録する。
 
 基準分類器は`gemini-3.1-flash-lite`、temperature 0、JSON Schema固定とする。モデルが利用不能になった場合は設定値を変更し、評価runに実モデル名を残す。Jev等はoracle evidenceとretrieved evidenceの両方で比較し、低確信度（初期値0.80）またはAPI失敗時だけ基準分類器へ1回fallbackする。oracle runでも分類器の出力項目はオンライン時と同じで、`expected_corpus_answerability`は評価基盤が別に保持する。基準分類器自体がtimeout、schema違反、API errorになった場合は`CLASSIFICATION_FAILED`とし、分類付き回答を表示しない。閾値は開発セットで固定し、holdout結果を見て変更しない。
 
-`version_conflict`だけを[`version-resolution-v1.schema.json`](schemas/version-resolution-v1.schema.json)で再判定する専用resolverをローカルのquery flowへ統合した。基準分類器が`version_conflict=true`の場合だけ呼び、成功かつconfidence 0.80以上で、置換後も表示契約を満たす場合に限りversion要因だけを置換する。他の4要因は変更しない。API失敗、Schema違反、取得外根拠ID、低confidence、表示契約違反では基準分類結果を維持し、resolverと最終分類を別attemptとして記録する。
+`version_conflict`だけを[`version-resolution-v1.schema.json`](schemas/version-resolution-v1.schema.json)で再判定する専用resolverをローカルのquery flowへ統合した。公開中のv1では`version_conflict=true`の場合だけ呼び、成功かつconfidence 0.80以上でversion要因だけを置換する。v2候補では同じresolverを`version_conflict`型のreview要件にだけ接続し、他facetのevidence・claim・review判定は変更しない。API失敗、Schema違反、取得外根拠ID、低confidence、表示契約違反では基準分類結果を維持し、resolverと最終分類を別attemptとして記録する。
 
 保存済みの同一130問へ適用した固定回帰では、resolver call相当9件、適用8件、表示契約fallback 1件だった。主原因ベースの分類失敗は15件から9件、成功は106件から112件となり、既存正解の退行は0件だった。これは保存済みGenerator・基準分類器・Resolver出力を合成した因果比較であり、統合後の新規end-to-end API runや公開環境へのdeployを示すものではない。
 

@@ -275,7 +275,7 @@ Qdrantには検索とPostgreSQL参照に必要な最小情報だけを持たせ�
 | `answer_type` | 根拠十分、判断要、文書不足 |
 | `generation_model` | 回答生成モデル |
 | `classifier_model` | 分類モデル |
-| `classification_factors` | 検索十分性、個別判断、矛盾、根拠整合性などオンライン分類器の構造化結果 |
+| `classification_factors` | v1のboolean factor、またはv2のfacet単位の根拠充足・claim支持・人による確認要件 |
 | `classifier_fallback_used` | フォールバック有無 |
 | `input_tokens` / `output_tokens` | 使用量 |
 | `latency_ms` / `estimated_cost` | 性能・費用 |
@@ -286,6 +286,41 @@ Qdrantには検索とPostgreSQL参照に必要な最小情報だけを持たせ�
 ### `generation_attempts` / `classification_attempts`
 
 各外部API呼出のretryとfallbackを保存する。両テーブルは`id`、`request_id`、`attempt_no`、`provider`、`model`、`started_at`、`latency_ms`、`input_tokens`、`output_tokens`、`estimated_cost`、`status`、`error_code`、`fallback_from_attempt_id`を持つ。`(request_id, attempt_no)`を各テーブル内で一意とし、全attemptの費用・遅延・error率を集計できるようにする。
+
+`classification_attempts.factors`はJSONBとし、`prompt_version`と`decision_version`を必須で併記する。これによりDB migrationなしでv1とv2を区別し、異なる判定規則の結果を同じ母集団として誤集計することを防ぐ。
+
+```json
+{
+  "prompt_version": "classification-v1",
+  "decision_version": "classification-decision-v1",
+  "factors": {
+    "retrieval_sufficient": true,
+    "answer_fully_supported": true,
+    "requires_case_facts": false,
+    "requires_policy_judgment": false,
+    "version_conflict": false
+  }
+}
+```
+
+```json
+{
+  "prompt_version": "classification-facet-v2",
+  "decision_version": "classification-rubric-v2.0",
+  "factors": {
+    "facet_assessments": [
+      {
+        "facet_id": "facet-1",
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "human_review_requirements": []
+      }
+    ]
+  }
+}
+```
+
+v2のQuestion Contractは質問入力の構造であって分類根拠そのものではない。最小実装では評価artifactと構造化request logへ保存し、恒久保存用の専用tableは利用目的が確定した時点で別途設計する。
 
 回答本文とは別に、回答中の各重要主張と`content_element_id`の対応を保存する。金額、日付、期限、要件、可否に根拠IDがない場合は`根拠十分`として返さない。
 
