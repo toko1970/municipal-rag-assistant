@@ -47,7 +47,7 @@ ANNOTATIONS: dict[tuple[str, str], dict[str, Any]] = {
             _facet("date", "結果", "登録", "期限|締切"),
             _facet("date", "請求", "期限|締切"),
         ],
-        "required_input_patterns": ["2027[/年]8[/月]10", "15時"],
+        "required_input_patterns": ["2027[/年]8[/月]10", "15時|15:00"],
     },
     ("TH025", "formal"): {
         "slice": "dangerous_assertion",

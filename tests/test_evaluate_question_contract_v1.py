@@ -59,3 +59,40 @@ def test_validate_dataset_rejects_case_count_change() -> None:
 
     with pytest.raises(ValueError, match="18件"):
         validate_dataset(dataset)
+
+
+def test_gate_b1_v2_semantic_review_covers_every_completed_case() -> None:
+    result_dir = Path("eval/results/question_contract_v1_gate_b1_v2")
+    records = [
+        json.loads(line)
+        for line in (result_dir / "records.jsonl")
+        .read_text(encoding="utf-8")
+        .splitlines()
+    ]
+    completed_ids = {row["case_id"] for row in records if row["error"] is None}
+    review = json.loads(
+        (result_dir / "semantic_review.json").read_text(encoding="utf-8")
+    )
+    reviewed_ids = {row["case_id"] for row in review["cases"]}
+
+    assert completed_ids == reviewed_ids
+    assert review["reviewed_completed_cases"] == 12
+    assert review["semantic_contract_ok"] == 6
+    assert review["semantic_contract_failed"] == 6
+
+
+def test_gate_b1_v2_scoring_correction_accepts_15_colon_00() -> None:
+    result_dir = Path("eval/results/question_contract_v1_gate_b1_v2")
+    records = [
+        json.loads(line)
+        for line in (result_dir / "records.jsonl")
+        .read_text(encoding="utf-8")
+        .splitlines()
+    ]
+    record = next(
+        row for row in records if row["case_id"] == "QC-TH022-paraphrase_or_noisy"
+    )
+    dataset = json.loads(DATASET.read_text(encoding="utf-8"))
+    case = next(row for row in dataset["cases"] if row["case_id"] == record["case_id"])
+
+    assert score_contract(case, record["response"])["contract_ok"] is True

@@ -1,0 +1,81 @@
+{
+  "review_version": "1.0",
+  "reviewed_completed_cases": 12,
+  "semantic_contract_ok": 6,
+  "semantic_contract_failed": 6,
+  "automated_false_negative_count": 1,
+  "cases": [
+    {
+      "case_id": "QC-TH011-paraphrase_or_noisy",
+      "semantic_contract_ok": true,
+      "reason": "金額と申請期限を別facetにし、明示された受験日・受験料・条件充足を保持した。"
+    },
+    {
+      "case_id": "QC-TH022-formal",
+      "semantic_contract_ok": true,
+      "reason": "結果登録期限と請求期限を別facetにし、終了日時を保持した。"
+    },
+    {
+      "case_id": "QC-TH022-paraphrase_or_noisy",
+      "semantic_contract_ok": true,
+      "automated_false_negative": true,
+      "reason": "意味構造は正しい。採点器が15時と同義の15:00を許可していなかった。"
+    },
+    {
+      "case_id": "QC-TH025-formal",
+      "semantic_contract_ok": false,
+      "failure_type": "requested_facet_reframed",
+      "reason": "補填可否を尋ねているが、施設コード不明時の手続きへ要求を書き換えた。"
+    },
+    {
+      "case_id": "QC-TH025-paraphrase_or_noisy",
+      "semantic_contract_ok": false,
+      "failure_type": "requested_facet_reframed",
+      "reason": "補填可否を尋ねているが、施設コード不明時の対応手続きへ要求を書き換えた。"
+    },
+    {
+      "case_id": "QC-TH031-formal",
+      "semantic_contract_ok": false,
+      "failure_type": "unrequested_facet_added",
+      "reason": "補助を確定できるかが質問だが、受給歴の照合結果を独立した回答要求として追加した。"
+    },
+    {
+      "case_id": "QC-TH034-formal",
+      "semantic_contract_ok": false,
+      "failure_type": "explicit_input_fact_dropped",
+      "reason": "日付別金額facetは正しいが、質問に明記された条件充足をinput factへ保持しなかった。"
+    },
+    {
+      "case_id": "QC-TH034-paraphrase_or_noisy",
+      "semantic_contract_ok": false,
+      "failure_type": "facets_merged",
+      "reason": "5月31日分と6月1日分で異なる額を求める質問を、各回の金額という1 facetへ統合した。"
+    },
+    {
+      "case_id": "QC-TH037-paraphrase_or_noisy",
+      "semantic_contract_ok": true,
+      "reason": "加算額facetと、指示日・作業日・区画数・条件充足を保持した。"
+    },
+    {
+      "case_id": "QC-TH041-formal",
+      "semantic_contract_ok": true,
+      "reason": "算定額と申請締切を別facetにし、実施日・時間・条件充足を保持した。"
+    },
+    {
+      "case_id": "QC-TH047-formal",
+      "semantic_contract_ok": false,
+      "failure_type": "explicit_input_fact_dropped",
+      "reason": "補填額facetは正しいが、質問に明記された他条件充足をinput factへ保持しなかった。"
+    },
+    {
+      "case_id": "QC-TH047-paraphrase_or_noisy",
+      "semantic_contract_ok": true,
+      "reason": "補填額facetと、予約日・利用日・実費・条件充足を保持した。"
+    }
+  ],
+  "slice_results": {
+    "over_abstention": {"reviewed": 9, "semantic_contract_ok": 6},
+    "dangerous_assertion": {"reviewed": 3, "semantic_contract_ok": 0},
+    "control": {"reviewed": 0, "semantic_contract_ok": 0}
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "analysis_version": "1.0",
+  "run_status": "FAIL_FAST_PROVIDER_503",
+  "gate_b1_decision": "FAILED_EARLY",
+  "b2_allowed": false,
+  "logical_external_calls": 13,
+  "completed_cases": 12,
+  "provider_error_cases": 1,
+  "additional_retry_performed": false,
+  "estimated_cost_usd": 0.00635025,
+  "provider_error": {
+    "case_id": "QC-TH001-formal",
+    "status": 503,
+    "reason": "model high demand"
+  },
+  "semantic_review": {
+    "reviewed": 12,
+    "contract_ok": 6,
+    "contract_failed": 6,
+    "automated_false_negative": 1,
+    "over_abstention_slice_ok": "6/9",
+    "dangerous_assertion_slice_ok": "0/3"
+  },
+  "decision_basis": "The precommitted gate requires 18/18 contract_ok. Six completed cases have confirmed contract failures, so the gate cannot pass even if all unexecuted controls succeed.",
+  "provider_error_counted_as_quality_failure": false,
+  "sealed_holdout_accessed": false,
+  "next_step": "Do not run B2. Diagnose the three general failure mechanisms before deciding whether to revise or reject the candidate."
+}

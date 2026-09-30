@@ -1,0 +1,23 @@
+{
+  "completed_at": "2026-09-30T10:21:35.728870+00:00",
+  "dataset_path": "eval/question_contract_v1_mechanism_cases.json",
+  "dataset_sha256": "641af225a2210bf21e73b78468c3dfd75d144862e8833f5824cb0e65a708a28b",
+  "dataset_snapshot_path": "dataset_snapshot.json",
+  "dataset_snapshot_sha256": "641af225a2210bf21e73b78468c3dfd75d144862e8833f5824cb0e65a708a28b",
+  "experiment": "question-contract-v1-gate-b1",
+  "logical_external_calls": 13,
+  "max_cost_usd": 0.05,
+  "max_logical_external_calls": 18,
+  "model": "gemini-3.1-flash-lite",
+  "prompt_version": "question-contract-v1",
+  "records_sha256": "95271a881fa9beb448befa38e9203c835f8bff1480cd8fe91af41400964b6f95",
+  "retry_count": 0,
+  "schema_path": "design/schemas/question-contract-v1.schema.json",
+  "schema_sha256": "407e796ec47f75b4fc9f48810a2140de980f31e62c7d8d5c65596d7ba2800cd2",
+  "scoring_version": "question-contract-mechanism-score-v1.1",
+  "sealed_holdout_accessed": false,
+  "source_review_sha256": "ebb0affd7d36abb14109c2499cfec64272cdeec84af55dfc0eb9849611ca5a27",
+  "started_at": "2026-09-30T10:19:55.547997+00:00",
+  "status": "FAILED",
+  "summary_sha256": "b51363e6e0e6a17046c8994f192234ba5156c1ba21eabb08a78daff7a5ccca42"
+}
