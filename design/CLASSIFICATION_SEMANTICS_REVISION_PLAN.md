@@ -224,6 +224,8 @@ gold correctionとcandidate改善を分けるため、各caseに`annotation_basi
 - B1とB2を一括実行せず、B1不合格時はB2へ進まない。
 - provider errorは精度不正解と分けてfail-fastする。
 
+B1初回実行（2026-09-30）は2件目でGemini無料枠の日次上限による429となり、retry 0で停止した。完了1件は意味上正しいContractだったが、採点正規表現が同義の「申請期限」を許さない偽陰性を検出した。意味上の期待値を変えず採点器を修正し、実行時datasetと原因分析を[`../eval/QUESTION_CONTRACT_GATE_B1.md`](../eval/QUESTION_CONTRACT_GATE_B1.md)へ保存した。18件未完了のためB1は未判定であり、B2は未実行である。
+
 合格条件:
 
 - 過剰保留9件で正味改善
