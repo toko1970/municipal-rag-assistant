@@ -177,6 +177,7 @@ rag-portfolio-app/
 | RAG全体の処理設計 | [技術設計](design/TECHNICAL_DESIGN.md) |
 | PostgreSQLとQdrantの責務 | [データモデル](design/DATA_MODEL.md) |
 | 精度改善の原因・手法・採否 | [精度改善の流れ](eval/reports/ACCURACY_IMPROVEMENT.md) |
+| 改善手法の原理・処理・弱点 | [精度改善手法の技術ガイド](eval/reports/ACCURACY_METHODS_TECHNICAL_GUIDE.md) |
 | 図表機能の実装済み・未実装範囲 | [図表RAGの実装状況](eval/reports/VISUAL_RAG_STATUS.md) |
 | Cloud Run・Cloud SQL・CI/CD | [公開RAG v2デプロイ記録](design/CLOUD_RAG_V2_DEPLOYMENT_PLAN.md) |
 | 現在の制約と再開地点 | [作業checkpoint](design/WORK_CHECKPOINT.md) |
