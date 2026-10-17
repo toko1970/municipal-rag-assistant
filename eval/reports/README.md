@@ -8,6 +8,7 @@
 |---|---|
 | [回答保留評価：仕様・結果・採用判断](PORTFOLIO_EVALUATION_AND_IMPROVEMENT_HISTORY_20261017.md) | RefusalBenchの考え方を参考にしたA1〜A3/Q1〜Q4/G1・M1〜M4、90ケースの正式基準結果、ガード候補のproxy結果と未採用理由を説明 |
 | [回答保留評価仕様書](../../rag_refusal_evaluation_spec.md) | 対象、評価ケース、採点条件、M1〜M4の定義、人手確認と報告の要件 |
+| [回答保留評価の個別事例](REFUSAL_EVALUATION_CASE_STUDIES.md) | 基準版v1で不適切と採点された7ケースの質問、提示根拠、実際の回答、失敗内容。ケース仕様・採点コメントに曖昧さがある例も明記 |
 | [精度改善の流れ](ACCURACY_IMPROVEMENT.md) | 初期評価の限界、失敗原因、各実験の選択理由、採用構成、初回holdout、次回holdoutまでを一つの流れで説明 |
 | [改善手法の技術ガイド](ACCURACY_METHODS_TECHNICAL_GUIDE.md) | 各手法の入力、処理、効く原理、原理的な弱点、実装箇所、検証範囲を説明 |
 | [改善手法の一般化監査](../GENERALIZATION_REVIEW.md) | 表層語句へ依存する現行規則を監査し、一般的な研究・実装パターンと次の比較案を整理 |

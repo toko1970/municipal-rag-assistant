@@ -66,7 +66,7 @@ flowchart LR
 | Sealed visual holdout 10問 | End-to-End 70%、分類70% | 事前の分類閾値80%に届かず不合格として記録 |
 | 回答・保留 90ケース | 基準v1: M1 26.1%、M2 0.0%、M3 100.0%、M4 69.6%。候補v2はQ1自動proxyでM1 26.1%、M2 20.9% | 保留ガード候補はM1改善なし、回答可能ケースの保留が増えたため既定経路へ不採用。候補値は実務者採点ではない |
 
-`Recall@3`は、正解として定めた文書・根拠が検索上位3件以内に含まれた質問の割合です。複数根拠が必要な質問は、すべて取得できた場合だけ成功とします。検索・回答品質の評価に加え、RefusalBenchを参考にした回答／保留判断の業務向け評価を実施しました。90ケースの評価基準、M1〜M4、候補比較と未採用理由は[回答保留評価レポート](eval/reports/PORTFOLIO_EVALUATION_AND_IMPROVEMENT_HISTORY_20261017.md)を参照してください。すべての評価記録と改善経過は[評価レポート案内](eval/reports/README.md)にまとめています。
+`Recall@3`は、正解として定めた文書・根拠が検索上位3件以内に含まれた質問の割合です。複数根拠が必要な質問は、すべて取得できた場合だけ成功とします。検索・回答品質の評価に加え、RefusalBenchを参考にした回答／保留判断の業務向け評価を実施しました。90ケースの評価基準、M1〜M4、候補比較と未採用理由は[回答保留評価レポート](eval/reports/PORTFOLIO_EVALUATION_AND_IMPROVEMENT_HISTORY_20261017.md)を参照してください。 基準版で不適切と採点された質問・回答・理由は[回答保留評価の個別事例](eval/reports/REFUSAL_EVALUATION_CASE_STUDIES.md)で確認できます。すべての評価記録と改善経過は[評価レポート案内](eval/reports/README.md)にまとめています。
 
 ## 技術選定
 
@@ -83,7 +83,7 @@ flowchart LR
 
 Qdrantは検索専用index、PostgreSQLは再構築の基準になる正本として責務を分けています。Chroma実装は移行前baselineとの比較証拠として残しています。
 
-選定理由、比較した候補、実測と未比較の範囲は[技術選定と比較](design/TECH_STACK_DECISIONS.md)にまとめています。
+各技術を選んだ業務・設計上の理由、代替案、学習目的、実測の範囲と後続設計での見直しは[技術選定と比較](design/TECH_STACK_DECISIONS.md)にまとめています。
 
 ## ローカルで動かす
 
