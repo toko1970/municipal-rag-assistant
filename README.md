@@ -64,8 +64,9 @@ flowchart LR
 | Sealed text holdout 100表現 | 総合成功83/100、検索100/100 | 分類の過剰な慎重さと期限計算を次の課題として特定 |
 | Holdout後の日付改善 | 新規表現4/4、既存120/130は影響なし | 対象限定の効果を確認。2回目のText holdoutは未実施 |
 | Sealed visual holdout 10問 | End-to-End 70%、分類70% | 事前の分類閾値80%に届かず不合格として記録 |
+| 回答・保留 90ケース | 基準v1: M1 26.1%、M2 0.0%、M3 100.0%、M4 69.6%。候補v2はQ1自動proxyでM1 26.1%、M2 20.9% | 保留ガード候補はM1改善なし、回答可能ケースの保留が増えたため既定経路へ不採用。候補値は実務者採点ではない |
 
-`Recall@3`は、正解として定めた文書・根拠が検索上位3件以内に含まれた質問の割合です。複数根拠が必要な質問は、すべて取得できた場合だけ成功とします。詳しい定義、改善手法を選んだ理由、失敗例、未完了事項は[評価レポート案内](eval/reports/README.md)にまとめています。
+`Recall@3`は、正解として定めた文書・根拠が検索上位3件以内に含まれた質問の割合です。複数根拠が必要な質問は、すべて取得できた場合だけ成功とします。検索・回答品質の評価に加え、RefusalBenchを参考にした回答／保留判断の業務向け評価を実施しました。90ケースの評価基準、M1〜M4、候補比較と未採用理由は[回答保留評価レポート](eval/reports/PORTFOLIO_EVALUATION_AND_IMPROVEMENT_HISTORY_20261017.md)を参照してください。すべての評価記録と改善経過は[評価レポート案内](eval/reports/README.md)にまとめています。
 
 ## 技術選定
 
@@ -174,6 +175,7 @@ rag-portfolio-app/
 | 知りたいこと | 資料 |
 |---|---|
 | 評価指標と改善の流れ | [評価レポート案内](eval/reports/README.md) |
+| 回答保留の評価基準・90ケース結果・採用判断 | [回答保留評価レポート](eval/reports/PORTFOLIO_EVALUATION_AND_IMPROVEMENT_HISTORY_20261017.md) |
 | RAG全体の処理設計 | [技術設計](design/TECHNICAL_DESIGN.md) |
 | PostgreSQLとQdrantの責務 | [データモデル](design/DATA_MODEL.md) |
 | 精度改善の原因・手法・採否 | [精度改善の流れ](eval/reports/ACCURACY_IMPROVEMENT.md) |
@@ -186,6 +188,7 @@ rag-portfolio-app/
 
 - 公開デモはポートフォリオ規模であり、本番相当の可用性・SLAを保証しない。
 - Sealed text holdoutでは、検索後の回答分類と複数文書・版境界に課題が残った。対象限定の日付改善後も、2回目のText sealed holdoutは未実施である。
+- claim/facet単位の回答ガードは候補実装であり既定経路ではない。90ケースでは候補のM1自動proxyに改善がなく、M2 proxyと処理状態に悪化が見られた。候補は実務経験者のQ2〜Q4・G1採点を経ていない。
 - PDF・図表機能はレビュー済みfixtureによるvertical sliceであり、任意PDFのアップロード・レビュー画面は未実装である。
 - 図表holdoutは分類精度の事前閾値に届いておらず、受入不合格として記録している。
 - 具体期限の決定的計算は対象を限定しており、和暦、相対日付、営業日・休日計算は未対応である。
