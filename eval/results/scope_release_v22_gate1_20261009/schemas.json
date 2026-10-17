@@ -1,0 +1,243 @@
+{
+  "baseline": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://example.invalid/rag/classification-output-v1.schema.json",
+    "title": "Answer classification output v1",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "schema_version",
+      "status",
+      "factors",
+      "confidence",
+      "error_code"
+    ],
+    "properties": {
+      "schema_version": {
+        "const": "1.0"
+      },
+      "status": {
+        "enum": [
+          "SUCCESS",
+          "CLASSIFICATION_FAILED"
+        ]
+      },
+      "factors": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/factors"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "confidence": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "minimum": 0,
+        "maximum": 1
+      },
+      "error_code": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "SUCCESS"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "factors": {
+              "$ref": "#/$defs/factors"
+            },
+            "confidence": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "error_code": {
+              "type": "null"
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "CLASSIFICATION_FAILED"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "factors": {
+              "type": "null"
+            },
+            "confidence": {
+              "type": "null"
+            },
+            "error_code": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    ],
+    "$defs": {
+      "factors": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "retrieval_sufficient",
+          "answer_fully_supported",
+          "requires_case_facts",
+          "requires_policy_judgment",
+          "version_conflict"
+        ],
+        "properties": {
+          "retrieval_sufficient": {
+            "type": "boolean"
+          },
+          "answer_fully_supported": {
+            "type": "boolean"
+          },
+          "requires_case_facts": {
+            "type": "boolean"
+          },
+          "requires_policy_judgment": {
+            "type": "boolean"
+          },
+          "version_conflict": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "candidate": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Scope classification with separate support and answer completeness",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "schema_version",
+      "targets",
+      "confidence"
+    ],
+    "properties": {
+      "schema_version": {
+        "const": "scope-2.0"
+      },
+      "confidence": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "targets": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 12,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "intent",
+            "evidence_sufficient",
+            "evidence_ids",
+            "claim_ids",
+            "claim_support",
+            "answer_complete",
+            "reviews"
+          ],
+          "properties": {
+            "target": {
+              "type": "string",
+              "minLength": 1
+            },
+            "intent": {
+              "enum": [
+                "general_rule",
+                "conditional_calculation",
+                "individual_decision"
+              ]
+            },
+            "evidence_sufficient": {
+              "type": "boolean"
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            },
+            "claim_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            },
+            "claim_support": {
+              "enum": [
+                "supported",
+                "unsupported",
+                "no_claim"
+              ]
+            },
+            "answer_complete": {
+              "type": "boolean"
+            },
+            "reviews": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "type",
+                  "reason",
+                  "evidence_ids"
+                ],
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "case_fact",
+                      "policy_judgment",
+                      "version_conflict"
+                    ]
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

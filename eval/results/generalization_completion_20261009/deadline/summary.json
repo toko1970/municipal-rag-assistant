@@ -1,0 +1,243 @@
+{
+  "planned_tasks": 120,
+  "valid_tasks": 120,
+  "api_attempts": 120,
+  "failed_attempts": 0,
+  "error_types": {},
+  "schema_invalid_selected": 0,
+  "citation_invalid_selected": 0,
+  "input_tokens": 28630,
+  "output_and_thought_tokens": 26592,
+  "estimated_usd": 0.0470455,
+  "latency_p50_s_all_attempts": 4.548500000000001,
+  "latency_p95_s_all_attempts": 11.751,
+  "attempts_sha256": "1f8b5a783021d747abf7ea0f9360b3ebca0ac62e37f51e465ca63e33a3da009f",
+  "records_sha256": "d57d3357530ea480301f78016e74259b6ed99058b5a393d206e1d2cc97c7dcdf",
+  "scope": "automatic integrity and string proxies; semantic judgments separate",
+  "semantic": {
+    "review_sha256": "e3c385bb710bb2d435b5a5825989c1fb152e4afe48dffc6cd0da4ea0f7a1095f",
+    "successful_outputs": 89,
+    "paired_expression_outcomes_including_repeats": {
+      "both_pass": 32,
+      "baseline_only": 9,
+      "candidate_only": 16,
+      "both_fail": 3
+    },
+    "scenario_outcomes_primary_repetition_1": {
+      "both_pass": 10,
+      "baseline_only": 4,
+      "candidate_only": 6,
+      "both_fail": 4
+    },
+    "scenario_net_improvements": 2,
+    "scenario_mean_paired_difference": 0.08333333333333333,
+    "scenario_clustered_bootstrap_95pct_ci": [
+      -0.16666666666666666,
+      0.3333333333333333
+    ],
+    "scenarios": {
+      "D01": {
+        "baseline": true,
+        "candidate": true
+      },
+      "D02": {
+        "baseline": true,
+        "candidate": true
+      },
+      "D03": {
+        "baseline": true,
+        "candidate": true
+      },
+      "D04": {
+        "baseline": true,
+        "candidate": true
+      },
+      "D05": {
+        "baseline": true,
+        "candidate": true
+      },
+      "D06": {
+        "baseline": true,
+        "candidate": true
+      },
+      "D07": {
+        "baseline": true,
+        "candidate": false
+      },
+      "D08": {
+        "baseline": true,
+        "candidate": true
+      },
+      "D09": {
+        "baseline": false,
+        "candidate": true
+      },
+      "D10": {
+        "baseline": false,
+        "candidate": true
+      },
+      "D11": {
+        "baseline": false,
+        "candidate": true
+      },
+      "D12": {
+        "baseline": true,
+        "candidate": false
+      },
+      "D13": {
+        "baseline": false,
+        "candidate": true
+      },
+      "D14": {
+        "baseline": false,
+        "candidate": true
+      },
+      "D15": {
+        "baseline": false,
+        "candidate": false
+      },
+      "D16": {
+        "baseline": true,
+        "candidate": true
+      },
+      "D17": {
+        "baseline": false,
+        "candidate": true
+      },
+      "D18": {
+        "baseline": false,
+        "candidate": false
+      },
+      "D19": {
+        "baseline": false,
+        "candidate": false
+      },
+      "D20": {
+        "baseline": true,
+        "candidate": false
+      },
+      "D21": {
+        "baseline": true,
+        "candidate": true
+      },
+      "D22": {
+        "baseline": true,
+        "candidate": false
+      },
+      "D23": {
+        "baseline": false,
+        "candidate": false
+      },
+      "D24": {
+        "baseline": true,
+        "candidate": true
+      }
+    },
+    "system_slices": {
+      "赴任準備届": {
+        "n_scenarios": 4,
+        "baseline_pass": 4,
+        "candidate_pass": 4,
+        "ids": [
+          "D01",
+          "D02",
+          "D03",
+          "D04"
+        ]
+      },
+      "研修旅程確認": {
+        "n_scenarios": 4,
+        "baseline_pass": 4,
+        "candidate_pass": 3,
+        "ids": [
+          "D05",
+          "D06",
+          "D07",
+          "D08"
+        ]
+      },
+      "資格取得登録": {
+        "n_scenarios": 4,
+        "baseline_pass": 1,
+        "candidate_pass": 3,
+        "ids": [
+          "D09",
+          "D10",
+          "D11",
+          "D12"
+        ]
+      },
+      "災害応援精算": {
+        "n_scenarios": 4,
+        "baseline_pass": 1,
+        "candidate_pass": 3,
+        "ids": [
+          "D13",
+          "D14",
+          "D15",
+          "D16"
+        ]
+      },
+      "機器貸与返却申請": {
+        "n_scenarios": 4,
+        "baseline_pass": 1,
+        "candidate_pass": 1,
+        "ids": [
+          "D17",
+          "D18",
+          "D19",
+          "D20"
+        ]
+      },
+      "緊急当直記録": {
+        "n_scenarios": 4,
+        "baseline_pass": 3,
+        "candidate_pass": 2,
+        "ids": [
+          "D21",
+          "D22",
+          "D23",
+          "D24"
+        ]
+      }
+    },
+    "repetition_consistency": {
+      "baseline": {
+        "consistent": 12,
+        "total": 12,
+        "discordant_ids": []
+      },
+      "candidate": {
+        "consistent": 11,
+        "total": 12,
+        "discordant_ids": [
+          "D12-formal"
+        ]
+      }
+    },
+    "new_unsafe_deadline_task_indices": [
+      25,
+      27,
+      45,
+      57,
+      71,
+      75,
+      79,
+      85,
+      89,
+      119
+    ],
+    "new_unsupported_claim_task_indices": [
+      25,
+      27,
+      45,
+      57,
+      71,
+      75,
+      79,
+      85,
+      89,
+      119
+    ]
+  }
+}

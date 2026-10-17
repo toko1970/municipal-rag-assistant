@@ -1,0 +1,513 @@
+{
+  "source_hashes": {
+    "eval/results/text_holdout_v1_predictions_v10/predictions.jsonl": "4d39ffabc578446073013d8b969dfaae40f498de5060024a036f4e32f3eff0c3",
+    "eval/results/text_holdout_v1_acceptance/content_review.jsonl": "ebb0affd7d36abb14109c2499cfec64272cdeec84af55dfc0eb9849611ca5a27"
+  },
+  "n": 100,
+  "success": 83,
+  "failure_count": 17,
+  "failure_scenarios": 11,
+  "classification_mismatch_on_executed": 12,
+  "executed": 98,
+  "content_fail_executed": 4,
+  "error_count": 2,
+  "classification_confusion": {
+    "根拠十分 -> 判断要": 9,
+    "判断要 -> 根拠十分": 3
+  },
+  "failures": [
+    {
+      "answer": "回答分類: 根拠十分\n\n回答:\n- 2027年10月10日に受験した場合の補助上限額は6,000円です。\n- 受験料実費8,000円と上限額6,000円を比較し、低い方の6,000円が支給されます。\n- 提出期限は、受験日の翌日を1日目とした20暦日目の正午までです。",
+      "classification_ok": true,
+      "content_ok": false,
+      "content_review_note": "提出期限を具体日（2027年10月30日正午）まで算出せず、起算規則だけを示したため。",
+      "difficulty": "multi_document",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "上限6,000円のため補助6,000円。提出は2027年10月30日正午まで。",
+      "expected_classification": "grounded",
+      "expected_document_ids": [
+        "TXH-E01",
+        "TXH-E02"
+      ],
+      "expected_label": "根拠十分",
+      "missing_conditions": [],
+      "predicted_label": "根拠十分",
+      "question": "2027年10月10日に指定認証試験を受験し、受験料8,000円を支払いました。他の条件は全て満たす場合、補助額と提出期限を教えてください。",
+      "retrieved_document_ids": [
+        "TXH-A01",
+        "TXH-B01",
+        "TXH-E01",
+        "TXH-E02"
+      ],
+      "scenario_id": "TH011",
+      "variant_type": "formal"
+    },
+    {
+      "answer": "回答分類: 判断要\n\n回答:\n- 2027年10月10日に受験した場合、補助額の上限は6,000円です。\n- 受験料が8,000円で上限が6,000円であるため、支給される補助額は6,000円です。\n- 提出期限は、受験日の翌日を1日目として20暦日目の正午までです。\n\n確認が必要です: 個別事情の確認",
+      "classification_ok": false,
+      "content_ok": false,
+      "content_review_note": "提出期限を具体日（2027年10月30日正午）まで算出せず、起算規則だけを示したため。",
+      "difficulty": "multi_document",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "上限6,000円のため補助6,000円。提出は2027年10月30日正午まで。",
+      "expected_classification": "grounded",
+      "expected_document_ids": [
+        "TXH-E01",
+        "TXH-E02"
+      ],
+      "expected_label": "根拠十分",
+      "missing_conditions": [],
+      "predicted_label": "判断要",
+      "question": "対話認証試験を2027/10/10に受けて受験料8000円。他条件は全部OK。補助いくら、いつまでに出す？",
+      "retrieved_document_ids": [
+        "TXH-A01",
+        "TXH-B01",
+        "TXH-E01",
+        "TXH-E02"
+      ],
+      "scenario_id": "TH011",
+      "variant_type": "paraphrase_or_noisy"
+    },
+    {
+      "answer": null,
+      "classification_ok": false,
+      "content_ok": false,
+      "content_review_note": "候補パイプラインの実行失敗により回答本文が生成されていないため。",
+      "difficulty": "multi_document",
+      "document_retrieval_ok": true,
+      "error": "ValueError: 根拠十分の表示条件を満たしていません",
+      "evidence_retrieval_ok": true,
+      "execution_ok": false,
+      "expected_answer_key": "時間算定上は1,400円だが、交代日前の番号発行を確認できず確定不可。輪番デスクが発行日時を照会し認定を保留する。",
+      "expected_classification": "needs_judgment",
+      "expected_document_ids": [
+        "TXH-A01",
+        "TXH-A02"
+      ],
+      "expected_label": "判断要",
+      "missing_conditions": [
+        "承認番号の発行日時と交代日前の発行であること"
+      ],
+      "predicted_label": null,
+      "question": "輪番台帳に登録済みで、2027年5月10日に60分引継ぎを行いました。交代承認番号票には番号だけがあり、発行日時が不明です。1,400円の支払を確定できますか。",
+      "retrieved_document_ids": [
+        "TXH-A01",
+        "TXH-A02",
+        "TXH-C01",
+        "TXH-C02"
+      ],
+      "scenario_id": "TH014",
+      "variant_type": "formal"
+    },
+    {
+      "answer": "回答分類: 判断要\n\n回答:\n- 点検結果の登録期限は、巡回終了後の2027年8月12日15時です。\n- 請求期限は、巡回終了の翌日である2027年8月11日を1日目として、10暦日目にあたる2027年8月20日までです。\n\n確認が必要です: 個別事情の確認",
+      "classification_ok": false,
+      "content_ok": true,
+      "content_review_note": "質問された結論とgoldの期待要点が意味上整合している。",
+      "difficulty": "multi_document",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "点検結果は8月12日15時まで。請求は翌日から10暦日目の8月20日まで。",
+      "expected_classification": "grounded",
+      "expected_document_ids": [
+        "TXH-D01",
+        "TXH-D02"
+      ],
+      "expected_label": "根拠十分",
+      "missing_conditions": [],
+      "predicted_label": "判断要",
+      "question": "書庫巡回を2027年8月10日15時に終了しました。点検結果の登録期限と請求期限をそれぞれ教えてください。",
+      "retrieved_document_ids": [
+        "TXH-A01",
+        "TXH-A02",
+        "TXH-D01",
+        "TXH-D02"
+      ],
+      "scenario_id": "TH022",
+      "variant_type": "formal"
+    },
+    {
+      "answer": "回答分類: 判断要\n\n回答:\n- 2027年8月10日15時に巡回が終了した場合、点検結果の登録締切は48時間後の2027年8月12日15時です。\n- 請求の締切は、巡回終了日の翌日である8月11日を1日目として、10暦日目にあたる2027年8月20日です。\n\n確認が必要です: 個別事情の確認",
+      "classification_ok": false,
+      "content_ok": true,
+      "content_review_note": "質問された結論とgoldの期待要点が意味上整合している。",
+      "difficulty": "multi_document",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "点検結果は8月12日15時まで。請求は翌日から10暦日目の8月20日まで。",
+      "expected_classification": "grounded",
+      "expected_document_ids": [
+        "TXH-D01",
+        "TXH-D02"
+      ],
+      "expected_label": "根拠十分",
+      "missing_conditions": [],
+      "predicted_label": "判断要",
+      "question": "2027/8/10の15時に書庫巡回終了。結果登録と請求、それぞれ締切はいつ？",
+      "retrieved_document_ids": [
+        "TXH-A02",
+        "TXH-B01",
+        "TXH-D01",
+        "TXH-D02"
+      ],
+      "scenario_id": "TH022",
+      "variant_type": "paraphrase_or_noisy"
+    },
+    {
+      "answer": "回答分類: 根拠十分\n\n回答:\n- 施設認定コードが判読できない場合、作業環境室が施設へ確認を行います。\n- 利用料の支払いのみを根拠として認定することはできず、コードの確認が完了するまでは補填の可否は保留されます。",
+      "classification_ok": false,
+      "content_ok": true,
+      "content_review_note": "質問された結論とgoldの期待要点が意味上整合している。",
+      "difficulty": "multi_document",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "有効な施設認定コードの照合が必要。支払済みだけでは可否を確定できず、作業環境室から施設へ照会し保留する。",
+      "expected_classification": "needs_judgment",
+      "expected_document_ids": [
+        "TXH-B01",
+        "TXH-B02"
+      ],
+      "expected_label": "判断要",
+      "missing_conditions": [
+        "判読可能な施設認定コードとその有効性"
+      ],
+      "predicted_label": "根拠十分",
+      "question": "登録職員で勤務計画も登録済みです。静音席午前券の利用料900円を支払いましたが、利用証の施設認定コードが判読できません。補填できますか。",
+      "retrieved_document_ids": [
+        "TXH-A02",
+        "TXH-B01",
+        "TXH-B02",
+        "TXH-E02"
+      ],
+      "scenario_id": "TH025",
+      "variant_type": "formal"
+    },
+    {
+      "answer": "回答分類: 根拠十分\n\n回答:\n- 施設認定コードが読めない場合、作業環境室が施設へ確認を行うため、現時点では補填の可否は保留となります。\n- 利用料の支払いだけを根拠に認定されることはありません。",
+      "classification_ok": false,
+      "content_ok": true,
+      "content_review_note": "質問された結論とgoldの期待要点が意味上整合している。",
+      "difficulty": "multi_document",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "有効な施設認定コードの照合が必要。支払済みだけでは可否を確定できず、作業環境室から施設へ照会し保留する。",
+      "expected_classification": "needs_judgment",
+      "expected_document_ids": [
+        "TXH-B01",
+        "TXH-B02"
+      ],
+      "expected_label": "判断要",
+      "missing_conditions": [
+        "判読可能な施設認定コードとその有効性"
+      ],
+      "predicted_label": "根拠十分",
+      "question": "登録と勤務予定は済み、静音席午前券900円を払ったけど施設コードが読めない。補填してもらえる？",
+      "retrieved_document_ids": [
+        "TXH-A02",
+        "TXH-B01",
+        "TXH-B02",
+        "TXH-D02"
+      ],
+      "scenario_id": "TH025",
+      "variant_type": "paraphrase_or_noisy"
+    },
+    {
+      "answer": null,
+      "classification_ok": false,
+      "content_ok": false,
+      "content_review_note": "候補パイプラインの実行失敗により回答本文が生成されていないため。",
+      "difficulty": "similar_or_absent",
+      "document_retrieval_ok": true,
+      "error": "ValueError: 根拠十分の表示条件を満たしていません",
+      "evidence_retrieval_ok": true,
+      "execution_ok": false,
+      "expected_answer_key": "書庫整理奨励金の箱単価に関する文書がないため回答できない。巡回の区画単価を転用しない。",
+      "expected_classification": "insufficient_documents",
+      "expected_document_ids": [],
+      "expected_label": "文書不足",
+      "missing_conditions": [],
+      "predicted_label": null,
+      "question": "巡回加算じゃなく書庫整理奨励金。箱1つ片付けると何円？",
+      "retrieved_document_ids": [
+        "TXH-A01",
+        "TXH-D01",
+        "TXH-D02"
+      ],
+      "scenario_id": "TH026",
+      "variant_type": "paraphrase_or_noisy"
+    },
+    {
+      "answer": "回答分類: 根拠十分\n\n回答:\n- 同一年度の受給歴が未照合である場合、本人が初回と申告していても、照合が完了するまでは補助の可否を確定することはできません。",
+      "classification_ok": false,
+      "content_ok": true,
+      "content_review_note": "質問された結論とgoldの期待要点が意味上整合している。",
+      "difficulty": "multi_document",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "一年度一回のため受給台帳で履歴照合が必要。本人の初回申告だけでは確定せず照合まで保留する。",
+      "expected_classification": "needs_judgment",
+      "expected_document_ids": [
+        "TXH-E01",
+        "TXH-E02"
+      ],
+      "expected_label": "判断要",
+      "missing_conditions": [
+        "同一年度の補助受給歴"
+      ],
+      "predicted_label": "根拠十分",
+      "question": "対話技能認証補助の登録・事前承認・受験実績は確認済みですが、同じ年度の受給歴が未照合です。本人は初回と申告しています。補助を確定できますか。",
+      "retrieved_document_ids": [
+        "TXH-A02",
+        "TXH-B02",
+        "TXH-E01",
+        "TXH-E02"
+      ],
+      "scenario_id": "TH031",
+      "variant_type": "formal"
+    },
+    {
+      "answer": "回答分類: 判断要\n\n回答:\n- 2027年5月31日に実施した120分の輪番引継ぎの計算額は2,800円（30分につき700円×4）ですが、上限額が2,100円であるため、適用後の額は2,100円です。\n- 2027年6月1日に実施した120分の輪番引継ぎの計算額は2,800円（30分につき700円×4）であり、同日以降の上限額が2,800円に改定されているため、適用後の額は2,800円です。\n\n確認が必要です: 個別事情の確認",
+      "classification_ok": false,
+      "content_ok": true,
+      "content_review_note": "質問された結論とgoldの期待要点が意味上整合している。",
+      "difficulty": "boundary_or_effective_date",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "5月31日実施分は2,100円、6月1日実施分は2,800円。実施日で上限を選ぶ。",
+      "expected_classification": "grounded",
+      "expected_document_ids": [
+        "TXH-A01"
+      ],
+      "expected_label": "根拠十分",
+      "missing_conditions": [],
+      "predicted_label": "判断要",
+      "question": "条件を満たす120分の輪番引継ぎを2027年5月31日と6月1日に各一回実施しました。それぞれの上限適用後の額はいくらですか。",
+      "retrieved_document_ids": [
+        "TXH-A01",
+        "TXH-A02",
+        "TXH-D01",
+        "TXH-E01"
+      ],
+      "scenario_id": "TH034",
+      "variant_type": "formal"
+    },
+    {
+      "answer": "回答分類: 判断要\n\n回答:\n- 2027年5月31日に実施した120分の引継ぎは、一回の上限である2,100円が適用されます。\n- 2027年6月1日に実施した120分の引継ぎは、一回の上限が2,800円に改められているため、2,800円となります。\n\n確認が必要です: 個別事情の確認",
+      "classification_ok": false,
+      "content_ok": true,
+      "content_review_note": "質問された結論とgoldの期待要点が意味上整合している。",
+      "difficulty": "boundary_or_effective_date",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "5月31日実施分は2,100円、6月1日実施分は2,800円。実施日で上限を選ぶ。",
+      "expected_classification": "grounded",
+      "expected_document_ids": [
+        "TXH-A01"
+      ],
+      "expected_label": "根拠十分",
+      "missing_conditions": [],
+      "predicted_label": "判断要",
+      "question": "登録・事前承認済みの輪番引継ぎを120分ずつ、2027/5/31と6/1にやった。各回いくらになる？",
+      "retrieved_document_ids": [
+        "TXH-A01",
+        "TXH-A02",
+        "TXH-D01",
+        "TXH-E01"
+      ],
+      "scenario_id": "TH034",
+      "variant_type": "paraphrase_or_noisy"
+    },
+    {
+      "answer": "回答分類: 判断要\n\n回答:\n- 2027年9月1日より前に発行された巡回指示番号については、巡回日が9月以降であっても算定対象は最大6区画までである。\n- 巡回加算は1区画につき240円である。\n- 今回の作業は8区画分であるが、算定上限が6区画であるため、加算額は1,440円（6区画×240円）となる。\n\n確認が必要です: 個別事情の確認",
+      "classification_ok": false,
+      "content_ok": true,
+      "content_review_note": "質問された結論とgoldの期待要点が意味上整合している。",
+      "difficulty": "boundary_or_effective_date",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "指示番号発行日で旧上限6区画を適用し、6×240円で1,440円。",
+      "expected_classification": "grounded",
+      "expected_document_ids": [
+        "TXH-D01"
+      ],
+      "expected_label": "根拠十分",
+      "missing_conditions": [],
+      "predicted_label": "判断要",
+      "question": "書庫巡回、指示は2027/8/31発行、作業は9/2で別々の8区画。他条件OK。加算いくら？",
+      "retrieved_document_ids": [
+        "TXH-A01",
+        "TXH-B01",
+        "TXH-D01",
+        "TXH-D02"
+      ],
+      "scenario_id": "TH037",
+      "variant_type": "paraphrase_or_noisy"
+    },
+    {
+      "answer": "回答分類: 根拠十分\n\n回答:\n- 休務時間に算入できるのは講座で教える時間のみであり、移動時間は算入されません。\n- 2027年6月20日の講座で教える2時間が休務時間として算入されます。\n- 申込期限は、講座実施日の5暦日前の17時までです。",
+      "classification_ok": true,
+      "content_ok": false,
+      "content_review_note": "申込期限を具体日（2027年6月15日17時）まで算出せず、起算規則だけを示したため。",
+      "difficulty": "multi_document",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "休務算入は教える2時間のみ。申込期限は2027年6月15日17時。",
+      "expected_classification": "grounded",
+      "expected_document_ids": [
+        "TXH-C01",
+        "TXH-C02"
+      ],
+      "expected_label": "根拠十分",
+      "missing_conditions": [],
+      "predicted_label": "根拠十分",
+      "question": "講師登録と実施承認済みで、年度使用済時間は0です。2027年6月20日の講座で2時間教え、片道30分ずつ移動します。休務に数える時間と申込期限を教えてください。",
+      "retrieved_document_ids": [
+        "TXH-A01",
+        "TXH-C01",
+        "TXH-C02",
+        "TXH-D01"
+      ],
+      "scenario_id": "TH039",
+      "variant_type": "formal"
+    },
+    {
+      "answer": "回答分類: 根拠十分\n\n回答:\n- 技能交換休務として算入できるのは講座で教える時間のみであり、移動時間は含まれないため、2027年6月20日の講座で算入できる時間は2時間である。\n- 技能交換休務の申込期限は、講座実施日の5暦日前の17時までである。",
+      "classification_ok": true,
+      "content_ok": false,
+      "content_review_note": "申込期限を具体日（2027年6月15日17時）まで算出せず、起算規則だけを示したため。",
+      "difficulty": "multi_document",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "休務算入は教える2時間のみ。申込期限は2027年6月15日17時。",
+      "expected_classification": "grounded",
+      "expected_document_ids": [
+        "TXH-C01",
+        "TXH-C02"
+      ],
+      "expected_label": "根拠十分",
+      "missing_conditions": [],
+      "predicted_label": "根拠十分",
+      "question": "講師登録・開催承認OK、今年はまだ未使用。2027/6/20に2時間教えて往復移動1時間。技能交換休務は何時間で、いつまでに申込む？",
+      "retrieved_document_ids": [
+        "TXH-A01",
+        "TXH-C01",
+        "TXH-C02",
+        "TXH-E01"
+      ],
+      "scenario_id": "TH039",
+      "variant_type": "paraphrase_or_noisy"
+    },
+    {
+      "answer": "回答分類: 判断要\n\n回答:\n- 2027年5月10日に実施した60分の輪番引継ぎの算定額は1,400円です。\n- 申請締切は実施日の翌日から起算して7暦日目の23時までです。\n- 2027年5月10日に実施した場合、申請締切は2027年5月17日の23時です。\n\n確認が必要です: 個別事情の確認",
+      "classification_ok": false,
+      "content_ok": true,
+      "content_review_note": "質問された結論とgoldの期待要点が意味上整合している。",
+      "difficulty": "multi_document",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "算定額1,400円。翌日から7暦日目の2027年5月17日23時までに輪番デスクへ送信する。",
+      "expected_classification": "grounded",
+      "expected_document_ids": [
+        "TXH-A01",
+        "TXH-A02"
+      ],
+      "expected_label": "根拠十分",
+      "missing_conditions": [],
+      "predicted_label": "判断要",
+      "question": "2027年5月10日に条件を満たす輪番引継ぎを60分実施しました。算定額と申請締切を教えてください。",
+      "retrieved_document_ids": [
+        "TXH-A01",
+        "TXH-A02",
+        "TXH-C01",
+        "TXH-D01"
+      ],
+      "scenario_id": "TH041",
+      "variant_type": "formal"
+    },
+    {
+      "answer": "回答分類: 判断要\n\n回答:\n- 2027年7月31日以前に成立した予約の終日券の補填額は1,500円です。\n- 利用料が2,000円であり、補填額の1,500円を上回っているため、補填額は1,500円となります。\n\n確認が必要です: 個別事情の確認",
+      "classification_ok": false,
+      "content_ok": true,
+      "content_review_note": "質問された結論とgoldの期待要点が意味上整合している。",
+      "difficulty": "boundary_or_effective_date",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "予約成立日が7月31日なので旧額面1,500円。利用日が8月でも1,800円にはならない。",
+      "expected_classification": "grounded",
+      "expected_document_ids": [
+        "TXH-B01"
+      ],
+      "expected_label": "根拠十分",
+      "missing_conditions": [],
+      "predicted_label": "判断要",
+      "question": "静音席の終日券を2027年7月31日に予約し、8月3日に利用しました。利用料2,000円で他の条件は満たす場合、補填額はいくらですか。",
+      "retrieved_document_ids": [
+        "TXH-B01",
+        "TXH-B02",
+        "TXH-D01",
+        "TXH-E01"
+      ],
+      "scenario_id": "TH047",
+      "variant_type": "formal"
+    },
+    {
+      "answer": "回答分類: 判断要\n\n回答:\n- 2027年7月31日以前に成立した予約の終日券は、利用日が8月であっても補填額は1,500円である。\n\n確認が必要です: 個別事情の確認",
+      "classification_ok": false,
+      "content_ok": true,
+      "content_review_note": "質問された結論とgoldの期待要点が意味上整合している。",
+      "difficulty": "boundary_or_effective_date",
+      "document_retrieval_ok": true,
+      "error": null,
+      "evidence_retrieval_ok": true,
+      "execution_ok": true,
+      "expected_answer_key": "予約成立日が7月31日なので旧額面1,500円。利用日が8月でも1,800円にはならない。",
+      "expected_classification": "grounded",
+      "expected_document_ids": [
+        "TXH-B01"
+      ],
+      "expected_label": "根拠十分",
+      "missing_conditions": [],
+      "predicted_label": "判断要",
+      "question": "静音席の1日券、2027/7/31予約で8/3に使った。実費2000円、他条件OK。補填額は？",
+      "retrieved_document_ids": [
+        "TXH-B01",
+        "TXH-B02",
+        "TXH-D01",
+        "TXH-E01"
+      ],
+      "scenario_id": "TH047",
+      "variant_type": "paraphrase_or_noisy"
+    }
+  ],
+  "note": "Reanalysis of saved human scoring; not fresh 100-expression model regression."
+}

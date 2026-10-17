@@ -376,7 +376,7 @@
   },
   "gate_passed": false,
   "improved_target_ids": [],
-  "input": "/Users/hanaokatakaaki/Desktop/rag-portfolio-app/eval/evaluation_questions_500.csv",
+  "input": "eval/evaluation_questions_500.csv",
   "questions": 100,
   "retrieval_applicable_questions": 90,
   "retrieval_mrr_first_evidence": 0.8275925925925927,

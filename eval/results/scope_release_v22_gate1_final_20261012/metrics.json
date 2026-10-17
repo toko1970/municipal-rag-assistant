@@ -1,0 +1,22 @@
+{
+  "baseline": {
+    "responses": 28,
+    "prompt_tokens": 16572,
+    "output_plus_thought_tokens": 2854,
+    "latency_p50_seconds": 13.856,
+    "latency_p95_nearest_rank_seconds": 21.53,
+    "diagnostics_correct": 1,
+    "repetition2_correct": 3,
+    "response_accounting_usd": 0.04511200000000001
+  },
+  "candidate": {
+    "responses": 28,
+    "prompt_tokens": 35164,
+    "output_plus_thought_tokens": 7036,
+    "latency_p50_seconds": 14.880500000000001,
+    "latency_p95_nearest_rank_seconds": 24.852,
+    "diagnostics_correct": 4,
+    "repetition2_correct": 3,
+    "response_accounting_usd": 0.10552400000000002
+  }
+}

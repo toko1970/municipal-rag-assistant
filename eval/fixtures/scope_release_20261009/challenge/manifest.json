@@ -1,0 +1,94 @@
+{
+  "dataset_id": "scope-release-20261009-development-challenge",
+  "created": "2026-10-09",
+  "purpose": "Gate2 development challenge; not fresh holdout or representative evaluation",
+  "rubric_version": "classification-rubric-v2.0",
+  "scenario_count": 24,
+  "input_count": 72,
+  "slice_scenario_counts": {
+    "over_deferral": 4,
+    "missing_case_fact": 4,
+    "missing_document": 4,
+    "multi_facet": 4,
+    "version": 4,
+    "generation_incomplete": 4
+  },
+  "family_count": 4,
+  "forms": [
+    "formal",
+    "paraphrase",
+    "noisy"
+  ],
+  "api_calls": 0,
+  "candidate_code_seen": false,
+  "candidate_output_seen": false,
+  "execution_status": "not_run_gate1_quota_stop",
+  "execution_gate": "Gate1 interrupted by provider quota; Gate2 NOT authorized. Do not execute this fixture.",
+  "gold_review_status": "author_checked; independent review pending for all 24; not finalized for execution",
+  "pending_human_review_count": 0,
+  "repeat_input_ids": [
+    "CH01-formal",
+    "CH02-formal",
+    "CH05-formal",
+    "CH06-formal",
+    "CH09-formal",
+    "CH10-formal",
+    "CH13-formal",
+    "CH14-formal",
+    "CH17-formal",
+    "CH18-formal",
+    "CH21-formal",
+    "CH22-formal"
+  ],
+  "sha256": {
+    "inputs.json": "1883ae16749581df46f9d4c714e924783012b12e17bdcf22f0c914fd366b8698",
+    "gold.json": "3141cba5fa9eddc01d4b613a6943c53724e9dc03e6675708545685cac8f1e29e",
+    "corpus.json": "43c62b4c9616fefc4c2a32291cdc8b4735d6b410ee3063e20829f1f80a2c444f"
+  },
+  "corpus_answerability_scope": "Only the dedicated fictional corpus.json; not the production corpus",
+  "model_input_allowlist": [
+    "question",
+    "evidence",
+    "generated_answer"
+  ],
+  "model_input_forbidden": [
+    "gold.json",
+    "slice",
+    "cluster",
+    "expected_label",
+    "expected_status",
+    "requested_facets",
+    "required_answer_elements",
+    "human_review_requirements",
+    "expected_corpus_answerability"
+  ],
+  "content_controls": [
+    [
+      "CH13",
+      "CH21"
+    ],
+    [
+      "CH02",
+      "CH22"
+    ],
+    [
+      "CH03",
+      "CH23"
+    ],
+    [
+      "CH04",
+      "CH24"
+    ]
+  ],
+  "uncertainty_unit": "scenario, with document-family cluster sensitivity; never 72 independent scenarios",
+  "independent_review_pending_scenarios": 24,
+  "pending_human_review_count_note": "CH10 ambiguity was identified by independent review and resolved by user-confirmed question clarification on 2026-10-12. Independent revalidation remains pending.",
+  "expected_label_scenario_counts": {
+    "根拠十分": 9,
+    "判断要": 6,
+    "文書不足": 5,
+    "GENERATION_INCOMPLETE": 4
+  },
+  "revision": "20261012-ch10-scope-clarification",
+  "revision_history": "CORRECTIONS.md"
+}

@@ -1,0 +1,62 @@
+{
+  "stop_reason": "COMPLETED",
+  "completed_attempts": 56,
+  "planned_attempts": 56,
+  "complete_without_errors": true,
+  "paired_scenarios": {
+    "A02": {
+      "baseline": true,
+      "candidate": true
+    },
+    "A03": {
+      "baseline": true,
+      "candidate": true
+    },
+    "A04": {
+      "baseline": true,
+      "candidate": true
+    },
+    "B02": {
+      "baseline": true,
+      "candidate": true
+    },
+    "B03": {
+      "baseline": false,
+      "candidate": true
+    },
+    "B04": {
+      "baseline": true,
+      "candidate": true
+    },
+    "C01": {
+      "baseline": false,
+      "candidate": true
+    },
+    "C02": {
+      "baseline": true,
+      "candidate": true
+    },
+    "C03": {
+      "baseline": true,
+      "candidate": true
+    },
+    "C04": {
+      "baseline": false,
+      "candidate": true
+    }
+  },
+  "improved_scenarios": [
+    "B03",
+    "C01",
+    "C04"
+  ],
+  "regressed_scenarios": [],
+  "regressed_expressions": [],
+  "candidate_unsafe_sufficient": [],
+  "candidate_diagnostics_pass": true,
+  "candidate_repeats_pass": true,
+  "gate1_pass": true,
+  "estimated_accounting_usd": 0.11122000000000001,
+  "errors": {},
+  "adoption": "not evaluated; gate1 only"
+}

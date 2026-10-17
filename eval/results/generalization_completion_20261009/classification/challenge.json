@@ -1,0 +1,596 @@
+[
+  {
+    "scenario_id": "A01",
+    "family": "transport",
+    "oracle_evidence_ids": [
+      "A1"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "根拠十分",
+      "requested_facets": [
+        "交通補助の算定額"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [
+        "2,160"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": ""
+    },
+    "id": "A01-formal",
+    "variant": "formal",
+    "question": "承認済みの臨時派遣で往復経路12kmです。条件を満たす場合の交通補助の算定額はいくらですか。"
+  },
+  {
+    "scenario_id": "A01",
+    "family": "transport",
+    "oracle_evidence_ids": [
+      "A1"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "根拠十分",
+      "requested_facets": [
+        "交通補助の算定額"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [
+        "2,160"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": ""
+    },
+    "id": "A01-paraphrase",
+    "variant": "paraphrase",
+    "question": "派遣の行き帰りで12km、承認も済み。補助はいくらになる？"
+  },
+  {
+    "scenario_id": "A02",
+    "family": "transport",
+    "oracle_evidence_ids": [
+      "A1"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "根拠十分",
+      "requested_facets": [
+        "所属部署だけで個別支給を確定できるか"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [
+        "所属",
+        "できない"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": "尋ねているのは権限・可否の一般命題。個別支給の結論ではない。"
+    },
+    "id": "A02-formal",
+    "variant": "formal",
+    "question": "臨時派遣交通補助は、所属部署だけで職員ごとの支給を確定できますか。"
+  },
+  {
+    "scenario_id": "A02",
+    "family": "transport",
+    "oracle_evidence_ids": [
+      "A1"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "根拠十分",
+      "requested_facets": [
+        "所属部署だけで個別支給を確定できるか"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [
+        "所属",
+        "できない"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": "尋ねているのは権限・可否の一般命題。個別支給の結論ではない。"
+    },
+    "id": "A02-paraphrase",
+    "variant": "paraphrase",
+    "question": "この派遣補助、所属だけで支給OKと決められる？"
+  },
+  {
+    "scenario_id": "A03",
+    "family": "transport",
+    "oracle_evidence_ids": [
+      "A1",
+      "A2"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "判断要",
+      "requested_facets": [
+        "この職員への支給額を確定できるか"
+      ],
+      "human_review_types": [
+        "case_fact"
+      ],
+      "required_answer_terms": [
+        "実走行"
+      ],
+      "forbidden_answer_terms": [
+        "支給額は2,160円で確定"
+      ],
+      "review_note": ""
+    },
+    "id": "A03-formal",
+    "variant": "formal",
+    "question": "派遣命令の承認と往復12kmは分かっていますが、実走行記録が未照合です。この職員への交通補助の支給額を確定できますか。"
+  },
+  {
+    "scenario_id": "A03",
+    "family": "transport",
+    "oracle_evidence_ids": [
+      "A1",
+      "A2"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "判断要",
+      "requested_facets": [
+        "この職員への支給額を確定できるか"
+      ],
+      "human_review_types": [
+        "case_fact"
+      ],
+      "required_answer_terms": [
+        "実走行"
+      ],
+      "forbidden_answer_terms": [
+        "支給額は2,160円で確定"
+      ],
+      "review_note": ""
+    },
+    "id": "A03-paraphrase",
+    "variant": "paraphrase",
+    "question": "命令承認済み、距離は12km。ただ走行記録はまだ照合前。この人に払う額は決まる？"
+  },
+  {
+    "scenario_id": "A04",
+    "family": "transport",
+    "oracle_evidence_ids": [
+      "A1",
+      "A2"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "文書不足",
+      "requested_facets": [
+        "所得税上の所得区分"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [],
+      "forbidden_answer_terms": [
+        "給与所得です",
+        "雑所得です"
+      ],
+      "review_note": ""
+    },
+    "id": "A04-formal",
+    "variant": "formal",
+    "question": "臨時派遣交通補助の所得税上の所得区分を教えてください。"
+  },
+  {
+    "scenario_id": "A04",
+    "family": "transport",
+    "oracle_evidence_ids": [
+      "A1",
+      "A2"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "文書不足",
+      "requested_facets": [
+        "所得税上の所得区分"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [],
+      "forbidden_answer_terms": [
+        "給与所得です",
+        "雑所得です"
+      ],
+      "review_note": ""
+    },
+    "id": "A04-paraphrase",
+    "variant": "paraphrase",
+    "question": "派遣の交通補助って税金では何所得？"
+  },
+  {
+    "scenario_id": "B01",
+    "family": "night_rota",
+    "oracle_evidence_ids": [
+      "B1"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "根拠十分",
+      "requested_facets": [
+        "調整休の付与時間"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [
+        "6時間"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": ""
+    },
+    "id": "B01-formal",
+    "variant": "formal",
+    "question": "事前承認され終了記録もある夜間保全当番を3回行いました。付与される調整休は何時間ですか。"
+  },
+  {
+    "scenario_id": "B01",
+    "family": "night_rota",
+    "oracle_evidence_ids": [
+      "B1"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "根拠十分",
+      "requested_facets": [
+        "調整休の付与時間"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [
+        "6時間"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": ""
+    },
+    "id": "B01-paraphrase",
+    "variant": "paraphrase",
+    "question": "夜の保全当番を3回、承認も終了記録もOK。休み何時間つく？"
+  },
+  {
+    "scenario_id": "B02",
+    "family": "night_rota",
+    "oracle_evidence_ids": [
+      "B1"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "判断要",
+      "requested_facets": [
+        "本人の調整休付与を確定できるか"
+      ],
+      "human_review_types": [
+        "case_fact"
+      ],
+      "required_answer_terms": [
+        "承認"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": ""
+    },
+    "id": "B02-formal",
+    "variant": "formal",
+    "question": "夜間保全当番を3回行いましたが、事前承認の記録が確認できません。本人に付与される調整休を確定できますか。"
+  },
+  {
+    "scenario_id": "B02",
+    "family": "night_rota",
+    "oracle_evidence_ids": [
+      "B1"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "判断要",
+      "requested_facets": [
+        "本人の調整休付与を確定できるか"
+      ],
+      "human_review_types": [
+        "case_fact"
+      ],
+      "required_answer_terms": [
+        "承認"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": ""
+    },
+    "id": "B02-paraphrase",
+    "variant": "paraphrase",
+    "question": "当番3回やったけど事前承認の記録がまだ不明。実際に付く休みは決められる？"
+  },
+  {
+    "scenario_id": "B03",
+    "family": "night_rota",
+    "oracle_evidence_ids": [
+      "B1",
+      "B2"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "根拠十分",
+      "requested_facets": [
+        "調整休の時間",
+        "申請期限",
+        "提出先"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [
+        "4時間",
+        "3月3日",
+        "17時",
+        "勤怠室"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": ""
+    },
+    "id": "B03-formal",
+    "variant": "formal",
+    "question": "2028年2月に事前承認と終了記録がある夜間保全当番を2回行いました。調整休の時間と申請期限・提出先を教えてください。"
+  },
+  {
+    "scenario_id": "B03",
+    "family": "night_rota",
+    "oracle_evidence_ids": [
+      "B1",
+      "B2"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "根拠十分",
+      "requested_facets": [
+        "調整休の時間",
+        "申請期限",
+        "提出先"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [
+        "4時間",
+        "3月3日",
+        "17時",
+        "勤怠室"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": ""
+    },
+    "id": "B03-paraphrase",
+    "variant": "paraphrase",
+    "question": "2028/2の夜間当番2回は承認も終了記録も済み。休みは何時間で、いつどこに申請？"
+  },
+  {
+    "scenario_id": "B04",
+    "family": "night_rota",
+    "oracle_evidence_ids": [
+      "B1",
+      "B2"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "文書不足",
+      "requested_facets": [
+        "未使用時間の翌年度繰越可否"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [],
+      "forbidden_answer_terms": [],
+      "review_note": ""
+    },
+    "id": "B04-formal",
+    "variant": "formal",
+    "question": "夜間保全当番調整休の未使用時間は翌年度へ繰り越せますか。"
+  },
+  {
+    "scenario_id": "B04",
+    "family": "night_rota",
+    "oracle_evidence_ids": [
+      "B1",
+      "B2"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "文書不足",
+      "requested_facets": [
+        "未使用時間の翌年度繰越可否"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [],
+      "forbidden_answer_terms": [],
+      "review_note": ""
+    },
+    "id": "B04-paraphrase",
+    "variant": "paraphrase",
+    "question": "当番の調整休、使わず残った分は次年度に回せる？"
+  },
+  {
+    "scenario_id": "C01",
+    "family": "device",
+    "oracle_evidence_ids": [
+      "C1"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "根拠十分",
+      "requested_facets": [
+        "交換用電池の補填額"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [
+        "6,000"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": ""
+    },
+    "id": "C01-formal",
+    "variant": "formal",
+    "question": "事前承認済みの交換用電池を12,000円で購入し、資産台帳と領収書の照合も済みました。補填額はいくらですか。"
+  },
+  {
+    "scenario_id": "C01",
+    "family": "device",
+    "oracle_evidence_ids": [
+      "C1"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "根拠十分",
+      "requested_facets": [
+        "交換用電池の補填額"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [
+        "6,000"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": ""
+    },
+    "id": "C01-paraphrase",
+    "variant": "paraphrase",
+    "question": "承認済みの交換電池が1万2千円、台帳と領収書も照合OK。いくら補填？"
+  },
+  {
+    "scenario_id": "C02",
+    "family": "device",
+    "oracle_evidence_ids": [
+      "C1",
+      "C2"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "判断要",
+      "requested_facets": [
+        "本人への補填額を確定できるか"
+      ],
+      "human_review_types": [
+        "case_fact"
+      ],
+      "required_answer_terms": [
+        "資産台帳"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": ""
+    },
+    "id": "C02-formal",
+    "variant": "formal",
+    "question": "購入額12,000円の領収書はありますが、購入品が事前承認された交換用電池か資産台帳で未照合です。この人への補填額を確定できますか。"
+  },
+  {
+    "scenario_id": "C02",
+    "family": "device",
+    "oracle_evidence_ids": [
+      "C1",
+      "C2"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "判断要",
+      "requested_facets": [
+        "本人への補填額を確定できるか"
+      ],
+      "human_review_types": [
+        "case_fact"
+      ],
+      "required_answer_terms": [
+        "資産台帳"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": ""
+    },
+    "id": "C02-paraphrase",
+    "variant": "paraphrase",
+    "question": "領収書は1万2千円。承認された電池か台帳チェック前だけど、この人に払う額は決まる？"
+  },
+  {
+    "scenario_id": "C03",
+    "family": "device",
+    "oracle_evidence_ids": [
+      "B2",
+      "C1"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "根拠十分",
+      "requested_facets": [
+        "送料を補填対象に含めるか"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [
+        "送料",
+        "対象外"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": "B2は無関係な先行根拠。"
+    },
+    "id": "C03-formal",
+    "variant": "formal",
+    "question": "貸与端末の交換用電池について、補填対象に送料を含めますか。"
+  },
+  {
+    "scenario_id": "C03",
+    "family": "device",
+    "oracle_evidence_ids": [
+      "B2",
+      "C1"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "根拠十分",
+      "requested_facets": [
+        "送料を補填対象に含めるか"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [
+        "送料",
+        "対象外"
+      ],
+      "forbidden_answer_terms": [],
+      "review_note": "B2は無関係な先行根拠。"
+    },
+    "id": "C03-paraphrase",
+    "variant": "paraphrase",
+    "question": "交換電池の送料も補填に入る？"
+  },
+  {
+    "scenario_id": "C04",
+    "family": "device",
+    "oracle_evidence_ids": [
+      "C2",
+      "C1"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "文書不足",
+      "requested_facets": [
+        "修理の実際の自己負担率"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [],
+      "forbidden_answer_terms": [
+        "50%です"
+      ],
+      "review_note": "別契約の所在は分かるが、実率は取得していない。"
+    },
+    "id": "C04-formal",
+    "variant": "formal",
+    "question": "貸与端末の修理にかかる実際の自己負担率は何%ですか。"
+  },
+  {
+    "scenario_id": "C04",
+    "family": "device",
+    "oracle_evidence_ids": [
+      "C2",
+      "C1"
+    ],
+    "gold": {
+      "rubric_version": "classification-rubric-v2.0",
+      "label": "文書不足",
+      "requested_facets": [
+        "修理の実際の自己負担率"
+      ],
+      "human_review_types": [],
+      "required_answer_terms": [],
+      "forbidden_answer_terms": [
+        "50%です"
+      ],
+      "review_note": "別契約の所在は分かるが、実率は取得していない。"
+    },
+    "id": "C04-paraphrase",
+    "variant": "paraphrase",
+    "question": "端末修理の自己負担って結局何パーセント？"
+  }
+]

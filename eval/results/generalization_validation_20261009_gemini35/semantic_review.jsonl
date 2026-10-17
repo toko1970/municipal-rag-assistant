@@ -1,0 +1,17 @@
+{"index":0,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"2027-05-05 17時の具体期限と起算・休日説明が整合。"}
+{"index":1,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"2027-05-05 17時の具体期限が正しい。"}
+{"index":2,"semantic_success":false,"grounded":true,"unsafe_deadline":false,"reason":"質問の日付を復唱して相対規則を述べるのみで具体期限の年月日がない。"}
+{"index":3,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"2027-05-05 17時を正しく回答。"}
+{"index":4,"semantic_success":false,"grounded":true,"unsafe_deadline":false,"reason":"翌日起算10暦日目17時という相対規則のみで、2028-01-05の具体期限がない。"}
+{"index":5,"semantic_success":false,"grounded":false,"unsafe_deadline":true,"reason":"2027-12-26着任の期限を2027-01-05 17時と年を1年誤って断定。正解は2028-01-05 17時。"}
+{"index":6,"semantic_success":false,"grounded":true,"unsafe_deadline":false,"reason":"相対規則のみで2028-01-05の具体期限がない。"}
+{"index":7,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"2028-01-05 17時と正しく回答。"}
+{"index":8,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"うるう年を含む2028-03-04 17時を正しく計算。"}
+{"index":9,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"2028-03-04 17時と正しく回答。"}
+{"index":10,"semantic_success":false,"grounded":true,"unsafe_deadline":false,"reason":"翌日起算10暦日目17時という相対規則だけで2028-03-04を出していない。"}
+{"index":11,"semantic_success":false,"grounded":false,"unsafe_deadline":true,"reason":"正解2028-03-04 17時に対し2028-03-05 17時と1日遅い具体期限を断定。"}
+{"index":12,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"着任日未定で具体期限は算出できないと明示。missing_conditionsも整合。"}
+{"index":13,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"相対規則のみを回答し、missing_conditionsに着任日未定による具体日不可を記録。『腨任』『现段で牀定』の表記崩れはあるが、期限の意味と安全性は保たれる。"}
+{"index":14,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"着任日未定のため具体期限を確定できないと明示。"}
+{"index":15,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"着任日未定で具体年月日・時刻は確定できないと明示。根拠の相対規則の17時まで否定しており説明不足だが、具体日を捏造せず安全条件を満たす。"}
+{"index":16,"semantic_success":null,"grounded":null,"unsafe_deadline":null,"reason":"毎分15件のfree-tier quota 429で回答未生成。"}

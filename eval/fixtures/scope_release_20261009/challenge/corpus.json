@@ -1,0 +1,100 @@
+[
+  {
+    "evidence_id": "T1",
+    "document_family": "terminal",
+    "title": "緊急連絡端末貸与要領",
+    "text": "緊急連絡端末の貸与可否は、所属名だけでは決定しない。危機連絡当番名簿と端末管理台帳を照合し、当番登録があり本人用端末の貸与が未了の場合に限り貸与する。両記録の照合前に個人の貸与可否を確定してはならない。照合の問い合わせ先は危機管理室の端末担当とする。",
+    "fictional": true
+  },
+  {
+    "evidence_id": "T2",
+    "document_family": "terminal",
+    "title": "共同端末取扱細則",
+    "text": "本人が使える共同端末が当番時間中に配置済みの場合は、本人用端末を重ねて貸与しない。共同端末がない場合には貸与要領の当番名簿・管理台帳の要件に従う。",
+    "fictional": true
+  },
+  {
+    "evidence_id": "Q1",
+    "document_family": "qualification",
+    "title": "水質測定資格更新受講取扱要領",
+    "text": "本要領の対象は常勤職員に限る。更新講習の受講申請には、資格証の写しと更新期限が分かる発行機関通知を添付する。申請先は環境研修係である。資格の有効性が不明な場合は同係が発行機関に照会する。受講料の補助額は別冊の年度別受講料単価表による。",
+    "fictional": true
+  },
+  {
+    "evidence_id": "Q2",
+    "document_family": "qualification",
+    "title": "資格更新受講・勤務実績条件",
+    "text": "常勤職員への受講料補助は、更新申請月の前月に現場測定勤務が10日以上ある場合に対象とし、9日以下は対象外とする。勤務日数は勤務実績簿で確認する。",
+    "fictional": true
+  },
+  {
+    "evidence_id": "Q3",
+    "document_family": "qualification",
+    "title": "2026年度受講料単価表",
+    "text": "2026年4月1日から2027年3月31日までの常勤職員の水質測定資格更新受講料補助額は、対象条件を満たす場合1回につき6000円とする。",
+    "fictional": true
+  },
+  {
+    "evidence_id": "C1",
+    "document_family": "card",
+    "title": "入退室カード再発行規則",
+    "text": "紛失によるカード再発行は、再発行1枚につき800円とし、枚数に単価を乗じる。再発行の申請は庁舎管理窓口へ提出する。利用者の過失の有無によって単価を変えない。故障による交換は無償とする。",
+    "fictional": true
+  },
+  {
+    "evidence_id": "C2",
+    "document_family": "card",
+    "title": "入退室カード旧窓口案内",
+    "text": "申請受付日が2026年8月31日以前の再発行申請の受取先は本館1階警備室とする。2026年9月1日以後の受付分には適用しない。",
+    "fictional": true
+  },
+  {
+    "evidence_id": "C3",
+    "document_family": "card",
+    "title": "入退室カード新窓口案内",
+    "text": "申請受付日が2026年9月1日以後の再発行申請の受取先は別館2階庁舎管理窓口とする。2026年8月31日以前の受付分には適用しない。",
+    "fictional": true
+  },
+  {
+    "evidence_id": "M1",
+    "document_family": "transport",
+    "title": "庁舎間資料搬送申込要領",
+    "text": "資料搬送は共通搬送システムから申し込む。申込時には発送元、宛先、箱数を登録する。本要領は申込経路だけを定め、職員への手当支給条件や金額を定めない。",
+    "fictional": true
+  },
+  {
+    "evidence_id": "M2",
+    "document_family": "transport",
+    "title": "資料搬送梱包・引渡し規則",
+    "text": "個人情報を含む資料は封緘箱に入れ、箱ごとに宛先票を貼る。封緘後に発送元担当者が搬送担当へ直接引き渡し、受渡簿に双方が署名する。一般公開済み資料も宛先票を要する。",
+    "fictional": true
+  },
+  {
+    "evidence_id": "M3",
+    "document_family": "transport",
+    "title": "資料搬送旧便時刻表",
+    "text": "2026年7月改定前の午後便集荷時刻は14時である。",
+    "fictional": true
+  },
+  {
+    "evidence_id": "M4",
+    "document_family": "transport",
+    "title": "資料搬送2026年7月改定通知",
+    "text": "2026年7月1日以後の集荷には本通知を適用し、旧便時刻表と異なる記載は本通知を優先する。午後便集荷時刻を15時に改める。",
+    "fictional": true
+  },
+  {
+    "evidence_id": "M5",
+    "document_family": "transport",
+    "title": "資料搬送A号運用通知",
+    "text": "2026年10月1日施行。臨時便の申込締切は集荷前日の12時とする。本通知は廃止されていない。",
+    "fictional": true
+  },
+  {
+    "evidence_id": "M6",
+    "document_family": "transport",
+    "title": "資料搬送B号運用通知",
+    "text": "2026年10月1日施行。臨時便の申込締切は集荷前日の16時とする。本通知は廃止されていない。",
+    "fictional": true
+  }
+]

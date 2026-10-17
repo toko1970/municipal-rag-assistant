@@ -1,0 +1,20 @@
+{
+  "status": "BLOCKED_BY_DAILY_PROVIDER_QUOTA",
+  "attempts": 11,
+  "responses_saved": 10,
+  "pending_tasks": 46,
+  "provider_retry_hint_jst": "2026-10-10T08:59:59.432493+09:00",
+  "hint_is_not_guaranteed": true,
+  "automatic_retry_scheduled": false,
+  "continuation_requirements": [
+    "verify frozen hashes and model unchanged",
+    "record separate continuation manifest and quota retry, preserve original failed call",
+    "run only the 46 pending tasks, no cherry picking",
+    "merge 10 saved model responses with continuation for paired final scoring",
+    "report provider availability separately from answer quality",
+    "do not change model or gold to complete this run"
+  ],
+  "successful_response_accounting_usd": 0.027062000000000003,
+  "failed_call_reservation_usd": 0.050613,
+  "pending_sha256": "0c01b6021cf39d640150d01911273db916c385c98e5f258db253e55aa774d6c7"
+}

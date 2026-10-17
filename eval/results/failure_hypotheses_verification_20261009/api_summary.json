@@ -1,0 +1,56 @@
+{
+  "calls_attempted": 33,
+  "planned_calls": 33,
+  "completed": 33,
+  "campaign_estimated_cost_usd": 0.023661999999999996,
+  "valid_run_estimated_cost_usd": 0.022392,
+  "provider_error_count": 0,
+  "groups": {
+    "classification/historical_visible_claims_empty_missing_control/baseline": {
+      "n": 4,
+      "correct": 0,
+      "errors": 0
+    },
+    "classification/new_exploratory_minimal_cases_not_sealed/baseline": {
+      "n": 4,
+      "correct": 3,
+      "errors": 0
+    },
+    "classification/historical_visible_claims_empty_missing_control/scope_definition": {
+      "n": 4,
+      "correct": 2,
+      "errors": 0
+    },
+    "classification/new_exploratory_minimal_cases_not_sealed/scope_definition": {
+      "n": 4,
+      "correct": 3,
+      "errors": 0
+    },
+    "deadline/historical_fixed_top8/baseline": {
+      "n": 4,
+      "correct": 1,
+      "errors": 0
+    },
+    "deadline/historical_fixed_top8/calculation_permission": {
+      "n": 4,
+      "correct": 3,
+      "errors": 0
+    },
+    "deadline/historical_fixed_top8/deadline_only": {
+      "n": 4,
+      "correct": 3,
+      "errors": 0
+    },
+    "deadline/historical_fixed_top8/explicit_date": {
+      "n": 4,
+      "correct": 4,
+      "errors": 0
+    },
+    "deadline_control/historical_success_control/baseline": {
+      "n": 1,
+      "correct": null,
+      "errors": 0,
+      "scoring_note": "Runner did not score this control; see reviewed_analysis.deadline_control for offline date/time scoring."
+    }
+  }
+}

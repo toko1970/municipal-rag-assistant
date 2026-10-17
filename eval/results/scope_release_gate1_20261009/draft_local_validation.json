@@ -1,0 +1,24 @@
+{
+  "candidate": "scope-classification-v2.1-draft",
+  "local_related_tests": {
+    "passed": 73,
+    "failed": 0
+  },
+  "ruff": "passed",
+  "git_diff_check": "passed",
+  "frozen_original_hash_check": "passed",
+  "llm_evaluation": "not run for this draft",
+  "holdout": "not run",
+  "deployment": "not performed",
+  "source_hashes": {
+    "src/classification_scope_contract.py": "9a167a706287eac478f0911c75a511436b4c89bbbb2e6739feaf7d2ed4de057e",
+    "src/query_service.py": "a42231a25ef290974131547e8877205489a46a5ee00bbbd0e7fd782035762e57",
+    "src/rag_v2.py": "3d1b0c7198931b5b5ba09237618e22013738bde849cced8d687dc4c0620b57cf",
+    "src/answering.py": "6b58827f331b43f3bb70aa00be980c581c67df78b07aaec02ed07de95c17141c",
+    "app.py": "be93102060098380b3485b6f6254bf97d1a3ddb8f02d2972bf62487c45297b63",
+    "tests/test_classification_scope_contract.py": "831709a720c5e76283cc91a9ad312fcd72702dbe6b6413ce7e5f036a4c626f91",
+    "tests/test_scope_release_review_regressions.py": "a595be5ce900ccb1f5e38ac243bb240aecca048abe1681a0dc21519115d815f3",
+    "tests/test_scope_release_evaluation.py": "b94639e8719fdf66b0f69a19e4a11eb527b9efeb4772617d85bf129ffc8880c3",
+    "tests/test_app_smoke.py": "8cdb8c1cc740cd72a18745c9b5bc7ae40c5a75787e0b656a6e87b2b32f1d4223"
+  }
+}

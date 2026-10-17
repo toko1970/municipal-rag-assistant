@@ -1,0 +1,58 @@
+{
+  "created_at_utc": "2026-10-09T02:17:59.231021+00:00",
+  "candidate": "classification-scope-policy-v1-candidate",
+  "model": "gemini-3.1-flash-lite",
+  "temperature": 0,
+  "seed": 42,
+  "max_output_tokens": 1024,
+  "max_api_attempts": 56,
+  "http_attempts": 1,
+  "retry": 0,
+  "timeout_seconds": 45,
+  "min_interval_seconds": 12.2,
+  "max_wall_seconds": 1200,
+  "max_estimated_usd": 0.6,
+  "accounting_rates_per_million": {
+    "input": 1.0,
+    "output": 10.0
+  },
+  "accounting_note": "Conservative experiment accounting assumptions, not a verified provider tariff or billed amount.",
+  "primary": "20 known expressions: both expressions must have correct label and render successfully per scenario",
+  "gate": {
+    "min_net_improved_scenarios": 1,
+    "max_new_regressions": 0,
+    "max_new_unsafe_sufficient": 0,
+    "all_candidate_diagnostic_factors_correct": true,
+    "all_candidate_repeat_cases_correct": true,
+    "all_calls_complete": true
+  },
+  "scope": "Gate 1 classifier-only development mechanism; not production adoption or unseen evaluation",
+  "excluded_ambiguous_scenarios": [
+    "A01",
+    "B01"
+  ],
+  "repeat_ids": [
+    "A02-paraphrase",
+    "A03-formal",
+    "A04-formal",
+    "C01-formal"
+  ],
+  "gold_status": "Existing annotations reused; new diagnostic factors provisional, no user-approved adoption gold",
+  "frozen_hashes": {
+    "cases.json": "a00fc568a4591e89005280c8e0e7d12e46d0e8fd2a62159f55adc8fe67c0187e",
+    "tasks.json": "a03be405d5f1b964baa13b0eea44fdb4ea11e6d0e9ada8bf97a8470c9bbb17bf",
+    "schema.json": "95e76ef96146cc53682fb372416d513f5f5785f642b405ed1b27a976f38d2608",
+    "policy.txt": "6320bd1dc077c70a5d67915bade3e07a28369bcba322857b73be2533bf1ab4a1"
+  },
+  "source_hashes": {
+    "src/classification_scope_policy.py": "7905cd221ffaef9467586722142de44831b681c2c6c3e49ee42ad3c9ddbbe87a",
+    "src/query_service.py": "9dfe1913da5344baac1693c4a8bc8ebcea39b7fc3bb7e61b55a1474f2fd0a279",
+    "src/answering.py": "37ea4fdb78ac1a2f69d955dc7d79c8bbf0393a004fa3be8a89cb0df69e4c2bcd",
+    "eval/evaluate_classification_scope_policy.py": "a1cdb8bb86593941961500214182a78197fbe95897a123c07b4fc1423bbb3326",
+    "design/schemas/classification-output-v1.schema.json": "5065adcd32bddd0450f2cabfee4ba822ee6f44a7062d589b1946c3de575dace3"
+  },
+  "input_hashes": {
+    "eval/results/generalization_completion_20261009/classification/challenge.json": "b2bdeb882f92c5f71fd46593285a94d9023f541d8de823e631b23b3c18b94466",
+    "eval/results/generalization_completion_20261009/classification/api_attempts.jsonl": "d880f5deab1844bc0f792c2deb4bd8519971184f2738963307c9ed2fac0eb247"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "stop": "PROVIDER_ERROR",
+  "attempts": 27,
+  "planned": 46,
+  "paired_scenarios": {
+    "A02": {
+      "baseline": false,
+      "candidate": false
+    },
+    "A03": {
+      "baseline": false,
+      "candidate": false
+    },
+    "A04": {
+      "baseline": false,
+      "candidate": false
+    },
+    "B02": {
+      "baseline": false,
+      "candidate": false
+    },
+    "B03": {
+      "baseline": false,
+      "candidate": false
+    },
+    "B04": {
+      "baseline": false,
+      "candidate": false
+    },
+    "C01": {
+      "baseline": false,
+      "candidate": true
+    },
+    "C02": {
+      "baseline": false,
+      "candidate": false
+    },
+    "C03": {
+      "baseline": false,
+      "candidate": false
+    },
+    "C04": {
+      "baseline": false,
+      "candidate": false
+    }
+  },
+  "improved": [
+    "C01"
+  ],
+  "regressed": [],
+  "expression_regressions": [
+    "B02-paraphrase"
+  ],
+  "candidate_unsafe_sufficient": [],
+  "candidate_diagnostics_pass": false,
+  "candidate_repeats_pass": false,
+  "accounting_usd": 0.11584799999999999,
+  "known_expression_success": {
+    "baseline": 7,
+    "candidate": 8
+  },
+  "status_counts": {
+    "candidate:SUCCESS": 9,
+    "baseline:SUCCESS": 12,
+    "baseline:PIPELINE_INCONSISTENCY": 1,
+    "candidate:PIPELINE_INCONSISTENCY": 2,
+    "candidate:GENERATION_INCOMPLETE": 2,
+    "baseline:PROVIDER_ERROR": 1
+  },
+  "gate1_pass": false,
+  "production_adoption": "not evaluated"
+}

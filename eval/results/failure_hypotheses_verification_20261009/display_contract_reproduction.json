@@ -1,0 +1,25 @@
+{
+  "commit": "5d1ecc50985db681cfa71bddc6cbfcfa99480e40",
+  "source_sha256": "bc35799682a3a50e2e720a17490d67e1b64d5b14dc10fa9b9423e99d23df0c19",
+  "cases": [
+    {
+      "case": "no_claims",
+      "error": "根拠十分の表示条件を満たしていません",
+      "expected_error": true,
+      "passed": true
+    },
+    {
+      "case": "unresolved_condition",
+      "error": "根拠十分の表示条件を満たしていません",
+      "expected_error": true,
+      "passed": true
+    },
+    {
+      "case": "normal",
+      "error": null,
+      "expected_error": false,
+      "passed": true
+    }
+  ],
+  "limitation": "Synthetic branch reproduction. Historical raw generation and classification not persisted on error, so TH014/TH026 branch attribution is unknown."
+}

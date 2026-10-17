@@ -1,0 +1,18 @@
+{
+  "created_at_utc": "2026-10-09T00:30:54.041762+00:00",
+  "reason": "At parent reviewer request, correct invalid JSON/schema handling before continuation: an initial invalid model output is a scored output/format failure and never replaced by retry. Only 429/503/timeout/transport failures may retry. First phase attempts remain immutable.",
+  "original_manifest_sha256": "4be7dd390f2a4033b6b7b241fdb4b6a5876da13bd0653a3572511e886e403d6e",
+  "runner_sha256": "1cf4bb7b97da149339670ba74bb94e5930e79f8d28b8737eae2f649736d66db8",
+  "attempts_before_continuation": 9,
+  "attempts_sha256_before_continuation": "7317f0ae608d977cc96ad074bc202a957a9e09c9d75d7aa418dffd0c698649d0",
+  "effective_retry_on": [
+    "429",
+    "503",
+    "timeout",
+    "transport"
+  ],
+  "max_total_api_attempts": 160,
+  "max_retries_per_task": 2,
+  "max_wall_seconds_including_first_phase": 2400,
+  "quality_early_stop": false
+}

@@ -1,0 +1,20 @@
+{
+  "started_at": "2026-10-08T23:19:13.024647+00:00",
+  "historical_commit": "5d1ecc50985db681cfa71bddc6cbfcfa99480e40",
+  "model": "gemini-3.1-flash-lite",
+  "temperature": 0,
+  "max_calls": 33,
+  "max_output_tokens": 1536,
+  "max_estimated_cost_usd": 0.1,
+  "pricing_assumption_usd_per_million": {
+    "input": 0.25,
+    "output": 1.5
+  },
+  "pricing_source": "existing repo eval/evaluate_visual_answers.py; not current billing verification",
+  "max_retries": 0,
+  "http_attempts": 1,
+  "tasks_sha256": "8dd8372116b196bd967be085ec7d8b9d13197f6ec402919d97f7b9515bfa9f09",
+  "schemas_sha256": "931337f4e614ffdbd88ddc5b1e771ee5f51cc1fd96251b8a4dfcda0ed2b3edab",
+  "source_sha256": "d84884638973050f0604dd8312dca241c8343aabafba68bd2041b0b92da54f20",
+  "conditions": "Single run per condition. No inference of generalization or stable causal effect. Historical expected labels retained, not relabeled post hoc. Artificial answerability gold is explicitly question scoped."
+}

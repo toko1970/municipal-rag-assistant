@@ -1,0 +1,13 @@
+{
+  "total_calls": 39,
+  "valid_calls": 37,
+  "invalidated_calls": 2,
+  "errors": 0,
+  "input_tokens": 57245,
+  "output_tokens": 8251,
+  "thought_tokens": 0,
+  "estimated_cost_usd": 0.02668775,
+  "max_estimated_cost_usd": 0.1,
+  "review_revalidation_count": 2,
+  "additional_api_execution_required": false
+}

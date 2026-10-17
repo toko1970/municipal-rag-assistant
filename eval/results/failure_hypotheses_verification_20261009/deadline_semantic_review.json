@@ -1,0 +1,114 @@
+[
+  {
+    "id": "TH011/formal",
+    "arm": "baseline",
+    "strict_regex_correct": false,
+    "semantic_date_time_correct": false,
+    "note": "生claim内容を確認し自動判定と意味判定が一致。"
+  },
+  {
+    "id": "TH011/formal",
+    "arm": "explicit_date",
+    "strict_regex_correct": true,
+    "semantic_date_time_correct": true,
+    "note": "生claim内容を確認し自動判定と意味判定が一致。"
+  },
+  {
+    "id": "TH011/formal",
+    "arm": "calculation_permission",
+    "strict_regex_correct": true,
+    "semantic_date_time_correct": true,
+    "note": "生claim内容を確認し自動判定と意味判定が一致。"
+  },
+  {
+    "id": "TH011/formal",
+    "arm": "deadline_only",
+    "strict_regex_correct": true,
+    "semantic_date_time_correct": true,
+    "note": "生claim内容を確認し自動判定と意味判定が一致。"
+  },
+  {
+    "id": "TH011/paraphrase_or_noisy",
+    "arm": "baseline",
+    "strict_regex_correct": false,
+    "semantic_date_time_correct": false,
+    "note": "生claim内容を確認し自動判定と意味判定が一致。"
+  },
+  {
+    "id": "TH011/paraphrase_or_noisy",
+    "arm": "explicit_date",
+    "strict_regex_correct": true,
+    "semantic_date_time_correct": true,
+    "note": "生claim内容を確認し自動判定と意味判定が一致。"
+  },
+  {
+    "id": "TH011/paraphrase_or_noisy",
+    "arm": "calculation_permission",
+    "strict_regex_correct": false,
+    "semantic_date_time_correct": true,
+    "note": "同一claimに2027年の実施日と、省略年の締切月日・時刻を記載。年参照が一意なので具体期限として合格。厳密年月日連続regexのみが不合格。"
+  },
+  {
+    "id": "TH011/paraphrase_or_noisy",
+    "arm": "deadline_only",
+    "strict_regex_correct": true,
+    "semantic_date_time_correct": true,
+    "note": "生claim内容を確認し自動判定と意味判定が一致。"
+  },
+  {
+    "id": "TH039/formal",
+    "arm": "baseline",
+    "strict_regex_correct": false,
+    "semantic_date_time_correct": false,
+    "note": "生claim内容を確認し自動判定と意味判定が一致。"
+  },
+  {
+    "id": "TH039/formal",
+    "arm": "explicit_date",
+    "strict_regex_correct": true,
+    "semantic_date_time_correct": true,
+    "note": "生claim内容を確認し自動判定と意味判定が一致。"
+  },
+  {
+    "id": "TH039/formal",
+    "arm": "calculation_permission",
+    "strict_regex_correct": true,
+    "semantic_date_time_correct": true,
+    "note": "生claim内容を確認し自動判定と意味判定が一致。"
+  },
+  {
+    "id": "TH039/formal",
+    "arm": "deadline_only",
+    "strict_regex_correct": true,
+    "semantic_date_time_correct": true,
+    "note": "生claim内容を確認し自動判定と意味判定が一致。"
+  },
+  {
+    "id": "TH039/paraphrase_or_noisy",
+    "arm": "baseline",
+    "strict_regex_correct": true,
+    "semantic_date_time_correct": true,
+    "note": "生claim内容を確認し自動判定と意味判定が一致。"
+  },
+  {
+    "id": "TH039/paraphrase_or_noisy",
+    "arm": "explicit_date",
+    "strict_regex_correct": true,
+    "semantic_date_time_correct": true,
+    "note": "生claim内容を確認し自動判定と意味判定が一致。"
+  },
+  {
+    "id": "TH039/paraphrase_or_noisy",
+    "arm": "calculation_permission",
+    "strict_regex_correct": true,
+    "semantic_date_time_correct": true,
+    "note": "生claim内容を確認し自動判定と意味判定が一致。"
+  },
+  {
+    "id": "TH039/paraphrase_or_noisy",
+    "arm": "deadline_only",
+    "strict_regex_correct": false,
+    "semantic_date_time_correct": true,
+    "note": "同一claimに2027年の実施日と、省略年の締切月日・時刻を記載。年参照が一意なので具体期限として合格。厳密年月日連続regexのみが不合格。"
+  }
+]

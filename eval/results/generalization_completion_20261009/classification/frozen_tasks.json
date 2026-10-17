@@ -1,0 +1,618 @@
+[
+  {
+    "row_id": "A01-formal",
+    "scenario_id": "A01",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "A01-formal",
+    "scenario_id": "A01",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "A01-paraphrase",
+    "scenario_id": "A01",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "A01-paraphrase",
+    "scenario_id": "A01",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "A02-formal",
+    "scenario_id": "A02",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "A02-formal",
+    "scenario_id": "A02",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "A02-paraphrase",
+    "scenario_id": "A02",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "A02-paraphrase",
+    "scenario_id": "A02",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "A03-formal",
+    "scenario_id": "A03",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "A03-formal",
+    "scenario_id": "A03",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "A03-paraphrase",
+    "scenario_id": "A03",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "A03-paraphrase",
+    "scenario_id": "A03",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "A04-formal",
+    "scenario_id": "A04",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "A04-formal",
+    "scenario_id": "A04",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "A04-paraphrase",
+    "scenario_id": "A04",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "A04-paraphrase",
+    "scenario_id": "A04",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "B01-formal",
+    "scenario_id": "B01",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "B01-formal",
+    "scenario_id": "B01",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "B01-paraphrase",
+    "scenario_id": "B01",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "B01-paraphrase",
+    "scenario_id": "B01",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "B02-formal",
+    "scenario_id": "B02",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "B02-formal",
+    "scenario_id": "B02",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "B02-paraphrase",
+    "scenario_id": "B02",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "B02-paraphrase",
+    "scenario_id": "B02",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "B03-formal",
+    "scenario_id": "B03",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "B03-formal",
+    "scenario_id": "B03",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "B03-paraphrase",
+    "scenario_id": "B03",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "B03-paraphrase",
+    "scenario_id": "B03",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "B04-formal",
+    "scenario_id": "B04",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "B04-formal",
+    "scenario_id": "B04",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "B04-paraphrase",
+    "scenario_id": "B04",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "B04-paraphrase",
+    "scenario_id": "B04",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "C01-formal",
+    "scenario_id": "C01",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "C01-formal",
+    "scenario_id": "C01",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "C01-paraphrase",
+    "scenario_id": "C01",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "C01-paraphrase",
+    "scenario_id": "C01",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "C02-formal",
+    "scenario_id": "C02",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "C02-formal",
+    "scenario_id": "C02",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "C02-paraphrase",
+    "scenario_id": "C02",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "C02-paraphrase",
+    "scenario_id": "C02",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "C03-formal",
+    "scenario_id": "C03",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "C03-formal",
+    "scenario_id": "C03",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "C03-paraphrase",
+    "scenario_id": "C03",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "C03-paraphrase",
+    "scenario_id": "C03",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "C04-formal",
+    "scenario_id": "C04",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "C04-formal",
+    "scenario_id": "C04",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "C04-paraphrase",
+    "scenario_id": "C04",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "C04-paraphrase",
+    "scenario_id": "C04",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "A02-formal",
+    "scenario_id": "A02",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 2
+  },
+  {
+    "row_id": "A02-formal",
+    "scenario_id": "A02",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 2
+  },
+  {
+    "row_id": "A02-paraphrase",
+    "scenario_id": "A02",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 2
+  },
+  {
+    "row_id": "A02-paraphrase",
+    "scenario_id": "A02",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 2
+  },
+  {
+    "row_id": "A03-formal",
+    "scenario_id": "A03",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 2
+  },
+  {
+    "row_id": "A03-formal",
+    "scenario_id": "A03",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 2
+  },
+  {
+    "row_id": "A03-paraphrase",
+    "scenario_id": "A03",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 2
+  },
+  {
+    "row_id": "A03-paraphrase",
+    "scenario_id": "A03",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 2
+  },
+  {
+    "row_id": "B03-formal",
+    "scenario_id": "B03",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 2
+  },
+  {
+    "row_id": "B03-formal",
+    "scenario_id": "B03",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 2
+  },
+  {
+    "row_id": "B03-paraphrase",
+    "scenario_id": "B03",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 2
+  },
+  {
+    "row_id": "B03-paraphrase",
+    "scenario_id": "B03",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 2
+  },
+  {
+    "row_id": "C04-formal",
+    "scenario_id": "C04",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 2
+  },
+  {
+    "row_id": "C04-formal",
+    "scenario_id": "C04",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 2
+  },
+  {
+    "row_id": "C04-paraphrase",
+    "scenario_id": "C04",
+    "evidence_mode": "oracle",
+    "arm": "v1",
+    "repetition": 2
+  },
+  {
+    "row_id": "C04-paraphrase",
+    "scenario_id": "C04",
+    "evidence_mode": "oracle",
+    "arm": "v2",
+    "repetition": 2
+  },
+  {
+    "row_id": "A01-formal",
+    "scenario_id": "A01",
+    "evidence_mode": "retrieved",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "A01-formal",
+    "scenario_id": "A01",
+    "evidence_mode": "retrieved",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "A01-paraphrase",
+    "scenario_id": "A01",
+    "evidence_mode": "retrieved",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "A01-paraphrase",
+    "scenario_id": "A01",
+    "evidence_mode": "retrieved",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "A02-formal",
+    "scenario_id": "A02",
+    "evidence_mode": "retrieved",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "A02-formal",
+    "scenario_id": "A02",
+    "evidence_mode": "retrieved",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "A02-paraphrase",
+    "scenario_id": "A02",
+    "evidence_mode": "retrieved",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "A02-paraphrase",
+    "scenario_id": "A02",
+    "evidence_mode": "retrieved",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "A03-formal",
+    "scenario_id": "A03",
+    "evidence_mode": "retrieved",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "A03-formal",
+    "scenario_id": "A03",
+    "evidence_mode": "retrieved",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "A03-paraphrase",
+    "scenario_id": "A03",
+    "evidence_mode": "retrieved",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "A03-paraphrase",
+    "scenario_id": "A03",
+    "evidence_mode": "retrieved",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "B03-formal",
+    "scenario_id": "B03",
+    "evidence_mode": "retrieved",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "B03-formal",
+    "scenario_id": "B03",
+    "evidence_mode": "retrieved",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "B03-paraphrase",
+    "scenario_id": "B03",
+    "evidence_mode": "retrieved",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "B03-paraphrase",
+    "scenario_id": "B03",
+    "evidence_mode": "retrieved",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "C02-formal",
+    "scenario_id": "C02",
+    "evidence_mode": "retrieved",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "C02-formal",
+    "scenario_id": "C02",
+    "evidence_mode": "retrieved",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "C02-paraphrase",
+    "scenario_id": "C02",
+    "evidence_mode": "retrieved",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "C02-paraphrase",
+    "scenario_id": "C02",
+    "evidence_mode": "retrieved",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "C04-formal",
+    "scenario_id": "C04",
+    "evidence_mode": "retrieved",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "C04-formal",
+    "scenario_id": "C04",
+    "evidence_mode": "retrieved",
+    "arm": "v2",
+    "repetition": 1
+  },
+  {
+    "row_id": "C04-paraphrase",
+    "scenario_id": "C04",
+    "evidence_mode": "retrieved",
+    "arm": "v1",
+    "repetition": 1
+  },
+  {
+    "row_id": "C04-paraphrase",
+    "scenario_id": "C04",
+    "evidence_mode": "retrieved",
+    "arm": "v2",
+    "repetition": 1
+  }
+]

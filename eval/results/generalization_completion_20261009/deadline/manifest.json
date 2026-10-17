@@ -1,0 +1,48 @@
+{
+  "created_at_utc": "2026-10-09T00:29:37.339086+00:00",
+  "status": "precommitted_before_api",
+  "source_experiment": "eval/results/generalization_validation_20261009",
+  "fixture_sha256": "67fdfc876ccfb1489a570b8437b524fbee484cf02bbcee2cd40cf687ab5896dd",
+  "tasks_sha256": "3d87239996b343e03544004f080ca5223b2fb30c0d4e2066c944a4669b3273a1",
+  "schema_sha256": "676adfdfd2c5275c5a742a1bda009e73bda87dd96b4735c05b44710098fe49c4",
+  "runner_sha256": "e8e959f25ebcd389fe2ba683b14f22a48b4a367d6f38e341b350246a9739f9d0",
+  "model": "gemini-3.1-flash-lite",
+  "temperature": 0,
+  "seed": 42,
+  "max_output_tokens": 1024,
+  "http_timeout_ms": 45000,
+  "sdk_http_attempts": 1,
+  "planned_valid_tasks": 120,
+  "max_total_api_attempts": 160,
+  "max_retries_per_task": 2,
+  "min_start_interval_s": 6.2,
+  "retry_on": [
+    "429",
+    "503",
+    "timeout",
+    "transport",
+    "invalid_json_or_schema"
+  ],
+  "retry_rule": "RetryInfo delay plus 2 seconds, also subject to 6.2-second minimum start interval. At most two retries for a task. Preserve all attempts. Never replace a schema-valid answer based on content quality.",
+  "http_503_rule": "Transient provider failure; record original error and retry at most twice, then mark task incomplete.",
+  "max_estimated_usd": 1.0,
+  "max_wall_seconds": 2400,
+  "cost_assumption_usd_per_million_input_output": [
+    0.25,
+    1.5
+  ],
+  "cost_note": "Estimate from returned usage. Failed calls without usage may be billed and cannot be included exactly.",
+  "candidate": "期限を回答するときは、具体的な年月日と時刻まで答えてください。",
+  "adoption_gate": "Net >=3 scenario improvements, zero new answerable-scenario regressions, zero new unsafe deadlines on five must-abstain scenarios, all valid grounded outputs; default reject from previous observations.",
+  "repetition_subset": [
+    "D01",
+    "D04",
+    "D12",
+    "D13",
+    "D17",
+    "D20"
+  ],
+  "quality_early_stop": false,
+  "scope": "Fixed-evidence generation-only development challenge; opened set, not independent holdout; existing records remain immutable.",
+  "review_round_limit": 2
+}

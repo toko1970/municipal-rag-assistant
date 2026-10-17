@@ -1,0 +1,7 @@
+{
+  "reason": "Initial in-memory UUID objects compared to historical JSON strings caused a false mismatch. Persisted records already match; compare serialized JSON in corrected runner.",
+  "initial_display_executions": 24,
+  "corrected_display_executions_planned": 24,
+  "api_calls": 0,
+  "candidate_or_fixture_changes": false
+}

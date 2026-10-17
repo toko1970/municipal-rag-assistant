@@ -1,0 +1,35 @@
+{
+  "record_count": 8,
+  "task_count": 120,
+  "error_count": 2,
+  "schema_invalid": 0,
+  "citation_invalid": 0,
+  "input_tokens": 1367,
+  "output_tokens": 1809,
+  "estimated_usd": 0.0049326000000000005,
+  "latency_p50_s": 1.959,
+  "latency_p95_s": 2.7,
+  "api_records_sha256": "e14b6b4158b2a0bfa9ac91b651e04d5e17f4d8377f2cdbd83b0fb0ef4818b3fd",
+  "warning": "Date/time string proxy is not semantic scoring; all responses need full-content review.",
+  "semantic_review": {
+    "sha256": "3e60ef69b32ee15db8c4b446c7290f7f62a4f976b4ec0e22351026d0f3f9c453",
+    "reviewed_records": 8,
+    "scored_outputs": 6,
+    "successful_outputs": 4,
+    "complete_paired_expressions": 2,
+    "pair_counts": {
+      "both_pass": 1,
+      "baseline_only": 0,
+      "candidate_only": 1,
+      "both_fail": 0
+    },
+    "complete_scenarios": {
+      "D01": {
+        "baseline": false,
+        "candidate": true
+      }
+    },
+    "new_unsupported_claims": [],
+    "new_wrong_deadline_indices": []
+  }
+}

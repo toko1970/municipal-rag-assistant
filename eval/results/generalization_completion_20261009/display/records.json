@@ -1,0 +1,3151 @@
+[
+  {
+    "id": "normal_sufficient",
+    "arm": "v1",
+    "result": {
+      "request_id": "1c6a0fe0-5cbd-47f9-8161-01eba889b32b",
+      "question": "給与支給日はいつですか。",
+      "answer": "回答分類: 根拠十分\n\n回答:\n- 給与は毎月21日に支給されます。",
+      "answer_label": "根拠十分",
+      "answer_status": "SUCCESS",
+      "degraded": false,
+      "invariant_code": null,
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "給与は毎月21日に支給されます。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      ],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "給与は毎月21日に支給する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "visual_evidence_count": 0,
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-decision-v1",
+      "version_resolution": {
+        "status": "NOT_CONFIGURED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-claims-v1",
+        "response_data": {
+          "schema_version": "1.0",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "給与は毎月21日に支給されます。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text"
+            }
+          ],
+          "missing_conditions": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-classification-v1",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "derived_label": "根拠十分",
+        "confidence": 0.95,
+        "status": "SUCCESS",
+        "fallback_used": false,
+        "error_summary": null
+      },
+      {
+        "stage": "answer",
+        "label": "根拠十分",
+        "display_text": "回答分類: 根拠十分\n\n回答:\n- 給与は毎月21日に支給されます。",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "給与は毎月21日に支給されます。",
+            "evidence_element_ids": [
+              "00000000-0000-0000-0000-000000000001"
+            ]
+          }
+        ],
+        "status": "SUCCESS"
+      }
+    ],
+    "normal_control_pass": true,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": true,
+    "returned": true,
+    "visible_claim_count": 1
+  },
+  {
+    "id": "normal_sufficient",
+    "arm": "v2",
+    "result": {
+      "request_id": "6c88501b-4ec1-4917-a044-3190c75fd404",
+      "question": "給与支給日はいつですか。",
+      "question_contract": {
+        "schema_version": "1.0",
+        "status": "SUCCESS",
+        "requested_facets": [
+          {
+            "facet_id": "facet-1",
+            "requirement": "給与支給日",
+            "answer_type": "date"
+          }
+        ],
+        "input_facts": [],
+        "error_code": null
+      },
+      "answer": "回答分類: 根拠十分\n\n回答:\n- 給与は毎月21日に支給されます。",
+      "answer_label": "根拠十分",
+      "answer_status": "SUCCESS",
+      "degraded": false,
+      "invariant_code": null,
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "給与は毎月21日に支給されます。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      ],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "給与は毎月21日に支給する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "question_contract_generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-rubric-v2.0",
+      "version_resolution": {
+        "status": "NOT_CONFIGURED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "visual_evidence_count": 0
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "question-contract-v1",
+        "factors": {
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "給与支給日",
+                "answer_type": "date"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          }
+        },
+        "derived_label": null,
+        "confidence": null,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-facet-claims-v3-candidate",
+        "response_data": {
+          "schema_version": "3.0-candidate",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "給与は毎月21日に支給されます。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text",
+              "facet_ids": [
+                "facet-1"
+              ],
+              "input_fact_ids": [],
+              "calculation_ids": []
+            }
+          ],
+          "missing_conditions": [],
+          "date_calculations": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "classification-facet-v2-candidate",
+        "factors": {
+          "schema_version": "2.0-candidate",
+          "decision_version": "classification-rubric-v2.0",
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "給与支給日",
+                "answer_type": "date"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          },
+          "facet_assessments": [
+            {
+              "facet_id": "facet-1",
+              "claim_ids": [
+                "claim-1"
+              ],
+              "claim_support": "fully_supported",
+              "evidence_coverage": "sufficient",
+              "human_review_requirements": [],
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "confidence": 0.95
+            }
+          ]
+        },
+        "derived_label": "根拠十分",
+        "confidence": 0.95,
+        "status": "SUCCESS",
+        "fallback_used": false,
+        "error_summary": null
+      },
+      {
+        "stage": "answer",
+        "label": "根拠十分",
+        "display_text": "回答分類: 根拠十分\n\n回答:\n- 給与は毎月21日に支給されます。",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "給与は毎月21日に支給されます。",
+            "evidence_element_ids": [
+              "00000000-0000-0000-0000-000000000001"
+            ]
+          }
+        ],
+        "status": "SUCCESS"
+      }
+    ],
+    "normal_control_pass": true,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": true,
+    "returned": true,
+    "visible_claim_count": 1
+  },
+  {
+    "id": "normal_review",
+    "arm": "v1",
+    "result": {
+      "request_id": "76480351-84ea-479e-a1e3-8018c3e3d465",
+      "question": "研修補助の対象ですか。研修は修了しています。",
+      "answer": "回答分類: 判断要\n\n回答:\n- 在籍日数の確認が必要なため、対象可否は確定できません。\n\n確認が必要です: 在籍日数、個別事情の確認",
+      "answer_label": "判断要",
+      "answer_status": "SUCCESS",
+      "degraded": false,
+      "invariant_code": null,
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      ],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "研修補助は修了済みかつ在籍30日以上なら対象。在籍日数不明なら支給可否を確定できない。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "visual_evidence_count": 0,
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-decision-v1",
+      "version_resolution": {
+        "status": "NOT_CONFIGURED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "研修補助の対象ですか。研修は修了しています。"
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-claims-v1",
+        "response_data": {
+          "schema_version": "1.0",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text"
+            }
+          ],
+          "missing_conditions": [
+            "在籍日数"
+          ]
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-classification-v1",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "derived_label": "判断要",
+        "confidence": 0.95,
+        "status": "SUCCESS",
+        "fallback_used": false,
+        "error_summary": null
+      },
+      {
+        "stage": "answer",
+        "label": "判断要",
+        "display_text": "回答分類: 判断要\n\n回答:\n- 在籍日数の確認が必要なため、対象可否は確定できません。\n\n確認が必要です: 在籍日数、個別事情の確認",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+            "evidence_element_ids": [
+              "00000000-0000-0000-0000-000000000001"
+            ]
+          }
+        ],
+        "status": "SUCCESS"
+      }
+    ],
+    "normal_control_pass": true,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": true,
+    "returned": true,
+    "visible_claim_count": 1
+  },
+  {
+    "id": "normal_review",
+    "arm": "v2",
+    "result": {
+      "request_id": "9cd5090e-934f-47bd-8f23-09a74bdcbbc5",
+      "question": "研修補助の対象ですか。研修は修了しています。",
+      "question_contract": {
+        "schema_version": "1.0",
+        "status": "SUCCESS",
+        "requested_facets": [
+          {
+            "facet_id": "facet-1",
+            "requirement": "研修補助の支給可否",
+            "answer_type": "eligibility"
+          }
+        ],
+        "input_facts": [],
+        "error_code": null
+      },
+      "answer": "回答分類: 判断要\n\n回答:\n- 在籍日数の確認が必要なため、対象可否は確定できません。\n\n確認が必要です: 在籍日数",
+      "answer_label": "判断要",
+      "answer_status": "SUCCESS",
+      "degraded": false,
+      "invariant_code": null,
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      ],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "研修補助は修了済みかつ在籍30日以上なら対象。在籍日数不明なら支給可否を確定できない。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "question_contract_generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-rubric-v2.0",
+      "version_resolution": {
+        "status": "NOT_CONFIGURED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "visual_evidence_count": 0
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "研修補助の対象ですか。研修は修了しています。"
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "question-contract-v1",
+        "factors": {
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "研修補助の支給可否",
+                "answer_type": "eligibility"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          }
+        },
+        "derived_label": null,
+        "confidence": null,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-facet-claims-v3-candidate",
+        "response_data": {
+          "schema_version": "3.0-candidate",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text",
+              "facet_ids": [
+                "facet-1"
+              ],
+              "input_fact_ids": [],
+              "calculation_ids": []
+            }
+          ],
+          "missing_conditions": [
+            {
+              "condition_id": "condition-1",
+              "type": "case_fact",
+              "description": "在籍日数",
+              "facet_ids": [
+                "facet-1"
+              ],
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ]
+            }
+          ],
+          "date_calculations": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "classification-facet-v2-candidate",
+        "factors": {
+          "schema_version": "2.0-candidate",
+          "decision_version": "classification-rubric-v2.0",
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "研修補助の支給可否",
+                "answer_type": "eligibility"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          },
+          "facet_assessments": [
+            {
+              "facet_id": "facet-1",
+              "claim_ids": [
+                "claim-1"
+              ],
+              "claim_support": "fully_supported",
+              "evidence_coverage": "sufficient",
+              "human_review_requirements": [
+                {
+                  "review_id": "review-1",
+                  "type": "case_fact",
+                  "description": "在籍日数",
+                  "condition_ids": [
+                    "condition-1"
+                  ],
+                  "evidence_element_ids": [
+                    "00000000-0000-0000-0000-000000000001"
+                  ]
+                }
+              ],
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "confidence": 0.95
+            }
+          ]
+        },
+        "derived_label": "判断要",
+        "confidence": 0.95,
+        "status": "SUCCESS",
+        "fallback_used": false,
+        "error_summary": null
+      },
+      {
+        "stage": "answer",
+        "label": "判断要",
+        "display_text": "回答分類: 判断要\n\n回答:\n- 在籍日数の確認が必要なため、対象可否は確定できません。\n\n確認が必要です: 在籍日数",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+            "evidence_element_ids": [
+              "00000000-0000-0000-0000-000000000001"
+            ]
+          }
+        ],
+        "status": "SUCCESS"
+      }
+    ],
+    "normal_control_pass": true,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": true,
+    "returned": true,
+    "visible_claim_count": 1
+  },
+  {
+    "id": "normal_insufficient",
+    "arm": "v1",
+    "result": {
+      "request_id": "ea7f208b-6098-40f5-a1df-bfa0cc4c97de",
+      "question": "給与支給日はいつですか。",
+      "answer": "回答分類: 文書不足\n\n今回取得した根拠では回答を確認できませんでした。",
+      "answer_label": "文書不足",
+      "answer_status": "SUCCESS",
+      "degraded": false,
+      "invariant_code": null,
+      "claims": [],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "給与は毎月21日に支給する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "visual_evidence_count": 0,
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-decision-v1",
+      "version_resolution": {
+        "status": "NOT_CONFIGURED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-claims-v1",
+        "response_data": {
+          "schema_version": "1.0",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "給与は毎月21日に支給されます。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text"
+            }
+          ],
+          "missing_conditions": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-classification-v1",
+        "factors": {
+          "retrieval_sufficient": false,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "derived_label": "文書不足",
+        "confidence": 0.95,
+        "status": "SUCCESS",
+        "fallback_used": false,
+        "error_summary": null
+      },
+      {
+        "stage": "answer",
+        "label": "文書不足",
+        "display_text": "回答分類: 文書不足\n\n今回取得した根拠では回答を確認できませんでした。",
+        "claims": [],
+        "status": "SUCCESS"
+      }
+    ],
+    "normal_control_pass": true,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": true,
+    "returned": true,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "normal_insufficient",
+    "arm": "v2",
+    "result": {
+      "request_id": "93031961-fb7f-442b-9633-c889b699ac15",
+      "question": "給与支給日はいつですか。",
+      "question_contract": {
+        "schema_version": "1.0",
+        "status": "SUCCESS",
+        "requested_facets": [
+          {
+            "facet_id": "facet-1",
+            "requirement": "給与支給日",
+            "answer_type": "date"
+          }
+        ],
+        "input_facts": [],
+        "error_code": null
+      },
+      "answer": "回答分類: 文書不足\n\n今回取得した根拠では回答を確認できませんでした。",
+      "answer_label": "文書不足",
+      "answer_status": "SUCCESS",
+      "degraded": false,
+      "invariant_code": null,
+      "claims": [],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "給与は毎月21日に支給する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "question_contract_generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-rubric-v2.0",
+      "version_resolution": {
+        "status": "NOT_CONFIGURED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "visual_evidence_count": 0
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "question-contract-v1",
+        "factors": {
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "給与支給日",
+                "answer_type": "date"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          }
+        },
+        "derived_label": null,
+        "confidence": null,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-facet-claims-v3-candidate",
+        "response_data": {
+          "schema_version": "3.0-candidate",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "給与は毎月21日に支給されます。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text",
+              "facet_ids": [
+                "facet-1"
+              ],
+              "input_fact_ids": [],
+              "calculation_ids": []
+            }
+          ],
+          "missing_conditions": [],
+          "date_calculations": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "classification-facet-v2-candidate",
+        "factors": {
+          "schema_version": "2.0-candidate",
+          "decision_version": "classification-rubric-v2.0",
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "給与支給日",
+                "answer_type": "date"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          },
+          "facet_assessments": [
+            {
+              "facet_id": "facet-1",
+              "claim_ids": [
+                "claim-1"
+              ],
+              "claim_support": "fully_supported",
+              "evidence_coverage": "insufficient",
+              "human_review_requirements": [],
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "confidence": 0.95
+            }
+          ]
+        },
+        "derived_label": "文書不足",
+        "confidence": 0.95,
+        "status": "SUCCESS",
+        "fallback_used": false,
+        "error_summary": null
+      },
+      {
+        "stage": "answer",
+        "label": "文書不足",
+        "display_text": "回答分類: 文書不足\n\n今回取得した根拠では回答を確認できませんでした。",
+        "claims": [],
+        "status": "SUCCESS"
+      }
+    ],
+    "normal_control_pass": true,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": true,
+    "returned": true,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "empty_claims",
+    "arm": "v1",
+    "result": {
+      "request_id": "a5fd51ec-029a-49e4-bcd1-d9e97e40bfd4",
+      "question": "給与支給日はいつですか。",
+      "answer": "回答分類: 判断要\n\n確認が必要です: 回答処理内の判定が整合しませんでした",
+      "answer_label": "判断要",
+      "answer_status": "PIPELINE_INCONSISTENCY",
+      "degraded": true,
+      "invariant_code": "SUFFICIENT_WITHOUT_CLAIMS",
+      "claims": [],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "給与は毎月21日に支給する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "visual_evidence_count": 0,
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-decision-v1",
+      "version_resolution": {
+        "status": "NOT_CONFIGURED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-claims-v1",
+        "response_data": {
+          "schema_version": "1.0",
+          "claims": [],
+          "missing_conditions": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-classification-v1",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "derived_label": "根拠十分",
+        "confidence": 0.95,
+        "status": "PIPELINE_INCONSISTENCY",
+        "fallback_used": true,
+        "error_summary": "根拠十分なのにclaimがありません"
+      },
+      {
+        "stage": "answer",
+        "label": "判断要",
+        "display_text": "回答分類: 判断要\n\n確認が必要です: 回答処理内の判定が整合しませんでした",
+        "claims": [],
+        "status": "PIPELINE_INCONSISTENCY"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": true,
+    "returned": true,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "empty_claims",
+    "arm": "v2",
+    "result": {
+      "request_id": "a050e206-e763-4289-9ff2-dd0003724d04",
+      "question": "給与支給日はいつですか。",
+      "question_contract": {
+        "schema_version": "1.0",
+        "status": "SUCCESS",
+        "requested_facets": [
+          {
+            "facet_id": "facet-1",
+            "requirement": "給与支給日",
+            "answer_type": "date"
+          }
+        ],
+        "input_facts": [],
+        "error_code": null
+      },
+      "answer": "回答処理の整合性を確認できませんでした。",
+      "answer_label": null,
+      "answer_status": "PIPELINE_INCONSISTENCY",
+      "degraded": true,
+      "invariant_code": "CLAIM_SUPPORT_WITHOUT_CLAIM",
+      "claims": [],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "給与は毎月21日に支給する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "question_contract_generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-rubric-v2.0",
+      "version_resolution": {
+        "status": "NOT_REQUIRED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "visual_evidence_count": 0
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "question-contract-v1",
+        "factors": {
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "給与支給日",
+                "answer_type": "date"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          }
+        },
+        "derived_label": null,
+        "confidence": null,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-facet-claims-v3-candidate",
+        "response_data": {
+          "schema_version": "3.0-candidate",
+          "claims": [],
+          "missing_conditions": [],
+          "date_calculations": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "classification-facet-v2-candidate",
+        "factors": {
+          "schema_version": "2.0-candidate",
+          "decision_version": "classification-rubric-v2.0",
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "給与支給日",
+                "answer_type": "date"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          },
+          "facet_assessments": [
+            {
+              "facet_id": "facet-1",
+              "claim_ids": [],
+              "claim_support": "fully_supported",
+              "evidence_coverage": "sufficient",
+              "human_review_requirements": [],
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "confidence": 0.95
+            }
+          ]
+        },
+        "derived_label": null,
+        "confidence": 0.95,
+        "status": "PIPELINE_INCONSISTENCY",
+        "fallback_used": false,
+        "error_summary": "CLAIM_SUPPORT_WITHOUT_CLAIM"
+      },
+      {
+        "stage": "answer",
+        "label": null,
+        "display_text": "回答処理の整合性を確認できませんでした。",
+        "claims": [],
+        "status": "PIPELINE_INCONSISTENCY"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": true,
+    "returned": true,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "contradictory_missing",
+    "arm": "v1",
+    "result": {
+      "request_id": "5414658d-3186-4762-86b1-683d3daa13cd",
+      "question": "研修補助の対象ですか。研修は修了しています。",
+      "answer": "回答分類: 判断要\n\n回答:\n- 在籍日数の確認が必要なため、対象可否は確定できません。\n\n確認が必要です: 在籍日数",
+      "answer_label": "判断要",
+      "answer_status": "PIPELINE_INCONSISTENCY",
+      "degraded": true,
+      "invariant_code": "SUFFICIENT_WITH_MISSING_CONDITIONS",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      ],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "研修補助は修了済みかつ在籍30日以上なら対象。在籍日数不明なら支給可否を確定できない。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "visual_evidence_count": 0,
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-decision-v1",
+      "version_resolution": {
+        "status": "NOT_CONFIGURED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "研修補助の対象ですか。研修は修了しています。"
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-claims-v1",
+        "response_data": {
+          "schema_version": "1.0",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text"
+            }
+          ],
+          "missing_conditions": [
+            "在籍日数"
+          ]
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-classification-v1",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "derived_label": "根拠十分",
+        "confidence": 0.95,
+        "status": "PIPELINE_INCONSISTENCY",
+        "fallback_used": true,
+        "error_summary": "根拠十分なのに未解決条件が残っています"
+      },
+      {
+        "stage": "answer",
+        "label": "判断要",
+        "display_text": "回答分類: 判断要\n\n回答:\n- 在籍日数の確認が必要なため、対象可否は確定できません。\n\n確認が必要です: 在籍日数",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+            "evidence_element_ids": [
+              "00000000-0000-0000-0000-000000000001"
+            ]
+          }
+        ],
+        "status": "PIPELINE_INCONSISTENCY"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": true,
+    "returned": true,
+    "visible_claim_count": 1
+  },
+  {
+    "id": "contradictory_missing",
+    "arm": "v2",
+    "result": {
+      "request_id": "9fd6a091-f30c-4d52-9536-e6d01121210e",
+      "question": "研修補助の対象ですか。研修は修了しています。",
+      "question_contract": {
+        "schema_version": "1.0",
+        "status": "SUCCESS",
+        "requested_facets": [
+          {
+            "facet_id": "facet-1",
+            "requirement": "研修補助の支給可否",
+            "answer_type": "eligibility"
+          }
+        ],
+        "input_facts": [],
+        "error_code": null
+      },
+      "answer": "回答分類: 根拠十分\n\n回答:\n- 在籍日数の確認が必要なため、対象可否は確定できません。",
+      "answer_label": "根拠十分",
+      "answer_status": "SUCCESS",
+      "degraded": false,
+      "invariant_code": null,
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      ],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "研修補助は修了済みかつ在籍30日以上なら対象。在籍日数不明なら支給可否を確定できない。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "question_contract_generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-rubric-v2.0",
+      "version_resolution": {
+        "status": "NOT_CONFIGURED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "visual_evidence_count": 0
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "研修補助の対象ですか。研修は修了しています。"
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "question-contract-v1",
+        "factors": {
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "研修補助の支給可否",
+                "answer_type": "eligibility"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          }
+        },
+        "derived_label": null,
+        "confidence": null,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-facet-claims-v3-candidate",
+        "response_data": {
+          "schema_version": "3.0-candidate",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text",
+              "facet_ids": [
+                "facet-1"
+              ],
+              "input_fact_ids": [],
+              "calculation_ids": []
+            }
+          ],
+          "missing_conditions": [
+            {
+              "condition_id": "condition-1",
+              "type": "case_fact",
+              "description": "在籍日数",
+              "facet_ids": [
+                "facet-1"
+              ],
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ]
+            }
+          ],
+          "date_calculations": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "classification-facet-v2-candidate",
+        "factors": {
+          "schema_version": "2.0-candidate",
+          "decision_version": "classification-rubric-v2.0",
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "研修補助の支給可否",
+                "answer_type": "eligibility"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          },
+          "facet_assessments": [
+            {
+              "facet_id": "facet-1",
+              "claim_ids": [
+                "claim-1"
+              ],
+              "claim_support": "fully_supported",
+              "evidence_coverage": "sufficient",
+              "human_review_requirements": [],
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "confidence": 0.95
+            }
+          ]
+        },
+        "derived_label": "根拠十分",
+        "confidence": 0.95,
+        "status": "SUCCESS",
+        "fallback_used": false,
+        "error_summary": null
+      },
+      {
+        "stage": "answer",
+        "label": "根拠十分",
+        "display_text": "回答分類: 根拠十分\n\n回答:\n- 在籍日数の確認が必要なため、対象可否は確定できません。",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+            "evidence_element_ids": [
+              "00000000-0000-0000-0000-000000000001"
+            ]
+          }
+        ],
+        "status": "SUCCESS"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": true,
+    "returned": true,
+    "visible_claim_count": 1
+  },
+  {
+    "id": "false_support_missing",
+    "arm": "v1",
+    "result": {
+      "request_id": "fc0cbaa4-ee92-4b02-b4d4-7cd5e7330ea5",
+      "question": "研修補助の対象ですか。研修は修了しています。",
+      "answer": "回答分類: 判断要\n\n回答:\n- 研修補助の対象です。支給が確定しています。\n\n確認が必要です: 在籍日数",
+      "answer_label": "判断要",
+      "answer_status": "PIPELINE_INCONSISTENCY",
+      "degraded": true,
+      "invariant_code": "SUFFICIENT_WITH_MISSING_CONDITIONS",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "研修補助の対象です。支給が確定しています。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      ],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "研修補助は修了済みかつ在籍30日以上なら対象。在籍日数不明なら支給可否を確定できない。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "visual_evidence_count": 0,
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-decision-v1",
+      "version_resolution": {
+        "status": "NOT_CONFIGURED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "研修補助の対象ですか。研修は修了しています。"
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-claims-v1",
+        "response_data": {
+          "schema_version": "1.0",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "研修補助の対象です。支給が確定しています。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text"
+            }
+          ],
+          "missing_conditions": [
+            "在籍日数"
+          ]
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-classification-v1",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "derived_label": "根拠十分",
+        "confidence": 0.95,
+        "status": "PIPELINE_INCONSISTENCY",
+        "fallback_used": true,
+        "error_summary": "根拠十分なのに未解決条件が残っています"
+      },
+      {
+        "stage": "answer",
+        "label": "判断要",
+        "display_text": "回答分類: 判断要\n\n回答:\n- 研修補助の対象です。支給が確定しています。\n\n確認が必要です: 在籍日数",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "研修補助の対象です。支給が確定しています。",
+            "evidence_element_ids": [
+              "00000000-0000-0000-0000-000000000001"
+            ]
+          }
+        ],
+        "status": "PIPELINE_INCONSISTENCY"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": true,
+    "safe_returned_display": false,
+    "returned": true,
+    "visible_claim_count": 1
+  },
+  {
+    "id": "false_support_missing",
+    "arm": "v2",
+    "result": {
+      "request_id": "eff6a7ef-4a34-4e8f-b328-35835bf32944",
+      "question": "研修補助の対象ですか。研修は修了しています。",
+      "question_contract": {
+        "schema_version": "1.0",
+        "status": "SUCCESS",
+        "requested_facets": [
+          {
+            "facet_id": "facet-1",
+            "requirement": "研修補助の支給可否",
+            "answer_type": "eligibility"
+          }
+        ],
+        "input_facts": [],
+        "error_code": null
+      },
+      "answer": "回答分類: 根拠十分\n\n回答:\n- 研修補助の対象です。支給が確定しています。",
+      "answer_label": "根拠十分",
+      "answer_status": "SUCCESS",
+      "degraded": false,
+      "invariant_code": null,
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "研修補助の対象です。支給が確定しています。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      ],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "研修補助は修了済みかつ在籍30日以上なら対象。在籍日数不明なら支給可否を確定できない。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "question_contract_generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-rubric-v2.0",
+      "version_resolution": {
+        "status": "NOT_CONFIGURED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "visual_evidence_count": 0
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "研修補助の対象ですか。研修は修了しています。"
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "question-contract-v1",
+        "factors": {
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "研修補助の支給可否",
+                "answer_type": "eligibility"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          }
+        },
+        "derived_label": null,
+        "confidence": null,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-facet-claims-v3-candidate",
+        "response_data": {
+          "schema_version": "3.0-candidate",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "研修補助の対象です。支給が確定しています。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text",
+              "facet_ids": [
+                "facet-1"
+              ],
+              "input_fact_ids": [],
+              "calculation_ids": []
+            }
+          ],
+          "missing_conditions": [
+            {
+              "condition_id": "condition-1",
+              "type": "case_fact",
+              "description": "在籍日数",
+              "facet_ids": [
+                "facet-1"
+              ],
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ]
+            }
+          ],
+          "date_calculations": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "classification-facet-v2-candidate",
+        "factors": {
+          "schema_version": "2.0-candidate",
+          "decision_version": "classification-rubric-v2.0",
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "研修補助の支給可否",
+                "answer_type": "eligibility"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          },
+          "facet_assessments": [
+            {
+              "facet_id": "facet-1",
+              "claim_ids": [
+                "claim-1"
+              ],
+              "claim_support": "fully_supported",
+              "evidence_coverage": "sufficient",
+              "human_review_requirements": [],
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "confidence": 0.95
+            }
+          ]
+        },
+        "derived_label": "根拠十分",
+        "confidence": 0.95,
+        "status": "SUCCESS",
+        "fallback_used": false,
+        "error_summary": null
+      },
+      {
+        "stage": "answer",
+        "label": "根拠十分",
+        "display_text": "回答分類: 根拠十分\n\n回答:\n- 研修補助の対象です。支給が確定しています。",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "研修補助の対象です。支給が確定しています。",
+            "evidence_element_ids": [
+              "00000000-0000-0000-0000-000000000001"
+            ]
+          }
+        ],
+        "status": "SUCCESS"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": true,
+    "safe_returned_display": false,
+    "returned": true,
+    "visible_claim_count": 1
+  },
+  {
+    "id": "unknown_evidence",
+    "arm": "v1",
+    "result": null,
+    "exception": {
+      "type": "ValueError",
+      "message": "今回取得していない根拠IDが含まれています: ['00000000-0000-0000-0000-000000000099']"
+    },
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-claims-v1",
+        "response_data": {
+          "schema_version": "1.0",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "給与は毎月21日に支給されます。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000099"
+              ],
+              "evidence_kind": "text"
+            }
+          ],
+          "missing_conditions": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "GENERATION_FAILED",
+        "error_summary": "今回取得していない根拠IDが含まれています: ['00000000-0000-0000-0000-000000000099']"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": false,
+    "returned": false,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "unknown_evidence",
+    "arm": "v2",
+    "result": {
+      "request_id": "a93c2ce4-7561-4960-933d-d8f25c09b104",
+      "question": "給与支給日はいつですか。",
+      "question_contract": {
+        "schema_version": "1.0",
+        "status": "SUCCESS",
+        "requested_facets": [
+          {
+            "facet_id": "facet-1",
+            "requirement": "給与支給日",
+            "answer_type": "date"
+          }
+        ],
+        "input_facts": [],
+        "error_code": null
+      },
+      "answer": "回答処理の整合性を確認できませんでした。",
+      "answer_label": null,
+      "answer_status": "PIPELINE_INCONSISTENCY",
+      "degraded": true,
+      "invariant_code": "UNKNOWN_EVIDENCE",
+      "claims": [],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "給与は毎月21日に支給する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "question_contract_generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-rubric-v2.0",
+      "version_resolution": {
+        "status": "NOT_REQUIRED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "visual_evidence_count": 0
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "question-contract-v1",
+        "factors": {
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "給与支給日",
+                "answer_type": "date"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          }
+        },
+        "derived_label": null,
+        "confidence": null,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-facet-claims-v3-candidate",
+        "response_data": {
+          "schema_version": "3.0-candidate",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "給与は毎月21日に支給されます。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000099"
+              ],
+              "evidence_kind": "text",
+              "facet_ids": [
+                "facet-1"
+              ],
+              "input_fact_ids": [],
+              "calculation_ids": []
+            }
+          ],
+          "missing_conditions": [],
+          "date_calculations": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "classification-facet-v2-candidate",
+        "factors": {
+          "schema_version": "2.0-candidate",
+          "decision_version": "classification-rubric-v2.0",
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "給与支給日",
+                "answer_type": "date"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          },
+          "facet_assessments": [
+            {
+              "facet_id": "facet-1",
+              "claim_ids": [
+                "claim-1"
+              ],
+              "claim_support": "fully_supported",
+              "evidence_coverage": "sufficient",
+              "human_review_requirements": [],
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "confidence": 0.95
+            }
+          ]
+        },
+        "derived_label": null,
+        "confidence": 0.95,
+        "status": "PIPELINE_INCONSISTENCY",
+        "fallback_used": false,
+        "error_summary": "UNKNOWN_EVIDENCE"
+      },
+      {
+        "stage": "answer",
+        "label": null,
+        "display_text": "回答処理の整合性を確認できませんでした。",
+        "claims": [],
+        "status": "PIPELINE_INCONSISTENCY"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": true,
+    "returned": true,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "unsupported_flag",
+    "arm": "v1",
+    "result": {
+      "request_id": "82b8ded8-50cc-4f9a-bdb6-d8c292855f34",
+      "question": "給与支給日はいつですか。",
+      "answer": "回答分類: 文書不足\n\n今回取得した根拠では回答を確認できませんでした。",
+      "answer_label": "文書不足",
+      "answer_status": "SUCCESS",
+      "degraded": false,
+      "invariant_code": null,
+      "claims": [],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "給与は毎月21日に支給する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "visual_evidence_count": 0,
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-decision-v1",
+      "version_resolution": {
+        "status": "NOT_CONFIGURED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-claims-v1",
+        "response_data": {
+          "schema_version": "1.0",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "給与は毎月21日に支給されます。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text"
+            }
+          ],
+          "missing_conditions": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-classification-v1",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "derived_label": "文書不足",
+        "confidence": 0.95,
+        "status": "SUCCESS",
+        "fallback_used": false,
+        "error_summary": null
+      },
+      {
+        "stage": "answer",
+        "label": "文書不足",
+        "display_text": "回答分類: 文書不足\n\n今回取得した根拠では回答を確認できませんでした。",
+        "claims": [],
+        "status": "SUCCESS"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": true,
+    "returned": true,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "unsupported_flag",
+    "arm": "v2",
+    "result": {
+      "request_id": "3415df6d-5e23-4421-a90f-a88b99666c99",
+      "question": "給与支給日はいつですか。",
+      "question_contract": {
+        "schema_version": "1.0",
+        "status": "SUCCESS",
+        "requested_facets": [
+          {
+            "facet_id": "facet-1",
+            "requirement": "給与支給日",
+            "answer_type": "date"
+          }
+        ],
+        "input_facts": [],
+        "error_code": null
+      },
+      "answer": "必要な回答項目を根拠付きで生成できませんでした。",
+      "answer_label": null,
+      "answer_status": "GENERATION_INCOMPLETE",
+      "degraded": true,
+      "invariant_code": "CLAIM_SUPPORT_INCOMPLETE",
+      "claims": [],
+      "references": [
+        {
+          "element_id": "00000000-0000-0000-0000-000000000001",
+          "chunk_id": "00000000-0000-0000-0000-000000000001",
+          "document_id": "00000000-0000-0000-0000-000000000001",
+          "document_name": "固定人工制度",
+          "heading": "条件",
+          "content": "給与は毎月21日に支給する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "question_contract_generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "generation": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification": {
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "request_id": ""
+      },
+      "classification_decision_version": "classification-rubric-v2.0",
+      "version_resolution": {
+        "status": "NOT_REQUIRED",
+        "applied": false,
+        "fallback_used": false,
+        "prompt_version": "version-resolution-v2",
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "visual_evidence_count": 0
+    },
+    "exception": null,
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "question-contract-v1",
+        "factors": {
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "給与支給日",
+                "answer_type": "date"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          }
+        },
+        "derived_label": null,
+        "confidence": null,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-facet-claims-v3-candidate",
+        "response_data": {
+          "schema_version": "3.0-candidate",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "給与は毎月21日に支給されます。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text",
+              "facet_ids": [
+                "facet-1"
+              ],
+              "input_fact_ids": [],
+              "calculation_ids": []
+            }
+          ],
+          "missing_conditions": [],
+          "date_calculations": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "classification-facet-v2-candidate",
+        "factors": {
+          "schema_version": "2.0-candidate",
+          "decision_version": "classification-rubric-v2.0",
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "給与支給日",
+                "answer_type": "date"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          },
+          "facet_assessments": [
+            {
+              "facet_id": "facet-1",
+              "claim_ids": [
+                "claim-1"
+              ],
+              "claim_support": "unsupported",
+              "evidence_coverage": "sufficient",
+              "human_review_requirements": [],
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "confidence": 0.95
+            }
+          ]
+        },
+        "derived_label": null,
+        "confidence": 0.95,
+        "status": "GENERATION_INCOMPLETE",
+        "fallback_used": false,
+        "error_summary": "CLAIM_SUPPORT_INCOMPLETE"
+      },
+      {
+        "stage": "answer",
+        "label": null,
+        "display_text": "必要な回答項目を根拠付きで生成できませんでした。",
+        "claims": [],
+        "status": "GENERATION_INCOMPLETE"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": true,
+    "returned": true,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "malformed_generation",
+    "arm": "v1",
+    "result": null,
+    "exception": {
+      "type": "ValueError",
+      "message": "回答出力のtop-level項目がschemaと一致しません"
+    },
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-claims-v1",
+        "response_data": {
+          "schema_version": "broken"
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "GENERATION_FAILED",
+        "error_summary": "回答出力のtop-level項目がschemaと一致しません"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": false,
+    "returned": false,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "malformed_generation",
+    "arm": "v2",
+    "result": null,
+    "exception": {
+      "type": "ValueError",
+      "message": "answer-output-v3-candidate.schema.json違反 (top-level): 'claims' is a required property"
+    },
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "question-contract-v1",
+        "factors": {
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "給与支給日",
+                "answer_type": "date"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          }
+        },
+        "derived_label": null,
+        "confidence": null,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-facet-claims-v3-candidate",
+        "response_data": {
+          "schema_version": "broken"
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "GENERATION_FAILED",
+        "error_summary": "answer-output-v3-candidate.schema.json違反 (top-level): 'claims' is a required property"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": false,
+    "returned": false,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "malformed_classification",
+    "arm": "v1",
+    "result": null,
+    "exception": {
+      "type": "ValueError",
+      "message": "分類出力がschemaと一致しません"
+    },
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-claims-v1",
+        "response_data": {
+          "schema_version": "1.0",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "給与は毎月21日に支給されます。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text"
+            }
+          ],
+          "missing_conditions": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-classification-v1",
+        "factors": null,
+        "derived_label": null,
+        "confidence": null,
+        "status": "CLASSIFICATION_FAILED",
+        "fallback_used": false,
+        "error_summary": "分類出力がschemaと一致しません"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": false,
+    "returned": false,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "malformed_classification",
+    "arm": "v2",
+    "result": null,
+    "exception": {
+      "type": "ValueError",
+      "message": "classification-output-v2-candidate.schema.json違反 (top-level): 'status' is a required property"
+    },
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "question-contract-v1",
+        "factors": {
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "給与支給日",
+                "answer_type": "date"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          }
+        },
+        "derived_label": null,
+        "confidence": null,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-facet-claims-v3-candidate",
+        "response_data": {
+          "schema_version": "3.0-candidate",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "給与は毎月21日に支給されます。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text",
+              "facet_ids": [
+                "facet-1"
+              ],
+              "input_fact_ids": [],
+              "calculation_ids": []
+            }
+          ],
+          "missing_conditions": [],
+          "date_calculations": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "classification-facet-v2-candidate",
+        "factors": null,
+        "derived_label": null,
+        "confidence": null,
+        "status": "CLASSIFICATION_FAILED",
+        "error_summary": "classification-output-v2-candidate.schema.json違反 (top-level): 'status' is a required property"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": false,
+    "returned": false,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "provider_generation",
+    "arm": "v1",
+    "result": null,
+    "exception": {
+      "type": "RuntimeError",
+      "message": "injected provider failure"
+    },
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-claims-v1",
+        "response_data": null,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "GENERATION_FAILED",
+        "error_summary": "injected provider failure"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": false,
+    "returned": false,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "provider_generation",
+    "arm": "v2",
+    "result": null,
+    "exception": {
+      "type": "RuntimeError",
+      "message": "injected provider failure"
+    },
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "question-contract-v1",
+        "factors": {
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "給与支給日",
+                "answer_type": "date"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          }
+        },
+        "derived_label": null,
+        "confidence": null,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-facet-claims-v3-candidate",
+        "response_data": null,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "GENERATION_FAILED",
+        "error_summary": "injected provider failure"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": false,
+    "returned": false,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "provider_classification",
+    "arm": "v1",
+    "result": null,
+    "exception": {
+      "type": "RuntimeError",
+      "message": "injected provider failure"
+    },
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-claims-v1",
+        "response_data": {
+          "schema_version": "1.0",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "給与は毎月21日に支給されます。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text"
+            }
+          ],
+          "missing_conditions": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-classification-v1",
+        "factors": null,
+        "derived_label": null,
+        "confidence": null,
+        "status": "CLASSIFICATION_FAILED",
+        "fallback_used": false,
+        "error_summary": "injected provider failure"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": false,
+    "returned": false,
+    "visible_claim_count": 0
+  },
+  {
+    "id": "provider_classification",
+    "arm": "v2",
+    "result": null,
+    "exception": {
+      "type": "RuntimeError",
+      "message": "injected provider failure"
+    },
+    "events": [
+      {
+        "stage": "request",
+        "question": "給与支給日はいつですか。"
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "question-contract-v1",
+        "factors": {
+          "question_contract": {
+            "schema_version": "1.0",
+            "status": "SUCCESS",
+            "requested_facets": [
+              {
+                "facet_id": "facet-1",
+                "requirement": "給与支給日",
+                "answer_type": "date"
+              }
+            ],
+            "input_facts": [],
+            "error_code": null
+          }
+        },
+        "derived_label": null,
+        "confidence": null,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "retrieval",
+        "n": 1
+      },
+      {
+        "stage": "generation",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "answer-facet-claims-v3-candidate",
+        "response_data": {
+          "schema_version": "3.0-candidate",
+          "claims": [
+            {
+              "claim_id": "claim-1",
+              "ordinal": 1,
+              "text": "給与は毎月21日に支給されます。",
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ],
+              "evidence_kind": "text",
+              "facet_ids": [
+                "facet-1"
+              ],
+              "input_fact_ids": [],
+              "calculation_ids": []
+            }
+          ],
+          "missing_conditions": [],
+          "date_calculations": []
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "status": "SUCCESS",
+        "error_summary": null
+      },
+      {
+        "stage": "classification",
+        "provider": "offline-injection",
+        "model": "fixed-payload",
+        "prompt_version": "classification-facet-v2-candidate",
+        "factors": null,
+        "derived_label": null,
+        "confidence": null,
+        "status": "CLASSIFICATION_FAILED",
+        "error_summary": "injected provider failure"
+      }
+    ],
+    "normal_control_pass": null,
+    "unsafe_claim_visible": false,
+    "safe_returned_display": false,
+    "returned": false,
+    "visible_claim_count": 0
+  }
+]

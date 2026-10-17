@@ -1,0 +1,8 @@
+{
+  "created_at_utc": "2026-10-09T00:46:00.687220+00:00",
+  "source": "eval/results/generalization_completion_20261009/classification/service_records.jsonl",
+  "line_count": 29,
+  "sha256": "406dfd5e4291ef2e1cbcd2a0d838428aad0fa189e8bd514fa34ee58e625b03f0",
+  "snapshot": "classification_review_snapshot_029.jsonl",
+  "note": "Immutable completed-line prefix read during live execution; independent review only."
+}

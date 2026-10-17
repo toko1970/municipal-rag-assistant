@@ -10,6 +10,17 @@
 | [改善手法の技術ガイド](ACCURACY_METHODS_TECHNICAL_GUIDE.md) | 各手法の入力、処理、効く原理、原理的な弱点、実装箇所、検証範囲を説明 |
 | [改善手法の一般化監査](../GENERALIZATION_REVIEW.md) | 表層語句へ依存する現行規則を監査し、一般的な研究・実装パターンと次の比較案を整理 |
 | [改善策の採用判定プロトコル](../INTERVENTION_ADOPTION_PROTOCOL.md) | 既知失敗への適合だけで採用せず、未知同型事例、paired回帰、安全性、fresh holdoutで判断する手順 |
+| [回答改善の汎化検証方針](../GENERALIZATION_VALIDATION_PLAN.md) | 2026年10月9日の原因検証を踏まえた期限・分類・表示の評価方法、検証済み範囲、次のセッションへの引継ぎ |
+| [期限指示の開発challenge検証](../results/generalization_validation_20261009/report.md) | 未知日付での旧指示と1文追加候補の部分実測、誤期限による不採用判断、quota停止と未実施範囲、独立レビュー |
+| [汎化検証の継続キャンペーン](../results/generalization_completion_20261009/README.md) | 期限120件、分類88サービス、表示24合成条件の完走結果と独立レビュー。両改善候補の不採用、費用・安全性、後続未実施範囲を記録 |
+| [汎化検証結果の再確認](../results/generalization_recheck_20261009/report.md) | 保存結果のhash照合・再集計、現行コードで表示24条件を再現、関連83テスト。新規LLM評価と区別した不採用判断の再確認 |
+| [分類設計とLLM入力の仮説検証](../results/classification_design_input_audit_20261009/report.md) | 分類規約・既定prompt・決定規則の隔たり、保存82入力の照合、過剰保留と前段の誤りを監査。新規LLM実験なしで確認できた問題と未確定の因果関係を区別 |
+| [質問範囲・分類規約の明示候補](../results/classification_scope_policy_v1_20261009/report.md) | 新規56 API呼出しによる固定入力比較。既知20表現は15→20成功、退行0。Gate 1合格と、生成失敗の状態分離・回答充足の未解決事項を記録 |
+| [修正版v2.2の比較評価完了](../results/scope_release_v22_gate1_final_20261012/report.md) | 全56応答を取得。既知20表現は旧16→候補15、シナリオ1改善・3退行でGate 1不合格。障害・継続2回、後続未実施を区別 |
+| [修正版v2.2の比較評価](../results/scope_release_v22_gate1_20261009/report.md) | 56試験中10応答保存、11試行目で日次API上限停止。性能結論は未確定、残46試験・独立監査・ローカル統合3件通過を記録 |
+| [版解決後の回答再検証](../results/scope_revalidation_v22_20261009/report.md) | 誤昇格の修正、正しい回答の再検証による表示回復、関連85テストと既知4条件の実LLM確認。内部factorの残課題とholdout未実施を区別 |
+| [分類改善の本番受入準備](../results/scope_release_gate1_20261009/report.md) | 構造化した対象別判定の実装、独立レビューによる安全性問題の発見・修正、API比較の途中停止。本番未適用・holdout未実施を記録 |
+| [分類改善の解説：質問の対象と判定規約](CLASSIFICATION_SCOPE_POLICY_GUIDE.md) | 初学者向けの具体例から実装・比較方法まで説明。本番未適用の状態、改善の根拠と限界、面接での説明例を整理 |
 | [図表RAGの実装状況](VISUAL_RAG_STATUS.md) | PDF・図表について実装済み、評価済み、未実装の境界を整理 |
 
 ## 指標の読み方

@@ -1,0 +1,44 @@
+{
+  "created_at_utc": "2026-10-12T08:27:13.814532+00:00",
+  "stage": "gate1_frozen_continuation",
+  "candidate": "scope-classification-v2.2-candidate",
+  "model": "gemini-3.1-flash-lite",
+  "temperature": 0,
+  "seed": 42,
+  "max_output_tokens": 4096,
+  "max_attempts": 46,
+  "retry": 0,
+  "interval_seconds": 12.2,
+  "max_wall_seconds": 1500,
+  "max_accounting_usd": 0.7223250000000001,
+  "rates_per_million": {
+    "input": 1,
+    "output": 10
+  },
+  "rates_note": "Budget assumptions, not provider tariff",
+  "gate": "Complete; known scenario net improvement >=1; no new expression regression; candidate unsafe sufficient 0; all diagnostic and repeat cases correct.",
+  "diagnostics": "D01=policy judgment, D02=version conflict, D03/D04=GENERATION_INCOMPLETE with no label or claims",
+  "gold_status": "Known gold preserved; diagnostic generation failure is separately specified by the new contract",
+  "frozen_hashes": {
+    "cases.json": "a00fc568a4591e89005280c8e0e7d12e46d0e8fd2a62159f55adc8fe67c0187e",
+    "schemas.json": "b236ac54671e5be93caca084ef98c5f82840b1d1f33a6740edba767f5245c61e",
+    "tasks.json": "0c01b6021cf39d640150d01911273db916c385c98e5f258db253e55aa774d6c7"
+  },
+  "source_hashes": {
+    "src/classification_scope_contract.py": "cad8f9c1f5b3b1c169791fa66a55b761ad2d92f9d460f2a00bde5790fd749beb",
+    "src/query_service.py": "531d11b5b20bf965a995cbb40803219dd5ebd3f2f9a1cfb0dc02b9112f9aa0b2",
+    "src/answering.py": "6b58827f331b43f3bb70aa00be980c581c67df78b07aaec02ed07de95c17141c",
+    "src/rag_v2.py": "3d1b0c7198931b5b5ba09237618e22013738bde849cced8d687dc4c0620b57cf",
+    "eval/evaluate_scope_release.py": "c74b0833cf5c034582a3dcba5683599de8e9197f333b4bd7fa92adbd940d9821",
+    "eval/evaluate_classification_scope_policy.py": "a1cdb8bb86593941961500214182a78197fbe95897a123c07b4fc1423bbb3326",
+    "design/schemas/classification-scope-v2.schema.json": "94d5349fed959fd8e611a9547beab0b11308ee760ac8ec421ec3367e440c6c1a",
+    "app.py": "be93102060098380b3485b6f6254bf97d1a3ddb8f02d2972bf62487c45297b63",
+    "eval/continue_scope_release.py": "af140b4188067ae97221e06b2f793764430921d8a4079d4507b555741cb36e7d"
+  },
+  "continuation_of": "../scope_release_v22_gate1_20261009",
+  "prior_responses": 10,
+  "prior_attempts": 11,
+  "max_total_attempts": 57,
+  "retry_note": "One explicit cross-day retry of the quota-failed task; no SDK or in-run retry",
+  "predecessor_records_sha256": "eceea5ecdd00246c294479cf2d8bf5be9c3c1da0c08fa2a25f86827109bb2eaa"
+}

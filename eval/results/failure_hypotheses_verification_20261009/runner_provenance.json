@@ -1,0 +1,5 @@
+{
+  "note": "実行時ソースはsnapshotに保持。公開runnerには終了後に既存成果物への早期上書き拒否と新規output-dir指定のみ追加。API入力と結果は変更していない。",
+  "round1_executed_source": "executed_runner_round1.py",
+  "round2_executed_source": "two_axes_round2/executed_runner.py"
+}

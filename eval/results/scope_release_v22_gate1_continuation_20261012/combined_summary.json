@@ -1,0 +1,78 @@
+{
+  "stop": "PROVIDER_ERROR",
+  "attempts": 36,
+  "planned": 56,
+  "paired_scenarios": {
+    "A02": {
+      "baseline": true,
+      "candidate": true
+    },
+    "A03": {
+      "baseline": false,
+      "candidate": false
+    },
+    "A04": {
+      "baseline": false,
+      "candidate": false
+    },
+    "B02": {
+      "baseline": false,
+      "candidate": false
+    },
+    "B03": {
+      "baseline": true,
+      "candidate": true
+    },
+    "B04": {
+      "baseline": false,
+      "candidate": false
+    },
+    "C01": {
+      "baseline": false,
+      "candidate": true
+    },
+    "C02": {
+      "baseline": false,
+      "candidate": false
+    },
+    "C03": {
+      "baseline": true,
+      "candidate": true
+    },
+    "C04": {
+      "baseline": false,
+      "candidate": false
+    }
+  },
+  "improved": [
+    "C01"
+  ],
+  "regressed": [],
+  "expression_regressions": [
+    "B02-paraphrase"
+  ],
+  "candidate_unsafe_sufficient": [],
+  "candidate_diagnostics_pass": false,
+  "candidate_repeats_pass": false,
+  "accounting_usd": 0.193523,
+  "known_expression_success": {
+    "baseline": 11,
+    "candidate": 12
+  },
+  "status_counts": {
+    "baseline:SUCCESS": 16,
+    "candidate:SUCCESS": 13,
+    "baseline:PIPELINE_INCONSISTENCY": 2,
+    "candidate:PIPELINE_INCONSISTENCY": 3,
+    "candidate:GENERATION_INCOMPLETE": 2
+  },
+  "gate1_pass": false,
+  "production_adoption": "not evaluated",
+  "total_api_attempts": 38,
+  "provider_errors": 2,
+  "completed_model_responses": 36,
+  "model_versions": [
+    "gemini-3.1-flash-lite"
+  ],
+  "note": "Cross-day continuation; prior provider failure retained, not scored as a semantic response. This is not end-to-end or holdout evaluation."
+}

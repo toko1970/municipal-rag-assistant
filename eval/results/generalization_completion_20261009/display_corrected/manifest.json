@@ -1,0 +1,17 @@
+{
+  "created_at": "2026-10-09T00:34:40.709002+00:00",
+  "source_hashes": {
+    "src/query_service.py": "9dfe1913da5344baac1693c4a8bc8ebcea39b7fc3bb7e61b55a1474f2fd0a279",
+    "src/query_service_v2.py": "2c3002d672961bc6c67f16eae847bb08243d50a6576bc231b7f18c26d8a88a3d",
+    "src/answering.py": "37ea4fdb78ac1a2f69d955dc7d79c8bbf0393a004fa3be8a89cb0df69e4c2bcd",
+    "src/classification_contract_v2.py": "a7d66b5095c31fd5faca0617d10de1ae1d50f6297230b7a26856ac3879879e47",
+    "eval/evaluate_display_reliability_completion.py": "3e44e61dea38016c77f73f69cb90ed30cec4a84a50fc58d65dffa87916580c11"
+  },
+  "task_sha256": "6c589f40f240616a57e999df8107e7bd4302be1bc1b9fa2a4ea4678c06c53a70",
+  "cases_per_arm": 12,
+  "calls": 0,
+  "primary": "normal controls remain correct; unsafe assertion must not be displayed",
+  "scope": "service fault injection; synthetic provider payloads; no live model or UI evaluation; exceptions are not successful recovery",
+  "candidate": "existing v2 versus existing v1, no source changes",
+  "schema_note": "empty schema passed to stub provider; actual service parsers validate payloads"
+}

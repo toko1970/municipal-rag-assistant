@@ -1,0 +1,15 @@
+{
+  "review_revalidation_round": 2,
+  "started_at": "2026-10-08T23:28:32.639001+00:00",
+  "model": "gemini-3.1-flash-lite",
+  "temperature": 0,
+  "max_calls": 4,
+  "max_campaign_calls": 39,
+  "max_campaign_estimated_cost_usd": 0.1,
+  "max_output_tokens": 1536,
+  "http_attempts": 1,
+  "tasks_sha256": "832867b24892e41c107ffbd809f37135ad0c73597108db1285ecf198bcaba919",
+  "schema_sha256": "39f386db1a923ab3ae2bb6bb11933cfcea133593072864242c44b6e66e392d83",
+  "script_sha256": "dcc45e0e47bb1f25ad9130d665c5671d674ba407730af10f4fd150f60fb9c09c",
+  "purpose": "Independent axes under explicitly prescribed definitions; exploratory feasibility probe, not causal diagnosis or quality improvement measure."
+}

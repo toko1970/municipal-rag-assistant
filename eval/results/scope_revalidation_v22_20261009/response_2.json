@@ -1,0 +1,22 @@
+{
+  "text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"適用単価\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"c55b0157-7719-41aa-a57e-2516327dac2b\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"unsupported\",\n      \"answer_complete\": false,\n      \"reviews\": [\n        {\n          \"type\": \"case_fact\",\n          \"reason\": \"根拠文書により2027年1月1日以降の単価は300円と明示されており、2027年4月1日時点の単価は確定可能であるにもかかわらず、生成回答は競合を理由に確定できないと誤った主張をしている。\",\n          \"evidence_ids\": [\n            \"c55b0157-7719-41aa-a57e-2516327dac2b\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+  "usage": {
+    "cache_tokens_details": null,
+    "cached_content_token_count": null,
+    "candidates_token_count": 298,
+    "candidates_tokens_details": null,
+    "prompt_token_count": 1327,
+    "prompt_tokens_details": [
+      {
+        "modality": "TEXT",
+        "token_count": 1327
+      }
+    ],
+    "thoughts_token_count": null,
+    "tool_use_prompt_token_count": null,
+    "tool_use_prompt_tokens_details": null,
+    "total_token_count": 1625,
+    "traffic_type": null
+  },
+  "model_version": "gemini-3.1-flash-lite"
+}

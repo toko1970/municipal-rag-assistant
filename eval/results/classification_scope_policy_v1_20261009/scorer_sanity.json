@@ -1,0 +1,305 @@
+{
+  "scope": "saved-output scorer sanity only",
+  "records": [
+    {
+      "case_id": "A02-formal",
+      "label": "根拠十分",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "A02-paraphrase",
+      "label": "判断要",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": false,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "A03-formal",
+      "label": "判断要",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "A03-paraphrase",
+      "label": "判断要",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "A04-formal",
+      "label": "文書不足",
+      "factors": {
+        "retrieval_sufficient": false,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "A04-paraphrase",
+      "label": "文書不足",
+      "factors": {
+        "retrieval_sufficient": false,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "B02-formal",
+      "label": "判断要",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "B02-paraphrase",
+      "label": "判断要",
+      "factors": {
+        "retrieval_sufficient": false,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "B03-formal",
+      "label": "判断要",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": false,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "B03-paraphrase",
+      "label": "判断要",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": false,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "B04-formal",
+      "label": "文書不足",
+      "factors": {
+        "retrieval_sufficient": false,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "B04-paraphrase",
+      "label": "文書不足",
+      "factors": {
+        "retrieval_sufficient": false,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "C01-formal",
+      "label": "判断要",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": false,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "C01-paraphrase",
+      "label": "判断要",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": false,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "C02-formal",
+      "label": "判断要",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "C02-paraphrase",
+      "label": "判断要",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "C03-formal",
+      "label": "根拠十分",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "C03-paraphrase",
+      "label": "根拠十分",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "C04-formal",
+      "label": "文書不足",
+      "factors": {
+        "retrieval_sufficient": false,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    },
+    {
+      "case_id": "C04-paraphrase",
+      "label": "文書不足",
+      "factors": {
+        "retrieval_sufficient": false,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "correct": true,
+      "factors_ok": true,
+      "display_error": null,
+      "unsafe_sufficient": false
+    }
+  ]
+}

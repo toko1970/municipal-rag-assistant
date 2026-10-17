@@ -1,0 +1,20 @@
+{
+  "v1": {
+    "normal_correct": 3,
+    "normal_n": 3,
+    "fault_safe_returned_display": 3,
+    "fault_n": 9,
+    "unsafe_claim_visible": 1,
+    "unsafe_grounded_label": 0,
+    "service_exceptions": 5
+  },
+  "v2": {
+    "normal_correct": 3,
+    "normal_n": 3,
+    "fault_safe_returned_display": 3,
+    "fault_n": 9,
+    "unsafe_claim_visible": 1,
+    "unsafe_grounded_label": 2,
+    "service_exceptions": 4
+  }
+}
