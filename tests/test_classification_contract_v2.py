@@ -10,6 +10,7 @@ from src.classification_contract_v2 import (
     parse_answer_output_v3,
     parse_classification_output_v2,
     parse_question_contract_v2,
+    render_display_answer_v2,
 )
 
 
@@ -52,6 +53,8 @@ def _answer(
                 "calculation_ids": [],
                 "evidence_element_ids": [EVIDENCE_ID],
                 "evidence_kind": "text",
+                "claim_type": "case_outcome" if review_type else "policy_rule",
+                "depends_on_condition_ids": ["condition-1"] if review_type else [],
             }
         )
     conditions = []
@@ -63,6 +66,7 @@ def _answer(
                 "description": "結論を変える確認事項",
                 "facet_ids": ["facet-1"],
                 "evidence_element_ids": [EVIDENCE_ID],
+                "blocking_claim_ids": ["claim-1"],
             }
         )
     return {
@@ -144,6 +148,105 @@ def test_v2_decision_table_for_supported_answers(
 
     assert decision.status == "SUCCESS"
     assert decision.label == expected_label
+
+
+def test_display_guard_hides_only_case_outcome_and_keeps_policy_rule() -> None:
+    contract = parse_question_contract_v2(_contract())
+    answer_data = _answer(review_type="case_fact")
+    answer_data["claims"][0]["claim_type"] = "case_outcome"
+    classification_data = _classification(
+        _assessment(review_type="case_fact")
+    )
+    answer = parse_answer_output_v3(answer_data)
+    classification = parse_classification_output_v2(classification_data)
+    decision = decide_classification_v2(contract, answer, classification, {EVIDENCE_UUID})
+
+    display = render_display_answer_v2(answer, classification, decision)
+
+    assert display.label == "判断要"
+    assert display.visible_claims == ()
+    assert "結論を変える確認事項" in display.text
+    assert "個別結論・処理推奨は表示していません" in display.text
+
+
+def test_display_guard_allows_policy_rule_on_unresolved_facet() -> None:
+    evidence_id = EVIDENCE_ID
+    contract_data = _contract()
+    answer_data = _answer(review_type="case_fact")
+    outcome = answer_data["claims"][0]
+    outcome["text"] = "本人は認定対象です。"
+    outcome["claim_type"] = "case_outcome"
+    rule = dict(outcome)
+    rule.update({
+        "claim_id": "claim-2",
+        "ordinal": 2,
+        "text": "制度上は、実際に通勤し距離要件を満たす場合に対象となります。",
+        "claim_type": "policy_rule",
+        "depends_on_condition_ids": [],
+    })
+    answer_data["claims"].append(rule)
+    answer_data["missing_conditions"][0]["blocking_claim_ids"] = ["claim-1"]
+    classification_data = _classification(
+        _assessment(claim_ids=("claim-1", "claim-2"), review_type="case_fact")
+    )
+    contract = parse_question_contract_v2(contract_data)
+    answer = parse_answer_output_v3(answer_data)
+    classification = parse_classification_output_v2(classification_data)
+    decision = decide_classification_v2(contract, answer, classification, {EVIDENCE_UUID})
+
+    display = render_display_answer_v2(answer, classification, decision)
+
+    assert [claim.claim_id for claim in display.visible_claims] == ["claim-2"]
+    assert "本人は認定対象です。" not in display.text
+    assert "制度上は" in display.text
+
+
+def test_display_guard_blocks_only_the_facet_with_an_unresolved_condition() -> None:
+    contract_data = _contract(facets=2)
+    answer_data = _answer(review_type="case_fact")
+    answer_data["claims"][0].update({
+        "text": "本人は認定対象です。",
+        "claim_type": "case_outcome",
+    })
+    answer_data["claims"][0]["facet_ids"] = ["facet-1"]
+    answer_data["claims"].append({
+        **answer_data["claims"][0],
+        "claim_id": "claim-2",
+        "ordinal": 2,
+        "text": "届出期限は変更日から10日以内です。",
+        "facet_ids": ["facet-2"],
+        "depends_on_condition_ids": [],
+    })
+    answer_data["missing_conditions"][0]["blocking_claim_ids"] = ["claim-1"]
+    classification_data = _classification(
+        _assessment(claim_ids=("claim-1",), review_type="case_fact"),
+        _assessment(facet_id="facet-2", claim_ids=("claim-2",)),
+    )
+
+    contract = parse_question_contract_v2(contract_data)
+    answer = parse_answer_output_v3(answer_data)
+    classification = parse_classification_output_v2(classification_data)
+    decision = decide_classification_v2(contract, answer, classification, {EVIDENCE_UUID})
+    display = render_display_answer_v2(answer, classification, decision)
+
+    assert [claim.claim_id for claim in display.visible_claims] == ["claim-2"]
+    assert "本人は認定対象です。" not in display.text
+    assert "届出期限は変更日から10日以内です。" in display.text
+
+
+def test_missing_condition_blocks_outcome_even_if_classifier_omits_review() -> None:
+    contract = parse_question_contract_v2(_contract())
+    answer_data = _answer(review_type="case_fact")
+    answer_data["claims"][0]["claim_type"] = "case_outcome"
+    answer = parse_answer_output_v3(answer_data)
+    classification = parse_classification_output_v2(_classification(_assessment()))
+    decision = decide_classification_v2(contract, answer, classification, {EVIDENCE_UUID})
+
+    display = render_display_answer_v2(answer, classification, decision)
+
+    assert display.visible_claims == ()
+    assert "結論を変える確認事項" in display.text
+    assert display.status == "PIPELINE_INCONSISTENCY"
 
 
 def test_document_shortage_is_not_generation_failure() -> None:

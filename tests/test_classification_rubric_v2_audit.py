@@ -55,6 +55,8 @@ def test_candidate_schemas_accept_a_linked_success_path() -> None:
                     "calculation_ids": [],
                     "evidence_element_ids": [evidence_id],
                     "evidence_kind": "text",
+                    "claim_type": "case_outcome",
+                    "depends_on_condition_ids": [],
                 }
             ],
             "missing_conditions": [],

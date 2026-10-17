@@ -53,6 +53,8 @@ class AnswerClaimV3:
     calculation_ids: tuple[str, ...]
     evidence_element_ids: tuple[UUID, ...]
     evidence_kind: str
+    claim_type: str
+    depends_on_condition_ids: tuple[str, ...]
 
 
 @dataclass(frozen=True)
@@ -62,6 +64,7 @@ class MissingConditionV3:
     description: str
     facet_ids: tuple[str, ...]
     evidence_element_ids: tuple[UUID, ...]
+    blocking_claim_ids: tuple[str, ...]
 
 
 @dataclass(frozen=True)
@@ -189,6 +192,8 @@ def parse_answer_output_v3(data: dict[str, Any]) -> StructuredAnswerV3:
                 calculation_ids=tuple(row["calculation_ids"]),
                 evidence_element_ids=_uuid_tuple(row["evidence_element_ids"]),
                 evidence_kind=row["evidence_kind"],
+                claim_type=row["claim_type"],
+                depends_on_condition_ids=tuple(row["depends_on_condition_ids"]),
             )
             for row in data["claims"]
         ),
@@ -199,6 +204,7 @@ def parse_answer_output_v3(data: dict[str, Any]) -> StructuredAnswerV3:
                 description=row["description"].strip(),
                 facet_ids=tuple(row["facet_ids"]),
                 evidence_element_ids=_uuid_tuple(row["evidence_element_ids"]),
+                blocking_claim_ids=tuple(row["blocking_claim_ids"]),
             )
             for row in data["missing_conditions"]
         ),
@@ -329,6 +335,43 @@ def validate_classification_contract_v2(
             retrieved_element_ids,
             "UNKNOWN_EVIDENCE",
         )
+    for claim in answer.claims:
+        require_known(
+            set(claim.depends_on_condition_ids),
+            set(conditions_by_id),
+            "UNKNOWN_CLAIM_CONDITION",
+        )
+        for condition_id in claim.depends_on_condition_ids:
+            condition = conditions_by_id[condition_id]
+            if claim.claim_id not in condition.blocking_claim_ids:
+                raise ClassificationContractV2Error(
+                    "claimとconditionの依存関係が双方向で一致しません",
+                    code="CLAIM_CONDITION_LINK_MISMATCH",
+                )
+            if not set(claim.facet_ids).intersection(condition.facet_ids):
+                raise ClassificationContractV2Error(
+                    "claimとconditionのfacetが一致しません",
+                    code="CLAIM_CONDITION_FACET_MISMATCH",
+                )
+    for condition in answer.missing_conditions:
+        require_known(
+            set(condition.blocking_claim_ids),
+            set(claims_by_id),
+            "UNKNOWN_BLOCKING_CLAIM",
+        )
+        for claim_id in condition.blocking_claim_ids:
+            claim = claims_by_id[claim_id]
+            if condition.condition_id not in claim.depends_on_condition_ids:
+                raise ClassificationContractV2Error(
+                    "conditionとclaimの依存関係が双方向で一致しません",
+                    code="CLAIM_CONDITION_LINK_MISMATCH",
+                )
+            if not set(condition.facet_ids).intersection(claim.facet_ids):
+                raise ClassificationContractV2Error(
+                    "conditionとclaimのfacetが一致しません",
+                    code="CLAIM_CONDITION_FACET_MISMATCH",
+                )
+
     for calculation in answer.date_calculations:
         require_known(
             set(calculation.facet_ids), facet_ids, "UNKNOWN_CALCULATION_FACET"
@@ -460,6 +503,19 @@ def decide_classification_v2(
         )
     except ClassificationContractV2Error as exc:
         return ClassificationDecisionV2("PIPELINE_INCONSISTENCY", None, exc.code)
+    review_condition_ids = {
+        condition_id
+        for assessment in classification.facet_assessments
+        for review in assessment.human_review_requirements
+        for condition_id in review.condition_ids
+    }
+    if any(
+        condition.condition_id not in review_condition_ids
+        for condition in answer.missing_conditions
+    ):
+        return ClassificationDecisionV2(
+            "PIPELINE_INCONSISTENCY", None, "UNCLASSIFIED_MISSING_CONDITION"
+        )
     return derive_label_v2(classification)
 
 
@@ -469,47 +525,72 @@ def render_display_answer_v2(
     decision: ClassificationDecisionV2,
 ) -> DisplayAnswerV2:
     if decision.status == "PIPELINE_INCONSISTENCY":
-        return DisplayAnswerV2(
-            label=None,
-            text="回答処理の整合性を確認できませんでした。",
-            visible_claims=(),
-            status=decision.status,
-            invariant_code=decision.invariant_code,
-        )
+        condition_text = "、".join(item.description for item in answer.missing_conditions)
+        text = "回答処理の整合性を確認できませんでした。"
+        if condition_text:
+            text += "\n確認が必要です: " + condition_text
+        return DisplayAnswerV2(None, text, (), decision.status, decision.invariant_code)
     if decision.status == "GENERATION_INCOMPLETE":
-        return DisplayAnswerV2(
-            label=None,
-            text="必要な回答項目を根拠付きで生成できませんでした。",
-            visible_claims=(),
-            status=decision.status,
-            invariant_code=decision.invariant_code,
-        )
-    if decision.label == ANSWER_TYPE_INSUFFICIENT:
-        return DisplayAnswerV2(
-            label=decision.label,
-            text=(
-                f"回答分類: {decision.label}\n\n"
-                "今回取得した根拠では回答を確認できませんでした。"
-            ),
-            visible_claims=(),
-            status="SUCCESS",
-        )
+        return DisplayAnswerV2(None, "必要な回答項目を根拠付きで生成できませんでした。", (), decision.status, decision.invariant_code)
 
-    visible_claims = answer.claims
-    lines = [f"回答分類: {decision.label}", "", "回答:"]
-    lines.extend(f"- {claim.text}" for claim in visible_claims)
-    if decision.label == ANSWER_TYPE_NEEDS_JUDGMENT:
-        reasons = list(
-            dict.fromkeys(
-                review.description
-                for assessment in classification.facet_assessments
-                for review in assessment.human_review_requirements
-            )
-        )
-        lines.extend(["", "確認が必要です: " + "、".join(reasons)])
-    return DisplayAnswerV2(
-        label=decision.label,
-        text="\n".join(lines),
-        visible_claims=visible_claims,
-        status="SUCCESS",
+    assessments = {row.facet_id: row for row in classification.facet_assessments}
+    blocked_facets = {
+        facet_id for facet_id, row in assessments.items()
+        if row.human_review_requirements or row.evidence_coverage == "insufficient"
+    }
+    blocked_facets.update(
+        facet_id for condition in answer.missing_conditions
+        for facet_id in condition.facet_ids
     )
+    unsupported_facets = {
+        facet_id for facet_id, row in assessments.items()
+        if row.claim_support != "fully_supported"
+    }
+    conditions_by_facet = {
+        facet_id: {condition.condition_id for condition in answer.missing_conditions
+                   if facet_id in condition.facet_ids}
+        for facet_id in assessments
+    }
+    visible_claims = []
+    suppressed_claims = []
+    for claim in answer.claims:
+        facets = set(claim.facet_ids)
+        unresolved = any(
+            condition_id in conditions_by_facet[facet_id]
+            for facet_id in facets
+            for condition_id in claim.depends_on_condition_ids
+        )
+        unsupported = bool(facets & unsupported_facets)
+        individual_claim = claim.claim_type in {
+            "case_fact", "case_outcome", "action_recommendation"
+        }
+        blocked_individual = individual_claim and bool(facets & blocked_facets)
+        if unresolved or unsupported or blocked_individual:
+            suppressed_claims.append(claim)
+        else:
+            visible_claims.append(claim)
+
+    reasons = list(dict.fromkeys(
+        [condition.description for condition in answer.missing_conditions]
+        + [
+            review.description
+            for assessment in classification.facet_assessments
+            for review in assessment.human_review_requirements
+        ]
+    ))
+    if any(row.evidence_coverage == "insufficient" for row in assessments.values()) and not reasons:
+        reasons.append("回答に必要な規則・事実を提示根拠から確認できません")
+
+    lines = [f"回答分類: {decision.label}"]
+    if visible_claims:
+        lines.extend(["", "回答:"])
+        lines.extend(f"- {claim.text}" for claim in visible_claims)
+    if reasons:
+        lines.extend(["", "確認が必要です: " + "、".join(reasons)])
+    elif not visible_claims:
+        lines.extend(["", "今回取得した根拠では回答を確認できませんでした。"])
+    if suppressed_claims:
+        lines.extend(["", "未確定条件に関わる個別結論・処理推奨は表示していません。"])
+    if not visible_claims and decision.label == ANSWER_TYPE_SUFFICIENT:
+        return DisplayAnswerV2(None, "回答処理の整合性を確認できませんでした。", (), "PIPELINE_INCONSISTENCY", "NO_DISPLAYABLE_CLAIMS")
+    return DisplayAnswerV2(decision.label, "\n".join(lines), tuple(visible_claims), "SUCCESS")

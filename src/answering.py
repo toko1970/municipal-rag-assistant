@@ -66,7 +66,7 @@ class ClassificationResult:
 
 @dataclass(frozen=True)
 class DisplayAnswer:
-    label: str
+    label: str | None
     text: str
     visible_claims: tuple[AnswerClaim, ...]
     status: str = "SUCCESS"

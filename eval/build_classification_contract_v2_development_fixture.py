@@ -132,6 +132,8 @@ def _build_case(
         prediction["claims"], annotation["claim_links"], strict=True
     ):
         facet_ids, input_fact_ids, calculation_ids = links
+        claim_type = "case_outcome" if annotation["condition"] else "policy_rule"
+        depends_on = ["condition-1"] if annotation["condition"] else []
         claims.append(
             {
                 **source_claim,
@@ -139,6 +141,8 @@ def _build_case(
                 "input_fact_ids": input_fact_ids,
                 "calculation_ids": calculation_ids,
                 "evidence_kind": "text",
+                "claim_type": claim_type,
+                "depends_on_condition_ids": depends_on,
             }
         )
 
@@ -152,6 +156,7 @@ def _build_case(
                 "description": condition_text,
                 "facet_ids": ["facet-1"],
                 "evidence_element_ids": claims[0]["evidence_element_ids"],
+                "blocking_claim_ids": [claim["claim_id"] for claim in claims],
             }
         ]
 

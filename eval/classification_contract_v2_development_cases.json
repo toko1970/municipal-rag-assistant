@@ -77,7 +77,9 @@
               "fact-1"
             ],
             "calculation_ids": [],
-            "evidence_kind": "text"
+            "evidence_kind": "text",
+            "claim_type": "policy_rule",
+            "depends_on_condition_ids": []
           },
           {
             "claim_id": "claim-2",
@@ -94,7 +96,9 @@
               "fact-2"
             ],
             "calculation_ids": [],
-            "evidence_kind": "text"
+            "evidence_kind": "text",
+            "claim_type": "policy_rule",
+            "depends_on_condition_ids": []
           },
           {
             "claim_id": "claim-3",
@@ -110,7 +114,9 @@
               "fact-1"
             ],
             "calculation_ids": [],
-            "evidence_kind": "text"
+            "evidence_kind": "text",
+            "claim_type": "policy_rule",
+            "depends_on_condition_ids": []
           }
         ],
         "missing_conditions": [],
@@ -228,7 +234,11 @@
               "fact-3"
             ],
             "calculation_ids": [],
-            "evidence_kind": "text"
+            "evidence_kind": "text",
+            "claim_type": "case_outcome",
+            "depends_on_condition_ids": [
+              "condition-1"
+            ]
           },
           {
             "claim_id": "claim-2",
@@ -245,7 +255,11 @@
               "fact-3"
             ],
             "calculation_ids": [],
-            "evidence_kind": "text"
+            "evidence_kind": "text",
+            "claim_type": "case_outcome",
+            "depends_on_condition_ids": [
+              "condition-1"
+            ]
           }
         ],
         "missing_conditions": [
@@ -258,6 +272,10 @@
             ],
             "evidence_element_ids": [
               "1bdfa5cc-48d3-50ed-883c-c624ffde2764"
+            ],
+            "blocking_claim_ids": [
+              "claim-1",
+              "claim-2"
             ]
           }
         ],
@@ -374,7 +392,11 @@
               "fact-3"
             ],
             "calculation_ids": [],
-            "evidence_kind": "text"
+            "evidence_kind": "text",
+            "claim_type": "case_outcome",
+            "depends_on_condition_ids": [
+              "condition-1"
+            ]
           }
         ],
         "missing_conditions": [
@@ -387,6 +409,9 @@
             ],
             "evidence_element_ids": [
               "3bd9867a-5455-51d6-8d01-fd340795a046"
+            ],
+            "blocking_claim_ids": [
+              "claim-1"
             ]
           }
         ],

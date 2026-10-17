@@ -1,5 +1,6 @@
 from types import SimpleNamespace
 from unittest.mock import patch
+import pytest
 
 from src.query_decomposition import DecomposedVectorIndex
 from src.query_service import (
@@ -51,7 +52,12 @@ def test_composition_root_connects_retrieval_and_temporal_candidates() -> None:
     assert kwargs["classification_prompt_version"] == CLASSIFICATION_PROMPT_VERSION
 
 
-def test_composition_root_routes_concrete_deadline_to_v1_1() -> None:
+@pytest.mark.parametrize("question", [
+    "2027年10月10日に受験しました。提出期限は何日までですか？",
+    "2027-10-10に受験しました。提出期限はいつですか？",
+    "住所変更日は2027/10/10です。締切を教えてください。",
+])
+def test_composition_root_routes_concrete_deadline_to_v1_1(question) -> None:
     embeddings = SimpleNamespace(embed_query=lambda _question: [1.0])
     repository = SimpleNamespace(get_visual_assets=lambda _ids: [])
 
@@ -65,9 +71,7 @@ def test_composition_root_routes_concrete_deadline_to_v1_1() -> None:
         patch("src.rag_v2.get_asset_reader", return_value=object()),
         patch("src.rag_v2.answer_question", return_value={}) as answer,
     ):
-        generate_qdrant_answer(
-            "2027年10月10日に受験しました。提出期限は何日までですか？"
-        )
+        generate_qdrant_answer(question)
 
     kwargs = answer.call_args.kwargs
     assert kwargs["answer_schema"]["properties"]["schema_version"]["const"] == "1.1"

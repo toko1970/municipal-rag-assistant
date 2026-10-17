@@ -53,3 +53,23 @@ def test_streamlit_question_references_and_feedback_flow() -> None:
             feedback="修正して採用した",
             comment="表現を修正",
         )
+
+
+def test_incomplete_generation_is_warning_without_success_label() -> None:
+    result = {
+        "request_id": "00000000-0000-0000-0000-000000000002",
+        "question": "適用単価は？",
+        "answer": "回答の内容を十分に確認できませんでした。",
+        "answer_status": "GENERATION_INCOMPLETE",
+        "answer_label": None,
+        "claims": [],
+        "references": [],
+    }
+    with patch("src.rag_chain.generate_answer", return_value=result):
+        app = AppTest.from_file("app.py", default_timeout=10).run()
+        app.text_area[0].set_value(result["question"])
+        app.button[0].click().run()
+        assert not app.exception
+        assert app.warning
+        assert not any("回答を生成しました" in item.value for item in app.success)
+        assert not any("根拠十分" in item.value for item in app.markdown)

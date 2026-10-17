@@ -8,15 +8,16 @@ from datetime import date
 
 from src.contracts import SearchHit
 from src.query_service import build_generation_prompt
+from src.question_dates import has_other_date_mentions, question_dates
 
 
 POLICY_DOMAINS = ("通勤手当", "住居手当", "扶養手当")
 QUESTION_DOMAIN_ALIASES = {
     "出生": "扶養手当",
 }
-TEMPORAL_GENERATION_PROMPT_VERSION = "answer-claims-v1+temporal-guidance-v1"
+TEMPORAL_GENERATION_PROMPT_VERSION = "answer-claims-v1+temporal-guidance-v2"
 ANSWER_CONTRACT_V2_PROMPT_VERSION = "answer-contract-v2.2+deadline-calculation-v1"
-DEADLINE_CALCULATION_PROMPT_VERSION = "answer-claims-v1.1+deadline-calculation-v1"
+DEADLINE_CALCULATION_PROMPT_VERSION = "answer-claims-v1.1+deadline-calculation-v2"
 
 
 @dataclass(frozen=True)
@@ -29,14 +30,16 @@ class TemporalPolicyGuidance:
 
 
 def extract_question_date(question: str) -> date | None:
-    match = re.search(r"(\d{4})年(\d{1,2})月(?:(\d{1,2})日)?", question)
-    if match is None:
+    mentions = question_dates(question)
+    if (
+        not mentions
+        or any(mention.value is None for mention in mentions)
+        or has_other_date_mentions(question, mentions)
+    ):
         return None
-    return date(
-        int(match.group(1)),
-        int(match.group(2)),
-        int(match.group(3) or 1),
-    )
+    # Multiple events cannot share one global version override by position alone.
+    values = {mention.value for mention in mentions}
+    return next(iter(values)) if len(values) == 1 else None
 
 
 def _parse_date(value: object) -> date | None:
@@ -173,6 +176,25 @@ def build_temporal_generation_prompt(
     question: str, hits: list[SearchHit], visual_assets: object
 ) -> str:
     base = build_generation_prompt(question, hits, visual_assets)
+    mentions = question_dates(question)
+    invalid = [mention.text for mention in mentions if mention.value is None]
+    if invalid:
+        return (
+            f"日付入力の確認: {'、'.join(invalid)}は暦に存在しない日付です。"
+            "日付を補正・推測せず、正しい日付の確認をmissing_conditionsに残してください。"
+            "この日付に依存する期限計算や適用版の断定はしないでください。\n"
+            + base
+        )
+    if mentions and (
+        len({mention.value for mention in mentions}) > 1
+        or has_other_date_mentions(question, mentions)
+    ):
+        return (
+            "日付の対応: 質問には複数の日付表現があります。最初の日付を一律の基準日にせず、"
+            "各出来事と取得根拠の起算日・適用基準を対応付けてください。"
+            "対応が一意に決まらない結論は推測せずmissing_conditionsに残してください。\n"
+            + base
+        )
     instruction = temporal_prompt_instruction(question, hits)
     return f"{instruction}\n{base}" if instruction else base
 
@@ -211,8 +233,10 @@ def build_answer_contract_v2_prompt(
 
 
 def should_use_deadline_calculation(question: str) -> bool:
-    date_pattern = r"(?:\d{4}年\d{1,2}月\d{1,2}日|\d{4}[/-]\d{1,2}[/-]\d{1,2})"
-    if not re.search(date_pattern, question):
+    mentions = question_dates(question)
+    if not mentions or any(mention.value is None for mention in mentions):
+        return False
+    if not any(mention.has_day for mention in mentions):
         return False
 
     unsupported_calendar = (
@@ -221,19 +245,31 @@ def should_use_deadline_calculation(question: str) -> bool:
         "閉庁日",
         "休日を除",
         "土日を除",
+        "祝日を除",
+        "休日の場合",
+        "休日なら",
+        "土日の場合",
+        "翌営業日",
     )
     if any(phrase in question for phrase in unsupported_calendar):
         return False
 
-    anchor_after_date = re.search(
-        rf"{date_pattern}(?:に|から|を起算日|を基準日)", question
+    has_anchor = any(
+        mention.has_day
+        and (
+            re.match(
+                r"(?:に|から|を起算日|を基準日|の(?:講座|試験|受験|研修|利用|出生|転居|申請))",
+                question[mention.end:],
+            )
+            or re.search(
+                r"(?:受験|申請|受理|利用開始|採用|届出|起算|基準|発生|住所変更|転居|出生|実施|終了)"
+                r"(?:日|日時)(?:は|が|：|:)\s*$",
+                question[:mention.start],
+            )
+        )
+        for mention in mentions
     )
-    named_anchor_before_date = re.search(
-        rf"(?:受験日|申請日|受理日|利用開始日|採用日|届出日|起算日|基準日|発生日)"
-        rf"(?:は|が|：|:)\s*{date_pattern}",
-        question,
-    )
-    if not anchor_after_date and not named_anchor_before_date:
+    if not has_anchor:
         return False
 
     concrete_deadline_phrases = (
@@ -249,7 +285,14 @@ def should_use_deadline_calculation(question: str) -> bool:
         "具体的な期限日",
         "暦の上ではいつ",
     )
-    return any(phrase in question for phrase in concrete_deadline_phrases)
+    explicit_date_request = any(phrase in question for phrase in concrete_deadline_phrases)
+    if re.search(r"何日以内|何日間|何日後|何日前", question) and not explicit_date_request:
+        return False
+    if re.search(r"合っていますか|理解でよい|正しいですか", question) and not explicit_date_request:
+        return False
+    return explicit_date_request or any(
+        phrase in question for phrase in ("期限", "締切", "締め切り", "締めきり")
+    )
 
 
 def build_deadline_calculation_prompt(

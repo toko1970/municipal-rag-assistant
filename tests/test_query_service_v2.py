@@ -101,6 +101,8 @@ def _answer(evidence_id: str, *, with_claim: bool = True) -> dict:
                 "calculation_ids": [],
                 "evidence_element_ids": [evidence_id],
                 "evidence_kind": "text",
+                "claim_type": "case_outcome",
+                "depends_on_condition_ids": [],
             }
         )
     return {
@@ -264,6 +266,7 @@ def test_version_resolver_changes_only_version_requirement() -> None:
             "description": "適用版",
             "facet_ids": ["facet-1"],
             "evidence_element_ids": [evidence_id],
+            "blocking_claim_ids": ["claim-1"],
         },
         {
             "condition_id": "condition-2",
@@ -271,8 +274,11 @@ def test_version_resolver_changes_only_version_requirement() -> None:
             "description": "個別記録",
             "facet_ids": ["facet-1"],
             "evidence_element_ids": [evidence_id],
+            "blocking_claim_ids": ["claim-1"],
         },
     ]
+    answer["claims"][0]["claim_type"] = "case_outcome"
+    answer["claims"][0]["depends_on_condition_ids"] = ["condition-1", "condition-2"]
     reviews = [
         {
             "review_id": "review-1",
@@ -330,8 +336,11 @@ def test_version_resolver_is_not_called_for_incomplete_generation() -> None:
             "description": "適用版",
             "facet_ids": ["facet-1"],
             "evidence_element_ids": [evidence_id],
+            "blocking_claim_ids": ["claim-1"],
         }
     ]
+    answer["claims"][0]["claim_type"] = "case_outcome"
+    answer["claims"][0]["depends_on_condition_ids"] = ["condition-1"]
     reviews = [
         {
             "review_id": "review-1",

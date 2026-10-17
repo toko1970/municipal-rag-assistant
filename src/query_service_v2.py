@@ -61,9 +61,17 @@ def build_generation_prompt_v3(
     }
     return (
         "answer-output-v3-candidateに従い、取得根拠だけを使ったfacet付きclaimを返してください。"
-        "各claimは答えるfacet、使用するquestion input、検証済み計算、文書根拠をIDで参照します。"
-        "質問外の注意事項をmissing_conditionsへ追加しないでください。"
-        "自由文の最終表示や回答分類は返さないでください。\n"
+        "質問の各requested facetについて、結論に必要な規則・事実が根拠または質問内のinput_factにそろうかを先に確認してください。"
+        "根拠にない規則や、質問にも根拠にもない対象者の事実を補ってはいけません。"
+        "各claimは短い原子的主張とし、答えるfacet、使用するquestion input、検証済み計算、文書根拠をIDで参照します。"
+        "claim_typeはpolicy_rule（制度一般の規則）、case_fact（対象者の事実）、conditional（条件付き説明）、"
+        "case_outcome（対象者の認定・可否）、action_recommendation（対象者への確定処理の推奨）から選びます。"
+        "case_outcomeとaction_recommendationは、結論に必要な未確認条件が一つでもあれば生成せず、"
+        "条件付き説明またはpolicy_ruleとmissing_conditionsに分けてください。"
+        "missing_conditionsはcase_fact/policy_judgment/version_conflictに型付けし、影響するfacet_idsと、"
+        "その条件が成立しないと結論できないclaimのblocking_claim_idsを設定してください。"
+        "該当claim側にもdepends_on_condition_idsを設定し、両方向のIDを一致させます。"
+        "質問外の注意事項をmissing_conditionsへ追加しないでください。自由文の最終表示や回答分類は返さないでください。\n"
         f"生成対象: {json.dumps(payload, ensure_ascii=False)}"
     )
 
@@ -83,6 +91,8 @@ def build_classification_prompt_v2(
     return (
         "classification-output-v2-candidateに従い、最終ラベルではなく各requested facetの"
         "evidence_coverage、claim_support、human_review_requirementsを返してください。"
+        "policy_rule等の一般説明とcase_outcome/action_recommendationの個別結論を区別し、"
+        "未解決条件が個別結論に関わる場合は該当condition_idsを参照してください。"
         "質問内の事実は文書根拠ではなく入力値です。文書に判断基準があり、その事実が結論を"
         "変える場合だけcase_factにします。文書に判断基準がない場合はevidence_coverageを"
         "insufficientとし、人による確認要件を作らないでください。\n"
@@ -97,6 +107,8 @@ def _claim_log_rows(display: DisplayAnswerV2) -> list[dict]:
             "ordinal": claim.ordinal,
             "text": claim.text,
             "evidence_element_ids": list(claim.evidence_element_ids),
+            "claim_type": claim.claim_type,
+            "depends_on_condition_ids": list(claim.depends_on_condition_ids),
         }
         for claim in display.visible_claims
     ]
@@ -247,6 +259,62 @@ def _resolve_version_requirements(
                 "applied": False,
             },
         )
+
+
+def _apply_resolved_version_conditions(answer, classification, version_metadata: dict):
+    if not version_metadata.get("applied") or version_metadata.get("version_conflict"):
+        return answer, classification
+    resolved_ids = {
+        condition.condition_id
+        for condition in answer.missing_conditions
+        if condition.condition_type == "version_conflict"
+    }
+    if not resolved_ids:
+        return answer, classification
+    remaining = [
+        condition for condition in answer.missing_conditions
+        if condition.condition_id not in resolved_ids
+    ]
+    id_map = {
+        condition.condition_id: f"condition-{index}"
+        for index, condition in enumerate(remaining, start=1)
+    }
+    answer = replace(
+        answer,
+        missing_conditions=tuple(
+            replace(condition, condition_id=id_map[condition.condition_id])
+            for condition in remaining
+        ),
+        claims=tuple(
+            replace(
+                claim,
+                depends_on_condition_ids=tuple(
+                    id_map[condition_id]
+                    for condition_id in claim.depends_on_condition_ids
+                    if condition_id in id_map
+                ),
+            )
+            for claim in answer.claims
+        ),
+    )
+    assessments = tuple(
+        replace(
+            assessment,
+            human_review_requirements=tuple(
+                replace(
+                    review,
+                    condition_ids=tuple(
+                        id_map[condition_id]
+                        for condition_id in review.condition_ids
+                        if condition_id in id_map
+                    ),
+                )
+                for review in assessment.human_review_requirements
+            ),
+        )
+        for assessment in classification.facet_assessments
+    )
+    return answer, replace(classification, facet_assessments=assessments)
 
 
 def answer_question_v2(
@@ -454,6 +522,9 @@ def answer_question_v2(
                 version_resolution_schema=version_resolution_schema,
                 confidence_threshold=version_resolution_confidence_threshold,
             )
+        )
+        answer, classification = _apply_resolved_version_conditions(
+            answer, classification, version_metadata
         )
     if resolver_factors is not None:
         event_logger.record_classification_attempt(

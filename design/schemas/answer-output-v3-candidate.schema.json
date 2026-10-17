@@ -32,6 +32,11 @@
       "uniqueItems": true,
       "items": { "type": "string", "format": "uuid" }
     },
+    "claim_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^claim-[1-9][0-9]*$" }
+    },
     "input_fact_ids": {
       "type": "array",
       "uniqueItems": true,
@@ -59,7 +64,9 @@
         "input_fact_ids",
         "calculation_ids",
         "evidence_element_ids",
-        "evidence_kind"
+        "evidence_kind",
+        "claim_type",
+        "depends_on_condition_ids"
       ],
       "properties": {
         "claim_id": { "type": "string", "pattern": "^claim-[1-9][0-9]*$" },
@@ -71,6 +78,14 @@
         "evidence_element_ids": { "$ref": "#/$defs/non_empty_evidence_ids" },
         "evidence_kind": {
           "enum": ["text", "table_cell", "flow_edge", "form_field", "timeline_event"]
+        },
+        "claim_type": {
+          "enum": ["policy_rule", "case_fact", "conditional", "case_outcome", "action_recommendation"]
+        },
+        "depends_on_condition_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^condition-[1-9][0-9]*$" }
         }
       }
     },
@@ -82,7 +97,8 @@
         "type",
         "description",
         "facet_ids",
-        "evidence_element_ids"
+        "evidence_element_ids",
+        "blocking_claim_ids"
       ],
       "properties": {
         "condition_id": { "type": "string", "pattern": "^condition-[1-9][0-9]*$" },
@@ -91,7 +107,8 @@
         },
         "description": { "type": "string", "minLength": 1 },
         "facet_ids": { "$ref": "#/$defs/facet_ids" },
-        "evidence_element_ids": { "$ref": "#/$defs/evidence_ids" }
+        "evidence_element_ids": { "$ref": "#/$defs/evidence_ids" },
+        "blocking_claim_ids": { "$ref": "#/$defs/claim_ids" }
       }
     },
     "date_calculation": {

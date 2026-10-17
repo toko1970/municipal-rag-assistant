@@ -54,8 +54,8 @@ CLASSIFICATION_SCHEMA_V2_PATH = (
 
 
 def generate_qdrant_answer(question: str) -> dict:
-    if CLASSIFICATION_CONTRACT_VERSION not in {"v1", "v2"}:
-        raise ValueError("CLASSIFICATION_CONTRACT_VERSIONはv1またはv2です")
+    if CLASSIFICATION_CONTRACT_VERSION not in {"v1", "v2", "scope_v2"}:
+        raise ValueError("CLASSIFICATION_CONTRACT_VERSIONはv1またはv2、scope_v2です")
     deadline_mode = should_use_deadline_calculation(question)
     embeddings = get_embeddings()
     session_factory = get_session_factory()
@@ -119,4 +119,5 @@ def generate_qdrant_answer(question: str) -> dict:
         ),
         visual_asset_loader=repository.get_visual_assets,
         asset_reader=get_asset_reader(),
+        scope_classification=CLASSIFICATION_CONTRACT_VERSION == "scope_v2",
     )
