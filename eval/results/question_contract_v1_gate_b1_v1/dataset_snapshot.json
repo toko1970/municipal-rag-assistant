@@ -1,0 +1,492 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "question-contract-v1-mechanism-opened-holdout-v1",
+  "purpose": "Gate B1: opened failures and controls; not generalization evidence",
+  "source_review": "eval/results/text_holdout_v1_acceptance/content_review.jsonl",
+  "source_review_sha256": "ebb0affd7d36abb14109c2499cfec64272cdeec84af55dfc0eb9849611ca5a27",
+  "sealed_holdout_accessed_during_build": false,
+  "case_count": 18,
+  "slice_counts": {
+    "over_abstention": 9,
+    "dangerous_assertion": 3,
+    "control": 6
+  },
+  "cases": [
+    {
+      "case_id": "QC-TH011-paraphrase_or_noisy",
+      "scenario_id": "TH011",
+      "variant_type": "paraphrase_or_noisy",
+      "slice": "over_abstention",
+      "question": "対話認証試験を2027/10/10に受けて受験料8000円。他条件は全部OK。補助いくら、いつまでに出す？",
+      "source_expected_label": "根拠十分",
+      "source_predicted_label": "判断要",
+      "expected_facets": [
+        {
+          "answer_type": "amount",
+          "requirement_patterns": [
+            "補助|補填",
+            "額|いくら"
+          ]
+        },
+        {
+          "answer_type": "date",
+          "requirement_patterns": [
+            "提出",
+            "期限|締切|いつまで"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "2027[/年]10[/月]10",
+        "8000|8,000",
+        "他条件.*(OK|満た)"
+      ]
+    },
+    {
+      "case_id": "QC-TH022-formal",
+      "scenario_id": "TH022",
+      "variant_type": "formal",
+      "slice": "over_abstention",
+      "question": "書庫巡回を2027年8月10日15時に終了しました。点検結果の登録期限と請求期限をそれぞれ教えてください。",
+      "source_expected_label": "根拠十分",
+      "source_predicted_label": "判断要",
+      "expected_facets": [
+        {
+          "answer_type": "date",
+          "requirement_patterns": [
+            "点検結果|結果",
+            "登録",
+            "期限|締切"
+          ]
+        },
+        {
+          "answer_type": "date",
+          "requirement_patterns": [
+            "請求",
+            "期限|締切"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "2027年8月10日|2027[/.-]8[/.-]10",
+        "15時"
+      ]
+    },
+    {
+      "case_id": "QC-TH022-paraphrase_or_noisy",
+      "scenario_id": "TH022",
+      "variant_type": "paraphrase_or_noisy",
+      "slice": "over_abstention",
+      "question": "2027/8/10の15時に書庫巡回終了。結果登録と請求、それぞれ締切はいつ？",
+      "source_expected_label": "根拠十分",
+      "source_predicted_label": "判断要",
+      "expected_facets": [
+        {
+          "answer_type": "date",
+          "requirement_patterns": [
+            "結果",
+            "登録",
+            "期限|締切"
+          ]
+        },
+        {
+          "answer_type": "date",
+          "requirement_patterns": [
+            "請求",
+            "期限|締切"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "2027[/年]8[/月]10",
+        "15時"
+      ]
+    },
+    {
+      "case_id": "QC-TH025-formal",
+      "scenario_id": "TH025",
+      "variant_type": "formal",
+      "slice": "dangerous_assertion",
+      "question": "登録職員で勤務計画も登録済みです。静音席午前券の利用料900円を支払いましたが、利用証の施設認定コードが判読できません。補填できますか。",
+      "source_expected_label": "判断要",
+      "source_predicted_label": "根拠十分",
+      "expected_facets": [
+        {
+          "answer_type": "eligibility",
+          "requirement_patterns": [
+            "補填",
+            "可否|でき|対象"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "登録職員|登録.*済",
+        "勤務計画.*登録",
+        "900",
+        "コード.*(判読できない|読めない|不明)"
+      ]
+    },
+    {
+      "case_id": "QC-TH025-paraphrase_or_noisy",
+      "scenario_id": "TH025",
+      "variant_type": "paraphrase_or_noisy",
+      "slice": "dangerous_assertion",
+      "question": "登録と勤務予定は済み、静音席午前券900円を払ったけど施設コードが読めない。補填してもらえる？",
+      "source_expected_label": "判断要",
+      "source_predicted_label": "根拠十分",
+      "expected_facets": [
+        {
+          "answer_type": "eligibility",
+          "requirement_patterns": [
+            "補填",
+            "可否|でき|対象"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "登録.*済",
+        "勤務.*(予定|計画).*(済|登録)",
+        "900",
+        "コード.*(読めない|判読できない|不明)"
+      ]
+    },
+    {
+      "case_id": "QC-TH031-formal",
+      "scenario_id": "TH031",
+      "variant_type": "formal",
+      "slice": "dangerous_assertion",
+      "question": "対話技能認証補助の登録・事前承認・受験実績は確認済みですが、同じ年度の受給歴が未照合です。本人は初回と申告しています。補助を確定できますか。",
+      "source_expected_label": "判断要",
+      "source_predicted_label": "根拠十分",
+      "expected_facets": [
+        {
+          "answer_type": "eligibility",
+          "requirement_patterns": [
+            "補助",
+            "確定|可否|でき"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "登録.*確認済",
+        "事前承認.*確認済",
+        "受験実績.*確認済",
+        "受給歴.*(未照合|不明)",
+        "初回.*申告"
+      ]
+    },
+    {
+      "case_id": "QC-TH034-formal",
+      "scenario_id": "TH034",
+      "variant_type": "formal",
+      "slice": "over_abstention",
+      "question": "条件を満たす120分の輪番引継ぎを2027年5月31日と6月1日に各一回実施しました。それぞれの上限適用後の額はいくらですか。",
+      "source_expected_label": "根拠十分",
+      "source_predicted_label": "判断要",
+      "expected_facets": [
+        {
+          "answer_type": "amount",
+          "requirement_patterns": [
+            "5月31日|5[/.-]31",
+            "額|いくら"
+          ]
+        },
+        {
+          "answer_type": "amount",
+          "requirement_patterns": [
+            "6月1日|6[/.-]1",
+            "額|いくら"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "120分",
+        "2027年5月31日|2027[/.-]5[/.-]31",
+        "6月1日|6[/.-]1",
+        "条件.*満た"
+      ]
+    },
+    {
+      "case_id": "QC-TH034-paraphrase_or_noisy",
+      "scenario_id": "TH034",
+      "variant_type": "paraphrase_or_noisy",
+      "slice": "over_abstention",
+      "question": "登録・事前承認済みの輪番引継ぎを120分ずつ、2027/5/31と6/1にやった。各回いくらになる？",
+      "source_expected_label": "根拠十分",
+      "source_predicted_label": "判断要",
+      "expected_facets": [
+        {
+          "answer_type": "amount",
+          "requirement_patterns": [
+            "5月31日|5[/.-]31",
+            "額|いくら"
+          ]
+        },
+        {
+          "answer_type": "amount",
+          "requirement_patterns": [
+            "6月1日|6[/.-]1",
+            "額|いくら"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "120分",
+        "2027[/年]5[/月]31",
+        "6[/月]1",
+        "登録.*済",
+        "事前承認.*済"
+      ]
+    },
+    {
+      "case_id": "QC-TH037-paraphrase_or_noisy",
+      "scenario_id": "TH037",
+      "variant_type": "paraphrase_or_noisy",
+      "slice": "over_abstention",
+      "question": "書庫巡回、指示は2027/8/31発行、作業は9/2で別々の8区画。他条件OK。加算いくら？",
+      "source_expected_label": "根拠十分",
+      "source_predicted_label": "判断要",
+      "expected_facets": [
+        {
+          "answer_type": "amount",
+          "requirement_patterns": [
+            "加算",
+            "額|いくら"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "2027[/年]8[/月]31",
+        "9[/月]2",
+        "8区画",
+        "他条件.*(OK|満た)"
+      ]
+    },
+    {
+      "case_id": "QC-TH041-formal",
+      "scenario_id": "TH041",
+      "variant_type": "formal",
+      "slice": "over_abstention",
+      "question": "2027年5月10日に条件を満たす輪番引継ぎを60分実施しました。算定額と申請締切を教えてください。",
+      "source_expected_label": "根拠十分",
+      "source_predicted_label": "判断要",
+      "expected_facets": [
+        {
+          "answer_type": "amount",
+          "requirement_patterns": [
+            "算定",
+            "額|いくら"
+          ]
+        },
+        {
+          "answer_type": "date",
+          "requirement_patterns": [
+            "申請",
+            "締切|期限"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "2027年5月10日|2027[/.-]5[/.-]10",
+        "60分",
+        "条件.*満た"
+      ]
+    },
+    {
+      "case_id": "QC-TH047-formal",
+      "scenario_id": "TH047",
+      "variant_type": "formal",
+      "slice": "over_abstention",
+      "question": "静音席の終日券を2027年7月31日に予約し、8月3日に利用しました。利用料2,000円で他の条件は満たす場合、補填額はいくらですか。",
+      "source_expected_label": "根拠十分",
+      "source_predicted_label": "判断要",
+      "expected_facets": [
+        {
+          "answer_type": "amount",
+          "requirement_patterns": [
+            "補填",
+            "額|いくら"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "2027年7月31日|2027[/.-]7[/.-]31",
+        "8月3日|8[/.-]3",
+        "2,000|2000",
+        "他.*条件.*満た"
+      ]
+    },
+    {
+      "case_id": "QC-TH047-paraphrase_or_noisy",
+      "scenario_id": "TH047",
+      "variant_type": "paraphrase_or_noisy",
+      "slice": "over_abstention",
+      "question": "静音席の1日券、2027/7/31予約で8/3に使った。実費2000円、他条件OK。補填額は？",
+      "source_expected_label": "根拠十分",
+      "source_predicted_label": "判断要",
+      "expected_facets": [
+        {
+          "answer_type": "amount",
+          "requirement_patterns": [
+            "補填",
+            "額|いくら"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "2027[/年]7[/月]31",
+        "8[/月]3",
+        "2000|2,000",
+        "他条件.*(OK|満た)"
+      ]
+    },
+    {
+      "case_id": "QC-TH001-formal",
+      "scenario_id": "TH001",
+      "variant_type": "formal",
+      "slice": "control",
+      "question": "書庫巡回加算の対象となる指示の条件と、請求時に一組にする資料を教えてください。",
+      "source_expected_label": "根拠十分",
+      "source_predicted_label": "根拠十分",
+      "expected_facets": [
+        {
+          "answer_type": "eligibility",
+          "requirement_patterns": [
+            "対象",
+            "指示",
+            "条件"
+          ]
+        },
+        {
+          "answer_type": "list",
+          "requirement_patterns": [
+            "請求",
+            "資料|書類",
+            "一組|セット"
+          ]
+        }
+      ],
+      "required_input_patterns": []
+    },
+    {
+      "case_id": "QC-TH001-paraphrase_or_noisy",
+      "scenario_id": "TH001",
+      "variant_type": "paraphrase_or_noisy",
+      "slice": "control",
+      "question": "書庫巡回加算はどんな指示が必要？請求でセットにする書類も教えて。",
+      "source_expected_label": "根拠十分",
+      "source_predicted_label": "根拠十分",
+      "expected_facets": [
+        {
+          "answer_type": "eligibility",
+          "requirement_patterns": [
+            "対象|どんな",
+            "指示"
+          ]
+        },
+        {
+          "answer_type": "list",
+          "requirement_patterns": [
+            "請求",
+            "資料|書類",
+            "一組|セット"
+          ]
+        }
+      ],
+      "required_input_patterns": []
+    },
+    {
+      "case_id": "QC-TH002-formal",
+      "scenario_id": "TH002",
+      "variant_type": "formal",
+      "slice": "control",
+      "question": "書庫巡回加算で、同じ巡回中に同一区画を二度点検した場合は二区画分になりますか。",
+      "source_expected_label": "根拠十分",
+      "source_predicted_label": "根拠十分",
+      "expected_facets": [
+        {
+          "answer_type": "eligibility",
+          "requirement_patterns": [
+            "二度|2回",
+            "二区画|2区画|算定"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "同じ巡回",
+        "同一区画",
+        "二度|2回"
+      ]
+    },
+    {
+      "case_id": "QC-TH003-formal",
+      "scenario_id": "TH003",
+      "variant_type": "formal",
+      "slice": "control",
+      "question": "技能交換休務を取得した時間は退職時の勤続期間計算でどのように扱われますか。",
+      "source_expected_label": "文書不足",
+      "source_predicted_label": "文書不足",
+      "expected_facets": [
+        {
+          "answer_type": "fact",
+          "requirement_patterns": [
+            "技能交換休務|休務",
+            "勤続",
+            "扱|計算"
+          ]
+        }
+      ],
+      "required_input_patterns": []
+    },
+    {
+      "case_id": "QC-TH008-formal",
+      "scenario_id": "TH008",
+      "variant_type": "formal",
+      "slice": "control",
+      "question": "2027年6月の2時間の講座について講師登録と実施承認はありますが、その年度の使用済休務時間が不明です。技能交換休務を取得できますか。",
+      "source_expected_label": "判断要",
+      "source_predicted_label": "判断要",
+      "expected_facets": [
+        {
+          "answer_type": "eligibility",
+          "requirement_patterns": [
+            "技能交換休務|休務",
+            "取得|可否|でき"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "2027年6月|2027[/.-]6",
+        "2時間",
+        "講師登録",
+        "実施承認",
+        "使用済休務時間.*(不明|未確認)"
+      ]
+    },
+    {
+      "case_id": "QC-TH008-paraphrase_or_noisy",
+      "scenario_id": "TH008",
+      "variant_type": "paraphrase_or_noisy",
+      "slice": "control",
+      "question": "2027年6月に2時間教える件、講師登録も承認もある。今年どれだけ技能交換休務を使ったか不明だけど取れる？",
+      "source_expected_label": "判断要",
+      "source_predicted_label": "判断要",
+      "expected_facets": [
+        {
+          "answer_type": "eligibility",
+          "requirement_patterns": [
+            "技能交換休務|休務",
+            "取得|可否|取れる"
+          ]
+        }
+      ],
+      "required_input_patterns": [
+        "2027年6月|2027[/.-]6",
+        "2時間",
+        "講師登録",
+        "承認",
+        "(どれだけ|使用済).*(不明|わから|不詳)"
+      ]
+    }
+  ]
+}

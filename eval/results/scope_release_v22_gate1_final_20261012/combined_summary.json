@@ -1,0 +1,85 @@
+{
+  "stop": "COMPLETED",
+  "attempts": 56,
+  "planned": 56,
+  "paired_scenarios": {
+    "A02": {
+      "baseline": true,
+      "candidate": true
+    },
+    "A03": {
+      "baseline": true,
+      "candidate": true
+    },
+    "A04": {
+      "baseline": true,
+      "candidate": false
+    },
+    "B02": {
+      "baseline": true,
+      "candidate": false
+    },
+    "B03": {
+      "baseline": true,
+      "candidate": true
+    },
+    "B04": {
+      "baseline": true,
+      "candidate": true
+    },
+    "C01": {
+      "baseline": false,
+      "candidate": true
+    },
+    "C02": {
+      "baseline": true,
+      "candidate": false
+    },
+    "C03": {
+      "baseline": true,
+      "candidate": true
+    },
+    "C04": {
+      "baseline": false,
+      "candidate": false
+    }
+  },
+  "improved": [
+    "C01"
+  ],
+  "regressed": [
+    "A04",
+    "B02",
+    "C02"
+  ],
+  "expression_regressions": [
+    "A04-formal",
+    "B02-paraphrase",
+    "C02-formal"
+  ],
+  "candidate_unsafe_sufficient": [],
+  "candidate_diagnostics_pass": true,
+  "candidate_repeats_pass": false,
+  "accounting_usd": 0.24899899999999994,
+  "known_expression_success": {
+    "baseline": 16,
+    "candidate": 15
+  },
+  "status_counts": {
+    "baseline:SUCCESS": 26,
+    "candidate:SUCCESS": 20,
+    "baseline:PIPELINE_INCONSISTENCY": 2,
+    "candidate:PIPELINE_INCONSISTENCY": 5,
+    "candidate:GENERATION_INCOMPLETE": 3
+  },
+  "gate1_pass": false,
+  "production_adoption": "not evaluated",
+  "total_api_attempts": 58,
+  "provider_errors": 2,
+  "completed_model_responses": 56,
+  "model_versions": [
+    "gemini-3.1-flash-lite"
+  ],
+  "automatic_restarts_remaining": 0,
+  "note": "Frozen cross-day paired classifier evaluation; previous API failures retained separately. Not holdout or full pipeline."
+}

@@ -1,0 +1,9 @@
+{
+  "source": "classification/service_records.jsonl",
+  "snapshot_rows": 64,
+  "first_index": 0,
+  "last_index": 63,
+  "sha256": "6285aca142ad7a96db6c5050ab7493af02b677a0f2e1650908e05f0d895720b6",
+  "created_at_utc": "2026-10-09T01:03:44.093085+00:00",
+  "note": "Atomic first-64-line oracle initial+repeat snapshot for independent review; not final scored results."
+}

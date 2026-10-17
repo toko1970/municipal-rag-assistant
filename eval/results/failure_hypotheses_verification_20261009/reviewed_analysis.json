@@ -1,0 +1,283 @@
+{
+  "input_hashes_verified": true,
+  "completed": 33,
+  "planned": 33,
+  "groups": {
+    "historical_visible_claims_empty_missing_control": {
+      "baseline": {
+        "n": 4,
+        "correct": 0
+      },
+      "scope_definition": {
+        "n": 4,
+        "correct": 2
+      }
+    },
+    "new_exploratory_minimal_cases_not_sealed": {
+      "baseline": {
+        "n": 4,
+        "correct": 3
+      },
+      "scope_definition": {
+        "n": 4,
+        "correct": 3
+      }
+    },
+    "deadline/baseline": {
+      "n": 4,
+      "correct_date_and_time": 1,
+      "ids_correct": [
+        "TH039/paraphrase_or_noisy"
+      ],
+      "semantic_correct": 1
+    },
+    "deadline/explicit_date": {
+      "n": 4,
+      "correct_date_and_time": 4,
+      "ids_correct": [
+        "TH011/formal",
+        "TH011/paraphrase_or_noisy",
+        "TH039/formal",
+        "TH039/paraphrase_or_noisy"
+      ],
+      "semantic_correct": 4
+    },
+    "deadline/calculation_permission": {
+      "n": 4,
+      "correct_date_and_time": 3,
+      "ids_correct": [
+        "TH011/formal",
+        "TH039/formal",
+        "TH039/paraphrase_or_noisy"
+      ],
+      "semantic_correct": 4
+    },
+    "deadline/deadline_only": {
+      "n": 4,
+      "correct_date_and_time": 3,
+      "ids_correct": [
+        "TH011/formal",
+        "TH011/paraphrase_or_noisy",
+        "TH039/formal"
+      ],
+      "semantic_correct": 4
+    }
+  },
+  "paired": [
+    {
+      "id": "TH022/formal",
+      "origin": "historical_visible_claims_empty_missing_control",
+      "expected_label": "根拠十分",
+      "labels": {
+        "baseline": "判断要",
+        "scope_definition": "根拠十分"
+      },
+      "factors": {
+        "baseline": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "scope_definition": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        }
+      }
+    },
+    {
+      "id": "TH025/formal",
+      "origin": "historical_visible_claims_empty_missing_control",
+      "expected_label": "判断要",
+      "labels": {
+        "baseline": "根拠十分",
+        "scope_definition": "根拠十分"
+      },
+      "factors": {
+        "baseline": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "scope_definition": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        }
+      }
+    },
+    {
+      "id": "TH031/formal",
+      "origin": "historical_visible_claims_empty_missing_control",
+      "expected_label": "判断要",
+      "labels": {
+        "baseline": "根拠十分",
+        "scope_definition": "根拠十分"
+      },
+      "factors": {
+        "baseline": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "scope_definition": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        }
+      }
+    },
+    {
+      "id": "TH047/formal",
+      "origin": "historical_visible_claims_empty_missing_control",
+      "expected_label": "根拠十分",
+      "labels": {
+        "baseline": "判断要",
+        "scope_definition": "根拠十分"
+      },
+      "factors": {
+        "baseline": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "scope_definition": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        }
+      }
+    },
+    {
+      "id": "NEW-answerability",
+      "origin": "new_exploratory_minimal_cases_not_sealed",
+      "expected_label": "根拠十分",
+      "labels": {
+        "baseline": "判断要",
+        "scope_definition": "判断要"
+      },
+      "factors": {
+        "baseline": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "scope_definition": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        }
+      }
+    },
+    {
+      "id": "NEW-condition-known",
+      "origin": "new_exploratory_minimal_cases_not_sealed",
+      "expected_label": "根拠十分",
+      "labels": {
+        "baseline": "根拠十分",
+        "scope_definition": "根拠十分"
+      },
+      "factors": {
+        "baseline": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "scope_definition": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        }
+      }
+    },
+    {
+      "id": "NEW-condition-missing",
+      "origin": "new_exploratory_minimal_cases_not_sealed",
+      "expected_label": "判断要",
+      "labels": {
+        "baseline": "判断要",
+        "scope_definition": "判断要"
+      },
+      "factors": {
+        "baseline": {
+          "retrieval_sufficient": false,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "scope_definition": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        }
+      }
+    },
+    {
+      "id": "NEW-explicit-negative",
+      "origin": "new_exploratory_minimal_cases_not_sealed",
+      "expected_label": "根拠十分",
+      "labels": {
+        "baseline": "根拠十分",
+        "scope_definition": "根拠十分"
+      },
+      "factors": {
+        "baseline": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "scope_definition": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        }
+      }
+    }
+  ],
+  "deadline_control": [
+    {
+      "id": "TH041/formal",
+      "expected_date": "2027-05-17",
+      "expected_time": "23:00",
+      "date_and_time_ok": true,
+      "text": "2027年5月10日に実施した60分の輪番引継ぎの算定額は1,400円です。\n申請締切は実施日の翌日から起算して7暦日目の23時までです。\n2027年5月10日に実施した場合、申請締切は2027年5月17日の23時です。"
+    }
+  ],
+  "cost": {
+    "valid_run_estimated_usd": 0.022392,
+    "invalidated_run_estimated_usd": 0.0012699999999999999,
+    "campaign_estimated_usd": 0.023662
+  },
+  "campaign_calls": 35
+}

@@ -1,0 +1,67 @@
+{
+  "stop": "PROVIDER_ERROR",
+  "attempts": 11,
+  "planned": 56,
+  "paired_scenarios": {
+    "A02": {
+      "baseline": false,
+      "candidate": false
+    },
+    "A03": {
+      "baseline": false,
+      "candidate": false
+    },
+    "A04": {
+      "baseline": false,
+      "candidate": false
+    },
+    "B02": {
+      "baseline": false,
+      "candidate": false
+    },
+    "B03": {
+      "baseline": false,
+      "candidate": false
+    },
+    "B04": {
+      "baseline": false,
+      "candidate": false
+    },
+    "C01": {
+      "baseline": false,
+      "candidate": false
+    },
+    "C02": {
+      "baseline": false,
+      "candidate": false
+    },
+    "C03": {
+      "baseline": true,
+      "candidate": true
+    },
+    "C04": {
+      "baseline": false,
+      "candidate": false
+    }
+  },
+  "improved": [],
+  "regressed": [],
+  "expression_regressions": [],
+  "candidate_unsafe_sufficient": [],
+  "candidate_diagnostics_pass": false,
+  "candidate_repeats_pass": false,
+  "accounting_usd": 0.077675,
+  "known_expression_success": {
+    "baseline": 4,
+    "candidate": 4
+  },
+  "status_counts": {
+    "baseline:SUCCESS": 4,
+    "candidate:SUCCESS": 4,
+    "baseline:PIPELINE_INCONSISTENCY": 1,
+    "candidate:PIPELINE_INCONSISTENCY": 1,
+    "candidate:PROVIDER_ERROR": 1
+  },
+  "gate1_pass": false,
+  "production_adoption": "not evaluated"
+}

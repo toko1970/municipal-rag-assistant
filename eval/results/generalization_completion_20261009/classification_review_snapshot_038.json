@@ -1,0 +1,9 @@
+{
+  "source": "classification/service_records.jsonl",
+  "snapshot_rows": 38,
+  "first_index": 0,
+  "last_index": 37,
+  "sha256": "60d8f97dfb28f386bbc7f09fec2c72430f75f918079e89523275712a12f9c935",
+  "created_at_utc": "2026-10-09T00:50:40.672036+00:00",
+  "note": "Atomic first-38-line live snapshot for independent review; not final scored results."
+}

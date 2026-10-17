@@ -1,0 +1,29 @@
+{
+  "service_records": 88,
+  "api_attempts": 214,
+  "api_errors": [],
+  "estimated_usd": 0.11354674999999993,
+  "corrected_estimated_usd": 0.17305930000000003,
+  "corrected_price_assumption": {
+    "input_usd_per_million": 0.3,
+    "output_usd_per_million": 2.5
+  },
+  "corrected_price_source": "2026-10-09 official pricing URL recorded in eval/results/generalization_validation_20261009_gemini35/manifest.json",
+  "automatic_counts": {
+    "('oracle', 'v1', False)": 12,
+    "('oracle', 'v1', True)": 20,
+    "('oracle', 'v2', False)": 9,
+    "('oracle', 'v2', True)": 23,
+    "('retrieved', 'v1', False)": 3,
+    "('retrieved', 'v1', True)": 9,
+    "('retrieved', 'v2', False)": 6,
+    "('retrieved', 'v2', True)": 6
+  },
+  "oracle_expression_pairs": {
+    "v2_only": 5,
+    "v1_only": 3,
+    "both": 13,
+    "neither": 3
+  },
+  "caution": "Automatic terms and facet counts are provisional. Manual review of each claim, semantic facet coverage, and unsafe assertions required before gate."
+}

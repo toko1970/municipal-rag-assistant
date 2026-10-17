@@ -1,0 +1,501 @@
+[
+  {
+    "id": "TH025/formal",
+    "prompt": "以下を2軸で独立判定してください。最終ラベルは導出しません。\n軸1 answer_supported: 提示された固定回答の全重要主張が取得根拠で支持されるか。support_evidence_idsに判断に用いたelement_idを列挙してください。\n軸2 requested_value_determinable: 入力decision_targetで指定する行政判断の対象自体（個別の支給可否・金額・期限等）の値を、提示された事実だけで確定できるか。「可否を今確定できない」という根拠付き説明を作れることと、その支給可否自体の確定とは区別します。支給可否が保留ならfalse、条件を規則へ当てはめ額や期限が決まるならtrueです。範囲外の実務条件は追加しないでください。\n各軸の理由を短く記載してください。\n入力: {\"question\": \"登録職員で勤務計画も登録済みです。静音席午前券の利用料900円を支払いましたが、利用証の施設認定コードが判読できません。補填できますか。\", \"evidence\": [{\"element_id\": \"1bdfa5cc-48d3-50ed-883c-c624ffde2764\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音施設コードの保留照会\", \"content\": \"## 静音施設コードの保留照会  \\n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。\", \"page_number\": null, \"score\": 0.793339, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"f2fb1898-3878-5a41-970a-a98e814d8382\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の額面\", \"content\": \"## 静音席券の額面  \\n午前券は900円、終日券は1,500円を補填する。一日に選べる券は一枚で、午前券と終日券の加算はできない。実際の利用料が額面より安いときは実際の利用料までとする。\", \"page_number\": null, \"score\": 0.742289, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"52e8198f-6642-5555-b558-2d82dee21ff5\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の対象範囲\", \"content\": \"# 静音席利用補填の区分札  \\n## 静音席券の対象範囲  \\n架空の職員制度である。静音席利用補填は、面談記録の整理のため認定施設の一人用席を利用する登録職員に適用する。勤務計画に整理作業が登録され、施設認定コードが有効であることが必要。\", \"page_number\": null, \"score\": 0.737087, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"19d809b4-82f9-5cd7-a51c-c8e34de83cb8\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の時間帯\", \"content\": \"## 静音席券の時間帯  \\n午前券の利用帯は8時30分から12時30分まで、終日券は8時30分から17時までである。終日券には午前の時間帯を含む。\", \"page_number\": null, \"score\": 0.713487, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"e5af52f7-6acc-5437-94b5-25098946b993\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の予約日基準\", \"content\": \"## 静音席券の予約日基準  \\n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。\", \"page_number\": null, \"score\": 0.707492, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6a10b3a8-b826-5848-ad41-47a76c1607c3\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音席の清算封筒\", \"content\": \"# 静音席利用補填の清算便覧  \\n## 静音席の清算封筒  \\n静音席利用補填は利用月ごとにまとめる。予約成立日時の記載がある利用証と領収票を添え、翌月4日18時までに作業環境室へ送る。暦日による締切であり、閉庁日でも延長しない。\", \"page_number\": null, \"score\": 0.688242, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6b674821-44fc-5da5-821e-847306a56b62\", \"document_name\": \"輪番引継支援枠の受付簿記要領\", \"heading\": \"輪番記録の照合保留\", \"content\": \"## 輪番記録の照合保留  \\n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。\", \"page_number\": null, \"score\": 0.645868, \"source\": \"TXH-A02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"bfed51db-83de-59f4-be1e-fa4e8741170a\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の添付束\", \"content\": \"# 対話技能認証補助の精算箋  \\n## 対話認証の添付束  \\n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。\", \"page_number\": null, \"score\": 0.639262, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}], \"answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"evidence_element_ids\": [\"1bdfa5cc-48d3-50ed-883c-c624ffde2764\"], \"ordinal\": 1, \"text\": \"施設認定コードが判読できない場合、作業環境室が施設へ確認を行います。\", \"evidence_kind\": \"text\"}, {\"claim_id\": \"claim-2\", \"evidence_element_ids\": [\"1bdfa5cc-48d3-50ed-883c-c624ffde2764\"], \"ordinal\": 2, \"text\": \"利用料の支払いのみを根拠として認定することはできず、コードの確認が完了するまでは補填の可否は保留されます。\", \"evidence_kind\": \"text\"}], \"missing_conditions\": []}, \"decision_target\": \"給付可否\"}",
+    "input": {
+      "question": "登録職員で勤務計画も登録済みです。静音席午前券の利用料900円を支払いましたが、利用証の施設認定コードが判読できません。補填できますか。",
+      "evidence": [
+        {
+          "element_id": "1bdfa5cc-48d3-50ed-883c-c624ffde2764",
+          "document_name": "静音席利用補填の清算便覧",
+          "heading": "静音施設コードの保留照会",
+          "content": "## 静音施設コードの保留照会  \n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。",
+          "page_number": null,
+          "score": 0.793339,
+          "source": "TXH-B02.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "f2fb1898-3878-5a41-970a-a98e814d8382",
+          "document_name": "静音席利用補填の区分札",
+          "heading": "静音席券の額面",
+          "content": "## 静音席券の額面  \n午前券は900円、終日券は1,500円を補填する。一日に選べる券は一枚で、午前券と終日券の加算はできない。実際の利用料が額面より安いときは実際の利用料までとする。",
+          "page_number": null,
+          "score": 0.742289,
+          "source": "TXH-B01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "52e8198f-6642-5555-b558-2d82dee21ff5",
+          "document_name": "静音席利用補填の区分札",
+          "heading": "静音席券の対象範囲",
+          "content": "# 静音席利用補填の区分札  \n## 静音席券の対象範囲  \n架空の職員制度である。静音席利用補填は、面談記録の整理のため認定施設の一人用席を利用する登録職員に適用する。勤務計画に整理作業が登録され、施設認定コードが有効であることが必要。",
+          "page_number": null,
+          "score": 0.737087,
+          "source": "TXH-B01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "19d809b4-82f9-5cd7-a51c-c8e34de83cb8",
+          "document_name": "静音席利用補填の区分札",
+          "heading": "静音席券の時間帯",
+          "content": "## 静音席券の時間帯  \n午前券の利用帯は8時30分から12時30分まで、終日券は8時30分から17時までである。終日券には午前の時間帯を含む。",
+          "page_number": null,
+          "score": 0.713487,
+          "source": "TXH-B01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "e5af52f7-6acc-5437-94b5-25098946b993",
+          "document_name": "静音席利用補填の区分札",
+          "heading": "静音席券の予約日基準",
+          "content": "## 静音席券の予約日基準  \n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。",
+          "page_number": null,
+          "score": 0.707492,
+          "source": "TXH-B01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "6a10b3a8-b826-5848-ad41-47a76c1607c3",
+          "document_name": "静音席利用補填の清算便覧",
+          "heading": "静音席の清算封筒",
+          "content": "# 静音席利用補填の清算便覧  \n## 静音席の清算封筒  \n静音席利用補填は利用月ごとにまとめる。予約成立日時の記載がある利用証と領収票を添え、翌月4日18時までに作業環境室へ送る。暦日による締切であり、閉庁日でも延長しない。",
+          "page_number": null,
+          "score": 0.688242,
+          "source": "TXH-B02.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "6b674821-44fc-5da5-821e-847306a56b62",
+          "document_name": "輪番引継支援枠の受付簿記要領",
+          "heading": "輪番記録の照合保留",
+          "content": "## 輪番記録の照合保留  \n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。",
+          "page_number": null,
+          "score": 0.645868,
+          "source": "TXH-A02.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "bfed51db-83de-59f4-be1e-fa4e8741170a",
+          "document_name": "対話技能認証補助の精算箋",
+          "heading": "対話認証の添付束",
+          "content": "# 対話技能認証補助の精算箋  \n## 対話認証の添付束  \n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。",
+          "page_number": null,
+          "score": 0.639262,
+          "source": "TXH-E02.md",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "1bdfa5cc-48d3-50ed-883c-c624ffde2764"
+            ],
+            "ordinal": 1,
+            "text": "施設認定コードが判読できない場合、作業環境室が施設へ確認を行います。",
+            "evidence_kind": "text"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "1bdfa5cc-48d3-50ed-883c-c624ffde2764"
+            ],
+            "ordinal": 2,
+            "text": "利用料の支払いのみを根拠として認定することはできず、コードの確認が完了するまでは補填の可否は保留されます。",
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      },
+      "decision_target": "給付可否"
+    },
+    "expected": {
+      "answer_supported": true,
+      "requested_value_determinable": false
+    },
+    "expectation_reason": "TH025/031は照合未了のため支給可否保留、TH022/047は提示条件から期限/額が決まる。全4固定回答の主張自体は支持される。"
+  },
+  {
+    "id": "TH031/formal",
+    "prompt": "以下を2軸で独立判定してください。最終ラベルは導出しません。\n軸1 answer_supported: 提示された固定回答の全重要主張が取得根拠で支持されるか。support_evidence_idsに判断に用いたelement_idを列挙してください。\n軸2 requested_value_determinable: 入力decision_targetで指定する行政判断の対象自体（個別の支給可否・金額・期限等）の値を、提示された事実だけで確定できるか。「可否を今確定できない」という根拠付き説明を作れることと、その支給可否自体の確定とは区別します。支給可否が保留ならfalse、条件を規則へ当てはめ額や期限が決まるならtrueです。範囲外の実務条件は追加しないでください。\n各軸の理由を短く記載してください。\n入力: {\"question\": \"対話技能認証補助の登録・事前承認・受験実績は確認済みですが、同じ年度の受給歴が未照合です。本人は初回と申告しています。補助を確定できますか。\", \"evidence\": [{\"element_id\": \"3bd9867a-5455-51d6-8d01-fd340795a046\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の履歴保留\", \"content\": \"## 対話認証の履歴保留  \\n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。\", \"page_number\": null, \"score\": 0.818562, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"53e8cc80-4222-5796-bffd-2bedf58cc232\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の回数線\", \"content\": \"## 対話認証の回数線  \\n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。\", \"page_number\": null, \"score\": 0.735812, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"a698f313-ddfa-5b4a-a4f7-5ff63b058c53\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の費目線\", \"content\": \"## 対話認証の費目線  \\n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。\", \"page_number\": null, \"score\": 0.715969, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6b674821-44fc-5da5-821e-847306a56b62\", \"document_name\": \"輪番引継支援枠の受付簿記要領\", \"heading\": \"輪番記録の照合保留\", \"content\": \"## 輪番記録の照合保留  \\n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。\", \"page_number\": null, \"score\": 0.715926, \"source\": \"TXH-A02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"bfed51db-83de-59f4-be1e-fa4e8741170a\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の添付束\", \"content\": \"# 対話技能認証補助の精算箋  \\n## 対話認証の添付束  \\n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。\", \"page_number\": null, \"score\": 0.712812, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.710657, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"40f00512-1297-58d1-b568-38d5ab62e520\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の入口\", \"content\": \"# 対話技能認証補助の認証札  \\n## 対話認証の入口  \\n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。\", \"page_number\": null, \"score\": 0.699838, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"1bdfa5cc-48d3-50ed-883c-c624ffde2764\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音施設コードの保留照会\", \"content\": \"## 静音施設コードの保留照会  \\n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。\", \"page_number\": null, \"score\": 0.674001, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}], \"answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"evidence_element_ids\": [\"3bd9867a-5455-51d6-8d01-fd340795a046\"], \"ordinal\": 1, \"text\": \"同一年度の受給歴が未照合である場合、本人が初回と申告していても、照合が完了するまでは補助の可否を確定することはできません。\", \"evidence_kind\": \"text\"}], \"missing_conditions\": []}, \"decision_target\": \"給付可否\"}",
+    "input": {
+      "question": "対話技能認証補助の登録・事前承認・受験実績は確認済みですが、同じ年度の受給歴が未照合です。本人は初回と申告しています。補助を確定できますか。",
+      "evidence": [
+        {
+          "element_id": "3bd9867a-5455-51d6-8d01-fd340795a046",
+          "document_name": "対話技能認証補助の精算箋",
+          "heading": "対話認証の履歴保留",
+          "content": "## 対話認証の履歴保留  \n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。",
+          "page_number": null,
+          "score": 0.818562,
+          "source": "TXH-E02.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "53e8cc80-4222-5796-bffd-2bedf58cc232",
+          "document_name": "対話技能認証補助の認証札",
+          "heading": "対話認証の回数線",
+          "content": "## 対話認証の回数線  \n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。",
+          "page_number": null,
+          "score": 0.735812,
+          "source": "TXH-E01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "a698f313-ddfa-5b4a-a4f7-5ff63b058c53",
+          "document_name": "対話技能認証補助の認証札",
+          "heading": "対話認証の費目線",
+          "content": "## 対話認証の費目線  \n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。",
+          "page_number": null,
+          "score": 0.715969,
+          "source": "TXH-E01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "6b674821-44fc-5da5-821e-847306a56b62",
+          "document_name": "輪番引継支援枠の受付簿記要領",
+          "heading": "輪番記録の照合保留",
+          "content": "## 輪番記録の照合保留  \n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。",
+          "page_number": null,
+          "score": 0.715926,
+          "source": "TXH-A02.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "bfed51db-83de-59f4-be1e-fa4e8741170a",
+          "document_name": "対話技能認証補助の精算箋",
+          "heading": "対話認証の添付束",
+          "content": "# 対話技能認証補助の精算箋  \n## 対話認証の添付束  \n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。",
+          "page_number": null,
+          "score": 0.712812,
+          "source": "TXH-E02.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+          "document_name": "対話技能認証補助の認証札",
+          "heading": "対話認証の受験日上限",
+          "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+          "page_number": null,
+          "score": 0.710657,
+          "source": "TXH-E01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "40f00512-1297-58d1-b568-38d5ab62e520",
+          "document_name": "対話技能認証補助の認証札",
+          "heading": "対話認証の入口",
+          "content": "# 対話技能認証補助の認証札  \n## 対話認証の入口  \n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。",
+          "page_number": null,
+          "score": 0.699838,
+          "source": "TXH-E01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "1bdfa5cc-48d3-50ed-883c-c624ffde2764",
+          "document_name": "静音席利用補填の清算便覧",
+          "heading": "静音施設コードの保留照会",
+          "content": "## 静音施設コードの保留照会  \n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。",
+          "page_number": null,
+          "score": 0.674001,
+          "source": "TXH-B02.md",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "3bd9867a-5455-51d6-8d01-fd340795a046"
+            ],
+            "ordinal": 1,
+            "text": "同一年度の受給歴が未照合である場合、本人が初回と申告していても、照合が完了するまでは補助の可否を確定することはできません。",
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      },
+      "decision_target": "給付可否"
+    },
+    "expected": {
+      "answer_supported": true,
+      "requested_value_determinable": false
+    },
+    "expectation_reason": "TH025/031は照合未了のため支給可否保留、TH022/047は提示条件から期限/額が決まる。全4固定回答の主張自体は支持される。"
+  },
+  {
+    "id": "TH022/formal",
+    "prompt": "以下を2軸で独立判定してください。最終ラベルは導出しません。\n軸1 answer_supported: 提示された固定回答の全重要主張が取得根拠で支持されるか。support_evidence_idsに判断に用いたelement_idを列挙してください。\n軸2 requested_value_determinable: 入力decision_targetで指定する行政判断の対象自体（個別の支給可否・金額・期限等）の値を、提示された事実だけで確定できるか。「可否を今確定できない」という根拠付き説明を作れることと、その支給可否自体の確定とは区別します。支給可否が保留ならfalse、条件を規則へ当てはめ額や期限が決まるならtrueです。範囲外の実務条件は追加しないでください。\n各軸の理由を短く記載してください。\n入力: {\"question\": \"書庫巡回を2027年8月10日15時に終了しました。点検結果の登録期限と請求期限をそれぞれ教えてください。\", \"evidence\": [{\"element_id\": \"07ac5ee5-ce46-5340-b586-99c852542730\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の報告窓\", \"content\": \"## 巡回加算の報告窓  \\n点検結果は巡回終了後48時間以内に書庫管理室へ登録する。時間は連続した実時間で数え、休日も含む。\", \"page_number\": null, \"score\": 0.768974, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"40cfad22-e67a-597e-b4a0-36e67e655a55\", \"document_name\": \"書庫巡回加算の照合綴り\", \"heading\": \"巡回加算の請求束\", \"content\": \"# 書庫巡回加算の照合綴り  \\n## 巡回加算の請求束  \\n計測札に従って点検結果を登録した後、巡回指示番号票と区画別点検一覧を一組にして、巡回終了の翌日を1日目とする10暦日目までに書庫管理室へ請求する。\", \"page_number\": null, \"score\": 0.759167, \"source\": \"TXH-D02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"31c29e00-f088-5fb0-9cbd-a0e695aa4f20\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の指示日境界\", \"content\": \"## 巡回加算の指示日境界  \\n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。\", \"page_number\": null, \"score\": 0.74136, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"71574b87-977c-57be-81aa-3d0ba4d5c296\", \"document_name\": \"書庫巡回加算の照合綴り\", \"heading\": \"巡回加算の区画照会\", \"content\": \"## 巡回加算の区画照会  \\n区画別点検一覧で同一区画か別区画か判別できない記号があるときは、書庫管理室が区画番号を照会する。照会完了まで区画数と請求額を確定しない。\", \"page_number\": null, \"score\": 0.705915, \"source\": \"TXH-D02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"88af67c8-1cd2-5504-b6bb-37c64cee7f4f\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の区画算定\", \"content\": \"## 巡回加算の区画算定  \\n承認された点検区画一つにつき240円。一回の巡回は最大6区画分まで算定できる。同じ区画を同じ巡回で二度確認しても一区画分とする。\", \"page_number\": null, \"score\": 0.702228, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"2aebbdf9-a10c-54a0-9edd-2c4570d3f872\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の作業鍵\", \"content\": \"# 書庫巡回加算の計測札  \\n## 巡回加算の作業鍵  \\n架空制度である書庫巡回加算は、書庫管理室が発行した巡回指示番号に基づく書架点検を対象とする。指示番号のない自主点検は対象外。点検結果の提出も要する。\", \"page_number\": null, \"score\": 0.675253, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6b674821-44fc-5da5-821e-847306a56b62\", \"document_name\": \"輪番引継支援枠の受付簿記要領\", \"heading\": \"輪番記録の照合保留\", \"content\": \"## 輪番記録の照合保留  \\n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。\", \"page_number\": null, \"score\": 0.668264, \"source\": \"TXH-A02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.658164, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}], \"answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"evidence_element_ids\": [\"07ac5ee5-ce46-5340-b586-99c852542730\"], \"ordinal\": 1, \"text\": \"点検結果の登録期限は、巡回終了後の2027年8月12日15時です。\", \"evidence_kind\": \"text\"}, {\"claim_id\": \"claim-2\", \"evidence_element_ids\": [\"40cfad22-e67a-597e-b4a0-36e67e655a55\"], \"ordinal\": 2, \"text\": \"請求期限は、巡回終了の翌日である2027年8月11日を1日目として、10暦日目にあたる2027年8月20日までです。\", \"evidence_kind\": \"text\"}], \"missing_conditions\": []}, \"decision_target\": \"期限\"}",
+    "input": {
+      "question": "書庫巡回を2027年8月10日15時に終了しました。点検結果の登録期限と請求期限をそれぞれ教えてください。",
+      "evidence": [
+        {
+          "element_id": "07ac5ee5-ce46-5340-b586-99c852542730",
+          "document_name": "書庫巡回加算の計測札",
+          "heading": "巡回加算の報告窓",
+          "content": "## 巡回加算の報告窓  \n点検結果は巡回終了後48時間以内に書庫管理室へ登録する。時間は連続した実時間で数え、休日も含む。",
+          "page_number": null,
+          "score": 0.768974,
+          "source": "TXH-D01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "40cfad22-e67a-597e-b4a0-36e67e655a55",
+          "document_name": "書庫巡回加算の照合綴り",
+          "heading": "巡回加算の請求束",
+          "content": "# 書庫巡回加算の照合綴り  \n## 巡回加算の請求束  \n計測札に従って点検結果を登録した後、巡回指示番号票と区画別点検一覧を一組にして、巡回終了の翌日を1日目とする10暦日目までに書庫管理室へ請求する。",
+          "page_number": null,
+          "score": 0.759167,
+          "source": "TXH-D02.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "31c29e00-f088-5fb0-9cbd-a0e695aa4f20",
+          "document_name": "書庫巡回加算の計測札",
+          "heading": "巡回加算の指示日境界",
+          "content": "## 巡回加算の指示日境界  \n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。",
+          "page_number": null,
+          "score": 0.74136,
+          "source": "TXH-D01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "71574b87-977c-57be-81aa-3d0ba4d5c296",
+          "document_name": "書庫巡回加算の照合綴り",
+          "heading": "巡回加算の区画照会",
+          "content": "## 巡回加算の区画照会  \n区画別点検一覧で同一区画か別区画か判別できない記号があるときは、書庫管理室が区画番号を照会する。照会完了まで区画数と請求額を確定しない。",
+          "page_number": null,
+          "score": 0.705915,
+          "source": "TXH-D02.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "88af67c8-1cd2-5504-b6bb-37c64cee7f4f",
+          "document_name": "書庫巡回加算の計測札",
+          "heading": "巡回加算の区画算定",
+          "content": "## 巡回加算の区画算定  \n承認された点検区画一つにつき240円。一回の巡回は最大6区画分まで算定できる。同じ区画を同じ巡回で二度確認しても一区画分とする。",
+          "page_number": null,
+          "score": 0.702228,
+          "source": "TXH-D01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "2aebbdf9-a10c-54a0-9edd-2c4570d3f872",
+          "document_name": "書庫巡回加算の計測札",
+          "heading": "巡回加算の作業鍵",
+          "content": "# 書庫巡回加算の計測札  \n## 巡回加算の作業鍵  \n架空制度である書庫巡回加算は、書庫管理室が発行した巡回指示番号に基づく書架点検を対象とする。指示番号のない自主点検は対象外。点検結果の提出も要する。",
+          "page_number": null,
+          "score": 0.675253,
+          "source": "TXH-D01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "6b674821-44fc-5da5-821e-847306a56b62",
+          "document_name": "輪番引継支援枠の受付簿記要領",
+          "heading": "輪番記録の照合保留",
+          "content": "## 輪番記録の照合保留  \n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。",
+          "page_number": null,
+          "score": 0.668264,
+          "source": "TXH-A02.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+          "document_name": "輪番引継支援枠の算定帳",
+          "heading": "輪番枠の時点別上限",
+          "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+          "page_number": null,
+          "score": 0.658164,
+          "source": "TXH-A01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "07ac5ee5-ce46-5340-b586-99c852542730"
+            ],
+            "ordinal": 1,
+            "text": "点検結果の登録期限は、巡回終了後の2027年8月12日15時です。",
+            "evidence_kind": "text"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "40cfad22-e67a-597e-b4a0-36e67e655a55"
+            ],
+            "ordinal": 2,
+            "text": "請求期限は、巡回終了の翌日である2027年8月11日を1日目として、10暦日目にあたる2027年8月20日までです。",
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      },
+      "decision_target": "期限"
+    },
+    "expected": {
+      "answer_supported": true,
+      "requested_value_determinable": true
+    },
+    "expectation_reason": "TH025/031は照合未了のため支給可否保留、TH022/047は提示条件から期限/額が決まる。全4固定回答の主張自体は支持される。"
+  },
+  {
+    "id": "TH047/formal",
+    "prompt": "以下を2軸で独立判定してください。最終ラベルは導出しません。\n軸1 answer_supported: 提示された固定回答の全重要主張が取得根拠で支持されるか。support_evidence_idsに判断に用いたelement_idを列挙してください。\n軸2 requested_value_determinable: 入力decision_targetで指定する行政判断の対象自体（個別の支給可否・金額・期限等）の値を、提示された事実だけで確定できるか。「可否を今確定できない」という根拠付き説明を作れることと、その支給可否自体の確定とは区別します。支給可否が保留ならfalse、条件を規則へ当てはめ額や期限が決まるならtrueです。範囲外の実務条件は追加しないでください。\n各軸の理由を短く記載してください。\n入力: {\"question\": \"静音席の終日券を2027年7月31日に予約し、8月3日に利用しました。利用料2,000円で他の条件は満たす場合、補填額はいくらですか。\", \"evidence\": [{\"element_id\": \"e5af52f7-6acc-5437-94b5-25098946b993\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の予約日基準\", \"content\": \"## 静音席券の予約日基準  \\n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。\", \"page_number\": null, \"score\": 0.81853, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"f2fb1898-3878-5a41-970a-a98e814d8382\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の額面\", \"content\": \"## 静音席券の額面  \\n午前券は900円、終日券は1,500円を補填する。一日に選べる券は一枚で、午前券と終日券の加算はできない。実際の利用料が額面より安いときは実際の利用料までとする。\", \"page_number\": null, \"score\": 0.764693, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"19d809b4-82f9-5cd7-a51c-c8e34de83cb8\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の時間帯\", \"content\": \"## 静音席券の時間帯  \\n午前券の利用帯は8時30分から12時30分まで、終日券は8時30分から17時までである。終日券には午前の時間帯を含む。\", \"page_number\": null, \"score\": 0.728563, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6a10b3a8-b826-5848-ad41-47a76c1607c3\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音席の清算封筒\", \"content\": \"# 静音席利用補填の清算便覧  \\n## 静音席の清算封筒  \\n静音席利用補填は利用月ごとにまとめる。予約成立日時の記載がある利用証と領収票を添え、翌月4日18時までに作業環境室へ送る。暦日による締切であり、閉庁日でも延長しない。\", \"page_number\": null, \"score\": 0.72346, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"1bdfa5cc-48d3-50ed-883c-c624ffde2764\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音施設コードの保留照会\", \"content\": \"## 静音施設コードの保留照会  \\n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。\", \"page_number\": null, \"score\": 0.71497, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"52e8198f-6642-5555-b558-2d82dee21ff5\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の対象範囲\", \"content\": \"# 静音席利用補填の区分札  \\n## 静音席券の対象範囲  \\n架空の職員制度である。静音席利用補填は、面談記録の整理のため認定施設の一人用席を利用する登録職員に適用する。勤務計画に整理作業が登録され、施設認定コードが有効であることが必要。\", \"page_number\": null, \"score\": 0.709751, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.669386, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"31c29e00-f088-5fb0-9cbd-a0e695aa4f20\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の指示日境界\", \"content\": \"## 巡回加算の指示日境界  \\n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。\", \"page_number\": null, \"score\": 0.655661, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}], \"answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"evidence_element_ids\": [\"e5af52f7-6acc-5437-94b5-25098946b993\"], \"ordinal\": 1, \"text\": \"2027年7月31日以前に成立した予約の終日券の補填額は1,500円です。\", \"evidence_kind\": \"text\"}, {\"claim_id\": \"claim-2\", \"evidence_element_ids\": [\"e5af52f7-6acc-5437-94b5-25098946b993\"], \"ordinal\": 2, \"text\": \"利用料が2,000円であり、補填額の1,500円を上回っているため、補填額は1,500円となります。\", \"evidence_kind\": \"text\"}], \"missing_conditions\": []}, \"decision_target\": \"金額\"}",
+    "input": {
+      "question": "静音席の終日券を2027年7月31日に予約し、8月3日に利用しました。利用料2,000円で他の条件は満たす場合、補填額はいくらですか。",
+      "evidence": [
+        {
+          "element_id": "e5af52f7-6acc-5437-94b5-25098946b993",
+          "document_name": "静音席利用補填の区分札",
+          "heading": "静音席券の予約日基準",
+          "content": "## 静音席券の予約日基準  \n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。",
+          "page_number": null,
+          "score": 0.81853,
+          "source": "TXH-B01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "f2fb1898-3878-5a41-970a-a98e814d8382",
+          "document_name": "静音席利用補填の区分札",
+          "heading": "静音席券の額面",
+          "content": "## 静音席券の額面  \n午前券は900円、終日券は1,500円を補填する。一日に選べる券は一枚で、午前券と終日券の加算はできない。実際の利用料が額面より安いときは実際の利用料までとする。",
+          "page_number": null,
+          "score": 0.764693,
+          "source": "TXH-B01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "19d809b4-82f9-5cd7-a51c-c8e34de83cb8",
+          "document_name": "静音席利用補填の区分札",
+          "heading": "静音席券の時間帯",
+          "content": "## 静音席券の時間帯  \n午前券の利用帯は8時30分から12時30分まで、終日券は8時30分から17時までである。終日券には午前の時間帯を含む。",
+          "page_number": null,
+          "score": 0.728563,
+          "source": "TXH-B01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "6a10b3a8-b826-5848-ad41-47a76c1607c3",
+          "document_name": "静音席利用補填の清算便覧",
+          "heading": "静音席の清算封筒",
+          "content": "# 静音席利用補填の清算便覧  \n## 静音席の清算封筒  \n静音席利用補填は利用月ごとにまとめる。予約成立日時の記載がある利用証と領収票を添え、翌月4日18時までに作業環境室へ送る。暦日による締切であり、閉庁日でも延長しない。",
+          "page_number": null,
+          "score": 0.72346,
+          "source": "TXH-B02.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "1bdfa5cc-48d3-50ed-883c-c624ffde2764",
+          "document_name": "静音席利用補填の清算便覧",
+          "heading": "静音施設コードの保留照会",
+          "content": "## 静音施設コードの保留照会  \n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。",
+          "page_number": null,
+          "score": 0.71497,
+          "source": "TXH-B02.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "52e8198f-6642-5555-b558-2d82dee21ff5",
+          "document_name": "静音席利用補填の区分札",
+          "heading": "静音席券の対象範囲",
+          "content": "# 静音席利用補填の区分札  \n## 静音席券の対象範囲  \n架空の職員制度である。静音席利用補填は、面談記録の整理のため認定施設の一人用席を利用する登録職員に適用する。勤務計画に整理作業が登録され、施設認定コードが有効であることが必要。",
+          "page_number": null,
+          "score": 0.709751,
+          "source": "TXH-B01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+          "document_name": "対話技能認証補助の認証札",
+          "heading": "対話認証の受験日上限",
+          "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+          "page_number": null,
+          "score": 0.669386,
+          "source": "TXH-E01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "31c29e00-f088-5fb0-9cbd-a0e695aa4f20",
+          "document_name": "書庫巡回加算の計測札",
+          "heading": "巡回加算の指示日境界",
+          "content": "## 巡回加算の指示日境界  \n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。",
+          "page_number": null,
+          "score": 0.655661,
+          "source": "TXH-D01.md",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "evidence_element_ids": [
+              "e5af52f7-6acc-5437-94b5-25098946b993"
+            ],
+            "ordinal": 1,
+            "text": "2027年7月31日以前に成立した予約の終日券の補填額は1,500円です。",
+            "evidence_kind": "text"
+          },
+          {
+            "claim_id": "claim-2",
+            "evidence_element_ids": [
+              "e5af52f7-6acc-5437-94b5-25098946b993"
+            ],
+            "ordinal": 2,
+            "text": "利用料が2,000円であり、補填額の1,500円を上回っているため、補填額は1,500円となります。",
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      },
+      "decision_target": "金額"
+    },
+    "expected": {
+      "answer_supported": true,
+      "requested_value_determinable": true
+    },
+    "expectation_reason": "TH025/031は照合未了のため支給可否保留、TH022/047は提示条件から期限/額が決まる。全4固定回答の主張自体は支持される。"
+  }
+]

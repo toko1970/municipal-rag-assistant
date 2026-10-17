@@ -1,0 +1,481 @@
+{
+  "completed_at_utc": "2026-10-09T01:58:08.131223+00:00",
+  "checks": {
+    "deadline/challenge.json": true,
+    "deadline/frozen_tasks.json": true,
+    "deadline/frozen_schema.json": true,
+    "classification/challenge.json": true,
+    "classification/corpus.json": true,
+    "classification/frozen_tasks.json": true,
+    "src/query_service.py": true,
+    "src/query_service_v2.py": true,
+    "src/classification_contract_v2.py": true,
+    "src/answering.py": true,
+    "src/llm_provider.py": true,
+    "src/temporal_evidence.py": true,
+    "design/schemas/answer-output-v1.schema.json": true,
+    "design/schemas/classification-output-v1.schema.json": true,
+    "design/schemas/question-contract-v1.schema.json": true,
+    "design/schemas/answer-output-v3-candidate.schema.json": true,
+    "design/schemas/classification-output-v2-candidate.schema.json": true,
+    "classification_runner": true
+  },
+  "deadline": {
+    "n_scenarios": 24,
+    "paired_counts": {
+      "both": 10,
+      "baseline_only": 4,
+      "candidate_only": 6,
+      "neither": 4
+    },
+    "scenarios": {
+      "D01": {
+        "baseline": true,
+        "candidate": true,
+        "delta": 0
+      },
+      "D02": {
+        "baseline": true,
+        "candidate": true,
+        "delta": 0
+      },
+      "D03": {
+        "baseline": true,
+        "candidate": true,
+        "delta": 0
+      },
+      "D04": {
+        "baseline": true,
+        "candidate": true,
+        "delta": 0
+      },
+      "D05": {
+        "baseline": true,
+        "candidate": true,
+        "delta": 0
+      },
+      "D06": {
+        "baseline": true,
+        "candidate": true,
+        "delta": 0
+      },
+      "D07": {
+        "baseline": true,
+        "candidate": false,
+        "delta": -1
+      },
+      "D08": {
+        "baseline": true,
+        "candidate": true,
+        "delta": 0
+      },
+      "D09": {
+        "baseline": false,
+        "candidate": true,
+        "delta": 1
+      },
+      "D10": {
+        "baseline": false,
+        "candidate": true,
+        "delta": 1
+      },
+      "D11": {
+        "baseline": false,
+        "candidate": true,
+        "delta": 1
+      },
+      "D12": {
+        "baseline": true,
+        "candidate": false,
+        "delta": -1
+      },
+      "D13": {
+        "baseline": false,
+        "candidate": true,
+        "delta": 1
+      },
+      "D14": {
+        "baseline": false,
+        "candidate": true,
+        "delta": 1
+      },
+      "D15": {
+        "baseline": false,
+        "candidate": false,
+        "delta": 0
+      },
+      "D16": {
+        "baseline": true,
+        "candidate": true,
+        "delta": 0
+      },
+      "D17": {
+        "baseline": false,
+        "candidate": true,
+        "delta": 1
+      },
+      "D18": {
+        "baseline": false,
+        "candidate": false,
+        "delta": 0
+      },
+      "D19": {
+        "baseline": false,
+        "candidate": false,
+        "delta": 0
+      },
+      "D20": {
+        "baseline": true,
+        "candidate": false,
+        "delta": -1
+      },
+      "D21": {
+        "baseline": true,
+        "candidate": true,
+        "delta": 0
+      },
+      "D22": {
+        "baseline": true,
+        "candidate": false,
+        "delta": -1
+      },
+      "D23": {
+        "baseline": false,
+        "candidate": false,
+        "delta": 0
+      },
+      "D24": {
+        "baseline": true,
+        "candidate": true,
+        "delta": 0
+      }
+    },
+    "net_improvement": 2,
+    "paired_bootstrap_95_percentile_ci": [
+      -0.16666666666666666,
+      0.3333333333333333
+    ],
+    "bootstrap_seed": 20261009,
+    "bootstrap_samples": 20000
+  },
+  "classification_oracle": {
+    "n_scenarios": 12,
+    "paired_counts": {
+      "candidate_only": 2,
+      "baseline_only": 2,
+      "both": 6,
+      "neither": 2
+    },
+    "scenarios": {
+      "A01": {
+        "v1": false,
+        "v2": true,
+        "delta": 1
+      },
+      "A02": {
+        "v1": false,
+        "v2": true,
+        "delta": 1
+      },
+      "A03": {
+        "v1": true,
+        "v2": false,
+        "delta": -1
+      },
+      "A04": {
+        "v1": true,
+        "v2": true,
+        "delta": 0
+      },
+      "B01": {
+        "v1": true,
+        "v2": true,
+        "delta": 0
+      },
+      "B02": {
+        "v1": true,
+        "v2": false,
+        "delta": -1
+      },
+      "B03": {
+        "v1": false,
+        "v2": false,
+        "delta": 0
+      },
+      "B04": {
+        "v1": true,
+        "v2": true,
+        "delta": 0
+      },
+      "C01": {
+        "v1": false,
+        "v2": false,
+        "delta": 0
+      },
+      "C02": {
+        "v1": true,
+        "v2": true,
+        "delta": 0
+      },
+      "C03": {
+        "v1": true,
+        "v2": true,
+        "delta": 0
+      },
+      "C04": {
+        "v1": true,
+        "v2": true,
+        "delta": 0
+      }
+    },
+    "net_improvement": 0,
+    "paired_bootstrap_95_percentile_ci": [
+      -0.3333333333333333,
+      0.3333333333333333
+    ],
+    "bootstrap_seed": 20261009,
+    "bootstrap_samples": 20000
+  },
+  "classification_excluding_ambiguous_gold": {
+    "n_scenarios": 10,
+    "paired_counts": {
+      "candidate_only": 1,
+      "baseline_only": 2,
+      "both": 5,
+      "neither": 2
+    },
+    "scenarios": {
+      "A02": {
+        "v1": false,
+        "v2": true,
+        "delta": 1
+      },
+      "A03": {
+        "v1": true,
+        "v2": false,
+        "delta": -1
+      },
+      "A04": {
+        "v1": true,
+        "v2": true,
+        "delta": 0
+      },
+      "B02": {
+        "v1": true,
+        "v2": false,
+        "delta": -1
+      },
+      "B03": {
+        "v1": false,
+        "v2": false,
+        "delta": 0
+      },
+      "B04": {
+        "v1": true,
+        "v2": true,
+        "delta": 0
+      },
+      "C01": {
+        "v1": false,
+        "v2": false,
+        "delta": 0
+      },
+      "C02": {
+        "v1": true,
+        "v2": true,
+        "delta": 0
+      },
+      "C03": {
+        "v1": true,
+        "v2": true,
+        "delta": 0
+      },
+      "C04": {
+        "v1": true,
+        "v2": true,
+        "delta": 0
+      }
+    },
+    "net_improvement": -1,
+    "paired_bootstrap_95_percentile_ci": [
+      -0.4,
+      0.2
+    ],
+    "bootstrap_seed": 20261009,
+    "bootstrap_samples": 20000
+  },
+  "classification_retrieved": {
+    "n_scenarios": 6,
+    "paired_counts": {
+      "neither": 2,
+      "baseline_only": 2,
+      "both": 2
+    },
+    "scenarios": {
+      "A01": {
+        "v1": false,
+        "v2": false,
+        "delta": 0
+      },
+      "A02": {
+        "v1": true,
+        "v2": false,
+        "delta": -1
+      },
+      "A03": {
+        "v1": true,
+        "v2": true,
+        "delta": 0
+      },
+      "B03": {
+        "v1": false,
+        "v2": false,
+        "delta": 0
+      },
+      "C02": {
+        "v1": true,
+        "v2": false,
+        "delta": -1
+      },
+      "C04": {
+        "v1": true,
+        "v2": true,
+        "delta": 0
+      }
+    },
+    "net_improvement": -2,
+    "paired_bootstrap_95_percentile_ci": [
+      -0.6666666666666666,
+      0.0
+    ],
+    "bootstrap_seed": 20261009,
+    "bootstrap_samples": 20000
+  },
+  "display_comparison": [
+    {
+      "id": "normal_sufficient",
+      "arm": "v1",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "normal_sufficient",
+      "arm": "v2",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "normal_review",
+      "arm": "v1",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "normal_review",
+      "arm": "v2",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "normal_insufficient",
+      "arm": "v1",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "normal_insufficient",
+      "arm": "v2",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "empty_claims",
+      "arm": "v1",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "empty_claims",
+      "arm": "v2",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "contradictory_missing",
+      "arm": "v1",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "contradictory_missing",
+      "arm": "v2",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "false_support_missing",
+      "arm": "v1",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "false_support_missing",
+      "arm": "v2",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "unknown_evidence",
+      "arm": "v1",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "unknown_evidence",
+      "arm": "v2",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "unsupported_flag",
+      "arm": "v1",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "unsupported_flag",
+      "arm": "v2",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "malformed_generation",
+      "arm": "v1",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "malformed_generation",
+      "arm": "v2",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "malformed_classification",
+      "arm": "v1",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "malformed_classification",
+      "arm": "v2",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "provider_generation",
+      "arm": "v1",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "provider_generation",
+      "arm": "v2",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "provider_classification",
+      "arm": "v1",
+      "matches_prior_behavior": true
+    },
+    {
+      "id": "provider_classification",
+      "arm": "v2",
+      "matches_prior_behavior": true
+    }
+  ],
+  "display_matching_conditions": 24,
+  "new_api_calls": 0,
+  "old_evidence_unchanged": true,
+  "semantic_scoring": "Previously reviewed semantic annotations reused; not newly independent annotation",
+  "adoption": "Both frozen candidates remain rejected; later adoption gates not executed"
+}

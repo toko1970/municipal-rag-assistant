@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "rubric_version": "classification-rubric-v2.0",
+  "purpose": "development_only_boundary_controls",
+  "cases": [
+    {
+      "case_id": "CRV2-001",
+      "boundary": "policy_judgment_positive",
+      "question": "この例外申請は承認できますか。必要資料はすべて揃っています。",
+      "retrieved_rule": "例外承認は、公益上の必要性と他職員との公平性を考慮して任命権者が個別に判断する。",
+      "generator_state": "判断基準と裁量が残ることを根拠付きで説明済み",
+      "expected_result": "判断要",
+      "expected_review_type": "policy_judgment"
+    },
+    {
+      "case_id": "CRV2-002",
+      "boundary": "policy_judgment_negative",
+      "question": "例外申請の承認者は誰ですか。",
+      "retrieved_rule": "例外申請の承認者は任命権者とする。",
+      "generator_state": "任命権者と根拠付きで回答済み",
+      "expected_result": "根拠十分",
+      "expected_review_type": null
+    },
+    {
+      "case_id": "CRV2-003",
+      "boundary": "version_conflict_positive",
+      "question": "2027年7月1日の支給上限はいくらですか。",
+      "retrieved_rule": "同じ施行日と優先度を持つ二つの現行通知が異なる上限を定め、廃止・優先規定がない。",
+      "generator_state": "二つの上限と競合を根拠付きで説明済み",
+      "expected_result": "判断要",
+      "expected_review_type": "version_conflict"
+    },
+    {
+      "case_id": "CRV2-004",
+      "boundary": "version_conflict_negative",
+      "question": "2027年7月1日の支給上限はいくらですか。",
+      "retrieved_rule": "旧版は2027年6月30日失効、新版は2027年7月1日施行で上限1,800円。",
+      "generator_state": "新版の上限1,800円を根拠付きで回答済み",
+      "expected_result": "根拠十分",
+      "expected_review_type": null
+    },
+    {
+      "case_id": "CRV2-005",
+      "boundary": "insufficient_not_human_review",
+      "question": "別規程で定める返還割合はいくらですか。",
+      "retrieved_rule": "返還割合は別規程によるとの参照だけで、別規程は取得されていない。",
+      "generator_state": "割合claimなし",
+      "expected_result": "文書不足",
+      "expected_review_type": null
+    },
+    {
+      "case_id": "CRV2-006",
+      "boundary": "case_fact_positive",
+      "question": "利用日だけ分かっています。補填額を確定できますか。",
+      "retrieved_rule": "補填額は予約成立日が改定日前なら1,500円、改定日以後なら1,800円。",
+      "generator_state": "二つの条件分岐を根拠付きで説明済み",
+      "expected_result": "判断要",
+      "expected_review_type": "case_fact"
+    },
+    {
+      "case_id": "CRV2-007",
+      "boundary": "question_input_not_review",
+      "question": "改定日前に予約しました。補填額はいくらですか。",
+      "retrieved_rule": "補填額は予約成立日が改定日前なら1,500円。",
+      "generator_state": "質問入力と文書規則から1,500円を根拠付きで回答済み",
+      "expected_result": "根拠十分",
+      "expected_review_type": null
+    },
+    {
+      "case_id": "CRV2-008",
+      "boundary": "generation_incomplete_not_document_shortage",
+      "question": "補助額と提出期限を教えてください。",
+      "retrieved_rule": "補助額と提出期限の両方を定める文書を取得済み。",
+      "generator_state": "補助額claimだけ生成し、期限claimがない",
+      "expected_result": "GENERATION_INCOMPLETE",
+      "expected_review_type": null
+    }
+  ]
+}

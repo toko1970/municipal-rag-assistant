@@ -1,0 +1,1363 @@
+[
+  {
+    "id": "normal_sufficient",
+    "arm": "v1",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "給与は毎月21日に支給されます。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    },
+    "classification": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": true,
+    "unsupported_text": null
+  },
+  {
+    "id": "normal_sufficient",
+    "arm": "v2",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "3.0-candidate",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "給与は毎月21日に支給されます。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text",
+          "facet_ids": [
+            "facet-1"
+          ],
+          "input_fact_ids": [],
+          "calculation_ids": []
+        }
+      ],
+      "missing_conditions": [],
+      "date_calculations": []
+    },
+    "classification": {
+      "schema_version": "2.0-candidate",
+      "status": "SUCCESS",
+      "facet_assessments": [
+        {
+          "facet_id": "facet-1",
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "fully_supported",
+          "evidence_coverage": "sufficient",
+          "human_review_requirements": [],
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": true,
+    "unsupported_text": null
+  },
+  {
+    "id": "normal_review",
+    "arm": "v1",
+    "question": "研修補助の対象ですか。研修は修了しています。",
+    "evidence": "研修補助は修了済みかつ在籍30日以上なら対象。在籍日数不明なら支給可否を確定できない。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "研修補助の支給可否",
+          "answer_type": "eligibility"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": [
+        "在籍日数"
+      ]
+    },
+    "classification": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": true,
+    "unsupported_text": null
+  },
+  {
+    "id": "normal_review",
+    "arm": "v2",
+    "question": "研修補助の対象ですか。研修は修了しています。",
+    "evidence": "研修補助は修了済みかつ在籍30日以上なら対象。在籍日数不明なら支給可否を確定できない。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "研修補助の支給可否",
+          "answer_type": "eligibility"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "3.0-candidate",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text",
+          "facet_ids": [
+            "facet-1"
+          ],
+          "input_fact_ids": [],
+          "calculation_ids": []
+        }
+      ],
+      "missing_conditions": [
+        {
+          "condition_id": "condition-1",
+          "type": "case_fact",
+          "description": "在籍日数",
+          "facet_ids": [
+            "facet-1"
+          ],
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      ],
+      "date_calculations": []
+    },
+    "classification": {
+      "schema_version": "2.0-candidate",
+      "status": "SUCCESS",
+      "facet_assessments": [
+        {
+          "facet_id": "facet-1",
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "fully_supported",
+          "evidence_coverage": "sufficient",
+          "human_review_requirements": [
+            {
+              "review_id": "review-1",
+              "type": "case_fact",
+              "description": "在籍日数",
+              "condition_ids": [
+                "condition-1"
+              ],
+              "evidence_element_ids": [
+                "00000000-0000-0000-0000-000000000001"
+              ]
+            }
+          ],
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": true,
+    "unsupported_text": null
+  },
+  {
+    "id": "normal_insufficient",
+    "arm": "v1",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与手続の問合せ窓口は総務課である。支給日について本資料には記載しない。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "今回取得した資料では給与支給日を確認できません。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    },
+    "classification": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": false,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": true,
+    "unsupported_text": null
+  },
+  {
+    "id": "normal_insufficient",
+    "arm": "v2",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与手続の問合せ窓口は総務課である。支給日について本資料には記載しない。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "3.0-candidate",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "今回取得した資料では給与支給日を確認できません。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text",
+          "facet_ids": [
+            "facet-1"
+          ],
+          "input_fact_ids": [],
+          "calculation_ids": []
+        }
+      ],
+      "missing_conditions": [],
+      "date_calculations": []
+    },
+    "classification": {
+      "schema_version": "2.0-candidate",
+      "status": "SUCCESS",
+      "facet_assessments": [
+        {
+          "facet_id": "facet-1",
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "fully_supported",
+          "evidence_coverage": "insufficient",
+          "human_review_requirements": [],
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": true,
+    "unsupported_text": null
+  },
+  {
+    "id": "empty_claims",
+    "arm": "v1",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [],
+      "missing_conditions": []
+    },
+    "classification": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "empty_claims",
+    "arm": "v2",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "3.0-candidate",
+      "claims": [],
+      "missing_conditions": [],
+      "date_calculations": []
+    },
+    "classification": {
+      "schema_version": "2.0-candidate",
+      "status": "SUCCESS",
+      "facet_assessments": [
+        {
+          "facet_id": "facet-1",
+          "claim_ids": [],
+          "claim_support": "fully_supported",
+          "evidence_coverage": "sufficient",
+          "human_review_requirements": [],
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "contradictory_missing",
+    "arm": "v1",
+    "question": "研修補助の対象ですか。研修は修了しています。",
+    "evidence": "研修補助は修了済みかつ在籍30日以上なら対象。在籍日数不明なら支給可否を確定できない。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "研修補助の支給可否",
+          "answer_type": "eligibility"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": [
+        "在籍日数"
+      ]
+    },
+    "classification": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "contradictory_missing",
+    "arm": "v2",
+    "question": "研修補助の対象ですか。研修は修了しています。",
+    "evidence": "研修補助は修了済みかつ在籍30日以上なら対象。在籍日数不明なら支給可否を確定できない。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "研修補助の支給可否",
+          "answer_type": "eligibility"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "3.0-candidate",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "在籍日数の確認が必要なため、対象可否は確定できません。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text",
+          "facet_ids": [
+            "facet-1"
+          ],
+          "input_fact_ids": [],
+          "calculation_ids": []
+        }
+      ],
+      "missing_conditions": [
+        {
+          "condition_id": "condition-1",
+          "type": "case_fact",
+          "description": "在籍日数",
+          "facet_ids": [
+            "facet-1"
+          ],
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      ],
+      "date_calculations": []
+    },
+    "classification": {
+      "schema_version": "2.0-candidate",
+      "status": "SUCCESS",
+      "facet_assessments": [
+        {
+          "facet_id": "facet-1",
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "fully_supported",
+          "evidence_coverage": "sufficient",
+          "human_review_requirements": [],
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "false_support_missing",
+    "arm": "v1",
+    "question": "研修補助の対象ですか。研修は修了しています。",
+    "evidence": "研修補助は修了済みかつ在籍30日以上なら対象。在籍日数不明なら支給可否を確定できない。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "研修補助の支給可否",
+          "answer_type": "eligibility"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "研修補助の対象です。支給が確定しています。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": [
+        "在籍日数"
+      ]
+    },
+    "classification": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": "研修補助の対象です。支給が確定しています。"
+  },
+  {
+    "id": "false_support_missing",
+    "arm": "v2",
+    "question": "研修補助の対象ですか。研修は修了しています。",
+    "evidence": "研修補助は修了済みかつ在籍30日以上なら対象。在籍日数不明なら支給可否を確定できない。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "研修補助の支給可否",
+          "answer_type": "eligibility"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "3.0-candidate",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "研修補助の対象です。支給が確定しています。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text",
+          "facet_ids": [
+            "facet-1"
+          ],
+          "input_fact_ids": [],
+          "calculation_ids": []
+        }
+      ],
+      "missing_conditions": [
+        {
+          "condition_id": "condition-1",
+          "type": "case_fact",
+          "description": "在籍日数",
+          "facet_ids": [
+            "facet-1"
+          ],
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ]
+        }
+      ],
+      "date_calculations": []
+    },
+    "classification": {
+      "schema_version": "2.0-candidate",
+      "status": "SUCCESS",
+      "facet_assessments": [
+        {
+          "facet_id": "facet-1",
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "fully_supported",
+          "evidence_coverage": "sufficient",
+          "human_review_requirements": [],
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": "研修補助の対象です。支給が確定しています。"
+  },
+  {
+    "id": "unknown_evidence",
+    "arm": "v1",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "給与は毎月21日に支給されます。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000099"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    },
+    "classification": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "unknown_evidence",
+    "arm": "v2",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "3.0-candidate",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "給与は毎月21日に支給されます。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000099"
+          ],
+          "evidence_kind": "text",
+          "facet_ids": [
+            "facet-1"
+          ],
+          "input_fact_ids": [],
+          "calculation_ids": []
+        }
+      ],
+      "missing_conditions": [],
+      "date_calculations": []
+    },
+    "classification": {
+      "schema_version": "2.0-candidate",
+      "status": "SUCCESS",
+      "facet_assessments": [
+        {
+          "facet_id": "facet-1",
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "fully_supported",
+          "evidence_coverage": "sufficient",
+          "human_review_requirements": [],
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "unsupported_flag",
+    "arm": "v1",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "給与は毎月21日に支給されます。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    },
+    "classification": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "unsupported_flag",
+    "arm": "v2",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "3.0-candidate",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "給与は毎月21日に支給されます。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text",
+          "facet_ids": [
+            "facet-1"
+          ],
+          "input_fact_ids": [],
+          "calculation_ids": []
+        }
+      ],
+      "missing_conditions": [],
+      "date_calculations": []
+    },
+    "classification": {
+      "schema_version": "2.0-candidate",
+      "status": "SUCCESS",
+      "facet_assessments": [
+        {
+          "facet_id": "facet-1",
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "unsupported",
+          "evidence_coverage": "sufficient",
+          "human_review_requirements": [],
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "malformed_generation",
+    "arm": "v1",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "broken"
+    },
+    "classification": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "malformed_generation",
+    "arm": "v2",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "broken"
+    },
+    "classification": {
+      "schema_version": "2.0-candidate",
+      "status": "SUCCESS",
+      "facet_assessments": [
+        {
+          "facet_id": "facet-1",
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "fully_supported",
+          "evidence_coverage": "sufficient",
+          "human_review_requirements": [],
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "malformed_classification",
+    "arm": "v1",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "給与は毎月21日に支給されます。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    },
+    "classification": {
+      "schema_version": "broken"
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "malformed_classification",
+    "arm": "v2",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "3.0-candidate",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "給与は毎月21日に支給されます。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text",
+          "facet_ids": [
+            "facet-1"
+          ],
+          "input_fact_ids": [],
+          "calculation_ids": []
+        }
+      ],
+      "missing_conditions": [],
+      "date_calculations": []
+    },
+    "classification": {
+      "schema_version": "broken"
+    },
+    "generator_fail": false,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "provider_generation",
+    "arm": "v1",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "給与は毎月21日に支給されます。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    },
+    "classification": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": true,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "provider_generation",
+    "arm": "v2",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "3.0-candidate",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "給与は毎月21日に支給されます。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text",
+          "facet_ids": [
+            "facet-1"
+          ],
+          "input_fact_ids": [],
+          "calculation_ids": []
+        }
+      ],
+      "missing_conditions": [],
+      "date_calculations": []
+    },
+    "classification": {
+      "schema_version": "2.0-candidate",
+      "status": "SUCCESS",
+      "facet_assessments": [
+        {
+          "facet_id": "facet-1",
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "fully_supported",
+          "evidence_coverage": "sufficient",
+          "human_review_requirements": [],
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": true,
+    "classifier_fail": false,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "provider_classification",
+    "arm": "v1",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "給与は毎月21日に支給されます。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    },
+    "classification": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": true,
+    "normal": false,
+    "unsupported_text": null
+  },
+  {
+    "id": "provider_classification",
+    "arm": "v2",
+    "question": "給与支給日はいつですか。",
+    "evidence": "給与は毎月21日に支給する。",
+    "contract": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "requested_facets": [
+        {
+          "facet_id": "facet-1",
+          "requirement": "給与支給日",
+          "answer_type": "date"
+        }
+      ],
+      "input_facts": [],
+      "error_code": null
+    },
+    "answer": {
+      "schema_version": "3.0-candidate",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "給与は毎月21日に支給されます。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text",
+          "facet_ids": [
+            "facet-1"
+          ],
+          "input_fact_ids": [],
+          "calculation_ids": []
+        }
+      ],
+      "missing_conditions": [],
+      "date_calculations": []
+    },
+    "classification": {
+      "schema_version": "2.0-candidate",
+      "status": "SUCCESS",
+      "facet_assessments": [
+        {
+          "facet_id": "facet-1",
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "fully_supported",
+          "evidence_coverage": "sufficient",
+          "human_review_requirements": [],
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "confidence": 0.95
+        }
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "generator_fail": false,
+    "classifier_fail": true,
+    "normal": false,
+    "unsupported_text": null
+  }
+]

@@ -1,0 +1,8 @@
+{"index":0,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"複数claimを通じて2027-05-05と17時を結び、規則と整合。着任日は質問入力であり、その引用に依存しない。"}
+{"index":1,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"2027-05-05 17時と正しく回答し、引用・起算説明が整合。"}
+{"index":2,"semantic_success":false,"grounded":true,"unsafe_deadline":false,"reason":"翌日起算10暦日目17時という相対規則のみで、質問の着任日から具体年月日を計算していない。"}
+{"index":3,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"2027-05-05 17時と正しく回答。"}
+{"index":4,"semantic_success":null,"grounded":null,"unsafe_deadline":null,"reason":"503 UNAVAILABLEで回答未生成。"}
+{"index":5,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"2028-01-05 17時と正しく回答。"}
+{"index":6,"semantic_success":false,"grounded":true,"unsafe_deadline":false,"reason":"着任日を復唱するだけで具体期限を出していない。"}
+{"index":7,"semantic_success":null,"grounded":null,"unsafe_deadline":null,"reason":"毎分5件のfree-tier quota 429で回答未生成。"}

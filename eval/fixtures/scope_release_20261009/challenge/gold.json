@@ -1,0 +1,1082 @@
+[
+  {
+    "scenario_id": "CH01",
+    "input_ids": [
+      "CH01-formal",
+      "CH01-paraphrase",
+      "CH01-noisy"
+    ],
+    "slice": "over_deferral",
+    "cluster": "terminal",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "照合の問い合わせ先",
+        "evidence_ids": [
+          "T1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "危機管理室の端末担当"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "根拠十分",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH02",
+    "input_ids": [
+      "CH02-formal",
+      "CH02-paraphrase",
+      "CH02-noisy"
+    ],
+    "slice": "over_deferral",
+    "cluster": "terminal",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "所属名だけで貸与可否を決められるか",
+        "evidence_ids": [
+          "T1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "所属だけでは不可",
+          "名簿と台帳の照合"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "根拠十分",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_approved_boundary",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "approved_scope_boundary",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH03",
+    "input_ids": [
+      "CH03-formal",
+      "CH03-paraphrase",
+      "CH03-noisy"
+    ],
+    "slice": "over_deferral",
+    "cluster": "qualification",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "申請に必要な添付資料",
+        "evidence_ids": [
+          "Q1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "資格証の写し",
+          "更新期限が分かる発行機関通知"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "根拠十分",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH04",
+    "input_ids": [
+      "CH04-formal",
+      "CH04-paraphrase",
+      "CH04-noisy"
+    ],
+    "slice": "over_deferral",
+    "cluster": "card",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "3枚の再発行費用合計",
+        "evidence_ids": [
+          "C1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "800×3=2400円"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "根拠十分",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH05",
+    "input_ids": [
+      "CH05-formal",
+      "CH05-paraphrase",
+      "CH05-noisy"
+    ],
+    "slice": "missing_case_fact",
+    "cluster": "terminal",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "職員Aの貸与可否",
+        "evidence_ids": [
+          "T1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [
+          {
+            "type": "case_fact",
+            "reason": "当番登録と本人用端末の未貸与が未照合",
+            "evidence_ids": [
+              "T1"
+            ]
+          }
+        ],
+        "required_answer_elements": [
+          "現時点の貸与可否は未確定",
+          "当番登録と本人用端末未貸与の照合が必要"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "判断要",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_approved_boundary",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "approved_scope_boundary",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH06",
+    "input_ids": [
+      "CH06-formal",
+      "CH06-paraphrase",
+      "CH06-noisy"
+    ],
+    "slice": "missing_case_fact",
+    "cluster": "qualification",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "職員Bの補助対象可否",
+        "evidence_ids": [
+          "Q2"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [
+          {
+            "type": "case_fact",
+            "reason": "前月の現場測定勤務日数が不明",
+            "evidence_ids": [
+              "Q2"
+            ]
+          }
+        ],
+        "required_answer_elements": [
+          "前月現場測定10日以上なら対象、9日以下対象外",
+          "勤務実績簿の確認まで対象か未確定"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "判断要",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH07",
+    "input_ids": [
+      "CH07-formal",
+      "CH07-paraphrase",
+      "CH07-noisy"
+    ],
+    "slice": "missing_case_fact",
+    "cluster": "terminal",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "職員Cの本人用端末貸与可否",
+        "evidence_ids": [
+          "T1",
+          "T2"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [
+          {
+            "type": "case_fact",
+            "reason": "当番中に利用可能な共同端末の有無が不明",
+            "evidence_ids": [
+              "T2"
+            ]
+          }
+        ],
+        "required_answer_elements": [
+          "共同端末配置済みなら本人用を貸与しない",
+          "共同端末なしなら確認済み要件から貸与可",
+          "共同端末有無の確認が必要"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "判断要",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH08",
+    "input_ids": [
+      "CH08-formal",
+      "CH08-paraphrase",
+      "CH08-noisy"
+    ],
+    "slice": "missing_case_fact",
+    "cluster": "card",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "当該再発行申請の受取先",
+        "evidence_ids": [
+          "C2",
+          "C3"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [
+          {
+            "type": "case_fact",
+            "reason": "適用版を選ぶ受付日が不明",
+            "evidence_ids": [
+              "C2",
+              "C3"
+            ]
+          }
+        ],
+        "required_answer_elements": [
+          "8月31日以前なら本館1階警備室",
+          "9月1日以後なら別館2階庁舎管理窓口",
+          "受付日確認が必要"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "判断要",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH09",
+    "input_ids": [
+      "CH09-formal",
+      "CH09-paraphrase",
+      "CH09-noisy"
+    ],
+    "slice": "missing_document",
+    "cluster": "qualification",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "2026年6月の補助額",
+        "evidence_ids": [
+          "Q1"
+        ],
+        "evidence_coverage": "insufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": false,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "年度別単価表の金額"
+        ],
+        "answer_completeness": "unanswerable_from_retrieved_evidence"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "文書不足",
+    "allow_classified_answer_display": false,
+    "expected_corpus_answerability": "answerable",
+    "reason": "専用corpusにはQ3があるが固定取得根拠にはない。検索不足対照。",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH10",
+    "input_ids": [
+      "CH10-formal",
+      "CH10-paraphrase",
+      "CH10-noisy"
+    ],
+    "slice": "missing_document",
+    "cluster": "qualification",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "別制度も含めた会計年度任用職員が利用できる水質測定資格更新受講料補助の有無",
+        "evidence_ids": [
+          "Q1"
+        ],
+        "evidence_coverage": "insufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": false,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "取得した要領は常勤職員のみ対象",
+          "別制度も含む会計年度任用職員向け補助の有無は今回の根拠から確認できない",
+          "本要領の対象外であることだけから別制度も含む補助なしと断定しない"
+        ],
+        "answer_completeness": "unanswerable_from_retrieved_evidence"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "文書不足",
+    "allow_classified_answer_display": false,
+    "expected_corpus_answerability": "unanswerable",
+    "reason": "質問は本要領単独の対象可否でなく、別制度も含む利用可能な補助の有無を明示的に求める。本要領は常勤職員専用だが、会計年度任用職員が利用できる他制度の根拠は取得されておらず、専用corpusにもないため文書不足。2026-10-12にユーザーがこの質問範囲と境界を確認し、出力閲覧前に質問を明確化した。",
+    "gold_review_status": "author_revised_user_confirmed_scope_boundary_pending_independent_review",
+    "pending_human_review": false,
+    "independent_review_status": "pending_revalidation_after_20261012_scope_clarification",
+    "human_boundary_confirmation": "user_confirmed_20261012_other_programs_in_scope",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH11",
+    "input_ids": [
+      "CH11-formal",
+      "CH11-paraphrase",
+      "CH11-noisy"
+    ],
+    "slice": "missing_document",
+    "cluster": "transport",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "資料搬送担当職員の手当額",
+        "evidence_ids": [
+          "M1"
+        ],
+        "evidence_coverage": "insufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": false,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "申込要領に手当額規則なし",
+          "今回の根拠では金額を確認できない"
+        ],
+        "answer_completeness": "unanswerable_from_retrieved_evidence"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "文書不足",
+    "allow_classified_answer_display": false,
+    "expected_corpus_answerability": "unanswerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH12",
+    "input_ids": [
+      "CH12-formal",
+      "CH12-paraphrase",
+      "CH12-noisy"
+    ],
+    "slice": "missing_document",
+    "cluster": "terminal",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "緊急連絡端末紛失時の本人負担額",
+        "evidence_ids": [],
+        "evidence_coverage": "insufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": false,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "端末紛失の本人負担額規則なし",
+          "カード再発行の800円を転用しない"
+        ],
+        "answer_completeness": "unanswerable_from_retrieved_evidence"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "文書不足",
+    "allow_classified_answer_display": false,
+    "expected_corpus_answerability": "unanswerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH13",
+    "input_ids": [
+      "CH13-formal",
+      "CH13-paraphrase",
+      "CH13-noisy"
+    ],
+    "slice": "multi_facet",
+    "cluster": "qualification",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "申請提出先",
+        "evidence_ids": [
+          "Q1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "環境研修係"
+        ],
+        "answer_completeness": "complete"
+      },
+      {
+        "facet_id": "f2",
+        "target": "添付資料",
+        "evidence_ids": [
+          "Q1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "資格証の写し",
+          "更新期限が分かる発行機関通知"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "根拠十分",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH14",
+    "input_ids": [
+      "CH14-formal",
+      "CH14-paraphrase",
+      "CH14-noisy"
+    ],
+    "slice": "multi_facet",
+    "cluster": "terminal",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "記録照合の問い合わせ先",
+        "evidence_ids": [
+          "T1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "危機管理室の端末担当"
+        ],
+        "answer_completeness": "complete"
+      },
+      {
+        "facet_id": "f2",
+        "target": "職員Dの端末貸与可否",
+        "evidence_ids": [
+          "T1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [
+          {
+            "type": "case_fact",
+            "reason": "当番登録と本人用端末貸与状態が未照合",
+            "evidence_ids": [
+              "T1"
+            ]
+          }
+        ],
+        "required_answer_elements": [
+          "当番登録と本人用端末未貸与の照合まで貸与可否未確定"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "判断要",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_approved_boundary",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "approved_scope_boundary",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH15",
+    "input_ids": [
+      "CH15-formal",
+      "CH15-paraphrase",
+      "CH15-noisy"
+    ],
+    "slice": "multi_facet",
+    "cluster": "transport",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "資料搬送の申込経路",
+        "evidence_ids": [
+          "M1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "共通搬送システム"
+        ],
+        "answer_completeness": "complete"
+      },
+      {
+        "facet_id": "f2",
+        "target": "搬送担当職員の手当額",
+        "evidence_ids": [
+          "M1"
+        ],
+        "evidence_coverage": "insufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": false,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "申込要領に手当金額規則なし",
+          "今回取得した根拠では金額確認不可"
+        ],
+        "answer_completeness": "unanswerable_from_retrieved_evidence"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "文書不足",
+    "allow_classified_answer_display": false,
+    "expected_corpus_answerability": "partially_answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH16",
+    "input_ids": [
+      "CH16-formal",
+      "CH16-paraphrase",
+      "CH16-noisy"
+    ],
+    "slice": "multi_facet",
+    "cluster": "transport",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "申込時の登録項目",
+        "evidence_ids": [
+          "M1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "発送元",
+          "宛先",
+          "箱数"
+        ],
+        "answer_completeness": "complete"
+      },
+      {
+        "facet_id": "f2",
+        "target": "梱包方法",
+        "evidence_ids": [
+          "M2"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "封緘箱",
+          "箱ごとの宛先票"
+        ],
+        "answer_completeness": "complete"
+      },
+      {
+        "facet_id": "f3",
+        "target": "引渡し方法",
+        "evidence_ids": [
+          "M2"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "発送元担当者から搬送担当へ直接引渡し",
+          "受渡簿に双方署名"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "根拠十分",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH17",
+    "input_ids": [
+      "CH17-formal",
+      "CH17-paraphrase",
+      "CH17-noisy"
+    ],
+    "slice": "version",
+    "cluster": "card",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "2026年8月28日受付分の受取先",
+        "evidence_ids": [
+          "C2"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "本館1階警備室",
+          "受付日が旧版適用期間内"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "根拠十分",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH18",
+    "input_ids": [
+      "CH18-formal",
+      "CH18-paraphrase",
+      "CH18-noisy"
+    ],
+    "slice": "version",
+    "cluster": "card",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "2026年9月1日受付分の受取先",
+        "evidence_ids": [
+          "C3"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "別館2階庁舎管理窓口",
+          "9月1日受付分から新版適用"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "根拠十分",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH19",
+    "input_ids": [
+      "CH19-formal",
+      "CH19-paraphrase",
+      "CH19-noisy"
+    ],
+    "slice": "version",
+    "cluster": "transport",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "2026年7月8日の午後便集荷時刻",
+        "evidence_ids": [
+          "M4"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "15時",
+          "7月1日以後は改定通知優先"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "根拠十分",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH20",
+    "input_ids": [
+      "CH20-formal",
+      "CH20-paraphrase",
+      "CH20-noisy"
+    ],
+    "slice": "version",
+    "cluster": "transport",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "2026年10月8日集荷臨時便の前日締切時刻",
+        "evidence_ids": [
+          "M5",
+          "M6"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [
+          {
+            "type": "version_conflict",
+            "reason": "同時有効な通知に12時と16時の競合があり優先規則なし",
+            "evidence_ids": [
+              "M5",
+              "M6"
+            ]
+          }
+        ],
+        "required_answer_elements": [
+          "A号12時とB号16時の競合",
+          "両者とも同時施行で有効",
+          "優先規則不明のため一意確定不可"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "SUCCESS",
+    "expected_label": "判断要",
+    "allow_classified_answer_display": true,
+    "expected_corpus_answerability": "answerable",
+    "reason": "",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH21",
+    "input_ids": [
+      "CH21-formal",
+      "CH21-paraphrase",
+      "CH21-noisy"
+    ],
+    "slice": "generation_incomplete",
+    "cluster": "qualification",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "申請提出先",
+        "evidence_ids": [
+          "Q1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "fully_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "環境研修係"
+        ],
+        "answer_completeness": "complete"
+      },
+      {
+        "facet_id": "f2",
+        "target": "添付資料",
+        "evidence_ids": [
+          "Q1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "no_claim",
+        "answer_complete": false,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "資格証の写し",
+          "更新期限が分かる発行機関通知"
+        ],
+        "answer_completeness": "incomplete"
+      }
+    ],
+    "expected_status": "GENERATION_INCOMPLETE",
+    "expected_label": null,
+    "allow_classified_answer_display": false,
+    "expected_corpus_answerability": "answerable",
+    "reason": "CH13と同じ質問範囲・根拠で回答の添付資料facetだけを欠落させる対照。",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH22",
+    "input_ids": [
+      "CH22-formal",
+      "CH22-paraphrase",
+      "CH22-noisy"
+    ],
+    "slice": "generation_incomplete",
+    "cluster": "terminal",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "所属名だけで貸与可否を決められるか",
+        "evidence_ids": [
+          "T1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "unsupported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "所属名だけでは決定不可",
+          "名簿と台帳照合が必要"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "GENERATION_INCOMPLETE",
+    "expected_label": null,
+    "allow_classified_answer_display": false,
+    "expected_corpus_answerability": "answerable",
+    "reason": "一般的な決定方法への回答が明文に矛盾。質問に未照合個人はいないのでcase_factに逃がさない。",
+    "gold_review_status": "author_checked_approved_boundary",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "approved_scope_boundary",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH23",
+    "input_ids": [
+      "CH23-formal",
+      "CH23-paraphrase",
+      "CH23-noisy"
+    ],
+    "slice": "generation_incomplete",
+    "cluster": "qualification",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "申請に必要な添付資料",
+        "evidence_ids": [
+          "Q1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "partially_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "資格証の写し",
+          "更新期限が分かる発行機関通知",
+          "根拠外の推薦状必須条件を加えない"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "GENERATION_INCOMPLETE",
+    "expected_label": null,
+    "allow_classified_answer_display": false,
+    "expected_corpus_answerability": "answerable",
+    "reason": "推薦状必須という重要claimが根拠外。",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  },
+  {
+    "scenario_id": "CH24",
+    "input_ids": [
+      "CH24-formal",
+      "CH24-paraphrase",
+      "CH24-noisy"
+    ],
+    "slice": "generation_incomplete",
+    "cluster": "card",
+    "rubric_version": "classification-rubric-v2.0",
+    "requested_facets": [
+      {
+        "facet_id": "f1",
+        "target": "3枚の再発行費用合計",
+        "evidence_ids": [
+          "C1"
+        ],
+        "evidence_coverage": "sufficient",
+        "claim_support": "partially_supported",
+        "answer_complete": true,
+        "human_review_requirements": [],
+        "required_answer_elements": [
+          "800×3=2400円"
+        ],
+        "answer_completeness": "complete"
+      }
+    ],
+    "expected_status": "GENERATION_INCOMPLETE",
+    "expected_label": null,
+    "allow_classified_answer_display": false,
+    "expected_corpus_answerability": "answerable",
+    "reason": "単価は支持されるが合計額は800×3=2400の計算と不一致。",
+    "gold_review_status": "author_checked_rubric_explicit",
+    "pending_human_review": false,
+    "independent_review_status": "pending",
+    "human_boundary_confirmation": "not_new_boundary_explicit_rubric",
+    "gold_finalized_for_execution": false
+  }
+]

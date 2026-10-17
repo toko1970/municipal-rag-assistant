@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "properties": {
+    "answer_supported": {
+      "type": "boolean"
+    },
+    "support_evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "support_reason": {
+      "type": "string"
+    },
+    "requested_value_determinable": {
+      "type": "boolean"
+    },
+    "determinability_reason": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "answer_supported",
+    "support_evidence_ids",
+    "support_reason",
+    "requested_value_determinable",
+    "determinability_reason"
+  ],
+  "additionalProperties": false
+}

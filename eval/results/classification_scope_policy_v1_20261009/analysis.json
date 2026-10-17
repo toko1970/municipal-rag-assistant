@@ -1,0 +1,920 @@
+{
+  "frozen_payload_and_scores_verified": true,
+  "analysis_source_sha256": "0b9d6fdc82625aa2468b38212af8d426e6a984d8de9f018e2a1d3fd1701eff20",
+  "summary": {
+    "stop_reason": "COMPLETED",
+    "completed_attempts": 56,
+    "planned_attempts": 56,
+    "complete_without_errors": true,
+    "paired_scenarios": {
+      "A02": {
+        "baseline": true,
+        "candidate": true
+      },
+      "A03": {
+        "baseline": true,
+        "candidate": true
+      },
+      "A04": {
+        "baseline": true,
+        "candidate": true
+      },
+      "B02": {
+        "baseline": true,
+        "candidate": true
+      },
+      "B03": {
+        "baseline": false,
+        "candidate": true
+      },
+      "B04": {
+        "baseline": true,
+        "candidate": true
+      },
+      "C01": {
+        "baseline": false,
+        "candidate": true
+      },
+      "C02": {
+        "baseline": true,
+        "candidate": true
+      },
+      "C03": {
+        "baseline": true,
+        "candidate": true
+      },
+      "C04": {
+        "baseline": false,
+        "candidate": true
+      }
+    },
+    "improved_scenarios": [
+      "B03",
+      "C01",
+      "C04"
+    ],
+    "regressed_scenarios": [],
+    "regressed_expressions": [],
+    "candidate_unsafe_sufficient": [],
+    "candidate_diagnostics_pass": true,
+    "candidate_repeats_pass": true,
+    "gate1_pass": true,
+    "estimated_accounting_usd": 0.11122000000000001,
+    "errors": {},
+    "adoption": "not evaluated; gate1 only"
+  },
+  "metrics": {
+    "baseline": {
+      "known_expression_correct": 15,
+      "known_expression_total": 20,
+      "calls": 28,
+      "model_versions": {
+        "gemini-3.1-flash-lite": 28
+      },
+      "input_tokens": 16572,
+      "output_tokens_including_thought": 2854,
+      "median_api_latency_s": 1.4165,
+      "estimated_accounting_usd": 0.04511200000000001
+    },
+    "candidate": {
+      "known_expression_correct": 20,
+      "known_expression_total": 20,
+      "calls": 28,
+      "model_versions": {
+        "gemini-3.1-flash-lite": 28
+      },
+      "input_tokens": 37628,
+      "output_tokens_including_thought": 2848,
+      "median_api_latency_s": 1.5225,
+      "estimated_accounting_usd": 0.06610799999999999
+    }
+  },
+  "case_details": [
+    {
+      "case_id": "A02-formal",
+      "scenario_id": "A02",
+      "kind": "known_development",
+      "expected_label": "根拠十分",
+      "baseline": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "A02-paraphrase",
+      "scenario_id": "A02",
+      "kind": "known_development",
+      "expected_label": "根拠十分",
+      "baseline": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "A03-formal",
+      "scenario_id": "A03",
+      "kind": "known_development",
+      "expected_label": "判断要",
+      "baseline": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "A03-paraphrase",
+      "scenario_id": "A03",
+      "kind": "known_development",
+      "expected_label": "判断要",
+      "baseline": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "A04-formal",
+      "scenario_id": "A04",
+      "kind": "known_development",
+      "expected_label": "文書不足",
+      "baseline": {
+        "label": "文書不足",
+        "factors": {
+          "retrieval_sufficient": false,
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "文書不足",
+        "factors": {
+          "retrieval_sufficient": false,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "A04-paraphrase",
+      "scenario_id": "A04",
+      "kind": "known_development",
+      "expected_label": "文書不足",
+      "baseline": {
+        "label": "文書不足",
+        "factors": {
+          "retrieval_sufficient": false,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "文書不足",
+        "factors": {
+          "retrieval_sufficient": false,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "B02-formal",
+      "scenario_id": "B02",
+      "kind": "known_development",
+      "expected_label": "判断要",
+      "baseline": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "B02-paraphrase",
+      "scenario_id": "B02",
+      "kind": "known_development",
+      "expected_label": "判断要",
+      "baseline": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "B03-formal",
+      "scenario_id": "B03",
+      "kind": "known_development",
+      "expected_label": "根拠十分",
+      "baseline": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": false,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "B03-paraphrase",
+      "scenario_id": "B03",
+      "kind": "known_development",
+      "expected_label": "根拠十分",
+      "baseline": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "B04-formal",
+      "scenario_id": "B04",
+      "kind": "known_development",
+      "expected_label": "文書不足",
+      "baseline": {
+        "label": "文書不足",
+        "factors": {
+          "retrieval_sufficient": false,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "文書不足",
+        "factors": {
+          "retrieval_sufficient": false,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "B04-paraphrase",
+      "scenario_id": "B04",
+      "kind": "known_development",
+      "expected_label": "文書不足",
+      "baseline": {
+        "label": "文書不足",
+        "factors": {
+          "retrieval_sufficient": false,
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "文書不足",
+        "factors": {
+          "retrieval_sufficient": false,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "C01-formal",
+      "scenario_id": "C01",
+      "kind": "known_development",
+      "expected_label": "根拠十分",
+      "baseline": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": false,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "C01-paraphrase",
+      "scenario_id": "C01",
+      "kind": "known_development",
+      "expected_label": "根拠十分",
+      "baseline": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": false,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "C02-formal",
+      "scenario_id": "C02",
+      "kind": "known_development",
+      "expected_label": "判断要",
+      "baseline": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "C02-paraphrase",
+      "scenario_id": "C02",
+      "kind": "known_development",
+      "expected_label": "判断要",
+      "baseline": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": true,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "C03-formal",
+      "scenario_id": "C03",
+      "kind": "known_development",
+      "expected_label": "根拠十分",
+      "baseline": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "C03-paraphrase",
+      "scenario_id": "C03",
+      "kind": "known_development",
+      "expected_label": "根拠十分",
+      "baseline": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "C04-formal",
+      "scenario_id": "C04",
+      "kind": "known_development",
+      "expected_label": "文書不足",
+      "baseline": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": false,
+        "display_error": "DisplayContractError",
+        "error": null
+      },
+      "candidate": {
+        "label": "文書不足",
+        "factors": {
+          "retrieval_sufficient": false,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "C04-paraphrase",
+      "scenario_id": "C04",
+      "kind": "known_development",
+      "expected_label": "文書不足",
+      "baseline": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": false,
+        "display_error": "DisplayContractError",
+        "error": null
+      },
+      "candidate": {
+        "label": "文書不足",
+        "factors": {
+          "retrieval_sufficient": false,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "D01",
+      "scenario_id": "D01",
+      "kind": "diagnostic_control",
+      "expected_label": "判断要",
+      "baseline": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": true,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": true,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "D02",
+      "scenario_id": "D02",
+      "kind": "diagnostic_control",
+      "expected_label": "判断要",
+      "baseline": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": true,
+          "version_conflict": true
+        },
+        "correct": false,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "判断要",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": true
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "D03",
+      "scenario_id": "D03",
+      "kind": "diagnostic_control",
+      "expected_label": null,
+      "baseline": {
+        "label": "文書不足",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "文書不足",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    },
+    {
+      "case_id": "D04",
+      "scenario_id": "D04",
+      "kind": "diagnostic_control",
+      "expected_label": null,
+      "baseline": {
+        "label": "根拠十分",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": true,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": false,
+        "display_error": null,
+        "error": null
+      },
+      "candidate": {
+        "label": "文書不足",
+        "factors": {
+          "retrieval_sufficient": true,
+          "answer_fully_supported": false,
+          "requires_case_facts": false,
+          "requires_policy_judgment": false,
+          "version_conflict": false
+        },
+        "correct": true,
+        "display_error": null,
+        "error": null
+      }
+    }
+  ],
+  "repeats": [
+    {
+      "case_id": "A02-paraphrase",
+      "arm": "baseline",
+      "both_present": true,
+      "factors_identical": true,
+      "both_correct": true
+    },
+    {
+      "case_id": "A02-paraphrase",
+      "arm": "candidate",
+      "both_present": true,
+      "factors_identical": true,
+      "both_correct": true
+    },
+    {
+      "case_id": "A03-formal",
+      "arm": "baseline",
+      "both_present": true,
+      "factors_identical": true,
+      "both_correct": true
+    },
+    {
+      "case_id": "A03-formal",
+      "arm": "candidate",
+      "both_present": true,
+      "factors_identical": true,
+      "both_correct": true
+    },
+    {
+      "case_id": "A04-formal",
+      "arm": "baseline",
+      "both_present": true,
+      "factors_identical": true,
+      "both_correct": true
+    },
+    {
+      "case_id": "A04-formal",
+      "arm": "candidate",
+      "both_present": true,
+      "factors_identical": true,
+      "both_correct": true
+    },
+    {
+      "case_id": "C01-formal",
+      "arm": "baseline",
+      "both_present": true,
+      "factors_identical": true,
+      "both_correct": false
+    },
+    {
+      "case_id": "C01-formal",
+      "arm": "candidate",
+      "both_present": true,
+      "factors_identical": true,
+      "both_correct": true
+    }
+  ]
+}

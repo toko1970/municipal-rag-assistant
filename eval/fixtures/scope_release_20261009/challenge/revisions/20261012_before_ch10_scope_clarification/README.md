@@ -1,0 +1,27 @@
+# 開発用scope challenge実データ
+
+2026-10-09作成。24シナリオ×formal / paraphrase / noisyの3表現、計72入力。過剰保留、個別事実不足、文書不足、複合、版、生成不足の6slice各4シナリオ。架空の緊急連絡端末、資格更新受講、入退室カード、資料搬送の4文書系列を使う。候補コード・prompt・出力を参照せず作成した。API呼出し0。
+
+**実行していない。** 親担当からGate1のprovider quota停止が通知されたため、Gate2実行は許可されていない。全24シナリオの独立レビューはpendingであり、実行用gold確定済みとは扱わない。作者が新たに曖昧と判断した境界は0件だが、独立レビューの代替にはならない。fresh holdoutは作成も閲覧もしていない。本データは公開可能な開発challengeでありsealed holdoutではない。
+
+## ファイルとモデル入力の境界
+
+- `inputs.json`: input_id、scenario_id、formと、question / evidence / generated_answer。モデルへ渡してよい内容は最後の3フィールドのみ。固定生成回答は評価者が作成した試験刺激であり、モデルの実測出力ではない。
+- `gold.json`: シナリオごとのrequested facets、適用根拠、必須回答要素、coverage、support、completeness、human review、status、label、表示許可、corpus answerability。**モデルへ渡さない。** 3表現は同じgoldを共有する。
+- `corpus.json`: 専用の架空文書14件。検索用本番corpusへ追加しない。
+- `manifest.json`: 件数、反復対象、hash、未実行状態、独立性・review状態。
+- `validation.json`: 構造・参照・決定表を検査した結果。実測性能を示さない。
+
+`expected_status=SUCCESS`は分類処理の正常終了期待であり、利用者への回答内容成功を意味しない。文書不足はSUCCESS / 文書不足、生成不足はGENERATION_INCOMPLETE / label=null。文書不足および生成不足では分類付きclaim表示を許可しない。answer_completeは要求への記述の網羅性であり、claim支持・正しさとは別軸である。不正な金額を回答していても金額facetへのclaimは存在するため、completenessとsupportを混同しない。
+
+文書不足例のfully_supportedは「今回の根拠では確認できない」という生成説明claimの支持を表す。求めた金額などが回答できたことを意味せず、coverage=insufficientとcompletenessで区別する。required_answer_elementsは正しい内容・不足時の適切な説明に対する採点要素であり、欠落生成では実回答にない内容も記録する。
+
+## 意味・対照の確認
+
+CH02は一般の「所属名だけで決められるか」を答え切る根拠十分。CH05は未照合の個人貸与可否を求める判断要。同じ確認済みscope境界を適用する。CH07は名簿・台帳を照合済みでも共同端末の有無が個別判断に残る。CH08は基準日不足でcase_fact、CH20は基準日が揃っても同時有効通知が競合しversion_conflictとなる。
+
+CH09は専用corpusの単価表Q3が取得根拠にない検索不足対照。CH10〜12の該当制度規則は専用corpusにない。corpus answerabilityは本ファイルの有限な架空文書集合だけについての値であり、本番文書全体を断定しない。CH15は一方のfacetだけが文書不足で、他方は根拠十分となる。
+
+CH13/21、CH02/22、CH03/23、CH04/24は回答欠落、矛盾、根拠外追加、算術誤りの内容対照。同じ原因を切り分ける関連シナリオであり独立した制度事例として水増ししない。CH17/18は版境界前後、CH19は明示的優先関係、CH20は未解消競合。新旧順序の違いはシナリオ間であり、同一シナリオ3表現では根拠順も固定する。
+
+作者は全質問・根拠・固定回答の意味を点検し、構造、ID、3表現の共通入力、必須要素、Rubric決定順序、反復対象をオフライン検査した。独立した再判定は未実施。既存candidateの出力に合わせたgold調整は行っていない。結果集計はscenario単位を基本とし、文書系列cluster感度と表現別安定性を併記する。72入力を72独立シナリオとは扱わない。弱点を均等配置したchallengeの成功率を実利用成功率とは呼ばない。

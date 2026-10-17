@@ -1,0 +1,38 @@
+{
+  "attempted": 2,
+  "by_slice": {
+    "control": {
+      "completed": 0,
+      "contract_ok": 0,
+      "facets_ok": 0,
+      "input_facts_ok": 0
+    },
+    "dangerous_assertion": {
+      "completed": 0,
+      "contract_ok": 0,
+      "facets_ok": 0,
+      "input_facts_ok": 0
+    },
+    "over_abstention": {
+      "completed": 1,
+      "contract_ok": 0,
+      "facets_ok": 0,
+      "input_facts_ok": 1
+    }
+  },
+  "case_count": 18,
+  "completed": 1,
+  "contract_ok": 0,
+  "error_count": 1,
+  "estimated_cost_usd": 0.0005985,
+  "gate": {
+    "passed": false,
+    "rule": "18/18 contract_ok; exact facets and required question facts"
+  },
+  "input_tokens": 126,
+  "logical_external_calls": 2,
+  "max_cost_usd": 0.05,
+  "max_logical_external_calls": 18,
+  "output_tokens": 378,
+  "stop_reason": "FAIL_FAST"
+}

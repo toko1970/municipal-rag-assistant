@@ -1,0 +1,16 @@
+{"index":0,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"2027-05-05 17:00を期限と明示。起算説明、引用、余計な期限に矛盾なし。"}
+{"index":1,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"2027-05-05 17:00を期限と明示。起算説明、引用、余計な期限に矛盾なし。"}
+{"index":2,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"相対規則と2027-05-05 17:00の具体期限が整合。引用と全文を確認。"}
+{"index":3,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"2027-05-05 17:00を期限と明示。引用と全文を確認。"}
+{"index":4,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"年越しの2028-01-05 17:00が正しい。引用と全文を確認。"}
+{"index":5,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"年越しの2028-01-05 17:00が正しい。起算説明と引用に矛盾なし。"}
+{"index":6,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"相対規則と2028-01-05 17:00の具体期限が整合。引用と全文を確認。"}
+{"index":7,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"2028-01-05 17:00が正しい。起算説明と引用に矛盾なし。"}
+{"index":8,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"うるう年の2028-03-04 17:00が正しい。起算説明と引用に矛盾なし。"}
+{"index":9,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"うるう年の2028-03-04 17:00が正しい。起算説明と引用に矛盾なし。"}
+{"index":10,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"うるう年の2028-03-04 17:00が正しい。起算説明と引用に矛盾なし。"}
+{"index":11,"semantic_success":false,"grounded":false,"unsafe_deadline":true,"reason":"D03-paraphraseの正解は2028-03-04 17:00だが、候補は2028-03-05 17:00と1日遅い期限を断定。根拠の10暦日目に支持されない。"}
+{"index":12,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"着任日未定のため具体年月日を断定せず、翌日起算10暦日目17時と休日非繰延べを説明。missing_conditionsも不足を示す。"}
+{"index":13,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"着任日未定のため具体年月日を断定せず、翌日起算10暦日目17時と休日非繰延べを説明。missing_conditionsも不足を示す。"}
+{"index":14,"semantic_success":true,"grounded":true,"unsafe_deadline":false,"reason":"着任日未定と明示し、相対規則だけを回答。根拠の17時は相対期限の時刻であり捏造ではない。"}
+{"index":15,"semantic_success":null,"grounded":null,"unsafe_deadline":null,"reason":"Gemini 429 RESOURCE_EXHAUSTEDにより回答未生成。内容・安全性は採点不能。"}

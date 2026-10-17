@@ -1,0 +1,21 @@
+{
+  "validation": "PASS",
+  "checks": [
+    "24 scenarios / 72 unique inputs / six slices of four / four family clusters",
+    "three distinct question forms, same evidence and generated answer within scenario",
+    "gold fields absent from input records",
+    "all evidence and gold references resolve",
+    "required answer elements recorded for every facet",
+    "rubric decision table agrees with every status and label",
+    "12 preselected repeat inputs exist",
+    "all 24 independent reviews pending; no API execution"
+  ],
+  "scenario_expected_labels": {
+    "根拠十分": 9,
+    "判断要": 6,
+    "文書不足": 5,
+    "GENERATION_INCOMPLETE": 4
+  },
+  "api_calls": 0,
+  "semantic_review": "Author inspection only; independent review pending"
+}

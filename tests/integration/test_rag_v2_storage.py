@@ -103,8 +103,17 @@ def test_postgres_qdrant_and_event_log_round_trip(tmp_path: Path) -> None:
             request_id,
             provider="fake",
             model="classifier-test",
-            prompt_version="answer-classification-v1",
-            factors={"retrieval_sufficient": True},
+            prompt_version="classification-facet-v2-candidate",
+            factors={
+                "schema_version": "2.0-candidate",
+                "decision_version": "classification-rubric-v2.0",
+                "question_contract": {
+                    "schema_version": "1.0",
+                    "requested_facets": [],
+                    "input_facts": [],
+                },
+                "facet_assessments": [],
+            },
             derived_label="根拠十分",
             confidence=0.95,
             status="SUCCESS",
@@ -156,6 +165,18 @@ def test_postgres_qdrant_and_event_log_round_trip(tmp_path: Path) -> None:
                     ClassificationAttemptRow.request_id == request_id
                 )
             ) == 1
+            classification_attempt = session.scalar(
+                select(ClassificationAttemptRow).where(
+                    ClassificationAttemptRow.request_id == request_id
+                )
+            )
+            assert (
+                classification_attempt.factors["decision_version"]
+                == "classification-rubric-v2.0"
+            )
+            assert classification_attempt.factors["question_contract"][
+                "schema_version"
+            ] == "1.0"
             generation_result_id = session.scalar(
                 select(GenerationResultRow.id).where(
                     GenerationResultRow.request_id == request_id

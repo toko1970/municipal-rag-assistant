@@ -1,0 +1,16 @@
+{
+  "created_at_utc": "2026-10-09T00:38:16.731967+00:00",
+  "reason": "The initial frozen manifest used legacy unit prices; the prior Gemini 3.5 manifest cites official 2026-10-09 pricing. Correcting cost accounting without changing challenge, candidate, model, task order or model outputs.",
+  "original_manifest_sha256": "7e15cf6afc323ff8be1ce1d3c13237ed60b8ee5a7bf8ff5024a88b6942437bfb",
+  "original_runner_sha256": "ab2c0392a76020a6be0ecd33f2196b96ab1920f4e1b83d6db1bfa7558e718ef9",
+  "after_api_attempt": 33,
+  "observed_input_tokens": 17324,
+  "observed_output_tokens": 7112,
+  "corrected_estimated_usd_at_addendum": 0.0229772,
+  "corrected_unit_prices_usd_per_million": {
+    "input": 0.3,
+    "output": 2.5
+  },
+  "corrected_price_source": "https://ai.google.dev/gemini-api/docs/pricing, as recorded in eval/results/generalization_validation_20261009_gemini35/manifest.json",
+  "remaining_budget_check": "Monitor corrected cumulative cost plus conservative 0.05 USD reserve per next attempt before allowing further calls; stop the running session if >=2.0 USD. The frozen runner retained the old internal estimator; this addendum is independent oversight."
+}

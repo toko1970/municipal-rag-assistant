@@ -1,0 +1,22 @@
+{
+  "text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"適用単価\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"c55b0157-7719-41aa-a57e-2516327dac2b\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"unsupported\",\n      \"answer_complete\": false,\n      \"reviews\": [\n        {\n          \"type\": \"case_fact\",\n          \"reason\": \"根拠文書では2027年1月1日以降の単価は300円と規定されているが、生成回答は200円と誤った値を提示している。\",\n          \"evidence_ids\": [\n            \"c55b0157-7719-41aa-a57e-2516327dac2b\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+  "usage": {
+    "cache_tokens_details": null,
+    "cached_content_token_count": null,
+    "candidates_token_count": 275,
+    "candidates_tokens_details": null,
+    "prompt_token_count": 1325,
+    "prompt_tokens_details": [
+      {
+        "modality": "TEXT",
+        "token_count": 1325
+      }
+    ],
+    "thoughts_token_count": null,
+    "tool_use_prompt_token_count": null,
+    "tool_use_prompt_tokens_details": null,
+    "total_token_count": 1600,
+    "traffic_type": null
+  },
+  "model_version": "gemini-3.1-flash-lite"
+}

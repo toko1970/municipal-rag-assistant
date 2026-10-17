@@ -1,0 +1,347 @@
+{
+  "status": "completed_challenge_not_adopted",
+  "services": 88,
+  "api_attempts": 214,
+  "api_errors": 0,
+  "corrected_estimated_usd": 0.1730593,
+  "corrected_estimated_usd_by_arm": {
+    "v1": 0.050419100000000015,
+    "v2": 0.12264019999999999
+  },
+  "price_usd_per_million": {
+    "input": 0.3,
+    "output": 2.5
+  },
+  "latency": {
+    "oracle_v1": {
+      "n": 32,
+      "median_s": 24.081,
+      "mean_s": 23.63
+    },
+    "oracle_v2": {
+      "n": 32,
+      "median_s": 36.865,
+      "mean_s": 35.547
+    },
+    "retrieved_v1": {
+      "n": 12,
+      "median_s": 24.045,
+      "mean_s": 23.775
+    },
+    "retrieved_v2": {
+      "n": 12,
+      "median_s": 37.004,
+      "mean_s": 35.266
+    }
+  },
+  "oracle_primary": {
+    "categories": {
+      "v2_only": 2,
+      "v1_only": 2,
+      "both": 6,
+      "neither": 2
+    },
+    "scenario_details": {
+      "A01": {
+        "v1_both_expressions": false,
+        "v2_both_expressions": true,
+        "paired_category": "v2_only"
+      },
+      "A02": {
+        "v1_both_expressions": false,
+        "v2_both_expressions": true,
+        "paired_category": "v2_only"
+      },
+      "A03": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": false,
+        "paired_category": "v1_only"
+      },
+      "A04": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      },
+      "B01": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      },
+      "B02": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": false,
+        "paired_category": "v1_only"
+      },
+      "B03": {
+        "v1_both_expressions": false,
+        "v2_both_expressions": false,
+        "paired_category": "neither"
+      },
+      "B04": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      },
+      "C01": {
+        "v1_both_expressions": false,
+        "v2_both_expressions": false,
+        "paired_category": "neither"
+      },
+      "C02": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      },
+      "C03": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      },
+      "C04": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      }
+    },
+    "v1_success": 8,
+    "v2_success": 8,
+    "net_v2_minus_v1": 0
+  },
+  "oracle_excluding_ambiguous_A01_B01": {
+    "categories": {
+      "v2_only": 1,
+      "v1_only": 2,
+      "both": 5,
+      "neither": 2
+    },
+    "scenario_details": {
+      "A02": {
+        "v1_both_expressions": false,
+        "v2_both_expressions": true,
+        "paired_category": "v2_only"
+      },
+      "A03": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": false,
+        "paired_category": "v1_only"
+      },
+      "A04": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      },
+      "B02": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": false,
+        "paired_category": "v1_only"
+      },
+      "B03": {
+        "v1_both_expressions": false,
+        "v2_both_expressions": false,
+        "paired_category": "neither"
+      },
+      "B04": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      },
+      "C01": {
+        "v1_both_expressions": false,
+        "v2_both_expressions": false,
+        "paired_category": "neither"
+      },
+      "C02": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      },
+      "C03": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      },
+      "C04": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      }
+    },
+    "v1_success": 7,
+    "v2_success": 6,
+    "net_v2_minus_v1": -1
+  },
+  "oracle_alternative_individual_payment_reading": {
+    "categories": {
+      "neither": 4,
+      "v2_only": 1,
+      "v1_only": 2,
+      "both": 5
+    },
+    "scenario_details": {
+      "A01": {
+        "v1_both_expressions": false,
+        "v2_both_expressions": false,
+        "paired_category": "neither"
+      },
+      "A02": {
+        "v1_both_expressions": false,
+        "v2_both_expressions": true,
+        "paired_category": "v2_only"
+      },
+      "A03": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": false,
+        "paired_category": "v1_only"
+      },
+      "A04": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      },
+      "B01": {
+        "v1_both_expressions": false,
+        "v2_both_expressions": false,
+        "paired_category": "neither"
+      },
+      "B02": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": false,
+        "paired_category": "v1_only"
+      },
+      "B03": {
+        "v1_both_expressions": false,
+        "v2_both_expressions": false,
+        "paired_category": "neither"
+      },
+      "B04": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      },
+      "C01": {
+        "v1_both_expressions": false,
+        "v2_both_expressions": false,
+        "paired_category": "neither"
+      },
+      "C02": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      },
+      "C03": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      },
+      "C04": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      }
+    },
+    "v1_success": 7,
+    "v2_success": 6,
+    "net_v2_minus_v1": -1
+  },
+  "oracle_expression_success": {
+    "v1": 17,
+    "v2": 19
+  },
+  "oracle_v2_stage": {
+    "question_extraction": {
+      "correct": 19,
+      "total": 24
+    },
+    "coverage": {
+      "correct": 22,
+      "evaluable": 22
+    },
+    "claim_support": {
+      "correct": 20,
+      "evaluable": 22
+    },
+    "human_review": {
+      "correct": 22,
+      "evaluable": 22
+    },
+    "generator_condition_type": {
+      "correct": 18,
+      "evaluable": 24
+    },
+    "final_display_composite": {
+      "correct": 19,
+      "total": 24
+    }
+  },
+  "retrieved_paired": {
+    "categories": {
+      "neither": 2,
+      "v1_only": 2,
+      "both": 2
+    },
+    "scenario_details": {
+      "A01": {
+        "v1_both_expressions": false,
+        "v2_both_expressions": false,
+        "paired_category": "neither"
+      },
+      "A02": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": false,
+        "paired_category": "v1_only"
+      },
+      "A03": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      },
+      "B03": {
+        "v1_both_expressions": false,
+        "v2_both_expressions": false,
+        "paired_category": "neither"
+      },
+      "C02": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": false,
+        "paired_category": "v1_only"
+      },
+      "C04": {
+        "v1_both_expressions": true,
+        "v2_both_expressions": true,
+        "paired_category": "both"
+      }
+    },
+    "v1_success": 4,
+    "v2_success": 2,
+    "net_v2_minus_v1": -2
+  },
+  "retrieved_expression_success": {
+    "v1": 10,
+    "v2": 7
+  },
+  "retrieved_v2_stage": {
+    "question_extraction": {
+      "correct": 9,
+      "total": 12
+    },
+    "coverage": {
+      "correct": 10,
+      "evaluable": 10
+    },
+    "claim_support": {
+      "correct": 10,
+      "evaluable": 10
+    },
+    "human_review": {
+      "correct": 8,
+      "evaluable": 10
+    },
+    "final_display_composite": {
+      "correct": 7,
+      "total": 12
+    }
+  },
+  "repeat_exact_status_answer_contract": true,
+  "stage_denominator_note": "B03 v2 generation schema failures precede classification; coverage/support/human axes are not evaluable for those two expressions.",
+  "gate": "fail: net improvement below +2 and new v2-only composite regressions A03/B02. Do not proceed to 100/130/fresh holdout."
+}

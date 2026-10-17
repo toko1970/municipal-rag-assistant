@@ -1,0 +1,352 @@
+{
+  "all_rescores_match": true,
+  "responses": 56,
+  "attempts": 58,
+  "provider_errors": 2,
+  "combined_exactly_all_nonprovider_responses": true,
+  "tasks_exactly_once": true,
+  "sources_match": true,
+  "frozen_match": true,
+  "prior_records_hashes_match": true,
+  "usage_based_accounting": 0.150636,
+  "provider_error_reserved_accounting": 0.098363,
+  "checks": [
+    {
+      "case_id": "C03-formal",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C03-formal",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "A02-formal",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "A02-formal",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C04-formal",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C04-formal",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C03-paraphrase",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C03-paraphrase",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "B03-formal",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "B03-formal",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "A03-paraphrase",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "A03-paraphrase",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C01-paraphrase",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C01-paraphrase",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "B03-paraphrase",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "B03-paraphrase",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "A04-paraphrase",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "A04-paraphrase",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "B04-paraphrase",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "B04-paraphrase",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "D01",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "D01",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C01-formal",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C01-formal",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C04-paraphrase",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C04-paraphrase",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C02-paraphrase",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C02-paraphrase",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "A02-paraphrase",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "A02-paraphrase",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "B02-paraphrase",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "B02-paraphrase",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "D04",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "D04",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "D03",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "D03",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "A03-formal",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "A03-formal",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "B04-formal",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "B04-formal",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "A04-formal",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "A04-formal",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C02-formal",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C02-formal",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "B02-formal",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "B02-formal",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "D02",
+      "arm": "candidate",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "D02",
+      "arm": "baseline",
+      "repetition": 1,
+      "matches": true
+    },
+    {
+      "case_id": "C01-formal",
+      "arm": "baseline",
+      "repetition": 2,
+      "matches": true
+    },
+    {
+      "case_id": "C01-formal",
+      "arm": "candidate",
+      "repetition": 2,
+      "matches": true
+    },
+    {
+      "case_id": "A02-paraphrase",
+      "arm": "candidate",
+      "repetition": 2,
+      "matches": true
+    },
+    {
+      "case_id": "A02-paraphrase",
+      "arm": "baseline",
+      "repetition": 2,
+      "matches": true
+    },
+    {
+      "case_id": "A03-formal",
+      "arm": "candidate",
+      "repetition": 2,
+      "matches": true
+    },
+    {
+      "case_id": "A03-formal",
+      "arm": "baseline",
+      "repetition": 2,
+      "matches": true
+    },
+    {
+      "case_id": "A04-formal",
+      "arm": "candidate",
+      "repetition": 2,
+      "matches": true
+    },
+    {
+      "case_id": "A04-formal",
+      "arm": "baseline",
+      "repetition": 2,
+      "matches": true
+    }
+  ],
+  "verdict": "GATE1_FAIL; no further gate or production adoption"
+}

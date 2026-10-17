@@ -1,0 +1,30 @@
+{
+  "analysis_version": "1.0",
+  "run_status": "INCOMPLETE_PROVIDER_QUOTA",
+  "gate_b1_decision": "NOT_EVALUABLE",
+  "b2_allowed": false,
+  "logical_external_calls": 2,
+  "completed_cases": 1,
+  "provider_error_cases": 1,
+  "additional_retry_performed": false,
+  "provider_error": {
+    "case_id": "QC-TH022-formal",
+    "status": 429,
+    "quota_metric": "generativelanguage.googleapis.com/generate_content_free_tier_requests",
+    "quota_id": "GenerateRequestsPerDayPerProjectPerModel-FreeTier",
+    "quota_value": 500
+  },
+  "completed_case_review": {
+    "case_id": "QC-TH011-paraphrase_or_noisy",
+    "model_contract_semantically_correct": true,
+    "facet_count": 2,
+    "facet_types": ["amount", "date"],
+    "required_question_facts_retained": true,
+    "automated_score_false_reason": "The frozen regex accepted only 提出, while the response used the equivalent term 申請期限.",
+    "scoring_correction": "Accept 提出 or 申請 without changing facet count, answer type, or required facts."
+  },
+  "original_dataset_snapshot": "dataset_snapshot.json",
+  "original_dataset_snapshot_sha256": "8cbd6a74016a3a4c2b70c72f427fc10b7ab36b8ddd97447522b73f600df9b56f",
+  "sealed_holdout_accessed": false,
+  "next_step": "After the daily Gemini quota resets, start a new B1 run with the corrected scorer and a new output directory. Do not resume this failed run or start B2."
+}

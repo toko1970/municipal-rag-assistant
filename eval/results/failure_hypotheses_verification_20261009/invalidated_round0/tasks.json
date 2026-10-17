@@ -1,0 +1,2919 @@
+[
+  {
+    "id": "TH025/formal",
+    "family": "classification",
+    "origin": "historical_reconstructed_answer",
+    "arm": "baseline",
+    "prompt": "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"登録職員で勤務計画も登録済みです。静音席午前券の利用料900円を支払いましたが、利用証の施設認定コードが判読できません。補填できますか。\", \"retrieved_evidence\": [{\"element_id\": \"1bdfa5cc-48d3-50ed-883c-c624ffde2764\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音施設コードの保留照会\", \"content\": \"## 静音施設コードの保留照会  \\n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。\", \"page_number\": null, \"score\": 0.793339, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"f2fb1898-3878-5a41-970a-a98e814d8382\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の額面\", \"content\": \"## 静音席券の額面  \\n午前券は900円、終日券は1,500円を補填する。一日に選べる券は一枚で、午前券と終日券の加算はできない。実際の利用料が額面より安いときは実際の利用料までとする。\", \"page_number\": null, \"score\": 0.742289, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"52e8198f-6642-5555-b558-2d82dee21ff5\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の対象範囲\", \"content\": \"# 静音席利用補填の区分札  \\n## 静音席券の対象範囲  \\n架空の職員制度である。静音席利用補填は、面談記録の整理のため認定施設の一人用席を利用する登録職員に適用する。勤務計画に整理作業が登録され、施設認定コードが有効であることが必要。\", \"page_number\": null, \"score\": 0.737087, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"19d809b4-82f9-5cd7-a51c-c8e34de83cb8\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の時間帯\", \"content\": \"## 静音席券の時間帯  \\n午前券の利用帯は8時30分から12時30分まで、終日券は8時30分から17時までである。終日券には午前の時間帯を含む。\", \"page_number\": null, \"score\": 0.713487, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"e5af52f7-6acc-5437-94b5-25098946b993\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の予約日基準\", \"content\": \"## 静音席券の予約日基準  \\n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。\", \"page_number\": null, \"score\": 0.707492, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6a10b3a8-b826-5848-ad41-47a76c1607c3\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音席の清算封筒\", \"content\": \"# 静音席利用補填の清算便覧  \\n## 静音席の清算封筒  \\n静音席利用補填は利用月ごとにまとめる。予約成立日時の記載がある利用証と領収票を添え、翌月4日18時までに作業環境室へ送る。暦日による締切であり、閉庁日でも延長しない。\", \"page_number\": null, \"score\": 0.688242, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6b674821-44fc-5da5-821e-847306a56b62\", \"document_name\": \"輪番引継支援枠の受付簿記要領\", \"heading\": \"輪番記録の照合保留\", \"content\": \"## 輪番記録の照合保留  \\n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。\", \"page_number\": null, \"score\": 0.645868, \"source\": \"TXH-A02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"bfed51db-83de-59f4-be1e-fa4e8741170a\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の添付束\", \"content\": \"# 対話技能認証補助の精算箋  \\n## 対話認証の添付束  \\n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。\", \"page_number\": null, \"score\": 0.639262, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"evidence_element_ids\": [\"1bdfa5cc-48d3-50ed-883c-c624ffde2764\"], \"ordinal\": 1, \"text\": \"施設認定コードが判読できない場合、作業環境室が施設へ確認を行います。\", \"evidence_kind\": \"text\"}, {\"claim_id\": \"claim-2\", \"evidence_element_ids\": [\"1bdfa5cc-48d3-50ed-883c-c624ffde2764\"], \"ordinal\": 2, \"text\": \"利用料の支払いのみを根拠として認定することはできず、コードの確認が完了するまでは補填の可否は保留されます。\", \"evidence_kind\": \"text\"}], \"missing_conditions\": [\"判読可能な施設認定コードとその有効性\"]}}",
+    "expected_label": "判断要",
+    "question": "登録職員で勤務計画も登録済みです。静音席午前券の利用料900円を支払いましたが、利用証の施設認定コードが判読できません。補填できますか。",
+    "evidence": [
+      {
+        "element_id": "1bdfa5cc-48d3-50ed-883c-c624ffde2764",
+        "document_name": "静音席利用補填の清算便覧",
+        "heading": "静音施設コードの保留照会",
+        "content": "## 静音施設コードの保留照会  \n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。",
+        "page_number": null,
+        "score": 0.793339,
+        "source": "TXH-B02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "f2fb1898-3878-5a41-970a-a98e814d8382",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の額面",
+        "content": "## 静音席券の額面  \n午前券は900円、終日券は1,500円を補填する。一日に選べる券は一枚で、午前券と終日券の加算はできない。実際の利用料が額面より安いときは実際の利用料までとする。",
+        "page_number": null,
+        "score": 0.742289,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "52e8198f-6642-5555-b558-2d82dee21ff5",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の対象範囲",
+        "content": "# 静音席利用補填の区分札  \n## 静音席券の対象範囲  \n架空の職員制度である。静音席利用補填は、面談記録の整理のため認定施設の一人用席を利用する登録職員に適用する。勤務計画に整理作業が登録され、施設認定コードが有効であることが必要。",
+        "page_number": null,
+        "score": 0.737087,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "19d809b4-82f9-5cd7-a51c-c8e34de83cb8",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の時間帯",
+        "content": "## 静音席券の時間帯  \n午前券の利用帯は8時30分から12時30分まで、終日券は8時30分から17時までである。終日券には午前の時間帯を含む。",
+        "page_number": null,
+        "score": 0.713487,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "e5af52f7-6acc-5437-94b5-25098946b993",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の予約日基準",
+        "content": "## 静音席券の予約日基準  \n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。",
+        "page_number": null,
+        "score": 0.707492,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "6a10b3a8-b826-5848-ad41-47a76c1607c3",
+        "document_name": "静音席利用補填の清算便覧",
+        "heading": "静音席の清算封筒",
+        "content": "# 静音席利用補填の清算便覧  \n## 静音席の清算封筒  \n静音席利用補填は利用月ごとにまとめる。予約成立日時の記載がある利用証と領収票を添え、翌月4日18時までに作業環境室へ送る。暦日による締切であり、閉庁日でも延長しない。",
+        "page_number": null,
+        "score": 0.688242,
+        "source": "TXH-B02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "6b674821-44fc-5da5-821e-847306a56b62",
+        "document_name": "輪番引継支援枠の受付簿記要領",
+        "heading": "輪番記録の照合保留",
+        "content": "## 輪番記録の照合保留  \n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。",
+        "page_number": null,
+        "score": 0.645868,
+        "source": "TXH-A02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "bfed51db-83de-59f4-be1e-fa4e8741170a",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の添付束",
+        "content": "# 対話技能認証補助の精算箋  \n## 対話認証の添付束  \n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。",
+        "page_number": null,
+        "score": 0.639262,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "evidence_element_ids": [
+            "1bdfa5cc-48d3-50ed-883c-c624ffde2764"
+          ],
+          "ordinal": 1,
+          "text": "施設認定コードが判読できない場合、作業環境室が施設へ確認を行います。",
+          "evidence_kind": "text"
+        },
+        {
+          "claim_id": "claim-2",
+          "evidence_element_ids": [
+            "1bdfa5cc-48d3-50ed-883c-c624ffde2764"
+          ],
+          "ordinal": 2,
+          "text": "利用料の支払いのみを根拠として認定することはできず、コードの確認が完了するまでは補填の可否は保留されます。",
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": [
+        "判読可能な施設認定コードとその有効性"
+      ]
+    }
+  },
+  {
+    "id": "TH025/formal",
+    "family": "classification",
+    "origin": "historical_reconstructed_answer",
+    "arm": "scope_definition",
+    "prompt": "判定対象は質問が直接求める命題です。requires_case_factsはその命題への結論を変える未提示の個別事実がある場合だけtrueです。質問に明示済みの条件や質問の範囲外の支給条件を不足と見なしません。「現時点では確定できない」と根拠に従って回答することと、個別の支給可否を確定することを区別してください。requires_policy_judgmentはその命題に裁量が残る場合だけtrueです。\nclassification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"登録職員で勤務計画も登録済みです。静音席午前券の利用料900円を支払いましたが、利用証の施設認定コードが判読できません。補填できますか。\", \"retrieved_evidence\": [{\"element_id\": \"1bdfa5cc-48d3-50ed-883c-c624ffde2764\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音施設コードの保留照会\", \"content\": \"## 静音施設コードの保留照会  \\n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。\", \"page_number\": null, \"score\": 0.793339, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"f2fb1898-3878-5a41-970a-a98e814d8382\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の額面\", \"content\": \"## 静音席券の額面  \\n午前券は900円、終日券は1,500円を補填する。一日に選べる券は一枚で、午前券と終日券の加算はできない。実際の利用料が額面より安いときは実際の利用料までとする。\", \"page_number\": null, \"score\": 0.742289, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"52e8198f-6642-5555-b558-2d82dee21ff5\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の対象範囲\", \"content\": \"# 静音席利用補填の区分札  \\n## 静音席券の対象範囲  \\n架空の職員制度である。静音席利用補填は、面談記録の整理のため認定施設の一人用席を利用する登録職員に適用する。勤務計画に整理作業が登録され、施設認定コードが有効であることが必要。\", \"page_number\": null, \"score\": 0.737087, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"19d809b4-82f9-5cd7-a51c-c8e34de83cb8\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の時間帯\", \"content\": \"## 静音席券の時間帯  \\n午前券の利用帯は8時30分から12時30分まで、終日券は8時30分から17時までである。終日券には午前の時間帯を含む。\", \"page_number\": null, \"score\": 0.713487, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"e5af52f7-6acc-5437-94b5-25098946b993\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の予約日基準\", \"content\": \"## 静音席券の予約日基準  \\n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。\", \"page_number\": null, \"score\": 0.707492, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6a10b3a8-b826-5848-ad41-47a76c1607c3\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音席の清算封筒\", \"content\": \"# 静音席利用補填の清算便覧  \\n## 静音席の清算封筒  \\n静音席利用補填は利用月ごとにまとめる。予約成立日時の記載がある利用証と領収票を添え、翌月4日18時までに作業環境室へ送る。暦日による締切であり、閉庁日でも延長しない。\", \"page_number\": null, \"score\": 0.688242, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6b674821-44fc-5da5-821e-847306a56b62\", \"document_name\": \"輪番引継支援枠の受付簿記要領\", \"heading\": \"輪番記録の照合保留\", \"content\": \"## 輪番記録の照合保留  \\n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。\", \"page_number\": null, \"score\": 0.645868, \"source\": \"TXH-A02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"bfed51db-83de-59f4-be1e-fa4e8741170a\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の添付束\", \"content\": \"# 対話技能認証補助の精算箋  \\n## 対話認証の添付束  \\n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。\", \"page_number\": null, \"score\": 0.639262, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"evidence_element_ids\": [\"1bdfa5cc-48d3-50ed-883c-c624ffde2764\"], \"ordinal\": 1, \"text\": \"施設認定コードが判読できない場合、作業環境室が施設へ確認を行います。\", \"evidence_kind\": \"text\"}, {\"claim_id\": \"claim-2\", \"evidence_element_ids\": [\"1bdfa5cc-48d3-50ed-883c-c624ffde2764\"], \"ordinal\": 2, \"text\": \"利用料の支払いのみを根拠として認定することはできず、コードの確認が完了するまでは補填の可否は保留されます。\", \"evidence_kind\": \"text\"}], \"missing_conditions\": [\"判読可能な施設認定コードとその有効性\"]}}",
+    "expected_label": "判断要",
+    "question": "登録職員で勤務計画も登録済みです。静音席午前券の利用料900円を支払いましたが、利用証の施設認定コードが判読できません。補填できますか。",
+    "evidence": [
+      {
+        "element_id": "1bdfa5cc-48d3-50ed-883c-c624ffde2764",
+        "document_name": "静音席利用補填の清算便覧",
+        "heading": "静音施設コードの保留照会",
+        "content": "## 静音施設コードの保留照会  \n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。",
+        "page_number": null,
+        "score": 0.793339,
+        "source": "TXH-B02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "f2fb1898-3878-5a41-970a-a98e814d8382",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の額面",
+        "content": "## 静音席券の額面  \n午前券は900円、終日券は1,500円を補填する。一日に選べる券は一枚で、午前券と終日券の加算はできない。実際の利用料が額面より安いときは実際の利用料までとする。",
+        "page_number": null,
+        "score": 0.742289,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "52e8198f-6642-5555-b558-2d82dee21ff5",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の対象範囲",
+        "content": "# 静音席利用補填の区分札  \n## 静音席券の対象範囲  \n架空の職員制度である。静音席利用補填は、面談記録の整理のため認定施設の一人用席を利用する登録職員に適用する。勤務計画に整理作業が登録され、施設認定コードが有効であることが必要。",
+        "page_number": null,
+        "score": 0.737087,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "19d809b4-82f9-5cd7-a51c-c8e34de83cb8",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の時間帯",
+        "content": "## 静音席券の時間帯  \n午前券の利用帯は8時30分から12時30分まで、終日券は8時30分から17時までである。終日券には午前の時間帯を含む。",
+        "page_number": null,
+        "score": 0.713487,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "e5af52f7-6acc-5437-94b5-25098946b993",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の予約日基準",
+        "content": "## 静音席券の予約日基準  \n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。",
+        "page_number": null,
+        "score": 0.707492,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "6a10b3a8-b826-5848-ad41-47a76c1607c3",
+        "document_name": "静音席利用補填の清算便覧",
+        "heading": "静音席の清算封筒",
+        "content": "# 静音席利用補填の清算便覧  \n## 静音席の清算封筒  \n静音席利用補填は利用月ごとにまとめる。予約成立日時の記載がある利用証と領収票を添え、翌月4日18時までに作業環境室へ送る。暦日による締切であり、閉庁日でも延長しない。",
+        "page_number": null,
+        "score": 0.688242,
+        "source": "TXH-B02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "6b674821-44fc-5da5-821e-847306a56b62",
+        "document_name": "輪番引継支援枠の受付簿記要領",
+        "heading": "輪番記録の照合保留",
+        "content": "## 輪番記録の照合保留  \n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。",
+        "page_number": null,
+        "score": 0.645868,
+        "source": "TXH-A02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "bfed51db-83de-59f4-be1e-fa4e8741170a",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の添付束",
+        "content": "# 対話技能認証補助の精算箋  \n## 対話認証の添付束  \n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。",
+        "page_number": null,
+        "score": 0.639262,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "evidence_element_ids": [
+            "1bdfa5cc-48d3-50ed-883c-c624ffde2764"
+          ],
+          "ordinal": 1,
+          "text": "施設認定コードが判読できない場合、作業環境室が施設へ確認を行います。",
+          "evidence_kind": "text"
+        },
+        {
+          "claim_id": "claim-2",
+          "evidence_element_ids": [
+            "1bdfa5cc-48d3-50ed-883c-c624ffde2764"
+          ],
+          "ordinal": 2,
+          "text": "利用料の支払いのみを根拠として認定することはできず、コードの確認が完了するまでは補填の可否は保留されます。",
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": [
+        "判読可能な施設認定コードとその有効性"
+      ]
+    }
+  },
+  {
+    "id": "TH031/formal",
+    "family": "classification",
+    "origin": "historical_reconstructed_answer",
+    "arm": "baseline",
+    "prompt": "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"対話技能認証補助の登録・事前承認・受験実績は確認済みですが、同じ年度の受給歴が未照合です。本人は初回と申告しています。補助を確定できますか。\", \"retrieved_evidence\": [{\"element_id\": \"3bd9867a-5455-51d6-8d01-fd340795a046\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の履歴保留\", \"content\": \"## 対話認証の履歴保留  \\n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。\", \"page_number\": null, \"score\": 0.818562, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"53e8cc80-4222-5796-bffd-2bedf58cc232\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の回数線\", \"content\": \"## 対話認証の回数線  \\n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。\", \"page_number\": null, \"score\": 0.735812, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"a698f313-ddfa-5b4a-a4f7-5ff63b058c53\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の費目線\", \"content\": \"## 対話認証の費目線  \\n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。\", \"page_number\": null, \"score\": 0.715969, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6b674821-44fc-5da5-821e-847306a56b62\", \"document_name\": \"輪番引継支援枠の受付簿記要領\", \"heading\": \"輪番記録の照合保留\", \"content\": \"## 輪番記録の照合保留  \\n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。\", \"page_number\": null, \"score\": 0.715926, \"source\": \"TXH-A02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"bfed51db-83de-59f4-be1e-fa4e8741170a\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の添付束\", \"content\": \"# 対話技能認証補助の精算箋  \\n## 対話認証の添付束  \\n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。\", \"page_number\": null, \"score\": 0.712812, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.710657, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"40f00512-1297-58d1-b568-38d5ab62e520\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の入口\", \"content\": \"# 対話技能認証補助の認証札  \\n## 対話認証の入口  \\n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。\", \"page_number\": null, \"score\": 0.699838, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"1bdfa5cc-48d3-50ed-883c-c624ffde2764\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音施設コードの保留照会\", \"content\": \"## 静音施設コードの保留照会  \\n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。\", \"page_number\": null, \"score\": 0.674001, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"evidence_element_ids\": [\"3bd9867a-5455-51d6-8d01-fd340795a046\"], \"ordinal\": 1, \"text\": \"同一年度の受給歴が未照合である場合、本人が初回と申告していても、照合が完了するまでは補助の可否を確定することはできません。\", \"evidence_kind\": \"text\"}], \"missing_conditions\": [\"同一年度の補助受給歴\"]}}",
+    "expected_label": "判断要",
+    "question": "対話技能認証補助の登録・事前承認・受験実績は確認済みですが、同じ年度の受給歴が未照合です。本人は初回と申告しています。補助を確定できますか。",
+    "evidence": [
+      {
+        "element_id": "3bd9867a-5455-51d6-8d01-fd340795a046",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の履歴保留",
+        "content": "## 対話認証の履歴保留  \n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。",
+        "page_number": null,
+        "score": 0.818562,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "53e8cc80-4222-5796-bffd-2bedf58cc232",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の回数線",
+        "content": "## 対話認証の回数線  \n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。",
+        "page_number": null,
+        "score": 0.735812,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "a698f313-ddfa-5b4a-a4f7-5ff63b058c53",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の費目線",
+        "content": "## 対話認証の費目線  \n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。",
+        "page_number": null,
+        "score": 0.715969,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "6b674821-44fc-5da5-821e-847306a56b62",
+        "document_name": "輪番引継支援枠の受付簿記要領",
+        "heading": "輪番記録の照合保留",
+        "content": "## 輪番記録の照合保留  \n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。",
+        "page_number": null,
+        "score": 0.715926,
+        "source": "TXH-A02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "bfed51db-83de-59f4-be1e-fa4e8741170a",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の添付束",
+        "content": "# 対話技能認証補助の精算箋  \n## 対話認証の添付束  \n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。",
+        "page_number": null,
+        "score": 0.712812,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.710657,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "40f00512-1297-58d1-b568-38d5ab62e520",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の入口",
+        "content": "# 対話技能認証補助の認証札  \n## 対話認証の入口  \n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。",
+        "page_number": null,
+        "score": 0.699838,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "1bdfa5cc-48d3-50ed-883c-c624ffde2764",
+        "document_name": "静音席利用補填の清算便覧",
+        "heading": "静音施設コードの保留照会",
+        "content": "## 静音施設コードの保留照会  \n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。",
+        "page_number": null,
+        "score": 0.674001,
+        "source": "TXH-B02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "evidence_element_ids": [
+            "3bd9867a-5455-51d6-8d01-fd340795a046"
+          ],
+          "ordinal": 1,
+          "text": "同一年度の受給歴が未照合である場合、本人が初回と申告していても、照合が完了するまでは補助の可否を確定することはできません。",
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": [
+        "同一年度の補助受給歴"
+      ]
+    }
+  },
+  {
+    "id": "TH031/formal",
+    "family": "classification",
+    "origin": "historical_reconstructed_answer",
+    "arm": "scope_definition",
+    "prompt": "判定対象は質問が直接求める命題です。requires_case_factsはその命題への結論を変える未提示の個別事実がある場合だけtrueです。質問に明示済みの条件や質問の範囲外の支給条件を不足と見なしません。「現時点では確定できない」と根拠に従って回答することと、個別の支給可否を確定することを区別してください。requires_policy_judgmentはその命題に裁量が残る場合だけtrueです。\nclassification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"対話技能認証補助の登録・事前承認・受験実績は確認済みですが、同じ年度の受給歴が未照合です。本人は初回と申告しています。補助を確定できますか。\", \"retrieved_evidence\": [{\"element_id\": \"3bd9867a-5455-51d6-8d01-fd340795a046\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の履歴保留\", \"content\": \"## 対話認証の履歴保留  \\n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。\", \"page_number\": null, \"score\": 0.818562, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"53e8cc80-4222-5796-bffd-2bedf58cc232\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の回数線\", \"content\": \"## 対話認証の回数線  \\n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。\", \"page_number\": null, \"score\": 0.735812, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"a698f313-ddfa-5b4a-a4f7-5ff63b058c53\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の費目線\", \"content\": \"## 対話認証の費目線  \\n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。\", \"page_number\": null, \"score\": 0.715969, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6b674821-44fc-5da5-821e-847306a56b62\", \"document_name\": \"輪番引継支援枠の受付簿記要領\", \"heading\": \"輪番記録の照合保留\", \"content\": \"## 輪番記録の照合保留  \\n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。\", \"page_number\": null, \"score\": 0.715926, \"source\": \"TXH-A02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"bfed51db-83de-59f4-be1e-fa4e8741170a\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の添付束\", \"content\": \"# 対話技能認証補助の精算箋  \\n## 対話認証の添付束  \\n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。\", \"page_number\": null, \"score\": 0.712812, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.710657, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"40f00512-1297-58d1-b568-38d5ab62e520\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の入口\", \"content\": \"# 対話技能認証補助の認証札  \\n## 対話認証の入口  \\n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。\", \"page_number\": null, \"score\": 0.699838, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"1bdfa5cc-48d3-50ed-883c-c624ffde2764\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音施設コードの保留照会\", \"content\": \"## 静音施設コードの保留照会  \\n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。\", \"page_number\": null, \"score\": 0.674001, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"evidence_element_ids\": [\"3bd9867a-5455-51d6-8d01-fd340795a046\"], \"ordinal\": 1, \"text\": \"同一年度の受給歴が未照合である場合、本人が初回と申告していても、照合が完了するまでは補助の可否を確定することはできません。\", \"evidence_kind\": \"text\"}], \"missing_conditions\": [\"同一年度の補助受給歴\"]}}",
+    "expected_label": "判断要",
+    "question": "対話技能認証補助の登録・事前承認・受験実績は確認済みですが、同じ年度の受給歴が未照合です。本人は初回と申告しています。補助を確定できますか。",
+    "evidence": [
+      {
+        "element_id": "3bd9867a-5455-51d6-8d01-fd340795a046",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の履歴保留",
+        "content": "## 対話認証の履歴保留  \n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。",
+        "page_number": null,
+        "score": 0.818562,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "53e8cc80-4222-5796-bffd-2bedf58cc232",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の回数線",
+        "content": "## 対話認証の回数線  \n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。",
+        "page_number": null,
+        "score": 0.735812,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "a698f313-ddfa-5b4a-a4f7-5ff63b058c53",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の費目線",
+        "content": "## 対話認証の費目線  \n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。",
+        "page_number": null,
+        "score": 0.715969,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "6b674821-44fc-5da5-821e-847306a56b62",
+        "document_name": "輪番引継支援枠の受付簿記要領",
+        "heading": "輪番記録の照合保留",
+        "content": "## 輪番記録の照合保留  \n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。",
+        "page_number": null,
+        "score": 0.715926,
+        "source": "TXH-A02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "bfed51db-83de-59f4-be1e-fa4e8741170a",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の添付束",
+        "content": "# 対話技能認証補助の精算箋  \n## 対話認証の添付束  \n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。",
+        "page_number": null,
+        "score": 0.712812,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.710657,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "40f00512-1297-58d1-b568-38d5ab62e520",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の入口",
+        "content": "# 対話技能認証補助の認証札  \n## 対話認証の入口  \n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。",
+        "page_number": null,
+        "score": 0.699838,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "1bdfa5cc-48d3-50ed-883c-c624ffde2764",
+        "document_name": "静音席利用補填の清算便覧",
+        "heading": "静音施設コードの保留照会",
+        "content": "## 静音施設コードの保留照会  \n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。",
+        "page_number": null,
+        "score": 0.674001,
+        "source": "TXH-B02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "evidence_element_ids": [
+            "3bd9867a-5455-51d6-8d01-fd340795a046"
+          ],
+          "ordinal": 1,
+          "text": "同一年度の受給歴が未照合である場合、本人が初回と申告していても、照合が完了するまでは補助の可否を確定することはできません。",
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": [
+        "同一年度の補助受給歴"
+      ]
+    }
+  },
+  {
+    "id": "TH022/formal",
+    "family": "classification",
+    "origin": "historical_reconstructed_answer",
+    "arm": "baseline",
+    "prompt": "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"書庫巡回を2027年8月10日15時に終了しました。点検結果の登録期限と請求期限をそれぞれ教えてください。\", \"retrieved_evidence\": [{\"element_id\": \"07ac5ee5-ce46-5340-b586-99c852542730\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の報告窓\", \"content\": \"## 巡回加算の報告窓  \\n点検結果は巡回終了後48時間以内に書庫管理室へ登録する。時間は連続した実時間で数え、休日も含む。\", \"page_number\": null, \"score\": 0.768974, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"40cfad22-e67a-597e-b4a0-36e67e655a55\", \"document_name\": \"書庫巡回加算の照合綴り\", \"heading\": \"巡回加算の請求束\", \"content\": \"# 書庫巡回加算の照合綴り  \\n## 巡回加算の請求束  \\n計測札に従って点検結果を登録した後、巡回指示番号票と区画別点検一覧を一組にして、巡回終了の翌日を1日目とする10暦日目までに書庫管理室へ請求する。\", \"page_number\": null, \"score\": 0.759167, \"source\": \"TXH-D02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"31c29e00-f088-5fb0-9cbd-a0e695aa4f20\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の指示日境界\", \"content\": \"## 巡回加算の指示日境界  \\n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。\", \"page_number\": null, \"score\": 0.74136, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"71574b87-977c-57be-81aa-3d0ba4d5c296\", \"document_name\": \"書庫巡回加算の照合綴り\", \"heading\": \"巡回加算の区画照会\", \"content\": \"## 巡回加算の区画照会  \\n区画別点検一覧で同一区画か別区画か判別できない記号があるときは、書庫管理室が区画番号を照会する。照会完了まで区画数と請求額を確定しない。\", \"page_number\": null, \"score\": 0.705915, \"source\": \"TXH-D02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"88af67c8-1cd2-5504-b6bb-37c64cee7f4f\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の区画算定\", \"content\": \"## 巡回加算の区画算定  \\n承認された点検区画一つにつき240円。一回の巡回は最大6区画分まで算定できる。同じ区画を同じ巡回で二度確認しても一区画分とする。\", \"page_number\": null, \"score\": 0.702228, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"2aebbdf9-a10c-54a0-9edd-2c4570d3f872\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の作業鍵\", \"content\": \"# 書庫巡回加算の計測札  \\n## 巡回加算の作業鍵  \\n架空制度である書庫巡回加算は、書庫管理室が発行した巡回指示番号に基づく書架点検を対象とする。指示番号のない自主点検は対象外。点検結果の提出も要する。\", \"page_number\": null, \"score\": 0.675253, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6b674821-44fc-5da5-821e-847306a56b62\", \"document_name\": \"輪番引継支援枠の受付簿記要領\", \"heading\": \"輪番記録の照合保留\", \"content\": \"## 輪番記録の照合保留  \\n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。\", \"page_number\": null, \"score\": 0.668264, \"source\": \"TXH-A02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.658164, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"evidence_element_ids\": [\"07ac5ee5-ce46-5340-b586-99c852542730\"], \"ordinal\": 1, \"text\": \"点検結果の登録期限は、巡回終了後の2027年8月12日15時です。\", \"evidence_kind\": \"text\"}, {\"claim_id\": \"claim-2\", \"evidence_element_ids\": [\"40cfad22-e67a-597e-b4a0-36e67e655a55\"], \"ordinal\": 2, \"text\": \"請求期限は、巡回終了の翌日である2027年8月11日を1日目として、10暦日目にあたる2027年8月20日までです。\", \"evidence_kind\": \"text\"}], \"missing_conditions\": []}}",
+    "expected_label": "根拠十分",
+    "question": "書庫巡回を2027年8月10日15時に終了しました。点検結果の登録期限と請求期限をそれぞれ教えてください。",
+    "evidence": [
+      {
+        "element_id": "07ac5ee5-ce46-5340-b586-99c852542730",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の報告窓",
+        "content": "## 巡回加算の報告窓  \n点検結果は巡回終了後48時間以内に書庫管理室へ登録する。時間は連続した実時間で数え、休日も含む。",
+        "page_number": null,
+        "score": 0.768974,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "40cfad22-e67a-597e-b4a0-36e67e655a55",
+        "document_name": "書庫巡回加算の照合綴り",
+        "heading": "巡回加算の請求束",
+        "content": "# 書庫巡回加算の照合綴り  \n## 巡回加算の請求束  \n計測札に従って点検結果を登録した後、巡回指示番号票と区画別点検一覧を一組にして、巡回終了の翌日を1日目とする10暦日目までに書庫管理室へ請求する。",
+        "page_number": null,
+        "score": 0.759167,
+        "source": "TXH-D02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "31c29e00-f088-5fb0-9cbd-a0e695aa4f20",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の指示日境界",
+        "content": "## 巡回加算の指示日境界  \n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。",
+        "page_number": null,
+        "score": 0.74136,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "71574b87-977c-57be-81aa-3d0ba4d5c296",
+        "document_name": "書庫巡回加算の照合綴り",
+        "heading": "巡回加算の区画照会",
+        "content": "## 巡回加算の区画照会  \n区画別点検一覧で同一区画か別区画か判別できない記号があるときは、書庫管理室が区画番号を照会する。照会完了まで区画数と請求額を確定しない。",
+        "page_number": null,
+        "score": 0.705915,
+        "source": "TXH-D02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "88af67c8-1cd2-5504-b6bb-37c64cee7f4f",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の区画算定",
+        "content": "## 巡回加算の区画算定  \n承認された点検区画一つにつき240円。一回の巡回は最大6区画分まで算定できる。同じ区画を同じ巡回で二度確認しても一区画分とする。",
+        "page_number": null,
+        "score": 0.702228,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "2aebbdf9-a10c-54a0-9edd-2c4570d3f872",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の作業鍵",
+        "content": "# 書庫巡回加算の計測札  \n## 巡回加算の作業鍵  \n架空制度である書庫巡回加算は、書庫管理室が発行した巡回指示番号に基づく書架点検を対象とする。指示番号のない自主点検は対象外。点検結果の提出も要する。",
+        "page_number": null,
+        "score": 0.675253,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "6b674821-44fc-5da5-821e-847306a56b62",
+        "document_name": "輪番引継支援枠の受付簿記要領",
+        "heading": "輪番記録の照合保留",
+        "content": "## 輪番記録の照合保留  \n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。",
+        "page_number": null,
+        "score": 0.668264,
+        "source": "TXH-A02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.658164,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "evidence_element_ids": [
+            "07ac5ee5-ce46-5340-b586-99c852542730"
+          ],
+          "ordinal": 1,
+          "text": "点検結果の登録期限は、巡回終了後の2027年8月12日15時です。",
+          "evidence_kind": "text"
+        },
+        {
+          "claim_id": "claim-2",
+          "evidence_element_ids": [
+            "40cfad22-e67a-597e-b4a0-36e67e655a55"
+          ],
+          "ordinal": 2,
+          "text": "請求期限は、巡回終了の翌日である2027年8月11日を1日目として、10暦日目にあたる2027年8月20日までです。",
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    }
+  },
+  {
+    "id": "TH022/formal",
+    "family": "classification",
+    "origin": "historical_reconstructed_answer",
+    "arm": "scope_definition",
+    "prompt": "判定対象は質問が直接求める命題です。requires_case_factsはその命題への結論を変える未提示の個別事実がある場合だけtrueです。質問に明示済みの条件や質問の範囲外の支給条件を不足と見なしません。「現時点では確定できない」と根拠に従って回答することと、個別の支給可否を確定することを区別してください。requires_policy_judgmentはその命題に裁量が残る場合だけtrueです。\nclassification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"書庫巡回を2027年8月10日15時に終了しました。点検結果の登録期限と請求期限をそれぞれ教えてください。\", \"retrieved_evidence\": [{\"element_id\": \"07ac5ee5-ce46-5340-b586-99c852542730\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の報告窓\", \"content\": \"## 巡回加算の報告窓  \\n点検結果は巡回終了後48時間以内に書庫管理室へ登録する。時間は連続した実時間で数え、休日も含む。\", \"page_number\": null, \"score\": 0.768974, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"40cfad22-e67a-597e-b4a0-36e67e655a55\", \"document_name\": \"書庫巡回加算の照合綴り\", \"heading\": \"巡回加算の請求束\", \"content\": \"# 書庫巡回加算の照合綴り  \\n## 巡回加算の請求束  \\n計測札に従って点検結果を登録した後、巡回指示番号票と区画別点検一覧を一組にして、巡回終了の翌日を1日目とする10暦日目までに書庫管理室へ請求する。\", \"page_number\": null, \"score\": 0.759167, \"source\": \"TXH-D02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"31c29e00-f088-5fb0-9cbd-a0e695aa4f20\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の指示日境界\", \"content\": \"## 巡回加算の指示日境界  \\n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。\", \"page_number\": null, \"score\": 0.74136, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"71574b87-977c-57be-81aa-3d0ba4d5c296\", \"document_name\": \"書庫巡回加算の照合綴り\", \"heading\": \"巡回加算の区画照会\", \"content\": \"## 巡回加算の区画照会  \\n区画別点検一覧で同一区画か別区画か判別できない記号があるときは、書庫管理室が区画番号を照会する。照会完了まで区画数と請求額を確定しない。\", \"page_number\": null, \"score\": 0.705915, \"source\": \"TXH-D02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"88af67c8-1cd2-5504-b6bb-37c64cee7f4f\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の区画算定\", \"content\": \"## 巡回加算の区画算定  \\n承認された点検区画一つにつき240円。一回の巡回は最大6区画分まで算定できる。同じ区画を同じ巡回で二度確認しても一区画分とする。\", \"page_number\": null, \"score\": 0.702228, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"2aebbdf9-a10c-54a0-9edd-2c4570d3f872\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の作業鍵\", \"content\": \"# 書庫巡回加算の計測札  \\n## 巡回加算の作業鍵  \\n架空制度である書庫巡回加算は、書庫管理室が発行した巡回指示番号に基づく書架点検を対象とする。指示番号のない自主点検は対象外。点検結果の提出も要する。\", \"page_number\": null, \"score\": 0.675253, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6b674821-44fc-5da5-821e-847306a56b62\", \"document_name\": \"輪番引継支援枠の受付簿記要領\", \"heading\": \"輪番記録の照合保留\", \"content\": \"## 輪番記録の照合保留  \\n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。\", \"page_number\": null, \"score\": 0.668264, \"source\": \"TXH-A02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.658164, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"evidence_element_ids\": [\"07ac5ee5-ce46-5340-b586-99c852542730\"], \"ordinal\": 1, \"text\": \"点検結果の登録期限は、巡回終了後の2027年8月12日15時です。\", \"evidence_kind\": \"text\"}, {\"claim_id\": \"claim-2\", \"evidence_element_ids\": [\"40cfad22-e67a-597e-b4a0-36e67e655a55\"], \"ordinal\": 2, \"text\": \"請求期限は、巡回終了の翌日である2027年8月11日を1日目として、10暦日目にあたる2027年8月20日までです。\", \"evidence_kind\": \"text\"}], \"missing_conditions\": []}}",
+    "expected_label": "根拠十分",
+    "question": "書庫巡回を2027年8月10日15時に終了しました。点検結果の登録期限と請求期限をそれぞれ教えてください。",
+    "evidence": [
+      {
+        "element_id": "07ac5ee5-ce46-5340-b586-99c852542730",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の報告窓",
+        "content": "## 巡回加算の報告窓  \n点検結果は巡回終了後48時間以内に書庫管理室へ登録する。時間は連続した実時間で数え、休日も含む。",
+        "page_number": null,
+        "score": 0.768974,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "40cfad22-e67a-597e-b4a0-36e67e655a55",
+        "document_name": "書庫巡回加算の照合綴り",
+        "heading": "巡回加算の請求束",
+        "content": "# 書庫巡回加算の照合綴り  \n## 巡回加算の請求束  \n計測札に従って点検結果を登録した後、巡回指示番号票と区画別点検一覧を一組にして、巡回終了の翌日を1日目とする10暦日目までに書庫管理室へ請求する。",
+        "page_number": null,
+        "score": 0.759167,
+        "source": "TXH-D02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "31c29e00-f088-5fb0-9cbd-a0e695aa4f20",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の指示日境界",
+        "content": "## 巡回加算の指示日境界  \n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。",
+        "page_number": null,
+        "score": 0.74136,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "71574b87-977c-57be-81aa-3d0ba4d5c296",
+        "document_name": "書庫巡回加算の照合綴り",
+        "heading": "巡回加算の区画照会",
+        "content": "## 巡回加算の区画照会  \n区画別点検一覧で同一区画か別区画か判別できない記号があるときは、書庫管理室が区画番号を照会する。照会完了まで区画数と請求額を確定しない。",
+        "page_number": null,
+        "score": 0.705915,
+        "source": "TXH-D02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "88af67c8-1cd2-5504-b6bb-37c64cee7f4f",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の区画算定",
+        "content": "## 巡回加算の区画算定  \n承認された点検区画一つにつき240円。一回の巡回は最大6区画分まで算定できる。同じ区画を同じ巡回で二度確認しても一区画分とする。",
+        "page_number": null,
+        "score": 0.702228,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "2aebbdf9-a10c-54a0-9edd-2c4570d3f872",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の作業鍵",
+        "content": "# 書庫巡回加算の計測札  \n## 巡回加算の作業鍵  \n架空制度である書庫巡回加算は、書庫管理室が発行した巡回指示番号に基づく書架点検を対象とする。指示番号のない自主点検は対象外。点検結果の提出も要する。",
+        "page_number": null,
+        "score": 0.675253,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "6b674821-44fc-5da5-821e-847306a56b62",
+        "document_name": "輪番引継支援枠の受付簿記要領",
+        "heading": "輪番記録の照合保留",
+        "content": "## 輪番記録の照合保留  \n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。",
+        "page_number": null,
+        "score": 0.668264,
+        "source": "TXH-A02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.658164,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "evidence_element_ids": [
+            "07ac5ee5-ce46-5340-b586-99c852542730"
+          ],
+          "ordinal": 1,
+          "text": "点検結果の登録期限は、巡回終了後の2027年8月12日15時です。",
+          "evidence_kind": "text"
+        },
+        {
+          "claim_id": "claim-2",
+          "evidence_element_ids": [
+            "40cfad22-e67a-597e-b4a0-36e67e655a55"
+          ],
+          "ordinal": 2,
+          "text": "請求期限は、巡回終了の翌日である2027年8月11日を1日目として、10暦日目にあたる2027年8月20日までです。",
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    }
+  },
+  {
+    "id": "TH047/formal",
+    "family": "classification",
+    "origin": "historical_reconstructed_answer",
+    "arm": "baseline",
+    "prompt": "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"静音席の終日券を2027年7月31日に予約し、8月3日に利用しました。利用料2,000円で他の条件は満たす場合、補填額はいくらですか。\", \"retrieved_evidence\": [{\"element_id\": \"e5af52f7-6acc-5437-94b5-25098946b993\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の予約日基準\", \"content\": \"## 静音席券の予約日基準  \\n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。\", \"page_number\": null, \"score\": 0.81853, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"f2fb1898-3878-5a41-970a-a98e814d8382\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の額面\", \"content\": \"## 静音席券の額面  \\n午前券は900円、終日券は1,500円を補填する。一日に選べる券は一枚で、午前券と終日券の加算はできない。実際の利用料が額面より安いときは実際の利用料までとする。\", \"page_number\": null, \"score\": 0.764693, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"19d809b4-82f9-5cd7-a51c-c8e34de83cb8\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の時間帯\", \"content\": \"## 静音席券の時間帯  \\n午前券の利用帯は8時30分から12時30分まで、終日券は8時30分から17時までである。終日券には午前の時間帯を含む。\", \"page_number\": null, \"score\": 0.728563, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6a10b3a8-b826-5848-ad41-47a76c1607c3\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音席の清算封筒\", \"content\": \"# 静音席利用補填の清算便覧  \\n## 静音席の清算封筒  \\n静音席利用補填は利用月ごとにまとめる。予約成立日時の記載がある利用証と領収票を添え、翌月4日18時までに作業環境室へ送る。暦日による締切であり、閉庁日でも延長しない。\", \"page_number\": null, \"score\": 0.72346, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"1bdfa5cc-48d3-50ed-883c-c624ffde2764\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音施設コードの保留照会\", \"content\": \"## 静音施設コードの保留照会  \\n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。\", \"page_number\": null, \"score\": 0.71497, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"52e8198f-6642-5555-b558-2d82dee21ff5\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の対象範囲\", \"content\": \"# 静音席利用補填の区分札  \\n## 静音席券の対象範囲  \\n架空の職員制度である。静音席利用補填は、面談記録の整理のため認定施設の一人用席を利用する登録職員に適用する。勤務計画に整理作業が登録され、施設認定コードが有効であることが必要。\", \"page_number\": null, \"score\": 0.709751, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.669386, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"31c29e00-f088-5fb0-9cbd-a0e695aa4f20\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の指示日境界\", \"content\": \"## 巡回加算の指示日境界  \\n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。\", \"page_number\": null, \"score\": 0.655661, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"evidence_element_ids\": [\"e5af52f7-6acc-5437-94b5-25098946b993\"], \"ordinal\": 1, \"text\": \"2027年7月31日以前に成立した予約の終日券の補填額は1,500円です。\", \"evidence_kind\": \"text\"}, {\"claim_id\": \"claim-2\", \"evidence_element_ids\": [\"e5af52f7-6acc-5437-94b5-25098946b993\"], \"ordinal\": 2, \"text\": \"利用料が2,000円であり、補填額の1,500円を上回っているため、補填額は1,500円となります。\", \"evidence_kind\": \"text\"}], \"missing_conditions\": []}}",
+    "expected_label": "根拠十分",
+    "question": "静音席の終日券を2027年7月31日に予約し、8月3日に利用しました。利用料2,000円で他の条件は満たす場合、補填額はいくらですか。",
+    "evidence": [
+      {
+        "element_id": "e5af52f7-6acc-5437-94b5-25098946b993",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の予約日基準",
+        "content": "## 静音席券の予約日基準  \n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。",
+        "page_number": null,
+        "score": 0.81853,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "f2fb1898-3878-5a41-970a-a98e814d8382",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の額面",
+        "content": "## 静音席券の額面  \n午前券は900円、終日券は1,500円を補填する。一日に選べる券は一枚で、午前券と終日券の加算はできない。実際の利用料が額面より安いときは実際の利用料までとする。",
+        "page_number": null,
+        "score": 0.764693,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "19d809b4-82f9-5cd7-a51c-c8e34de83cb8",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の時間帯",
+        "content": "## 静音席券の時間帯  \n午前券の利用帯は8時30分から12時30分まで、終日券は8時30分から17時までである。終日券には午前の時間帯を含む。",
+        "page_number": null,
+        "score": 0.728563,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "6a10b3a8-b826-5848-ad41-47a76c1607c3",
+        "document_name": "静音席利用補填の清算便覧",
+        "heading": "静音席の清算封筒",
+        "content": "# 静音席利用補填の清算便覧  \n## 静音席の清算封筒  \n静音席利用補填は利用月ごとにまとめる。予約成立日時の記載がある利用証と領収票を添え、翌月4日18時までに作業環境室へ送る。暦日による締切であり、閉庁日でも延長しない。",
+        "page_number": null,
+        "score": 0.72346,
+        "source": "TXH-B02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "1bdfa5cc-48d3-50ed-883c-c624ffde2764",
+        "document_name": "静音席利用補填の清算便覧",
+        "heading": "静音施設コードの保留照会",
+        "content": "## 静音施設コードの保留照会  \n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。",
+        "page_number": null,
+        "score": 0.71497,
+        "source": "TXH-B02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "52e8198f-6642-5555-b558-2d82dee21ff5",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の対象範囲",
+        "content": "# 静音席利用補填の区分札  \n## 静音席券の対象範囲  \n架空の職員制度である。静音席利用補填は、面談記録の整理のため認定施設の一人用席を利用する登録職員に適用する。勤務計画に整理作業が登録され、施設認定コードが有効であることが必要。",
+        "page_number": null,
+        "score": 0.709751,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.669386,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "31c29e00-f088-5fb0-9cbd-a0e695aa4f20",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の指示日境界",
+        "content": "## 巡回加算の指示日境界  \n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。",
+        "page_number": null,
+        "score": 0.655661,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "evidence_element_ids": [
+            "e5af52f7-6acc-5437-94b5-25098946b993"
+          ],
+          "ordinal": 1,
+          "text": "2027年7月31日以前に成立した予約の終日券の補填額は1,500円です。",
+          "evidence_kind": "text"
+        },
+        {
+          "claim_id": "claim-2",
+          "evidence_element_ids": [
+            "e5af52f7-6acc-5437-94b5-25098946b993"
+          ],
+          "ordinal": 2,
+          "text": "利用料が2,000円であり、補填額の1,500円を上回っているため、補填額は1,500円となります。",
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    }
+  },
+  {
+    "id": "TH047/formal",
+    "family": "classification",
+    "origin": "historical_reconstructed_answer",
+    "arm": "scope_definition",
+    "prompt": "判定対象は質問が直接求める命題です。requires_case_factsはその命題への結論を変える未提示の個別事実がある場合だけtrueです。質問に明示済みの条件や質問の範囲外の支給条件を不足と見なしません。「現時点では確定できない」と根拠に従って回答することと、個別の支給可否を確定することを区別してください。requires_policy_judgmentはその命題に裁量が残る場合だけtrueです。\nclassification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"静音席の終日券を2027年7月31日に予約し、8月3日に利用しました。利用料2,000円で他の条件は満たす場合、補填額はいくらですか。\", \"retrieved_evidence\": [{\"element_id\": \"e5af52f7-6acc-5437-94b5-25098946b993\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の予約日基準\", \"content\": \"## 静音席券の予約日基準  \\n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。\", \"page_number\": null, \"score\": 0.81853, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"f2fb1898-3878-5a41-970a-a98e814d8382\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の額面\", \"content\": \"## 静音席券の額面  \\n午前券は900円、終日券は1,500円を補填する。一日に選べる券は一枚で、午前券と終日券の加算はできない。実際の利用料が額面より安いときは実際の利用料までとする。\", \"page_number\": null, \"score\": 0.764693, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"19d809b4-82f9-5cd7-a51c-c8e34de83cb8\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の時間帯\", \"content\": \"## 静音席券の時間帯  \\n午前券の利用帯は8時30分から12時30分まで、終日券は8時30分から17時までである。終日券には午前の時間帯を含む。\", \"page_number\": null, \"score\": 0.728563, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6a10b3a8-b826-5848-ad41-47a76c1607c3\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音席の清算封筒\", \"content\": \"# 静音席利用補填の清算便覧  \\n## 静音席の清算封筒  \\n静音席利用補填は利用月ごとにまとめる。予約成立日時の記載がある利用証と領収票を添え、翌月4日18時までに作業環境室へ送る。暦日による締切であり、閉庁日でも延長しない。\", \"page_number\": null, \"score\": 0.72346, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"1bdfa5cc-48d3-50ed-883c-c624ffde2764\", \"document_name\": \"静音席利用補填の清算便覧\", \"heading\": \"静音施設コードの保留照会\", \"content\": \"## 静音施設コードの保留照会  \\n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。\", \"page_number\": null, \"score\": 0.71497, \"source\": \"TXH-B02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"52e8198f-6642-5555-b558-2d82dee21ff5\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の対象範囲\", \"content\": \"# 静音席利用補填の区分札  \\n## 静音席券の対象範囲  \\n架空の職員制度である。静音席利用補填は、面談記録の整理のため認定施設の一人用席を利用する登録職員に適用する。勤務計画に整理作業が登録され、施設認定コードが有効であることが必要。\", \"page_number\": null, \"score\": 0.709751, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.669386, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"31c29e00-f088-5fb0-9cbd-a0e695aa4f20\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の指示日境界\", \"content\": \"## 巡回加算の指示日境界  \\n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。\", \"page_number\": null, \"score\": 0.655661, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"evidence_element_ids\": [\"e5af52f7-6acc-5437-94b5-25098946b993\"], \"ordinal\": 1, \"text\": \"2027年7月31日以前に成立した予約の終日券の補填額は1,500円です。\", \"evidence_kind\": \"text\"}, {\"claim_id\": \"claim-2\", \"evidence_element_ids\": [\"e5af52f7-6acc-5437-94b5-25098946b993\"], \"ordinal\": 2, \"text\": \"利用料が2,000円であり、補填額の1,500円を上回っているため、補填額は1,500円となります。\", \"evidence_kind\": \"text\"}], \"missing_conditions\": []}}",
+    "expected_label": "根拠十分",
+    "question": "静音席の終日券を2027年7月31日に予約し、8月3日に利用しました。利用料2,000円で他の条件は満たす場合、補填額はいくらですか。",
+    "evidence": [
+      {
+        "element_id": "e5af52f7-6acc-5437-94b5-25098946b993",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の予約日基準",
+        "content": "## 静音席券の予約日基準  \n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。",
+        "page_number": null,
+        "score": 0.81853,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "f2fb1898-3878-5a41-970a-a98e814d8382",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の額面",
+        "content": "## 静音席券の額面  \n午前券は900円、終日券は1,500円を補填する。一日に選べる券は一枚で、午前券と終日券の加算はできない。実際の利用料が額面より安いときは実際の利用料までとする。",
+        "page_number": null,
+        "score": 0.764693,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "19d809b4-82f9-5cd7-a51c-c8e34de83cb8",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の時間帯",
+        "content": "## 静音席券の時間帯  \n午前券の利用帯は8時30分から12時30分まで、終日券は8時30分から17時までである。終日券には午前の時間帯を含む。",
+        "page_number": null,
+        "score": 0.728563,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "6a10b3a8-b826-5848-ad41-47a76c1607c3",
+        "document_name": "静音席利用補填の清算便覧",
+        "heading": "静音席の清算封筒",
+        "content": "# 静音席利用補填の清算便覧  \n## 静音席の清算封筒  \n静音席利用補填は利用月ごとにまとめる。予約成立日時の記載がある利用証と領収票を添え、翌月4日18時までに作業環境室へ送る。暦日による締切であり、閉庁日でも延長しない。",
+        "page_number": null,
+        "score": 0.72346,
+        "source": "TXH-B02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "1bdfa5cc-48d3-50ed-883c-c624ffde2764",
+        "document_name": "静音席利用補填の清算便覧",
+        "heading": "静音施設コードの保留照会",
+        "content": "## 静音施設コードの保留照会  \n区分札の有効な施設認定コードを利用証と照合する。施設認定コードが読めない場合は作業環境室が施設へ確認し、利用料の支払だけを根拠に認定しない。コード確認までは補填の可否を保留する。",
+        "page_number": null,
+        "score": 0.71497,
+        "source": "TXH-B02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "52e8198f-6642-5555-b558-2d82dee21ff5",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の対象範囲",
+        "content": "# 静音席利用補填の区分札  \n## 静音席券の対象範囲  \n架空の職員制度である。静音席利用補填は、面談記録の整理のため認定施設の一人用席を利用する登録職員に適用する。勤務計画に整理作業が登録され、施設認定コードが有効であることが必要。",
+        "page_number": null,
+        "score": 0.709751,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.669386,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "31c29e00-f088-5fb0-9cbd-a0e695aa4f20",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の指示日境界",
+        "content": "## 巡回加算の指示日境界  \n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。",
+        "page_number": null,
+        "score": 0.655661,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "evidence_element_ids": [
+            "e5af52f7-6acc-5437-94b5-25098946b993"
+          ],
+          "ordinal": 1,
+          "text": "2027年7月31日以前に成立した予約の終日券の補填額は1,500円です。",
+          "evidence_kind": "text"
+        },
+        {
+          "claim_id": "claim-2",
+          "evidence_element_ids": [
+            "e5af52f7-6acc-5437-94b5-25098946b993"
+          ],
+          "ordinal": 2,
+          "text": "利用料が2,000円であり、補填額の1,500円を上回っているため、補填額は1,500円となります。",
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    }
+  },
+  {
+    "id": "NEW-condition-known",
+    "family": "classification",
+    "origin": "new_exploratory_minimal_cases_not_sealed",
+    "arm": "baseline",
+    "prompt": "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"研修修了済み、在籍45日です。対象ですか。\", \"retrieved_evidence\": [{\"element_id\": \"00000000-0000-0000-0000-000000000001\", \"content\": \"架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。\"}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"ordinal\": 1, \"text\": \"対象です。\", \"evidence_element_ids\": [\"00000000-0000-0000-0000-000000000001\"], \"evidence_kind\": \"text\"}], \"missing_conditions\": []}}",
+    "expected_label": "根拠十分",
+    "question": "研修修了済み、在籍45日です。対象ですか。",
+    "evidence": [
+      {
+        "element_id": "00000000-0000-0000-0000-000000000001",
+        "content": "架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。"
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "対象です。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    }
+  },
+  {
+    "id": "NEW-condition-known",
+    "family": "classification",
+    "origin": "new_exploratory_minimal_cases_not_sealed",
+    "arm": "scope_definition",
+    "prompt": "判定対象は質問が直接求める命題です。requires_case_factsはその命題への結論を変える未提示の個別事実がある場合だけtrueです。質問に明示済みの条件や質問の範囲外の支給条件を不足と見なしません。「現時点では確定できない」と根拠に従って回答することと、個別の支給可否を確定することを区別してください。requires_policy_judgmentはその命題に裁量が残る場合だけtrueです。\nclassification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"研修修了済み、在籍45日です。対象ですか。\", \"retrieved_evidence\": [{\"element_id\": \"00000000-0000-0000-0000-000000000001\", \"content\": \"架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。\"}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"ordinal\": 1, \"text\": \"対象です。\", \"evidence_element_ids\": [\"00000000-0000-0000-0000-000000000001\"], \"evidence_kind\": \"text\"}], \"missing_conditions\": []}}",
+    "expected_label": "根拠十分",
+    "question": "研修修了済み、在籍45日です。対象ですか。",
+    "evidence": [
+      {
+        "element_id": "00000000-0000-0000-0000-000000000001",
+        "content": "架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。"
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "対象です。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    }
+  },
+  {
+    "id": "NEW-condition-missing",
+    "family": "classification",
+    "origin": "new_exploratory_minimal_cases_not_sealed",
+    "arm": "baseline",
+    "prompt": "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"研修修了済みです。対象ですか。\", \"retrieved_evidence\": [{\"element_id\": \"00000000-0000-0000-0000-000000000001\", \"content\": \"架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。\"}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"ordinal\": 1, \"text\": \"在籍日数が不明のため確定できません。\", \"evidence_element_ids\": [\"00000000-0000-0000-0000-000000000001\"], \"evidence_kind\": \"text\"}], \"missing_conditions\": [\"在籍日数\"]}}",
+    "expected_label": "判断要",
+    "question": "研修修了済みです。対象ですか。",
+    "evidence": [
+      {
+        "element_id": "00000000-0000-0000-0000-000000000001",
+        "content": "架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。"
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "在籍日数が不明のため確定できません。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": [
+        "在籍日数"
+      ]
+    }
+  },
+  {
+    "id": "NEW-condition-missing",
+    "family": "classification",
+    "origin": "new_exploratory_minimal_cases_not_sealed",
+    "arm": "scope_definition",
+    "prompt": "判定対象は質問が直接求める命題です。requires_case_factsはその命題への結論を変える未提示の個別事実がある場合だけtrueです。質問に明示済みの条件や質問の範囲外の支給条件を不足と見なしません。「現時点では確定できない」と根拠に従って回答することと、個別の支給可否を確定することを区別してください。requires_policy_judgmentはその命題に裁量が残る場合だけtrueです。\nclassification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"研修修了済みです。対象ですか。\", \"retrieved_evidence\": [{\"element_id\": \"00000000-0000-0000-0000-000000000001\", \"content\": \"架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。\"}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"ordinal\": 1, \"text\": \"在籍日数が不明のため確定できません。\", \"evidence_element_ids\": [\"00000000-0000-0000-0000-000000000001\"], \"evidence_kind\": \"text\"}], \"missing_conditions\": [\"在籍日数\"]}}",
+    "expected_label": "判断要",
+    "question": "研修修了済みです。対象ですか。",
+    "evidence": [
+      {
+        "element_id": "00000000-0000-0000-0000-000000000001",
+        "content": "架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。"
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "在籍日数が不明のため確定できません。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": [
+        "在籍日数"
+      ]
+    }
+  },
+  {
+    "id": "NEW-answerability",
+    "family": "classification",
+    "origin": "new_exploratory_minimal_cases_not_sealed",
+    "arm": "baseline",
+    "prompt": "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"研修修了済みで在籍日数不明の場合、対象可否を今確定できますか。\", \"retrieved_evidence\": [{\"element_id\": \"00000000-0000-0000-0000-000000000001\", \"content\": \"架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。\"}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"ordinal\": 1, \"text\": \"在籍日数が不明のため今は確定できません。\", \"evidence_element_ids\": [\"00000000-0000-0000-0000-000000000001\"], \"evidence_kind\": \"text\"}], \"missing_conditions\": []}}",
+    "expected_label": "根拠十分",
+    "question": "研修修了済みで在籍日数不明の場合、対象可否を今確定できますか。",
+    "evidence": [
+      {
+        "element_id": "00000000-0000-0000-0000-000000000001",
+        "content": "架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。"
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "在籍日数が不明のため今は確定できません。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    }
+  },
+  {
+    "id": "NEW-answerability",
+    "family": "classification",
+    "origin": "new_exploratory_minimal_cases_not_sealed",
+    "arm": "scope_definition",
+    "prompt": "判定対象は質問が直接求める命題です。requires_case_factsはその命題への結論を変える未提示の個別事実がある場合だけtrueです。質問に明示済みの条件や質問の範囲外の支給条件を不足と見なしません。「現時点では確定できない」と根拠に従って回答することと、個別の支給可否を確定することを区別してください。requires_policy_judgmentはその命題に裁量が残る場合だけtrueです。\nclassification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"研修修了済みで在籍日数不明の場合、対象可否を今確定できますか。\", \"retrieved_evidence\": [{\"element_id\": \"00000000-0000-0000-0000-000000000001\", \"content\": \"架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。\"}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"ordinal\": 1, \"text\": \"在籍日数が不明のため今は確定できません。\", \"evidence_element_ids\": [\"00000000-0000-0000-0000-000000000001\"], \"evidence_kind\": \"text\"}], \"missing_conditions\": []}}",
+    "expected_label": "根拠十分",
+    "question": "研修修了済みで在籍日数不明の場合、対象可否を今確定できますか。",
+    "evidence": [
+      {
+        "element_id": "00000000-0000-0000-0000-000000000001",
+        "content": "架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。"
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "在籍日数が不明のため今は確定できません。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    }
+  },
+  {
+    "id": "NEW-explicit-negative",
+    "family": "classification",
+    "origin": "new_exploratory_minimal_cases_not_sealed",
+    "arm": "baseline",
+    "prompt": "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"研修未修了で在籍45日です。対象ですか。\", \"retrieved_evidence\": [{\"element_id\": \"00000000-0000-0000-0000-000000000001\", \"content\": \"架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。\"}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"ordinal\": 1, \"text\": \"対象外です。\", \"evidence_element_ids\": [\"00000000-0000-0000-0000-000000000001\"], \"evidence_kind\": \"text\"}], \"missing_conditions\": []}}",
+    "expected_label": "根拠十分",
+    "question": "研修未修了で在籍45日です。対象ですか。",
+    "evidence": [
+      {
+        "element_id": "00000000-0000-0000-0000-000000000001",
+        "content": "架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。"
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "対象外です。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    }
+  },
+  {
+    "id": "NEW-explicit-negative",
+    "family": "classification",
+    "origin": "new_exploratory_minimal_cases_not_sealed",
+    "arm": "scope_definition",
+    "prompt": "判定対象は質問が直接求める命題です。requires_case_factsはその命題への結論を変える未提示の個別事実がある場合だけtrueです。質問に明示済みの条件や質問の範囲外の支給条件を不足と見なしません。「現時点では確定できない」と根拠に従って回答することと、個別の支給可否を確定することを区別してください。requires_policy_judgmentはその命題に裁量が残る場合だけtrueです。\nclassification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。corpus全体に答えが存在するかは判定しないでください。\n判定対象: {\"question\": \"研修未修了で在籍45日です。対象ですか。\", \"retrieved_evidence\": [{\"element_id\": \"00000000-0000-0000-0000-000000000001\", \"content\": \"架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。\"}], \"generated_answer\": {\"schema_version\": \"1.0\", \"claims\": [{\"claim_id\": \"claim-1\", \"ordinal\": 1, \"text\": \"対象外です。\", \"evidence_element_ids\": [\"00000000-0000-0000-0000-000000000001\"], \"evidence_kind\": \"text\"}], \"missing_conditions\": []}}",
+    "expected_label": "根拠十分",
+    "question": "研修未修了で在籍45日です。対象ですか。",
+    "evidence": [
+      {
+        "element_id": "00000000-0000-0000-0000-000000000001",
+        "content": "架空の灯台研修助成は研修修了かつ在籍30日以上なら対象となる。研修未修了なら対象外。在籍日数が不明な場合、対象可否を確定できない。"
+      }
+    ],
+    "answer": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "対象外です。",
+          "evidence_element_ids": [
+            "00000000-0000-0000-0000-000000000001"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    }
+  },
+  {
+    "id": "TH011/formal",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "baseline",
+    "prompt": "次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 2027年10月10日に指定認証試験を受験し、受験料8,000円を支払いました。他の条件は全て満たす場合、補助額と提出期限を教えてください。\n取得根拠: [{\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.761513, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"a698f313-ddfa-5b4a-a4f7-5ff63b058c53\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の費目線\", \"content\": \"## 対話認証の費目線  \\n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。\", \"page_number\": null, \"score\": 0.738491, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"bfed51db-83de-59f4-be1e-fa4e8741170a\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の添付束\", \"content\": \"# 対話技能認証補助の精算箋  \\n## 対話認証の添付束  \\n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。\", \"page_number\": null, \"score\": 0.723872, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"53e8cc80-4222-5796-bffd-2bedf58cc232\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の回数線\", \"content\": \"## 対話認証の回数線  \\n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。\", \"page_number\": null, \"score\": 0.689651, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"40f00512-1297-58d1-b568-38d5ab62e520\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の入口\", \"content\": \"# 対話技能認証補助の認証札  \\n## 対話認証の入口  \\n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。\", \"page_number\": null, \"score\": 0.685223, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"e5af52f7-6acc-5437-94b5-25098946b993\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の予約日基準\", \"content\": \"## 静音席券の予約日基準  \\n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。\", \"page_number\": null, \"score\": 0.677432, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.666526, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3bd9867a-5455-51d6-8d01-fd340795a046\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の履歴保留\", \"content\": \"## 対話認証の履歴保留  \\n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。\", \"page_number\": null, \"score\": 0.653073, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-10-30",
+    "expected_clock": "noon",
+    "question": "2027年10月10日に指定認証試験を受験し、受験料8,000円を支払いました。他の条件は全て満たす場合、補助額と提出期限を教えてください。",
+    "evidence": [
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.761513,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "a698f313-ddfa-5b4a-a4f7-5ff63b058c53",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の費目線",
+        "content": "## 対話認証の費目線  \n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。",
+        "page_number": null,
+        "score": 0.738491,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "bfed51db-83de-59f4-be1e-fa4e8741170a",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の添付束",
+        "content": "# 対話技能認証補助の精算箋  \n## 対話認証の添付束  \n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。",
+        "page_number": null,
+        "score": 0.723872,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "53e8cc80-4222-5796-bffd-2bedf58cc232",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の回数線",
+        "content": "## 対話認証の回数線  \n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。",
+        "page_number": null,
+        "score": 0.689651,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "40f00512-1297-58d1-b568-38d5ab62e520",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の入口",
+        "content": "# 対話技能認証補助の認証札  \n## 対話認証の入口  \n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。",
+        "page_number": null,
+        "score": 0.685223,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "e5af52f7-6acc-5437-94b5-25098946b993",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の予約日基準",
+        "content": "## 静音席券の予約日基準  \n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。",
+        "page_number": null,
+        "score": 0.677432,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.666526,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3bd9867a-5455-51d6-8d01-fd340795a046",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の履歴保留",
+        "content": "## 対話認証の履歴保留  \n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。",
+        "page_number": null,
+        "score": 0.653073,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH011/formal",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "explicit_date",
+    "prompt": "期限を回答するときは、具体的な年月日と時刻まで答えてください。\n次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 2027年10月10日に指定認証試験を受験し、受験料8,000円を支払いました。他の条件は全て満たす場合、補助額と提出期限を教えてください。\n取得根拠: [{\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.761513, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"a698f313-ddfa-5b4a-a4f7-5ff63b058c53\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の費目線\", \"content\": \"## 対話認証の費目線  \\n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。\", \"page_number\": null, \"score\": 0.738491, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"bfed51db-83de-59f4-be1e-fa4e8741170a\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の添付束\", \"content\": \"# 対話技能認証補助の精算箋  \\n## 対話認証の添付束  \\n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。\", \"page_number\": null, \"score\": 0.723872, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"53e8cc80-4222-5796-bffd-2bedf58cc232\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の回数線\", \"content\": \"## 対話認証の回数線  \\n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。\", \"page_number\": null, \"score\": 0.689651, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"40f00512-1297-58d1-b568-38d5ab62e520\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の入口\", \"content\": \"# 対話技能認証補助の認証札  \\n## 対話認証の入口  \\n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。\", \"page_number\": null, \"score\": 0.685223, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"e5af52f7-6acc-5437-94b5-25098946b993\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の予約日基準\", \"content\": \"## 静音席券の予約日基準  \\n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。\", \"page_number\": null, \"score\": 0.677432, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.666526, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3bd9867a-5455-51d6-8d01-fd340795a046\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の履歴保留\", \"content\": \"## 対話認証の履歴保留  \\n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。\", \"page_number\": null, \"score\": 0.653073, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-10-30",
+    "expected_clock": "noon",
+    "question": "2027年10月10日に指定認証試験を受験し、受験料8,000円を支払いました。他の条件は全て満たす場合、補助額と提出期限を教えてください。",
+    "evidence": [
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.761513,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "a698f313-ddfa-5b4a-a4f7-5ff63b058c53",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の費目線",
+        "content": "## 対話認証の費目線  \n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。",
+        "page_number": null,
+        "score": 0.738491,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "bfed51db-83de-59f4-be1e-fa4e8741170a",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の添付束",
+        "content": "# 対話技能認証補助の精算箋  \n## 対話認証の添付束  \n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。",
+        "page_number": null,
+        "score": 0.723872,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "53e8cc80-4222-5796-bffd-2bedf58cc232",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の回数線",
+        "content": "## 対話認証の回数線  \n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。",
+        "page_number": null,
+        "score": 0.689651,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "40f00512-1297-58d1-b568-38d5ab62e520",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の入口",
+        "content": "# 対話技能認証補助の認証札  \n## 対話認証の入口  \n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。",
+        "page_number": null,
+        "score": 0.685223,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "e5af52f7-6acc-5437-94b5-25098946b993",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の予約日基準",
+        "content": "## 静音席券の予約日基準  \n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。",
+        "page_number": null,
+        "score": 0.677432,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.666526,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3bd9867a-5455-51d6-8d01-fd340795a046",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の履歴保留",
+        "content": "## 対話認証の履歴保留  \n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。",
+        "page_number": null,
+        "score": 0.653073,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH011/formal",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "calculation_permission",
+    "prompt": "質問にある日付と取得根拠の暦日規則を組み合わせた日付計算は許可されています。\n次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 2027年10月10日に指定認証試験を受験し、受験料8,000円を支払いました。他の条件は全て満たす場合、補助額と提出期限を教えてください。\n取得根拠: [{\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.761513, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"a698f313-ddfa-5b4a-a4f7-5ff63b058c53\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の費目線\", \"content\": \"## 対話認証の費目線  \\n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。\", \"page_number\": null, \"score\": 0.738491, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"bfed51db-83de-59f4-be1e-fa4e8741170a\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の添付束\", \"content\": \"# 対話技能認証補助の精算箋  \\n## 対話認証の添付束  \\n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。\", \"page_number\": null, \"score\": 0.723872, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"53e8cc80-4222-5796-bffd-2bedf58cc232\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の回数線\", \"content\": \"## 対話認証の回数線  \\n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。\", \"page_number\": null, \"score\": 0.689651, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"40f00512-1297-58d1-b568-38d5ab62e520\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の入口\", \"content\": \"# 対話技能認証補助の認証札  \\n## 対話認証の入口  \\n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。\", \"page_number\": null, \"score\": 0.685223, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"e5af52f7-6acc-5437-94b5-25098946b993\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の予約日基準\", \"content\": \"## 静音席券の予約日基準  \\n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。\", \"page_number\": null, \"score\": 0.677432, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.666526, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3bd9867a-5455-51d6-8d01-fd340795a046\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の履歴保留\", \"content\": \"## 対話認証の履歴保留  \\n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。\", \"page_number\": null, \"score\": 0.653073, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-10-30",
+    "expected_clock": "noon",
+    "question": "2027年10月10日に指定認証試験を受験し、受験料8,000円を支払いました。他の条件は全て満たす場合、補助額と提出期限を教えてください。",
+    "evidence": [
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.761513,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "a698f313-ddfa-5b4a-a4f7-5ff63b058c53",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の費目線",
+        "content": "## 対話認証の費目線  \n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。",
+        "page_number": null,
+        "score": 0.738491,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "bfed51db-83de-59f4-be1e-fa4e8741170a",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の添付束",
+        "content": "# 対話技能認証補助の精算箋  \n## 対話認証の添付束  \n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。",
+        "page_number": null,
+        "score": 0.723872,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "53e8cc80-4222-5796-bffd-2bedf58cc232",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の回数線",
+        "content": "## 対話認証の回数線  \n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。",
+        "page_number": null,
+        "score": 0.689651,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "40f00512-1297-58d1-b568-38d5ab62e520",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の入口",
+        "content": "# 対話技能認証補助の認証札  \n## 対話認証の入口  \n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。",
+        "page_number": null,
+        "score": 0.685223,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "e5af52f7-6acc-5437-94b5-25098946b993",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の予約日基準",
+        "content": "## 静音席券の予約日基準  \n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。",
+        "page_number": null,
+        "score": 0.677432,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.666526,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3bd9867a-5455-51d6-8d01-fd340795a046",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の履歴保留",
+        "content": "## 対話認証の履歴保留  \n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。",
+        "page_number": null,
+        "score": 0.653073,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH011/formal",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "deadline_only",
+    "prompt": "次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 2027年10月10日に指定認証試験を受験し、受験料8,000円を支払いました。他の条件は全て満たす場合、提出期限を教えてください。\n取得根拠: [{\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.761513, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"a698f313-ddfa-5b4a-a4f7-5ff63b058c53\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の費目線\", \"content\": \"## 対話認証の費目線  \\n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。\", \"page_number\": null, \"score\": 0.738491, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"bfed51db-83de-59f4-be1e-fa4e8741170a\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の添付束\", \"content\": \"# 対話技能認証補助の精算箋  \\n## 対話認証の添付束  \\n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。\", \"page_number\": null, \"score\": 0.723872, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"53e8cc80-4222-5796-bffd-2bedf58cc232\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の回数線\", \"content\": \"## 対話認証の回数線  \\n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。\", \"page_number\": null, \"score\": 0.689651, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"40f00512-1297-58d1-b568-38d5ab62e520\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の入口\", \"content\": \"# 対話技能認証補助の認証札  \\n## 対話認証の入口  \\n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。\", \"page_number\": null, \"score\": 0.685223, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"e5af52f7-6acc-5437-94b5-25098946b993\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の予約日基準\", \"content\": \"## 静音席券の予約日基準  \\n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。\", \"page_number\": null, \"score\": 0.677432, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.666526, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3bd9867a-5455-51d6-8d01-fd340795a046\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の履歴保留\", \"content\": \"## 対話認証の履歴保留  \\n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。\", \"page_number\": null, \"score\": 0.653073, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-10-30",
+    "expected_clock": "noon",
+    "question": "2027年10月10日に指定認証試験を受験し、受験料8,000円を支払いました。他の条件は全て満たす場合、提出期限を教えてください。",
+    "evidence": [
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.761513,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "a698f313-ddfa-5b4a-a4f7-5ff63b058c53",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の費目線",
+        "content": "## 対話認証の費目線  \n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。",
+        "page_number": null,
+        "score": 0.738491,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "bfed51db-83de-59f4-be1e-fa4e8741170a",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の添付束",
+        "content": "# 対話技能認証補助の精算箋  \n## 対話認証の添付束  \n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。",
+        "page_number": null,
+        "score": 0.723872,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "53e8cc80-4222-5796-bffd-2bedf58cc232",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の回数線",
+        "content": "## 対話認証の回数線  \n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。",
+        "page_number": null,
+        "score": 0.689651,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "40f00512-1297-58d1-b568-38d5ab62e520",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の入口",
+        "content": "# 対話技能認証補助の認証札  \n## 対話認証の入口  \n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。",
+        "page_number": null,
+        "score": 0.685223,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "e5af52f7-6acc-5437-94b5-25098946b993",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の予約日基準",
+        "content": "## 静音席券の予約日基準  \n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。",
+        "page_number": null,
+        "score": 0.677432,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.666526,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3bd9867a-5455-51d6-8d01-fd340795a046",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の履歴保留",
+        "content": "## 対話認証の履歴保留  \n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。",
+        "page_number": null,
+        "score": 0.653073,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH011/paraphrase_or_noisy",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "baseline",
+    "prompt": "次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 対話認証試験を2027/10/10に受けて受験料8000円。他条件は全部OK。補助いくら、いつまでに出す？\n取得根拠: [{\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.817537, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"a698f313-ddfa-5b4a-a4f7-5ff63b058c53\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の費目線\", \"content\": \"## 対話認証の費目線  \\n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。\", \"page_number\": null, \"score\": 0.798444, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"bfed51db-83de-59f4-be1e-fa4e8741170a\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の添付束\", \"content\": \"# 対話技能認証補助の精算箋  \\n## 対話認証の添付束  \\n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。\", \"page_number\": null, \"score\": 0.764855, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"53e8cc80-4222-5796-bffd-2bedf58cc232\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の回数線\", \"content\": \"## 対話認証の回数線  \\n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。\", \"page_number\": null, \"score\": 0.757787, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"40f00512-1297-58d1-b568-38d5ab62e520\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の入口\", \"content\": \"# 対話技能認証補助の認証札  \\n## 対話認証の入口  \\n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。\", \"page_number\": null, \"score\": 0.750397, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3bd9867a-5455-51d6-8d01-fd340795a046\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の履歴保留\", \"content\": \"## 対話認証の履歴保留  \\n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。\", \"page_number\": null, \"score\": 0.729504, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"e5af52f7-6acc-5437-94b5-25098946b993\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の予約日基準\", \"content\": \"## 静音席券の予約日基準  \\n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。\", \"page_number\": null, \"score\": 0.694873, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.693326, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-10-30",
+    "expected_clock": "noon",
+    "question": "対話認証試験を2027/10/10に受けて受験料8000円。他条件は全部OK。補助いくら、いつまでに出す？",
+    "evidence": [
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.817537,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "a698f313-ddfa-5b4a-a4f7-5ff63b058c53",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の費目線",
+        "content": "## 対話認証の費目線  \n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。",
+        "page_number": null,
+        "score": 0.798444,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "bfed51db-83de-59f4-be1e-fa4e8741170a",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の添付束",
+        "content": "# 対話技能認証補助の精算箋  \n## 対話認証の添付束  \n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。",
+        "page_number": null,
+        "score": 0.764855,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "53e8cc80-4222-5796-bffd-2bedf58cc232",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の回数線",
+        "content": "## 対話認証の回数線  \n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。",
+        "page_number": null,
+        "score": 0.757787,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "40f00512-1297-58d1-b568-38d5ab62e520",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の入口",
+        "content": "# 対話技能認証補助の認証札  \n## 対話認証の入口  \n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。",
+        "page_number": null,
+        "score": 0.750397,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3bd9867a-5455-51d6-8d01-fd340795a046",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の履歴保留",
+        "content": "## 対話認証の履歴保留  \n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。",
+        "page_number": null,
+        "score": 0.729504,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "e5af52f7-6acc-5437-94b5-25098946b993",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の予約日基準",
+        "content": "## 静音席券の予約日基準  \n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。",
+        "page_number": null,
+        "score": 0.694873,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.693326,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH011/paraphrase_or_noisy",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "explicit_date",
+    "prompt": "期限を回答するときは、具体的な年月日と時刻まで答えてください。\n次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 対話認証試験を2027/10/10に受けて受験料8000円。他条件は全部OK。補助いくら、いつまでに出す？\n取得根拠: [{\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.817537, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"a698f313-ddfa-5b4a-a4f7-5ff63b058c53\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の費目線\", \"content\": \"## 対話認証の費目線  \\n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。\", \"page_number\": null, \"score\": 0.798444, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"bfed51db-83de-59f4-be1e-fa4e8741170a\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の添付束\", \"content\": \"# 対話技能認証補助の精算箋  \\n## 対話認証の添付束  \\n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。\", \"page_number\": null, \"score\": 0.764855, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"53e8cc80-4222-5796-bffd-2bedf58cc232\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の回数線\", \"content\": \"## 対話認証の回数線  \\n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。\", \"page_number\": null, \"score\": 0.757787, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"40f00512-1297-58d1-b568-38d5ab62e520\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の入口\", \"content\": \"# 対話技能認証補助の認証札  \\n## 対話認証の入口  \\n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。\", \"page_number\": null, \"score\": 0.750397, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3bd9867a-5455-51d6-8d01-fd340795a046\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の履歴保留\", \"content\": \"## 対話認証の履歴保留  \\n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。\", \"page_number\": null, \"score\": 0.729504, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"e5af52f7-6acc-5437-94b5-25098946b993\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の予約日基準\", \"content\": \"## 静音席券の予約日基準  \\n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。\", \"page_number\": null, \"score\": 0.694873, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.693326, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-10-30",
+    "expected_clock": "noon",
+    "question": "対話認証試験を2027/10/10に受けて受験料8000円。他条件は全部OK。補助いくら、いつまでに出す？",
+    "evidence": [
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.817537,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "a698f313-ddfa-5b4a-a4f7-5ff63b058c53",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の費目線",
+        "content": "## 対話認証の費目線  \n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。",
+        "page_number": null,
+        "score": 0.798444,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "bfed51db-83de-59f4-be1e-fa4e8741170a",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の添付束",
+        "content": "# 対話技能認証補助の精算箋  \n## 対話認証の添付束  \n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。",
+        "page_number": null,
+        "score": 0.764855,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "53e8cc80-4222-5796-bffd-2bedf58cc232",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の回数線",
+        "content": "## 対話認証の回数線  \n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。",
+        "page_number": null,
+        "score": 0.757787,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "40f00512-1297-58d1-b568-38d5ab62e520",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の入口",
+        "content": "# 対話技能認証補助の認証札  \n## 対話認証の入口  \n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。",
+        "page_number": null,
+        "score": 0.750397,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3bd9867a-5455-51d6-8d01-fd340795a046",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の履歴保留",
+        "content": "## 対話認証の履歴保留  \n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。",
+        "page_number": null,
+        "score": 0.729504,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "e5af52f7-6acc-5437-94b5-25098946b993",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の予約日基準",
+        "content": "## 静音席券の予約日基準  \n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。",
+        "page_number": null,
+        "score": 0.694873,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.693326,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH011/paraphrase_or_noisy",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "calculation_permission",
+    "prompt": "質問にある日付と取得根拠の暦日規則を組み合わせた日付計算は許可されています。\n次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 対話認証試験を2027/10/10に受けて受験料8000円。他条件は全部OK。補助いくら、いつまでに出す？\n取得根拠: [{\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.817537, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"a698f313-ddfa-5b4a-a4f7-5ff63b058c53\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の費目線\", \"content\": \"## 対話認証の費目線  \\n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。\", \"page_number\": null, \"score\": 0.798444, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"bfed51db-83de-59f4-be1e-fa4e8741170a\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の添付束\", \"content\": \"# 対話技能認証補助の精算箋  \\n## 対話認証の添付束  \\n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。\", \"page_number\": null, \"score\": 0.764855, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"53e8cc80-4222-5796-bffd-2bedf58cc232\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の回数線\", \"content\": \"## 対話認証の回数線  \\n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。\", \"page_number\": null, \"score\": 0.757787, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"40f00512-1297-58d1-b568-38d5ab62e520\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の入口\", \"content\": \"# 対話技能認証補助の認証札  \\n## 対話認証の入口  \\n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。\", \"page_number\": null, \"score\": 0.750397, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3bd9867a-5455-51d6-8d01-fd340795a046\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の履歴保留\", \"content\": \"## 対話認証の履歴保留  \\n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。\", \"page_number\": null, \"score\": 0.729504, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"e5af52f7-6acc-5437-94b5-25098946b993\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の予約日基準\", \"content\": \"## 静音席券の予約日基準  \\n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。\", \"page_number\": null, \"score\": 0.694873, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.693326, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-10-30",
+    "expected_clock": "noon",
+    "question": "対話認証試験を2027/10/10に受けて受験料8000円。他条件は全部OK。補助いくら、いつまでに出す？",
+    "evidence": [
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.817537,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "a698f313-ddfa-5b4a-a4f7-5ff63b058c53",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の費目線",
+        "content": "## 対話認証の費目線  \n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。",
+        "page_number": null,
+        "score": 0.798444,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "bfed51db-83de-59f4-be1e-fa4e8741170a",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の添付束",
+        "content": "# 対話技能認証補助の精算箋  \n## 対話認証の添付束  \n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。",
+        "page_number": null,
+        "score": 0.764855,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "53e8cc80-4222-5796-bffd-2bedf58cc232",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の回数線",
+        "content": "## 対話認証の回数線  \n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。",
+        "page_number": null,
+        "score": 0.757787,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "40f00512-1297-58d1-b568-38d5ab62e520",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の入口",
+        "content": "# 対話技能認証補助の認証札  \n## 対話認証の入口  \n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。",
+        "page_number": null,
+        "score": 0.750397,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3bd9867a-5455-51d6-8d01-fd340795a046",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の履歴保留",
+        "content": "## 対話認証の履歴保留  \n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。",
+        "page_number": null,
+        "score": 0.729504,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "e5af52f7-6acc-5437-94b5-25098946b993",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の予約日基準",
+        "content": "## 静音席券の予約日基準  \n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。",
+        "page_number": null,
+        "score": 0.694873,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.693326,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH011/paraphrase_or_noisy",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "deadline_only",
+    "prompt": "次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 対話認証試験を2027/10/10に受けて受験料8000円。他条件は全部OK。いつまでに出す？\n取得根拠: [{\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.817537, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"a698f313-ddfa-5b4a-a4f7-5ff63b058c53\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の費目線\", \"content\": \"## 対話認証の費目線  \\n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。\", \"page_number\": null, \"score\": 0.798444, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"bfed51db-83de-59f4-be1e-fa4e8741170a\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の添付束\", \"content\": \"# 対話技能認証補助の精算箋  \\n## 対話認証の添付束  \\n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。\", \"page_number\": null, \"score\": 0.764855, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"53e8cc80-4222-5796-bffd-2bedf58cc232\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の回数線\", \"content\": \"## 対話認証の回数線  \\n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。\", \"page_number\": null, \"score\": 0.757787, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"40f00512-1297-58d1-b568-38d5ab62e520\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の入口\", \"content\": \"# 対話技能認証補助の認証札  \\n## 対話認証の入口  \\n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。\", \"page_number\": null, \"score\": 0.750397, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3bd9867a-5455-51d6-8d01-fd340795a046\", \"document_name\": \"対話技能認証補助の精算箋\", \"heading\": \"対話認証の履歴保留\", \"content\": \"## 対話認証の履歴保留  \\n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。\", \"page_number\": null, \"score\": 0.729504, \"source\": \"TXH-E02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"e5af52f7-6acc-5437-94b5-25098946b993\", \"document_name\": \"静音席利用補填の区分札\", \"heading\": \"静音席券の予約日基準\", \"content\": \"## 静音席券の予約日基準  \\n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。\", \"page_number\": null, \"score\": 0.694873, \"source\": \"TXH-B01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.693326, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-10-30",
+    "expected_clock": "noon",
+    "question": "対話認証試験を2027/10/10に受けて受験料8000円。他条件は全部OK。いつまでに出す？",
+    "evidence": [
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.817537,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "a698f313-ddfa-5b4a-a4f7-5ff63b058c53",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の費目線",
+        "content": "## 対話認証の費目線  \n補助する費目は受験料のみ。教材費と交通費は補助しない。受験料実費と上限額を比較し、低い方を支給する。",
+        "page_number": null,
+        "score": 0.798444,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "bfed51db-83de-59f4-be1e-fa4e8741170a",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の添付束",
+        "content": "# 対話技能認証補助の精算箋  \n## 対話認証の添付束  \n認証札の条件を満たす受験について、育成承認番号票、受験済証、受験料領収証を添える。受験日の翌日を1日目とした20暦日目の正午までに対話育成係へ提出する。休日の延長はない。",
+        "page_number": null,
+        "score": 0.764855,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "53e8cc80-4222-5796-bffd-2bedf58cc232",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の回数線",
+        "content": "## 対話認証の回数線  \n一年度に補助できる受験は一回まで。不合格でも実際に受験した事実を確認できれば、他の条件を満たす限り補助する。",
+        "page_number": null,
+        "score": 0.757787,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "40f00512-1297-58d1-b568-38d5ab62e520",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の入口",
+        "content": "# 対話技能認証補助の認証札  \n## 対話認証の入口  \n架空の対話技能認証補助は、職務で対話支援を担当する登録職員が指定認証試験を受けるための受験料補助である。担当者登録と受験前の育成承認番号取得を必須とする。",
+        "page_number": null,
+        "score": 0.750397,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3bd9867a-5455-51d6-8d01-fd340795a046",
+        "document_name": "対話技能認証補助の精算箋",
+        "heading": "対話認証の履歴保留",
+        "content": "## 対話認証の履歴保留  \n同一年度の受給歴を対話育成係の受給台帳で照合する。受給歴が未照合のときは、本人が初回と申告していても照合が済むまで可否を確定しない。",
+        "page_number": null,
+        "score": 0.729504,
+        "source": "TXH-E02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "e5af52f7-6acc-5437-94b5-25098946b993",
+        "document_name": "静音席利用補填の区分札",
+        "heading": "静音席券の予約日基準",
+        "content": "## 静音席券の予約日基準  \n2027年8月1日以降に予約が成立した終日券の額面を1,800円とする。2027年7月31日以前に成立した予約は、利用日が8月でも1,500円のまま。午前券は900円のまま。利用料が額面未満なら利用料までとする。",
+        "page_number": null,
+        "score": 0.694873,
+        "source": "TXH-B01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.693326,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH039/formal",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "baseline",
+    "prompt": "次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 講師登録と実施承認済みで、年度使用済時間は0です。2027年6月20日の講座で2時間教え、片道30分ずつ移動します。休務に数える時間と申込期限を教えてください。\n取得根拠: [{\"element_id\": \"3011b173-3d21-5781-928a-8a629d1451cf\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の移動除外\", \"content\": \"## 交換休務の移動除外  \\n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。\", \"page_number\": null, \"score\": 0.751722, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"2a241586-36de-50c0-9b48-c8a4e05a30c3\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の年度切替\", \"content\": \"## 交換休務の年度切替  \\n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。\", \"page_number\": null, \"score\": 0.723876, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"b69a68d7-9135-570d-8e07-1d240df4876f\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務の申込便\", \"content\": \"# 技能交換休務の登録便  \\n## 交換休務の申込便  \\n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。\", \"page_number\": null, \"score\": 0.709617, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"c9e6f4f6-800a-53f7-9a91-d053f72e0036\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の登録鍵\", \"content\": \"# 技能交換休務の時間割帳  \\n## 交換休務の登録鍵  \\n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。\", \"page_number\": null, \"score\": 0.700925, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"d1befd95-9ae4-5dcc-a495-00b4f30db69b\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の持時間\", \"content\": \"## 交換休務の持時間  \\n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。\", \"page_number\": null, \"score\": 0.69488, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"75779234-1d08-53b0-b6a4-a84473afaba1\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務残数の点検\", \"content\": \"## 交換休務残数の点検  \\n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。\", \"page_number\": null, \"score\": 0.68951, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.66327, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"31c29e00-f088-5fb0-9cbd-a0e695aa4f20\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の指示日境界\", \"content\": \"## 巡回加算の指示日境界  \\n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。\", \"page_number\": null, \"score\": 0.651061, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-06-15",
+    "expected_clock": "17",
+    "question": "講師登録と実施承認済みで、年度使用済時間は0です。2027年6月20日の講座で2時間教え、片道30分ずつ移動します。休務に数える時間と申込期限を教えてください。",
+    "evidence": [
+      {
+        "element_id": "3011b173-3d21-5781-928a-8a629d1451cf",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の移動除外",
+        "content": "## 交換休務の移動除外  \n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。",
+        "page_number": null,
+        "score": 0.751722,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "2a241586-36de-50c0-9b48-c8a4e05a30c3",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の年度切替",
+        "content": "## 交換休務の年度切替  \n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。",
+        "page_number": null,
+        "score": 0.723876,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "b69a68d7-9135-570d-8e07-1d240df4876f",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務の申込便",
+        "content": "# 技能交換休務の登録便  \n## 交換休務の申込便  \n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。",
+        "page_number": null,
+        "score": 0.709617,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "c9e6f4f6-800a-53f7-9a91-d053f72e0036",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の登録鍵",
+        "content": "# 技能交換休務の時間割帳  \n## 交換休務の登録鍵  \n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。",
+        "page_number": null,
+        "score": 0.700925,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "d1befd95-9ae4-5dcc-a495-00b4f30db69b",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の持時間",
+        "content": "## 交換休務の持時間  \n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。",
+        "page_number": null,
+        "score": 0.69488,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "75779234-1d08-53b0-b6a4-a84473afaba1",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務残数の点検",
+        "content": "## 交換休務残数の点検  \n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。",
+        "page_number": null,
+        "score": 0.68951,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.66327,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "31c29e00-f088-5fb0-9cbd-a0e695aa4f20",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の指示日境界",
+        "content": "## 巡回加算の指示日境界  \n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。",
+        "page_number": null,
+        "score": 0.651061,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH039/formal",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "explicit_date",
+    "prompt": "期限を回答するときは、具体的な年月日と時刻まで答えてください。\n次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 講師登録と実施承認済みで、年度使用済時間は0です。2027年6月20日の講座で2時間教え、片道30分ずつ移動します。休務に数える時間と申込期限を教えてください。\n取得根拠: [{\"element_id\": \"3011b173-3d21-5781-928a-8a629d1451cf\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の移動除外\", \"content\": \"## 交換休務の移動除外  \\n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。\", \"page_number\": null, \"score\": 0.751722, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"2a241586-36de-50c0-9b48-c8a4e05a30c3\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の年度切替\", \"content\": \"## 交換休務の年度切替  \\n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。\", \"page_number\": null, \"score\": 0.723876, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"b69a68d7-9135-570d-8e07-1d240df4876f\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務の申込便\", \"content\": \"# 技能交換休務の登録便  \\n## 交換休務の申込便  \\n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。\", \"page_number\": null, \"score\": 0.709617, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"c9e6f4f6-800a-53f7-9a91-d053f72e0036\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の登録鍵\", \"content\": \"# 技能交換休務の時間割帳  \\n## 交換休務の登録鍵  \\n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。\", \"page_number\": null, \"score\": 0.700925, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"d1befd95-9ae4-5dcc-a495-00b4f30db69b\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の持時間\", \"content\": \"## 交換休務の持時間  \\n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。\", \"page_number\": null, \"score\": 0.69488, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"75779234-1d08-53b0-b6a4-a84473afaba1\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務残数の点検\", \"content\": \"## 交換休務残数の点検  \\n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。\", \"page_number\": null, \"score\": 0.68951, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.66327, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"31c29e00-f088-5fb0-9cbd-a0e695aa4f20\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の指示日境界\", \"content\": \"## 巡回加算の指示日境界  \\n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。\", \"page_number\": null, \"score\": 0.651061, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-06-15",
+    "expected_clock": "17",
+    "question": "講師登録と実施承認済みで、年度使用済時間は0です。2027年6月20日の講座で2時間教え、片道30分ずつ移動します。休務に数える時間と申込期限を教えてください。",
+    "evidence": [
+      {
+        "element_id": "3011b173-3d21-5781-928a-8a629d1451cf",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の移動除外",
+        "content": "## 交換休務の移動除外  \n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。",
+        "page_number": null,
+        "score": 0.751722,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "2a241586-36de-50c0-9b48-c8a4e05a30c3",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の年度切替",
+        "content": "## 交換休務の年度切替  \n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。",
+        "page_number": null,
+        "score": 0.723876,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "b69a68d7-9135-570d-8e07-1d240df4876f",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務の申込便",
+        "content": "# 技能交換休務の登録便  \n## 交換休務の申込便  \n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。",
+        "page_number": null,
+        "score": 0.709617,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "c9e6f4f6-800a-53f7-9a91-d053f72e0036",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の登録鍵",
+        "content": "# 技能交換休務の時間割帳  \n## 交換休務の登録鍵  \n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。",
+        "page_number": null,
+        "score": 0.700925,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "d1befd95-9ae4-5dcc-a495-00b4f30db69b",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の持時間",
+        "content": "## 交換休務の持時間  \n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。",
+        "page_number": null,
+        "score": 0.69488,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "75779234-1d08-53b0-b6a4-a84473afaba1",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務残数の点検",
+        "content": "## 交換休務残数の点検  \n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。",
+        "page_number": null,
+        "score": 0.68951,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.66327,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "31c29e00-f088-5fb0-9cbd-a0e695aa4f20",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の指示日境界",
+        "content": "## 巡回加算の指示日境界  \n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。",
+        "page_number": null,
+        "score": 0.651061,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH039/formal",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "calculation_permission",
+    "prompt": "質問にある日付と取得根拠の暦日規則を組み合わせた日付計算は許可されています。\n次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 講師登録と実施承認済みで、年度使用済時間は0です。2027年6月20日の講座で2時間教え、片道30分ずつ移動します。休務に数える時間と申込期限を教えてください。\n取得根拠: [{\"element_id\": \"3011b173-3d21-5781-928a-8a629d1451cf\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の移動除外\", \"content\": \"## 交換休務の移動除外  \\n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。\", \"page_number\": null, \"score\": 0.751722, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"2a241586-36de-50c0-9b48-c8a4e05a30c3\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の年度切替\", \"content\": \"## 交換休務の年度切替  \\n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。\", \"page_number\": null, \"score\": 0.723876, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"b69a68d7-9135-570d-8e07-1d240df4876f\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務の申込便\", \"content\": \"# 技能交換休務の登録便  \\n## 交換休務の申込便  \\n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。\", \"page_number\": null, \"score\": 0.709617, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"c9e6f4f6-800a-53f7-9a91-d053f72e0036\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の登録鍵\", \"content\": \"# 技能交換休務の時間割帳  \\n## 交換休務の登録鍵  \\n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。\", \"page_number\": null, \"score\": 0.700925, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"d1befd95-9ae4-5dcc-a495-00b4f30db69b\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の持時間\", \"content\": \"## 交換休務の持時間  \\n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。\", \"page_number\": null, \"score\": 0.69488, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"75779234-1d08-53b0-b6a4-a84473afaba1\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務残数の点検\", \"content\": \"## 交換休務残数の点検  \\n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。\", \"page_number\": null, \"score\": 0.68951, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.66327, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"31c29e00-f088-5fb0-9cbd-a0e695aa4f20\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の指示日境界\", \"content\": \"## 巡回加算の指示日境界  \\n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。\", \"page_number\": null, \"score\": 0.651061, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-06-15",
+    "expected_clock": "17",
+    "question": "講師登録と実施承認済みで、年度使用済時間は0です。2027年6月20日の講座で2時間教え、片道30分ずつ移動します。休務に数える時間と申込期限を教えてください。",
+    "evidence": [
+      {
+        "element_id": "3011b173-3d21-5781-928a-8a629d1451cf",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の移動除外",
+        "content": "## 交換休務の移動除外  \n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。",
+        "page_number": null,
+        "score": 0.751722,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "2a241586-36de-50c0-9b48-c8a4e05a30c3",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の年度切替",
+        "content": "## 交換休務の年度切替  \n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。",
+        "page_number": null,
+        "score": 0.723876,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "b69a68d7-9135-570d-8e07-1d240df4876f",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務の申込便",
+        "content": "# 技能交換休務の登録便  \n## 交換休務の申込便  \n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。",
+        "page_number": null,
+        "score": 0.709617,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "c9e6f4f6-800a-53f7-9a91-d053f72e0036",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の登録鍵",
+        "content": "# 技能交換休務の時間割帳  \n## 交換休務の登録鍵  \n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。",
+        "page_number": null,
+        "score": 0.700925,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "d1befd95-9ae4-5dcc-a495-00b4f30db69b",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の持時間",
+        "content": "## 交換休務の持時間  \n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。",
+        "page_number": null,
+        "score": 0.69488,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "75779234-1d08-53b0-b6a4-a84473afaba1",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務残数の点検",
+        "content": "## 交換休務残数の点検  \n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。",
+        "page_number": null,
+        "score": 0.68951,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.66327,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "31c29e00-f088-5fb0-9cbd-a0e695aa4f20",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の指示日境界",
+        "content": "## 巡回加算の指示日境界  \n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。",
+        "page_number": null,
+        "score": 0.651061,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH039/formal",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "deadline_only",
+    "prompt": "次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 講師登録と実施承認済みで、年度使用済時間は0です。2027年6月20日の講座で2時間教え、片道30分ずつ移動します。申込期限を教えてください。\n取得根拠: [{\"element_id\": \"3011b173-3d21-5781-928a-8a629d1451cf\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の移動除外\", \"content\": \"## 交換休務の移動除外  \\n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。\", \"page_number\": null, \"score\": 0.751722, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"2a241586-36de-50c0-9b48-c8a4e05a30c3\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の年度切替\", \"content\": \"## 交換休務の年度切替  \\n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。\", \"page_number\": null, \"score\": 0.723876, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"b69a68d7-9135-570d-8e07-1d240df4876f\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務の申込便\", \"content\": \"# 技能交換休務の登録便  \\n## 交換休務の申込便  \\n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。\", \"page_number\": null, \"score\": 0.709617, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"c9e6f4f6-800a-53f7-9a91-d053f72e0036\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の登録鍵\", \"content\": \"# 技能交換休務の時間割帳  \\n## 交換休務の登録鍵  \\n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。\", \"page_number\": null, \"score\": 0.700925, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"d1befd95-9ae4-5dcc-a495-00b4f30db69b\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の持時間\", \"content\": \"## 交換休務の持時間  \\n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。\", \"page_number\": null, \"score\": 0.69488, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"75779234-1d08-53b0-b6a4-a84473afaba1\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務残数の点検\", \"content\": \"## 交換休務残数の点検  \\n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。\", \"page_number\": null, \"score\": 0.68951, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.66327, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"31c29e00-f088-5fb0-9cbd-a0e695aa4f20\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の指示日境界\", \"content\": \"## 巡回加算の指示日境界  \\n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。\", \"page_number\": null, \"score\": 0.651061, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-06-15",
+    "expected_clock": "17",
+    "question": "講師登録と実施承認済みで、年度使用済時間は0です。2027年6月20日の講座で2時間教え、片道30分ずつ移動します。申込期限を教えてください。",
+    "evidence": [
+      {
+        "element_id": "3011b173-3d21-5781-928a-8a629d1451cf",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の移動除外",
+        "content": "## 交換休務の移動除外  \n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。",
+        "page_number": null,
+        "score": 0.751722,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "2a241586-36de-50c0-9b48-c8a4e05a30c3",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の年度切替",
+        "content": "## 交換休務の年度切替  \n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。",
+        "page_number": null,
+        "score": 0.723876,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "b69a68d7-9135-570d-8e07-1d240df4876f",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務の申込便",
+        "content": "# 技能交換休務の登録便  \n## 交換休務の申込便  \n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。",
+        "page_number": null,
+        "score": 0.709617,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "c9e6f4f6-800a-53f7-9a91-d053f72e0036",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の登録鍵",
+        "content": "# 技能交換休務の時間割帳  \n## 交換休務の登録鍵  \n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。",
+        "page_number": null,
+        "score": 0.700925,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "d1befd95-9ae4-5dcc-a495-00b4f30db69b",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の持時間",
+        "content": "## 交換休務の持時間  \n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。",
+        "page_number": null,
+        "score": 0.69488,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "75779234-1d08-53b0-b6a4-a84473afaba1",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務残数の点検",
+        "content": "## 交換休務残数の点検  \n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。",
+        "page_number": null,
+        "score": 0.68951,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.66327,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "31c29e00-f088-5fb0-9cbd-a0e695aa4f20",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の指示日境界",
+        "content": "## 巡回加算の指示日境界  \n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。",
+        "page_number": null,
+        "score": 0.651061,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH039/paraphrase_or_noisy",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "baseline",
+    "prompt": "次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 講師登録・開催承認OK、今年はまだ未使用。2027/6/20に2時間教えて往復移動1時間。技能交換休務は何時間で、いつまでに申込む？\n取得根拠: [{\"element_id\": \"3011b173-3d21-5781-928a-8a629d1451cf\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の移動除外\", \"content\": \"## 交換休務の移動除外  \\n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。\", \"page_number\": null, \"score\": 0.775873, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"b69a68d7-9135-570d-8e07-1d240df4876f\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務の申込便\", \"content\": \"# 技能交換休務の登録便  \\n## 交換休務の申込便  \\n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。\", \"page_number\": null, \"score\": 0.77556, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"2a241586-36de-50c0-9b48-c8a4e05a30c3\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の年度切替\", \"content\": \"## 交換休務の年度切替  \\n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。\", \"page_number\": null, \"score\": 0.775481, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"c9e6f4f6-800a-53f7-9a91-d053f72e0036\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の登録鍵\", \"content\": \"# 技能交換休務の時間割帳  \\n## 交換休務の登録鍵  \\n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。\", \"page_number\": null, \"score\": 0.76263, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"75779234-1d08-53b0-b6a4-a84473afaba1\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務残数の点検\", \"content\": \"## 交換休務残数の点検  \\n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。\", \"page_number\": null, \"score\": 0.747982, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"d1befd95-9ae4-5dcc-a495-00b4f30db69b\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の持時間\", \"content\": \"## 交換休務の持時間  \\n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。\", \"page_number\": null, \"score\": 0.744016, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.684777, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.666709, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-06-15",
+    "expected_clock": "17",
+    "question": "講師登録・開催承認OK、今年はまだ未使用。2027/6/20に2時間教えて往復移動1時間。技能交換休務は何時間で、いつまでに申込む？",
+    "evidence": [
+      {
+        "element_id": "3011b173-3d21-5781-928a-8a629d1451cf",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の移動除外",
+        "content": "## 交換休務の移動除外  \n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。",
+        "page_number": null,
+        "score": 0.775873,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "b69a68d7-9135-570d-8e07-1d240df4876f",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務の申込便",
+        "content": "# 技能交換休務の登録便  \n## 交換休務の申込便  \n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。",
+        "page_number": null,
+        "score": 0.77556,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "2a241586-36de-50c0-9b48-c8a4e05a30c3",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の年度切替",
+        "content": "## 交換休務の年度切替  \n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。",
+        "page_number": null,
+        "score": 0.775481,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "c9e6f4f6-800a-53f7-9a91-d053f72e0036",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の登録鍵",
+        "content": "# 技能交換休務の時間割帳  \n## 交換休務の登録鍵  \n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。",
+        "page_number": null,
+        "score": 0.76263,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "75779234-1d08-53b0-b6a4-a84473afaba1",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務残数の点検",
+        "content": "## 交換休務残数の点検  \n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。",
+        "page_number": null,
+        "score": 0.747982,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "d1befd95-9ae4-5dcc-a495-00b4f30db69b",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の持時間",
+        "content": "## 交換休務の持時間  \n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。",
+        "page_number": null,
+        "score": 0.744016,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.684777,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.666709,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH039/paraphrase_or_noisy",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "explicit_date",
+    "prompt": "期限を回答するときは、具体的な年月日と時刻まで答えてください。\n次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 講師登録・開催承認OK、今年はまだ未使用。2027/6/20に2時間教えて往復移動1時間。技能交換休務は何時間で、いつまでに申込む？\n取得根拠: [{\"element_id\": \"3011b173-3d21-5781-928a-8a629d1451cf\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の移動除外\", \"content\": \"## 交換休務の移動除外  \\n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。\", \"page_number\": null, \"score\": 0.775873, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"b69a68d7-9135-570d-8e07-1d240df4876f\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務の申込便\", \"content\": \"# 技能交換休務の登録便  \\n## 交換休務の申込便  \\n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。\", \"page_number\": null, \"score\": 0.77556, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"2a241586-36de-50c0-9b48-c8a4e05a30c3\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の年度切替\", \"content\": \"## 交換休務の年度切替  \\n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。\", \"page_number\": null, \"score\": 0.775481, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"c9e6f4f6-800a-53f7-9a91-d053f72e0036\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の登録鍵\", \"content\": \"# 技能交換休務の時間割帳  \\n## 交換休務の登録鍵  \\n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。\", \"page_number\": null, \"score\": 0.76263, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"75779234-1d08-53b0-b6a4-a84473afaba1\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務残数の点検\", \"content\": \"## 交換休務残数の点検  \\n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。\", \"page_number\": null, \"score\": 0.747982, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"d1befd95-9ae4-5dcc-a495-00b4f30db69b\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の持時間\", \"content\": \"## 交換休務の持時間  \\n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。\", \"page_number\": null, \"score\": 0.744016, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.684777, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.666709, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-06-15",
+    "expected_clock": "17",
+    "question": "講師登録・開催承認OK、今年はまだ未使用。2027/6/20に2時間教えて往復移動1時間。技能交換休務は何時間で、いつまでに申込む？",
+    "evidence": [
+      {
+        "element_id": "3011b173-3d21-5781-928a-8a629d1451cf",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の移動除外",
+        "content": "## 交換休務の移動除外  \n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。",
+        "page_number": null,
+        "score": 0.775873,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "b69a68d7-9135-570d-8e07-1d240df4876f",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務の申込便",
+        "content": "# 技能交換休務の登録便  \n## 交換休務の申込便  \n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。",
+        "page_number": null,
+        "score": 0.77556,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "2a241586-36de-50c0-9b48-c8a4e05a30c3",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の年度切替",
+        "content": "## 交換休務の年度切替  \n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。",
+        "page_number": null,
+        "score": 0.775481,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "c9e6f4f6-800a-53f7-9a91-d053f72e0036",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の登録鍵",
+        "content": "# 技能交換休務の時間割帳  \n## 交換休務の登録鍵  \n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。",
+        "page_number": null,
+        "score": 0.76263,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "75779234-1d08-53b0-b6a4-a84473afaba1",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務残数の点検",
+        "content": "## 交換休務残数の点検  \n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。",
+        "page_number": null,
+        "score": 0.747982,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "d1befd95-9ae4-5dcc-a495-00b4f30db69b",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の持時間",
+        "content": "## 交換休務の持時間  \n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。",
+        "page_number": null,
+        "score": 0.744016,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.684777,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.666709,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH039/paraphrase_or_noisy",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "calculation_permission",
+    "prompt": "質問にある日付と取得根拠の暦日規則を組み合わせた日付計算は許可されています。\n次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 講師登録・開催承認OK、今年はまだ未使用。2027/6/20に2時間教えて往復移動1時間。技能交換休務は何時間で、いつまでに申込む？\n取得根拠: [{\"element_id\": \"3011b173-3d21-5781-928a-8a629d1451cf\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の移動除外\", \"content\": \"## 交換休務の移動除外  \\n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。\", \"page_number\": null, \"score\": 0.775873, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"b69a68d7-9135-570d-8e07-1d240df4876f\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務の申込便\", \"content\": \"# 技能交換休務の登録便  \\n## 交換休務の申込便  \\n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。\", \"page_number\": null, \"score\": 0.77556, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"2a241586-36de-50c0-9b48-c8a4e05a30c3\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の年度切替\", \"content\": \"## 交換休務の年度切替  \\n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。\", \"page_number\": null, \"score\": 0.775481, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"c9e6f4f6-800a-53f7-9a91-d053f72e0036\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の登録鍵\", \"content\": \"# 技能交換休務の時間割帳  \\n## 交換休務の登録鍵  \\n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。\", \"page_number\": null, \"score\": 0.76263, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"75779234-1d08-53b0-b6a4-a84473afaba1\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務残数の点検\", \"content\": \"## 交換休務残数の点検  \\n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。\", \"page_number\": null, \"score\": 0.747982, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"d1befd95-9ae4-5dcc-a495-00b4f30db69b\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の持時間\", \"content\": \"## 交換休務の持時間  \\n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。\", \"page_number\": null, \"score\": 0.744016, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.684777, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.666709, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-06-15",
+    "expected_clock": "17",
+    "question": "講師登録・開催承認OK、今年はまだ未使用。2027/6/20に2時間教えて往復移動1時間。技能交換休務は何時間で、いつまでに申込む？",
+    "evidence": [
+      {
+        "element_id": "3011b173-3d21-5781-928a-8a629d1451cf",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の移動除外",
+        "content": "## 交換休務の移動除外  \n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。",
+        "page_number": null,
+        "score": 0.775873,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "b69a68d7-9135-570d-8e07-1d240df4876f",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務の申込便",
+        "content": "# 技能交換休務の登録便  \n## 交換休務の申込便  \n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。",
+        "page_number": null,
+        "score": 0.77556,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "2a241586-36de-50c0-9b48-c8a4e05a30c3",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の年度切替",
+        "content": "## 交換休務の年度切替  \n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。",
+        "page_number": null,
+        "score": 0.775481,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "c9e6f4f6-800a-53f7-9a91-d053f72e0036",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の登録鍵",
+        "content": "# 技能交換休務の時間割帳  \n## 交換休務の登録鍵  \n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。",
+        "page_number": null,
+        "score": 0.76263,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "75779234-1d08-53b0-b6a4-a84473afaba1",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務残数の点検",
+        "content": "## 交換休務残数の点検  \n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。",
+        "page_number": null,
+        "score": 0.747982,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "d1befd95-9ae4-5dcc-a495-00b4f30db69b",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の持時間",
+        "content": "## 交換休務の持時間  \n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。",
+        "page_number": null,
+        "score": 0.744016,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.684777,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.666709,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH039/paraphrase_or_noisy",
+    "family": "deadline",
+    "origin": "historical_fixed_top8",
+    "arm": "deadline_only",
+    "prompt": "次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 講師登録・開催承認OK、今年はまだ未使用。2027/6/20に2時間教えて往復移動1時間。技能交換休務はいつまでに申込む？\n取得根拠: [{\"element_id\": \"3011b173-3d21-5781-928a-8a629d1451cf\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の移動除外\", \"content\": \"## 交換休務の移動除外  \\n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。\", \"page_number\": null, \"score\": 0.775873, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"b69a68d7-9135-570d-8e07-1d240df4876f\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務の申込便\", \"content\": \"# 技能交換休務の登録便  \\n## 交換休務の申込便  \\n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。\", \"page_number\": null, \"score\": 0.77556, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"2a241586-36de-50c0-9b48-c8a4e05a30c3\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の年度切替\", \"content\": \"## 交換休務の年度切替  \\n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。\", \"page_number\": null, \"score\": 0.775481, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"c9e6f4f6-800a-53f7-9a91-d053f72e0036\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の登録鍵\", \"content\": \"# 技能交換休務の時間割帳  \\n## 交換休務の登録鍵  \\n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。\", \"page_number\": null, \"score\": 0.76263, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"75779234-1d08-53b0-b6a4-a84473afaba1\", \"document_name\": \"技能交換休務の登録便\", \"heading\": \"交換休務残数の点検\", \"content\": \"## 交換休務残数の点検  \\n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。\", \"page_number\": null, \"score\": 0.747982, \"source\": \"TXH-C02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"d1befd95-9ae4-5dcc-a495-00b4f30db69b\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の持時間\", \"content\": \"## 交換休務の持時間  \\n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。\", \"page_number\": null, \"score\": 0.744016, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.684777, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"716636ff-a220-5e4d-a913-e27208fe1446\", \"document_name\": \"対話技能認証補助の認証札\", \"heading\": \"対話認証の受験日上限\", \"content\": \"## 対話認証の受験日上限  \\n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。\", \"page_number\": null, \"score\": 0.666709, \"source\": \"TXH-E01.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "expected_date": "2027-06-15",
+    "expected_clock": "17",
+    "question": "講師登録・開催承認OK、今年はまだ未使用。2027/6/20に2時間教えて往復移動1時間。技能交換休務はいつまでに申込む？",
+    "evidence": [
+      {
+        "element_id": "3011b173-3d21-5781-928a-8a629d1451cf",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の移動除外",
+        "content": "## 交換休務の移動除外  \n休務時間に算入できるのは講座で教える時間だけで、会場への移動時間は算入できない。",
+        "page_number": null,
+        "score": 0.775873,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "b69a68d7-9135-570d-8e07-1d240df4876f",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務の申込便",
+        "content": "# 技能交換休務の登録便  \n## 交換休務の申込便  \n時間割帳の講師登録と実施承認の条件を満たす講座について、講座実施日の5暦日前の17時までに育成窓口へ交換休務票と開催承認写しを送る。休日の延長はない。",
+        "page_number": null,
+        "score": 0.77556,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "2a241586-36de-50c0-9b48-c8a4e05a30c3",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の年度切替",
+        "content": "## 交換休務の年度切替  \n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。",
+        "page_number": null,
+        "score": 0.775481,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "c9e6f4f6-800a-53f7-9a91-d053f72e0036",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の登録鍵",
+        "content": "# 技能交換休務の時間割帳  \n## 交換休務の登録鍵  \n架空制度である技能交換休務は、他部署へ自分の業務技能を教える登録講師向けの有給休務枠である。交換講座名簿に講師登録があり、開催責任者が講座実施を承認した場合に利用できる。",
+        "page_number": null,
+        "score": 0.76263,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "75779234-1d08-53b0-b6a4-a84473afaba1",
+        "document_name": "技能交換休務の登録便",
+        "heading": "交換休務残数の点検",
+        "content": "## 交換休務残数の点検  \n申込時は本人の申告でなく年度利用台帳で使用済時間を確認する。使用済時間が不明なら育成窓口で照会し、年度枠内であることが確かめられるまで休務取得の認定を保留する。",
+        "page_number": null,
+        "score": 0.747982,
+        "source": "TXH-C02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "d1befd95-9ae4-5dcc-a495-00b4f30db69b",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の持時間",
+        "content": "## 交換休務の持時間  \n各年度の技能交換休務は合計18時間まで。取得は30分単位で行い、年度末の未使用時間は翌年度に持ち越せない。年度は4月1日から翌年3月31日までとする。",
+        "page_number": null,
+        "score": 0.744016,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.684777,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "716636ff-a220-5e4d-a913-e27208fe1446",
+        "document_name": "対話技能認証補助の認証札",
+        "heading": "対話認証の受験日上限",
+        "content": "## 対話認証の受験日上限  \n2027年10月31日以前に受験した分の上限額は6,000円。2027年11月1日以降に受験した分の上限額は7,500円。上限を選ぶ基準は受験日であり、支払日や申請日ではない。",
+        "page_number": null,
+        "score": 0.666709,
+        "source": "TXH-E01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ]
+  },
+  {
+    "id": "TH041/formal",
+    "family": "deadline_control",
+    "origin": "historical_success_control",
+    "arm": "baseline",
+    "prompt": "次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n質問: 2027年5月10日に条件を満たす輪番引継ぎを60分実施しました。算定額と申請締切を教えてください。\n取得根拠: [{\"element_id\": \"3cc6c433-fb7f-55d1-9222-b5e904937edc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の時点別上限\", \"content\": \"## 輪番枠の時点別上限  \\n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。\", \"page_number\": null, \"score\": 0.828683, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"0760c104-a79e-5d5d-b952-d8a5f00858e1\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"算定単位と切上げ禁止\", \"content\": \"## 算定単位と切上げ禁止  \\n承認済みの引継ぎ時間を一回ごとに計算する。連続する引継ぎ30分につき700円とし、30分未満の余りは切り捨てる。一回の上限は2,100円。移動時間と待機時間は引継ぎ時間へ算入しない。\", \"page_number\": null, \"score\": 0.77635, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6836ef53-7b2d-5927-baeb-d0739c0abd50\", \"document_name\": \"輪番引継支援枠の受付簿記要領\", \"heading\": \"輪番受付の束ね方\", \"content\": \"# 輪番引継支援枠の受付簿記要領  \\n## 輪番受付の束ね方  \\n輪番引継支援枠の申請には引継実施票と交代承認番号票の二点を添える。実施日の翌日を1日目として7暦日目の23時までに輪番デスクへ送信する。休日による延長はない。\", \"page_number\": null, \"score\": 0.751258, \"source\": \"TXH-A02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"8fecfbf0-108c-5a71-8612-95b58ae49afc\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の支払経路\", \"content\": \"## 輪番枠の支払経路  \\n確定額は業務精算台帳に登録し、翌月8日に支払う。8日が閉庁日なら次の開庁日に支払う。\", \"page_number\": null, \"score\": 0.738315, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"6b674821-44fc-5da5-821e-847306a56b62\", \"document_name\": \"輪番引継支援枠の受付簿記要領\", \"heading\": \"輪番記録の照合保留\", \"content\": \"## 輪番記録の照合保留  \\n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。\", \"page_number\": null, \"score\": 0.732744, \"source\": \"TXH-A02.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"198fae4a-8073-5b76-807e-d007abf48b86\", \"document_name\": \"輪番引継支援枠の算定帳\", \"heading\": \"輪番枠の成立\", \"content\": \"# 輪番引継支援枠の算定帳  \\n## 輪番枠の成立  \\nこれは架空の職員制度を扱う評価用資料である。輪番引継支援枠は、窓口の輪番担当交代時に引継ぎを行う職員の費用支援である。輪番台帳に登録済みで、交代日前に承認番号が発行された引継ぎだけを対象とする。\", \"page_number\": null, \"score\": 0.719844, \"source\": \"TXH-A01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"2a241586-36de-50c0-9b48-c8a4e05a30c3\", \"document_name\": \"技能交換休務の時間割帳\", \"heading\": \"交換休務の年度切替\", \"content\": \"## 交換休務の年度切替  \\n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。\", \"page_number\": null, \"score\": 0.708854, \"source\": \"TXH-C01.md\", \"element_type\": \"text\", \"visual_extraction\": null}, {\"element_id\": \"31c29e00-f088-5fb0-9cbd-a0e695aa4f20\", \"document_name\": \"書庫巡回加算の計測札\", \"heading\": \"巡回加算の指示日境界\", \"content\": \"## 巡回加算の指示日境界  \\n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。\", \"page_number\": null, \"score\": 0.698225, \"source\": \"TXH-D01.md\", \"element_type\": \"text\", \"visual_extraction\": null}]",
+    "question": "2027年5月10日に条件を満たす輪番引継ぎを60分実施しました。算定額と申請締切を教えてください。",
+    "evidence": [
+      {
+        "element_id": "3cc6c433-fb7f-55d1-9222-b5e904937edc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の時点別上限",
+        "content": "## 輪番枠の時点別上限  \n2027年5月31日までに実施した引継ぎの一回上限は2,100円。2027年6月1日以降に実施した引継ぎの一回上限は2,800円へ改める。30分につき700円と端数切捨ては変えない。申請日や承認日ではなく実施日で上限を選ぶ。",
+        "page_number": null,
+        "score": 0.828683,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "0760c104-a79e-5d5d-b952-d8a5f00858e1",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "算定単位と切上げ禁止",
+        "content": "## 算定単位と切上げ禁止  \n承認済みの引継ぎ時間を一回ごとに計算する。連続する引継ぎ30分につき700円とし、30分未満の余りは切り捨てる。一回の上限は2,100円。移動時間と待機時間は引継ぎ時間へ算入しない。",
+        "page_number": null,
+        "score": 0.77635,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "6836ef53-7b2d-5927-baeb-d0739c0abd50",
+        "document_name": "輪番引継支援枠の受付簿記要領",
+        "heading": "輪番受付の束ね方",
+        "content": "# 輪番引継支援枠の受付簿記要領  \n## 輪番受付の束ね方  \n輪番引継支援枠の申請には引継実施票と交代承認番号票の二点を添える。実施日の翌日を1日目として7暦日目の23時までに輪番デスクへ送信する。休日による延長はない。",
+        "page_number": null,
+        "score": 0.751258,
+        "source": "TXH-A02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "8fecfbf0-108c-5a71-8612-95b58ae49afc",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の支払経路",
+        "content": "## 輪番枠の支払経路  \n確定額は業務精算台帳に登録し、翌月8日に支払う。8日が閉庁日なら次の開庁日に支払う。",
+        "page_number": null,
+        "score": 0.738315,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "6b674821-44fc-5da5-821e-847306a56b62",
+        "document_name": "輪番引継支援枠の受付簿記要領",
+        "heading": "輪番記録の照合保留",
+        "content": "## 輪番記録の照合保留  \n算定帳の登録・事前承認条件を満たすことを確認してから支払額を確定する。承認番号票に番号があっても発行日時が欠けている場合、輪番デスクが発行日時を照会する。日時判明まで認定を保留し、自動的な不支給とはしない。",
+        "page_number": null,
+        "score": 0.732744,
+        "source": "TXH-A02.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "198fae4a-8073-5b76-807e-d007abf48b86",
+        "document_name": "輪番引継支援枠の算定帳",
+        "heading": "輪番枠の成立",
+        "content": "# 輪番引継支援枠の算定帳  \n## 輪番枠の成立  \nこれは架空の職員制度を扱う評価用資料である。輪番引継支援枠は、窓口の輪番担当交代時に引継ぎを行う職員の費用支援である。輪番台帳に登録済みで、交代日前に承認番号が発行された引継ぎだけを対象とする。",
+        "page_number": null,
+        "score": 0.719844,
+        "source": "TXH-A01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "2a241586-36de-50c0-9b48-c8a4e05a30c3",
+        "document_name": "技能交換休務の時間割帳",
+        "heading": "交換休務の年度切替",
+        "content": "## 交換休務の年度切替  \n2027年4月1日以降に実施する講座から年度枠を24時間へ改める。2027年3月31日以前の講座は年度枠18時間の対象。申込日ではなく講座実施日で所属年度と枠を決める。30分単位と繰越不可は維持する。",
+        "page_number": null,
+        "score": 0.708854,
+        "source": "TXH-C01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      },
+      {
+        "element_id": "31c29e00-f088-5fb0-9cbd-a0e695aa4f20",
+        "document_name": "書庫巡回加算の計測札",
+        "heading": "巡回加算の指示日境界",
+        "content": "## 巡回加算の指示日境界  \n2027年9月1日以降に発行した巡回指示番号には、一回最大8区画を適用する。それ以前に発行した番号は巡回日が9月以降でも最大6区画。一区画240円は変えない。",
+        "page_number": null,
+        "score": 0.698225,
+        "source": "TXH-D01.md",
+        "element_type": "text",
+        "visual_extraction": null
+      }
+    ],
+    "historical_answer": "回答分類: 判断要\n\n回答:\n- 2027年5月10日に実施した60分の輪番引継ぎの算定額は1,400円です。\n- 申請締切は実施日の翌日から起算して7暦日目の23時までです。\n- 2027年5月10日に実施した場合、申請締切は2027年5月17日の23時です。\n\n確認が必要です: 個別事情の確認"
+  }
+]

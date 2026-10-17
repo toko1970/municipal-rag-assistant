@@ -1,0 +1,472 @@
+[
+  {
+    "path": "(external local output; excluded from repository)",
+    "sha256": "d58a02510fd873d213c3394f9abb8eb16842b052b91ba9c7604a4163def14ce4",
+    "data": {
+      "attempted_calls": 48,
+      "complete_pairs": 24,
+      "expected_pairs": 24,
+      "metrics": {
+        "baseline": {
+          "label_correct": 21,
+          "all_factors_correct": 18,
+          "case_fact_correct": 21,
+          "display_success": 20,
+          "false_grounded": 0,
+          "confusion": {
+            "根拠十分 -> 根拠十分": 11,
+            "判断要 -> 判断要": 8,
+            "文書不足 -> 判断要": 1,
+            "根拠十分 -> 判断要": 2,
+            "文書不足 -> 文書不足": 2
+          }
+        },
+        "candidate": {
+          "label_correct": 21,
+          "all_factors_correct": 19,
+          "case_fact_correct": 22,
+          "display_success": 20,
+          "false_grounded": 0,
+          "confusion": {
+            "根拠十分 -> 根拠十分": 12,
+            "判断要 -> 判断要": 7,
+            "文書不足 -> 判断要": 1,
+            "判断要 -> 文書不足": 1,
+            "根拠十分 -> 判断要": 1,
+            "文書不足 -> 文書不足": 2
+          }
+        }
+      },
+      "improved_ids": [
+        "NEW-04"
+      ],
+      "regressed_ids": [
+        "CMB-T02"
+      ],
+      "display_regressed_ids": [
+        "CMB-T02"
+      ],
+      "estimated_cost_usd": 0.015912500000000003,
+      "errors": 0,
+      "gate_passed": false,
+      "experiment_status": "COMPLETED",
+      "adoption_decision": "FAIL",
+      "total_physical_attempts": 57,
+      "new_physical_attempts": 42,
+      "previous_provider_errors": 2,
+      "new_provider_errors": 7,
+      "remaining_conditions": 0,
+      "campaign_estimated_cost_usd": 0.015912500000000003
+    }
+  },
+  {
+    "path": "(external local output; excluded from repository)",
+    "sha256": "490b7d725641df62b298c747e47eba32e36f36c860068dc8b68db3547ec69263",
+    "data": {
+      "valid_scope_calls": 22,
+      "valid_audit_calls": 22,
+      "attempts": 48,
+      "errors": 4,
+      "repeats": {
+        "1": {
+          "baseline_display_correct": 20,
+          "candidate_display_correct": 21,
+          "candidate_inconsistencies": 0,
+          "improved_ids": [
+            "REG-Q076"
+          ],
+          "regressed_ids": [],
+          "new_false_grounded_ids": [],
+          "decisions": [
+            {
+              "case_id": "CPD-T04",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "criterion_check"
+              ],
+              "scope_expected": "criterion_check",
+              "scope_correct": true
+            },
+            {
+              "case_id": "CPD-T05",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "individual_decision"
+              ],
+              "scope_expected": "individual_decision",
+              "scope_correct": true
+            },
+            {
+              "case_id": "CPD-T06",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "concrete_value"
+              ],
+              "scope_expected": "concrete_value",
+              "scope_correct": true
+            },
+            {
+              "case_id": "CPD-V04",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "criterion_check"
+              ],
+              "scope_expected": "individual_decision",
+              "scope_correct": false
+            },
+            {
+              "case_id": "REG-Q076",
+              "expected": [
+                "drop_out_of_scope"
+              ],
+              "actual": [
+                "drop_already_known"
+              ],
+              "correct": false,
+              "scope_kinds": [
+                "answerability"
+              ],
+              "scope_expected": "answerability",
+              "scope_correct": true
+            },
+            {
+              "case_id": "REG-Q196",
+              "expected": [
+                "drop_out_of_scope"
+              ],
+              "actual": [
+                "drop_out_of_scope"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "criterion_check"
+              ],
+              "scope_expected": "criterion_check",
+              "scope_correct": true
+            },
+            {
+              "case_id": "REG-Q451",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "general_rule"
+              ],
+              "scope_expected": "concrete_value",
+              "scope_correct": false
+            },
+            {
+              "case_id": "NEW-02",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "answerability"
+              ],
+              "scope_expected": "concrete_value",
+              "scope_correct": false
+            },
+            {
+              "case_id": "NEW-06",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "concrete_value"
+              ],
+              "scope_expected": "concrete_value",
+              "scope_correct": true
+            },
+            {
+              "case_id": "SCOPE-01",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "concrete_value"
+              ],
+              "scope_expected": "concrete_value",
+              "scope_correct": true
+            },
+            {
+              "case_id": "SCOPE-02",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "individual_decision"
+              ],
+              "scope_expected": "individual_decision",
+              "scope_correct": true
+            }
+          ],
+          "gate_passed": false
+        },
+        "2": {
+          "baseline_display_correct": 20,
+          "candidate_display_correct": 21,
+          "candidate_inconsistencies": 0,
+          "improved_ids": [
+            "REG-Q076"
+          ],
+          "regressed_ids": [],
+          "new_false_grounded_ids": [],
+          "decisions": [
+            {
+              "case_id": "CPD-T04",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "criterion_check"
+              ],
+              "scope_expected": "criterion_check",
+              "scope_correct": true
+            },
+            {
+              "case_id": "CPD-T05",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "individual_decision"
+              ],
+              "scope_expected": "individual_decision",
+              "scope_correct": true
+            },
+            {
+              "case_id": "CPD-T06",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "concrete_value"
+              ],
+              "scope_expected": "concrete_value",
+              "scope_correct": true
+            },
+            {
+              "case_id": "CPD-V04",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "criterion_check"
+              ],
+              "scope_expected": "individual_decision",
+              "scope_correct": false
+            },
+            {
+              "case_id": "REG-Q076",
+              "expected": [
+                "drop_out_of_scope"
+              ],
+              "actual": [
+                "drop_already_known"
+              ],
+              "correct": false,
+              "scope_kinds": [
+                "answerability"
+              ],
+              "scope_expected": "answerability",
+              "scope_correct": true
+            },
+            {
+              "case_id": "REG-Q196",
+              "expected": [
+                "drop_out_of_scope"
+              ],
+              "actual": [
+                "drop_out_of_scope"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "criterion_check"
+              ],
+              "scope_expected": "criterion_check",
+              "scope_correct": true
+            },
+            {
+              "case_id": "REG-Q451",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "general_rule"
+              ],
+              "scope_expected": "concrete_value",
+              "scope_correct": false
+            },
+            {
+              "case_id": "NEW-02",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "answerability"
+              ],
+              "scope_expected": "concrete_value",
+              "scope_correct": false
+            },
+            {
+              "case_id": "NEW-06",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "concrete_value"
+              ],
+              "scope_expected": "concrete_value",
+              "scope_correct": true
+            },
+            {
+              "case_id": "SCOPE-01",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "concrete_value"
+              ],
+              "scope_expected": "concrete_value",
+              "scope_correct": true
+            },
+            {
+              "case_id": "SCOPE-02",
+              "expected": [
+                "keep_required"
+              ],
+              "actual": [
+                "keep_required"
+              ],
+              "correct": true,
+              "scope_kinds": [
+                "individual_decision"
+              ],
+              "scope_expected": "individual_decision",
+              "scope_correct": true
+            }
+          ],
+          "gate_passed": false
+        }
+      },
+      "gate_passed": false,
+      "estimated_cost_usd": 0.020403,
+      "frozen_hashes_verified": true,
+      "protected_answer_fields_preserved": true
+    }
+  },
+  {
+    "path": "(external local output; excluded from repository)",
+    "sha256": "7a6bd587f81c2b6744e30059444b2cb1e9f8d02ba25cc36858f90ab1b699351d",
+    "data": {
+      "valid_conditions": 24,
+      "planned_conditions": 24,
+      "attempts": 25,
+      "errors": 1,
+      "estimated_cost_usd": 0.024618999999999995,
+      "repeats": {
+        "1": {
+          "paired_cases": 6,
+          "original_regex_content_correct": 2,
+          "reversed_regex_content_correct": 2,
+          "improved_ids": [
+            "Q386"
+          ],
+          "regressed_ids": [
+            "Q446"
+          ],
+          "primary_gate_passed": false
+        },
+        "2": {
+          "paired_cases": 6,
+          "original_regex_content_correct": 2,
+          "reversed_regex_content_correct": 2,
+          "improved_ids": [
+            "Q386"
+          ],
+          "regressed_ids": [
+            "Q446"
+          ],
+          "primary_gate_passed": false
+        }
+      },
+      "frozen_hashes_verified": true
+    }
+  }
+]

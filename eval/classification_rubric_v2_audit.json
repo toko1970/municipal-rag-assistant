@@ -1,0 +1,1674 @@
+{
+  "schema_version": "1.0",
+  "rubric_version": "classification-rubric-v2.0",
+  "source_holdout_id": "text-sealed-holdout-v1",
+  "source_gold_sha256": "9b064b36a109550a3d2b410142fff3e365a31131eb3c5c119987486914008196",
+  "source_questions_sha256": "67af42b0416b31dbfa7980013357392761dd233289f0a219cbcadca64b461f7b",
+  "scenario_count": 50,
+  "expression_count": 100,
+  "label_counts": {
+    "根拠十分": 30,
+    "文書不足": 10,
+    "判断要": 10
+  },
+  "human_review_reason_counts": {
+    "case_fact": 10,
+    "policy_judgment": 0,
+    "version_conflict": 0
+  },
+  "coverage_gaps": [
+    "policy_judgment",
+    "version_conflict"
+  ],
+  "label_change_count": 0,
+  "external_api_calls": 0,
+  "sealed_status": "opened_before_this_audit",
+  "scenarios": [
+    {
+      "scenario_id": "TH001",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "書庫巡回加算の対象となる指示の条件と、請求時に一組にする資料を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "書庫巡回加算はどんな指示が必要？請求でセットにする書類も教えて。"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "書庫管理室発行の巡回指示番号が必要で、自主点検は対象外。点検結果登録後、巡回指示番号票と区画別点検一覧を一組にする。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-D01",
+          "heading": "巡回加算の作業鍵"
+        },
+        {
+          "document_id": "TXH-D02",
+          "heading": "巡回加算の請求束"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH002",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "書庫巡回加算で、同じ巡回中に同一区画を二度点検した場合は二区画分になりますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "書庫巡回で同じ場所を2回チェックしたら、2区画として加算できる？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "同一区画は一回の巡回で一区画分だけ算定する。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-D01",
+          "heading": "巡回加算の区画算定"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH003",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務を取得した時間は退職時の勤続期間計算でどのように扱われますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "技能交換の休務時間って退職するときの勤続年数にどう数える？"
+        }
+      ],
+      "previous_expected_classification": "insufficient_documents",
+      "previous_expected_label": "文書不足",
+      "expected_answer_key": "退職時の勤続期間計算について本文群に根拠がなく回答できない。有給休務であることから推測しない。",
+      "expected_evidence": [],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "insufficient",
+      "expected_claim_support": "no_claim",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "insufficient_documents",
+      "rubric_v2_label": "文書不足",
+      "rationale": "review済みcorpus goldでは適用可能な規則がなく、類似制度から推測しない。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH004",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助で一年度に補助できる受験回数を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証の受験補助、年度内に何回まで使える？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "一年度一回まで。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-E01",
+          "heading": "対話認証の回数線"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH005",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務には講座会場までの移動時間を含められますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "技能交換で教えに行く移動時間も休務に入れていい？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "会場への移動時間は含めず、講座で教える時間だけを算入する。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-C01",
+          "heading": "交換休務の移動除外"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH006",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助の担当者登録・事前承認の条件と、精算に添える資料を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証の補助を受ける登録と承認の条件は？精算で何を添付する？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "担当者登録と受験前の育成承認番号取得が必要。育成承認番号票・受験済証・受験料領収証を添付する。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-E01",
+          "heading": "対話認証の入口"
+        },
+        {
+          "document_id": "TXH-E02",
+          "heading": "対話認証の添付束"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH007",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番引継支援枠では、移動時間と待機時間を算定時間に含められますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "輪番引継の支援って、移動と待ち時間も時間数に足せる？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "移動時間・待機時間とも算入できない。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-A01",
+          "heading": "算定単位と切上げ禁止"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH008",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年6月の2時間の講座について講師登録と実施承認はありますが、その年度の使用済休務時間が不明です。技能交換休務を取得できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "2027年6月に2時間教える件、講師登録も承認もある。今年どれだけ技能交換休務を使ったか不明だけど取れる？"
+        }
+      ],
+      "previous_expected_classification": "needs_judgment",
+      "previous_expected_label": "判断要",
+      "expected_answer_key": "年度枠24時間に収まるか確認が必要。年度利用台帳で使用済時間を照会するまで認定を保留する。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-C01",
+          "heading": "交換休務の年度切替"
+        },
+        {
+          "document_id": "TXH-C02",
+          "heading": "交換休務残数の点検"
+        }
+      ],
+      "missing_conditions": [
+        "当該年度の使用済休務時間"
+      ],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [
+        {
+          "type": "case_fact",
+          "description": "当該年度の使用済休務時間"
+        }
+      ],
+      "rubric_v2_classification": "needs_judgment",
+      "rubric_v2_label": "判断要",
+      "rationale": "文書に判断基準はあるが、最終結論を変える個別事実が未確認である。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH009",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "静音席利用補填に必要な勤務計画と施設の条件、および清算に添える資料を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "静音席の補填、勤務予定や施設の条件は？清算で出す資料も知りたい。"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "勤務計画に整理作業が登録され、有効な施設認定コードが必要。予約成立日時を記載した利用証と領収票を添える。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-B01",
+          "heading": "静音席券の対象範囲"
+        },
+        {
+          "document_id": "TXH-B02",
+          "heading": "静音席の清算封筒"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH010",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助は、不合格の場合でも実際に受験し他の条件を満たせば利用できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証試験に落ちたけど受けた事実は確認できて他の条件もOK。補助は使える？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "不合格でも実際の受験を確認でき他の条件を満たせば補助対象。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-E01",
+          "heading": "対話認証の回数線"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH011",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年10月10日に指定認証試験を受験し、受験料8,000円を支払いました。他の条件は全て満たす場合、補助額と提出期限を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証試験を2027/10/10に受けて受験料8000円。他条件は全部OK。補助いくら、いつまでに出す？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "上限6,000円のため補助6,000円。提出は2027年10月30日正午まで。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-E01",
+          "heading": "対話認証の費目線"
+        },
+        {
+          "document_id": "TXH-E01",
+          "heading": "対話認証の受験日上限"
+        },
+        {
+          "document_id": "TXH-E02",
+          "heading": "対話認証の添付束"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH012",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "静音席利用補填と名称の似た静音室整備助成では、設備購入にいくら助成されますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "席の利用補填じゃなく静音室整備助成の方。設備を買ったらいくら出る？"
+        }
+      ],
+      "previous_expected_classification": "insufficient_documents",
+      "previous_expected_label": "文書不足",
+      "expected_answer_key": "静音室整備助成の設備購入額に関する文書がないため回答できない。静音席券の額面を転用しない。",
+      "expected_evidence": [],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "insufficient",
+      "expected_claim_support": "no_claim",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "insufficient_documents",
+      "rubric_v2_label": "文書不足",
+      "rationale": "review済みcorpus goldでは適用可能な規則がなく、類似制度から推測しない。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH013",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助を受けた職員が翌月退職した場合の返還義務と返還額を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証の補助をもらって次の月に退職したら、返す必要ある？いくら返す？"
+        }
+      ],
+      "previous_expected_classification": "insufficient_documents",
+      "previous_expected_label": "文書不足",
+      "expected_answer_key": "退職時の返還義務・返還額に関する定めが文書群にないため、返還不要とも全額返還とも断定できない。",
+      "expected_evidence": [],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "insufficient",
+      "expected_claim_support": "no_claim",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "insufficient_documents",
+      "rubric_v2_label": "文書不足",
+      "rationale": "review済みcorpus goldでは適用可能な規則がなく、類似制度から推測しない。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH014",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番台帳に登録済みで、2027年5月10日に60分引継ぎを行いました。交代承認番号票には番号だけがあり、発行日時が不明です。1,400円の支払を確定できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "輪番登録済み、2027/5/10の引き継ぎ60分。承認番号はあるけど発行日時が抜けてる。1400円で確定していい？"
+        }
+      ],
+      "previous_expected_classification": "needs_judgment",
+      "previous_expected_label": "判断要",
+      "expected_answer_key": "時間算定上は1,400円だが、交代日前の番号発行を確認できず確定不可。輪番デスクが発行日時を照会し認定を保留する。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-A01",
+          "heading": "輪番枠の成立"
+        },
+        {
+          "document_id": "TXH-A01",
+          "heading": "算定単位と切上げ禁止"
+        },
+        {
+          "document_id": "TXH-A02",
+          "heading": "輪番記録の照合保留"
+        }
+      ],
+      "missing_conditions": [
+        "承認番号の発行日時と交代日前の発行であること"
+      ],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [
+        {
+          "type": "case_fact",
+          "description": "承認番号の発行日時と交代日前の発行であること"
+        }
+      ],
+      "rubric_v2_classification": "needs_judgment",
+      "rubric_v2_label": "判断要",
+      "rationale": "文書に判断基準はあるが、最終結論を変える個別事実が未確認である。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH015",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証試験を2027年10月31日に受験し、11月2日に精算申請しました。受験料8,000円で他の条件は満たす場合、補助額はいくらですか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証、2027/10/31に受験して11/2に申請。受験料8000円、他は全部OK。いくら出る？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "受験日が10月31日のため上限6,000円で、補助額6,000円。申請日で新上限を使わない。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-E01",
+          "heading": "対話認証の費目線"
+        },
+        {
+          "document_id": "TXH-E01",
+          "heading": "対話認証の受験日上限"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH016",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年9月2日に異なる8区画の書庫巡回を終えました。指示番号の発行日だけが不明で他の条件は満たします。加算額を確定できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "書庫巡回は2027/9/2に8区画、条件は他全部OK。指示がいつ出たかだけ不明。金額を決めていい？"
+        }
+      ],
+      "previous_expected_classification": "needs_judgment",
+      "previous_expected_label": "判断要",
+      "expected_answer_key": "指示番号発行日を確認するまで確定できない。8月31日以前なら6区画上限で1,440円、9月1日以降なら8区画で1,920円。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-D01",
+          "heading": "巡回加算の指示日境界"
+        }
+      ],
+      "missing_conditions": [
+        "巡回指示番号の発行日"
+      ],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [
+        {
+          "type": "case_fact",
+          "description": "巡回指示番号の発行日"
+        }
+      ],
+      "rubric_v2_classification": "needs_judgment",
+      "rubric_v2_label": "判断要",
+      "rationale": "文書に判断基準はあるが、最終結論を変える個別事実が未確認である。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH017",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助ではなく対話技能登録報奨について、認証取得後の毎月の支払額を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "受験料補助じゃなく対話技能登録報奨のこと。認証を取った後、毎月いくら？"
+        }
+      ],
+      "previous_expected_classification": "insufficient_documents",
+      "previous_expected_label": "文書不足",
+      "expected_answer_key": "対話技能登録報奨の月額を定める文書がない。受験料補助の上限を月額へ流用しない。",
+      "expected_evidence": [],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "insufficient",
+      "expected_claim_support": "no_claim",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "insufficient_documents",
+      "rubric_v2_label": "文書不足",
+      "rationale": "review済みcorpus goldでは適用可能な規則がなく、類似制度から推測しない。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH018",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "静音席利用補填の午前券で利用できる時間帯を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "静音席の午前チケットって何時から何時まで？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "8時30分から12時30分まで。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-B01",
+          "heading": "静音席券の時間帯"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH019",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "書庫巡回加算の業務中に私物の靴が破損した場合、修理代の補償上限はいくらですか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "書庫巡回中に自分の靴が壊れた。修理費の補償って上限いくら？"
+        }
+      ],
+      "previous_expected_classification": "insufficient_documents",
+      "previous_expected_label": "文書不足",
+      "expected_answer_key": "私物の靴の修理補償を定める根拠がなく回答できない。区画単価を補償額として使わない。",
+      "expected_evidence": [],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "insufficient",
+      "expected_claim_support": "no_claim",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "insufficient_documents",
+      "rubric_v2_label": "文書不足",
+      "rationale": "review済みcorpus goldでは適用可能な規則がなく、類似制度から推測しない。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH020",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年8月発行の指示番号による書庫巡回で、承認済みの異なる5区画を点検し結果を提出しました。算定額はいくらですか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "2027年8月の指示で書庫の別々の5区画を承認どおり点検して報告済み。巡回加算いくら？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "5区画×240円で1,200円。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-D01",
+          "heading": "巡回加算の区画算定"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH021",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務ではなく技能交換謝礼の、講師一人あたりの支払額を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "休務じゃなくて技能交換謝礼の方、先生1人いくらもらえる？"
+        }
+      ],
+      "previous_expected_classification": "insufficient_documents",
+      "previous_expected_label": "文書不足",
+      "expected_answer_key": "技能交換謝礼の支払額を定めた文書がない。休務時間枠を金銭額へ変換しない。",
+      "expected_evidence": [],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "insufficient",
+      "expected_claim_support": "no_claim",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "insufficient_documents",
+      "rubric_v2_label": "文書不足",
+      "rationale": "review済みcorpus goldでは適用可能な規則がなく、類似制度から推測しない。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH022",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "書庫巡回を2027年8月10日15時に終了しました。点検結果の登録期限と請求期限をそれぞれ教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "2027/8/10の15時に書庫巡回終了。結果登録と請求、それぞれ締切はいつ？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "点検結果は8月12日15時まで。請求は翌日から10暦日目の8月20日まで。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-D01",
+          "heading": "巡回加算の報告窓"
+        },
+        {
+          "document_id": "TXH-D02",
+          "heading": "巡回加算の請求束"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH023",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助で、教材費と交通費は補助の対象になりますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証の補助ってテキスト代と交通代も出る？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "教材費と交通費は対象外。補助するのは受験料のみ。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-E01",
+          "heading": "対話認証の費目線"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH024",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務を利用する講師と講座の条件、および申込時に送る資料を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "技能交換休務を使える講師・講座の条件と、申込みで送る書類は？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "交換講座名簿の講師登録と開催責任者の実施承認が必要。交換休務票と開催承認写しを育成窓口へ送る。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-C01",
+          "heading": "交換休務の登録鍵"
+        },
+        {
+          "document_id": "TXH-C02",
+          "heading": "交換休務の申込便"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH025",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "登録職員で勤務計画も登録済みです。静音席午前券の利用料900円を支払いましたが、利用証の施設認定コードが判読できません。補填できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "登録と勤務予定は済み、静音席午前券900円を払ったけど施設コードが読めない。補填してもらえる？"
+        }
+      ],
+      "previous_expected_classification": "needs_judgment",
+      "previous_expected_label": "判断要",
+      "expected_answer_key": "有効な施設認定コードの照合が必要。支払済みだけでは可否を確定できず、作業環境室から施設へ照会し保留する。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-B01",
+          "heading": "静音席券の対象範囲"
+        },
+        {
+          "document_id": "TXH-B02",
+          "heading": "静音施設コードの保留照会"
+        }
+      ],
+      "missing_conditions": [
+        "判読可能な施設認定コードとその有効性"
+      ],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [
+        {
+          "type": "case_fact",
+          "description": "判読可能な施設認定コードとその有効性"
+        }
+      ],
+      "rubric_v2_classification": "needs_judgment",
+      "rubric_v2_label": "判断要",
+      "rationale": "文書に判断基準はあるが、最終結論を変える個別事実が未確認である。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH026",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "書庫巡回加算と別制度の書庫整理奨励金では、一箱整理するといくら支給されますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "巡回加算じゃなく書庫整理奨励金。箱1つ片付けると何円？"
+        }
+      ],
+      "previous_expected_classification": "insufficient_documents",
+      "previous_expected_label": "文書不足",
+      "expected_answer_key": "書庫整理奨励金の箱単価に関する文書がないため回答できない。巡回の区画単価を転用しない。",
+      "expected_evidence": [],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "insufficient",
+      "expected_claim_support": "no_claim",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "insufficient_documents",
+      "rubric_v2_label": "文書不足",
+      "rationale": "review済みcorpus goldでは適用可能な規則がなく、類似制度から推測しない。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH027",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務の年度末の未使用時間は翌年度へ持ち越せますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "技能交換休務の余った時間、次の年度に回せる？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "年度末の未使用時間は翌年度へ持ち越せない。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-C01",
+          "heading": "交換休務の持時間"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH028",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "静音席利用補填の午前券について、利用料が650円の場合の補填額はいくらですか。その他の条件は満たしています。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "静音席の午前券、条件はクリアで実費650円。補填はいくら？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "額面900円より実費が低いため650円。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-B01",
+          "heading": "静音席券の額面"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH029",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "書庫巡回加算の点検結果は巡回終了から何時間以内に登録しますか。休日は除きますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "書庫巡回の結果って終わってから何時間以内？休みの日は数えない？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "48時間以内。連続した実時間で休日も含める。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-D01",
+          "heading": "巡回加算の報告窓"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH030",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番引継支援枠の確定額の支払日と、その日が閉庁日の場合の扱いを教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "輪番支援のお金はいつ？その日が役所の休みならどうなるの？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "翌月8日。閉庁日なら次の開庁日に支払う。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-A01",
+          "heading": "輪番枠の支払経路"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH031",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助の登録・事前承認・受験実績は確認済みですが、同じ年度の受給歴が未照合です。本人は初回と申告しています。補助を確定できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証の登録と事前承認、受験は確認済み。今年の受給歴はまだ調べてないけど本人は初めてと言う。補助確定していい？"
+        }
+      ],
+      "previous_expected_classification": "needs_judgment",
+      "previous_expected_label": "判断要",
+      "expected_answer_key": "一年度一回のため受給台帳で履歴照合が必要。本人の初回申告だけでは確定せず照合まで保留する。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-E01",
+          "heading": "対話認証の回数線"
+        },
+        {
+          "document_id": "TXH-E02",
+          "heading": "対話認証の履歴保留"
+        }
+      ],
+      "missing_conditions": [
+        "同一年度の補助受給歴"
+      ],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [
+        {
+          "type": "case_fact",
+          "description": "同一年度の補助受給歴"
+        }
+      ],
+      "rubric_v2_classification": "needs_judgment",
+      "rubric_v2_label": "判断要",
+      "rationale": "文書に判断基準はあるが、最終結論を変える個別事実が未確認である。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH032",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務の2027年3月31日実施講座と4月1日実施講座は、それぞれ年度上限何時間の枠に属しますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "技能交換休務、2027/3/31に教える分と4/1の分は、年の上限がそれぞれ何時間？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "3月31日実施分は18時間枠、4月1日実施分は24時間枠。講座実施日で選ぶ。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-C01",
+          "heading": "交換休務の年度切替"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH033",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "対話技能認証補助の申請日は2027年11月2日、受験料は8,000円です。受験日が不明でその他の条件は満たす場合、補助額を確定できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "対話認証の申請は2027/11/2で受験料8000円。他条件OKだけど受けた日が不明。額は決められる？"
+        }
+      ],
+      "previous_expected_classification": "needs_judgment",
+      "previous_expected_label": "判断要",
+      "expected_answer_key": "受験日確認が必要。10月31日以前なら6,000円、11月1日以降なら7,500円で、申請日だけでは確定できない。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-E01",
+          "heading": "対話認証の受験日上限"
+        }
+      ],
+      "missing_conditions": [
+        "指定認証試験の受験日"
+      ],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [
+        {
+          "type": "case_fact",
+          "description": "指定認証試験の受験日"
+        }
+      ],
+      "rubric_v2_classification": "needs_judgment",
+      "rubric_v2_label": "判断要",
+      "rationale": "文書に判断基準はあるが、最終結論を変える個別事実が未確認である。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH034",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "条件を満たす120分の輪番引継ぎを2027年5月31日と6月1日に各一回実施しました。それぞれの上限適用後の額はいくらですか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "登録・事前承認済みの輪番引継ぎを120分ずつ、2027/5/31と6/1にやった。各回いくらになる？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "5月31日実施分は2,100円、6月1日実施分は2,800円。実施日で上限を選ぶ。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-A01",
+          "heading": "算定単位と切上げ禁止"
+        },
+        {
+          "document_id": "TXH-A01",
+          "heading": "輪番枠の時点別上限"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH035",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番引継ぎ120分の申請を2027年6月2日に受け付けました。登録・事前承認は確認済みですが実施日が空欄です。上限は2,800円で確定できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "輪番の引継120分、登録と事前承認はOK。受付は2027/6/2だけど実施日が未記入。上限2800円でいい？"
+        }
+      ],
+      "previous_expected_classification": "needs_judgment",
+      "previous_expected_label": "判断要",
+      "expected_answer_key": "受付日では上限を選べない。実施日を確認するまで確定不可。5月31日以前なら2,100円、6月1日以降なら2,800円。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-A01",
+          "heading": "輪番枠の時点別上限"
+        }
+      ],
+      "missing_conditions": [
+        "引継ぎの実施日"
+      ],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [
+        {
+          "type": "case_fact",
+          "description": "引継ぎの実施日"
+        }
+      ],
+      "rubric_v2_classification": "needs_judgment",
+      "rubric_v2_label": "判断要",
+      "rationale": "文書に判断基準はあるが、最終結論を変える個別事実が未確認である。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH036",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年8月発行の指示に従う書庫巡回で、点検結果は登録済みです。一覧の五つの記号が異なる区画か重複か不明です。1,200円で確定できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "2027年8月の指示の書庫巡回、結果登録は済み。リストの5記号が別の区画かダブりか不明だけど1200円でいい？"
+        }
+      ],
+      "previous_expected_classification": "needs_judgment",
+      "previous_expected_label": "判断要",
+      "expected_answer_key": "一区画240円で重複を二重計上できないため、異なる区画数の確定が必要。書庫管理室が区画番号を照会するまで額を確定しない。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-D01",
+          "heading": "巡回加算の区画算定"
+        },
+        {
+          "document_id": "TXH-D02",
+          "heading": "巡回加算の区画照会"
+        }
+      ],
+      "missing_conditions": [
+        "記号に対応する区画番号と重複を除いた区画数"
+      ],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [
+        {
+          "type": "case_fact",
+          "description": "記号に対応する区画番号と重複を除いた区画数"
+        }
+      ],
+      "rubric_v2_classification": "needs_judgment",
+      "rubric_v2_label": "判断要",
+      "rationale": "文書に判断基準はあるが、最終結論を変える個別事実が未確認である。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH037",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年8月31日に発行した指示番号で9月2日に異なる8区画を点検しました。他の条件は満たす場合、書庫巡回加算はいくらですか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "書庫巡回、指示は2027/8/31発行、作業は9/2で別々の8区画。他条件OK。加算いくら？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "指示番号発行日で旧上限6区画を適用し、6×240円で1,440円。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-D01",
+          "heading": "巡回加算の指示日境界"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH038",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番引継支援枠の支払額は、所得税の計算上どの所得区分になりますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "輪番引継の支援金って税金では何所得になるの？"
+        }
+      ],
+      "previous_expected_classification": "insufficient_documents",
+      "previous_expected_label": "文書不足",
+      "expected_answer_key": "本文群に所得税上の所得区分の定めがないため回答できない。算定額や支払経路から推測しない。",
+      "expected_evidence": [],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "insufficient",
+      "expected_claim_support": "no_claim",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "insufficient_documents",
+      "rubric_v2_label": "文書不足",
+      "rationale": "review済みcorpus goldでは適用可能な規則がなく、類似制度から推測しない。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH039",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "講師登録と実施承認済みで、年度使用済時間は0です。2027年6月20日の講座で2時間教え、片道30分ずつ移動します。休務に数える時間と申込期限を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "講師登録・開催承認OK、今年はまだ未使用。2027/6/20に2時間教えて往復移動1時間。技能交換休務は何時間で、いつまでに申込む？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "休務算入は教える2時間のみ。申込期限は2027年6月15日17時。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-C01",
+          "heading": "交換休務の移動除外"
+        },
+        {
+          "document_id": "TXH-C02",
+          "heading": "交換休務の申込便"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH040",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番引継支援枠とは別の輪番待機慰労枠について、一時間あたりの金額を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "引継支援じゃなく輪番待機慰労枠の方、1時間いくら？"
+        }
+      ],
+      "previous_expected_classification": "insufficient_documents",
+      "previous_expected_label": "文書不足",
+      "expected_answer_key": "輪番待機慰労枠の金額の根拠は文書群にない。引継支援の30分単価を流用しない。",
+      "expected_evidence": [],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "insufficient",
+      "expected_claim_support": "no_claim",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "insufficient_documents",
+      "rubric_v2_label": "文書不足",
+      "rationale": "review済みcorpus goldでは適用可能な規則がなく、類似制度から推測しない。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH041",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年5月10日に条件を満たす輪番引継ぎを60分実施しました。算定額と申請締切を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "2027/5/10に輪番の引継ぎ60分、必要条件は全部OK。いくらで、いつまでに送る？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "算定額1,400円。翌日から7暦日目の2027年5月17日23時までに輪番デスクへ送信する。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-A01",
+          "heading": "算定単位と切上げ禁止"
+        },
+        {
+          "document_id": "TXH-A02",
+          "heading": "輪番受付の束ね方"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH042",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番引継支援枠で、2027年5月に承認済みの引継ぎを80分行った場合の算定額はいくらですか。登録・事前承認の条件は満たしています。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "輪番の引きつぎ支援、登録も事前承認も済み。2027年5月に80分やったら何円？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "80分のうち30分単位は2つで1,400円。余り20分は切り捨てる。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-A01",
+          "heading": "算定単位と切上げ禁止"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH043",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務は何分単位で取得できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "技能交換の休務って何分刻みで取れる？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "30分単位で取得する。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-C01",
+          "heading": "交換休務の持時間"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH044",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年6月に条件を満たして静音席の午前券を利用し、利用料は1,100円でした。補填額と清算期限・送付先を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "2027年6月の静音席午前券、条件OKで1100円払った。いくら戻って、いつどこへ出す？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "補填900円。2027年7月4日18時までに作業環境室へ送る。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-B01",
+          "heading": "静音席券の額面"
+        },
+        {
+          "document_id": "TXH-B02",
+          "heading": "静音席の清算封筒"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH045",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "2027年8月3日に静音席終日券を利用し2,000円支払いました。その他の条件は満たしていますが予約成立日が分かりません。補填額を確定できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "静音席1日券、2027/8/3利用で2000円払った。条件は他全部OK、予約した日だけ不明。戻る額は決められる？"
+        }
+      ],
+      "previous_expected_classification": "needs_judgment",
+      "previous_expected_label": "判断要",
+      "expected_answer_key": "予約成立日が必要。7月31日以前なら1,500円、8月1日以降なら1,800円であり、利用日だけでは確定できない。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-B01",
+          "heading": "静音席券の予約日基準"
+        }
+      ],
+      "missing_conditions": [
+        "予約成立日"
+      ],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [
+        {
+          "type": "case_fact",
+          "description": "予約成立日"
+        }
+      ],
+      "rubric_v2_classification": "needs_judgment",
+      "rubric_v2_label": "判断要",
+      "rationale": "文書に判断基準はあるが、最終結論を変える個別事実が未確認である。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH046",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "静音席利用補填では、同じ日に午前券と終日券を加算できますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "静音席、同日の午前券と1日券を足して申請できる？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "一日一枚であり、午前券と終日券は加算できない。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-B01",
+          "heading": "静音席券の額面"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH047",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "静音席の終日券を2027年7月31日に予約し、8月3日に利用しました。利用料2,000円で他の条件は満たす場合、補填額はいくらですか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "静音席の1日券、2027/7/31予約で8/3に使った。実費2000円、他条件OK。補填額は？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "予約成立日が7月31日なので旧額面1,500円。利用日が8月でも1,800円にはならない。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-B01",
+          "heading": "静音席券の予約日基準"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH048",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "静音席利用補填で利用した席をキャンセルした際の、施設へ払う取消料の料率を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "静音席をキャンセルしたら施設に払う取消料って何パーセント？"
+        }
+      ],
+      "previous_expected_classification": "insufficient_documents",
+      "previous_expected_label": "文書不足",
+      "expected_answer_key": "施設の取消料率は文書群に記載がなく回答できない。補填券の額面から推定しない。",
+      "expected_evidence": [],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "insufficient",
+      "expected_claim_support": "no_claim",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "insufficient_documents",
+      "rubric_v2_label": "文書不足",
+      "rationale": "review済みcorpus goldでは適用可能な規則がなく、類似制度から推測しない。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH049",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "輪番引継支援枠の対象となる登録・承認条件と、申請に添える二点の資料を教えてください。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "輪番支援を使うには登録や承認はどう必要で、何を2つ添付するの？"
+        }
+      ],
+      "previous_expected_classification": "grounded",
+      "previous_expected_label": "根拠十分",
+      "expected_answer_key": "輪番台帳への登録と交代日前の承認番号発行が必要。引継実施票と交代承認番号票を添付する。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-A01",
+          "heading": "輪番枠の成立"
+        },
+        {
+          "document_id": "TXH-A02",
+          "heading": "輪番受付の束ね方"
+        }
+      ],
+      "missing_conditions": [],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [],
+      "rubric_v2_classification": "grounded",
+      "rubric_v2_label": "根拠十分",
+      "rationale": "取得対象文書の規則から質問が求める命題を一意に回答できる。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    },
+    {
+      "scenario_id": "TH050",
+      "expressions": [
+        {
+          "variant_type": "formal",
+          "question": "技能交換休務を2027年3月20日に申し込みました。講座実施日が未定の場合、年度枠は18時間と24時間のどちらになりますか。"
+        },
+        {
+          "variant_type": "paraphrase_or_noisy",
+          "question": "技能交換休務を2027/3/20に申込んだけど開催日未定。18時間枠と24時間枠、どっち？"
+        }
+      ],
+      "previous_expected_classification": "needs_judgment",
+      "previous_expected_label": "判断要",
+      "expected_answer_key": "申込日では決まらない。講座実施日の確定が必要で、3月31日以前は18時間枠、4月1日以降は24時間枠。",
+      "expected_evidence": [
+        {
+          "document_id": "TXH-C01",
+          "heading": "交換休務の年度切替"
+        }
+      ],
+      "missing_conditions": [
+        "講座実施日"
+      ],
+      "oracle_evidence_coverage": "sufficient",
+      "expected_claim_support": "fully_supported",
+      "human_review_requirements": [
+        {
+          "type": "case_fact",
+          "description": "講座実施日"
+        }
+      ],
+      "rubric_v2_classification": "needs_judgment",
+      "rubric_v2_label": "判断要",
+      "rationale": "文書に判断基準はあるが、最終結論を変える個別事実が未確認である。",
+      "label_changed": false,
+      "annotation_basis": "opened_text_holdout_gold_plus_rubric_v2"
+    }
+  ]
+}

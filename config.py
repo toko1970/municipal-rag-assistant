@@ -19,9 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent
 DOCS_DIR = BASE_DIR / "docs"
 CHROMA_DB_DIR = BASE_DIR / "chroma_db"
 LOGS_DIR = BASE_DIR / "logs"
-VISUAL_ASSET_DIR = Path(
-    os.getenv("VISUAL_ASSET_DIR", str(BASE_DIR / ".rag_assets"))
-)
+VISUAL_ASSET_DIR = Path(os.getenv("VISUAL_ASSET_DIR", str(BASE_DIR / ".rag_assets")))
 VISUAL_ASSET_BACKEND = os.getenv("VISUAL_ASSET_BACKEND", "local")
 GCS_VISUAL_ASSET_BUCKET = os.getenv("GCS_VISUAL_ASSET_BUCKET", "")
 
@@ -38,9 +36,8 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 
 LLM_MODEL_NAME = os.getenv("LLM_MODEL_NAME", "gemini-3.1-flash-lite")
-CLASSIFIER_MODEL_NAME = os.getenv(
-    "CLASSIFIER_MODEL_NAME", "gemini-3.1-flash-lite"
-)
+CLASSIFIER_MODEL_NAME = os.getenv("CLASSIFIER_MODEL_NAME", "gemini-3.1-flash-lite")
+CLASSIFICATION_CONTRACT_VERSION = os.getenv("CLASSIFICATION_CONTRACT_VERSION", "v1")
 EMBEDDING_MODEL_NAME = "gemini-embedding-001"
 
 

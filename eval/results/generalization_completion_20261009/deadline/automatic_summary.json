@@ -1,0 +1,17 @@
+{
+  "planned_tasks": 120,
+  "valid_tasks": 120,
+  "api_attempts": 120,
+  "failed_attempts": 0,
+  "error_types": {},
+  "schema_invalid_selected": 0,
+  "citation_invalid_selected": 0,
+  "input_tokens": 28630,
+  "output_and_thought_tokens": 26592,
+  "estimated_usd": 0.0470455,
+  "latency_p50_s_all_attempts": 4.548500000000001,
+  "latency_p95_s_all_attempts": 11.751,
+  "attempts_sha256": "1f8b5a783021d747abf7ea0f9360b3ebca0ac62e37f51e465ca63e33a3da009f",
+  "records_sha256": "d57d3357530ea480301f78016e74259b6ed99058b5a393d206e1d2cc97c7dcdf",
+  "scope": "automatic integrity and string proxies; semantic judgments separate"
+}

@@ -1,0 +1,273 @@
+[
+  {
+    "id": "correct_price",
+    "question": "2027年4月1日の適用単価はいくらですか？",
+    "evidence": [
+      {
+        "element_id": "c55b0157-7719-41aa-a57e-2516327dac2b",
+        "content": "2026年12月31日までは単価200円。2027年1月1日から単価300円を適用する。職員への支給確定には個別記録の照合が必要。"
+      }
+    ],
+    "answer_data": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "2027年4月1日の単価は300円です。",
+          "evidence_element_ids": [
+            "c55b0157-7719-41aa-a57e-2516327dac2b"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    },
+    "original": {
+      "schema_version": "scope-2.0",
+      "confidence": 0.9,
+      "targets": [
+        {
+          "target": "適用単価",
+          "intent": "general_rule",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "c55b0157-7719-41aa-a57e-2516327dac2b"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": [
+            {
+              "type": "version_conflict",
+              "reason": "適用単価の版が競合",
+              "evidence_ids": [
+                "c55b0157-7719-41aa-a57e-2516327dac2b"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "resolution_data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "version_conflict": false,
+      "resolution_basis": "question_date",
+      "evidence_element_ids": [
+        "c55b0157-7719-41aa-a57e-2516327dac2b"
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "expected_status": "SUCCESS",
+    "expected_label": "根拠十分"
+  },
+  {
+    "id": "stale_abstention",
+    "question": "2027年4月1日の適用単価はいくらですか？",
+    "evidence": [
+      {
+        "element_id": "c55b0157-7719-41aa-a57e-2516327dac2b",
+        "content": "2026年12月31日までは単価200円。2027年1月1日から単価300円を適用する。職員への支給確定には個別記録の照合が必要。"
+      }
+    ],
+    "answer_data": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "200円と300円が競合するため、単価を確定できません。",
+          "evidence_element_ids": [
+            "c55b0157-7719-41aa-a57e-2516327dac2b"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    },
+    "original": {
+      "schema_version": "scope-2.0",
+      "confidence": 0.9,
+      "targets": [
+        {
+          "target": "適用単価",
+          "intent": "general_rule",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "c55b0157-7719-41aa-a57e-2516327dac2b"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": [
+            {
+              "type": "version_conflict",
+              "reason": "適用単価の版が競合",
+              "evidence_ids": [
+                "c55b0157-7719-41aa-a57e-2516327dac2b"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "resolution_data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "version_conflict": false,
+      "resolution_basis": "question_date",
+      "evidence_element_ids": [
+        "c55b0157-7719-41aa-a57e-2516327dac2b"
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "expected_status": "GENERATION_INCOMPLETE",
+    "expected_label": null
+  },
+  {
+    "id": "old_price",
+    "question": "2027年4月1日の適用単価はいくらですか？",
+    "evidence": [
+      {
+        "element_id": "c55b0157-7719-41aa-a57e-2516327dac2b",
+        "content": "2026年12月31日までは単価200円。2027年1月1日から単価300円を適用する。職員への支給確定には個別記録の照合が必要。"
+      }
+    ],
+    "answer_data": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "2027年4月1日の単価は200円です。",
+          "evidence_element_ids": [
+            "c55b0157-7719-41aa-a57e-2516327dac2b"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    },
+    "original": {
+      "schema_version": "scope-2.0",
+      "confidence": 0.9,
+      "targets": [
+        {
+          "target": "適用単価",
+          "intent": "general_rule",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "c55b0157-7719-41aa-a57e-2516327dac2b"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": [
+            {
+              "type": "version_conflict",
+              "reason": "適用単価の版が競合",
+              "evidence_ids": [
+                "c55b0157-7719-41aa-a57e-2516327dac2b"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "resolution_data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "version_conflict": false,
+      "resolution_basis": "question_date",
+      "evidence_element_ids": [
+        "c55b0157-7719-41aa-a57e-2516327dac2b"
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "expected_status": "GENERATION_INCOMPLETE",
+    "expected_label": null
+  },
+  {
+    "id": "individual_review",
+    "question": "2027年4月1日にこの職員へ単価300円で支給を確定できますか？記録は未照合です。",
+    "evidence": [
+      {
+        "element_id": "c55b0157-7719-41aa-a57e-2516327dac2b",
+        "content": "2026年12月31日までは単価200円。2027年1月1日から単価300円を適用する。職員への支給確定には個別記録の照合が必要。"
+      }
+    ],
+    "answer_data": {
+      "schema_version": "1.0",
+      "claims": [
+        {
+          "claim_id": "claim-1",
+          "ordinal": 1,
+          "text": "単価は300円ですが、この職員への支給には記録照合が必要です。",
+          "evidence_element_ids": [
+            "c55b0157-7719-41aa-a57e-2516327dac2b"
+          ],
+          "evidence_kind": "text"
+        }
+      ],
+      "missing_conditions": []
+    },
+    "original": {
+      "schema_version": "scope-2.0",
+      "confidence": 0.9,
+      "targets": [
+        {
+          "target": "この職員への支給確定",
+          "intent": "individual_decision",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "c55b0157-7719-41aa-a57e-2516327dac2b"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": [
+            {
+              "type": "version_conflict",
+              "reason": "適用単価の版が競合",
+              "evidence_ids": [
+                "c55b0157-7719-41aa-a57e-2516327dac2b"
+              ]
+            },
+            {
+              "type": "case_fact",
+              "reason": "個別記録が未照合",
+              "evidence_ids": [
+                "c55b0157-7719-41aa-a57e-2516327dac2b"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "resolution_data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "version_conflict": false,
+      "resolution_basis": "question_date",
+      "evidence_element_ids": [
+        "c55b0157-7719-41aa-a57e-2516327dac2b"
+      ],
+      "confidence": 0.95,
+      "error_code": null
+    },
+    "expected_status": "SUCCESS",
+    "expected_label": "判断要"
+  }
+]

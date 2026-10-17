@@ -56,7 +56,10 @@ if generate_button:
                 )
 
             st.session_state.result = result
-            st.success("回答を生成しました。")
+            if result.get("degraded") or result.get("answer_status", "SUCCESS") != "SUCCESS":
+                st.warning("回答の処理が完了しませんでした。下の案内をご確認ください。")
+            else:
+                st.success("回答を生成しました。")
 
         except ChatGoogleGenerativeAIError as error:
             error_kind = classify_provider_error(error)

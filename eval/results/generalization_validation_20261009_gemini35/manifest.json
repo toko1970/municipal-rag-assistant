@@ -1,0 +1,38 @@
+{
+  "created_at_utc": "2026-10-09T00:20:30.210832+00:00",
+  "status": "precommitted_before_api",
+  "fixture_sha256": "67fdfc876ccfb1489a570b8437b524fbee484cf02bbcee2cd40cf687ab5896dd",
+  "tasks_sha256": "3d87239996b343e03544004f080ca5223b2fb30c0d4e2066c944a4669b3273a1",
+  "schema_sha256": "676adfdfd2c5275c5a742a1bda009e73bda87dd96b4735c05b44710098fe49c4",
+  "runner_sha256": "96c246d1eb19ddaaf9d9ad8ff5adf340e9e57bb13774e69cda29eb4494a10dbf",
+  "model": "gemini-3.5-flash-lite",
+  "temperature": 0,
+  "seed": 42,
+  "max_output_tokens": 1024,
+  "http_timeout_ms": 45000,
+  "http_attempts": 1,
+  "max_calls": 120,
+  "max_estimated_usd": 0.5,
+  "price_assumption": {
+    "input_usd_per_million": 0.3,
+    "output_usd_per_million": 2.5
+  },
+  "price_source": "https://ai.google.dev/gemini-api/docs/pricing (Gemini 3.5 Flash-Lite Standard, 2026-10-09); estimated, not actual billing",
+  "switch_reason": "Gemini 3.1 Flash-Lite and 2.5 Flash separately hit 429. Third and final model availability attempt, fully paired from task zero; never mix prior partial outputs.",
+  "candidate": "期限を回答するときは、具体的な年月日と時刻まで答えてください。",
+  "changed_layer": "generation prompt only",
+  "primary_metric": "24 scenario-level paired composite outcomes; each scenario succeeds only if both expressions pass semantic content review",
+  "adoption_gate_for_next_stage": "candidate net improvement >=3 scenarios, zero new answerable-scenario regressions, zero new unsafe concrete deadlines on five must-abstain scenarios; all expressions must have valid grounded output",
+  "repetition_subset": [
+    "D01",
+    "D04",
+    "D12",
+    "D13",
+    "D17",
+    "D20"
+  ],
+  "repetition_rule": "2 runs per arm for both expressions of these six scenarios; all other tasks once; no best-response selection",
+  "comparison": "Same fixed evidence, schema, model, temperature, seed, and output cap. Alternate arms for each expression. No retrieval or classifier/display path.",
+  "scope": "Development challenge, not sealed holdout or representative accuracy. Existing 130/100 regression and fresh sealed holdout only if gate passes.",
+  "review_round_limit": 2
+}

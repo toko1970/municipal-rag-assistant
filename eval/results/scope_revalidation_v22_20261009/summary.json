@@ -1,0 +1,11 @@
+{
+  "calls": 4,
+  "completed": 4,
+  "planned": 4,
+  "passed": 4,
+  "all_pass": true,
+  "accounting_usd": 0.015297999999999999,
+  "provider_stopped": false,
+  "holdout": "not run",
+  "deployment": "not performed"
+}

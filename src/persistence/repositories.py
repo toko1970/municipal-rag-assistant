@@ -225,9 +225,7 @@ class PostgresDocumentRepository:
                 )
             return result
 
-    def get_visual_assets(
-        self, element_ids: list[UUID]
-    ) -> list[VisualEvidenceAsset]:
+    def get_visual_assets(self, element_ids: list[UUID]) -> list[VisualEvidenceAsset]:
         """Return visual assets in retrieval order for the requested elements."""
 
         if not element_ids:
@@ -326,9 +324,7 @@ class PostgresEventLogger:
                     )
                 )
 
-    def record_feedback(
-        self, request_id: UUID, value: str, comment: str = ""
-    ) -> UUID:
+    def record_feedback(self, request_id: UUID, value: str, comment: str = "") -> UUID:
         feedback_id = uuid4()
         with self.session_factory() as session, session.begin():
             session.add(
@@ -409,7 +405,7 @@ class PostgresEventLogger:
         self,
         request_id: UUID,
         *,
-        label: str,
+        label: str | None,
         display_text: str,
         claims: list[dict],
         status: str = "SUCCESS",

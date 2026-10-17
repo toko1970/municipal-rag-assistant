@@ -1,5 +1,8 @@
 from types import SimpleNamespace
 from uuid import UUID
+from datetime import date
+
+import pytest
 
 from src.contracts import SearchHit
 from src.temporal_evidence import (
@@ -187,3 +190,47 @@ def test_housing_facts_map_to_allowance_without_explicit_policy_name() -> None:
 
     assert instruction is not None
     assert "住居手当" in instruction
+
+
+@pytest.mark.parametrize("text", ["2028年2月29日", "2028/02/29", "2028-2-29"])
+def test_date_formats_have_identical_version_guidance(text):
+    assert extract_question_date(text) == date(2028, 2, 29)
+    revised = _hit(
+        1, heading1="扶養手当", heading2="改正後", effective_date="2025-10-01",
+        role="revision_history", content="認定月から支給する。",
+    )
+    instruction = temporal_prompt_instruction(f"{text}の出生について扶養手当は？", [revised])
+    assert "質問基準日は2028-02-29" in instruction
+
+
+@pytest.mark.parametrize("question", [
+    "2025年9月1日に相談。2025年10月2日の出生について扶養手当は？",
+    "2025/9/1に相談。10/2の出生について扶養手当は？",
+    "2025年9月1日に相談。10月2日の出生について扶養手当は？",
+])
+def test_multiple_event_dates_do_not_use_first_as_global_override(question):
+    assert extract_question_date(question) is None
+    revised = _hit(
+        1, heading1="扶養手当", heading2="改正後", effective_date="2025-08-01",
+        role="revision_history", content="認定月から支給する。",
+    )
+    prompt = build_temporal_generation_prompt(question, [revised], {})
+    assert "日付の対応:" in prompt
+    assert "質問基準日は" not in prompt
+
+
+@pytest.mark.parametrize("question", [
+    "2025年2月30日の出生について扶養手当は？",
+    "2025-02-29の出生について扶養手当は？",
+    "2025/13/01の出生について扶養手当は？",
+])
+def test_invalid_calendar_date_prompts_for_correction_without_crashing(question):
+    assert extract_question_date(question) is None
+    prompt = build_temporal_generation_prompt(question, [], {})
+    assert "暦に存在しない日付" in prompt
+    assert "missing_conditions" in prompt
+    assert question in prompt
+
+
+def test_repeated_same_date_does_not_create_false_ambiguity():
+    assert extract_question_date("2028年2月29日（2028-02-29）の出生") == date(2028, 2, 29)

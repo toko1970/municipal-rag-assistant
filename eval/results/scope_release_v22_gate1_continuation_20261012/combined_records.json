@@ -1,0 +1,2178 @@
+[
+  {
+    "case_id": "C03-formal",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "34206b3d334bfc5b79fdf9cd3c3600f943c4f92123d238e2c9fb0dd5d3af49f5",
+    "index": 0,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-09T03:51:54.339750+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": false,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 677,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 677
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 779,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001697,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 貸与端末の交換用電池の補填において、送料は補填対象外とされています。",
+    "visible_claims": [
+      "claim-1"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 1.391
+  },
+  {
+    "case_id": "C03-formal",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "49294d3baa96401db422e315248d6b4fcb40cbef4696c373a52ad168feae6a3b",
+    "index": 1,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-09T03:52:06.546308+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1.0,\n  \"targets\": [\n    {\n      \"target\": \"貸与端末の交換用電池の補填における送料の扱い\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"cfe23d91-cfc7-5587-b37f-137c0c53d69d\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": []\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 173,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1341,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1341
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1514,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.003071,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1.0,
+      "targets": [
+        {
+          "target": "貸与端末の交換用電池の補填における送料の扱い",
+          "intent": "general_rule",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": []
+        }
+      ]
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 貸与端末の交換用電池の補填において、送料は補填対象外とされています。",
+    "visible_claims": [
+      "claim-1"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 1.94
+  },
+  {
+    "case_id": "A02-formal",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "c9be25a01d0e907d6496cfa2588801a90c442e2a0d3aa37c61143786878a05aa",
+    "index": 2,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-09T03:52:18.758027+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"臨時派遣交通補助の支給確定権限\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"fe7987a5-0402-596c-a542-e74a1e0a34c4\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": []\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 168,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1136,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1136
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1304,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.002816,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1,
+      "targets": [
+        {
+          "target": "臨時派遣交通補助の支給確定権限",
+          "intent": "general_rule",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "fe7987a5-0402-596c-a542-e74a1e0a34c4"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": []
+        }
+      ]
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 臨時派遣交通補助の支給確定には派遣命令簿と実走行記録の照合が必要であり、人事給与室が照合するため、所属部署だけでは個別支給を確定できません。",
+    "visible_claims": [
+      "claim-1"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 1.862
+  },
+  {
+    "case_id": "A02-formal",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "548aa49ce3d234d52132c7b737a655b1acd7b5bebbb6d1611c82271cdaca1a86",
+    "index": 3,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-09T03:52:30.968147+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": false,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 472,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 472
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 574,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001492,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 臨時派遣交通補助の支給確定には派遣命令簿と実走行記録の照合が必要であり、人事給与室が照合するため、所属部署だけでは個別支給を確定できません。",
+    "visible_claims": [
+      "claim-1"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 1.29
+  },
+  {
+    "case_id": "C04-formal",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "bca354faeb93b25a4a96c0a62156c239620071487e991e6d2b7f568efdafa6c2",
+    "index": 4,
+    "api_error": null,
+    "error": "DisplayContractError: 根拠十分なのに未解決条件が残っています",
+    "correct": false,
+    "status": "PIPELINE_INCONSISTENCY",
+    "started_at_utc": "2026-10-09T03:52:43.178438+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": false,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 680,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 680
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 782,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.0017,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "latency_seconds": 1.289
+  },
+  {
+    "case_id": "C04-formal",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "fa3015e3ad0d634b58fd8aef930aeecc673980fa0d087ef0c2de5f7ec0c4e394",
+    "index": 5,
+    "api_error": null,
+    "error": "ValueError: REVIEW_WITHOUT_RULE",
+    "correct": false,
+    "status": "PIPELINE_INCONSISTENCY",
+    "started_at_utc": "2026-10-09T03:52:55.379711+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"貸与端末の修理にかかる実際の自己負担率\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": false,\n      \"evidence_ids\": [\n        \"f23a1fa4-e906-5108-8e93-8ead882758fc\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": false,\n      \"reviews\": [\n        {\n          \"type\": \"case_fact\",\n          \"reason\": \"自己負担率を定める保守契約の内容が提示されておらず、具体的な率を特定できない。\",\n          \"evidence_ids\": [\n            \"f23a1fa4-e906-5108-8e93-8ead882758fc\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 259,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1344,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1344
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1603,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.003934,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1,
+      "targets": [
+        {
+          "target": "貸与端末の修理にかかる実際の自己負担率",
+          "intent": "general_rule",
+          "evidence_sufficient": false,
+          "evidence_ids": [
+            "f23a1fa4-e906-5108-8e93-8ead882758fc"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": false,
+          "reviews": [
+            {
+              "type": "case_fact",
+              "reason": "自己負担率を定める保守契約の内容が提示されておらず、具体的な率を特定できない。",
+              "evidence_ids": [
+                "f23a1fa4-e906-5108-8e93-8ead882758fc"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "latency_seconds": 2.431
+  },
+  {
+    "case_id": "C03-paraphrase",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "40a0d087cfd930d3f2df3c55dd0d1c9544dd0282a0dbc45867343c0daa523409",
+    "index": 6,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-09T03:53:07.590084+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1.0,\n  \"targets\": [\n    {\n      \"target\": \"交換電池の送料の補填可否\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"cfe23d91-cfc7-5587-b37f-137c0c53d69d\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": []\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 168,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1330,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1330
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1498,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.00301,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1.0,
+      "targets": [
+        {
+          "target": "交換電池の送料の補填可否",
+          "intent": "general_rule",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": []
+        }
+      ]
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 貸与端末の交換用電池を購入した場合の送料は補填対象外となります。",
+    "visible_claims": [
+      "claim-1"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 1.728
+  },
+  {
+    "case_id": "C03-paraphrase",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "2145aecc0f7a523776f01cbe9fd22982df0ebcfa0504b1db89c63b110c5f6571",
+    "index": 7,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-09T03:53:19.801440+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": false,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 666,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 666
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 768,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001686,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 貸与端末の交換用電池を購入した場合の送料は補填対象外となります。",
+    "visible_claims": [
+      "claim-1"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 1.284
+  },
+  {
+    "case_id": "B03-formal",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "2090958029c3d136c6501cd20fc5e97c008e26a6d48877a6c2482d1e167748a5",
+    "index": 8,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-09T03:53:32.012773+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": false,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 886,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 886
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 988,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001906,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 2028年2月に事前承認と終了記録がある夜間保全当番を2回行った場合、付与される調整休の時間は合計4時間である。\n- 調整休の申請期限は、当番を行った月の翌月3日17時までである。\n- 申請の提出先は勤怠室であり、当番終了票の添付が必要である。",
+    "visible_claims": [
+      "claim-1",
+      "claim-2",
+      "claim-3"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 1.475
+  },
+  {
+    "case_id": "B03-formal",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "a8ce7a5bf4d3b66d51dd025b4f1f61d556cbaefcafe77849e6c2367c83e9a4d5",
+    "index": 9,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-09T03:53:44.223029+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1.0,\n  \"targets\": [\n    {\n      \"target\": \"調整休の時間\",\n      \"intent\": \"conditional_calculation\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"90d0213b-486d-54f1-b242-47b9d771fa5a\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": []\n    },\n    {\n      \"target\": \"申請期限\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"1b6a255d-4c20-587f-8388-a3e3d970c774\"\n      ],\n      \"claim_ids\": [\n        \"claim-2\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": []\n    },\n    {\n      \"target\": \"提出先\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"1b6a255d-4c20-587f-8388-a3e3d970c774\"\n      ],\n      \"claim_ids\": [\n        \"claim-3\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": []\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 420,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1550,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1550
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1970,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.00575,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1.0,
+      "targets": [
+        {
+          "target": "調整休の時間",
+          "intent": "conditional_calculation",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "90d0213b-486d-54f1-b242-47b9d771fa5a"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": []
+        },
+        {
+          "target": "申請期限",
+          "intent": "general_rule",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "1b6a255d-4c20-587f-8388-a3e3d970c774"
+          ],
+          "claim_ids": [
+            "claim-2"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": []
+        },
+        {
+          "target": "提出先",
+          "intent": "general_rule",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "1b6a255d-4c20-587f-8388-a3e3d970c774"
+          ],
+          "claim_ids": [
+            "claim-3"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": []
+        }
+      ]
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 2028年2月に事前承認と終了記録がある夜間保全当番を2回行った場合、付与される調整休の時間は合計4時間である。\n- 調整休の申請期限は、当番を行った月の翌月3日17時までである。\n- 申請の提出先は勤怠室であり、当番終了票の添付が必要である。",
+    "visible_claims": [
+      "claim-1",
+      "claim-2",
+      "claim-3"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 2.62
+  },
+  {
+    "case_id": "A03-paraphrase",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "a30d5276677be78c35b2666e510b3cfdaf11d19506352961f86158c0d844d5ba",
+    "index": 0,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:28:02.552759+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"この人に払う額の確定\",\n      \"intent\": \"individual_decision\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"fe7987a5-0402-596c-a542-e74a1e0a34c4\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": [\n        {\n          \"type\": \"case_fact\",\n          \"reason\": \"支給確定には人事給与室による派遣命令簿と実走行記録の照合が必須であり、現時点で照合が未完了であるため、支給額を確定させるための事実が不足している。\",\n          \"evidence_ids\": [\n            \"fe7987a5-0402-596c-a542-e74a1e0a34c4\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 284,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1343,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1343
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1627,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.004183,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1,
+      "targets": [
+        {
+          "target": "この人に払う額の確定",
+          "intent": "individual_decision",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "fe7987a5-0402-596c-a542-e74a1e0a34c4"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": [
+            {
+              "type": "case_fact",
+              "reason": "支給確定には人事給与室による派遣命令簿と実走行記録の照合が必須であり、現時点で照合が未完了であるため、支給額を確定させるための事実が不足している。",
+              "evidence_ids": [
+                "fe7987a5-0402-596c-a542-e74a1e0a34c4"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "label": "判断要",
+    "answer": "回答分類: 判断要\n\n回答:\n- 支給の確定には派遣命令簿と実走行記録の照合が必要であるため、まだ走行記録が照合前であれば額は決まらない。\n\n確認が必要です: 支給確定には人事給与室による派遣命令簿と実走行記録の照合が必須であり、現時点で照合が未完了であるため、支給額を確定させるための事実が不足している。",
+    "visible_claims": [
+      "claim-1"
+    ],
+    "review_types": [
+      "case_fact"
+    ],
+    "unsafe_sufficient": false,
+    "latency_seconds": 14.215
+  },
+  {
+    "case_id": "A03-paraphrase",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "39e14a4c9d0a846606bb5164c82dbef6aad8d85ec2e709d89c1b29cc1f0f614d",
+    "index": 1,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:28:16.769104+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": true,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 679,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 679
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 781,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001699,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "判断要",
+    "answer": "回答分類: 判断要\n\n回答:\n- 支給の確定には派遣命令簿と実走行記録の照合が必要であるため、まだ走行記録が照合前であれば額は決まらない。\n\n確認が必要です: 個別事情の確認",
+    "visible_claims": [
+      "claim-1"
+    ],
+    "review_types": [
+      "case_fact"
+    ],
+    "unsafe_sufficient": false,
+    "latency_seconds": 18.529
+  },
+  {
+    "case_id": "C01-paraphrase",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "6b4a7f27e6fca1e0d248c3461c0cc5fe86407560084edf4d64a1aad9eb1c3997",
+    "index": 2,
+    "api_error": null,
+    "error": null,
+    "correct": false,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:28:35.299592+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": true,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 593,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 593
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 695,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001613,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "判断要",
+    "answer": "回答分類: 判断要\n\n回答:\n- 事前承認された貸与端末の交換用電池を購入した場合、領収書に記載された電池代金の50%を補填し、上限を8,000円とする。\n- 交換電池代金が1万2千円の場合、その50%は6,000円となり、上限の8,000円以下であるため補填額は6,000円となる。\n\n確認が必要です: 個別事情の確認",
+    "visible_claims": [
+      "claim-1",
+      "claim-2"
+    ],
+    "review_types": [
+      "case_fact"
+    ],
+    "unsafe_sufficient": false,
+    "latency_seconds": 14.231
+  },
+  {
+    "case_id": "C01-paraphrase",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "05788410a6ba6a14d115302d22db765dbde72cd20b21b6a2397ea93a7e45a884",
+    "index": 3,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:28:49.532859+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"補填額の算出\",\n      \"intent\": \"individual_decision\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"cfe23d91-cfc7-5587-b37f-137c0c53d69d\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\",\n        \"claim-2\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": []\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 169,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1257,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1257
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1426,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.002947,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1,
+      "targets": [
+        {
+          "target": "補填額の算出",
+          "intent": "individual_decision",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+          ],
+          "claim_ids": [
+            "claim-1",
+            "claim-2"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": []
+        }
+      ]
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 事前承認された貸与端末の交換用電池を購入した場合、領収書に記載された電池代金の50%を補填し、上限を8,000円とする。\n- 交換電池代金が1万2千円の場合、その50%は6,000円となり、上限の8,000円以下であるため補填額は6,000円となる。",
+    "visible_claims": [
+      "claim-1",
+      "claim-2"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 13.421
+  },
+  {
+    "case_id": "B03-paraphrase",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "1a15dca194bad54cff6b5e0e29751a94c3601cee235e5fe291ab77f0c3bf3deb",
+    "index": 4,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:29:02.954846+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1.0,\n  \"targets\": [\n    {\n      \"target\": \"調整休の時間数\",\n      \"intent\": \"conditional_calculation\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"90d0213b-486d-54f1-b242-47b9d771fa5a\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": []\n    },\n    {\n      \"target\": \"調整休の申請期限と提出先\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"1b6a255d-4c20-587f-8388-a3e3d970c774\"\n      ],\n      \"claim_ids\": [\n        \"claim-2\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": []\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 299,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1451,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1451
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1750,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.004441,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1.0,
+      "targets": [
+        {
+          "target": "調整休の時間数",
+          "intent": "conditional_calculation",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "90d0213b-486d-54f1-b242-47b9d771fa5a"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": []
+        },
+        {
+          "target": "調整休の申請期限と提出先",
+          "intent": "general_rule",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "1b6a255d-4c20-587f-8388-a3e3d970c774"
+          ],
+          "claim_ids": [
+            "claim-2"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": []
+        }
+      ]
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 2028年2月の夜間当番2回に対して付与される調整休は合計4時間である。\n- 調整休の申請は、当番を行った月の翌月3日17時までに勤怠室へ当番終了票を添付して提出する。",
+    "visible_claims": [
+      "claim-1",
+      "claim-2"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 18.612
+  },
+  {
+    "case_id": "B03-paraphrase",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "9237b674f6265668c7ea78f98f4077c0c9f935d98fa55c9a7be489411fc03b59",
+    "index": 5,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:29:21.568546+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": false,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 787,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 787
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 889,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001807,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 2028年2月の夜間当番2回に対して付与される調整休は合計4時間である。\n- 調整休の申請は、当番を行った月の翌月3日17時までに勤怠室へ当番終了票を添付して提出する。",
+    "visible_claims": [
+      "claim-1",
+      "claim-2"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 14.706
+  },
+  {
+    "case_id": "A04-paraphrase",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "9fb5de6cc6fa50d59b3de96557715654a39be552a74b07deedee59914c07e2ab",
+    "index": 6,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:29:36.277035+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": false,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": false,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 702,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 702
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 804,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001722,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": false,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "文書不足",
+    "answer": "回答分類: 文書不足\n\n今回取得した根拠では回答を確認できませんでした。",
+    "visible_claims": [],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 23.964
+  },
+  {
+    "case_id": "A04-paraphrase",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "5ba86f4045b4d975d5fe9225387a45393c252be5eb86d56541f6d7fb557b0891",
+    "index": 7,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:30:00.241209+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1.0,\n  \"targets\": [\n    {\n      \"target\": \"派遣の交通補助の所得区分\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": false,\n      \"evidence_ids\": [\n        \"fe7987a5-0402-596c-a542-e74a1e0a34c4\",\n        \"33712912-ea5b-51be-a5dc-5094cdbd8186\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": []\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 203,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1366,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1366
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1569,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.003396,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1.0,
+      "targets": [
+        {
+          "target": "派遣の交通補助の所得区分",
+          "intent": "general_rule",
+          "evidence_sufficient": false,
+          "evidence_ids": [
+            "fe7987a5-0402-596c-a542-e74a1e0a34c4",
+            "33712912-ea5b-51be-a5dc-5094cdbd8186"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": []
+        }
+      ]
+    },
+    "label": "文書不足",
+    "answer": "回答分類: 文書不足\n\n今回取得した根拠では回答を確認できませんでした。",
+    "visible_claims": [],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 17.564
+  },
+  {
+    "case_id": "B04-paraphrase",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "dda5e04b631675d5cef0e7addc14fca459016b25ec0a727d114f72222b8b2bd3",
+    "index": 8,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:30:17.807308+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"当番の調整休の次年度繰越の可否\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": false,\n      \"evidence_ids\": [\n        \"90d0213b-486d-54f1-b242-47b9d771fa5a\",\n        \"1b6a255d-4c20-587f-8388-a3e3d970c774\"\n      ],\n      \"claim_ids\": [],\n      \"claim_support\": \"no_claim\",\n      \"answer_complete\": false,\n      \"reviews\": []\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 205,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1268,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1268
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1473,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.003318,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1,
+      "targets": [
+        {
+          "target": "当番の調整休の次年度繰越の可否",
+          "intent": "general_rule",
+          "evidence_sufficient": false,
+          "evidence_ids": [
+            "90d0213b-486d-54f1-b242-47b9d771fa5a",
+            "1b6a255d-4c20-587f-8388-a3e3d970c774"
+          ],
+          "claim_ids": [],
+          "claim_support": "no_claim",
+          "answer_complete": false,
+          "reviews": []
+        }
+      ]
+    },
+    "label": "文書不足",
+    "answer": "回答分類: 文書不足\n\n今回取得した根拠では回答を確認できませんでした。",
+    "visible_claims": [],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 14.74
+  },
+  {
+    "case_id": "B04-paraphrase",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "c2b13b62ded87511f259673b2c70d2bc011d20ffeee39235aa23791f4ac55a1f",
+    "index": 9,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:30:32.549449+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": false,\n    \"answer_fully_supported\": false,\n    \"requires_case_facts\": false,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 604,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 604
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 706,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001624,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": false,
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "文書不足",
+    "answer": "回答分類: 文書不足\n\n今回取得した根拠では回答を確認できませんでした。",
+    "visible_claims": [],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 7.824
+  },
+  {
+    "case_id": "D01",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "4716b1249c530a7cddae9c071e2dd43d7ae5d82c3f1afbe61131ec1c70872778",
+    "index": 10,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:30:44.751191+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": false,\n    \"requires_policy_judgment\": true,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 100,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 274,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 274
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 374,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001274,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": true,
+        "version_conflict": false
+      },
+      "confidence": 1,
+      "error_code": null
+    },
+    "label": "判断要",
+    "answer": "回答分類: 判断要\n\n回答:\n- 要件を満たしても審査委員会の裁量による決定が残るため、支給は確定できません。\n\n確認が必要です: 制度所管部署による解釈",
+    "visible_claims": [
+      "claim-1"
+    ],
+    "review_types": [
+      "policy_judgment"
+    ],
+    "unsafe_sufficient": false,
+    "latency_seconds": 17.723
+  },
+  {
+    "case_id": "D01",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "c41565d330cda2e8401052bf8eec11361aea10605d66b58782e3db8a4d955080",
+    "index": 11,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:31:02.474700+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"特別作業手当の支給確定\",\n      \"intent\": \"individual_decision\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"60fe86a9-902c-504f-926a-c24b83c08543\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": [\n        {\n          \"type\": \"policy_judgment\",\n          \"reason\": \"支給の可否が審査委員会の裁量に委ねられており、要件を満たしていることのみでは支給が確定しないため。\",\n          \"evidence_ids\": [\n            \"60fe86a9-902c-504f-926a-c24b83c08543\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 271,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 938,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 938
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1209,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.003648,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1,
+      "targets": [
+        {
+          "target": "特別作業手当の支給確定",
+          "intent": "individual_decision",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "60fe86a9-902c-504f-926a-c24b83c08543"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": [
+            {
+              "type": "policy_judgment",
+              "reason": "支給の可否が審査委員会の裁量に委ねられており、要件を満たしていることのみでは支給が確定しないため。",
+              "evidence_ids": [
+                "60fe86a9-902c-504f-926a-c24b83c08543"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "label": "判断要",
+    "answer": "回答分類: 判断要\n\n回答:\n- 要件を満たしても審査委員会の裁量による決定が残るため、支給は確定できません。\n\n確認が必要です: 支給の可否が審査委員会の裁量に委ねられており、要件を満たしていることのみでは支給が確定しないため。",
+    "visible_claims": [
+      "claim-1"
+    ],
+    "review_types": [
+      "policy_judgment"
+    ],
+    "unsafe_sufficient": false,
+    "latency_seconds": 15.021
+  },
+  {
+    "case_id": "C01-formal",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "a828de8249637e179b62aadde8891eb31c440ba0f316b665ffeffa7d73ffc8a7",
+    "index": 12,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:31:17.497315+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"補填額\",\n      \"intent\": \"individual_decision\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"cfe23d91-cfc7-5587-b37f-137c0c53d69d\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\",\n        \"claim-2\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": []\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 167,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1263,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1263
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1430,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.002933,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1,
+      "targets": [
+        {
+          "target": "補填額",
+          "intent": "individual_decision",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+          ],
+          "claim_ids": [
+            "claim-1",
+            "claim-2"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": []
+        }
+      ]
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 事前承認された貸与端末の交換用電池を購入した場合、領収書に記載された電池代金の50%を補填し、上限を8,000円とする。\n- 12,000円の50%は6,000円であり、上限の8,000円以下であるため、補填額は6,000円となる。",
+    "visible_claims": [
+      "claim-1",
+      "claim-2"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 24.852
+  },
+  {
+    "case_id": "C01-formal",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "2d0119ab1a771b4e63cfdbd8933b2c076b07a40191ef54c7cb93fa494cca4a09",
+    "index": 13,
+    "api_error": null,
+    "error": null,
+    "correct": false,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:31:42.349713+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": true,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 599,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 599
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 701,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001619,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "判断要",
+    "answer": "回答分類: 判断要\n\n回答:\n- 事前承認された貸与端末の交換用電池を購入した場合、領収書に記載された電池代金の50%を補填し、上限を8,000円とする。\n- 12,000円の50%は6,000円であり、上限の8,000円以下であるため、補填額は6,000円となる。\n\n確認が必要です: 個別事情の確認",
+    "visible_claims": [
+      "claim-1",
+      "claim-2"
+    ],
+    "review_types": [
+      "case_fact"
+    ],
+    "unsafe_sufficient": false,
+    "latency_seconds": 8.286
+  },
+  {
+    "case_id": "C04-paraphrase",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "c6d8cf0cad7169a0db4326b3371e351ef4114ff76e6eacb7386f5e8e44a9371c",
+    "index": 14,
+    "api_error": null,
+    "error": "DisplayContractError: 根拠十分なのに未解決条件が残っています",
+    "correct": false,
+    "status": "PIPELINE_INCONSISTENCY",
+    "started_at_utc": "2026-10-12T08:31:54.554624+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": false,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 677,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 677
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 779,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001697,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "latency_seconds": 15.644
+  },
+  {
+    "case_id": "C04-paraphrase",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "526b1409629d2014d4a16ce36a3cab74e36e401d5f308a2499b815e36a9d2e31",
+    "index": 15,
+    "api_error": null,
+    "error": "ValueError: REVIEW_WITHOUT_RULE",
+    "correct": false,
+    "status": "PIPELINE_INCONSISTENCY",
+    "started_at_utc": "2026-10-12T08:32:10.199359+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"端末修理の自己負担率\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": false,\n      \"evidence_ids\": [\n        \"f23a1fa4-e906-5108-8e93-8ead882758fc\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": false,\n      \"reviews\": [\n        {\n          \"type\": \"case_fact\",\n          \"reason\": \"自己負担率を定める保守契約の内容が提示されておらず、具体的な率を特定できない。\",\n          \"evidence_ids\": [\n            \"f23a1fa4-e906-5108-8e93-8ead882758fc\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 254,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1341,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1341
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1595,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.003881,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1,
+      "targets": [
+        {
+          "target": "端末修理の自己負担率",
+          "intent": "general_rule",
+          "evidence_sufficient": false,
+          "evidence_ids": [
+            "f23a1fa4-e906-5108-8e93-8ead882758fc"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": false,
+          "reviews": [
+            {
+              "type": "case_fact",
+              "reason": "自己負担率を定める保守契約の内容が提示されておらず、具体的な率を特定できない。",
+              "evidence_ids": [
+                "f23a1fa4-e906-5108-8e93-8ead882758fc"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "latency_seconds": 25.249
+  },
+  {
+    "case_id": "C02-paraphrase",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "a90f532ddedbbad920504f3476235e3326ed9b70f29341f02837e59ce6995a40",
+    "index": 16,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:32:35.449202+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1.0,\n  \"targets\": [\n    {\n      \"target\": \"この人に払う額の確定\",\n      \"intent\": \"individual_decision\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"cfe23d91-cfc7-5587-b37f-137c0c53d69d\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\",\n        \"claim-2\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": [\n        {\n          \"type\": \"case_fact\",\n          \"reason\": \"支給額の確定には資産台帳と領収書の照合が必須であるが、質問時点で未実施であるため、具体的な支給額を確定できない。\",\n          \"evidence_ids\": [\n            \"cfe23d91-cfc7-5587-b37f-137c0c53d69d\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 278,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1461,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1461
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1739,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.004241,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1.0,
+      "targets": [
+        {
+          "target": "この人に払う額の確定",
+          "intent": "individual_decision",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+          ],
+          "claim_ids": [
+            "claim-1",
+            "claim-2"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": [
+            {
+              "type": "case_fact",
+              "reason": "支給額の確定には資産台帳と領収書の照合が必須であるが、質問時点で未実施であるため、具体的な支給額を確定できない。",
+              "evidence_ids": [
+                "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "label": "判断要",
+    "answer": "回答分類: 判断要\n\n回答:\n- 個別の支給金額の確定には、購入品が事前承認された交換用電池であることを資産台帳と領収書で照合することが必要です。\n- 現状は台帳チェック前であるため、支給額はまだ確定しません。\n\n確認が必要です: 支給額の確定には資産台帳と領収書の照合が必須であるが、質問時点で未実施であるため、具体的な支給額を確定できない。",
+    "visible_claims": [
+      "claim-1",
+      "claim-2"
+    ],
+    "review_types": [
+      "case_fact"
+    ],
+    "unsafe_sufficient": false,
+    "latency_seconds": 14.391
+  },
+  {
+    "case_id": "C02-paraphrase",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "37c3cf774cb8b7a91ae27c25c19aae99aeca3b827c6d82d3d89288c8aa92f09d",
+    "index": 17,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:32:49.841228+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": true,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 797,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 797
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 899,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001817,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "判断要",
+    "answer": "回答分類: 判断要\n\n回答:\n- 個別の支給金額の確定には、購入品が事前承認された交換用電池であることを資産台帳と領収書で照合することが必要です。\n- 現状は台帳チェック前であるため、支給額はまだ確定しません。\n\n確認が必要です: 資産台帳と領収書の照合による購入品の確認、個別事情の確認",
+    "visible_claims": [
+      "claim-1",
+      "claim-2"
+    ],
+    "review_types": [
+      "case_fact"
+    ],
+    "unsafe_sufficient": false,
+    "latency_seconds": 20.435
+  },
+  {
+    "case_id": "A02-paraphrase",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "ef25811f140db9f4b1687c94f9e1e375952ebee9630e554c4f15b5eb47214083",
+    "index": 18,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:33:10.277041+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": false,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 454,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 454
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 556,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001474,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 支給の確定には派遣命令簿と実走行記録の照合が必要であり、所属部署だけでは個別支給を確定できない。",
+    "visible_claims": [
+      "claim-1"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 11.125
+  },
+  {
+    "case_id": "A02-paraphrase",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "5bf81e27547a4a879bdae48de3c17e6a9f26596ad34bbdeb23dae353825e565a",
+    "index": 19,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:33:22.482166+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"所属部署による派遣補助の支給決定権限\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"fe7987a5-0402-596c-a542-e74a1e0a34c4\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": []\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 169,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1118,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1118
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1287,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.002808,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1,
+      "targets": [
+        {
+          "target": "所属部署による派遣補助の支給決定権限",
+          "intent": "general_rule",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "fe7987a5-0402-596c-a542-e74a1e0a34c4"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": []
+        }
+      ]
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 支給の確定には派遣命令簿と実走行記録の照合が必要であり、所属部署だけでは個別支給を確定できない。",
+    "visible_claims": [
+      "claim-1"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 16.021
+  },
+  {
+    "case_id": "B02-paraphrase",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "7990ac79ff8ec0e4e4191611cb3f116c4bfadc8af00a6ac5ee02744b6a3eee78",
+    "index": 20,
+    "api_error": null,
+    "error": "ValueError: REVIEW_WITHOUT_RULE",
+    "correct": false,
+    "status": "PIPELINE_INCONSISTENCY",
+    "started_at_utc": "2026-10-12T08:33:38.504684+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"実際に付く調整休の決定\",\n      \"intent\": \"individual_decision\",\n      \"evidence_sufficient\": false,\n      \"evidence_ids\": [\n        \"90d0213b-486d-54f1-b242-47b9d771fa5a\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": false,\n      \"reviews\": [\n        {\n          \"type\": \"case_fact\",\n          \"reason\": \"調整休の付与には事前承認の記録が必要であるが、質問者において当該記録が不明であるため、付与時間を確定できない。\",\n          \"evidence_ids\": [\n            \"90d0213b-486d-54f1-b242-47b9d771fa5a\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 270,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 1106,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 1106
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1376,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.003806,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1,
+      "targets": [
+        {
+          "target": "実際に付く調整休の決定",
+          "intent": "individual_decision",
+          "evidence_sufficient": false,
+          "evidence_ids": [
+            "90d0213b-486d-54f1-b242-47b9d771fa5a"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": false,
+          "reviews": [
+            {
+              "type": "case_fact",
+              "reason": "調整休の付与には事前承認の記録が必要であるが、質問者において当該記録が不明であるため、付与時間を確定できない。",
+              "evidence_ids": [
+                "90d0213b-486d-54f1-b242-47b9d771fa5a"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "latency_seconds": 17.048
+  },
+  {
+    "case_id": "B02-paraphrase",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "1d7c555fd5ebc32afc54b1e3554298cda76b98a545585daf62ecf3cb53287fa4",
+    "index": 21,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:33:55.554750+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": true,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 442,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 442
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 544,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001462,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "判断要",
+    "answer": "回答分類: 判断要\n\n回答:\n- 実際の付与時間を確定するには承認済み当番回数と終了記録を照合する必要がある。\n\n確認が必要です: 事前承認の記録、個別事情の確認",
+    "visible_claims": [
+      "claim-1"
+    ],
+    "review_types": [
+      "case_fact"
+    ],
+    "unsafe_sufficient": false,
+    "latency_seconds": 17.857
+  },
+  {
+    "case_id": "D04",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "63bca3092b4b7d15972b22ad7c04b57dc62e3e847864c494540765f83d282a0d",
+    "index": 22,
+    "api_error": null,
+    "error": null,
+    "correct": false,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:34:13.412880+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": true,\n    \"requires_case_facts\": false,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 242,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 242
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 344,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001262,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "根拠十分",
+    "answer": "回答分類: 根拠十分\n\n回答:\n- 研修資料費は1冊につき500円です。",
+    "visible_claims": [
+      "claim-1"
+    ],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 14.097
+  },
+  {
+    "case_id": "D04",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "d1dc99bb40ee82e26d6ca890c220b2653873a545c5394221e1ac1dbb240eac5a",
+    "index": 23,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "GENERATION_INCOMPLETE",
+    "started_at_utc": "2026-10-12T08:34:27.510237+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"研修資料費の単価\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"7a68ac99-f561-5b6a-ab79-f558525b31b6\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": []\n    },\n    {\n      \"target\": \"研修資料費の提出先\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"7a68ac99-f561-5b6a-ab79-f558525b31b6\"\n      ],\n      \"claim_ids\": [],\n      \"claim_support\": \"no_claim\",\n      \"answer_complete\": false,\n      \"reviews\": [\n        {\n          \"type\": \"case_fact\",\n          \"reason\": \"生成回答において提出先に関する情報が欠落している。\",\n          \"evidence_ids\": [\n            \"7a68ac99-f561-5b6a-ab79-f558525b31b6\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 373,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 906,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 906
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1279,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.004636,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1,
+      "targets": [
+        {
+          "target": "研修資料費の単価",
+          "intent": "general_rule",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "7a68ac99-f561-5b6a-ab79-f558525b31b6"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "supported",
+          "answer_complete": true,
+          "reviews": []
+        },
+        {
+          "target": "研修資料費の提出先",
+          "intent": "general_rule",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "7a68ac99-f561-5b6a-ab79-f558525b31b6"
+          ],
+          "claim_ids": [],
+          "claim_support": "no_claim",
+          "answer_complete": false,
+          "reviews": [
+            {
+              "type": "case_fact",
+              "reason": "生成回答において提出先に関する情報が欠落している。",
+              "evidence_ids": [
+                "7a68ac99-f561-5b6a-ab79-f558525b31b6"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "label": null,
+    "answer": "回答の内容を十分に確認できませんでした。条件や質問を見直して、再度お試しください。",
+    "visible_claims": [],
+    "review_types": [
+      "case_fact"
+    ],
+    "unsafe_sufficient": false,
+    "latency_seconds": 7.47
+  },
+  {
+    "case_id": "D03",
+    "arm": "candidate",
+    "repetition": 1,
+    "prompt_sha256": "ac067c08e3faef9c7e7c6ffdf5454e8830217bbdcc8971b0a1a7c0367e4a8666",
+    "index": 24,
+    "api_error": null,
+    "error": null,
+    "correct": true,
+    "status": "GENERATION_INCOMPLETE",
+    "started_at_utc": "2026-10-12T08:34:39.711021+00:00",
+    "raw_text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"研修資料費の単価\",\n      \"intent\": \"general_rule\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"0fb0f179-d2d6-5bea-8636-f97b4afd2be1\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"unsupported\",\n      \"answer_complete\": true,\n      \"reviews\": [\n        {\n          \"type\": \"case_fact\",\n          \"reason\": \"根拠文書では研修資料費は1冊につき500円と規定されているが、生成回答では900円と誤った金額が提示されている。\",\n          \"evidence_ids\": [\n            \"0fb0f179-d2d6-5bea-8636-f97b4afd2be1\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 266,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 887,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 887
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 1153,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.003547,
+    "data": {
+      "schema_version": "scope-2.0",
+      "confidence": 1,
+      "targets": [
+        {
+          "target": "研修資料費の単価",
+          "intent": "general_rule",
+          "evidence_sufficient": true,
+          "evidence_ids": [
+            "0fb0f179-d2d6-5bea-8636-f97b4afd2be1"
+          ],
+          "claim_ids": [
+            "claim-1"
+          ],
+          "claim_support": "unsupported",
+          "answer_complete": true,
+          "reviews": [
+            {
+              "type": "case_fact",
+              "reason": "根拠文書では研修資料費は1冊につき500円と規定されているが、生成回答では900円と誤った金額が提示されている。",
+              "evidence_ids": [
+                "0fb0f179-d2d6-5bea-8636-f97b4afd2be1"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "label": null,
+    "answer": "回答の内容を十分に確認できませんでした。条件や質問を見直して、再度お試しください。",
+    "visible_claims": [],
+    "review_types": [
+      "case_fact"
+    ],
+    "unsafe_sufficient": false,
+    "latency_seconds": 13.069
+  },
+  {
+    "case_id": "D03",
+    "arm": "baseline",
+    "repetition": 1,
+    "prompt_sha256": "1c7d7d0923f8f0ba487632f01623b36bee3a224b0f29c196c3db64f2660fd34d",
+    "index": 25,
+    "api_error": null,
+    "error": null,
+    "correct": false,
+    "status": "SUCCESS",
+    "started_at_utc": "2026-10-12T08:34:52.781332+00:00",
+    "raw_text": "{\n  \"schema_version\": \"1.0\",\n  \"status\": \"SUCCESS\",\n  \"factors\": {\n    \"retrieval_sufficient\": true,\n    \"answer_fully_supported\": false,\n    \"requires_case_facts\": false,\n    \"requires_policy_judgment\": false,\n    \"version_conflict\": false\n  },\n  \"confidence\": 1.0,\n  \"error_code\": null\n}",
+    "model_version": "gemini-3.1-flash-lite",
+    "usage": {
+      "cache_tokens_details": null,
+      "cached_content_token_count": null,
+      "candidates_token_count": 102,
+      "candidates_tokens_details": null,
+      "prompt_token_count": 223,
+      "prompt_tokens_details": [
+        {
+          "modality": "TEXT",
+          "token_count": 223
+        }
+      ],
+      "thoughts_token_count": null,
+      "tool_use_prompt_token_count": null,
+      "tool_use_prompt_tokens_details": null,
+      "total_token_count": 325,
+      "traffic_type": null
+    },
+    "accounting_usd": 0.001243,
+    "data": {
+      "schema_version": "1.0",
+      "status": "SUCCESS",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "error_code": null
+    },
+    "label": "文書不足",
+    "answer": "回答分類: 文書不足\n\n今回取得した根拠では回答を確認できませんでした。",
+    "visible_claims": [],
+    "review_types": [],
+    "unsafe_sufficient": false,
+    "latency_seconds": 8.157
+  }
+]

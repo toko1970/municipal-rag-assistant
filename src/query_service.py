@@ -290,6 +290,7 @@ def answer_question(
         [str, list[SearchHit], dict], str
     ] = build_classification_prompt,
     classification_prompt_version: str = CLASSIFICATION_PROMPT_VERSION,
+    scope_classification: bool = False,
 ) -> dict:
     if max_visual_assets < 0:
         raise ValueError("max_visual_assetsは0以上である必要があります")
@@ -362,6 +363,26 @@ def answer_question(
             status="GENERATION_FAILED",
             error_summary=str(exc)[:1000],
         )
+        if scope_classification:
+            from src.classification_scope_contract import PROMPT_VERSION, safe_failure
+
+            display = safe_failure(
+                "GENERATION_FAILED" if generation_result is not None or isinstance(exc, (ValueError, TypeError)) else "PROVIDER_ERROR",
+                "GENERATOR_CALL_OR_SCHEMA_FAILED",
+            )
+            event_logger.record_answer_result(
+                request_id, label=None, display_text=display.text, claims=[], status=display.status
+            )
+            return {
+                "request_id": str(request_id), "question": question, "answer": display.text,
+                "answer_label": None, "answer_status": display.status, "degraded": True,
+                "invariant_code": display.invariant_code, "claims": [],
+                "references": _evidence_payload(hits),
+                "generation": generation_result.metadata() if generation_result else {},
+                "classification": {}, "visual_evidence_count": len(visual_assets),
+                "classification_decision_version": PROMPT_VERSION,
+                "version_resolution": {"status": "NOT_RUN"},
+            }
         raise
     event_logger.record_generation_attempt(
         request_id,
@@ -374,6 +395,32 @@ def answer_question(
         status="SUCCESS",
         error_summary=None,
     )
+
+    if scope_classification:
+        from src.classification_scope_contract import PROMPT_VERSION, classify_scope_answer
+
+        display, metadata, diagnostic, scope_version_metadata = classify_scope_answer(
+            question=question, evidence=_evidence_payload(hits), answer=answer,
+            answer_data=_classification_answer_payload(answer, answer_data),
+            classifier=classifier, event_logger=event_logger, request_id=request_id,
+            version_resolver=version_resolver, version_resolution_schema=version_resolution_schema,
+            confidence_threshold=version_resolution_confidence_threshold,
+        )
+        event_logger.record_answer_result(
+            request_id, label=display.label, display_text=display.text,
+            claims=_claim_log_rows(display), status=display.status,
+        )
+        return {
+            "request_id": str(request_id), "question": question, "answer": display.text,
+            "answer_label": display.label, "answer_status": display.status,
+            "degraded": display.status != "SUCCESS", "invariant_code": display.invariant_code,
+            "claims": _claim_log_rows(display),
+            "references": _evidence_payload(hits, visual_assets, display_content=visual_content),
+            "generation": generation_result.metadata(), "classification": metadata,
+            "visual_evidence_count": len(visual_assets), "classification_decision_version": PROMPT_VERSION,
+            "scope_diagnostic": diagnostic,
+            "version_resolution": scope_version_metadata,
+        }
 
     classification_status = "SUCCESS"
     semantic_fallback_used = False

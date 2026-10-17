@@ -1,0 +1,1266 @@
+[
+  {
+    "id": "D01-formal",
+    "scenario_id": "D01",
+    "variant": "formal",
+    "family": "month_end",
+    "system_name": "赴任準備届",
+    "question": "着任日は2027年4月25日です。赴任準備届の提出期限はいつですか。",
+    "evidence": [
+      {
+        "element_id": "c1c8601f-cad9-5113-ba7b-1502ad941c55",
+        "content": "赴任準備届は着任日の翌日を1日目とする10暦日目の17時までに提出する。土日祝日も日数に含め、休日による繰延べはしない。",
+        "document_name": "赴任準備届実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-05-05"
+      ],
+      "required_times": [
+        "17:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D01-paraphrase",
+    "scenario_id": "D01",
+    "variant": "paraphrase",
+    "family": "month_end",
+    "system_name": "赴任準備届",
+    "question": "2027/4/25に着任しました。赴任準備届はいつまでに出せばいいですか？",
+    "evidence": [
+      {
+        "element_id": "c1c8601f-cad9-5113-ba7b-1502ad941c55",
+        "content": "赴任準備届は着任日の翌日を1日目とする10暦日目の17時までに提出する。土日祝日も日数に含め、休日による繰延べはしない。",
+        "document_name": "赴任準備届実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-05-05"
+      ],
+      "required_times": [
+        "17:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D02-formal",
+    "scenario_id": "D02",
+    "variant": "formal",
+    "family": "year_end",
+    "system_name": "赴任準備届",
+    "question": "着任日は2027年12月26日です。赴任準備届の提出期限はいつですか。",
+    "evidence": [
+      {
+        "element_id": "ce589f94-d3da-5d4e-8491-89fe60e859f7",
+        "content": "赴任準備届は着任日の翌日を1日目とする10暦日目の17時までに提出する。土日祝日も日数に含め、休日による繰延べはしない。",
+        "document_name": "赴任準備届実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-01-05"
+      ],
+      "required_times": [
+        "17:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D02-paraphrase",
+    "scenario_id": "D02",
+    "variant": "paraphrase",
+    "family": "year_end",
+    "system_name": "赴任準備届",
+    "question": "赴任準備届の締切を教えて。着任したのは2027/12/26です。",
+    "evidence": [
+      {
+        "element_id": "ce589f94-d3da-5d4e-8491-89fe60e859f7",
+        "content": "赴任準備届は着任日の翌日を1日目とする10暦日目の17時までに提出する。土日祝日も日数に含め、休日による繰延べはしない。",
+        "document_name": "赴任準備届実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-01-05"
+      ],
+      "required_times": [
+        "17:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D03-formal",
+    "scenario_id": "D03",
+    "variant": "formal",
+    "family": "leap_year",
+    "system_name": "赴任準備届",
+    "question": "着任日は2028年2月23日です。赴任準備届の提出期限はいつですか。",
+    "evidence": [
+      {
+        "element_id": "be9cef30-fe72-54b1-8547-6064f788ee4a",
+        "content": "赴任準備届は着任日の翌日を1日目とする10暦日目の17時までに提出する。土日祝日も日数に含め、休日による繰延べはしない。",
+        "document_name": "赴任準備届実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-03-04"
+      ],
+      "required_times": [
+        "17:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D03-paraphrase",
+    "scenario_id": "D03",
+    "variant": "paraphrase",
+    "family": "leap_year",
+    "system_name": "赴任準備届",
+    "question": "2028/2/23着任の場合、赴任準備届はいつまで？",
+    "evidence": [
+      {
+        "element_id": "be9cef30-fe72-54b1-8547-6064f788ee4a",
+        "content": "赴任準備届は着任日の翌日を1日目とする10暦日目の17時までに提出する。土日祝日も日数に含め、休日による繰延べはしない。",
+        "document_name": "赴任準備届実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-03-04"
+      ],
+      "required_times": [
+        "17:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D04-formal",
+    "scenario_id": "D04",
+    "variant": "formal",
+    "family": "missing_date",
+    "system_name": "赴任準備届",
+    "question": "赴任準備届の具体的な提出期限を教えてください。着任日はまだ決まっていません。",
+    "evidence": [
+      {
+        "element_id": "f2b29d12-25d1-550f-afa8-1fb762b51b1c",
+        "content": "赴任準備届は着任日の翌日を1日目とする10暦日目の17時までに提出する。土日祝日も日数に含め、休日による繰延べはしない。",
+        "document_name": "赴任準備届実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [],
+      "required_times": [],
+      "must_abstain": true,
+      "required_terms": []
+    },
+    "review_note": "着任日が未定。規則の説明は可、具体年月日の断定不可。17時は根拠あり。"
+  },
+  {
+    "id": "D04-paraphrase",
+    "scenario_id": "D04",
+    "variant": "paraphrase",
+    "family": "missing_date",
+    "system_name": "赴任準備届",
+    "question": "赴任準備届を出す日は何月何日になりますか？着任する日は未定です。",
+    "evidence": [
+      {
+        "element_id": "f2b29d12-25d1-550f-afa8-1fb762b51b1c",
+        "content": "赴任準備届は着任日の翌日を1日目とする10暦日目の17時までに提出する。土日祝日も日数に含め、休日による繰延べはしない。",
+        "document_name": "赴任準備届実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [],
+      "required_times": [],
+      "must_abstain": true,
+      "required_terms": []
+    },
+    "review_note": "着任日が未定。規則の説明は可、具体年月日の断定不可。17時は根拠あり。"
+  },
+  {
+    "id": "D05-formal",
+    "scenario_id": "D05",
+    "variant": "formal",
+    "family": "before_month_end",
+    "system_name": "研修旅程確認",
+    "question": "研修は2027年3月3日に開始します。研修旅程確認票の提出期限はいつですか。",
+    "evidence": [
+      {
+        "element_id": "ac62741c-3adb-51b8-8bed-598fd4d923a8",
+        "content": "研修旅程確認票は研修開始日の5暦日前の正午までに提出する。開始日から暦日で5日を引き、休日でも移動しない。",
+        "document_name": "研修旅程確認実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-02-26"
+      ],
+      "required_times": [
+        "12:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D05-paraphrase",
+    "scenario_id": "D05",
+    "variant": "paraphrase",
+    "family": "before_month_end",
+    "system_name": "研修旅程確認",
+    "question": "2027/3/3開始の研修です。旅程確認票はいつまで？",
+    "evidence": [
+      {
+        "element_id": "ac62741c-3adb-51b8-8bed-598fd4d923a8",
+        "content": "研修旅程確認票は研修開始日の5暦日前の正午までに提出する。開始日から暦日で5日を引き、休日でも移動しない。",
+        "document_name": "研修旅程確認実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-02-26"
+      ],
+      "required_times": [
+        "12:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D06-formal",
+    "scenario_id": "D06",
+    "variant": "formal",
+    "family": "before_leap_year",
+    "system_name": "研修旅程確認",
+    "question": "研修は2028年3月3日に開始します。研修旅程確認票の提出期限はいつですか。",
+    "evidence": [
+      {
+        "element_id": "c704f13a-7042-51e0-b88d-6f255d349351",
+        "content": "研修旅程確認票は研修開始日の5暦日前の正午までに提出する。開始日から暦日で5日を引き、休日でも移動しない。",
+        "document_name": "研修旅程確認実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-02-27"
+      ],
+      "required_times": [
+        "12:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D06-paraphrase",
+    "scenario_id": "D06",
+    "variant": "paraphrase",
+    "family": "before_leap_year",
+    "system_name": "研修旅程確認",
+    "question": "2028/3/3に研修が始まります。旅程確認票の締切を知りたいです。",
+    "evidence": [
+      {
+        "element_id": "c704f13a-7042-51e0-b88d-6f255d349351",
+        "content": "研修旅程確認票は研修開始日の5暦日前の正午までに提出する。開始日から暦日で5日を引き、休日でも移動しない。",
+        "document_name": "研修旅程確認実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-02-27"
+      ],
+      "required_times": [
+        "12:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D07-formal",
+    "scenario_id": "D07",
+    "variant": "formal",
+    "family": "before_year_end",
+    "system_name": "研修旅程確認",
+    "question": "研修は2028年1月3日に開始します。研修旅程確認票の提出期限はいつですか。",
+    "evidence": [
+      {
+        "element_id": "92055fd0-8fca-56fc-aa7b-4e297363cab4",
+        "content": "研修旅程確認票は研修開始日の5暦日前の正午までに提出する。開始日から暦日で5日を引き、休日でも移動しない。",
+        "document_name": "研修旅程確認実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-12-29"
+      ],
+      "required_times": [
+        "12:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D07-paraphrase",
+    "scenario_id": "D07",
+    "variant": "paraphrase",
+    "family": "before_year_end",
+    "system_name": "研修旅程確認",
+    "question": "研修旅程確認票を出すのはいつまででしょう。研修初日は2028/1/3です。",
+    "evidence": [
+      {
+        "element_id": "92055fd0-8fca-56fc-aa7b-4e297363cab4",
+        "content": "研修旅程確認票は研修開始日の5暦日前の正午までに提出する。開始日から暦日で5日を引き、休日でも移動しない。",
+        "document_name": "研修旅程確認実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-12-29"
+      ],
+      "required_times": [
+        "12:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D08-formal",
+    "scenario_id": "D08",
+    "variant": "formal",
+    "family": "missing_date",
+    "system_name": "研修旅程確認",
+    "question": "研修開始日が未定の場合、研修旅程確認票の具体的な提出期限はいつですか。",
+    "evidence": [
+      {
+        "element_id": "5c639357-23bd-57f5-a7b8-af0fbc3ba78d",
+        "content": "研修旅程確認票は研修開始日の5暦日前の正午までに提出する。開始日から暦日で5日を引き、休日でも移動しない。",
+        "document_name": "研修旅程確認実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [],
+      "required_times": [],
+      "must_abstain": true,
+      "required_terms": []
+    },
+    "review_note": "開始日未定。5日前正午という相対規則は回答可。"
+  },
+  {
+    "id": "D08-paraphrase",
+    "scenario_id": "D08",
+    "variant": "paraphrase",
+    "family": "missing_date",
+    "system_name": "研修旅程確認",
+    "question": "まだ研修の初日は決まっていません。旅程確認票の締切を何月何日か教えて。",
+    "evidence": [
+      {
+        "element_id": "5c639357-23bd-57f5-a7b8-af0fbc3ba78d",
+        "content": "研修旅程確認票は研修開始日の5暦日前の正午までに提出する。開始日から暦日で5日を引き、休日でも移動しない。",
+        "document_name": "研修旅程確認実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [],
+      "required_times": [],
+      "must_abstain": true,
+      "required_terms": []
+    },
+    "review_note": "開始日未定。5日前正午という相対規則は回答可。"
+  },
+  {
+    "id": "D09-formal",
+    "scenario_id": "D09",
+    "variant": "formal",
+    "family": "boundary_before",
+    "system_name": "資格取得登録",
+    "question": "資格取得日は2028年2月15日です。資格取得登録の締切はいつですか。",
+    "evidence": [
+      {
+        "element_id": "365bf326-cb5d-5a6e-a77e-18ee478167ce",
+        "content": "資格取得登録の締切は、資格取得日が月の1日から15日ならその月の末日、16日以降なら翌月12日とする。締切時刻は18時。休日の繰延べはない。",
+        "document_name": "資格取得登録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-02-29"
+      ],
+      "required_times": [
+        "18:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D09-paraphrase",
+    "scenario_id": "D09",
+    "variant": "paraphrase",
+    "family": "boundary_before",
+    "system_name": "資格取得登録",
+    "question": "2028/2/15に資格を取りました。登録はいつまでですか？",
+    "evidence": [
+      {
+        "element_id": "365bf326-cb5d-5a6e-a77e-18ee478167ce",
+        "content": "資格取得登録の締切は、資格取得日が月の1日から15日ならその月の末日、16日以降なら翌月12日とする。締切時刻は18時。休日の繰延べはない。",
+        "document_name": "資格取得登録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-02-29"
+      ],
+      "required_times": [
+        "18:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D10-formal",
+    "scenario_id": "D10",
+    "variant": "formal",
+    "family": "boundary_after",
+    "system_name": "資格取得登録",
+    "question": "資格取得日は2028年2月16日です。資格取得登録の締切はいつですか。",
+    "evidence": [
+      {
+        "element_id": "d5077b5f-3097-5513-8d5a-b4d85bb10d35",
+        "content": "資格取得登録の締切は、資格取得日が月の1日から15日ならその月の末日、16日以降なら翌月12日とする。締切時刻は18時。休日の繰延べはない。",
+        "document_name": "資格取得登録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-03-12"
+      ],
+      "required_times": [
+        "18:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D10-paraphrase",
+    "scenario_id": "D10",
+    "variant": "paraphrase",
+    "family": "boundary_after",
+    "system_name": "資格取得登録",
+    "question": "2028/2/16に資格を取りました。登録はいつまでですか？",
+    "evidence": [
+      {
+        "element_id": "d5077b5f-3097-5513-8d5a-b4d85bb10d35",
+        "content": "資格取得登録の締切は、資格取得日が月の1日から15日ならその月の末日、16日以降なら翌月12日とする。締切時刻は18時。休日の繰延べはない。",
+        "document_name": "資格取得登録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-03-12"
+      ],
+      "required_times": [
+        "18:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D11-formal",
+    "scenario_id": "D11",
+    "variant": "formal",
+    "family": "year_end",
+    "system_name": "資格取得登録",
+    "question": "資格取得日は2027年12月31日です。資格取得登録の締切はいつですか。",
+    "evidence": [
+      {
+        "element_id": "76cd83e0-3cc4-56ed-9d63-8f33b57c2f00",
+        "content": "資格取得登録の締切は、資格取得日が月の1日から15日ならその月の末日、16日以降なら翌月12日とする。締切時刻は18時。休日の繰延べはない。",
+        "document_name": "資格取得登録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-01-12"
+      ],
+      "required_times": [
+        "18:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D11-paraphrase",
+    "scenario_id": "D11",
+    "variant": "paraphrase",
+    "family": "year_end",
+    "system_name": "資格取得登録",
+    "question": "2027/12/31の資格取得について、登録をいつまでにすればよいか教えてください。",
+    "evidence": [
+      {
+        "element_id": "76cd83e0-3cc4-56ed-9d63-8f33b57c2f00",
+        "content": "資格取得登録の締切は、資格取得日が月の1日から15日ならその月の末日、16日以降なら翌月12日とする。締切時刻は18時。休日の繰延べはない。",
+        "document_name": "資格取得登録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-01-12"
+      ],
+      "required_times": [
+        "18:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D12-formal",
+    "scenario_id": "D12",
+    "variant": "formal",
+    "family": "unspecified_time",
+    "system_name": "資格取得登録",
+    "question": "資格取得日は2027年6月22日です。資格取得登録の提出期限を教えてください。",
+    "evidence": [
+      {
+        "element_id": "4d232c38-f741-507c-bab4-9ddda368089f",
+        "content": "資格取得登録は資格取得月の翌月12日を提出期限とする。締切時刻について本要領に規定はない。休日の繰延べはない。",
+        "document_name": "資格取得登録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-07-12"
+      ],
+      "required_times": [],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": "時刻は未規定。年月日は答えられるが、具体時刻を新設してはならない。"
+  },
+  {
+    "id": "D12-paraphrase",
+    "scenario_id": "D12",
+    "variant": "paraphrase",
+    "family": "unspecified_time",
+    "system_name": "資格取得登録",
+    "question": "2027/6/22取得の資格を登録したいです。締切はいつ？",
+    "evidence": [
+      {
+        "element_id": "4d232c38-f741-507c-bab4-9ddda368089f",
+        "content": "資格取得登録は資格取得月の翌月12日を提出期限とする。締切時刻について本要領に規定はない。休日の繰延べはない。",
+        "document_name": "資格取得登録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-07-12"
+      ],
+      "required_times": [],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": "時刻は未規定。年月日は答えられるが、具体時刻を新設してはならない。"
+  },
+  {
+    "id": "D13-formal",
+    "scenario_id": "D13",
+    "variant": "formal",
+    "family": "multiple_deadlines",
+    "system_name": "災害応援精算",
+    "question": "災害応援は2027年7月29日に終了しました。速報と精算書の両方の提出期限を教えてください。",
+    "evidence": [
+      {
+        "element_id": "0d9a2ae8-3554-56cc-bb72-973a9d146a62",
+        "content": "災害応援終了日の翌日を1日目として、速報は3暦日目の9時30分、精算書は10暦日目の16時45分が期限である。土日祝日を含め、繰延べはない。両書類は別々に提出する。",
+        "document_name": "災害応援精算実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-08-01",
+        "2027-08-08"
+      ],
+      "required_times": [
+        "09:30",
+        "16:45"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": "速報=8/1 9:30、精算書=8/8 16:45という対応も必要。"
+  },
+  {
+    "id": "D13-paraphrase",
+    "scenario_id": "D13",
+    "variant": "paraphrase",
+    "family": "multiple_deadlines",
+    "system_name": "災害応援精算",
+    "question": "2027/7/29で応援終了です。速報、それから精算書、それぞれいつまでに出すの？",
+    "evidence": [
+      {
+        "element_id": "0d9a2ae8-3554-56cc-bb72-973a9d146a62",
+        "content": "災害応援終了日の翌日を1日目として、速報は3暦日目の9時30分、精算書は10暦日目の16時45分が期限である。土日祝日を含め、繰延べはない。両書類は別々に提出する。",
+        "document_name": "災害応援精算実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-08-01",
+        "2027-08-08"
+      ],
+      "required_times": [
+        "09:30",
+        "16:45"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": "速報=8/1 9:30、精算書=8/8 16:45という対応も必要。"
+  },
+  {
+    "id": "D14-formal",
+    "scenario_id": "D14",
+    "variant": "formal",
+    "family": "multiple_year_end",
+    "system_name": "災害応援精算",
+    "question": "災害応援は2027年12月28日に終了しました。速報と精算書の両方の提出期限を教えてください。",
+    "evidence": [
+      {
+        "element_id": "7af27998-2aed-5a89-870a-078957cc3152",
+        "content": "災害応援終了日の翌日を1日目として、速報は3暦日目の9時30分、精算書は10暦日目の16時45分が期限である。土日祝日を含め、繰延べはない。両書類は別々に提出する。",
+        "document_name": "災害応援精算実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-12-31",
+        "2028-01-07"
+      ],
+      "required_times": [
+        "09:30",
+        "16:45"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": "速報=12/31 9:30、精算書=1/7 16:45。"
+  },
+  {
+    "id": "D14-paraphrase",
+    "scenario_id": "D14",
+    "variant": "paraphrase",
+    "family": "multiple_year_end",
+    "system_name": "災害応援精算",
+    "question": "応援の最終日は2027/12/28でした。精算書と速報を出す締切をそれぞれ知りたいです。",
+    "evidence": [
+      {
+        "element_id": "7af27998-2aed-5a89-870a-078957cc3152",
+        "content": "災害応援終了日の翌日を1日目として、速報は3暦日目の9時30分、精算書は10暦日目の16時45分が期限である。土日祝日を含め、繰延べはない。両書類は別々に提出する。",
+        "document_name": "災害応援精算実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-12-31",
+        "2028-01-07"
+      ],
+      "required_times": [
+        "09:30",
+        "16:45"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": "速報=12/31 9:30、精算書=1/7 16:45。"
+  },
+  {
+    "id": "D15-formal",
+    "scenario_id": "D15",
+    "variant": "formal",
+    "family": "multiple_leap_year",
+    "system_name": "災害応援精算",
+    "question": "災害応援は2028年2月26日に終了しました。速報と精算書の両方の提出期限を教えてください。",
+    "evidence": [
+      {
+        "element_id": "fe5bf9e5-5b8d-5c43-b5c0-96b8b486a5e0",
+        "content": "災害応援終了日の翌日を1日目として、速報は3暦日目の9時30分、精算書は10暦日目の16時45分が期限である。土日祝日を含め、繰延べはない。両書類は別々に提出する。",
+        "document_name": "災害応援精算実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-02-29",
+        "2028-03-07"
+      ],
+      "required_times": [
+        "09:30",
+        "16:45"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": "速報=2/29 9:30、精算書=3/7 16:45。"
+  },
+  {
+    "id": "D15-paraphrase",
+    "scenario_id": "D15",
+    "variant": "paraphrase",
+    "family": "multiple_leap_year",
+    "system_name": "災害応援精算",
+    "question": "2028/2/26で応援が終わりました。速報と精算の書類は、各々いつが締切？",
+    "evidence": [
+      {
+        "element_id": "fe5bf9e5-5b8d-5c43-b5c0-96b8b486a5e0",
+        "content": "災害応援終了日の翌日を1日目として、速報は3暦日目の9時30分、精算書は10暦日目の16時45分が期限である。土日祝日を含め、繰延べはない。両書類は別々に提出する。",
+        "document_name": "災害応援精算実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-02-29",
+        "2028-03-07"
+      ],
+      "required_times": [
+        "09:30",
+        "16:45"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": "速報=2/29 9:30、精算書=3/7 16:45。"
+  },
+  {
+    "id": "D16-formal",
+    "scenario_id": "D16",
+    "variant": "formal",
+    "family": "missing_date",
+    "system_name": "災害応援精算",
+    "question": "災害応援の終了日はまだ未定です。速報と精算書の具体的な提出期限を教えてください。",
+    "evidence": [
+      {
+        "element_id": "79447b0a-fee2-5109-9703-22a4beba8471",
+        "content": "災害応援終了日の翌日を1日目として、速報は3暦日目の9時30分、精算書は10暦日目の16時45分が期限である。土日祝日を含め、繰延べはない。両書類は別々に提出する。",
+        "document_name": "災害応援精算実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [],
+      "required_times": [],
+      "must_abstain": true,
+      "required_terms": []
+    },
+    "review_note": "終了日未定。両方の相対規則は回答可。"
+  },
+  {
+    "id": "D16-paraphrase",
+    "scenario_id": "D16",
+    "variant": "paraphrase",
+    "family": "missing_date",
+    "system_name": "災害応援精算",
+    "question": "速報と精算書の締切は何月何日ですか？応援が終わる日はまだ決まっていません。",
+    "evidence": [
+      {
+        "element_id": "79447b0a-fee2-5109-9703-22a4beba8471",
+        "content": "災害応援終了日の翌日を1日目として、速報は3暦日目の9時30分、精算書は10暦日目の16時45分が期限である。土日祝日を含め、繰延べはない。両書類は別々に提出する。",
+        "document_name": "災害応援精算実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [],
+      "required_times": [],
+      "must_abstain": true,
+      "required_terms": []
+    },
+    "review_note": "終了日未定。両方の相対規則は回答可。"
+  },
+  {
+    "id": "D17-formal",
+    "scenario_id": "D17",
+    "variant": "formal",
+    "family": "business_calendar",
+    "system_name": "機器貸与返却申請",
+    "question": "返却日は2027年1月8日（金曜日）です。返却申請の期限はいつですか。",
+    "evidence": [
+      {
+        "element_id": "b79b97ac-b6ba-5b15-83ad-fee4794d0777",
+        "content": "返却申請は返却日の翌日から数えた3営業日目の15時までとする。営業日とは土曜・日曜及び貸与室の臨時休室日を除く日である。国民の祝日は営業日の判定に使わない。臨時休室日一覧が得られないと営業日を確定できない。2027年1月1日から1月31日までの臨時休室日はない。",
+        "document_name": "機器貸与返却申請実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-01-13"
+      ],
+      "required_times": [
+        "15:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D17-paraphrase",
+    "scenario_id": "D17",
+    "variant": "paraphrase",
+    "family": "business_calendar",
+    "system_name": "機器貸与返却申請",
+    "question": "2027/1/8、金曜に返却しました。申請の締切を教えて。",
+    "evidence": [
+      {
+        "element_id": "b79b97ac-b6ba-5b15-83ad-fee4794d0777",
+        "content": "返却申請は返却日の翌日から数えた3営業日目の15時までとする。営業日とは土曜・日曜及び貸与室の臨時休室日を除く日である。国民の祝日は営業日の判定に使わない。臨時休室日一覧が得られないと営業日を確定できない。2027年1月1日から1月31日までの臨時休室日はない。",
+        "document_name": "機器貸与返却申請実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-01-13"
+      ],
+      "required_times": [
+        "15:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D18-formal",
+    "scenario_id": "D18",
+    "variant": "formal",
+    "family": "business_closure",
+    "system_name": "機器貸与返却申請",
+    "question": "返却日は2027年1月8日（金曜日）です。返却申請の期限はいつですか。",
+    "evidence": [
+      {
+        "element_id": "0c3043c3-e8f4-562a-9955-1153be0c2dfe",
+        "content": "返却申請は返却日の翌日から数えた3営業日目の15時までとする。営業日とは土曜・日曜及び貸与室の臨時休室日を除く日である。国民の祝日は営業日の判定に使わない。臨時休室日一覧が得られないと営業日を確定できない。2027年1月1日から1月31日までの臨時休室日は1月11日のみである。",
+        "document_name": "機器貸与返却申請実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-01-14"
+      ],
+      "required_times": [
+        "15:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D18-paraphrase",
+    "scenario_id": "D18",
+    "variant": "paraphrase",
+    "family": "business_closure",
+    "system_name": "機器貸与返却申請",
+    "question": "2027/1/8、金曜に返却しました。申請の締切を教えて。",
+    "evidence": [
+      {
+        "element_id": "0c3043c3-e8f4-562a-9955-1153be0c2dfe",
+        "content": "返却申請は返却日の翌日から数えた3営業日目の15時までとする。営業日とは土曜・日曜及び貸与室の臨時休室日を除く日である。国民の祝日は営業日の判定に使わない。臨時休室日一覧が得られないと営業日を確定できない。2027年1月1日から1月31日までの臨時休室日は1月11日のみである。",
+        "document_name": "機器貸与返却申請実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-01-14"
+      ],
+      "required_times": [
+        "15:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D19-formal",
+    "scenario_id": "D19",
+    "variant": "formal",
+    "family": "business_year_end",
+    "system_name": "機器貸与返却申請",
+    "question": "返却日は2027年12月30日（木曜日）です。返却申請の期限はいつですか。",
+    "evidence": [
+      {
+        "element_id": "ece1b8d8-e07b-5f8b-b5bc-b90eb7d2cd08",
+        "content": "返却申請は返却日の翌日から数えた3営業日目の15時までとする。営業日とは土曜・日曜及び貸与室の臨時休室日を除く日である。国民の祝日は営業日の判定に使わない。臨時休室日一覧が得られないと営業日を確定できない。2027年12月1日から2028年1月31日までの臨時休室日は12月31日と1月3日のみである。",
+        "document_name": "機器貸与返却申請実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-01-06"
+      ],
+      "required_times": [
+        "15:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D19-paraphrase",
+    "scenario_id": "D19",
+    "variant": "paraphrase",
+    "family": "business_year_end",
+    "system_name": "機器貸与返却申請",
+    "question": "2027/12/30の木曜に返却済みです。申請はいつまでに必要？",
+    "evidence": [
+      {
+        "element_id": "ece1b8d8-e07b-5f8b-b5bc-b90eb7d2cd08",
+        "content": "返却申請は返却日の翌日から数えた3営業日目の15時までとする。営業日とは土曜・日曜及び貸与室の臨時休室日を除く日である。国民の祝日は営業日の判定に使わない。臨時休室日一覧が得られないと営業日を確定できない。2027年12月1日から2028年1月31日までの臨時休室日は12月31日と1月3日のみである。",
+        "document_name": "機器貸与返却申請実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-01-06"
+      ],
+      "required_times": [
+        "15:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D20-formal",
+    "scenario_id": "D20",
+    "variant": "formal",
+    "family": "missing_calendar",
+    "system_name": "機器貸与返却申請",
+    "question": "返却日は2027年1月8日（金曜日）です。返却申請の具体的な期限はいつですか。",
+    "evidence": [
+      {
+        "element_id": "647e2230-8ec0-5779-8f00-9e64623f91e6",
+        "content": "返却申請は返却日の翌日から数えた3営業日目の15時までとする。営業日とは土曜・日曜及び貸与室の臨時休室日を除く日である。国民の祝日は営業日の判定に使わない。臨時休室日一覧が得られないと営業日を確定できない。今回の資料には2027年1月の臨時休室日一覧が含まれていない。",
+        "document_name": "機器貸与返却申請実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [],
+      "required_times": [],
+      "must_abstain": true,
+      "required_terms": []
+    },
+    "review_note": "臨時休室日一覧が欠落。土日だけを除いて日付を確定してはならない。"
+  },
+  {
+    "id": "D20-paraphrase",
+    "scenario_id": "D20",
+    "variant": "paraphrase",
+    "family": "missing_calendar",
+    "system_name": "機器貸与返却申請",
+    "question": "2027/1/8の金曜に返しました。返却申請の締切は何月何日になりますか？",
+    "evidence": [
+      {
+        "element_id": "647e2230-8ec0-5779-8f00-9e64623f91e6",
+        "content": "返却申請は返却日の翌日から数えた3営業日目の15時までとする。営業日とは土曜・日曜及び貸与室の臨時休室日を除く日である。国民の祝日は営業日の判定に使わない。臨時休室日一覧が得られないと営業日を確定できない。今回の資料には2027年1月の臨時休室日一覧が含まれていない。",
+        "document_name": "機器貸与返却申請実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [],
+      "required_times": [],
+      "must_abstain": true,
+      "required_terms": []
+    },
+    "review_note": "臨時休室日一覧が欠落。土日だけを除いて日付を確定してはならない。"
+  },
+  {
+    "id": "D21-formal",
+    "scenario_id": "D21",
+    "variant": "formal",
+    "family": "hour_offset_month_end",
+    "system_name": "緊急当直記録",
+    "question": "当直は2027年4月30日20時15分に終了しました。緊急当直記録の提出期限はいつですか。",
+    "evidence": [
+      {
+        "element_id": "99ee0f08-0088-5e1e-9ff7-e30a322538d0",
+        "content": "緊急当直記録の提出期限は当直終了時刻から36時間後である。日付と時刻はいずれも日本標準時で扱い、休日による調整は行わない。",
+        "document_name": "緊急当直記録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-05-02"
+      ],
+      "required_times": [
+        "08:15"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D21-paraphrase",
+    "scenario_id": "D21",
+    "variant": "paraphrase",
+    "family": "hour_offset_month_end",
+    "system_name": "緊急当直記録",
+    "question": "2027/4/30の20:15に当直が終わりました。記録を出す締切を教えて。",
+    "evidence": [
+      {
+        "element_id": "99ee0f08-0088-5e1e-9ff7-e30a322538d0",
+        "content": "緊急当直記録の提出期限は当直終了時刻から36時間後である。日付と時刻はいずれも日本標準時で扱い、休日による調整は行わない。",
+        "document_name": "緊急当直記録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2027-05-02"
+      ],
+      "required_times": [
+        "08:15"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D22-formal",
+    "scenario_id": "D22",
+    "variant": "formal",
+    "family": "hour_offset_year_end",
+    "system_name": "緊急当直記録",
+    "question": "当直は2027年12月31日8時に終了しました。緊急当直記録の提出期限はいつですか。",
+    "evidence": [
+      {
+        "element_id": "0d1bb420-9833-517c-91d7-4357f1163a2a",
+        "content": "緊急当直記録の提出期限は当直終了時刻から36時間後である。日付と時刻はいずれも日本標準時で扱い、休日による調整は行わない。",
+        "document_name": "緊急当直記録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-01-01"
+      ],
+      "required_times": [
+        "20:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D22-paraphrase",
+    "scenario_id": "D22",
+    "variant": "paraphrase",
+    "family": "hour_offset_year_end",
+    "system_name": "緊急当直記録",
+    "question": "2027/12/31の朝8時に当直終了です。記録の締切はいつ？",
+    "evidence": [
+      {
+        "element_id": "0d1bb420-9833-517c-91d7-4357f1163a2a",
+        "content": "緊急当直記録の提出期限は当直終了時刻から36時間後である。日付と時刻はいずれも日本標準時で扱い、休日による調整は行わない。",
+        "document_name": "緊急当直記録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-01-01"
+      ],
+      "required_times": [
+        "20:00"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D23-formal",
+    "scenario_id": "D23",
+    "variant": "formal",
+    "family": "hour_offset_leap_year",
+    "system_name": "緊急当直記録",
+    "question": "当直は2028年2月28日22時40分に終了しました。緊急当直記録の提出期限はいつですか。",
+    "evidence": [
+      {
+        "element_id": "0c05074c-48b5-5a24-b836-53b0f7cebeb1",
+        "content": "緊急当直記録の提出期限は当直終了時刻から36時間後である。日付と時刻はいずれも日本標準時で扱い、休日による調整は行わない。",
+        "document_name": "緊急当直記録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-03-01"
+      ],
+      "required_times": [
+        "10:40"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D23-paraphrase",
+    "scenario_id": "D23",
+    "variant": "paraphrase",
+    "family": "hour_offset_leap_year",
+    "system_name": "緊急当直記録",
+    "question": "当直終了は2028/2/28の22:40でした。記録をいつまでに出せばいいですか？",
+    "evidence": [
+      {
+        "element_id": "0c05074c-48b5-5a24-b836-53b0f7cebeb1",
+        "content": "緊急当直記録の提出期限は当直終了時刻から36時間後である。日付と時刻はいずれも日本標準時で扱い、休日による調整は行わない。",
+        "document_name": "緊急当直記録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [
+        "2028-03-01"
+      ],
+      "required_times": [
+        "10:40"
+      ],
+      "must_abstain": false,
+      "required_terms": []
+    },
+    "review_note": ""
+  },
+  {
+    "id": "D24-formal",
+    "scenario_id": "D24",
+    "variant": "formal",
+    "family": "missing_count_rule",
+    "system_name": "緊急当直記録",
+    "question": "当直は2027年5月10日18時に終了しました。この要領から緊急当直記録の締切年月日を一つに確定できますか。",
+    "evidence": [
+      {
+        "element_id": "497594e2-732f-53cd-86d5-5162a1b2ece3",
+        "content": "緊急当直記録は当直終了後2日以内に提出する。本要領では終了日を日数に含めるか、翌日を1日目とするかを定めていない。締切時刻も定めていない。",
+        "document_name": "緊急当直記録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [],
+      "required_times": [],
+      "must_abstain": true,
+      "required_terms": []
+    },
+    "review_note": "起算規則が明示的に欠落。一意に確定不可。複数解釈を条件付きで説明することは可。"
+  },
+  {
+    "id": "D24-paraphrase",
+    "scenario_id": "D24",
+    "variant": "paraphrase",
+    "family": "missing_count_rule",
+    "system_name": "緊急当直記録",
+    "question": "2027/5/10の18時に当直終了です。この記録の締切日、この要領だけで一日に決められますか？",
+    "evidence": [
+      {
+        "element_id": "497594e2-732f-53cd-86d5-5162a1b2ece3",
+        "content": "緊急当直記録は当直終了後2日以内に提出する。本要領では終了日を日数に含めるか、翌日を1日目とするかを定めていない。締切時刻も定めていない。",
+        "document_name": "緊急当直記録実施要領（架空）",
+        "heading": "提出期限"
+      }
+    ],
+    "gold": {
+      "required_dates": [],
+      "required_times": [],
+      "must_abstain": true,
+      "required_terms": []
+    },
+    "review_note": "起算規則が明示的に欠落。一意に確定不可。複数解釈を条件付きで説明することは可。"
+  }
+]

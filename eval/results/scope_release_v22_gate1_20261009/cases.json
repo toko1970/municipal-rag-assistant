@@ -1,0 +1,1228 @@
+[
+  {
+    "id": "A02-formal",
+    "scenario_id": "A02",
+    "kind": "known_development",
+    "payload": {
+      "question": "臨時派遣交通補助は、所属部署だけで職員ごとの支給を確定できますか。",
+      "retrieved_evidence": [
+        {
+          "element_id": "fe7987a5-0402-596c-a542-e74a1e0a34c4",
+          "chunk_id": "fe7987a5-0402-596c-a542-e74a1e0a34c4",
+          "document_id": "fbf39af9-dc18-511a-a0d2-ecc36f794709",
+          "document_name": "臨時派遣交通補助要領",
+          "heading": "距離単価と審査",
+          "content": "承認された臨時派遣の往復経路について、経路距離1km当たり180円を補助し、1回の上限は3,600円とする。端数kmは切り捨てる。支給の確定には派遣命令簿と実走行記録の照合が必要であり、人事給与室が照合する。所属部署だけでは個別支給を確定できない。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "臨時派遣交通補助の支給確定には派遣命令簿と実走行記録の照合が必要であり、人事給与室が照合するため、所属部署だけでは個別支給を確定できません。",
+            "evidence_element_ids": [
+              "fe7987a5-0402-596c-a542-e74a1e0a34c4"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      }
+    },
+    "expected_label": "根拠十分",
+    "expected_factors": {},
+    "source_prompt_sha256": "548aa49ce3d234d52132c7b737a655b1acd7b5bebbb6d1611c82271cdaca1a86"
+  },
+  {
+    "id": "A02-paraphrase",
+    "scenario_id": "A02",
+    "kind": "known_development",
+    "payload": {
+      "question": "この派遣補助、所属だけで支給OKと決められる？",
+      "retrieved_evidence": [
+        {
+          "element_id": "fe7987a5-0402-596c-a542-e74a1e0a34c4",
+          "chunk_id": "fe7987a5-0402-596c-a542-e74a1e0a34c4",
+          "document_id": "fbf39af9-dc18-511a-a0d2-ecc36f794709",
+          "document_name": "臨時派遣交通補助要領",
+          "heading": "距離単価と審査",
+          "content": "承認された臨時派遣の往復経路について、経路距離1km当たり180円を補助し、1回の上限は3,600円とする。端数kmは切り捨てる。支給の確定には派遣命令簿と実走行記録の照合が必要であり、人事給与室が照合する。所属部署だけでは個別支給を確定できない。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "支給の確定には派遣命令簿と実走行記録の照合が必要であり、所属部署だけでは個別支給を確定できない。",
+            "evidence_element_ids": [
+              "fe7987a5-0402-596c-a542-e74a1e0a34c4"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      }
+    },
+    "expected_label": "根拠十分",
+    "expected_factors": {},
+    "source_prompt_sha256": "ef25811f140db9f4b1687c94f9e1e375952ebee9630e554c4f15b5eb47214083"
+  },
+  {
+    "id": "A03-formal",
+    "scenario_id": "A03",
+    "kind": "known_development",
+    "payload": {
+      "question": "派遣命令の承認と往復12kmは分かっていますが、実走行記録が未照合です。この職員への交通補助の支給額を確定できますか。",
+      "retrieved_evidence": [
+        {
+          "element_id": "fe7987a5-0402-596c-a542-e74a1e0a34c4",
+          "chunk_id": "fe7987a5-0402-596c-a542-e74a1e0a34c4",
+          "document_id": "fbf39af9-dc18-511a-a0d2-ecc36f794709",
+          "document_name": "臨時派遣交通補助要領",
+          "heading": "距離単価と審査",
+          "content": "承認された臨時派遣の往復経路について、経路距離1km当たり180円を補助し、1回の上限は3,600円とする。端数kmは切り捨てる。支給の確定には派遣命令簿と実走行記録の照合が必要であり、人事給与室が照合する。所属部署だけでは個別支給を確定できない。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "33712912-ea5b-51be-a5dc-5094cdbd8186",
+          "chunk_id": "33712912-ea5b-51be-a5dc-5094cdbd8186",
+          "document_id": "f43b9ada-04bf-5b5a-b804-3431cab56516",
+          "document_name": "臨時派遣交通補助手続",
+          "heading": "提出資料",
+          "content": "申請には派遣命令番号と実走行記録を添える。出張報告書の提出先は庶務室である。",
+          "page_number": null,
+          "score": 0.99,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "支給の確定には派遣命令簿と実走行記録の照合が必要であり、人事給与室が照合する。",
+            "evidence_element_ids": [
+              "fe7987a5-0402-596c-a542-e74a1e0a34c4"
+            ],
+            "evidence_kind": "text"
+          },
+          {
+            "claim_id": "claim-2",
+            "ordinal": 2,
+            "text": "所属部署だけでは個別支給を確定できない。",
+            "evidence_element_ids": [
+              "fe7987a5-0402-596c-a542-e74a1e0a34c4"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": [
+          "実走行記録の未照合が解消されていないため、交通補助の支給額は確定できません。"
+        ]
+      }
+    },
+    "expected_label": "判断要",
+    "expected_factors": {},
+    "source_prompt_sha256": "7bf31fe34fec9762bd9df38cb5d1c3c23b1e79b01128198541d14757ff6625c6"
+  },
+  {
+    "id": "A03-paraphrase",
+    "scenario_id": "A03",
+    "kind": "known_development",
+    "payload": {
+      "question": "命令承認済み、距離は12km。ただ走行記録はまだ照合前。この人に払う額は決まる？",
+      "retrieved_evidence": [
+        {
+          "element_id": "fe7987a5-0402-596c-a542-e74a1e0a34c4",
+          "chunk_id": "fe7987a5-0402-596c-a542-e74a1e0a34c4",
+          "document_id": "fbf39af9-dc18-511a-a0d2-ecc36f794709",
+          "document_name": "臨時派遣交通補助要領",
+          "heading": "距離単価と審査",
+          "content": "承認された臨時派遣の往復経路について、経路距離1km当たり180円を補助し、1回の上限は3,600円とする。端数kmは切り捨てる。支給の確定には派遣命令簿と実走行記録の照合が必要であり、人事給与室が照合する。所属部署だけでは個別支給を確定できない。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "33712912-ea5b-51be-a5dc-5094cdbd8186",
+          "chunk_id": "33712912-ea5b-51be-a5dc-5094cdbd8186",
+          "document_id": "f43b9ada-04bf-5b5a-b804-3431cab56516",
+          "document_name": "臨時派遣交通補助手続",
+          "heading": "提出資料",
+          "content": "申請には派遣命令番号と実走行記録を添える。出張報告書の提出先は庶務室である。",
+          "page_number": null,
+          "score": 0.99,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "支給の確定には派遣命令簿と実走行記録の照合が必要であるため、まだ走行記録が照合前であれば額は決まらない。",
+            "evidence_element_ids": [
+              "fe7987a5-0402-596c-a542-e74a1e0a34c4"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      }
+    },
+    "expected_label": "判断要",
+    "expected_factors": {},
+    "source_prompt_sha256": "39e14a4c9d0a846606bb5164c82dbef6aad8d85ec2e709d89c1b29cc1f0f614d"
+  },
+  {
+    "id": "A04-formal",
+    "scenario_id": "A04",
+    "kind": "known_development",
+    "payload": {
+      "question": "臨時派遣交通補助の所得税上の所得区分を教えてください。",
+      "retrieved_evidence": [
+        {
+          "element_id": "fe7987a5-0402-596c-a542-e74a1e0a34c4",
+          "chunk_id": "fe7987a5-0402-596c-a542-e74a1e0a34c4",
+          "document_id": "fbf39af9-dc18-511a-a0d2-ecc36f794709",
+          "document_name": "臨時派遣交通補助要領",
+          "heading": "距離単価と審査",
+          "content": "承認された臨時派遣の往復経路について、経路距離1km当たり180円を補助し、1回の上限は3,600円とする。端数kmは切り捨てる。支給の確定には派遣命令簿と実走行記録の照合が必要であり、人事給与室が照合する。所属部署だけでは個別支給を確定できない。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "33712912-ea5b-51be-a5dc-5094cdbd8186",
+          "chunk_id": "33712912-ea5b-51be-a5dc-5094cdbd8186",
+          "document_id": "f43b9ada-04bf-5b5a-b804-3431cab56516",
+          "document_name": "臨時派遣交通補助手続",
+          "heading": "提出資料",
+          "content": "申請には派遣命令番号と実走行記録を添える。出張報告書の提出先は庶務室である。",
+          "page_number": null,
+          "score": 0.99,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [],
+        "missing_conditions": [
+          "提供された取得根拠には、臨時派遣交通補助の所得税上の所得区分に関する記載が存在しないため回答できません。"
+        ]
+      }
+    },
+    "expected_label": "文書不足",
+    "expected_factors": {},
+    "source_prompt_sha256": "a1e821e88ad45e511d9705aadc0a6f5680c5d5a47b09d70ee67c434f23c20905"
+  },
+  {
+    "id": "A04-paraphrase",
+    "scenario_id": "A04",
+    "kind": "known_development",
+    "payload": {
+      "question": "派遣の交通補助って税金では何所得？",
+      "retrieved_evidence": [
+        {
+          "element_id": "fe7987a5-0402-596c-a542-e74a1e0a34c4",
+          "chunk_id": "fe7987a5-0402-596c-a542-e74a1e0a34c4",
+          "document_id": "fbf39af9-dc18-511a-a0d2-ecc36f794709",
+          "document_name": "臨時派遣交通補助要領",
+          "heading": "距離単価と審査",
+          "content": "承認された臨時派遣の往復経路について、経路距離1km当たり180円を補助し、1回の上限は3,600円とする。端数kmは切り捨てる。支給の確定には派遣命令簿と実走行記録の照合が必要であり、人事給与室が照合する。所属部署だけでは個別支給を確定できない。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "33712912-ea5b-51be-a5dc-5094cdbd8186",
+          "chunk_id": "33712912-ea5b-51be-a5dc-5094cdbd8186",
+          "document_id": "f43b9ada-04bf-5b5a-b804-3431cab56516",
+          "document_name": "臨時派遣交通補助手続",
+          "heading": "提出資料",
+          "content": "申請には派遣命令番号と実走行記録を添える。出張報告書の提出先は庶務室である。",
+          "page_number": null,
+          "score": 0.99,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "提供された取得根拠には派遣の交通補助が税金において何所得に該当するかの記載はありません。",
+            "evidence_element_ids": [
+              "fe7987a5-0402-596c-a542-e74a1e0a34c4",
+              "33712912-ea5b-51be-a5dc-5094cdbd8186"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": [
+          "派遣の交通補助が税金で何所得に該当するかを示す情報"
+        ]
+      }
+    },
+    "expected_label": "文書不足",
+    "expected_factors": {},
+    "source_prompt_sha256": "9fb5de6cc6fa50d59b3de96557715654a39be552a74b07deedee59914c07e2ab"
+  },
+  {
+    "id": "B02-formal",
+    "scenario_id": "B02",
+    "kind": "known_development",
+    "payload": {
+      "question": "夜間保全当番を3回行いましたが、事前承認の記録が確認できません。本人に付与される調整休を確定できますか。",
+      "retrieved_evidence": [
+        {
+          "element_id": "90d0213b-486d-54f1-b242-47b9d771fa5a",
+          "chunk_id": "90d0213b-486d-54f1-b242-47b9d771fa5a",
+          "document_id": "0bd2ff78-9814-5a2b-b2f5-551a3c5cf2e7",
+          "document_name": "夜間保全当番調整休要領",
+          "heading": "取得時間と確定",
+          "content": "夜間保全当番を当番表で事前承認され、当番終了の記録があるとき、1回につき調整休2時間を付与する。実際の付与時間を確定するには承認済み当番回数と終了記録を照合する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "夜間保全当番の調整休の付与には、当番表での事前承認と当番終了の記録が必要です。",
+            "evidence_element_ids": [
+              "90d0213b-486d-54f1-b242-47b9d771fa5a"
+            ],
+            "evidence_kind": "text"
+          },
+          {
+            "claim_id": "claim-2",
+            "ordinal": 2,
+            "text": "事前承認の記録が確認できないため、実際の付与時間を確定するための条件が満たされていません。",
+            "evidence_element_ids": [
+              "90d0213b-486d-54f1-b242-47b9d771fa5a"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": [
+          "当番表による事前承認の記録"
+        ]
+      }
+    },
+    "expected_label": "判断要",
+    "expected_factors": {},
+    "source_prompt_sha256": "6e5c9840dd71f53c075bca3c6f3a340c7cbaba30b029fb68ab102b06c40140dd"
+  },
+  {
+    "id": "B02-paraphrase",
+    "scenario_id": "B02",
+    "kind": "known_development",
+    "payload": {
+      "question": "当番3回やったけど事前承認の記録がまだ不明。実際に付く休みは決められる？",
+      "retrieved_evidence": [
+        {
+          "element_id": "90d0213b-486d-54f1-b242-47b9d771fa5a",
+          "chunk_id": "90d0213b-486d-54f1-b242-47b9d771fa5a",
+          "document_id": "0bd2ff78-9814-5a2b-b2f5-551a3c5cf2e7",
+          "document_name": "夜間保全当番調整休要領",
+          "heading": "取得時間と確定",
+          "content": "夜間保全当番を当番表で事前承認され、当番終了の記録があるとき、1回につき調整休2時間を付与する。実際の付与時間を確定するには承認済み当番回数と終了記録を照合する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "実際の付与時間を確定するには承認済み当番回数と終了記録を照合する必要がある。",
+            "evidence_element_ids": [
+              "90d0213b-486d-54f1-b242-47b9d771fa5a"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": [
+          "事前承認の記録"
+        ]
+      }
+    },
+    "expected_label": "判断要",
+    "expected_factors": {},
+    "source_prompt_sha256": "1d7c555fd5ebc32afc54b1e3554298cda76b98a545585daf62ecf3cb53287fa4"
+  },
+  {
+    "id": "B03-formal",
+    "scenario_id": "B03",
+    "kind": "known_development",
+    "payload": {
+      "question": "2028年2月に事前承認と終了記録がある夜間保全当番を2回行いました。調整休の時間と申請期限・提出先を教えてください。",
+      "retrieved_evidence": [
+        {
+          "element_id": "90d0213b-486d-54f1-b242-47b9d771fa5a",
+          "chunk_id": "90d0213b-486d-54f1-b242-47b9d771fa5a",
+          "document_id": "0bd2ff78-9814-5a2b-b2f5-551a3c5cf2e7",
+          "document_name": "夜間保全当番調整休要領",
+          "heading": "取得時間と確定",
+          "content": "夜間保全当番を当番表で事前承認され、当番終了の記録があるとき、1回につき調整休2時間を付与する。実際の付与時間を確定するには承認済み当番回数と終了記録を照合する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "1b6a255d-4c20-587f-8388-a3e3d970c774",
+          "chunk_id": "1b6a255d-4c20-587f-8388-a3e3d970c774",
+          "document_id": "8f7a57be-23ac-516a-a1f8-b715614ed960",
+          "document_name": "夜間保全当番調整休手続",
+          "heading": "申請期限と窓口",
+          "content": "調整休の申請は当番を行った月の翌月3日17時までに勤怠室へ提出する。申請には当番終了票を添付する。",
+          "page_number": null,
+          "score": 0.99,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "2028年2月に事前承認と終了記録がある夜間保全当番を2回行った場合、付与される調整休の時間は合計4時間である。",
+            "evidence_element_ids": [
+              "90d0213b-486d-54f1-b242-47b9d771fa5a"
+            ],
+            "evidence_kind": "text"
+          },
+          {
+            "claim_id": "claim-2",
+            "ordinal": 2,
+            "text": "調整休の申請期限は、当番を行った月の翌月3日17時までである。",
+            "evidence_element_ids": [
+              "1b6a255d-4c20-587f-8388-a3e3d970c774"
+            ],
+            "evidence_kind": "text"
+          },
+          {
+            "claim_id": "claim-3",
+            "ordinal": 3,
+            "text": "申請の提出先は勤怠室であり、当番終了票の添付が必要である。",
+            "evidence_element_ids": [
+              "1b6a255d-4c20-587f-8388-a3e3d970c774"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      }
+    },
+    "expected_label": "根拠十分",
+    "expected_factors": {},
+    "source_prompt_sha256": "2090958029c3d136c6501cd20fc5e97c008e26a6d48877a6c2482d1e167748a5"
+  },
+  {
+    "id": "B03-paraphrase",
+    "scenario_id": "B03",
+    "kind": "known_development",
+    "payload": {
+      "question": "2028/2の夜間当番2回は承認も終了記録も済み。休みは何時間で、いつどこに申請？",
+      "retrieved_evidence": [
+        {
+          "element_id": "90d0213b-486d-54f1-b242-47b9d771fa5a",
+          "chunk_id": "90d0213b-486d-54f1-b242-47b9d771fa5a",
+          "document_id": "0bd2ff78-9814-5a2b-b2f5-551a3c5cf2e7",
+          "document_name": "夜間保全当番調整休要領",
+          "heading": "取得時間と確定",
+          "content": "夜間保全当番を当番表で事前承認され、当番終了の記録があるとき、1回につき調整休2時間を付与する。実際の付与時間を確定するには承認済み当番回数と終了記録を照合する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "1b6a255d-4c20-587f-8388-a3e3d970c774",
+          "chunk_id": "1b6a255d-4c20-587f-8388-a3e3d970c774",
+          "document_id": "8f7a57be-23ac-516a-a1f8-b715614ed960",
+          "document_name": "夜間保全当番調整休手続",
+          "heading": "申請期限と窓口",
+          "content": "調整休の申請は当番を行った月の翌月3日17時までに勤怠室へ提出する。申請には当番終了票を添付する。",
+          "page_number": null,
+          "score": 0.99,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "2028年2月の夜間当番2回に対して付与される調整休は合計4時間である。",
+            "evidence_element_ids": [
+              "90d0213b-486d-54f1-b242-47b9d771fa5a"
+            ],
+            "evidence_kind": "text"
+          },
+          {
+            "claim_id": "claim-2",
+            "ordinal": 2,
+            "text": "調整休の申請は、当番を行った月の翌月3日17時までに勤怠室へ当番終了票を添付して提出する。",
+            "evidence_element_ids": [
+              "1b6a255d-4c20-587f-8388-a3e3d970c774"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      }
+    },
+    "expected_label": "根拠十分",
+    "expected_factors": {},
+    "source_prompt_sha256": "9237b674f6265668c7ea78f98f4077c0c9f935d98fa55c9a7be489411fc03b59"
+  },
+  {
+    "id": "B04-formal",
+    "scenario_id": "B04",
+    "kind": "known_development",
+    "payload": {
+      "question": "夜間保全当番調整休の未使用時間は翌年度へ繰り越せますか。",
+      "retrieved_evidence": [
+        {
+          "element_id": "90d0213b-486d-54f1-b242-47b9d771fa5a",
+          "chunk_id": "90d0213b-486d-54f1-b242-47b9d771fa5a",
+          "document_id": "0bd2ff78-9814-5a2b-b2f5-551a3c5cf2e7",
+          "document_name": "夜間保全当番調整休要領",
+          "heading": "取得時間と確定",
+          "content": "夜間保全当番を当番表で事前承認され、当番終了の記録があるとき、1回につき調整休2時間を付与する。実際の付与時間を確定するには承認済み当番回数と終了記録を照合する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "1b6a255d-4c20-587f-8388-a3e3d970c774",
+          "chunk_id": "1b6a255d-4c20-587f-8388-a3e3d970c774",
+          "document_id": "8f7a57be-23ac-516a-a1f8-b715614ed960",
+          "document_name": "夜間保全当番調整休手続",
+          "heading": "申請期限と窓口",
+          "content": "調整休の申請は当番を行った月の翌月3日17時までに勤怠室へ提出する。申請には当番終了票を添付する。",
+          "page_number": null,
+          "score": 0.99,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "提供された取得根拠には夜間保全当番調整休の未使用時間の翌年度への繰り越しに関する記載はありません。",
+            "evidence_element_ids": [
+              "90d0213b-486d-54f1-b242-47b9d771fa5a",
+              "1b6a255d-4c20-587f-8388-a3e3d970c774"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": [
+          "夜間保全当番調整休の未使用時間の翌年度への繰り越しに関する情報"
+        ]
+      }
+    },
+    "expected_label": "文書不足",
+    "expected_factors": {},
+    "source_prompt_sha256": "d43c1ea37cec8d3326e47b05e7ef5a2c55523b61a20bacbefc13e9be65b786c2"
+  },
+  {
+    "id": "B04-paraphrase",
+    "scenario_id": "B04",
+    "kind": "known_development",
+    "payload": {
+      "question": "当番の調整休、使わず残った分は次年度に回せる？",
+      "retrieved_evidence": [
+        {
+          "element_id": "90d0213b-486d-54f1-b242-47b9d771fa5a",
+          "chunk_id": "90d0213b-486d-54f1-b242-47b9d771fa5a",
+          "document_id": "0bd2ff78-9814-5a2b-b2f5-551a3c5cf2e7",
+          "document_name": "夜間保全当番調整休要領",
+          "heading": "取得時間と確定",
+          "content": "夜間保全当番を当番表で事前承認され、当番終了の記録があるとき、1回につき調整休2時間を付与する。実際の付与時間を確定するには承認済み当番回数と終了記録を照合する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "1b6a255d-4c20-587f-8388-a3e3d970c774",
+          "chunk_id": "1b6a255d-4c20-587f-8388-a3e3d970c774",
+          "document_id": "8f7a57be-23ac-516a-a1f8-b715614ed960",
+          "document_name": "夜間保全当番調整休手続",
+          "heading": "申請期限と窓口",
+          "content": "調整休の申請は当番を行った月の翌月3日17時までに勤怠室へ提出する。申請には当番終了票を添付する。",
+          "page_number": null,
+          "score": 0.99,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [],
+        "missing_conditions": [
+          "提供された取得根拠には、当番の調整休が使わず残った場合に次年度に繰り越せるかどうかに関する記載がありません。"
+        ]
+      }
+    },
+    "expected_label": "文書不足",
+    "expected_factors": {},
+    "source_prompt_sha256": "c2b13b62ded87511f259673b2c70d2bc011d20ffeee39235aa23791f4ac55a1f"
+  },
+  {
+    "id": "C01-formal",
+    "scenario_id": "C01",
+    "kind": "known_development",
+    "payload": {
+      "question": "事前承認済みの交換用電池を12,000円で購入し、資産台帳と領収書の照合も済みました。補填額はいくらですか。",
+      "retrieved_evidence": [
+        {
+          "element_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "chunk_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "document_id": "eef3602b-8fc4-5114-aa38-a75b8df8084d",
+          "document_name": "貸与端末更新補填要領",
+          "heading": "補填計算と審査",
+          "content": "事前承認された貸与端末の交換用電池を購入した場合、領収書に記載された電池代金の50%を補填し、上限を8,000円とする。送料は補填対象外。個別の支給は購入品が承認済みの交換用電池であることを資産台帳と領収書で照合して確定する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "事前承認された貸与端末の交換用電池を購入した場合、領収書に記載された電池代金の50%を補填し、上限を8,000円とする。",
+            "evidence_element_ids": [
+              "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+            ],
+            "evidence_kind": "text"
+          },
+          {
+            "claim_id": "claim-2",
+            "ordinal": 2,
+            "text": "12,000円の50%は6,000円であり、上限の8,000円以下であるため、補填額は6,000円となる。",
+            "evidence_element_ids": [
+              "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      }
+    },
+    "expected_label": "根拠十分",
+    "expected_factors": {},
+    "source_prompt_sha256": "2d0119ab1a771b4e63cfdbd8933b2c076b07a40191ef54c7cb93fa494cca4a09"
+  },
+  {
+    "id": "C01-paraphrase",
+    "scenario_id": "C01",
+    "kind": "known_development",
+    "payload": {
+      "question": "承認済みの交換電池が1万2千円、台帳と領収書も照合OK。いくら補填？",
+      "retrieved_evidence": [
+        {
+          "element_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "chunk_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "document_id": "eef3602b-8fc4-5114-aa38-a75b8df8084d",
+          "document_name": "貸与端末更新補填要領",
+          "heading": "補填計算と審査",
+          "content": "事前承認された貸与端末の交換用電池を購入した場合、領収書に記載された電池代金の50%を補填し、上限を8,000円とする。送料は補填対象外。個別の支給は購入品が承認済みの交換用電池であることを資産台帳と領収書で照合して確定する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "事前承認された貸与端末の交換用電池を購入した場合、領収書に記載された電池代金の50%を補填し、上限を8,000円とする。",
+            "evidence_element_ids": [
+              "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+            ],
+            "evidence_kind": "text"
+          },
+          {
+            "claim_id": "claim-2",
+            "ordinal": 2,
+            "text": "交換電池代金が1万2千円の場合、その50%は6,000円となり、上限の8,000円以下であるため補填額は6,000円となる。",
+            "evidence_element_ids": [
+              "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      }
+    },
+    "expected_label": "根拠十分",
+    "expected_factors": {},
+    "source_prompt_sha256": "6b4a7f27e6fca1e0d248c3461c0cc5fe86407560084edf4d64a1aad9eb1c3997"
+  },
+  {
+    "id": "C02-formal",
+    "scenario_id": "C02",
+    "kind": "known_development",
+    "payload": {
+      "question": "購入額12,000円の領収書はありますが、購入品が事前承認された交換用電池か資産台帳で未照合です。この人への補填額を確定できますか。",
+      "retrieved_evidence": [
+        {
+          "element_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "chunk_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "document_id": "eef3602b-8fc4-5114-aa38-a75b8df8084d",
+          "document_name": "貸与端末更新補填要領",
+          "heading": "補填計算と審査",
+          "content": "事前承認された貸与端末の交換用電池を購入した場合、領収書に記載された電池代金の50%を補填し、上限を8,000円とする。送料は補填対象外。個別の支給は購入品が承認済みの交換用電池であることを資産台帳と領収書で照合して確定する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "f23a1fa4-e906-5108-8e93-8ead882758fc",
+          "chunk_id": "f23a1fa4-e906-5108-8e93-8ead882758fc",
+          "document_id": "db6a458a-2ed4-50e4-9e91-146e08473583",
+          "document_name": "貸与端末更新補填手続",
+          "heading": "別契約と照合担当",
+          "content": "交換用電池の補填は情報資産室が照合する。端末の修理時に生じる自己負担率は別の保守契約で定め、この手続には率を記載しない。",
+          "page_number": null,
+          "score": 0.99,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "個別の支給は購入品が承認済みの交換用電池であることを資産台帳と領収書で照合して確定する。",
+            "evidence_element_ids": [
+              "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": [
+          "購入品が事前承認された交換用電池であることの資産台帳と領収書による照合"
+        ]
+      }
+    },
+    "expected_label": "判断要",
+    "expected_factors": {},
+    "source_prompt_sha256": "6d3589c665db05e3bf5fbbdaecc643672804c140c117351ade8723dead42c4c9"
+  },
+  {
+    "id": "C02-paraphrase",
+    "scenario_id": "C02",
+    "kind": "known_development",
+    "payload": {
+      "question": "領収書は1万2千円。承認された電池か台帳チェック前だけど、この人に払う額は決まる？",
+      "retrieved_evidence": [
+        {
+          "element_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "chunk_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "document_id": "eef3602b-8fc4-5114-aa38-a75b8df8084d",
+          "document_name": "貸与端末更新補填要領",
+          "heading": "補填計算と審査",
+          "content": "事前承認された貸与端末の交換用電池を購入した場合、領収書に記載された電池代金の50%を補填し、上限を8,000円とする。送料は補填対象外。個別の支給は購入品が承認済みの交換用電池であることを資産台帳と領収書で照合して確定する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "f23a1fa4-e906-5108-8e93-8ead882758fc",
+          "chunk_id": "f23a1fa4-e906-5108-8e93-8ead882758fc",
+          "document_id": "db6a458a-2ed4-50e4-9e91-146e08473583",
+          "document_name": "貸与端末更新補填手続",
+          "heading": "別契約と照合担当",
+          "content": "交換用電池の補填は情報資産室が照合する。端末の修理時に生じる自己負担率は別の保守契約で定め、この手続には率を記載しない。",
+          "page_number": null,
+          "score": 0.99,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "個別の支給金額の確定には、購入品が事前承認された交換用電池であることを資産台帳と領収書で照合することが必要です。",
+            "evidence_element_ids": [
+              "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+            ],
+            "evidence_kind": "text"
+          },
+          {
+            "claim_id": "claim-2",
+            "ordinal": 2,
+            "text": "現状は台帳チェック前であるため、支給額はまだ確定しません。",
+            "evidence_element_ids": [
+              "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": [
+          "資産台帳と領収書の照合による購入品の確認"
+        ]
+      }
+    },
+    "expected_label": "判断要",
+    "expected_factors": {},
+    "source_prompt_sha256": "37c3cf774cb8b7a91ae27c25c19aae99aeca3b827c6d82d3d89288c8aa92f09d"
+  },
+  {
+    "id": "C03-formal",
+    "scenario_id": "C03",
+    "kind": "known_development",
+    "payload": {
+      "question": "貸与端末の交換用電池について、補填対象に送料を含めますか。",
+      "retrieved_evidence": [
+        {
+          "element_id": "1b6a255d-4c20-587f-8388-a3e3d970c774",
+          "chunk_id": "1b6a255d-4c20-587f-8388-a3e3d970c774",
+          "document_id": "8f7a57be-23ac-516a-a1f8-b715614ed960",
+          "document_name": "夜間保全当番調整休手続",
+          "heading": "申請期限と窓口",
+          "content": "調整休の申請は当番を行った月の翌月3日17時までに勤怠室へ提出する。申請には当番終了票を添付する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "chunk_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "document_id": "eef3602b-8fc4-5114-aa38-a75b8df8084d",
+          "document_name": "貸与端末更新補填要領",
+          "heading": "補填計算と審査",
+          "content": "事前承認された貸与端末の交換用電池を購入した場合、領収書に記載された電池代金の50%を補填し、上限を8,000円とする。送料は補填対象外。個別の支給は購入品が承認済みの交換用電池であることを資産台帳と領収書で照合して確定する。",
+          "page_number": null,
+          "score": 0.99,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "貸与端末の交換用電池の補填において、送料は補填対象外とされています。",
+            "evidence_element_ids": [
+              "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      }
+    },
+    "expected_label": "根拠十分",
+    "expected_factors": {},
+    "source_prompt_sha256": "34206b3d334bfc5b79fdf9cd3c3600f943c4f92123d238e2c9fb0dd5d3af49f5"
+  },
+  {
+    "id": "C03-paraphrase",
+    "scenario_id": "C03",
+    "kind": "known_development",
+    "payload": {
+      "question": "交換電池の送料も補填に入る？",
+      "retrieved_evidence": [
+        {
+          "element_id": "1b6a255d-4c20-587f-8388-a3e3d970c774",
+          "chunk_id": "1b6a255d-4c20-587f-8388-a3e3d970c774",
+          "document_id": "8f7a57be-23ac-516a-a1f8-b715614ed960",
+          "document_name": "夜間保全当番調整休手続",
+          "heading": "申請期限と窓口",
+          "content": "調整休の申請は当番を行った月の翌月3日17時までに勤怠室へ提出する。申請には当番終了票を添付する。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "chunk_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "document_id": "eef3602b-8fc4-5114-aa38-a75b8df8084d",
+          "document_name": "貸与端末更新補填要領",
+          "heading": "補填計算と審査",
+          "content": "事前承認された貸与端末の交換用電池を購入した場合、領収書に記載された電池代金の50%を補填し、上限を8,000円とする。送料は補填対象外。個別の支給は購入品が承認済みの交換用電池であることを資産台帳と領収書で照合して確定する。",
+          "page_number": null,
+          "score": 0.99,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "貸与端末の交換用電池を購入した場合の送料は補填対象外となります。",
+            "evidence_element_ids": [
+              "cfe23d91-cfc7-5587-b37f-137c0c53d69d"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      }
+    },
+    "expected_label": "根拠十分",
+    "expected_factors": {},
+    "source_prompt_sha256": "2145aecc0f7a523776f01cbe9fd22982df0ebcfa0504b1db89c63b110c5f6571"
+  },
+  {
+    "id": "C04-formal",
+    "scenario_id": "C04",
+    "kind": "known_development",
+    "payload": {
+      "question": "貸与端末の修理にかかる実際の自己負担率は何%ですか。",
+      "retrieved_evidence": [
+        {
+          "element_id": "f23a1fa4-e906-5108-8e93-8ead882758fc",
+          "chunk_id": "f23a1fa4-e906-5108-8e93-8ead882758fc",
+          "document_id": "db6a458a-2ed4-50e4-9e91-146e08473583",
+          "document_name": "貸与端末更新補填手続",
+          "heading": "別契約と照合担当",
+          "content": "交換用電池の補填は情報資産室が照合する。端末の修理時に生じる自己負担率は別の保守契約で定め、この手続には率を記載しない。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "chunk_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "document_id": "eef3602b-8fc4-5114-aa38-a75b8df8084d",
+          "document_name": "貸与端末更新補填要領",
+          "heading": "補填計算と審査",
+          "content": "事前承認された貸与端末の交換用電池を購入した場合、領収書に記載された電池代金の50%を補填し、上限を8,000円とする。送料は補填対象外。個別の支給は購入品が承認済みの交換用電池であることを資産台帳と領収書で照合して確定する。",
+          "page_number": null,
+          "score": 0.99,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "端末の修理時に生じる自己負担率は別の保守契約で定められており、手続には率が記載されていません。",
+            "evidence_element_ids": [
+              "f23a1fa4-e906-5108-8e93-8ead882758fc"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": [
+          "別の保守契約の情報"
+        ]
+      }
+    },
+    "expected_label": "文書不足",
+    "expected_factors": {},
+    "source_prompt_sha256": "bca354faeb93b25a4a96c0a62156c239620071487e991e6d2b7f568efdafa6c2"
+  },
+  {
+    "id": "C04-paraphrase",
+    "scenario_id": "C04",
+    "kind": "known_development",
+    "payload": {
+      "question": "端末修理の自己負担って結局何パーセント？",
+      "retrieved_evidence": [
+        {
+          "element_id": "f23a1fa4-e906-5108-8e93-8ead882758fc",
+          "chunk_id": "f23a1fa4-e906-5108-8e93-8ead882758fc",
+          "document_id": "db6a458a-2ed4-50e4-9e91-146e08473583",
+          "document_name": "貸与端末更新補填手続",
+          "heading": "別契約と照合担当",
+          "content": "交換用電池の補填は情報資産室が照合する。端末の修理時に生じる自己負担率は別の保守契約で定め、この手続には率を記載しない。",
+          "page_number": null,
+          "score": 1.0,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        },
+        {
+          "element_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "chunk_id": "cfe23d91-cfc7-5587-b37f-137c0c53d69d",
+          "document_id": "eef3602b-8fc4-5114-aa38-a75b8df8084d",
+          "document_name": "貸与端末更新補填要領",
+          "heading": "補填計算と審査",
+          "content": "事前承認された貸与端末の交換用電池を購入した場合、領収書に記載された電池代金の50%を補填し、上限を8,000円とする。送料は補填対象外。個別の支給は購入品が承認済みの交換用電池であることを資産台帳と領収書で照合して確定する。",
+          "page_number": null,
+          "score": 0.99,
+          "source": "frozen-synthetic-corpus",
+          "element_type": "text",
+          "visual_extraction": null
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "端末の修理時に生じる自己負担率は別の保守契約で定められており、手続には率が記載されていません。",
+            "evidence_element_ids": [
+              "f23a1fa4-e906-5108-8e93-8ead882758fc"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": [
+          "別の保守契約の情報"
+        ]
+      }
+    },
+    "expected_label": "文書不足",
+    "expected_factors": {},
+    "source_prompt_sha256": "c6d8cf0cad7169a0db4326b3371e351ef4114ff76e6eacb7386f5e8e44a9371c"
+  },
+  {
+    "id": "D01",
+    "scenario_id": "D01",
+    "kind": "diagnostic_control",
+    "expected_label": "判断要",
+    "expected_factors": {
+      "retrieval_sufficient": true,
+      "answer_fully_supported": true,
+      "requires_case_facts": false,
+      "requires_policy_judgment": true,
+      "version_conflict": false
+    },
+    "payload": {
+      "question": "架空の特別作業手当について、勤務記録と対象作業の要件は満たしています。私への支給を確定できますか。",
+      "retrieved_evidence": [
+        {
+          "element_id": "60fe86a9-902c-504f-926a-c24b83c08543",
+          "content": "対象作業と勤務記録の要件を満たしても、支給は審査委員会が業務上の必要性を審査して裁量で決定する。"
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "要件を満たしても審査委員会の裁量による決定が残るため、支給は確定できません。",
+            "evidence_element_ids": [
+              "60fe86a9-902c-504f-926a-c24b83c08543"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      }
+    }
+  },
+  {
+    "id": "D02",
+    "scenario_id": "D02",
+    "kind": "diagnostic_control",
+    "expected_label": "判断要",
+    "expected_factors": {
+      "retrieval_sufficient": true,
+      "answer_fully_supported": true,
+      "requires_case_facts": false,
+      "requires_policy_judgment": false,
+      "version_conflict": true
+    },
+    "payload": {
+      "question": "架空の設備点検補助について、2027年4月1日の適用単価はいくらですか。",
+      "retrieved_evidence": [
+        {
+          "element_id": "331228da-2c6a-5937-a8dc-c1f4d74e5a9d",
+          "content": "同じ対象と施行日2027年4月1日を持つ通知甲は単価200円、通知乙は単価300円と規定する。両通知とも有効と記載され、優先関係の記載はない。"
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "同じ適用日に200円と300円の記載が競合し、優先関係がないため適用単価を一意に決められません。",
+            "evidence_element_ids": [
+              "331228da-2c6a-5937-a8dc-c1f4d74e5a9d"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      }
+    }
+  },
+  {
+    "id": "D03",
+    "scenario_id": "D03",
+    "kind": "diagnostic_control",
+    "expected_label": null,
+    "expected_factors": {
+      "retrieval_sufficient": true,
+      "answer_fully_supported": false,
+      "requires_case_facts": false,
+      "requires_policy_judgment": false,
+      "version_conflict": false
+    },
+    "payload": {
+      "question": "架空の研修資料費は1冊につきいくらですか。",
+      "retrieved_evidence": [
+        {
+          "element_id": "0fb0f179-d2d6-5bea-8636-f97b4afd2be1",
+          "content": "研修資料費は1冊につき500円とする。"
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "研修資料費は1冊につき900円です。",
+            "evidence_element_ids": [
+              "0fb0f179-d2d6-5bea-8636-f97b4afd2be1"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      }
+    }
+  },
+  {
+    "id": "D04",
+    "scenario_id": "D04",
+    "kind": "diagnostic_control",
+    "expected_label": null,
+    "expected_factors": {
+      "retrieval_sufficient": true,
+      "answer_fully_supported": false,
+      "requires_case_facts": false,
+      "requires_policy_judgment": false,
+      "version_conflict": false
+    },
+    "payload": {
+      "question": "架空の研修資料費の単価と提出先を教えてください。",
+      "retrieved_evidence": [
+        {
+          "element_id": "7a68ac99-f561-5b6a-ab79-f558525b31b6",
+          "content": "研修資料費は1冊につき500円とする。申請の提出先は研修室とする。"
+        }
+      ],
+      "generated_answer": {
+        "schema_version": "1.0",
+        "claims": [
+          {
+            "claim_id": "claim-1",
+            "ordinal": 1,
+            "text": "研修資料費は1冊につき500円です。",
+            "evidence_element_ids": [
+              "7a68ac99-f561-5b6a-ab79-f558525b31b6"
+            ],
+            "evidence_kind": "text"
+          }
+        ],
+        "missing_conditions": []
+      }
+    }
+  }
+]

@@ -1,0 +1,2339 @@
+{
+  "scope": "offline saved-input audit and current-code deterministic probes; no new LLM evaluation",
+  "new_api_calls": 0,
+  "review_source": "existing semantic annotations; no fresh blind annotation",
+  "service_count": 88,
+  "saved_api_attempt_count": 214,
+  "classification_inputs_audited": 82,
+  "classification_inputs_by_arm": {
+    "v1": 44,
+    "v2": 38
+  },
+  "full_evidence_content_and_order_verified": true,
+  "v1_factor_schema": {
+    "retrieval_sufficient": {
+      "type": "boolean"
+    },
+    "answer_fully_supported": {
+      "type": "boolean"
+    },
+    "requires_case_facts": {
+      "type": "boolean"
+    },
+    "requires_policy_judgment": {
+      "type": "boolean"
+    },
+    "version_conflict": {
+      "type": "boolean"
+    }
+  },
+  "paired_recount": {
+    "oracle": {
+      "scenario_results": {
+        "A01": {
+          "v1": false,
+          "v2": true
+        },
+        "A02": {
+          "v1": false,
+          "v2": true
+        },
+        "A03": {
+          "v1": true,
+          "v2": false
+        },
+        "A04": {
+          "v1": true,
+          "v2": true
+        },
+        "B01": {
+          "v1": true,
+          "v2": true
+        },
+        "B02": {
+          "v1": true,
+          "v2": false
+        },
+        "B03": {
+          "v1": false,
+          "v2": false
+        },
+        "B04": {
+          "v1": true,
+          "v2": true
+        },
+        "C01": {
+          "v1": false,
+          "v2": false
+        },
+        "C02": {
+          "v1": true,
+          "v2": true
+        },
+        "C03": {
+          "v1": true,
+          "v2": true
+        },
+        "C04": {
+          "v1": true,
+          "v2": true
+        }
+      },
+      "counts": {
+        "v2_only": 2,
+        "v1_only": 2,
+        "both": 6,
+        "neither": 2
+      }
+    },
+    "retrieved": {
+      "scenario_results": {
+        "A01": {
+          "v1": false,
+          "v2": false
+        },
+        "A02": {
+          "v1": true,
+          "v2": false
+        },
+        "A03": {
+          "v1": true,
+          "v2": true
+        },
+        "B03": {
+          "v1": false,
+          "v2": false
+        },
+        "C02": {
+          "v1": true,
+          "v2": false
+        },
+        "C04": {
+          "v1": true,
+          "v2": true
+        }
+      },
+      "counts": {
+        "neither": 2,
+        "v1_only": 2,
+        "both": 2
+      }
+    }
+  },
+  "oracle_v1_overdeferral": [
+    {
+      "row_id": "A01-formal",
+      "question": "承認済みの臨時派遣で往復経路12kmです。条件を満たす場合の交通補助の算定額はいくらですか。",
+      "missing_conditions": [
+        "派遣命令簿と実走行記録の照合による支給の確定"
+      ],
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "ambiguous_scenario": true
+    },
+    {
+      "row_id": "A01-paraphrase",
+      "question": "派遣の行き帰りで12km、承認も済み。補助はいくらになる？",
+      "missing_conditions": [],
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "ambiguous_scenario": true
+    },
+    {
+      "row_id": "A02-paraphrase",
+      "question": "この派遣補助、所属だけで支給OKと決められる？",
+      "missing_conditions": [],
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "ambiguous_scenario": false
+    },
+    {
+      "row_id": "B03-formal",
+      "question": "2028年2月に事前承認と終了記録がある夜間保全当番を2回行いました。調整休の時間と申請期限・提出先を教えてください。",
+      "missing_conditions": [],
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "ambiguous_scenario": false
+    },
+    {
+      "row_id": "B03-paraphrase",
+      "question": "2028/2の夜間当番2回は承認も終了記録も済み。休みは何時間で、いつどこに申請？",
+      "missing_conditions": [],
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "ambiguous_scenario": false
+    },
+    {
+      "row_id": "C01-formal",
+      "question": "事前承認済みの交換用電池を12,000円で購入し、資産台帳と領収書の照合も済みました。補填額はいくらですか。",
+      "missing_conditions": [],
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "ambiguous_scenario": false
+    },
+    {
+      "row_id": "C01-paraphrase",
+      "question": "承認済みの交換電池が1万2千円、台帳と領収書も照合OK。いくら補填？",
+      "missing_conditions": [],
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "confidence": 1.0,
+      "ambiguous_scenario": false
+    }
+  ],
+  "overdeferral_with_empty_generated_conditions": 6,
+  "oracle_retrieved_comparisons": [
+    {
+      "row_id": "A01-formal",
+      "arm": "v1",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "A1"
+      ],
+      "retrieved_docs": [
+        "A1",
+        "A2",
+        "C1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "根拠十分",
+        null
+      ]
+    },
+    {
+      "row_id": "A01-formal",
+      "arm": "v2",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "A1"
+      ],
+      "retrieved_docs": [
+        "A1",
+        "A2",
+        "C1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "根拠十分",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ]
+    },
+    {
+      "row_id": "A01-paraphrase",
+      "arm": "v1",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "A1"
+      ],
+      "retrieved_docs": [
+        "A1",
+        "A2",
+        "B1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ]
+    },
+    {
+      "row_id": "A01-paraphrase",
+      "arm": "v2",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "A1"
+      ],
+      "retrieved_docs": [
+        "A1",
+        "A2",
+        "B1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "根拠十分",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "根拠十分",
+        null
+      ]
+    },
+    {
+      "row_id": "A02-formal",
+      "arm": "v1",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "A1"
+      ],
+      "retrieved_docs": [
+        "A1",
+        "A2",
+        "C1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "根拠十分",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "根拠十分",
+        null
+      ]
+    },
+    {
+      "row_id": "A02-formal",
+      "arm": "v2",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "A1"
+      ],
+      "retrieved_docs": [
+        "A1",
+        "A2",
+        "C1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "根拠十分",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "根拠十分",
+        null
+      ]
+    },
+    {
+      "row_id": "A02-paraphrase",
+      "arm": "v1",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "A1"
+      ],
+      "retrieved_docs": [
+        "A1",
+        "A2",
+        "C2"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "根拠十分",
+        null
+      ]
+    },
+    {
+      "row_id": "A02-paraphrase",
+      "arm": "v2",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "A1"
+      ],
+      "retrieved_docs": [
+        "A1",
+        "A2",
+        "C2"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "根拠十分",
+        null
+      ],
+      "retrieved_result": [
+        "PIPELINE_INCONSISTENCY",
+        null,
+        "REVIEW_WITHOUT_CONDITION"
+      ]
+    },
+    {
+      "row_id": "A03-formal",
+      "arm": "v1",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "A1",
+        "A2"
+      ],
+      "retrieved_docs": [
+        "A1",
+        "A2",
+        "C1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ]
+    },
+    {
+      "row_id": "A03-formal",
+      "arm": "v2",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "A1",
+        "A2"
+      ],
+      "retrieved_docs": [
+        "A1",
+        "A2",
+        "C1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "GENERATION_INCOMPLETE",
+        null,
+        "CLAIM_SUPPORT_INCOMPLETE"
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ]
+    },
+    {
+      "row_id": "A03-paraphrase",
+      "arm": "v1",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "A1",
+        "A2"
+      ],
+      "retrieved_docs": [
+        "A1",
+        "A2",
+        "B1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ]
+    },
+    {
+      "row_id": "A03-paraphrase",
+      "arm": "v2",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "A1",
+        "A2"
+      ],
+      "retrieved_docs": [
+        "A1",
+        "A2",
+        "B1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ]
+    },
+    {
+      "row_id": "B03-formal",
+      "arm": "v1",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "B1",
+        "B2"
+      ],
+      "retrieved_docs": [
+        "B1",
+        "B2",
+        "A2"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ]
+    },
+    {
+      "row_id": "B03-formal",
+      "arm": "v2",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "B1",
+        "B2"
+      ],
+      "retrieved_docs": [
+        "B1",
+        "B2",
+        "A2"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SERVICE_ERROR",
+        null,
+        null
+      ],
+      "retrieved_result": [
+        "SERVICE_ERROR",
+        null,
+        null
+      ]
+    },
+    {
+      "row_id": "B03-paraphrase",
+      "arm": "v1",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "B1",
+        "B2"
+      ],
+      "retrieved_docs": [
+        "B1",
+        "B2",
+        "A2"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "根拠十分",
+        null
+      ]
+    },
+    {
+      "row_id": "B03-paraphrase",
+      "arm": "v2",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "B1",
+        "B2"
+      ],
+      "retrieved_docs": [
+        "B1",
+        "B2",
+        "A2"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SERVICE_ERROR",
+        null,
+        null
+      ],
+      "retrieved_result": [
+        "SERVICE_ERROR",
+        null,
+        null
+      ]
+    },
+    {
+      "row_id": "C02-formal",
+      "arm": "v1",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "C1",
+        "C2"
+      ],
+      "retrieved_docs": [
+        "C1",
+        "C2",
+        "A1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ]
+    },
+    {
+      "row_id": "C02-formal",
+      "arm": "v2",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "C1",
+        "C2"
+      ],
+      "retrieved_docs": [
+        "C1",
+        "C2",
+        "A1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ]
+    },
+    {
+      "row_id": "C02-paraphrase",
+      "arm": "v1",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "C1",
+        "C2"
+      ],
+      "retrieved_docs": [
+        "C1",
+        "C2",
+        "A1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ]
+    },
+    {
+      "row_id": "C02-paraphrase",
+      "arm": "v2",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "C1",
+        "C2"
+      ],
+      "retrieved_docs": [
+        "C1",
+        "C2",
+        "A1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "判断要",
+        null
+      ],
+      "retrieved_result": [
+        "PIPELINE_INCONSISTENCY",
+        null,
+        "REVIEW_WITHOUT_CONDITION"
+      ]
+    },
+    {
+      "row_id": "C04-formal",
+      "arm": "v1",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "C2",
+        "C1"
+      ],
+      "retrieved_docs": [
+        "C2",
+        "C1",
+        "B1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "文書不足",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "文書不足",
+        null
+      ]
+    },
+    {
+      "row_id": "C04-formal",
+      "arm": "v2",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "C2",
+        "C1"
+      ],
+      "retrieved_docs": [
+        "C2",
+        "C1",
+        "B1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "文書不足",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "文書不足",
+        null
+      ]
+    },
+    {
+      "row_id": "C04-paraphrase",
+      "arm": "v1",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "C2",
+        "C1"
+      ],
+      "retrieved_docs": [
+        "C2",
+        "C1",
+        "A1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "文書不足",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "文書不足",
+        null
+      ]
+    },
+    {
+      "row_id": "C04-paraphrase",
+      "arm": "v2",
+      "all_required_docs_present": true,
+      "oracle_docs": [
+        "C2",
+        "C1"
+      ],
+      "retrieved_docs": [
+        "C2",
+        "C1",
+        "A1"
+      ],
+      "generation_equal": false,
+      "oracle_result": [
+        "SUCCESS",
+        "文書不足",
+        null
+      ],
+      "retrieved_result": [
+        "SUCCESS",
+        "文書不足",
+        null
+      ]
+    }
+  ],
+  "decision_probes": [
+    {
+      "case": "supported_without_review",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "v1_label": "根拠十分"
+    },
+    {
+      "case": "supported_with_case_fact",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": true,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "v1_label": "判断要"
+    },
+    {
+      "case": "no_rule_without_review",
+      "factors": {
+        "retrieval_sufficient": false,
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "v1_label": "文書不足"
+    },
+    {
+      "case": "no_rule_with_case_fact",
+      "factors": {
+        "retrieval_sufficient": false,
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "v1_label": "判断要"
+    },
+    {
+      "case": "rule_present_but_unsupported_answer",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": false,
+        "requires_case_facts": false,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "v1_label": "文書不足"
+    },
+    {
+      "case": "unsupported_answer_with_case_fact",
+      "factors": {
+        "retrieval_sufficient": true,
+        "answer_fully_supported": false,
+        "requires_case_facts": true,
+        "requires_policy_judgment": false,
+        "version_conflict": false
+      },
+      "v1_label": "判断要"
+    }
+  ],
+  "input_audit": [
+    {
+      "key": [
+        "A01-formal",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 124,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1308
+    },
+    {
+      "key": [
+        "A01-formal",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 124,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1791
+    },
+    {
+      "key": [
+        "A01-paraphrase",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 124,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1097
+    },
+    {
+      "key": [
+        "A01-paraphrase",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 124,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1665
+    },
+    {
+      "key": [
+        "A02-formal",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 124,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 940
+    },
+    {
+      "key": [
+        "A02-formal",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 124,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1517
+    },
+    {
+      "key": [
+        "A02-paraphrase",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 124,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 908
+    },
+    {
+      "key": [
+        "A02-paraphrase",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 124,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1667
+    },
+    {
+      "key": [
+        "A03-formal",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1527
+    },
+    {
+      "key": [
+        "A03-formal",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2636
+    },
+    {
+      "key": [
+        "A03-paraphrase",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1319
+    },
+    {
+      "key": [
+        "A03-paraphrase",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2380
+    },
+    {
+      "key": [
+        "A04-formal",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1168
+    },
+    {
+      "key": [
+        "A04-formal",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1887
+    },
+    {
+      "key": [
+        "A04-paraphrase",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1355
+    },
+    {
+      "key": [
+        "A04-paraphrase",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2090
+    },
+    {
+      "key": [
+        "B01-formal",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 81,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 903
+    },
+    {
+      "key": [
+        "B01-formal",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 81,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1774
+    },
+    {
+      "key": [
+        "B01-paraphrase",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 81,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 885
+    },
+    {
+      "key": [
+        "B01-paraphrase",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 81,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1625
+    },
+    {
+      "key": [
+        "B02-formal",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 81,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1088
+    },
+    {
+      "key": [
+        "B02-formal",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 81,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1779
+    },
+    {
+      "key": [
+        "B02-paraphrase",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 81,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 878
+    },
+    {
+      "key": [
+        "B02-paraphrase",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 81,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1815
+    },
+    {
+      "key": [
+        "B03-formal",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 130,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1659
+    },
+    {
+      "key": [
+        "B03-paraphrase",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 130,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1464
+    },
+    {
+      "key": [
+        "B04-formal",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 130,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1350
+    },
+    {
+      "key": [
+        "B04-formal",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 130,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2331
+    },
+    {
+      "key": [
+        "B04-paraphrase",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 130,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1139
+    },
+    {
+      "key": [
+        "B04-paraphrase",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 130,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2304
+    },
+    {
+      "key": [
+        "C01-formal",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 113,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1135
+    },
+    {
+      "key": [
+        "C01-formal",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 113,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1777
+    },
+    {
+      "key": [
+        "C01-paraphrase",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 113,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1124
+    },
+    {
+      "key": [
+        "C01-paraphrase",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 113,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1945
+    },
+    {
+      "key": [
+        "C02-formal",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 173,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1389
+    },
+    {
+      "key": [
+        "C02-formal",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 173,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 3085
+    },
+    {
+      "key": [
+        "C02-paraphrase",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 173,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1532
+    },
+    {
+      "key": [
+        "C02-paraphrase",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 173,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2257
+    },
+    {
+      "key": [
+        "C03-formal",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1294
+    },
+    {
+      "key": [
+        "C03-formal",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2034
+    },
+    {
+      "key": [
+        "C03-paraphrase",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1277
+    },
+    {
+      "key": [
+        "C03-paraphrase",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1999
+    },
+    {
+      "key": [
+        "C04-formal",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 173,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1326
+    },
+    {
+      "key": [
+        "C04-formal",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 173,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2139
+    },
+    {
+      "key": [
+        "C04-paraphrase",
+        "oracle",
+        "v1",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 173,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1320
+    },
+    {
+      "key": [
+        "C04-paraphrase",
+        "oracle",
+        "v2",
+        1
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 173,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2138
+    },
+    {
+      "key": [
+        "A02-formal",
+        "oracle",
+        "v1",
+        2
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 124,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 940
+    },
+    {
+      "key": [
+        "A02-formal",
+        "oracle",
+        "v2",
+        2
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 124,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1517
+    },
+    {
+      "key": [
+        "A02-paraphrase",
+        "oracle",
+        "v1",
+        2
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 124,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 908
+    },
+    {
+      "key": [
+        "A02-paraphrase",
+        "oracle",
+        "v2",
+        2
+      ],
+      "evidence_count": 1,
+      "evidence_characters": 124,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1667
+    },
+    {
+      "key": [
+        "A03-formal",
+        "oracle",
+        "v1",
+        2
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1527
+    },
+    {
+      "key": [
+        "A03-formal",
+        "oracle",
+        "v2",
+        2
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2636
+    },
+    {
+      "key": [
+        "A03-paraphrase",
+        "oracle",
+        "v1",
+        2
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1319
+    },
+    {
+      "key": [
+        "A03-paraphrase",
+        "oracle",
+        "v2",
+        2
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 162,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2380
+    },
+    {
+      "key": [
+        "B03-formal",
+        "oracle",
+        "v1",
+        2
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 130,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1659
+    },
+    {
+      "key": [
+        "B03-paraphrase",
+        "oracle",
+        "v1",
+        2
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 130,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1464
+    },
+    {
+      "key": [
+        "C04-formal",
+        "oracle",
+        "v1",
+        2
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 173,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1326
+    },
+    {
+      "key": [
+        "C04-formal",
+        "oracle",
+        "v2",
+        2
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 173,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2139
+    },
+    {
+      "key": [
+        "C04-paraphrase",
+        "oracle",
+        "v1",
+        2
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 173,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1320
+    },
+    {
+      "key": [
+        "C04-paraphrase",
+        "oracle",
+        "v2",
+        2
+      ],
+      "evidence_count": 2,
+      "evidence_characters": 173,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2138
+    },
+    {
+      "key": [
+        "A01-formal",
+        "retrieved",
+        "v1",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 275,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1978
+    },
+    {
+      "key": [
+        "A01-formal",
+        "retrieved",
+        "v2",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 275,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2885
+    },
+    {
+      "key": [
+        "A01-paraphrase",
+        "retrieved",
+        "v1",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 243,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1974
+    },
+    {
+      "key": [
+        "A01-paraphrase",
+        "retrieved",
+        "v2",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 243,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2483
+    },
+    {
+      "key": [
+        "A02-formal",
+        "retrieved",
+        "v1",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 275,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1810
+    },
+    {
+      "key": [
+        "A02-formal",
+        "retrieved",
+        "v2",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 275,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2432
+    },
+    {
+      "key": [
+        "A02-paraphrase",
+        "retrieved",
+        "v1",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 222,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1739
+    },
+    {
+      "key": [
+        "A02-paraphrase",
+        "retrieved",
+        "v2",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 222,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2467
+    },
+    {
+      "key": [
+        "A03-formal",
+        "retrieved",
+        "v1",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 275,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1856
+    },
+    {
+      "key": [
+        "A03-formal",
+        "retrieved",
+        "v2",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 275,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 3137
+    },
+    {
+      "key": [
+        "A03-paraphrase",
+        "retrieved",
+        "v1",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 243,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1762
+    },
+    {
+      "key": [
+        "A03-paraphrase",
+        "retrieved",
+        "v2",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 243,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2830
+    },
+    {
+      "key": [
+        "B03-formal",
+        "retrieved",
+        "v1",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 168,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2058
+    },
+    {
+      "key": [
+        "B03-paraphrase",
+        "retrieved",
+        "v1",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 168,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1852
+    },
+    {
+      "key": [
+        "C02-formal",
+        "retrieved",
+        "v1",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 297,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1914
+    },
+    {
+      "key": [
+        "C02-formal",
+        "retrieved",
+        "v2",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 297,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 3324
+    },
+    {
+      "key": [
+        "C02-paraphrase",
+        "retrieved",
+        "v1",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 297,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1855
+    },
+    {
+      "key": [
+        "C02-paraphrase",
+        "retrieved",
+        "v2",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 297,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2582
+    },
+    {
+      "key": [
+        "C04-formal",
+        "retrieved",
+        "v1",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 254,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1777
+    },
+    {
+      "key": [
+        "C04-formal",
+        "retrieved",
+        "v2",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 254,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2616
+    },
+    {
+      "key": [
+        "C04-paraphrase",
+        "retrieved",
+        "v1",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 297,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 1810
+    },
+    {
+      "key": [
+        "C04-paraphrase",
+        "retrieved",
+        "v2",
+        1
+      ],
+      "evidence_count": 3,
+      "evidence_characters": 297,
+      "payload_keys": [
+        "generated_answer",
+        "question",
+        "question_contract",
+        "retrieved_evidence"
+      ],
+      "generation_exact_copy": true,
+      "prompt_characters": 2603
+    }
+  ],
+  "source_sha256": {
+    "eval/results/generalization_completion_20261009/classification/service_records.jsonl": "4520bcdccdbc7ea19861097f99207d90f88914095c1957b67b8ba54ff16eb5b5",
+    "eval/results/generalization_completion_20261009/classification/api_attempts.jsonl": "d880f5deab1844bc0f792c2deb4bd8519971184f2738963307c9ed2fac0eb247",
+    "eval/results/generalization_completion_20261009/classification/semantic_review.jsonl": "45a3d52632e08326a2fec4a88387ff1e48de13a553fbccf5698d0c27209f87b5",
+    "eval/results/generalization_completion_20261009/classification/challenge.json": "b2bdeb882f92c5f71fd46593285a94d9023f541d8de823e631b23b3c18b94466",
+    "eval/results/generalization_completion_20261009/classification/corpus.json": "e3d7dc79914ed6140251074f319e02e9905de2f123f73e990a18c742037ff78f",
+    "eval/audit_classification_design_inputs.py": "02bbac4d80634e1bfe5507f08b7a813b1ee489aea275c1e0fbc2f728bc04493c",
+    "src/query_service.py": "9dfe1913da5344baac1693c4a8bc8ebcea39b7fc3bb7e61b55a1474f2fd0a279",
+    "src/query_service_v2.py": "2c3002d672961bc6c67f16eae847bb08243d50a6576bc231b7f18c26d8a88a3d",
+    "src/answering.py": "37ea4fdb78ac1a2f69d955dc7d79c8bbf0393a004fa3be8a89cb0df69e4c2bcd",
+    "src/classification_contract_v2.py": "a7d66b5095c31fd5faca0617d10de1ae1d50f6297230b7a26856ac3879879e47",
+    "src/rag_v2.py": "df940cc41e3027ccf17ee406c62d7b91a682ce2f74288fa9014c2efd1b4c7255",
+    "src/llm_provider.py": "f30d390dfd515afc09af7d2515a290a0c18d1462f9873d7a2686416888de98e8",
+    "config.py": "c48a92a026bec170bcf6dd6802089d7c27a86821b59d282c558c6babb5f3bc30",
+    "design/CLASSIFICATION_RUBRIC_V2.md": "2de01e0649f29e8876b4f01df6056b5bcb59ca9e8d6c7f7a6fea7d1d74d6d63a",
+    "design/schemas/classification-output-v1.schema.json": "5065adcd32bddd0450f2cabfee4ba822ee6f44a7062d589b1946c3de575dace3"
+  }
+}

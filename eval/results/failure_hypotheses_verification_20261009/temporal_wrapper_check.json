@@ -1,0 +1,91 @@
+{
+  "commit": "5d1ecc50985db681cfa71bddc6cbfcfa99480e40",
+  "checks": [
+    {
+      "id": "TH011/formal",
+      "arm": "baseline",
+      "domains": []
+    },
+    {
+      "id": "TH011/formal",
+      "arm": "explicit_date",
+      "domains": []
+    },
+    {
+      "id": "TH011/formal",
+      "arm": "calculation_permission",
+      "domains": []
+    },
+    {
+      "id": "TH011/formal",
+      "arm": "deadline_only",
+      "domains": []
+    },
+    {
+      "id": "TH011/paraphrase_or_noisy",
+      "arm": "baseline",
+      "domains": []
+    },
+    {
+      "id": "TH011/paraphrase_or_noisy",
+      "arm": "explicit_date",
+      "domains": []
+    },
+    {
+      "id": "TH011/paraphrase_or_noisy",
+      "arm": "calculation_permission",
+      "domains": []
+    },
+    {
+      "id": "TH011/paraphrase_or_noisy",
+      "arm": "deadline_only",
+      "domains": []
+    },
+    {
+      "id": "TH039/formal",
+      "arm": "baseline",
+      "domains": []
+    },
+    {
+      "id": "TH039/formal",
+      "arm": "explicit_date",
+      "domains": []
+    },
+    {
+      "id": "TH039/formal",
+      "arm": "calculation_permission",
+      "domains": []
+    },
+    {
+      "id": "TH039/formal",
+      "arm": "deadline_only",
+      "domains": []
+    },
+    {
+      "id": "TH039/paraphrase_or_noisy",
+      "arm": "baseline",
+      "domains": []
+    },
+    {
+      "id": "TH039/paraphrase_or_noisy",
+      "arm": "explicit_date",
+      "domains": []
+    },
+    {
+      "id": "TH039/paraphrase_or_noisy",
+      "arm": "calculation_permission",
+      "domains": []
+    },
+    {
+      "id": "TH039/paraphrase_or_noisy",
+      "arm": "deadline_only",
+      "domains": []
+    },
+    {
+      "id": "TH041/formal",
+      "arm": "baseline",
+      "domains": []
+    }
+  ],
+  "conclusion": "No question domain matched, so old temporal wrapper returns exact base prompt."
+}

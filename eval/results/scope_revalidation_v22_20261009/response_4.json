@@ -1,0 +1,22 @@
+{
+  "text": "{\n  \"schema_version\": \"scope-2.0\",\n  \"confidence\": 1,\n  \"targets\": [\n    {\n      \"target\": \"この職員への支給確定\",\n      \"intent\": \"individual_decision\",\n      \"evidence_sufficient\": true,\n      \"evidence_ids\": [\n        \"c55b0157-7719-41aa-a57e-2516327dac2b\"\n      ],\n      \"claim_ids\": [\n        \"claim-1\"\n      ],\n      \"claim_support\": \"supported\",\n      \"answer_complete\": true,\n      \"reviews\": [\n        {\n          \"type\": \"case_fact\",\n          \"reason\": \"支給確定には個別記録の照合が必要であり、記録が未照合であるため現時点では確定できない。\",\n          \"evidence_ids\": [\n            \"c55b0157-7719-41aa-a57e-2516327dac2b\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+  "usage": {
+    "cache_tokens_details": null,
+    "cached_content_token_count": null,
+    "candidates_token_count": 259,
+    "candidates_tokens_details": null,
+    "prompt_token_count": 1401,
+    "prompt_tokens_details": [
+      {
+        "modality": "TEXT",
+        "token_count": 1401
+      }
+    ],
+    "thoughts_token_count": null,
+    "tool_use_prompt_token_count": null,
+    "tool_use_prompt_tokens_details": null,
+    "total_token_count": 1660,
+    "traffic_type": null
+  },
+  "model_version": "gemini-3.1-flash-lite"
+}

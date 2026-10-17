@@ -1,0 +1,75 @@
+{
+  "scope": "Independent local replay plus manual semantic audit; no API calls",
+  "frozen_hashes_match": true,
+  "source_hashes_match": true,
+  "received_responses": 10,
+  "checks": [
+    {
+      "case_id": "C03-formal",
+      "arm": "baseline",
+      "rescored": true,
+      "matches": true
+    },
+    {
+      "case_id": "C03-formal",
+      "arm": "candidate",
+      "rescored": true,
+      "matches": true
+    },
+    {
+      "case_id": "A02-formal",
+      "arm": "candidate",
+      "rescored": true,
+      "matches": true
+    },
+    {
+      "case_id": "A02-formal",
+      "arm": "baseline",
+      "rescored": true,
+      "matches": true
+    },
+    {
+      "case_id": "C04-formal",
+      "arm": "baseline",
+      "rescored": false,
+      "matches": true,
+      "error": "根拠十分なのに未解決条件が残っています"
+    },
+    {
+      "case_id": "C04-formal",
+      "arm": "candidate",
+      "rescored": false,
+      "matches": true,
+      "error": "REVIEW_WITHOUT_RULE"
+    },
+    {
+      "case_id": "C03-paraphrase",
+      "arm": "candidate",
+      "rescored": true,
+      "matches": true
+    },
+    {
+      "case_id": "C03-paraphrase",
+      "arm": "baseline",
+      "rescored": true,
+      "matches": true
+    },
+    {
+      "case_id": "B03-formal",
+      "arm": "baseline",
+      "rescored": true,
+      "matches": true
+    },
+    {
+      "case_id": "B03-formal",
+      "arm": "candidate",
+      "rescored": true,
+      "matches": true
+    }
+  ],
+  "manual_expected_successes": {
+    "baseline": 4,
+    "candidate": 4
+  },
+  "verdict": "INCOMPLETE_PROVIDER_QUOTA; do not advance gates"
+}

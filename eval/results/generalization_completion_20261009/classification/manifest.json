@@ -1,0 +1,62 @@
+{
+  "created_at_utc": "2026-10-09T00:31:27.490480+00:00",
+  "state": "precommitted_before_model_outputs",
+  "candidate": "existing Question Contract v2",
+  "baseline": "existing classification v1",
+  "comparison_rubric": "classification-rubric-v2.0 for both arms",
+  "source_commit": "9624151e1508f739c198d74980831d7113a3eb1f",
+  "source_file_hashes": {
+    "src/query_service.py": "9dfe1913da5344baac1693c4a8bc8ebcea39b7fc3bb7e61b55a1474f2fd0a279",
+    "src/query_service_v2.py": "2c3002d672961bc6c67f16eae847bb08243d50a6576bc231b7f18c26d8a88a3d",
+    "src/classification_contract_v2.py": "a7d66b5095c31fd5faca0617d10de1ae1d50f6297230b7a26856ac3879879e47",
+    "src/answering.py": "37ea4fdb78ac1a2f69d955dc7d79c8bbf0393a004fa3be8a89cb0df69e4c2bcd",
+    "src/llm_provider.py": "f30d390dfd515afc09af7d2515a290a0c18d1462f9873d7a2686416888de98e8",
+    "src/temporal_evidence.py": "9490d97f063aa380cd96be49b59d73bfcb31e84095ff8238af1d4e17062a055b",
+    "design/schemas/answer-output-v1.schema.json": "39b119c20415e73d338f1a562e4bd9c21f011f5c758d5905d141427c8c410b86",
+    "design/schemas/classification-output-v1.schema.json": "5065adcd32bddd0450f2cabfee4ba822ee6f44a7062d589b1946c3de575dace3",
+    "design/schemas/question-contract-v1.schema.json": "407e796ec47f75b4fc9f48810a2140de980f31e62c7d8d5c65596d7ba2800cd2",
+    "design/schemas/answer-output-v3-candidate.schema.json": "7ce21945bcc19200ef41aea7643a71e8a3a33b5790d0b3b5b1222da848ee332b",
+    "design/schemas/classification-output-v2-candidate.schema.json": "996272e2eb817e4f067928f2a2c66de1a27628b326e537217120560f4036eba8"
+  },
+  "corpus_sha256": "e3d7dc79914ed6140251074f319e02e9905de2f123f73e990a18c742037ff78f",
+  "challenge_sha256": "b2bdeb882f92c5f71fd46593285a94d9023f541d8de823e631b23b3c18b94466",
+  "model_requested": "gemini-3.5-flash-lite",
+  "model_fallback_if_unavailable": null,
+  "temperature": 0,
+  "seed": 42,
+  "max_output_tokens": 2048,
+  "api_min_interval_seconds": 12.2,
+  "http_timeout_seconds": 60,
+  "max_api_attempts": 400,
+  "max_estimated_usd": 2.0,
+  "max_wall_seconds": 3600,
+  "retry": "at most two retries per task on 429/503; obey RetryInfo seconds plus 2s; never exceed global budgets",
+  "price_assumption_usd_per_million": {
+    "input": 0.25,
+    "output": 1.5
+  },
+  "primary_metric": "paired scenario composite: both expressions must have correct Rubric-v2 label and all required answer facets without unsupported concrete claim",
+  "gate_next_stage": "candidate scenario net improvement >= 2, zero new unsafe individual-payment assertions, zero new document-insufficient-to-grounded errors, and zero other new composite regressions",
+  "repeat_scenarios": [
+    "A02",
+    "A03",
+    "B03",
+    "C04"
+  ],
+  "retrieved_scenarios": [
+    "A01",
+    "A02",
+    "A03",
+    "B03",
+    "C02",
+    "C04"
+  ],
+  "oracle_runs": "all 24 expressions once in both arms; repeat subset both arms and expressions once more",
+  "retrieved_runs": "six scenarios both expressions both arms; local BM25 over frozen six-document corpus, top_k=3",
+  "max_review_revalidation_rounds": 2,
+  "known_limitations": "Synthetic development challenge, not representative accuracy or sealed holdout. Local BM25 is isolated and not deployed Qdrant. No code improvement in this round.",
+  "tasks_sha256": "7feae510e307c633f12631f8b21b7c0c889cc63ebc4e8cc423a554dc442c9a9a",
+  "runner_sha256": "ab2c0392a76020a6be0ecd33f2196b96ab1920f4e1b83d6db1bfa7558e718ef9",
+  "expected_service_runs": 88,
+  "expected_api_calls_without_retry": 220
+}

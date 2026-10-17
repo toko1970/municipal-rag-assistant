@@ -1,0 +1,11 @@
+{
+  "recorded_at_utc": "2026-10-12T08:39:11.524840+00:00",
+  "correction": "manifest.created_at_utc was inherited from original run; it is not the final continuation preparation time. Final continuation prepared 2026-10-12; actual per-call times in records.jsonl. Frozen manifest left unchanged.",
+  "max_campaign_api_attempts": 58,
+  "explicit_cross_run_retries": {
+    "quota": 1,
+    "server_503": 1
+  },
+  "in_run_retries": 0,
+  "further_automatic_restart": false
+}

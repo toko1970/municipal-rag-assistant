@@ -1,0 +1,612 @@
+[
+  {
+    "id": "correct_price",
+    "correct": true,
+    "status": "SUCCESS",
+    "label": "根拠十分",
+    "text": "回答分類: 根拠十分\n\n回答:\n- 2027年4月1日の単価は300円です。",
+    "metadata": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "input_tokens": 1325,
+      "output_tokens": 160,
+      "total_tokens": 0,
+      "request_id": "",
+      "prompt_version": "scope-version-revalidation-v1",
+      "status": "SUCCESS",
+      "invariant_code": null,
+      "raw_output": {
+        "schema_version": "scope-2.0",
+        "confidence": 1,
+        "targets": [
+          {
+            "target": "適用単価",
+            "intent": "general_rule",
+            "evidence_sufficient": true,
+            "evidence_ids": [
+              "c55b0157-7719-41aa-a57e-2516327dac2b"
+            ],
+            "claim_ids": [
+              "claim-1"
+            ],
+            "claim_support": "supported",
+            "answer_complete": true,
+            "reviews": []
+          }
+        ]
+      },
+      "effective_output": {
+        "schema_version": "scope-2.0",
+        "confidence": 1,
+        "targets": [
+          {
+            "target": "適用単価",
+            "intent": "general_rule",
+            "evidence_sufficient": true,
+            "evidence_ids": [
+              "c55b0157-7719-41aa-a57e-2516327dac2b"
+            ],
+            "claim_ids": [
+              "claim-1"
+            ],
+            "claim_support": "supported",
+            "answer_complete": true,
+            "reviews": []
+          }
+        ]
+      },
+      "error_summary": null
+    },
+    "events": [
+      {
+        "request_id": "c55b0157-7719-41aa-a57e-2516327dac2b",
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "prompt_version": "scope-version-revalidation-v1",
+        "factors": {
+          "provider": "gemini",
+          "model": "gemini-3.1-flash-lite",
+          "input_tokens": 1325,
+          "output_tokens": 160,
+          "total_tokens": 0,
+          "request_id": "",
+          "prompt_version": "scope-version-revalidation-v1",
+          "status": "SUCCESS",
+          "invariant_code": null,
+          "raw_output": {
+            "schema_version": "scope-2.0",
+            "confidence": 1,
+            "targets": [
+              {
+                "target": "適用単価",
+                "intent": "general_rule",
+                "evidence_sufficient": true,
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ],
+                "claim_ids": [
+                  "claim-1"
+                ],
+                "claim_support": "supported",
+                "answer_complete": true,
+                "reviews": []
+              }
+            ]
+          },
+          "effective_output": {
+            "schema_version": "scope-2.0",
+            "confidence": 1,
+            "targets": [
+              {
+                "target": "適用単価",
+                "intent": "general_rule",
+                "evidence_sufficient": true,
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ],
+                "claim_ids": [
+                  "claim-1"
+                ],
+                "claim_support": "supported",
+                "answer_complete": true,
+                "reviews": []
+              }
+            ]
+          },
+          "error_summary": null
+        },
+        "derived_label": "根拠十分",
+        "confidence": 1,
+        "status": "SUCCESS",
+        "fallback_used": false,
+        "error_summary": null
+      }
+    ],
+    "latency_seconds": 2.212801416986622
+  },
+  {
+    "id": "stale_abstention",
+    "correct": true,
+    "status": "GENERATION_INCOMPLETE",
+    "label": null,
+    "text": "回答の内容を十分に確認できませんでした。条件や質問を見直して、再度お試しください。",
+    "metadata": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "input_tokens": 1327,
+      "output_tokens": 298,
+      "total_tokens": 0,
+      "request_id": "",
+      "prompt_version": "scope-version-revalidation-v1",
+      "status": "GENERATION_INCOMPLETE",
+      "invariant_code": "SUPPORT_OR_COMPLETENESS_FAILED",
+      "raw_output": {
+        "schema_version": "scope-2.0",
+        "confidence": 1,
+        "targets": [
+          {
+            "target": "適用単価",
+            "intent": "general_rule",
+            "evidence_sufficient": true,
+            "evidence_ids": [
+              "c55b0157-7719-41aa-a57e-2516327dac2b"
+            ],
+            "claim_ids": [
+              "claim-1"
+            ],
+            "claim_support": "unsupported",
+            "answer_complete": false,
+            "reviews": [
+              {
+                "type": "case_fact",
+                "reason": "根拠文書により2027年1月1日以降の単価は300円と明示されており、2027年4月1日時点の単価は確定可能であるにもかかわらず、生成回答は競合を理由に確定できないと誤った主張をしている。",
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "effective_output": {
+        "schema_version": "scope-2.0",
+        "confidence": 1,
+        "targets": [
+          {
+            "target": "適用単価",
+            "intent": "general_rule",
+            "evidence_sufficient": true,
+            "evidence_ids": [
+              "c55b0157-7719-41aa-a57e-2516327dac2b"
+            ],
+            "claim_ids": [
+              "claim-1"
+            ],
+            "claim_support": "unsupported",
+            "answer_complete": false,
+            "reviews": [
+              {
+                "type": "case_fact",
+                "reason": "根拠文書により2027年1月1日以降の単価は300円と明示されており、2027年4月1日時点の単価は確定可能であるにもかかわらず、生成回答は競合を理由に確定できないと誤った主張をしている。",
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "error_summary": null
+    },
+    "events": [
+      {
+        "request_id": "c55b0157-7719-41aa-a57e-2516327dac2b",
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "prompt_version": "scope-version-revalidation-v1",
+        "factors": {
+          "provider": "gemini",
+          "model": "gemini-3.1-flash-lite",
+          "input_tokens": 1327,
+          "output_tokens": 298,
+          "total_tokens": 0,
+          "request_id": "",
+          "prompt_version": "scope-version-revalidation-v1",
+          "status": "GENERATION_INCOMPLETE",
+          "invariant_code": "SUPPORT_OR_COMPLETENESS_FAILED",
+          "raw_output": {
+            "schema_version": "scope-2.0",
+            "confidence": 1,
+            "targets": [
+              {
+                "target": "適用単価",
+                "intent": "general_rule",
+                "evidence_sufficient": true,
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ],
+                "claim_ids": [
+                  "claim-1"
+                ],
+                "claim_support": "unsupported",
+                "answer_complete": false,
+                "reviews": [
+                  {
+                    "type": "case_fact",
+                    "reason": "根拠文書により2027年1月1日以降の単価は300円と明示されており、2027年4月1日時点の単価は確定可能であるにもかかわらず、生成回答は競合を理由に確定できないと誤った主張をしている。",
+                    "evidence_ids": [
+                      "c55b0157-7719-41aa-a57e-2516327dac2b"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "effective_output": {
+            "schema_version": "scope-2.0",
+            "confidence": 1,
+            "targets": [
+              {
+                "target": "適用単価",
+                "intent": "general_rule",
+                "evidence_sufficient": true,
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ],
+                "claim_ids": [
+                  "claim-1"
+                ],
+                "claim_support": "unsupported",
+                "answer_complete": false,
+                "reviews": [
+                  {
+                    "type": "case_fact",
+                    "reason": "根拠文書により2027年1月1日以降の単価は300円と明示されており、2027年4月1日時点の単価は確定可能であるにもかかわらず、生成回答は競合を理由に確定できないと誤った主張をしている。",
+                    "evidence_ids": [
+                      "c55b0157-7719-41aa-a57e-2516327dac2b"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "error_summary": null
+        },
+        "derived_label": null,
+        "confidence": 1,
+        "status": "GENERATION_INCOMPLETE",
+        "fallback_used": true,
+        "error_summary": null
+      }
+    ],
+    "latency_seconds": 12.218442458004574
+  },
+  {
+    "id": "old_price",
+    "correct": true,
+    "status": "GENERATION_INCOMPLETE",
+    "label": null,
+    "text": "回答の内容を十分に確認できませんでした。条件や質問を見直して、再度お試しください。",
+    "metadata": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "input_tokens": 1325,
+      "output_tokens": 275,
+      "total_tokens": 0,
+      "request_id": "",
+      "prompt_version": "scope-version-revalidation-v1",
+      "status": "GENERATION_INCOMPLETE",
+      "invariant_code": "SUPPORT_OR_COMPLETENESS_FAILED",
+      "raw_output": {
+        "schema_version": "scope-2.0",
+        "confidence": 1,
+        "targets": [
+          {
+            "target": "適用単価",
+            "intent": "general_rule",
+            "evidence_sufficient": true,
+            "evidence_ids": [
+              "c55b0157-7719-41aa-a57e-2516327dac2b"
+            ],
+            "claim_ids": [
+              "claim-1"
+            ],
+            "claim_support": "unsupported",
+            "answer_complete": false,
+            "reviews": [
+              {
+                "type": "case_fact",
+                "reason": "根拠文書では2027年1月1日以降の単価は300円と規定されているが、生成回答は200円と誤った値を提示している。",
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "effective_output": {
+        "schema_version": "scope-2.0",
+        "confidence": 1,
+        "targets": [
+          {
+            "target": "適用単価",
+            "intent": "general_rule",
+            "evidence_sufficient": true,
+            "evidence_ids": [
+              "c55b0157-7719-41aa-a57e-2516327dac2b"
+            ],
+            "claim_ids": [
+              "claim-1"
+            ],
+            "claim_support": "unsupported",
+            "answer_complete": false,
+            "reviews": [
+              {
+                "type": "case_fact",
+                "reason": "根拠文書では2027年1月1日以降の単価は300円と規定されているが、生成回答は200円と誤った値を提示している。",
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "error_summary": null
+    },
+    "events": [
+      {
+        "request_id": "c55b0157-7719-41aa-a57e-2516327dac2b",
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "prompt_version": "scope-version-revalidation-v1",
+        "factors": {
+          "provider": "gemini",
+          "model": "gemini-3.1-flash-lite",
+          "input_tokens": 1325,
+          "output_tokens": 275,
+          "total_tokens": 0,
+          "request_id": "",
+          "prompt_version": "scope-version-revalidation-v1",
+          "status": "GENERATION_INCOMPLETE",
+          "invariant_code": "SUPPORT_OR_COMPLETENESS_FAILED",
+          "raw_output": {
+            "schema_version": "scope-2.0",
+            "confidence": 1,
+            "targets": [
+              {
+                "target": "適用単価",
+                "intent": "general_rule",
+                "evidence_sufficient": true,
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ],
+                "claim_ids": [
+                  "claim-1"
+                ],
+                "claim_support": "unsupported",
+                "answer_complete": false,
+                "reviews": [
+                  {
+                    "type": "case_fact",
+                    "reason": "根拠文書では2027年1月1日以降の単価は300円と規定されているが、生成回答は200円と誤った値を提示している。",
+                    "evidence_ids": [
+                      "c55b0157-7719-41aa-a57e-2516327dac2b"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "effective_output": {
+            "schema_version": "scope-2.0",
+            "confidence": 1,
+            "targets": [
+              {
+                "target": "適用単価",
+                "intent": "general_rule",
+                "evidence_sufficient": true,
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ],
+                "claim_ids": [
+                  "claim-1"
+                ],
+                "claim_support": "unsupported",
+                "answer_complete": false,
+                "reviews": [
+                  {
+                    "type": "case_fact",
+                    "reason": "根拠文書では2027年1月1日以降の単価は300円と規定されているが、生成回答は200円と誤った値を提示している。",
+                    "evidence_ids": [
+                      "c55b0157-7719-41aa-a57e-2516327dac2b"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "error_summary": null
+        },
+        "derived_label": null,
+        "confidence": 1,
+        "status": "GENERATION_INCOMPLETE",
+        "fallback_used": true,
+        "error_summary": null
+      }
+    ],
+    "latency_seconds": 12.020578916999511
+  },
+  {
+    "id": "individual_review",
+    "correct": true,
+    "status": "SUCCESS",
+    "label": "判断要",
+    "text": "回答分類: 判断要\n\n回答:\n- 単価は300円ですが、この職員への支給には記録照合が必要です。\n\n確認が必要です: 支給確定には個別記録の照合が必要であり、記録が未照合であるため現時点では確定できない。、個別記録が未照合",
+    "metadata": {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "input_tokens": 1401,
+      "output_tokens": 259,
+      "total_tokens": 0,
+      "request_id": "",
+      "prompt_version": "scope-version-revalidation-v1",
+      "status": "SUCCESS",
+      "invariant_code": null,
+      "raw_output": {
+        "schema_version": "scope-2.0",
+        "confidence": 1,
+        "targets": [
+          {
+            "target": "この職員への支給確定",
+            "intent": "individual_decision",
+            "evidence_sufficient": true,
+            "evidence_ids": [
+              "c55b0157-7719-41aa-a57e-2516327dac2b"
+            ],
+            "claim_ids": [
+              "claim-1"
+            ],
+            "claim_support": "supported",
+            "answer_complete": true,
+            "reviews": [
+              {
+                "type": "case_fact",
+                "reason": "支給確定には個別記録の照合が必要であり、記録が未照合であるため現時点では確定できない。",
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "effective_output": {
+        "schema_version": "scope-2.0",
+        "confidence": 1,
+        "targets": [
+          {
+            "target": "この職員への支給確定",
+            "intent": "individual_decision",
+            "evidence_sufficient": true,
+            "evidence_ids": [
+              "c55b0157-7719-41aa-a57e-2516327dac2b"
+            ],
+            "claim_ids": [
+              "claim-1"
+            ],
+            "claim_support": "supported",
+            "answer_complete": true,
+            "reviews": [
+              {
+                "type": "case_fact",
+                "reason": "支給確定には個別記録の照合が必要であり、記録が未照合であるため現時点では確定できない。",
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ]
+              },
+              {
+                "type": "case_fact",
+                "reason": "個別記録が未照合",
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "error_summary": null
+    },
+    "events": [
+      {
+        "request_id": "c55b0157-7719-41aa-a57e-2516327dac2b",
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "prompt_version": "scope-version-revalidation-v1",
+        "factors": {
+          "provider": "gemini",
+          "model": "gemini-3.1-flash-lite",
+          "input_tokens": 1401,
+          "output_tokens": 259,
+          "total_tokens": 0,
+          "request_id": "",
+          "prompt_version": "scope-version-revalidation-v1",
+          "status": "SUCCESS",
+          "invariant_code": null,
+          "raw_output": {
+            "schema_version": "scope-2.0",
+            "confidence": 1,
+            "targets": [
+              {
+                "target": "この職員への支給確定",
+                "intent": "individual_decision",
+                "evidence_sufficient": true,
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ],
+                "claim_ids": [
+                  "claim-1"
+                ],
+                "claim_support": "supported",
+                "answer_complete": true,
+                "reviews": [
+                  {
+                    "type": "case_fact",
+                    "reason": "支給確定には個別記録の照合が必要であり、記録が未照合であるため現時点では確定できない。",
+                    "evidence_ids": [
+                      "c55b0157-7719-41aa-a57e-2516327dac2b"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "effective_output": {
+            "schema_version": "scope-2.0",
+            "confidence": 1,
+            "targets": [
+              {
+                "target": "この職員への支給確定",
+                "intent": "individual_decision",
+                "evidence_sufficient": true,
+                "evidence_ids": [
+                  "c55b0157-7719-41aa-a57e-2516327dac2b"
+                ],
+                "claim_ids": [
+                  "claim-1"
+                ],
+                "claim_support": "supported",
+                "answer_complete": true,
+                "reviews": [
+                  {
+                    "type": "case_fact",
+                    "reason": "支給確定には個別記録の照合が必要であり、記録が未照合であるため現時点では確定できない。",
+                    "evidence_ids": [
+                      "c55b0157-7719-41aa-a57e-2516327dac2b"
+                    ]
+                  },
+                  {
+                    "type": "case_fact",
+                    "reason": "個別記録が未照合",
+                    "evidence_ids": [
+                      "c55b0157-7719-41aa-a57e-2516327dac2b"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "error_summary": null
+        },
+        "derived_label": "判断要",
+        "confidence": 1,
+        "status": "SUCCESS",
+        "fallback_used": false,
+        "error_summary": null
+      }
+    ],
+    "latency_seconds": 12.563128082998446
+  }
+]

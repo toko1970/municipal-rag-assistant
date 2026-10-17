@@ -1,0 +1,12 @@
+{
+  "scope": "local PostgreSQL/Qdrant integration, not LLM quality",
+  "command": ".venv/bin/python -m pytest -q -m integration tests/integration",
+  "passed": 3,
+  "failed": 0,
+  "schema_revision": "20260928_02 (head)",
+  "services_started": [
+    "postgres",
+    "qdrant"
+  ],
+  "production_changed": false
+}

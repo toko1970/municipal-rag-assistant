@@ -1,0 +1,33 @@
+{
+  "analysis_version": "1.0",
+  "run_status": "COMPLETED",
+  "gate_b1_decision": "FAILED",
+  "b2_allowed": false,
+  "logical_external_calls": 18,
+  "completed_cases": 18,
+  "provider_error_cases": 0,
+  "retry_count": 0,
+  "estimated_cost_usd": 0.0109065,
+  "automated_score": {"contract_ok": 8, "total": 18},
+  "semantic_review": {
+    "contract_ok": 15,
+    "contract_failed": 3,
+    "automated_false_negative": 7,
+    "automated_false_positive": 0
+  },
+  "comparison_with_v1_completed_cases": {
+    "shared_case_count": 12,
+    "v1_semantic_ok": 6,
+    "v1_1_semantic_ok": 9,
+    "net_improvement": 3,
+    "note": "v1はprovider 503でcontrol 6件が未実行だったため、18件全体の直接比較はしない"
+  },
+  "confirmed_failures": {
+    "explicit_input_fact_dropped": 2,
+    "multiple_targets_merged": 1
+  },
+  "decision_basis": "事前条件は意味上18/18。v1.1は15/18で3件の実失敗が残ったためB1不合格。",
+  "provider_error_counted_as_quality_failure": false,
+  "sealed_holdout_accessed": false,
+  "next_step": "B2を実行しない。入力完全性と複数target cardinalityを構造的に保証できるか設計し、追加callと複雑性に見合うか判断する。"
+}

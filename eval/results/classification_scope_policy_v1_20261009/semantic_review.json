@@ -1,0 +1,28 @@
+{
+  "reviewer": "same implementation agent; not independent review",
+  "new_gold_changes": false,
+  "primary_label_display_gate": "pass; unchanged preregistered criteria",
+  "remaining_semantic_issue": {
+    "cases": [
+      "A04-formal",
+      "A04-paraphrase",
+      "B04-formal",
+      "B04-paraphrase",
+      "C04-formal",
+      "C04-paraphrase"
+    ],
+    "observation": "retrieval_sufficient=false and answer_fully_supported=true despite incomplete requested answer",
+    "empty_claim_cases": [
+      "A04-formal",
+      "B04-paraphrase"
+    ],
+    "consequence": "Label correct; does not establish full adherence to combined support/coverage policy"
+  },
+  "production_adoption": "not evaluated; separate claim support/answer completeness and generation-failure states before adoption",
+  "validation": {
+    "frozen_source_and_input_hashes": "matched",
+    "raw_response_equals_scored_data": true,
+    "related_tests_passed": 43,
+    "ruff": "passed"
+  }
+}

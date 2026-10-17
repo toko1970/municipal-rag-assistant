@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rag/classification-output-v2-candidate.schema.json",
+  "title": "Facet-level answer classification output v2 candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "facet_assessments", "confidence", "error_code"],
+  "properties": {
+    "schema_version": { "const": "2.0-candidate" },
+    "status": { "enum": ["SUCCESS", "CLASSIFICATION_FAILED"] },
+    "facet_assessments": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/facet_assessment" }
+    },
+    "confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+    "error_code": { "type": ["string", "null"] }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "SUCCESS" } } },
+      "then": {
+        "properties": {
+          "facet_assessments": { "minItems": 1 },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "error_code": { "type": "null" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "CLASSIFICATION_FAILED" } } },
+      "then": {
+        "properties": {
+          "facet_assessments": { "maxItems": 0 },
+          "confidence": { "type": "null" },
+          "error_code": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "evidence_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "format": "uuid" }
+    },
+    "non_empty_evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "format": "uuid" }
+    },
+    "claim_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^claim-[1-9][0-9]*$" }
+    },
+    "human_review_requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "review_id",
+        "type",
+        "description",
+        "condition_ids",
+        "evidence_element_ids"
+      ],
+      "properties": {
+        "review_id": { "type": "string", "pattern": "^review-[1-9][0-9]*$" },
+        "type": {
+          "enum": ["case_fact", "policy_judgment", "version_conflict"]
+        },
+        "description": { "type": "string", "minLength": 1 },
+        "condition_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^condition-[1-9][0-9]*$" }
+        },
+        "evidence_element_ids": { "$ref": "#/$defs/non_empty_evidence_ids" }
+      }
+    },
+    "facet_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "facet_id",
+        "claim_ids",
+        "claim_support",
+        "evidence_coverage",
+        "human_review_requirements",
+        "evidence_element_ids",
+        "confidence"
+      ],
+      "properties": {
+        "facet_id": { "type": "string", "pattern": "^facet-[1-9][0-9]*$" },
+        "claim_ids": { "$ref": "#/$defs/claim_ids" },
+        "claim_support": {
+          "enum": ["fully_supported", "partially_supported", "unsupported", "no_claim"]
+        },
+        "evidence_coverage": { "enum": ["sufficient", "insufficient"] },
+        "human_review_requirements": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/human_review_requirement" }
+        },
+        "evidence_element_ids": { "$ref": "#/$defs/evidence_ids" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}
