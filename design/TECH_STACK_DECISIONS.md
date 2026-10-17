@@ -1,61 +1,114 @@
 # 技術選定と比較
 
-## このページの読み方
+## このページの範囲
 
-採用理由を、実測した比較と設計上の比較に分けて記録する。実測比較は、評価条件をそろえて候補を動かした結果を示す。設計上の比較は、ポートフォリオの範囲、既存実装、運用責務から選んだ理由であり、性能が他候補より高いことを示すものではない。比較実験をしていない候補は、そのように明記する。
+READMEに掲載している構成について、何を実現するために採用したか、どの候補と比べたか、どこまで検証したかを記録する。比較試験をした選択と、要件・運用・学習目標から決めた選択を区別する。比較していないものについて、性能や費用が他製品より優れるとは主張しない。
 
-選定時点のポートフォリオ要件は、架空の制度文書を使う公開デモ、根拠と回答分類の表示、検索・回答の評価、文書とログの追跡である。実在自治体の本番業務や大規模運用を前提にした選定ではない。
+本アプリは、架空の制度文書を使う転職用デモである。質問から根拠検索、回答・分類、引用表示、フィードバック保存までを一つの流れで説明できることを優先した。後続の設計では一部の技術を見直しているため、旧構成の採用理由と後続構成の判断も分けている。
 
-## 採用技術と比較した候補
+StreamlitとLangChainについては、当時の選定記録や候補比較の証跡が十分に残っていない。以下に記す理由は、実装内容と要件から整理し直した事後的な設計説明であり、当時その候補を実測・正式比較したという意味ではない。後続プロジェクトの技術判断は、設計を見直した理由を補うために参照し、旧版の実測結果としては扱わない。
 
-| 領域 | 採用 | 比較した候補と比較方法 | 採用理由・判断 |
+## 判断の要約
+
+| 領域 | 採用 | 比較・判断の軸 | 結論 |
 |---|---|---|---|
-| アプリ言語・UI | Python、Streamlit | 設計上の候補はGradio、FastAPIと別フロントエンド。UIフレームワーク間の負荷・操作性ベンチマークは未実施 | 既存のPython RAGと評価スクリプトを活用し、質問、回答、引用、分類を一つのデモ画面で確認できる。ポートフォリオでは画面と評価の反復を優先した。複雑な画面要件や多数同時利用を比較した結果ではない。 |
-| RAG連携 | LangChain | Gemini SDKを直接呼ぶ構成が設計上の候補。両方式の性能比較は未実施 | 既存の検索・生成アダプターとPython実装へ接続しやすく、モデル呼出しをアプリ本体から分けられる。抽象化の費用や依存の少なさは候補間で計測していない。 |
-| 回答生成・分類 | Gemini 3.1 Flash-Lite | 旧Gemini 2.5 Flashの実行結果、および分類器としてBGE-M3 zero-shot、mDeBERTa-v3-base multilingual NLIを比較。BGE-M3は36件中6件正解、mDeBERTaは入力長制限で評価前に停止 | Gemini 3.1は100問の実行を完了し、Top-5比較では旧モデルより表示失敗が少なく、構造化出力を継続評価できた。分類比較では36件中31件正解（accuracy 0.861）で、BGE-M3の6/36を上回った。評価は承認済み開発用36件で、未見データ全般の優位を示すものではない。 |
-| Embedding | `gemini-embedding-001` | `gemini-embedding-2-768`、Ruri v3 310M。文書、質問、Top-kなどを固定し、formal 88件の検索根拠を比較 | 全根拠見出しHit@5は74/88でGemini 2と同率、MRRは0.861で3候補中最高だった。別候補への変更で総合的な改善がなく、現行profileを維持した。Ruriはローカル実行できる利点があるが、この検索評価では正味改善がなかった。 |
-| ベクトル検索 | Qdrant | 移行前のChromaと16問で順位、Hit@K、ID整合性を比較。PostgreSQL pgvector等は設計上の代替候補で、同条件の実測比較は未実施 | ChromaとQdrantで取得文書・見出しの順位差は0/16、Hit@3とHit@5はともに16/16だった。Qdrantを精度向上のために選んだのではなく、payload filter、安定ID、PostgreSQL正本との責務分離を理由に移行した。 |
-| 正本・ログDB | PostgreSQL | 旧JSONL保存を移行元として確認。SQLite等の小規模構成との負荷比較は未実施 | 文書、版、要素、質問、検索、回答、根拠、feedbackを関連付けて保存し、SQLで追跡・分析できる。Qdrantの検索indexを再構築できるよう、正本は別に保持する。JSONLは当初の記録方式であり、複数テーブルの関連やSQL分析に向けて置き換えた。 |
-| 図表ファイル保存 | Google Cloud Storage | PostgreSQL内の画像保存、コンテナローカル保存が設計上の代替候補。保存方式の性能比較は未実施 | 図表画像をDBの構造化データと分け、非公開bucketに原画像を保存する。ローカル開発では同じAssetStore境界でローカル保存を使い、公開環境ではGCSへ切り替える。 |
-| コンテナ・アプリ実行 | Docker、Cloud Run | ローカル直接実行とDockerを開発手順で併用。公開先としてVM等は候補になり得るが、ホスティング比較試験は未実施 | Dockerでローカルと公開用の実行環境をそろえ、Cloud Runへ同じイメージを配布できる。ポートフォリオのデモ公開とGitHub Actionsからのデプロイに適合する。公開構成ではCloud SQL等の継続費用も記録し、費用・運用とデモ要件を合わせて判断している。 |
-| CI/CD・IaC | GitHub Actions、Terraform | 手動手順や他のCI/IaC製品との比較試験は未実施 | push時のlint・test・Terraform検証と、承認後のデプロイをワークフローに残せる。クラウド資源をコードで追跡し、planと適用後の差分を確認できる。GitHub上のソース・CIとの一貫性を優先した選択で、他製品より優れているという測定結果ではない。 |
+| アプリ | Python / Streamlit | Gradio、FastAPI + Reactとの画面構成比較 | 小さな対話画面、根拠・分類・図表の表示をPython中心で実装できる。負荷や操作性の比較試験はしていない。 |
+| RAG連携 | LangChain | Google公式SDKを直接つなぐ構成 | 初期版ではLLM、Embedding、vector store、retrieverを共通の部品として組み合わせる目的で利用。運用制御の明示性を重視した後続設計では公式SDK・薄いadapterへ移行。 |
+| 回答生成・分類 | Gemini 3.1 Flash-Lite | Gemini 2.5 Flashの旧run、分類器BGE-M3等 | 100問を完走し、分類比較では36件中31件正解。BGE-M3は6/36。評価範囲内の判断で、未見データ全般の優位ではない。 |
+| Embedding | `gemini-embedding-001` | Gemini Embedding 2、Ruri v3 310M | 全根拠見出しHit@5で最高同率、MRR最高。候補変更による改善がなく維持。 |
+| 検索index | Qdrant | Chroma実測比較、pgvector設計比較 | Chromaと順位・Hit@Kは同じ。精度向上ではなく、検索indexを正本DBから分け、filterや検索方式の拡張を試し、専用vector DBの構築・同期・再構築を学ぶ目的で選択。 |
+| 正本・ログ | PostgreSQL | 旧JSONL、SQLite等の単純構成 | 文書・版・抽出要素・質問・検索・回答・feedbackを関係と制約付きで保存し、SQLで追跡・分析するため。SQLiteとの性能優位を測ったものではない。 |
+| 画像・原本 | Google Cloud Storage | コンテナ内ローカル保存、DBへのbinary保存 | PDFやページ画像の原本を、アプリの一時領域やDB行から分けて保管する。Cloud Run上で原本を永続管理する境界として採用。保存方式間の性能試験はない。 |
+| 実行環境 | Docker / Cloud Run | 手元の個別環境、VM等 | DockerでDB・検索index・アプリの実行条件をそろえ、同じアプリimageをCloud Runへ配布。公開デモに必要な運用範囲を抑え、起動停止をサービスへ委ねる。VMとの負荷・費用比較は未実施。 |
+| CI/CD・IaC | GitHub Actions / Terraform | 手動デプロイ、他製品 | PR・pushで検査し、承認後にデプロイする経路と、クラウド資源の差分をコードで確認する経路を残す。製品間の性能比較ではなく、変更履歴と再現性を優先。 |
 
-## 実測比較の詳細
+## アプリとRAG連携
 
-### QdrantとChroma
+### Python / Streamlit
 
-Embedding、文書、chunk、Top-kを固定した16問では、Hit@1が双方11/16、Hit@3とHit@5が双方16/16で、順位差はありませんでした。この比較で言えるのは「移行による検索退行を観測しなかった」ことです。Qdrant自体が検索精度を上げたとは評価していません。
+画面の中心は質問入力と回答結果の確認である。回答区分、本文、引用、ページ画像、フィードバックを同じ画面で扱い、画面側に複雑な状態管理や独立したAPI公開面を設ける必要は小さい。そのため、PythonのRAG処理と同じ実行環境で画面を作れるStreamlitを初期版に選んだ。Gradioはモデルの入出力を試すデモ候補、FastAPI + Reactは画面とAPIを分けて細かなUI・契約を管理する候補として考えられるが、同じ画面を作って比較したわけではない。
 
-[Qdrant移行評価](../eval/QDRANT_MIGRATION_EVALUATION.md)
+この判断には明確な境界がある。公開利用者が増える、画面状態やアクセシビリティ要件が複雑になる、APIを別クライアントから使う、といった要件にはStreamlitが最適とは限らない。後続設計ではフロントエンドとAPIの契約を明示し、React + FastAPIを一つのCloud Runサービスから配信する構成を選んだ。これはStreamlitの性能が劣ると実測した結果ではなく、フロント・バックエンド分離と型付きAPIを実装して学ぶ目標を加えたためである。
 
-### Embedding候補
+### LangChain
 
-formal 88問では、全根拠見出しHit@5が`gemini-embedding-001`とRuriで74/88、Gemini Embedding 2で72/88でした。最初の正解根拠の順位を測るMRRは現行モデルが0.861で最良でした。評価対象は文章検索であり、Gemini Embedding 2のマルチモーダル機能を評価した比較ではありません。
+初期版では、Googleの生成・Embedding、検索store、retriever、promptをRAGの部品として組み合わせるためにLangChainを採用した。モデルと検索実装をつなぐ共通interfaceを使い、ChromaからQdrantへの移行や検索・生成の実験を同一アプリ内で行う構成に合っていた。LangChainと公式SDK直結を同じ機能・負荷・障害条件で比較した記録はないため、「より高性能」「より低コスト」とは評価していない。
 
-[Embeddingモデル比較](../eval/EMBEDDING_MODEL_EVALUATION.md)
+後続設計では、retry回数、入力・出力上限、費用予約、エラー分類、構造化応答の検証をアプリ側から明示的に制御する必要が強くなった。そのため、新しいRAG frameworkを追加せず、公式SDKと小さなadapterを中心にする方針へ移った。これは、初期版のLangChainを選んだ理由が無効だったというより、制御要件が具体化した段階で抽象化の境界を見直したもの。
 
-### 回答分類モデル
+## 生成・検索モデル
 
-開発用36件ではGeminiが31/36、BGE-M3が6/36でした。BGE-M3は`根拠十分`の正例を一度も検出できず、誤りを保留側へ寄せていたため、重大誤分類が0件というだけでは採用できませんでした。mDeBERTaは根拠が512 tokenを超えるため評価を完了できず、同じ責務での品質比較結果はありません。
+### Gemini 3.1 Flash-Lite
 
-[回答分類モデル比較](../eval/CLASSIFIER_MODEL_COMPARISON.md)
+Gemini 3.1 Flash-Liteは回答生成と回答分類に用いる。回答生成では、旧Gemini 2.5 Flashの比較runに表示失敗があり、3.1 Flash-LiteはTop-5の8問を完了し、既存のformal 100問も完走した。分類モデル比較では開発用36問中31問正解（accuracy 0.861）だった。BGE-M3 zero-shotは6/36で、`根拠十分`の正例を一度も検出できなかった。mDeBERTaは実際の根拠入力が512 token制限を超えて採点前に停止した。
 
-### 回答生成モデルとTop-k
+この比較は、生成モデル同士を大規模な同一条件で網羅したベンチマークではない。分類結果も小規模な開発用setである。現行モデルを維持した判断は、評価完了性、構造化出力、対象setでの分類結果に基づく。
 
-Gemini 3.1 Flash-Liteに固定した8問比較では、Top-5からTop-8へ候補を増やすと必須内容一致は6/8から8/8になり、Generator概算費用は約36%増えました。これはTop-kの比較であり、同一条件の複数生成モデルを網羅したベンチマークではありません。モデル選択では、旧Gemini 2.5 Flashの表示失敗と100問完走実績も参照しています。
+### `gemini-embedding-001`
 
-[Gemini 3.1とTop-kの評価](../eval/GEMINI_3_1_TOP_K_ANSWER_EVALUATION.md)
+Embedding単独を比較するため、Qdrant、文書、chunk、Top-k、formal 88問を固定し、Gemini Embedding 2（768次元）とRuri v3 310M（768次元）を比較した。全根拠見出しHit@5は現行モデルとRuriが74/88、Gemini 2が72/88。最初の正解根拠順位のMRRは現行モデルが0.861で最良だった。Gemini 2は根拠Hit@5で正味2問悪化、Ruriは改善と退行が各4問で正味差なしだったため、現行profileを維持した。
 
-## 未比較の技術について
+ここで比較したのはモデル名だけでなく、次元と各モデル固有のquery/document入力規則を含むEmbedding profileである。Gemini Embedding 2の画像対応や画像そのものの検索品質は対象外。
 
-Streamlitと他UI、LangChainとSDK直接呼出し、PostgreSQLとSQLite、GCSとDB内保存、Cloud RunとVM、GitHub Actionsと他CI、Terraformと他IaCの比較ベンチマークは実施していません。これらはポートフォリオで必要な機能、既存実装との接続、データ責務、公開・再現手順を基に選びました。利用者数、費用、可用性などの要件が変われば再評価します。
+## データストアと責務
 
-Snowflake、Jev、画像Embedding、rerankerなどは、現時点の完成条件を超えるか、採用判断に必要な比較を終えていないため、必須構成には含めていません。特にSnowflakeは、ログ量と分析課題ができた後の拡張候補として扱っています。
+### Qdrant — PostgreSQL内vector検索との比較
 
-## 参照
+pgvectorをPostgreSQLへ追加すれば、DBサービスを一つ減らし、文書データとvectorを同じDBで管理できる。これは有力な代替案である。一方、このポートフォリオでは、文書・版・問い合わせ・費用・feedbackのトランザクション負荷と、類似度検索・metadata filterを分け、検索用データを独立して再生成できることを要件にした。Qdrantはpayload filter、複数のnamed vector、dense/sparse/hybrid検索を独立した検索層として扱える。加えて、PostgreSQLを正本、Qdrantを再構築可能な検索indexとする同期・照合・復旧を実装し、専用vector DBの運用境界を学ぶ目的があった。
 
-- [技術設計](TECHNICAL_DESIGN.md)
-- [目標仕様](TARGET_RAG_SPEC.md)
-- [公開RAG v2デプロイ記録](CLOUD_RAG_V2_DEPLOYMENT_PLAN.md)
+ChromaからQdrantへの移行試験では、同一Embedding・chunk・Top-kの16問でHit@1、Hit@3、Hit@5が一致し、文書・見出し順位差も0件だった。したがってQdrantの採用を検索精度の改善とは説明しない。pgvectorとQdrantを直接同条件で性能比較した記録もない。選定は、責務分離、検索機能の拡張、学習目標に基づく設計判断である。
+
+[Qdrant移行評価](../eval/QDRANT_MIGRATION_EVALUATION.md) / [目標仕様のvector store選定条件](TARGET_RAG_SPEC.md#9-ベクトルストア選定条件)
+
+### PostgreSQL — JSONL・SQLite等との比較
+
+質問と回答だけを一つのJSONLへ記録する小さな試作なら、ファイル保存は準備が少ない。しかし本アプリでは、文書と版、抽出要素、図表asset、検索結果、回答claim、根拠link、feedbackが相互に参照し、状態遷移・重複防止・一貫した更新が必要になる。PostgreSQLなら主キー・外部キー・一意制約・transactionで関係を保ち、migrationでschema変更を追跡し、SQLで一つのrequestに関わる検索・生成・分類・feedbackを分析できる。Qdrantに正本を持たせず、indexを消失時に再構築できる境界も作れる。
+
+SQLiteはローカル単一プロセスの軽量代替になり得るが、公開構成のCloud SQL PostgreSQLと異なるDBで統合検証することになる。後続プロジェクトでは「SQLiteで代用してPostgreSQL特有の制約・transaction挙動を未検証にしない」方針を明記し、実PostgreSQLを開発・CI統合確認にも使った。PostgreSQLをSQLiteより高性能と測定したわけではなく、複数関係の正本、SQL分析、公開先との同一性、DB運用を学ぶ要件に合わせた判断である。
+
+### Google Cloud Storage — DB・コンテナfilesystemとの比較
+
+PDF原本、ページ画像、切り出した図表は、文書metadataや回答ログに比べて大きなbinaryである。これらをPostgreSQLの行へ埋め込まず、DBにはURIとSHA-256等を記録し、object storageへ分ける。Cloud Runのコンテナfilesystemを原本の永続保存先にするとrevisionの入れ替えやinstance破棄に結びつくため、非公開bucketを永続境界とした。アプリは`AssetStore` interfaceを通し、local開発ではLocalAssetStore、公開時にはGCSを使うことで、同じ処理から原本の保存・取得・hash照合を行える。
+
+比較は容量・費用・速度のベンチマークではない。管理されたobject storageとCloud Runの接続・権限を確認し、原本・画像を別管理する設計判断である。
+
+[データ保存責務](TARGET_RAG_SPEC.md#8-保存先と責務) / [公開構成](CLOUD_RAG_V2_DEPLOYMENT_PLAN.md#8-図表機能の公開差分)
+
+## 実行・配布・変更管理
+
+### Docker
+
+開発者ごとのPython package、OS依存、起動順の差があると、ローカルで動いたコードをCloud Runで再現しにくい。Docker imageにアプリと実行依存をまとめ、PostgreSQL・Qdrantを含むCompose構成でmigration、取込、質問、feedbackまで起動できるようにした。同じimageをbootstrap JobとWeb serviceに使い、CIでbuildしてArtifact Registryへ格納するため、開発・初期化・公開で実行物をそろえられる。
+
+venvからの直接起動も開発手順に残している。DockerがVMやmanaged containerより性能面で優れるという比較をしたわけではなく、環境再現とデプロイ単位を固定する役割である。
+
+### Cloud Run
+
+公開用Webアプリと初期データ投入Jobをコンテナで実行し、Cloud Runのrevision単位でimageと設定を特定できる。個別VMのOS、process supervisor、patch、常時稼働Web serverを自分で管理する案と比べ、短期ポートフォリオで必要な公開・更新・rollbackの運用範囲を抑えやすい。利用のない時間にWeb instanceを縮小できる点も小規模デモに適する。
+
+ただしWeb instanceがscale-to-zeroしても、Cloud SQLなど常時稼働する依存サービスの料金は残り得る。実際にCloud SQLの固定費を別見積にし、利用がないだけで無料とは扱っていない。VM等と同条件の負荷・費用比較は未実施である。初回起動遅延、外部DB接続、secret/IAM、rollbackを含めて公開構成を記録した。
+
+[公開RAG v2デプロイ記録](CLOUD_RAG_V2_DEPLOYMENT_PLAN.md) / [Cloud Run構成差分と費用](CLOUD_RAG_V2_DEPLOYMENT_PLAN.md#3-費用)
+
+### GitHub Actions / Terraform
+
+手動のconsole変更だけでは、どの設定がいつ変わったか、同じ構成をどう作り直すかをレビューしにくい。GitHub Actionsはpush/PRでtest・lint・Terraform検証を実行し、production environmentの承認後にのみデプロイする。TerraformはCloud Run、Cloud SQL、IAM、bucket等の構成をコードに置き、適用前planと適用後planを照合する。CIの短期認証と最小権限を使い、長期service account keyをrepository secretへ置かない構成を採用した。
+
+他CI製品やIaC製品を同じworkflowで比較したものではない。既存GitHub repositoryの変更履歴とPRレビューをつなぎ、クラウド構成の差分を追跡すること、構成管理と承認手順をポートフォリオで示すことを選定軸にした。
+
+## 選定を見直す条件
+
+- UI要件が増え、画面状態や利用者向けAPIを独立管理する必要が出た場合は、Streamlitを継続するか再検討する。
+- LangChainの抽象化がretry、費用、構造検証、障害分類の追跡を妨げる場合は、公式SDKとadapterの境界を優先する。逆に新しい統合が増え、共通interfaceの便益が運用負担を上回る場合は再評価する。
+- データ量や運用人数が小さく、専用vector DBのfilter・hybrid・独立再構築が不要ならpgvectorを再比較する。
+- Cloud Runのscale特性、固定費、region、cold startがデモ要件に合わなくなれば、別のcontainer hostingを費用・運用条件込みで比較する。
+- 原本の保持、非公開アクセス、復旧条件が変わる場合はGCSの配置・bucket policy・backupを見直す。
+
+## 詳細な評価記録
+
 - [精度改善の流れ](../eval/reports/ACCURACY_IMPROVEMENT.md)
-- [評価レポート案内](../eval/reports/README.md)
+- [Embeddingモデル比較](../eval/EMBEDDING_MODEL_EVALUATION.md)
+- [回答分類モデル比較](../eval/CLASSIFIER_MODEL_COMPARISON.md)
+- [Gemini 3.1とTop-kの評価](../eval/GEMINI_3_1_TOP_K_ANSWER_EVALUATION.md)
+- [技術設計](TECHNICAL_DESIGN.md)
+- [データモデル](DATA_MODEL.md)
