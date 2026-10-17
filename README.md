@@ -1,6 +1,6 @@
 # 自治体向け制度問い合わせ支援RAG
 
-[公開デモを試す](https://municipal-rag-assistant-280649014820.asia-northeast1.run.app/) | [評価レポート](eval/reports/README.md) | [技術設計](design/TECHNICAL_DESIGN.md) | [クラウド構成](design/CLOUD_RAG_V2_DEPLOYMENT_PLAN.md)
+[公開デモを試す](https://municipal-rag-assistant-280649014820.asia-northeast1.run.app/) | [評価レポート](eval/reports/README.md) | [技術設計](design/TECHNICAL_DESIGN.md) | [クラウド構成](design/CLOUD_RAG_V2_DEPLOYMENT_PLAN.md) | [技術選定と比較](design/TECH_STACK_DECISIONS.md)
 
 自治体の給与事務担当者が、複数の規程・通知・FAQ・業務マニュアルから根拠を探す作業を支援するRAGです。架空の制度文書を対象に、回答、回答可能性、根拠箇所を一緒に示します。
 
@@ -82,6 +82,8 @@ flowchart LR
 | CI/CD・IaC | GitHub Actions / Terraform | 検証、承認付きdeploy、クラウド設定のコード管理 |
 
 Qdrantは検索専用index、PostgreSQLは再構築の基準になる正本として責務を分けています。Chroma実装は移行前baselineとの比較証拠として残しています。
+
+選定理由、比較した候補、実測と未比較の範囲は[技術選定と比較](design/TECH_STACK_DECISIONS.md)にまとめています。
 
 ## ローカルで動かす
 
