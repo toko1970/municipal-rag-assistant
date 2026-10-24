@@ -88,22 +88,13 @@ def generate_simple_qdrant_answer(
     context = build_context(documents)
     if prompt_variant not in {
         "baseline",
-        "condition_check_v1",
-        "condition_check_v2",
-        "conclusion_gate_v3",
         "autoresearch_candidate",
     }:
         raise ValueError(f"未対応のprompt_variantです: {prompt_variant}")
     if prompt_variant == "autoresearch_candidate":
         prompt = build_candidate_prompt(question, context)
     else:
-        prompt = build_prompt(
-            question,
-            context,
-            condition_check_candidate=prompt_variant == "condition_check_v1",
-            concise_condition_check_candidate=prompt_variant == "condition_check_v2",
-            conclusion_gate_candidate=prompt_variant == "conclusion_gate_v3",
-        )
+        prompt = build_prompt(question, context)
     if generator is None:
         if prompt_variant == "autoresearch_candidate":
             generator = GeminiProvider(

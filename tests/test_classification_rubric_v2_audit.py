@@ -8,6 +8,7 @@ from eval.build_classification_rubric_v2_audit import ROOT, build
 
 
 SCHEMA_DIR = ROOT / "design" / "schemas"
+SEALED_GOLD_PATH = ROOT / "eval" / "text_holdout" / ".sealed" / "gold" / "scenario_gold.json"
 
 
 def test_candidate_schemas_are_valid_draft_2020_12() -> None:
@@ -150,6 +151,7 @@ def test_review_requirement_needs_document_evidence() -> None:
         jsonschema.Draft202012Validator(schema).validate(invalid)
 
 
+@pytest.mark.skipif(not SEALED_GOLD_PATH.is_file(), reason="sealed holdout gold is unavailable in this environment")
 def test_opened_holdout_audit_preserves_labels_and_exposes_coverage_gaps() -> None:
     audit = build()
 
@@ -169,6 +171,7 @@ def test_opened_holdout_audit_preserves_labels_and_exposes_coverage_gaps() -> No
     assert audit["coverage_gaps"] == ["policy_judgment", "version_conflict"]
 
 
+@pytest.mark.skipif(not SEALED_GOLD_PATH.is_file(), reason="sealed holdout gold is unavailable in this environment")
 def test_insufficient_evidence_never_has_human_review_requirement() -> None:
     audit = build()
 
@@ -178,6 +181,7 @@ def test_insufficient_evidence_never_has_human_review_requirement() -> None:
             assert row["expected_claim_support"] == "no_claim"
 
 
+@pytest.mark.skipif(not SEALED_GOLD_PATH.is_file(), reason="sealed holdout gold is unavailable in this environment")
 def test_committed_audit_matches_the_reproducible_builder() -> None:
     committed = json.loads(
         (Path(ROOT) / "eval" / "classification_rubric_v2_audit.json").read_text(
