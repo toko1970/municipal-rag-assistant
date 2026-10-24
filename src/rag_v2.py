@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from config import (
+    ANSWER_GENERATION_FLOW,
     BASE_DIR,
     CLASSIFIER_MODEL_NAME,
     CLASSIFICATION_CONTRACT_VERSION,
@@ -25,6 +26,12 @@ from src.query_service import (
     load_schema,
 )
 from src.query_service_v2 import answer_question_v2
+from src.freeform_prompt_candidate import (
+    GENERATOR_MAX_OUTPUT_TOKENS as CANDIDATE_MAX_OUTPUT_TOKENS,
+    GENERATOR_MODEL as CANDIDATE_GENERATOR_MODEL,
+    verify_prompt_config as verify_candidate_prompt_config,
+)
+from src.simple_rag_flow import generate_simple_qdrant_answer
 from src.temporal_evidence import (
     DEADLINE_CALCULATION_PROMPT_VERSION,
     TEMPORAL_GENERATION_PROMPT_VERSION,
@@ -54,6 +61,30 @@ CLASSIFICATION_SCHEMA_V2_PATH = (
 
 
 def generate_qdrant_answer(question: str) -> dict:
+    if ANSWER_GENERATION_FLOW == "autoresearch_candidate":
+        verify_candidate_prompt_config()
+        embeddings = get_embeddings()
+        session_factory = get_session_factory()
+        repository = PostgresDocumentRepository(session_factory)
+        event_logger = PostgresEventLogger(session_factory)
+        return generate_simple_qdrant_answer(
+            question,
+            embed_query=embeddings.embed_query,
+            vector_index=QdrantVectorIndex(),
+            generator=GeminiProvider(
+                CANDIDATE_GENERATOR_MODEL,
+                temperature=0,
+                max_output_tokens=CANDIDATE_MAX_OUTPUT_TOKENS,
+            ),
+            visual_asset_loader=repository.get_visual_assets,
+            asset_reader=get_asset_reader(),
+            event_logger=event_logger,
+            prompt_variant="autoresearch_candidate",
+        )
+    if ANSWER_GENERATION_FLOW != "production":
+        raise ValueError(
+            "ANSWER_GENERATION_FLOWはproductionまたはautoresearch_candidateです"
+        )
     if CLASSIFICATION_CONTRACT_VERSION not in {"v1", "v2", "scope_v2"}:
         raise ValueError("CLASSIFICATION_CONTRACT_VERSIONはv1またはv2、scope_v2です")
     deadline_mode = should_use_deadline_calculation(question)

@@ -52,6 +52,36 @@ def test_composition_root_connects_retrieval_and_temporal_candidates() -> None:
     assert kwargs["classification_prompt_version"] == CLASSIFICATION_PROMPT_VERSION
 
 
+def test_composition_root_routes_autoresearch_candidate_through_shared_flow() -> None:
+    expected = {"answer": "candidate"}
+    embeddings = SimpleNamespace(embed_query=lambda _question: [1.0])
+    repository = SimpleNamespace(get_visual_assets=lambda _ids: [])
+    event_logger = object()
+    base_index = object()
+    with (
+        patch("src.rag_v2.ANSWER_GENERATION_FLOW", "autoresearch_candidate"),
+        patch("src.rag_v2.get_embeddings", return_value=embeddings),
+        patch("src.rag_v2.get_session_factory", return_value=object()),
+        patch("src.rag_v2.PostgresDocumentRepository", return_value=repository),
+        patch("src.rag_v2.PostgresEventLogger", return_value=event_logger),
+        patch("src.rag_v2.QdrantVectorIndex", return_value=base_index),
+        patch("src.rag_v2.GeminiProvider", return_value=object()),
+        patch("src.rag_v2.get_asset_reader", return_value=object()),
+        patch("src.rag_v2.verify_candidate_prompt_config", return_value="frozen-hash") as verify_prompt,
+        patch("src.rag_v2.generate_simple_qdrant_answer", return_value=expected) as simple,
+    ):
+        result = generate_qdrant_answer("質問")
+
+    assert result == expected
+    assert simple.call_args.args == ("質問",)
+    kwargs = simple.call_args.kwargs
+    assert kwargs["prompt_variant"] == "autoresearch_candidate"
+    assert kwargs["event_logger"] is event_logger
+    assert kwargs["embed_query"] is embeddings.embed_query
+    assert kwargs["vector_index"] is base_index
+    verify_prompt.assert_called_once_with()
+
+
 @pytest.mark.parametrize("question", [
     "2027年10月10日に受験しました。提出期限は何日までですか？",
     "2027-10-10に受験しました。提出期限はいつですか？",

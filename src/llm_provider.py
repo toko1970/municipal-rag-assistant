@@ -110,17 +110,54 @@ def _gemini_compatible_schema(value: Any) -> Any:
 class GeminiProvider:
     provider_name = "gemini"
 
-    def __init__(self, model: str, api_key=None, client=None, temperature: float = 0):
+    def __init__(
+        self,
+        model: str,
+        api_key=None,
+        client=None,
+        temperature: float = 0,
+        max_output_tokens: int | None = None,
+    ):
+        if max_output_tokens is not None and max_output_tokens < 1:
+            raise ValueError("max_output_tokensは1以上である必要があります")
         self.model = model
-        self.client = client or ChatGoogleGenerativeAI(
-            model=model,
-            google_api_key=api_key or GOOGLE_API_KEY,
-            temperature=temperature,
-            retries=0,
-        )
+        client_config = {
+            "model": model,
+            "google_api_key": api_key or GOOGLE_API_KEY,
+            "temperature": temperature,
+            "retries": 0,
+        }
+        if max_output_tokens is not None:
+            client_config["max_output_tokens"] = max_output_tokens
+        self.client = client or ChatGoogleGenerativeAI(**client_config)
 
     def generate(self, prompt: str) -> LLMResult:
         response = self.client.invoke(prompt)
+        return self._text_result(response)
+
+    def generate_with_media(
+        self, prompt: str, *, media: list[tuple[bytes, str]]
+    ) -> LLMResult:
+        """Generate raw text once using a text prompt and attached visual evidence."""
+        if not media:
+            return self.generate(prompt)
+        message = HumanMessage(
+            content=[
+                {"type": "text", "text": prompt},
+                *[
+                    {
+                        "type": "media",
+                        "mime_type": mime_type,
+                        "data": base64.b64encode(content).decode("ascii"),
+                    }
+                    for content, mime_type in media
+                ],
+            ]
+        )
+        response = self.client.invoke([message])
+        return self._text_result(response)
+
+    def _text_result(self, response) -> LLMResult:
         usage = dict(getattr(response, "usage_metadata", None) or {})
         metadata = dict(getattr(response, "response_metadata", None) or {})
         if not usage:
