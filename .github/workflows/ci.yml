@@ -92,9 +92,10 @@ jobs:
           env_vars_update_strategy: overwrite
           env_vars: |-
             RAG_BACKEND=qdrant
+            ANSWER_GENERATION_FLOW=autoresearch_candidate
             QDRANT_URL=${{ env.QDRANT_URL }}
             QDRANT_COLLECTION_NAME=municipality_rag_docs_v2_contextual_heading_v1
-            LLM_MODEL_NAME=gemini-3.1-flash-lite
+            LLM_MODEL_NAME=gemini-3.8-flash
             CLASSIFIER_MODEL_NAME=gemini-3.1-flash-lite
             VISUAL_ASSET_BACKEND=gcs
             GCS_VISUAL_ASSET_BUCKET=${{ env.GCS_VISUAL_ASSET_BUCKET }}
@@ -123,9 +124,10 @@ jobs:
           env_vars_update_strategy: overwrite
           env_vars: |-
             RAG_BACKEND=qdrant
+            ANSWER_GENERATION_FLOW=autoresearch_candidate
             QDRANT_URL=${{ env.QDRANT_URL }}
             QDRANT_COLLECTION_NAME=municipality_rag_docs_v2_contextual_heading_v1
-            LLM_MODEL_NAME=gemini-3.1-flash-lite
+            LLM_MODEL_NAME=gemini-3.8-flash
             CLASSIFIER_MODEL_NAME=gemini-3.1-flash-lite
             VISUAL_ASSET_BACKEND=gcs
             GCS_VISUAL_ASSET_BUCKET=${{ env.GCS_VISUAL_ASSET_BUCKET }}
