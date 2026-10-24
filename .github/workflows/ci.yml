@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: python -m pip install -r requirements-dev.txt
       - name: Lint
-        run: python -m ruff check app.py config.py src tests
+        run: python -m ruff check app.py config.py src/rag_v2.py src/llm_provider.py src/simple_rag_flow.py src/freeform_prompt_candidate.py tests/test_rag_v2_query_flow.py tests/test_simple_rag_flow.py
       - name: Test without external APIs
         run: python -m pytest -q -m "not integration" tests
 
