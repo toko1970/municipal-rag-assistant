@@ -70,12 +70,9 @@ def fixture():
                 "-m",
                 "scripts.manage_rag_v2",
                 "smoke",
-                "--max-cases",
-                "5",
-                "--max-attempts",
-                "5",
-                "--max-503-retries",
-                "0",
+                "--max-cases=5",
+                "--max-attempts=5",
+                "--max-503-retries=0",
             ],
         }
     )
@@ -428,7 +425,19 @@ def test_smoke_job_arguments_survive_action_flag_normalization(capsys):
     ]
     parsed, _ = parser.parse_known_args(action_argv)
     assert parsed.args.startswith("^,^")
-    assert parsed.args.removeprefix("^,^").split(",") == SMOKE_ARGS
+    task_args = parsed.args.removeprefix("^,^").split(",")
+    assert task_args == SMOKE_ARGS
+    # Cloud Run's list update action rejects duplicate elements, including a
+    # separate "5" used for both case and attempt limits. Keep option=value
+    # together and verify the CLI still receives the required finite limits.
+    assert len(task_args) == len(set(task_args))
+    smoke_parser = argparse.ArgumentParser(allow_abbrev=False)
+    smoke_parser.add_argument("--max-cases", type=int, required=True)
+    smoke_parser.add_argument("--max-attempts", type=int, required=True)
+    smoke_parser.add_argument("--max-503-retries", type=int, required=True)
+    assert vars(smoke_parser.parse_args(task_args[3:])) == {
+        "max_cases": 5, "max_attempts": 5, "max_503_retries": 0,
+    }
 
 
 def test_outcome_receipt_distinguishes_successful_promotion_from_rollback():
