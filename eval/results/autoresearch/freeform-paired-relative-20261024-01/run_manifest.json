@@ -1,0 +1,118 @@
+{
+  "actual_model_names": [
+    "gemini-3.8-flash"
+  ],
+  "blinding": {
+    "paired_response_count": 200,
+    "randomize_arm_execution_order_per_expression": true,
+    "randomize_left_right_scoring_order": true,
+    "scoring_packet_contains_system_names": false,
+    "system_key_path": "eval/results/autoresearch/freeform-paired-relative-20261024-01/custodian-private/system_key.json",
+    "system_key_posix_mode": "0600"
+  },
+  "budget": {
+    "approved_additional_usd": 1.70759475,
+    "available_including_user_approval_usd": 6.0,
+    "embedding_reserve_usd": 0.1,
+    "estimate_is_invoice": false,
+    "estimated_actual_cost_usd": 0.651211,
+    "hard_run_cap_usd": 6.0,
+    "preflight_generation_reserve_usd": 5.67,
+    "preflight_total_reserve_usd": 5.77,
+    "previous_ledger_remaining_usd": 4.29240525,
+    "remaining_retry_reserve_usd": 0.23
+  },
+  "candidate": {
+    "candidate_id": "candidate-visual-table-notes-20261024-01",
+    "config_sha256": "e5904a9a7b2911ac660360f04e264f7b30bdf1dd019007c9b055cae759c13e6d",
+    "max_output_tokens": 2048,
+    "model": "gemini-3.8-flash",
+    "prompt_config_sha256": "cae1bafc46a98a30670f6e32c79508514a25580d80ba8f2a5d370e63a786ac0d",
+    "prompt_source": "src/freeform_prompt_candidate.py",
+    "prompt_source_sha256": "69928f509527094554910beeaecc3b0620711e0390703052385e6cc736744c2b",
+    "prompt_variant": "autoresearch_candidate",
+    "required_prompt_sha256": "cae1bafc46a98a30670f6e32c79508514a25580d80ba8f2a5d370e63a786ac0d",
+    "system_id": "candidate",
+    "temperature": 0
+  },
+  "completed_at_utc": "2026-10-24T08:40:18.163377+00:00",
+  "completed_pair_count": 100,
+  "estimated_total_cost_usd": 0.61494475,
+  "evaluation": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261024,
+    "candidate_only_g1_allowed_increase": 0,
+    "one_response_per_system_per_expression": true,
+    "operational_errors_are_unresolved": false,
+    "primary_metric": "expression-level rate with at least one evidence-unsupported factual assertion",
+    "scenario_clusters": 50,
+    "unresolved_policy": "exclude both systems for the paired expression; report reason and count"
+  },
+  "frozen_at_utc": "2026-10-24T07:26:10.155151+00:00",
+  "git_head": "b5dc4e2ef55c0ff40319acdd1829c31ac3787d31",
+  "git_status_sha256": "49deed5da4434482fe584cd262d5b013319b371f9ebd7650714af3e89c797fc3",
+  "holdout": {
+    "expression_count": 100,
+    "gold_path_read_by_runner": false,
+    "holdout_id": "text-sealed-holdout-relative-20261024-v1",
+    "manifest_path": "eval/text_holdout_relative_20261024_v1/public_manifest.json",
+    "manifest_sha256": "a9f7121ffecff9492258cad51595744e49bc2214aa7ccbd27a1533a2559e44d8",
+    "questions_path": "eval/text_holdout_relative_20261024_v1/questions.json",
+    "questions_sha256": "64609315f4b60b4663ee544c78ecd9e99c1f84816b4fc7b7b963b891599c36c2",
+    "scenario_count": 50,
+    "state": "SEALED"
+  },
+  "incumbent": {
+    "application_configured_model": "gemini-3.1-flash-lite",
+    "comparison_model_override_reason": "The paired protocol pins Gemini 3.8 Flash for both prompts to isolate prompt effects.",
+    "config_sha256": "cb2965576b7f9cbba6d480b36ae54690f8a01f2a87e679f72f708f3ef3a20178",
+    "max_output_tokens": 2048,
+    "model": "gemini-3.8-flash",
+    "prompt_source": "src/rag_chain.py",
+    "prompt_source_sha256": "c9fbd012ef0ce582023754a3e5999988c587c7fae0c1566c4d6aa6eb877b63cf",
+    "prompt_variant": "baseline",
+    "system_id": "incumbent",
+    "temperature": 0
+  },
+  "prediction_sha256": "2058adfc0fd920ae63b22195e4c7797b306a09070cc28b3de8aef1adbbf82b9a",
+  "run_id": "freeform-paired-relative-20261024-01",
+  "run_started_at_utc": "2026-10-24T08:16:09.757746+00:00",
+  "sealed_gold_opened": false,
+  "shared_generation": {
+    "input_rate_usd_per_million": 0.75,
+    "max_additional_429_retries_per_response": 2,
+    "max_input_tokens_reserved_per_call": 20000,
+    "max_output_tokens": 2048,
+    "model": "gemini-3.8-flash",
+    "output_rate_usd_per_million": 3.75,
+    "provider": "gemini",
+    "temperature": 0
+  },
+  "shared_retrieval": {
+    "backend": "qdrant-isolated-in-memory",
+    "document_representation": "contextual-heading-v1",
+    "embedding_model": "gemini-embedding-001",
+    "embedding_provider": "gemini",
+    "query_decomposition": "production DecomposedVectorIndex",
+    "same_retrieval_context_for_both_systems": true,
+    "source_documents": "manifest-listed sealed source documents only",
+    "top_k": 8
+  },
+  "source_sha256": {
+    "app.py": "19745f0a8128f8515fdd6b221a3eb3c5bbe1a73a9b3c5eda2ca82e3f47581510",
+    "config.py": "41313d13c5117b24d0a7eae9c9b199d253a1a2cffc07325ab25ddc7887a8cd01",
+    "eval/run_freeform_paired_relative_holdout.py": "ae8ca1fa154084a28eac46834b82f2f5e3f992b1a82feeb01990522ea07bc83d",
+    "src/embedding_representation.py": "a186d42d6a179e1fbf87c7051a797493e0f05692f08ac0c01b739ae1f0d69071",
+    "src/embeddings.py": "1d811af2f7a254269ce77a3ba3704471069cf1b50a9dd788341140b56cd37127",
+    "src/freeform_prompt_candidate.py": "69928f509527094554910beeaecc3b0620711e0390703052385e6cc736744c2b",
+    "src/ingestion.py": "74ce6c477517f4e366909557b8c7b21cb893da6b719a1d32439cfccf5a0acb77",
+    "src/llm_provider.py": "8f9e776cb805cd375f29b3d69dc91590627535ca6ff415baf81fd92d312b5060",
+    "src/qdrant_index.py": "6bb564160f04792de60c454dd454fe5e7508cd3de855e6f27dd0c720e73f04af",
+    "src/query_decomposition.py": "6e5c378e693a616b5007434bb86ac51c9ec94ee7825dee6e8b4ed7951c1bc0b3",
+    "src/rag_chain.py": "c9fbd012ef0ce582023754a3e5999988c587c7fae0c1566c4d6aa6eb877b63cf",
+    "src/simple_rag_flow.py": "21d6513b149fe4724a4ad3a81bff06b8fda1b49b494fbd914c07319ade51da46"
+  },
+  "status": "PREDICTIONS_FROZEN",
+  "summary_sha256": "ade55c9633ccde382ee90db80915c82b1dee190ca3f623d00d63b936fc126da2",
+  "working_tree_has_uncommitted_changes": true
+}

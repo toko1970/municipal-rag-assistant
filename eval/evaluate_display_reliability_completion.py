@@ -9,10 +9,10 @@ from uuid import UUID, uuid4
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from src.contracts import IndexableElement, SearchHit
-from src.llm_provider import StructuredLLMResult
-from src.query_service import answer_question
-from src.query_service_v2 import answer_question_v2
+from src.contracts import IndexableElement, SearchHit  # noqa: E402
+from src.llm_provider import StructuredLLMResult  # noqa: E402
+from src.query_service import answer_question  # noqa: E402
+from src.query_service_v2 import answer_question_v2  # noqa: E402
 
 OUT = ROOT / 'eval/results/generalization_completion_20261009/display_corrected'
 EID = '00000000-0000-0000-0000-000000000001'

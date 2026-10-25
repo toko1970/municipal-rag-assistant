@@ -1,0 +1,291 @@
+"""PostgreSQL repositories used by the RAG v2 application boundary."""
+
+from __future__ import annotations
+
+from collections.abc import Callable
+from uuid import UUID, uuid4
+
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
+from src.asset_store import StoredAsset, VisualEvidenceAsset
+from src.contracts import IndexableElement
+from src.persistence.models import (
+    ContentElementRow,
+    DocumentRow,
+    DocumentVersionRow,
+    EmbeddingProfileRow,
+    VisualAssetRow,
+)
+
+
+class PostgresDocumentRepository:
+    def __init__(self, session_factory: Callable[[], Session]) -> None:
+        self.session_factory = session_factory
+
+    def upsert_markdown_elements(
+        self, source_path: str, document_name: str, elements: list[IndexableElement]
+    ) -> list[IndexableElement]:
+        if not elements:
+            return []
+        first = elements[0]
+        document_key = str(first.metadata["document_key"])
+        content_hash = str(first.metadata["content_hash"])
+
+        with self.session_factory() as session, session.begin():
+            document = session.get(DocumentRow, first.document_id)
+            if document is None:
+                session.add(
+                    DocumentRow(
+                        id=first.document_id,
+                        document_key=document_key,
+                        title=document_name,
+                        source_type="markdown",
+                    )
+                )
+            else:
+                document.title = document_name
+
+            version = session.get(DocumentVersionRow, first.version_id)
+            if version is None:
+                session.add(
+                    DocumentVersionRow(
+                        id=first.version_id,
+                        document_id=first.document_id,
+                        content_hash=content_hash,
+                        source_path=source_path,
+                        status="READY",
+                    )
+                )
+
+            for ordinal, element in enumerate(elements):
+                row = session.get(ContentElementRow, element.id)
+                if row is None:
+                    session.add(
+                        ContentElementRow(
+                            id=element.id,
+                            document_version_id=element.version_id,
+                            element_type=element.element_type,
+                            ordinal=ordinal,
+                            page_number=element.page_number,
+                            heading=element.heading,
+                            content_text=element.content,
+                            structured_data=element.metadata,
+                            review_status="READY",
+                            index_status="PENDING",
+                        )
+                    )
+                else:
+                    row.heading = element.heading
+                    row.content_text = element.content
+                    row.structured_data = element.metadata
+                    row.review_status = "READY"
+        return elements
+
+    def upsert_visual_element(
+        self,
+        *,
+        source_path: str,
+        document_name: str,
+        element: IndexableElement,
+        asset: StoredAsset,
+        bbox: dict[str, float],
+    ) -> IndexableElement:
+        document_key = str(element.metadata["document_key"])
+        content_hash = str(element.metadata["content_hash"])
+        with self.session_factory() as session, session.begin():
+            document = session.get(DocumentRow, element.document_id)
+            if document is None:
+                session.add(
+                    DocumentRow(
+                        id=element.document_id,
+                        document_key=document_key,
+                        title=document_name,
+                        source_type="pdf",
+                    )
+                )
+            else:
+                document.title = document_name
+
+            version = session.get(DocumentVersionRow, element.version_id)
+            if version is None:
+                session.add(
+                    DocumentVersionRow(
+                        id=element.version_id,
+                        document_id=element.document_id,
+                        content_hash=content_hash,
+                        source_path=source_path,
+                        status="READY",
+                    )
+                )
+
+            row = session.get(ContentElementRow, element.id)
+            if row is None:
+                row = ContentElementRow(
+                    id=element.id,
+                    document_version_id=element.version_id,
+                    element_type=element.element_type,
+                    ordinal=0,
+                    page_number=element.page_number,
+                    heading=element.heading,
+                    content_text=element.content,
+                    structured_data=element.metadata,
+                    review_status="READY",
+                    index_status="PENDING",
+                )
+                session.add(row)
+            else:
+                row.page_number = element.page_number
+                row.heading = element.heading
+                row.content_text = element.content
+                row.structured_data = element.metadata
+                row.review_status = "READY"
+
+            existing_asset = session.scalar(
+                select(VisualAssetRow).where(
+                    VisualAssetRow.content_element_id == element.id,
+                    VisualAssetRow.page_number == element.page_number,
+                )
+            )
+            if existing_asset is None:
+                session.add(
+                    VisualAssetRow(
+                        id=uuid4(),
+                        content_element_id=element.id,
+                        storage_uri=asset.storage_uri,
+                        mime_type=asset.mime_type,
+                        page_number=element.page_number or 1,
+                        sha256=asset.sha256,
+                        bbox=bbox,
+                    )
+                )
+            else:
+                existing_asset.storage_uri = asset.storage_uri
+                existing_asset.mime_type = asset.mime_type
+                existing_asset.sha256 = asset.sha256
+                existing_asset.bbox = bbox
+        return element
+
+    def get_elements(self, element_ids: list[UUID]) -> list[IndexableElement]:
+        if not element_ids:
+            return []
+        with self.session_factory() as session:
+            rows = session.scalars(
+                select(ContentElementRow).where(ContentElementRow.id.in_(element_ids))
+            ).all()
+            versions = {
+                version.id: version
+                for version in session.scalars(
+                    select(DocumentVersionRow).where(
+                        DocumentVersionRow.id.in_(
+                            {row.document_version_id for row in rows}
+                        )
+                    )
+                ).all()
+            }
+            documents = {
+                document.id: document
+                for document in session.scalars(
+                    select(DocumentRow).where(
+                        DocumentRow.id.in_(
+                            {version.document_id for version in versions.values()}
+                        )
+                    )
+                ).all()
+            }
+            by_id = {row.id: row for row in rows}
+            result: list[IndexableElement] = []
+            for element_id in element_ids:
+                row = by_id.get(element_id)
+                if row is None:
+                    continue
+                version = versions[row.document_version_id]
+                document = documents[version.document_id]
+                result.append(
+                    IndexableElement(
+                        id=row.id,
+                        document_id=document.id,
+                        version_id=version.id,
+                        document_name=document.title,
+                        heading=row.heading,
+                        content=row.content_text,
+                        element_type=row.element_type,
+                        page_number=row.page_number,
+                        metadata=dict(row.structured_data),
+                    )
+                )
+            return result
+
+    def get_visual_assets(self, element_ids: list[UUID]) -> list[VisualEvidenceAsset]:
+        """Return visual assets in retrieval order for the requested elements."""
+
+        if not element_ids:
+            return []
+        with self.session_factory() as session:
+            rows = session.scalars(
+                select(VisualAssetRow).where(
+                    VisualAssetRow.content_element_id.in_(element_ids)
+                )
+            ).all()
+        by_element = {row.content_element_id: row for row in rows}
+        return [
+            VisualEvidenceAsset(
+                element_id=row.content_element_id,
+                storage_uri=row.storage_uri,
+                mime_type=row.mime_type,
+                page_number=row.page_number,
+                sha256=row.sha256,
+                bbox=dict(row.bbox) if row.bbox else None,
+            )
+            for element_id in element_ids
+            if (row := by_element.get(element_id)) is not None
+        ]
+
+    def mark_index_status(self, element_ids: list[UUID], status: str) -> None:
+        with self.session_factory() as session, session.begin():
+            rows = session.scalars(
+                select(ContentElementRow).where(ContentElementRow.id.in_(element_ids))
+            ).all()
+            for row in rows:
+                row.index_status = status
+
+    def list_indexed_element_ids(self) -> set[UUID]:
+        with self.session_factory() as session:
+            return set(
+                session.scalars(
+                    select(ContentElementRow.id).where(
+                        ContentElementRow.index_status == "INDEXED"
+                    )
+                ).all()
+            )
+
+    def upsert_embedding_profile(
+        self,
+        profile_key: str,
+        provider: str,
+        model: str,
+        dimensions: int,
+        configuration: dict,
+    ) -> UUID:
+        with self.session_factory() as session, session.begin():
+            existing = session.scalar(
+                select(EmbeddingProfileRow).where(
+                    EmbeddingProfileRow.profile_key == profile_key
+                )
+            )
+            if existing is None:
+                existing = EmbeddingProfileRow(
+                    id=uuid4(),
+                    profile_key=profile_key,
+                    provider=provider,
+                    model=model,
+                    dimensions=dimensions,
+                    configuration=configuration,
+                    active=True,
+                )
+                session.add(existing)
+            else:
+                existing.dimensions = dimensions
+                existing.configuration = configuration
+                existing.active = True
+            return existing.id

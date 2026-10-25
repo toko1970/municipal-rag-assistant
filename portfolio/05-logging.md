@@ -4,7 +4,7 @@
 
 ## 1. 機能の概要
 
-PostgreSQLに質問受付、検索結果の順位とscore、生成・分類の試行、最終回答、根拠との紐付け、feedbackを記録します。同じrequestをたどり、何を検索し、何を根拠に、どう回答したかを評価や失敗分析に使えます。
+PostgreSQLに質問受付、検索結果の順位とscore、生成・分類の試行、最終回答、根拠との紐付け、feedbackを記録します。同じrequestをたどり、何を検索し、何を根拠に、どう回答したかを評価や失敗分析に使えます。経路ごとの記録粒度は異なり、公開中の一回生成経路は生成attemptと最終回答を保存しますが、独立したclassification attemptやclaim-evidence紐付けは作りません。
 
 ## 2. 比較候補と選定理由
 
@@ -13,6 +13,6 @@ PostgreSQLに質問受付、検索結果の順位とscore、生成・分類の�
 
 質問受付時にrequest IDを作り、検索結果、生成・分類の試行、最終回答、根拠、feedbackをそのIDへ関連付けます。検索indexのQdrantとは保存責務を分けているため、indexを再構築しても利用ログを保持できます。設計は架空データを使うポートフォリオ規模のデモを対象にしています。
 
-- 実装: [`src/persistence/repositories.py`](../src/persistence/repositories.py)
+- 実装: [`src/persistence/event_logger.py`](../src/persistence/event_logger.py)
 - 保存モデル: [`design/DATA_MODEL.md`](../design/DATA_MODEL.md)
 - 評価資料: [評価レポート案内](../eval/reports/README.md)

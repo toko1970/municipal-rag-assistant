@@ -2,31 +2,36 @@
 
 from __future__ import annotations
 
-import json
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import replace
 from typing import Callable
 from uuid import UUID
 
 from src.asset_store import AssetReader, LocalAssetReader, VisualEvidenceAsset
 from src.classification_contract_v2 import (
     ClassificationResultV2,
-    DisplayAnswerV2,
     decide_classification_v2,
     parse_answer_output_v3,
     parse_classification_output_v2,
     parse_question_contract_v2,
     render_display_answer_v2,
 )
-from src.contracts import SearchHit, VectorIndex
+from src.contracts import VectorIndex
 from src.llm_provider import StructuredLLMProvider
+from src.query_serialization import serialize_claims
+from src.query_prompts_v2 import (
+    build_classification_prompt_v2,
+    build_generation_prompt_v3,
+    build_question_contract_prompt,
+)
 from src.query_service import (
     QueryEventLogger,
     _evidence_payload,
 )
-from src.version_resolution import (
-    build_version_resolution_prompt,
-    parse_version_resolution,
+from src.query_version_resolution_v2 import (
+    VERSION_RESOLUTION_CONFIDENCE_THRESHOLD,
+    VERSION_RESOLUTION_PROMPT_VERSION,
+    _apply_resolved_version_conditions,
+    _resolve_version_requirements,
 )
 
 
@@ -34,84 +39,7 @@ QUESTION_CONTRACT_PROMPT_VERSION = "question-contract-v1"
 GENERATION_PROMPT_V3_VERSION = "answer-facet-claims-v3-candidate"
 CLASSIFICATION_PROMPT_V2_VERSION = "classification-facet-v2-candidate"
 CLASSIFICATION_DECISION_V2_VERSION = "classification-rubric-v2.0"
-VERSION_RESOLUTION_PROMPT_VERSION = "version-resolution-v2"
-VERSION_RESOLUTION_CONFIDENCE_THRESHOLD = 0.80
 
-
-def build_question_contract_prompt(question: str) -> str:
-    return (
-        "質問だけを読み、question-contract-v1のJSONを返してください。"
-        "requested_facetsは質問が直接求める回答項目へ分け、input_factsには質問に明記された"
-        "日付・金額・数量・条件・対象・出来事だけを記録してください。input_factsから回答分類を決めず、"
-        "epistemic_status等の確実性ラベルを追加しないでください。\n"
-        f"質問: {question}"
-    )
-
-
-def build_generation_prompt_v3(
-    question: str,
-    question_contract: dict,
-    hits: list[SearchHit],
-    visual_assets: dict[UUID, VisualEvidenceAsset] | None = None,
-) -> str:
-    payload = {
-        "question": question,
-        "question_contract": question_contract,
-        "retrieved_evidence": _evidence_payload(hits, visual_assets),
-    }
-    return (
-        "answer-output-v3-candidateに従い、取得根拠だけを使ったfacet付きclaimを返してください。"
-        "質問の各requested facetについて、結論に必要な規則・事実が根拠または質問内のinput_factにそろうかを先に確認してください。"
-        "根拠にない規則や、質問にも根拠にもない対象者の事実を補ってはいけません。"
-        "各claimは短い原子的主張とし、答えるfacet、使用するquestion input、検証済み計算、文書根拠をIDで参照します。"
-        "claim_typeはpolicy_rule（制度一般の規則）、case_fact（対象者の事実）、conditional（条件付き説明）、"
-        "case_outcome（対象者の認定・可否）、action_recommendation（対象者への確定処理の推奨）から選びます。"
-        "case_outcomeとaction_recommendationは、結論に必要な未確認条件が一つでもあれば生成せず、"
-        "条件付き説明またはpolicy_ruleとmissing_conditionsに分けてください。"
-        "missing_conditionsはcase_fact/policy_judgment/version_conflictに型付けし、影響するfacet_idsと、"
-        "その条件が成立しないと結論できないclaimのblocking_claim_idsを設定してください。"
-        "該当claim側にもdepends_on_condition_idsを設定し、両方向のIDを一致させます。"
-        "質問外の注意事項をmissing_conditionsへ追加しないでください。自由文の最終表示や回答分類は返さないでください。\n"
-        f"生成対象: {json.dumps(payload, ensure_ascii=False)}"
-    )
-
-
-def build_classification_prompt_v2(
-    question: str,
-    question_contract: dict,
-    hits: list[SearchHit],
-    answer_data: dict,
-) -> str:
-    payload = {
-        "question": question,
-        "question_contract": question_contract,
-        "retrieved_evidence": _evidence_payload(hits),
-        "generated_answer": answer_data,
-    }
-    return (
-        "classification-output-v2-candidateに従い、最終ラベルではなく各requested facetの"
-        "evidence_coverage、claim_support、human_review_requirementsを返してください。"
-        "policy_rule等の一般説明とcase_outcome/action_recommendationの個別結論を区別し、"
-        "未解決条件が個別結論に関わる場合は該当condition_idsを参照してください。"
-        "質問内の事実は文書根拠ではなく入力値です。文書に判断基準があり、その事実が結論を"
-        "変える場合だけcase_factにします。文書に判断基準がない場合はevidence_coverageを"
-        "insufficientとし、人による確認要件を作らないでください。\n"
-        f"判定対象: {json.dumps(payload, ensure_ascii=False)}"
-    )
-
-
-def _claim_log_rows(display: DisplayAnswerV2) -> list[dict]:
-    return [
-        {
-            "claim_id": claim.claim_id,
-            "ordinal": claim.ordinal,
-            "text": claim.text,
-            "evidence_element_ids": list(claim.evidence_element_ids),
-            "claim_type": claim.claim_type,
-            "depends_on_condition_ids": list(claim.depends_on_condition_ids),
-        }
-        for claim in display.visible_claims
-    ]
 
 
 def _classification_factors(
@@ -149,172 +77,6 @@ def _classification_factors(
         ],
     }
 
-
-def _resolve_version_requirements(
-    *,
-    question: str,
-    hits: list[SearchHit],
-    answer_data: dict,
-    classification: ClassificationResultV2,
-    version_resolver: StructuredLLMProvider | None,
-    version_resolution_schema: dict | None,
-    confidence_threshold: float,
-) -> tuple[ClassificationResultV2, dict, dict | None]:
-    has_version_requirement = any(
-        review.requirement_type == "version_conflict"
-        for assessment in classification.facet_assessments
-        for review in assessment.human_review_requirements
-    )
-    metadata = {
-        "status": "NOT_CONFIGURED" if version_resolver is None else "NOT_REQUIRED",
-        "applied": False,
-        "fallback_used": False,
-        "prompt_version": VERSION_RESOLUTION_PROMPT_VERSION,
-        "input_tokens": 0,
-        "output_tokens": 0,
-    }
-    if not has_version_requirement or version_resolver is None:
-        return classification, metadata, None
-    if version_resolution_schema is None:
-        raise ValueError("version resolverとschemaは両方指定する必要があります")
-
-    result = None
-    try:
-        result = version_resolver.generate_structured(
-            build_version_resolution_prompt(
-                question, _evidence_payload(hits), answer_data
-            ),
-            version_resolution_schema,
-        )
-        resolution = parse_version_resolution(result.data)
-        if not set(resolution.evidence_element_ids) <= {hit.element.id for hit in hits}:
-            raise ValueError("resolverが取得外の根拠IDを返しました")
-        if resolution.confidence < confidence_threshold:
-            metadata = {
-                **result.metadata(),
-                "status": "LOW_CONFIDENCE_FALLBACK",
-                "applied": False,
-                "fallback_used": True,
-                "prompt_version": VERSION_RESOLUTION_PROMPT_VERSION,
-            }
-            return (
-                classification,
-                metadata,
-                {
-                    "baseline_version_conflict": True,
-                    "applied": False,
-                },
-            )
-        assessments = tuple(
-            replace(
-                assessment,
-                human_review_requirements=tuple(
-                    review
-                    for review in assessment.human_review_requirements
-                    if review.requirement_type != "version_conflict"
-                    or resolution.version_conflict
-                ),
-            )
-            for assessment in classification.facet_assessments
-        )
-        metadata = {
-            **result.metadata(),
-            "status": "SUCCESS",
-            "applied": True,
-            "fallback_used": False,
-            "prompt_version": VERSION_RESOLUTION_PROMPT_VERSION,
-            "version_conflict": resolution.version_conflict,
-            "resolution_basis": resolution.resolution_basis,
-            "evidence_element_ids": [
-                str(value) for value in resolution.evidence_element_ids
-            ],
-            "confidence": resolution.confidence,
-        }
-        return (
-            replace(classification, facet_assessments=assessments),
-            metadata,
-            {
-                "baseline_version_conflict": True,
-                "resolved_version_conflict": resolution.version_conflict,
-                "applied": True,
-            },
-        )
-    except Exception as exc:
-        metadata = {
-            "provider": result.provider if result else version_resolver.provider_name,
-            "model": result.model if result else version_resolver.model,
-            "status": "RESOLUTION_FAILED",
-            "applied": False,
-            "fallback_used": True,
-            "prompt_version": VERSION_RESOLUTION_PROMPT_VERSION,
-            "input_tokens": result.input_tokens if result else 0,
-            "output_tokens": result.output_tokens if result else 0,
-            "error_summary": str(exc)[:1000],
-        }
-        return (
-            classification,
-            metadata,
-            {
-                "baseline_version_conflict": True,
-                "applied": False,
-            },
-        )
-
-
-def _apply_resolved_version_conditions(answer, classification, version_metadata: dict):
-    if not version_metadata.get("applied") or version_metadata.get("version_conflict"):
-        return answer, classification
-    resolved_ids = {
-        condition.condition_id
-        for condition in answer.missing_conditions
-        if condition.condition_type == "version_conflict"
-    }
-    if not resolved_ids:
-        return answer, classification
-    remaining = [
-        condition for condition in answer.missing_conditions
-        if condition.condition_id not in resolved_ids
-    ]
-    id_map = {
-        condition.condition_id: f"condition-{index}"
-        for index, condition in enumerate(remaining, start=1)
-    }
-    answer = replace(
-        answer,
-        missing_conditions=tuple(
-            replace(condition, condition_id=id_map[condition.condition_id])
-            for condition in remaining
-        ),
-        claims=tuple(
-            replace(
-                claim,
-                depends_on_condition_ids=tuple(
-                    id_map[condition_id]
-                    for condition_id in claim.depends_on_condition_ids
-                    if condition_id in id_map
-                ),
-            )
-            for claim in answer.claims
-        ),
-    )
-    assessments = tuple(
-        replace(
-            assessment,
-            human_review_requirements=tuple(
-                replace(
-                    review,
-                    condition_ids=tuple(
-                        id_map[condition_id]
-                        for condition_id in review.condition_ids
-                        if condition_id in id_map
-                    ),
-                )
-                for review in assessment.human_review_requirements
-            ),
-        )
-        for assessment in classification.facet_assessments
-    )
-    return answer, replace(classification, facet_assessments=assessments)
 
 
 def answer_question_v2(
@@ -565,7 +327,7 @@ def answer_question_v2(
         request_id,
         label=display.label,
         display_text=display.text,
-        claims=_claim_log_rows(display),
+        claims=serialize_claims(display.visible_claims, include_facet_details=True),
         status=display.status,
     )
     return {
@@ -577,7 +339,7 @@ def answer_question_v2(
         "answer_status": display.status,
         "degraded": display.status != "SUCCESS",
         "invariant_code": display.invariant_code,
-        "claims": _claim_log_rows(display),
+        "claims": serialize_claims(display.visible_claims, include_facet_details=True),
         "references": _evidence_payload(
             hits, visual_assets, display_content=visual_content
         ),

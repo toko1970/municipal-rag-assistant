@@ -26,12 +26,6 @@ from src.query_service import (
     load_schema,
 )
 from src.query_service_v2 import answer_question_v2
-from src.freeform_prompt_candidate import (
-    GENERATOR_MAX_OUTPUT_TOKENS as CANDIDATE_MAX_OUTPUT_TOKENS,
-    GENERATOR_MODEL as CANDIDATE_GENERATOR_MODEL,
-    verify_prompt_config as verify_candidate_prompt_config,
-)
-from src.simple_rag_flow import generate_simple_qdrant_answer
 from src.temporal_evidence import (
     DEADLINE_CALCULATION_PROMPT_VERSION,
     TEMPORAL_GENERATION_PROMPT_VERSION,
@@ -39,6 +33,12 @@ from src.temporal_evidence import (
     build_temporal_generation_prompt,
     should_use_deadline_calculation,
 )
+from src.freeform_prompt_candidate import (
+    GENERATOR_MAX_OUTPUT_TOKENS as CANDIDATE_MAX_OUTPUT_TOKENS,
+    GENERATOR_MODEL as CANDIDATE_GENERATOR_MODEL,
+    verify_prompt_config as verify_candidate_prompt_config,
+)
+from src.simple_rag_flow import generate_simple_qdrant_answer
 
 
 ANSWER_SCHEMA_V1_PATH = BASE_DIR / "design/schemas/answer-output-v1.schema.json"
@@ -81,9 +81,11 @@ def generate_qdrant_answer(question: str) -> dict:
             event_logger=event_logger,
             prompt_variant="autoresearch_candidate",
         )
+    if ANSWER_GENERATION_FLOW == "simple":
+        return generate_simple_qdrant_answer(question)
     if ANSWER_GENERATION_FLOW != "production":
         raise ValueError(
-            "ANSWER_GENERATION_FLOWはproductionまたはautoresearch_candidateです"
+            "ANSWER_GENERATION_FLOWはproduction、simple、autoresearch_candidateです"
         )
     if CLASSIFICATION_CONTRACT_VERSION not in {"v1", "v2", "scope_v2"}:
         raise ValueError("CLASSIFICATION_CONTRACT_VERSIONはv1またはv2、scope_v2です")

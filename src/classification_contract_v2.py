@@ -1,264 +1,38 @@
-"""Candidate classification contract v2 parsing and deterministic decisions."""
+"""Cross-reference validation and deterministic decisions for contract v2."""
 
 from __future__ import annotations
 
-import json
-from dataclasses import dataclass
-from datetime import date, time
-from functools import lru_cache
-from pathlib import Path
 from typing import Any
 from uuid import UUID
-
-import jsonschema
 
 from config import (
     ANSWER_TYPE_INSUFFICIENT,
     ANSWER_TYPE_NEEDS_JUDGMENT,
     ANSWER_TYPE_SUFFICIENT,
 )
-
-
-SCHEMA_DIR = Path(__file__).resolve().parents[1] / "design" / "schemas"
-
-
-@dataclass(frozen=True)
-class QuestionFacetV2:
-    facet_id: str
-    requirement: str
-    answer_type: str
-
-
-@dataclass(frozen=True)
-class InputFactV2:
-    fact_id: str
-    text: str
-    fact_type: str
-    facet_ids: tuple[str, ...]
-
-
-@dataclass(frozen=True)
-class QuestionContractV2:
-    facets: tuple[QuestionFacetV2, ...]
-    input_facts: tuple[InputFactV2, ...]
-
-
-@dataclass(frozen=True)
-class AnswerClaimV3:
-    claim_id: str
-    ordinal: int
-    text: str
-    facet_ids: tuple[str, ...]
-    input_fact_ids: tuple[str, ...]
-    calculation_ids: tuple[str, ...]
-    evidence_element_ids: tuple[UUID, ...]
-    evidence_kind: str
-    claim_type: str
-    depends_on_condition_ids: tuple[str, ...]
-
-
-@dataclass(frozen=True)
-class MissingConditionV3:
-    condition_id: str
-    condition_type: str
-    description: str
-    facet_ids: tuple[str, ...]
-    evidence_element_ids: tuple[UUID, ...]
-    blocking_claim_ids: tuple[str, ...]
-
-
-@dataclass(frozen=True)
-class DateCalculationV3:
-    calculation_id: str
-    result_label: str
-    facet_ids: tuple[str, ...]
-    anchor_date: date
-    offset_value: int
-    offset_unit: str
-    counting_rule: str
-    cutoff_time: time | None
-    evidence_element_ids: tuple[UUID, ...]
-
-
-@dataclass(frozen=True)
-class StructuredAnswerV3:
-    claims: tuple[AnswerClaimV3, ...]
-    missing_conditions: tuple[MissingConditionV3, ...]
-    date_calculations: tuple[DateCalculationV3, ...]
-
-
-@dataclass(frozen=True)
-class HumanReviewRequirementV2:
-    review_id: str
-    requirement_type: str
-    description: str
-    condition_ids: tuple[str, ...]
-    evidence_element_ids: tuple[UUID, ...]
-
-
-@dataclass(frozen=True)
-class FacetAssessmentV2:
-    facet_id: str
-    claim_ids: tuple[str, ...]
-    claim_support: str
-    evidence_coverage: str
-    human_review_requirements: tuple[HumanReviewRequirementV2, ...]
-    evidence_element_ids: tuple[UUID, ...]
-    confidence: float
-
-
-@dataclass(frozen=True)
-class ClassificationResultV2:
-    facet_assessments: tuple[FacetAssessmentV2, ...]
-    confidence: float
-
-
-@dataclass(frozen=True)
-class ClassificationDecisionV2:
-    status: str
-    label: str | None
-    invariant_code: str | None = None
-
-
-@dataclass(frozen=True)
-class DisplayAnswerV2:
-    label: str | None
-    text: str
-    visible_claims: tuple[AnswerClaimV3, ...]
-    status: str
-    invariant_code: str | None = None
-
-
-class ClassificationContractV2Error(ValueError):
-    def __init__(self, message: str, *, code: str):
-        super().__init__(message)
-        self.code = code
-
-
-@lru_cache(maxsize=3)
-def _schema(name: str) -> dict[str, Any]:
-    return json.loads((SCHEMA_DIR / name).read_text(encoding="utf-8"))
-
-
-def _validate_schema(name: str, data: dict[str, Any]) -> None:
-    try:
-        jsonschema.Draft202012Validator(
-            _schema(name), format_checker=jsonschema.FormatChecker()
-        ).validate(data)
-    except jsonschema.ValidationError as exc:
-        location = ".".join(map(str, exc.absolute_path)) or "top-level"
-        raise ValueError(f"{name}違反 ({location}): {exc.message}") from exc
-
-
-def _uuid_tuple(values: list[str]) -> tuple[UUID, ...]:
-    return tuple(UUID(value) for value in values)
-
-
-def parse_question_contract_v2(data: dict[str, Any]) -> QuestionContractV2:
-    _validate_schema("question-contract-v1.schema.json", data)
-    if data["status"] != "SUCCESS":
-        raise ValueError(str(data.get("error_code") or "CONTRACT_FAILED"))
-    return QuestionContractV2(
-        facets=tuple(
-            QuestionFacetV2(
-                facet_id=row["facet_id"],
-                requirement=row["requirement"].strip(),
-                answer_type=row["answer_type"],
-            )
-            for row in data["requested_facets"]
-        ),
-        input_facts=tuple(
-            InputFactV2(
-                fact_id=row["fact_id"],
-                text=row["text"].strip(),
-                fact_type=row["fact_type"],
-                facet_ids=tuple(row["applies_to_facet_ids"]),
-            )
-            for row in data["input_facts"]
-        ),
-    )
-
-
-def parse_answer_output_v3(data: dict[str, Any]) -> StructuredAnswerV3:
-    _validate_schema("answer-output-v3-candidate.schema.json", data)
-    return StructuredAnswerV3(
-        claims=tuple(
-            AnswerClaimV3(
-                claim_id=row["claim_id"],
-                ordinal=row["ordinal"],
-                text=row["text"].strip(),
-                facet_ids=tuple(row["facet_ids"]),
-                input_fact_ids=tuple(row["input_fact_ids"]),
-                calculation_ids=tuple(row["calculation_ids"]),
-                evidence_element_ids=_uuid_tuple(row["evidence_element_ids"]),
-                evidence_kind=row["evidence_kind"],
-                claim_type=row["claim_type"],
-                depends_on_condition_ids=tuple(row["depends_on_condition_ids"]),
-            )
-            for row in data["claims"]
-        ),
-        missing_conditions=tuple(
-            MissingConditionV3(
-                condition_id=row["condition_id"],
-                condition_type=row["type"],
-                description=row["description"].strip(),
-                facet_ids=tuple(row["facet_ids"]),
-                evidence_element_ids=_uuid_tuple(row["evidence_element_ids"]),
-                blocking_claim_ids=tuple(row["blocking_claim_ids"]),
-            )
-            for row in data["missing_conditions"]
-        ),
-        date_calculations=tuple(
-            DateCalculationV3(
-                calculation_id=row["calculation_id"],
-                result_label=row["result_label"].strip(),
-                facet_ids=tuple(row["facet_ids"]),
-                anchor_date=date.fromisoformat(row["anchor_date"]),
-                offset_value=row["offset_value"],
-                offset_unit=row["offset_unit"],
-                counting_rule=row["counting_rule"],
-                cutoff_time=(
-                    time.fromisoformat(row["cutoff_time"])
-                    if row["cutoff_time"] is not None
-                    else None
-                ),
-                evidence_element_ids=_uuid_tuple(row["evidence_element_ids"]),
-            )
-            for row in data["date_calculations"]
-        ),
-    )
-
-
-def parse_classification_output_v2(data: dict[str, Any]) -> ClassificationResultV2:
-    _validate_schema("classification-output-v2-candidate.schema.json", data)
-    if data["status"] != "SUCCESS":
-        raise ValueError(str(data.get("error_code") or "CLASSIFICATION_FAILED"))
-    return ClassificationResultV2(
-        facet_assessments=tuple(
-            FacetAssessmentV2(
-                facet_id=row["facet_id"],
-                claim_ids=tuple(row["claim_ids"]),
-                claim_support=row["claim_support"],
-                evidence_coverage=row["evidence_coverage"],
-                human_review_requirements=tuple(
-                    HumanReviewRequirementV2(
-                        review_id=review["review_id"],
-                        requirement_type=review["type"],
-                        description=review["description"].strip(),
-                        condition_ids=tuple(review["condition_ids"]),
-                        evidence_element_ids=_uuid_tuple(
-                            review["evidence_element_ids"]
-                        ),
-                    )
-                    for review in row["human_review_requirements"]
-                ),
-                evidence_element_ids=_uuid_tuple(row["evidence_element_ids"]),
-                confidence=float(row["confidence"]),
-            )
-            for row in data["facet_assessments"]
-        ),
-        confidence=float(data["confidence"]),
-    )
+from src.classification_contract_v2_types import (
+    AnswerClaimV3 as AnswerClaimV3,
+    ClassificationContractV2Error as ClassificationContractV2Error,
+    ClassificationDecisionV2 as ClassificationDecisionV2,
+    ClassificationResultV2 as ClassificationResultV2,
+    DateCalculationV3 as DateCalculationV3,
+    DisplayAnswerV2 as DisplayAnswerV2,
+    FacetAssessmentV2 as FacetAssessmentV2,
+    HumanReviewRequirementV2 as HumanReviewRequirementV2,
+    InputFactV2 as InputFactV2,
+    MissingConditionV3 as MissingConditionV3,
+    QuestionContractV2 as QuestionContractV2,
+    QuestionFacetV2 as QuestionFacetV2,
+    StructuredAnswerV3 as StructuredAnswerV3,
+)
+from src.classification_display_v2 import (
+    render_display_answer_v2 as render_display_answer_v2,
+)
+from src.classification_parsing_v2 import (
+    parse_answer_output_v3 as parse_answer_output_v3,
+    parse_classification_output_v2 as parse_classification_output_v2,
+    parse_question_contract_v2 as parse_question_contract_v2,
+)
 
 
 def _require_contiguous(ids: list[str], *, prefix: str, code: str) -> None:
@@ -517,80 +291,3 @@ def decide_classification_v2(
             "PIPELINE_INCONSISTENCY", None, "UNCLASSIFIED_MISSING_CONDITION"
         )
     return derive_label_v2(classification)
-
-
-def render_display_answer_v2(
-    answer: StructuredAnswerV3,
-    classification: ClassificationResultV2,
-    decision: ClassificationDecisionV2,
-) -> DisplayAnswerV2:
-    if decision.status == "PIPELINE_INCONSISTENCY":
-        condition_text = "、".join(item.description for item in answer.missing_conditions)
-        text = "回答処理の整合性を確認できませんでした。"
-        if condition_text:
-            text += "\n確認が必要です: " + condition_text
-        return DisplayAnswerV2(None, text, (), decision.status, decision.invariant_code)
-    if decision.status == "GENERATION_INCOMPLETE":
-        return DisplayAnswerV2(None, "必要な回答項目を根拠付きで生成できませんでした。", (), decision.status, decision.invariant_code)
-
-    assessments = {row.facet_id: row for row in classification.facet_assessments}
-    blocked_facets = {
-        facet_id for facet_id, row in assessments.items()
-        if row.human_review_requirements or row.evidence_coverage == "insufficient"
-    }
-    blocked_facets.update(
-        facet_id for condition in answer.missing_conditions
-        for facet_id in condition.facet_ids
-    )
-    unsupported_facets = {
-        facet_id for facet_id, row in assessments.items()
-        if row.claim_support != "fully_supported"
-    }
-    conditions_by_facet = {
-        facet_id: {condition.condition_id for condition in answer.missing_conditions
-                   if facet_id in condition.facet_ids}
-        for facet_id in assessments
-    }
-    visible_claims = []
-    suppressed_claims = []
-    for claim in answer.claims:
-        facets = set(claim.facet_ids)
-        unresolved = any(
-            condition_id in conditions_by_facet[facet_id]
-            for facet_id in facets
-            for condition_id in claim.depends_on_condition_ids
-        )
-        unsupported = bool(facets & unsupported_facets)
-        individual_claim = claim.claim_type in {
-            "case_fact", "case_outcome", "action_recommendation"
-        }
-        blocked_individual = individual_claim and bool(facets & blocked_facets)
-        if unresolved or unsupported or blocked_individual:
-            suppressed_claims.append(claim)
-        else:
-            visible_claims.append(claim)
-
-    reasons = list(dict.fromkeys(
-        [condition.description for condition in answer.missing_conditions]
-        + [
-            review.description
-            for assessment in classification.facet_assessments
-            for review in assessment.human_review_requirements
-        ]
-    ))
-    if any(row.evidence_coverage == "insufficient" for row in assessments.values()) and not reasons:
-        reasons.append("回答に必要な規則・事実を提示根拠から確認できません")
-
-    lines = [f"回答分類: {decision.label}"]
-    if visible_claims:
-        lines.extend(["", "回答:"])
-        lines.extend(f"- {claim.text}" for claim in visible_claims)
-    if reasons:
-        lines.extend(["", "確認が必要です: " + "、".join(reasons)])
-    elif not visible_claims:
-        lines.extend(["", "今回取得した根拠では回答を確認できませんでした。"])
-    if suppressed_claims:
-        lines.extend(["", "未確定条件に関わる個別結論・処理推奨は表示していません。"])
-    if not visible_claims and decision.label == ANSWER_TYPE_SUFFICIENT:
-        return DisplayAnswerV2(None, "回答処理の整合性を確認できませんでした。", (), "PIPELINE_INCONSISTENCY", "NO_DISPLAYABLE_CLAIMS")
-    return DisplayAnswerV2(decision.label, "\n".join(lines), tuple(visible_claims), "SUCCESS")

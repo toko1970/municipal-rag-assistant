@@ -36,6 +36,12 @@ def test_finalize_marks_content_review_completed(tmp_path) -> None:
                 "document_retrieval_ok": True,
                 "evidence_retrieval_ok": True,
                 "content_ok": True,
+                "critical_unsupported_assertion": False,
+                "expected_label": "根拠十分",
+                "predicted_label": "根拠十分",
+                "corpus_answerable": True,
+                "evidence_hit_at_3": True,
+                "evidence_hit_at_5": True,
             }
         )
         + "\n",

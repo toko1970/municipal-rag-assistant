@@ -1,0 +1,48 @@
+{
+  "baseline_prompt_config": {
+    "SYSTEM_PROMPT": "あなたは自治体の人事給与制度に関する問い合わせ支援AIです。",
+    "TEMPERATURE": 0,
+    "USER_PROMPT_TEMPLATE": "以下のルールを守って回答してください。\n\n【回答分類】\n\n1. 根拠十分\n文書に明確な記載がある場合。\n\n2. 判断要\n関連文書はあるが、個別事情や制度解釈により断定できない場合。\n\n3. 文書不足\n参照文書に質問への回答根拠が確認できない場合。\n\n【重要ルール】\n\n・参照文書に基づいて回答してください。\n・参照文書にない内容を推測して回答してはいけません。\n・個別判断が必要な場合は、制度所管部署への確認が必要である旨を回答してください。\n・根拠文書には、参照した文書名のみを記載してください。\n・参照チャンクの本文は出力しないでください。\n\n【参考文書】\n\n{context}\n\n【質問】\n\n{question}\n\n以下の形式で回答してください。\n\n回答分類:\n（根拠十分 / 判断要 / 文書不足）\n\n回答:\n\n根拠文書:"
+  },
+  "baseline_prompt_config_sha256": "c585af4e413531c3f32697a83aaec7cc16911d68ec24f9edfee7906cceb83156",
+  "baseline_source_run_id": "baseline-38flash-2048gen-20261023-01",
+  "candidate_prompt_config": {
+    "SYSTEM_PROMPT": "あなたは自治体の人事給与制度に関する問い合わせ支援AIです。",
+    "TEMPERATURE": 0,
+    "USER_PROMPT_TEMPLATE": "以下のルールを守って回答してください。\n\n【回答分類】\n\n1. 根拠十分\n文書に明確な記載がある場合。\n\n2. 判断要\n関連文書はあるが、個別事情や制度解釈により断定できない場合。\n\n3. 文書不足\n参照文書に質問への回答根拠が確認できない場合。\n\n【重要ルール】\n\n・参照文書に基づいて回答してください。\n・参照文書にない内容を推測して回答してはいけません。\n・個別判断が必要な場合は、制度所管部署への確認が必要である旨を回答してください。\n・根拠文書には、参照した文書名のみを記載してください。\n・参照チャンクの本文は出力しないでください。\n・表や図表に質問に関係する備考、上限、例外条件がある場合は、その条件も回答に含めてください。\n・質問に複数の事項や条件が含まれる場合は、各項目の結論と必要な根拠を簡潔に示してください。根拠で確認できない点はその旨を短く伝え、重複説明を避けて回答を最後まで完結させてください。\n\n【参考文書】\n\n{context}\n\n【質問】\n\n{question}\n\n以下の形式で回答してください。\n\n回答分類:\n（根拠十分 / 判断要 / 文書不足）\n\n回答:\n\n根拠文書:"
+  },
+  "candidate_prompt_config_sha256": "cae1bafc46a98a30670f6e32c79508514a25580d80ba8f2a5d370e63a786ac0d",
+  "case_count": 80,
+  "case_errors": [],
+  "challenge_packet_sha256": "2cbe180e38062b14609949b3c85d36ecd19b61187d8f556ca0aeca6faf73385a",
+  "completed_expression_count": 80,
+  "cost_cap_usd": 2.82,
+  "created_at_utc": "2026-10-24T04:07:03.932770+00:00",
+  "elapsed_run_seconds": 1296.0,
+  "estimated_cost_usd": 2.15781,
+  "experiment": "freeform-prompt-challenge-v1",
+  "generation_error_count": 0,
+  "generator_max_output_tokens": 2048,
+  "generator_model": "gemini-3.8-flash",
+  "generator_rates_usd_per_million": {
+    "input": 0.75,
+    "output": 3.75
+  },
+  "judge_error_count": 0,
+  "judge_max_output_tokens": 2048,
+  "judge_model": "gemini-3.8-flash",
+  "judge_rates_usd_per_million": {
+    "input": 0.75,
+    "output": 3.75
+  },
+  "logical_external_calls": 240,
+  "preflight_reserved_estimate_usd": 2.6972625,
+  "remaining_approved_budget_before_run_usd": 9.48947075,
+  "request_minimum_interval_seconds": 2.0,
+  "run_id": "challenge-freeform-20261024-01",
+  "scenario_count": 40,
+  "scorecard_path": "eval/results/autoresearch/challenge-freeform-20261024-01/scorecard.json",
+  "sealed_holdout_accessed": false,
+  "status": "COMPLETE_PROVISIONAL",
+  "temperature": 0.0
+}

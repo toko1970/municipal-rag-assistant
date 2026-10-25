@@ -64,7 +64,16 @@ def test_simple_qdrant_flow_retrieves_then_generates_once(monkeypatch):
         document_name="給与制度規程",
         heading="適用対象",
         content="常勤職員に適用する。",
-        metadata={"document_key": "DOC-001", "ordinal": 3},
+        metadata={
+            "document_key": "DOC-001",
+            "source": "01_salary_rules.md",
+            "ordinal": 3,
+            "effective_date": "2025-04-01",
+            "version": "1.0",
+            "document_role": "primary",
+            "is_primary": True,
+            "content_hash": "a" * 64,
+        },
     )
     index = FakeIndex([SearchHit(element=element, score=0.12, rank=1)])
     generator = FakeGenerator()
@@ -88,8 +97,79 @@ def test_simple_qdrant_flow_retrieves_then_generates_once(monkeypatch):
     assert "常勤職員に適用されますか？" in generator.prompts[0]
     assert result["answer"].startswith("回答分類: 根拠十分")
     assert result["references"][0]["document_id"] == "DOC-001"
+    assert result["references"][0]["content"] == "常勤職員に適用する。"
+    assert result["references"][0]["source"] == "01_salary_rules.md"
+    assert result["references"][0]["version_id"] == str(element.version_id)
+    assert result["references"][0]["effective_date"] == "2025-04-01"
+    assert result["references"][0]["version"] == "1.0"
+    assert result["references"][0]["document_role"] == "primary"
+    assert result["references"][0]["is_primary"] is True
+    assert result["references"][0]["content_hash"] == "a" * 64
     assert len(query_vectors) == 1
     assert index.queries == [([0.1, 0.2], 8)]
+
+
+@pytest.mark.parametrize(
+    "answer",
+    [
+        "",
+        "  \n",
+        "回答だけで分類なし",
+        "回答分類: 根拠十分\n回答:\n\n根拠文書:",
+        "回答分類: 根拠十分\n回答分類: 文書不足\n回答: 矛盾",
+    ],
+)
+def test_incomplete_freeform_output_is_not_success(answer):
+    class OutputGenerator(FakeGenerator):
+        def generate(self, _prompt):
+            return SimpleNamespace(text=answer, metadata=lambda: {})
+
+    result = generate_simple_qdrant_answer(
+        "質問", retrieved_hits=[], generator=OutputGenerator(), record_log=False
+    )
+
+    assert result["answer_status"] == "GENERATION_INCOMPLETE"
+    assert result["degraded"] is True
+    assert result["answer_label"] is None
+    assert "確認できませんでした" in result["answer"]
+
+
+@pytest.mark.parametrize(
+    "classification_line",
+    [
+        "回答分類: 根拠十分",
+        "回答分類： 根拠十分",
+        "回答分類:\n（根拠十分）",
+    ],
+)
+def test_freeform_label_accepts_supported_colon_variants(classification_line):
+    class OutputGenerator(FakeGenerator):
+        def generate(self, _prompt):
+            return SimpleNamespace(
+                text=f"{classification_line}\n回答:\n根拠があります。",
+                metadata=lambda: {},
+            )
+
+    result = generate_simple_qdrant_answer(
+        "質問", retrieved_hits=[], generator=OutputGenerator(), record_log=False
+    )
+    assert result["answer_status"] == "SUCCESS"
+    assert result["answer_label"] == "根拠十分"
+
+
+def test_explicit_provider_truncation_is_not_success():
+    class TruncatedGenerator(FakeGenerator):
+        def generate(self, _prompt):
+            return SimpleNamespace(
+                text="回答分類: 根拠十分\n回答:\n途中までの回答",
+                metadata=lambda: {"finish_reason": "MAX_TOKENS"},
+            )
+
+    result = generate_simple_qdrant_answer(
+        "質問", retrieved_hits=[], generator=TruncatedGenerator(), record_log=False
+    )
+    assert result["answer_status"] == "GENERATION_INCOMPLETE"
+    assert result["answer_label"] is None
 
 
 def test_autoresearch_candidate_prompt_hash_is_frozen():
@@ -170,6 +250,144 @@ def test_candidate_route_records_failed_generation_then_reraises():
     assert generation["error_summary"] == "RuntimeError"
     assert "credentials" not in generation["error_summary"]
     assert event_logger.events[-1][2]["status"] == "GENERATION_FAILED"
+
+
+def test_retrieval_failure_is_recorded_without_generation_attempt():
+    event_logger = FakeEventLogger()
+
+    def broken_embedding(_query):
+        raise RuntimeError("private provider detail")
+
+    with pytest.raises(RuntimeError):
+        generate_simple_qdrant_answer(
+            "質問",
+            embed_query=broken_embedding,
+            vector_index=FakeIndex([]),
+            generator=FakeGenerator(),
+            event_logger=event_logger,
+        )
+
+    assert [event[0] for event in event_logger.events] == ["request", "answer"]
+    assert event_logger.events[-1][2]["status"] == "EMBEDDING_FAILED"
+    assert "private provider detail" not in event_logger.events[-1][2]["display_text"]
+
+
+def test_qdrant_search_failure_is_recorded_at_retrieval_stage():
+    class BrokenIndex(FakeIndex):
+        def search(self, _vector, _limit):
+            raise RuntimeError("private Qdrant detail")
+
+    event_logger = FakeEventLogger()
+    with pytest.raises(RuntimeError):
+        generate_simple_qdrant_answer(
+            "質問",
+            embed_query=lambda _query: [0.1],
+            vector_index=BrokenIndex([]),
+            generator=FakeGenerator(),
+            event_logger=event_logger,
+        )
+
+    assert event_logger.events[-1][2]["status"] == "RETRIEVAL_FAILED"
+    assert not any(event[0] == "generation" for event in event_logger.events)
+
+
+def test_retrieval_record_failure_is_not_mislabeled_as_generation():
+    class BrokenEventLogger(FakeEventLogger):
+        def record_retrieval(self, _request_id, _hits):
+            raise RuntimeError("private persistence detail")
+
+    event_logger = BrokenEventLogger()
+    with pytest.raises(RuntimeError):
+        generate_simple_qdrant_answer(
+            "質問", retrieved_hits=[], generator=FakeGenerator(),
+            event_logger=event_logger,
+        )
+
+    assert event_logger.events[-1][2]["status"] == "RETRIEVAL_RECORD_FAILED"
+    assert not any(event[0] == "generation" for event in event_logger.events)
+
+
+def test_context_build_failure_is_recorded_without_generation_attempt(monkeypatch):
+    event_logger = FakeEventLogger()
+    monkeypatch.setattr(
+        "src.simple_rag_flow.build_context",
+        lambda _documents: (_ for _ in ()).throw(RuntimeError("context detail")),
+    )
+
+    with pytest.raises(RuntimeError):
+        generate_simple_qdrant_answer(
+            "質問",
+            retrieved_hits=[],
+            generator=FakeGenerator(),
+            event_logger=event_logger,
+        )
+
+    assert event_logger.events[-1][2]["status"] == "CONTEXT_BUILD_FAILED"
+    assert not any(event[0] == "generation" for event in event_logger.events)
+
+
+def test_generator_setup_failure_is_recorded_without_generation_attempt(monkeypatch):
+    event_logger = FakeEventLogger()
+
+    def broken_generator(*_args, **_kwargs):
+        raise RuntimeError("private provider setup detail")
+
+    monkeypatch.setattr("src.simple_rag_flow.GeminiProvider", broken_generator)
+    with pytest.raises(RuntimeError):
+        generate_simple_qdrant_answer(
+            "質問", retrieved_hits=[], event_logger=event_logger
+        )
+
+    assert event_logger.events[-1][2]["status"] == "GENERATOR_SETUP_FAILED"
+    assert not any(event[0] == "generation" for event in event_logger.events)
+
+
+def test_visual_metadata_failure_is_recorded_before_generation():
+    event_logger = FakeEventLogger()
+    element = IndexableElement(
+        id=uuid4(), document_id=uuid4(), version_id=uuid4(),
+        document_name="規程", heading="表", content="表を参照",
+    )
+    hit = SearchHit(element=element, score=0.1, rank=1)
+
+    def broken_loader(_element_ids):
+        raise RuntimeError("private metadata detail")
+
+    with pytest.raises(RuntimeError):
+        generate_simple_qdrant_answer(
+            "質問", retrieved_hits=[hit], generator=FakeGenerator(),
+            visual_asset_loader=broken_loader, event_logger=event_logger,
+        )
+
+    assert event_logger.events[-1][2]["status"] == "VISUAL_METADATA_FAILED"
+    assert not any(event[0] == "generation" for event in event_logger.events)
+
+
+def test_visual_asset_read_failure_is_recorded_before_generation():
+    event_logger = FakeEventLogger()
+    element = IndexableElement(
+        id=uuid4(), document_id=uuid4(), version_id=uuid4(),
+        document_name="規程", heading="表", content="表を参照",
+    )
+    hit = SearchHit(element=element, score=0.1, rank=1)
+    asset = VisualEvidenceAsset(
+        element_id=element.id, storage_uri="gs://fixture/page-1.png",
+        mime_type="image/png", page_number=1, sha256="unused",
+    )
+
+    class BrokenReader:
+        def read(self, _asset):
+            raise RuntimeError("private asset detail")
+
+    with pytest.raises(RuntimeError):
+        generate_simple_qdrant_answer(
+            "質問", retrieved_hits=[hit], generator=FakeGenerator(),
+            visual_asset_loader=lambda _ids: [asset], asset_reader=BrokenReader(),
+            event_logger=event_logger,
+        )
+
+    assert event_logger.events[-1][2]["status"] == "VISUAL_ASSET_LOAD_FAILED"
+    assert not any(event[0] == "generation" for event in event_logger.events)
 
 
 def test_visual_asset_bytes_are_reused_for_generation_and_reference():
