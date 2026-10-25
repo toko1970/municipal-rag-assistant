@@ -109,6 +109,24 @@ def test_simple_qdrant_flow_retrieves_then_generates_once(monkeypatch):
     assert index.queries == [([0.1, 0.2], 8)]
 
 
+def test_local_log_excludes_reference_content_but_display_keeps_it(monkeypatch):
+    element = IndexableElement(
+        id=uuid4(), document_id=uuid4(), version_id=uuid4(),
+        document_name="給与制度規程", heading="適用対象",
+        content="常勤職員に適用する。", metadata={"document_key": "DOC-001"},
+    )
+    logged = []
+    monkeypatch.setattr("src.logger.save_rag_log", logged.append)
+
+    result = generate_simple_qdrant_answer(
+        "質問", retrieved_hits=[SearchHit(element=element, score=0.12, rank=1)],
+        generator=FakeGenerator(), visual_asset_loader=lambda _ids: [],
+    )
+
+    assert result["references"][0]["content"] == "常勤職員に適用する。"
+    assert "content" not in logged[0]["references"][0]
+
+
 @pytest.mark.parametrize(
     "answer",
     [

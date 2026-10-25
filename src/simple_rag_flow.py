@@ -339,5 +339,12 @@ def generate_simple_qdrant_answer(
     if request_id is None and record_log:
         from src.logger import save_rag_log
 
-        save_rag_log(result)
+        log_result = {
+            **result,
+            "references": [
+                {key: value for key, value in reference.items() if key != "content"}
+                for reference in references
+            ],
+        }
+        save_rag_log(log_result)
     return result
