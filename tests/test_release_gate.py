@@ -1,6 +1,7 @@
 """Release acceptance is bound to the tested revision and fails closed."""
 
 from copy import deepcopy
+import hashlib
 import json
 import subprocess
 import sys
@@ -113,12 +114,13 @@ def prepared():
 
 def review(manifest):
     return {
-        "schema_version": "rag-release-review-v1",
+        "schema_version": "rag-release-review-v2",
         "candidate_run_id": "123",
         "candidate_run_attempt": "1",
         "revision": REVISION,
         "commit": COMMIT,
         "image": IMAGE,
+        "requested_image": IMAGE,
         "manifest_sha256": manifest["manifest_sha256"],
         "reviewed_by": "owner",
         "reviewed_at": "2026-10-25T16:00:00+09:00",
@@ -178,6 +180,126 @@ def test_runtime_mismatch_fails_before_acceptance(change):
         ] = "wrong"
     with pytest.raises(ReleaseGateError, match="runtime"):
         check_runtime_match(revision, execution)
+
+
+def _index_and_child(platform=None):
+    child_bytes = b'{"schemaVersion":2,"mediaType":"application/vnd.oci.image.manifest.v1+json","config":{"digest":"sha256:' + b"c" * 64 + b'"},"layers":[]}'
+    child_digest = hashlib.sha256(child_bytes).hexdigest()
+    index = {
+        "schemaVersion": 2,
+        "mediaType": "application/vnd.oci.image.index.v1+json",
+        "manifests": [
+            {
+                "mediaType": "application/vnd.oci.image.manifest.v1+json",
+                "digest": f"sha256:{child_digest}",
+                "size": len(child_bytes),
+                "platform": platform or {"os": "linux", "architecture": "amd64"},
+            }
+        ],
+    }
+    raw_index = json.dumps(index, separators=(",", ":")).encode()
+    index_digest = hashlib.sha256(raw_index).hexdigest()
+    prefix = IMAGE.split("@sha256:", 1)[0]
+    return (
+        f"{prefix}@sha256:{index_digest}",
+        f"{prefix}@sha256:{child_digest}",
+        raw_index,
+    )
+
+
+def test_runtime_accepts_cloud_run_platform_manifest_from_requested_index():
+    requested_image, resolved_image, raw_index = _index_and_child()
+    _, _, revision, execution = fixture()
+    revision["spec"]["containers"][0]["image"] = resolved_image
+    execution["spec"]["template"]["spec"]["containers"][0]["image"] = (
+        requested_image
+    )
+
+
+def test_candidate_manifest_binds_requested_index_to_resolved_revision_child():
+    requested_image, resolved_image, raw_index = _index_and_child()
+    before, after, revision, execution = fixture()
+    revision["spec"]["containers"][0]["image"] = resolved_image
+    execution["spec"]["template"]["spec"]["containers"][0]["image"] = (
+        requested_image
+    )
+
+    manifest = build_manifest(
+        before,
+        after,
+        revision,
+        execution,
+        commit=COMMIT,
+        run_id="123",
+        run_attempt="1",
+        repository="toko1970/municipal-rag-assistant",
+        tag=TAG,
+        expected_revision=REVISION,
+        expected_image=requested_image,
+        image_index_manifest_bytes=raw_index,
+    )
+
+    assert manifest["image"] == resolved_image
+    assert manifest["requested_image"] == requested_image
+    assert manifest["image_relation"]["kind"] == "oci-index-child"
+    assert manifest["image_relation"]["platform"] == "linux/amd64"
+    from scripts.release_gate import validate_manifest, review_template
+
+    validate_manifest(manifest, raw_index)
+    template = review_template(manifest, raw_index)
+    assert template["image"] == resolved_image
+    assert template["requested_image"] == requested_image
+
+    check_runtime_match(
+        revision,
+        execution,
+        image_index_manifest_bytes=raw_index,
+        expected_image=requested_image,
+    )
+
+
+def test_runtime_rejects_unbound_or_wrong_platform_image_index():
+    requested_image, resolved_image, raw_index = _index_and_child()
+    _, _, revision, execution = fixture()
+    revision["spec"]["containers"][0]["image"] = resolved_image
+    execution["spec"]["template"]["spec"]["containers"][0]["image"] = (
+        requested_image
+    )
+
+    with pytest.raises(ReleaseGateError, match="manifest digest"):
+        check_runtime_match(
+            revision,
+            execution,
+            image_index_manifest_bytes=raw_index + b"\n",
+            expected_image=requested_image,
+        )
+
+    wrong_platform_image, wrong_child_image, wrong_platform_index = _index_and_child(
+        {"os": "linux", "architecture": "arm64"}
+    )
+    revision["spec"]["containers"][0]["image"] = wrong_child_image
+    execution["spec"]["template"]["spec"]["containers"][0]["image"] = (
+        wrong_platform_image
+    )
+    with pytest.raises(ReleaseGateError, match="platform"):
+        check_runtime_match(
+            revision,
+            execution,
+            image_index_manifest_bytes=wrong_platform_index,
+            expected_image=wrong_platform_image,
+        )
+
+    missing_child_image = wrong_child_image.replace(
+        wrong_child_image.rsplit("@sha256:", 1)[1], "d" * 64
+    )
+    revision["spec"]["containers"][0]["image"] = missing_child_image
+    with pytest.raises(ReleaseGateError, match="index child"):
+        check_runtime_match(
+            revision,
+            execution,
+            image_index_manifest_bytes=wrong_platform_index,
+            expected_image=wrong_platform_image,
+        )
 
 
 @pytest.mark.parametrize(
@@ -351,6 +473,18 @@ def test_workflow_preserves_required_gates_and_cannot_auto_promote():
     )
     assert "--max-retries=0" in job["flags"] and "--tasks=1" in job["flags"]
     automatic_scripts = "\n".join(step.get("run", "") for step in prepare["steps"])
+    manifest_fetch = next(
+        step for step in prepare["steps"]
+        if step.get("name") == "Snapshot the pinned image manifest for offline verification"
+    )
+    runtime_check = next(
+        step for step in prepare["steps"]
+        if step.get("name") == "Match the candidate and smoke runtime before any question"
+    )
+    assert "steps.image.outputs.digest" in manifest_fetch["env"]["PINNED_IMAGE"]
+    assert "--image-index-manifest" in runtime_check["run"]
+    assert "--expected-image \"$PINNED_IMAGE\"" in runtime_check["run"]
+    assert "image-index.json" in automatic_scripts
     assert "update-traffic" not in automatic_scripts
     assert "cloud_bootstrap.py" not in Path(".github/workflows/ci.yml").read_text()
     promotion_scripts = [step.get("run", "") for step in promote["steps"]]
@@ -501,6 +635,7 @@ def test_actual_promotion_shell_restores_traffic_on_failure_and_cancellation(
         )
     evidence = tmp_path / "release-evidence"
     evidence.mkdir()
+    (evidence / "image-index.json").write_bytes(b"{}")
     runner = tmp_path / "runner"
     runner.mkdir()
     binary = tmp_path / "bin"

@@ -207,12 +207,21 @@ jobs:
             --parallelism=1
             --max-retries=0
             --task-timeout=15m
+      - name: Snapshot the pinned image manifest for offline verification
+        env:
+          PINNED_IMAGE: ${{ steps.image.outputs.digest }}
+        run: >-
+          python -m scripts.fetch_artifact_manifest
+          --image "$PINNED_IMAGE"
+          --output "$RUNNER_TEMP/image-manifest.json"
       - name: Match the candidate and smoke runtime before any question
+        env:
+          PINNED_IMAGE: ${{ steps.image.outputs.digest }}
         run: |
           set -euo pipefail
           gcloud run revisions describe "$REVISION" --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/revision.json"
           gcloud run jobs describe municipal-rag-bootstrap --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/job.json"
-          python -m scripts.release_gate check-runtime --revision "$RUNNER_TEMP/revision.json" --job "$RUNNER_TEMP/job.json"
+          python -m scripts.release_gate check-runtime --revision "$RUNNER_TEMP/revision.json" --job "$RUNNER_TEMP/job.json" --expected-image "$PINNED_IMAGE" --image-index-manifest "$RUNNER_TEMP/image-manifest.json"
       - name: Execute five bounded smoke cases without migration or ingestion
         run: |
           set -euo pipefail
@@ -222,9 +231,10 @@ jobs:
           PINNED_IMAGE: ${{ steps.image.outputs.digest }}
         run: |
           set -euo pipefail
+          cp "$RUNNER_TEMP/image-manifest.json" release-evidence/image-index.json
           gcloud run services describe municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/service-after.json"
-          python -m scripts.release_gate prepare --before-service "$RUNNER_TEMP/service-before.json" --service "$RUNNER_TEMP/service-after.json" --revision "$RUNNER_TEMP/revision.json" --execution "$RUNNER_TEMP/execution.json" --commit "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID" --run-attempt "$GITHUB_RUN_ATTEMPT" --repository "$GITHUB_REPOSITORY" --tag "$RELEASE_TAG" --expected-revision "$REVISION" --image "$PINNED_IMAGE" --output release-evidence/candidate.json
-          python -m scripts.release_gate review-template --manifest release-evidence/candidate.json --output release-evidence/review-template.json
+          python -m scripts.release_gate prepare --before-service "$RUNNER_TEMP/service-before.json" --service "$RUNNER_TEMP/service-after.json" --revision "$RUNNER_TEMP/revision.json" --execution "$RUNNER_TEMP/execution.json" --commit "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID" --run-attempt "$GITHUB_RUN_ATTEMPT" --repository "$GITHUB_REPOSITORY" --tag "$RELEASE_TAG" --expected-revision "$REVISION" --image "$PINNED_IMAGE" --image-index-manifest release-evidence/image-index.json --output release-evidence/candidate.json
+          python -m scripts.release_gate review-template --manifest release-evidence/candidate.json --image-index-manifest release-evidence/image-index.json --output release-evidence/review-template.json
           tagged_url=$(python -c 'import json; print(json.load(open("release-evidence/candidate.json"))["tagged_url"])')
           curl --fail --silent --show-error --retry 3 --retry-delay 5 --max-time 30 "$tagged_url/_stcore/health"
           printf '## Candidate prepared; public traffic unchanged\n\nRevision: `%s`\n\nUI review URL: %s\n\nAll five semantic/UI checks remain PENDING. Use the Promote reviewed revision workflow only after completing review-template.json.\n' "$REVISION" "$tagged_url" >> "$GITHUB_STEP_SUMMARY"

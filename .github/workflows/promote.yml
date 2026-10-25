@@ -55,7 +55,7 @@ jobs:
       - name: Validate manifest before using cloud identifiers
         run: |
           set -euo pipefail
-          python -m scripts.release_gate review-template --manifest release-evidence/candidate.json --output "$RUNNER_TEMP/template-check.json"
+          python -m scripts.release_gate review-template --manifest release-evidence/candidate.json --image-index-manifest release-evidence/image-index.json --output "$RUNNER_TEMP/template-check.json"
       - name: Authenticate to Google Cloud without a service account key
         uses: google-github-actions/auth@v3
         with:
@@ -69,7 +69,7 @@ jobs:
           revision=$(python -c 'import json; print(json.load(open("release-evidence/candidate.json"))["revision"])')
           gcloud run revisions describe "$revision" --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/revision.json"
           gcloud run services describe municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/service.json"
-          python -m scripts.release_gate approve --manifest release-evidence/candidate.json --review "$RUNNER_TEMP/review.json" --source-run "$RUNNER_TEMP/source-run.json" --service "$RUNNER_TEMP/service.json" --revision "$RUNNER_TEMP/revision.json" --output release-evidence/promotion.json
+          python -m scripts.release_gate approve --manifest release-evidence/candidate.json --review "$RUNNER_TEMP/review.json" --source-run "$RUNNER_TEMP/source-run.json" --service "$RUNNER_TEMP/service.json" --revision "$RUNNER_TEMP/revision.json" --image-index-manifest release-evidence/image-index.json --output release-evidence/promotion.json
           tagged_url=$(python -c 'import json; print(json.load(open("release-evidence/candidate.json"))["tagged_url"])')
           curl --fail --silent --show-error --retry 3 --retry-delay 5 --max-time 30 "$tagged_url/_stcore/health"
       - name: Promote only the verified revision and restore previous traffic on failure
@@ -84,7 +84,7 @@ jobs:
           rollback() {
             if gcloud run services update-traffic municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --to-revisions="$previous" &&
                gcloud run services describe municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/rollback-service.json" &&
-               python -m scripts.release_gate record-traffic --manifest release-evidence/candidate.json --service "$RUNNER_TEMP/rollback-service.json" --outcome ROLLED_BACK --output "$RUNNER_TEMP/rollback-receipt.json" &&
+               python -m scripts.release_gate record-traffic --manifest release-evidence/candidate.json --service "$RUNNER_TEMP/rollback-service.json" --outcome ROLLED_BACK --image-index-manifest release-evidence/image-index.json --output "$RUNNER_TEMP/rollback-receipt.json" &&
                cp "$RUNNER_TEMP/rollback-receipt.json" release-evidence/outcome.json; then
               printf 'Previous traffic restored and verified.\n' >> "$GITHUB_STEP_SUMMARY"
             else
@@ -114,7 +114,7 @@ jobs:
           traffic_change_started=1
           gcloud run services update-traffic municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --to-revisions="$target"
           gcloud run services describe municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/promoted-service.json"
-          python -m scripts.release_gate record-traffic --manifest release-evidence/candidate.json --service "$RUNNER_TEMP/promoted-service.json" --outcome PROMOTED --output "$RUNNER_TEMP/promoted-receipt.json"
+          python -m scripts.release_gate record-traffic --manifest release-evidence/candidate.json --service "$RUNNER_TEMP/promoted-service.json" --outcome PROMOTED --image-index-manifest release-evidence/image-index.json --output "$RUNNER_TEMP/promoted-receipt.json"
           service_url=$(python -c 'import json, os; print(json.load(open(os.path.join(os.environ["RUNNER_TEMP"], "promoted-service.json")))["status"]["url"])')
           curl --fail --silent --show-error --retry 3 --retry-delay 5 --max-time 30 "$service_url/_stcore/health"
           cp "$RUNNER_TEMP/promoted-receipt.json" release-evidence/outcome.json

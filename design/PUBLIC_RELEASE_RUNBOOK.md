@@ -35,7 +35,7 @@
 3. 既存serviceの`status.traffic`から、revision名と割合を準備前の復旧先として保存します。
 4. `deploy-cloudrun@v3`の`no_traffic: true`、明示suffix、タグを用いて候補revisionを作成します。
 5. 同じdigest、環境変数、Secret Managerの**版指定**、runtime service account、Cloud SQL接続で既存Jobを設定します。
-6. Job実行前に`release_gate check-runtime`でimage・環境変数／secret参照・service account・Cloud SQL/VPC接続・volume・working directoryがrevisionと一致することを確認します。Web固有のport、probe、concurrencyとJobの実行制限は同一性判定の対象外です。
+6. Job実行前に`release_gate check-runtime`で環境変数／secret参照・service account・Cloud SQL/VPC接続・volume・working directoryがrevisionと一致することを確認します。imageは同じdigestなら一致とし、Cloud RunがOCI indexをplatform別digestへ解決した場合は、Artifact Registryから取得してdigest検証したOCI indexに含まれる`linux/amd64`子manifestであることを確認します。Web固有のport、probe、concurrencyとJobの実行制限は同一性判定の対象外です。
 7. 以下の固定コマンドをJobで一度実行します。
 
 ```bash
@@ -47,7 +47,7 @@ python -m scripts.manage_rag_v2 smoke \
 9. タグが対象revisionを指し、公開trafficが準備前と変わっていないことを確認します。通常URLを新revisionのhealth確認に使用しません。
 10. タグURLの`/_stcore/health`が成功した場合に、`release-candidate-<run_id>-<run_attempt>` artifactを保存します。
 
-artifactには、`candidate.json`と未記入の`review-template.json`が入ります。前者はrevision、commit、image digest、実行run、Job execution、runtime hash、タグURL、復旧先を関連付けます。rawなservice/job設定、secret値、provider応答はartifactへ保存しません。Jobのstdoutは構造判定の簡潔JSONで、実回答と根拠は既存の監査記録からrequest IDで確認できます。Cloud Loggingの読取権限をこの変更で追加しません。
+artifactには、`candidate.json`、未記入の`review-template.json`、digest検証済みの`image-index.json`が入ります。前者はrevisionの解決済みimage、Jobの要求image、OCI indexからplatform manifestへの関係、実行run、Job execution、runtime hash、タグURL、復旧先を関連付けます。rawなservice/job設定、secret値、provider応答はartifactへ保存しません。Jobのstdoutは構造判定の簡潔JSONで、実回答と根拠は既存の監査記録からrequest IDで確認できます。Cloud Loggingの読取権限をこの変更で追加しません。
 
 同一imageのJobはアプリの処理と依存接続を検査するもので、Streamlitの質問操作・根拠展開・図表表示を検査したことにはなりません。タグURLのhealthだけでもこれらは確認できません。
 
@@ -65,7 +65,7 @@ artifactには、`candidate.json`と未記入の`review-template.json`が入り�
 
 `review-template.json`をコピーし、各ケースの`semantic`と`ui`を確認できた場合だけ`PASS`へ変更します。`notes`に実際に確認した根拠・表示、可能ならrequest IDや確認証跡を記入します。実在個人情報・secretを記入しません。`reviewed_by`とtimezone付き`reviewed_at`も記入します。判定不能は`PENDING`、不合格は`FAIL`のまま残します。
 
-revision・commit・image・manifest hash・run ID/attempt・タグURLはテンプレートから変更しません。構造PASSから自動的に意味PASSを生成しません。公開必須項目が1件でも未確認なら、昇格validatorは非ゼロで停止します。
+revision・commit・resolved image・requested image・manifest hash・run ID/attempt・タグURLはテンプレートから変更しません。構造PASSから自動的に意味PASSを生成しません。公開必須項目が1件でも未確認なら、昇格validatorは非ゼロで停止します。
 
 ## 5. 検査済みrevisionの昇格
 

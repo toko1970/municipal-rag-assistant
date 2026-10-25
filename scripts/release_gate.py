@@ -40,6 +40,10 @@ CONNECTION_ANNOTATIONS = (
     "run.googleapis.com/vpc-access-egress",
     "run.googleapis.com/network-interfaces",
 )
+OCI_INDEX_MEDIA_TYPES = {
+    "application/vnd.oci.image.index.v1+json",
+    "application/vnd.docker.distribution.manifest.list.v2+json",
+}
 
 
 class ReleaseGateError(ValueError):
@@ -145,10 +149,86 @@ def _runtime(resource, *, job=False):
     }
 
 
-def check_runtime_match(revision, job_or_execution):
+def _image_relation(requested_image, revision_image, job_image, manifest_bytes):
+    requested_image = _image(requested_image)
+    revision_image = _image(revision_image)
+    job_image = _image(job_image)
+    _require(job_image == requested_image, "job image does not match requested image")
+    if revision_image == requested_image:
+        return {
+            "kind": "exact-digest",
+            "manifest_sha256": None,
+            "platform": None,
+        }
+
+    requested_repository, requested_digest = requested_image.rsplit("@sha256:", 1)
+    revision_repository, revision_digest = revision_image.rsplit("@sha256:", 1)
+    _require(
+        revision_repository == requested_repository,
+        "revision image repository differs from requested image",
+    )
+    _require(
+        isinstance(manifest_bytes, bytes),
+        "runtime image relation requires its OCI index manifest",
+    )
+    manifest_hash = hashlib.sha256(manifest_bytes).hexdigest()
+    _require(
+        manifest_hash == requested_digest,
+        "OCI index manifest digest does not match requested image",
+    )
+    try:
+        manifest = json.loads(manifest_bytes)
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        raise ReleaseGateError("invalid OCI index manifest") from None
+    _require(
+        isinstance(manifest, dict)
+        and manifest.get("mediaType") in OCI_INDEX_MEDIA_TYPES,
+        "requested image is not an OCI index",
+    )
+    descriptors = manifest.get("manifests")
+    _require(isinstance(descriptors, list), "OCI index has no manifest descriptors")
+    matching = [
+        descriptor
+        for descriptor in descriptors
+        if isinstance(descriptor, dict)
+        and descriptor.get("digest") == f"sha256:{revision_digest}"
+    ]
+    _require(len(matching) == 1, "revision image is not a unique OCI index child")
+    platform = matching[0].get("platform")
+    _require(
+        isinstance(platform, dict)
+        and platform.get("os") == "linux"
+        and platform.get("architecture") == "amd64",
+        "revision image child has an unsupported platform",
+    )
+    return {
+        "kind": "oci-index-child",
+        "manifest_sha256": manifest_hash,
+        "platform": f"{platform['os']}/{platform['architecture']}",
+    }
+
+
+def check_runtime_match(
+    revision,
+    job_or_execution,
+    *,
+    image_index_manifest_bytes=None,
+    expected_image=None,
+):
     reference = _runtime(revision)
     candidate = _runtime(job_or_execution, job=True)
-    _require(reference == candidate, "job/revision runtime configuration mismatch")
+    _image_relation(
+        expected_image or candidate["image"],
+        reference["image"],
+        candidate["image"],
+        image_index_manifest_bytes,
+    )
+    reference_runtime = {key: value for key, value in reference.items() if key != "image"}
+    candidate_runtime = {key: value for key, value in candidate.items() if key != "image"}
+    _require(
+        reference_runtime == candidate_runtime,
+        "job/revision runtime configuration mismatch",
+    )
     execution = _execution(job_or_execution)
     task_spec = execution["spec"]["template"]["spec"]
     container = _container(task_spec)
@@ -221,17 +301,26 @@ def build_manifest(
     tag,
     expected_revision,
     expected_image,
+    image_index_manifest_bytes=None,
 ):
     _require(re.fullmatch(r"[a-f0-9]{40}", commit), "invalid commit")
     _require(str(run_id).isdigit() and str(run_attempt).isdigit(), "invalid source run")
     _named(expected_revision, "revision")
     _named(tag, "tag")
     _image(expected_image)
+    resolved_image = _runtime(revision)["image"]
+    job_image = _runtime(execution, job=True)["image"]
+    image_relation = _image_relation(
+        expected_image,
+        resolved_image,
+        job_image,
+        image_index_manifest_bytes,
+    )
     _revision_check(
         revision,
         expected_revision=expected_revision,
         commit=commit,
-        image=expected_image,
+        image=resolved_image,
     )
     previous = traffic(before)
     _require(previous == traffic(after), "public traffic changed before acceptance")
@@ -239,7 +328,12 @@ def build_manifest(
         expected_revision not in previous,
         "candidate is already receiving public traffic",
     )
-    runtime_hash = check_runtime_match(revision, execution)
+    runtime_hash = check_runtime_match(
+        revision,
+        execution,
+        image_index_manifest_bytes=image_index_manifest_bytes,
+        expected_image=expected_image,
+    )
     status = execution.get("status", {})
     _require(
         any(
@@ -257,7 +351,7 @@ def build_manifest(
     )
     execution_name = _named(execution.get("metadata", {}).get("name"), "execution")
     manifest = {
-        "schema_version": "rag-release-candidate-v1",
+        "schema_version": "rag-release-candidate-v2",
         "repository": repository,
         "commit": commit,
         "run_id": str(run_id),
@@ -267,7 +361,9 @@ def build_manifest(
         "region": REGION,
         "service": SERVICE,
         "revision": expected_revision,
-        "image": expected_image,
+        "image": resolved_image,
+        "requested_image": expected_image,
+        "image_relation": image_relation,
         "tag": tag,
         "tagged_url": _tagged_url(after, tag=tag, revision=expected_revision),
         "runtime_config_sha256": runtime_hash,
@@ -301,9 +397,9 @@ def rollback_argument(manifest):
     )
 
 
-def validate_manifest(manifest):
+def validate_manifest(manifest, image_index_manifest_bytes=None):
     _require(
-        manifest.get("schema_version") == "rag-release-candidate-v1",
+        manifest.get("schema_version") == "rag-release-candidate-v2",
         "invalid manifest schema",
     )
     _require(
@@ -321,6 +417,17 @@ def validate_manifest(manifest):
     _named(manifest.get("revision"), "revision")
     _named(manifest.get("tag"), "tag")
     _image(manifest.get("image"))
+    requested_image = _image(manifest.get("requested_image"))
+    relation = _image_relation(
+        requested_image,
+        manifest["image"],
+        requested_image,
+        image_index_manifest_bytes,
+    )
+    _require(
+        manifest.get("image_relation") == relation,
+        "image relation evidence mismatch",
+    )
     _require(
         manifest.get("smoke", {}).get("structural_passed") is True
         and manifest["smoke"].get("case_ids") == list(CASE_IDS)
@@ -330,8 +437,15 @@ def validate_manifest(manifest):
     rollback_argument(manifest)
 
 
-def validate_promotion(manifest, review, source_run, current_service, revision):
-    validate_manifest(manifest)
+def validate_promotion(
+    manifest,
+    review,
+    source_run,
+    current_service,
+    revision,
+    image_index_manifest_bytes=None,
+):
+    validate_manifest(manifest, image_index_manifest_bytes)
     _require(
         str(source_run.get("id")) == manifest["run_id"]
         and str(source_run.get("run_attempt")) == manifest["run_attempt"],
@@ -351,9 +465,16 @@ def validate_promotion(manifest, review, source_run, current_service, revision):
         "source run provenance mismatch",
     )
     _require(
-        review.get("schema_version") == "rag-release-review-v1", "invalid review schema"
+        review.get("schema_version") == "rag-release-review-v2", "invalid review schema"
     )
-    for key in ("revision", "commit", "image", "manifest_sha256", "tagged_url"):
+    for key in (
+        "revision",
+        "commit",
+        "image",
+        "requested_image",
+        "manifest_sha256",
+        "tagged_url",
+    ):
         _require(review.get(key) == manifest[key], f"review {key} mismatch")
     _require(
         str(review.get("candidate_run_id")) == manifest["run_id"]
@@ -419,9 +540,9 @@ def validate_promotion(manifest, review, source_run, current_service, revision):
     }
 
 
-def record_traffic_outcome(manifest, service, outcome):
+def record_traffic_outcome(manifest, service, outcome, image_index_manifest_bytes=None):
     """Record actual routing, not just the already-approved traffic plan."""
-    validate_manifest(manifest)
+    validate_manifest(manifest, image_index_manifest_bytes)
     _require(outcome in {"PROMOTED", "ROLLED_BACK"}, "invalid release outcome")
     actual = traffic(service)
     expected = (
@@ -441,15 +562,22 @@ def record_traffic_outcome(manifest, service, outcome):
     }
 
 
-def review_template(manifest):
-    validate_manifest(manifest)
+def review_template(manifest, image_index_manifest_bytes=None):
+    validate_manifest(manifest, image_index_manifest_bytes)
     return {
-        "schema_version": "rag-release-review-v1",
+        "schema_version": "rag-release-review-v2",
         "candidate_run_id": manifest["run_id"],
         "candidate_run_attempt": manifest["run_attempt"],
         **{
             key: manifest[key]
-            for key in ("revision", "commit", "image", "manifest_sha256", "tagged_url")
+            for key in (
+                "revision",
+                "commit",
+                "image",
+                "requested_image",
+                "manifest_sha256",
+                "tagged_url",
+            )
         },
         "reviewed_by": "",
         "reviewed_at": "",
@@ -464,6 +592,10 @@ def _load(path):
     value = json.loads(Path(path).read_text())
     _require(isinstance(value, dict), "expected a JSON object")
     return value
+
+
+def _load_bytes(path):
+    return Path(path).read_bytes()
 
 
 def main(argv=None):
@@ -482,21 +614,38 @@ def main(argv=None):
         "tag",
         "expected-revision",
         "image",
+        "image-index-manifest",
         "output",
     ):
         prepare.add_argument(f"--{key}", required=True)
     check = commands.add_parser("check-runtime")
     check.add_argument("--revision", required=True)
     check.add_argument("--job", required=True)
+    check.add_argument("--expected-image", required=True)
+    check.add_argument("--image-index-manifest", required=True)
     approval = commands.add_parser("approve")
-    for key in ("manifest", "review", "source-run", "service", "revision"):
+    for key in (
+        "manifest",
+        "review",
+        "source-run",
+        "service",
+        "revision",
+        "image-index-manifest",
+    ):
         approval.add_argument(f"--{key}", required=True)
     approval.add_argument("--output")
     template = commands.add_parser("review-template")
     template.add_argument("--manifest", required=True)
+    template.add_argument("--image-index-manifest", required=True)
     template.add_argument("--output")
     receipt = commands.add_parser("record-traffic")
-    for key in ("manifest", "service", "outcome", "output"):
+    for key in (
+        "manifest",
+        "service",
+        "outcome",
+        "output",
+        "image-index-manifest",
+    ):
         receipt.add_argument(f"--{key}", required=True)
     args = parser.parse_args(argv)
     try:
@@ -513,19 +662,28 @@ def main(argv=None):
                 tag=args.tag,
                 expected_revision=args.expected_revision,
                 expected_image=args.image,
+                image_index_manifest_bytes=_load_bytes(args.image_index_manifest),
             )
         elif args.command == "check-runtime":
             result = {
                 "runtime_config_sha256": check_runtime_match(
-                    _load(args.revision), _load(args.job)
+                    _load(args.revision),
+                    _load(args.job),
+                    expected_image=args.expected_image,
+                    image_index_manifest_bytes=_load_bytes(args.image_index_manifest),
                 )
             }
         elif args.command == "record-traffic":
             result = record_traffic_outcome(
-                _load(args.manifest), _load(args.service), args.outcome
+                _load(args.manifest),
+                _load(args.service),
+                args.outcome,
+                _load_bytes(args.image_index_manifest),
             )
         elif args.command == "review-template":
-            result = review_template(_load(args.manifest))
+            result = review_template(
+                _load(args.manifest), _load_bytes(args.image_index_manifest)
+            )
         else:
             result = validate_promotion(
                 _load(args.manifest),
@@ -533,6 +691,7 @@ def main(argv=None):
                 _load(args.source_run),
                 _load(args.service),
                 _load(args.revision),
+                _load_bytes(args.image_index_manifest),
             )
         text = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
         if getattr(args, "output", None):
