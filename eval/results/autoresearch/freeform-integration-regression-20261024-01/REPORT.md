@@ -11,6 +11,12 @@
 - 推定API費用: $2.66365。回帰前予備見積もり $3.3045625。台帳残額 $4.66801075。
 - Sealed holdout: 未使用・未開封。Production deploy: なし。
 
+## 2026-10-25 公開証拠の確認
+
+本書は当時の暫定結果を保持する。公開ツリーでは元runnerと下記`answer_diff_review.csv`を確認できず、両回答・judge理由からの再集計は未完了。baselineという名称だけから従来の多段`production`経路とは断定しない。今回追加した[APIなし監査](../../../reports/EVALUATION_EVIDENCE_AUDIT_20261025.md)は、scorecardの129/130対125/130とpaired内訳の算術整合を検査するもので、当時runnerの復元・原回答の再採点ではない。
+
+後続のfresh holdoutと公開統合は、[改善の総括](../../../reports/ACCURACY_IMPROVEMENT.md)から確認できる。当時の「未deploy」はこのrun時点の状態である。
+
 ## Candidateのみ成功した差分
 
 4件は`answer_diff_review.csv`に質問、baseline/candidate回答、judge値、検索要素をまとめた。候補回答の人手確認が必要。

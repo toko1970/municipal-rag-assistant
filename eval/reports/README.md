@@ -6,31 +6,32 @@
 
 | 順 | 資料 | 分かること |
 |---|---|---|
-| 1 | [精度改善の流れ](ACCURACY_IMPROVEMENT.md) | 課題の発見、比較、採用・不採用の経緯 |
+| 1 | [精度改善の流れ](ACCURACY_IMPROVEMENT.md) | 初回holdoutから現行一回生成までの6段階。採用・不採用とNo-goを区別 |
 | 2 | [回答保留評価：仕様・結果・採用判断](PORTFOLIO_EVALUATION_AND_IMPROVEMENT_HISTORY_20261017.md) | 90ケースの評価軸と結果、候補を採用しなかった理由 |
-| 3 | [図表RAGの実装状況](VISUAL_RAG_STATUS.md) | 図表機能の実装範囲、holdout結果、未実装範囲 |
+| 3 | [比較条件・公開証拠・再現範囲](EVALUATION_EVIDENCE_AUDIT_20261025.md) | 指標の対応、訂正状態、原回答の不足とAPIなし監査 |
+| 4 | [図表RAGの実装状況](VISUAL_RAG_STATUS.md) | 図表機能の実装範囲、holdout結果、未実装範囲 |
 
 ## テーマ別に読む
 
 | テーマ | 資料 | 内容 |
 |---|---|---|
 | 回答・保留の評価 | [回答保留評価仕様書](../../rag_refusal_evaluation_spec.md) · [回答保留評価の個別事例](REFUSAL_EVALUATION_CASE_STUDIES.md) | 採点基準、基準版の失敗事例と採点上の注意 |
-| 生成モデル | [回答生成モデルの選定記録](GENERATION_MODEL_SELECTION_20261019.md) | 固定入力での比較結果。ローカル既定値は未変更だが、別のユーザー判断による候補統合後、Cloud RunではGemini 3.8 Flashを使用 |
+| 生成モデル | [回答生成モデルの選定記録](GENERATION_MODEL_SELECTION_20261019.md) | 固定入力のモデル比較。Flash側のみの訂正と、両側同規約再採点の資料不足を明記。現行構成はportfolioの正本へ |
 | 検索・回答改善 | [精度改善手法の技術ガイド](ACCURACY_METHODS_TECHNICAL_GUIDE.md) · [汎化検証方針](../GENERALIZATION_VALIDATION_PLAN.md) | 手法の仕組み、弱点、検証範囲と次の確認事項 |
 | 分類規約 | [分類・質問範囲の解説](CLASSIFICATION_SCOPE_POLICY_GUIDE.md) · [採用判定プロトコル](../INTERVENTION_ADOPTION_PROTOCOL.md) | 判定規約、候補を採用するための条件 |
 | 個別実験 | 下記「代表的な実験記録」および[`results/`](../results/) | 条件、実行記録、詳細な集計結果 |
 
 ## 2026-10-25 導入判断と根拠artifact
 
-一回生成候補は、sealed評価をNo-goのまま保持したうえで、別の回帰・challenge比較を確認したユーザー判断によりmainへ統合されました。mainのGitHub Actions run #172は2026-10-25 14:04 JSTに成功し、revision `municipal-rag-assistant-00011-kwv`へ100% trafficを切替えています。[run #172](https://github.com/toko1970/municipal-rag-assistant/actions/runs/40161778266) · [導入判断の記録](../results/autoresearch/freeform-production-rollout-20261025/decision.md)
+一回生成候補は、fresh holdoutをNo-goのまま保持し、別の直接比較を確認したユーザー判断によりmainへ統合されたと記録されています。[当時の導入判断](../results/autoresearch/freeform-production-rollout-20261025/decision.md)は判断時点の記録として保持します。後続の公開revision・コミット・Actions・確認日時は、[回答生成経路と公開状態](../../portfolio/04-answer-generation.md)に集約しています。
 
-導入判断文書は判断時点の記録であり、文書内の「未merge・未deploy」はその時点を示します。後続のdeploy完了状態は上記Actions runで確認してください。
+品質受入と公開判断は別項目です。以下のmachine composite、限定人手訂正、導入判断のM3/Q4直接比較には、異なる対象・規約があります。原回答・採点票の未取得箇所とモデル比較の非対称な訂正は、[公開証拠の監査](EVALUATION_EVIDENCE_AUDIT_20261025.md)を参照してください。
 
 | 証拠 | 保存先 | 読み方 |
 |---|---|---|
-| 130ケース統合回帰 | [REPORT](../results/autoresearch/freeform-integration-regression-20261024-01/REPORT.md) · [機械集計](../results/autoresearch/freeform-integration-regression-20261024-01/scorecard.json) · [実行manifest](../results/autoresearch/freeform-integration-regression-20261024-01/run_manifest.json) | 同一検索条件のcandidate 129/130、baseline 125/130。Gemini judgeによる暫定集計として読み、ユーザーの導入判断とは区別する |
-| 80表現challenge | [評価・集計](../results/autoresearch/challenge-freeform-20261024-01/evaluation.md) · [機械集計](../results/autoresearch/challenge-freeform-20261024-01/scorecard.json) · [限定的な人手訂正](../results/autoresearch/challenge-freeform-20261024-01/human_review_adjudication.md) · [実行manifest](../results/autoresearch/challenge-freeform-20261024-01/run_manifest.json) | 限定訂正後の参考値はcandidate 79/80、baseline 78/80。全件人手採点でも、実利用分布の成功率でもない |
-| candidate sealed holdout | [評価結果](../results/autoresearch/freeform-fresh-holdout-20261024-01/FRESH_HOLDOUT_EVALUATION.md) · [公開集計](../results/autoresearch/freeform-fresh-holdout-20261024-01/summary.json) · [実行manifest](../results/autoresearch/freeform-fresh-holdout-20261024-01/run_manifest.json) | 76/100、固定gate未達のNo-go、消費済み。custodian採点原票は公開せず、候補選択・再評価へ再利用しない |
+| 130ケース統合回帰 | [REPORT](../results/autoresearch/freeform-integration-regression-20261024-01/REPORT.md) · [機械集計](../results/autoresearch/freeform-integration-regression-20261024-01/scorecard.json) · [実行manifest](../results/autoresearch/freeform-integration-regression-20261024-01/run_manifest.json) | candidate 129/130、baseline 125/130の暫定machine composite。検索context一致という記録はあるがbaseline経路は元runner不足で未確認。原票再集計は未完了 |
+| 80表現challenge | [評価・集計](../results/autoresearch/challenge-freeform-20261024-01/evaluation.md) · [機械集計](../results/autoresearch/challenge-freeform-20261024-01/scorecard.json) · [限定的な人手訂正](../results/autoresearch/challenge-freeform-20261024-01/human_review_adjudication.md) · [実行manifest](../results/autoresearch/challenge-freeform-20261024-01/run_manifest.json) | 元の一回生成promptと改良promptの固定根拠比較。原機械値77/80対76/80、限定訂正後79/80対78/80。全件人手採点でも実利用成功率でもない |
+| candidate sealed holdout | [評価結果](../results/autoresearch/freeform-fresh-holdout-20261024-01/FRESH_HOLDOUT_EVALUATION.md) · [公開集計](../results/autoresearch/freeform-fresh-holdout-20261024-01/summary.json) · [実行manifest](../results/autoresearch/freeform-fresh-holdout-20261024-01/run_manifest.json) | 76/100、分類・検索等の固定gate未達でNo-go、消費済み。重大な根拠外断定は既存訂正後0/100でそのgateはPass。候補選択・再評価へ再利用しない |
 | paired relative holdout | [保存済みsummary](../results/autoresearch/freeform-paired-relative-20261024-01/summary.json) · [実行manifest](../results/autoresearch/freeform-paired-relative-20261024-01/run_manifest.json) | 100表現・50 scenarioの予測を凍結した状態。manifest上gold未開封・評価値なしのため、成績として扱わない |
 
 これらはset・規約・採点方法が異なる別結果です。130ケースの暫定machine score、challengeの限定人手訂正、sealed No-goを一つの総合率へ混ぜません。導入判断は公開済みですが、sealed No-goを合格へ変更したものではありません。

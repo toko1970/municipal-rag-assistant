@@ -9,7 +9,9 @@ Custodian scoring: completed; manifest state is `CONSUMED`.
 
 ## Decision
 
-**No-go for applying this candidate to production traffic.** The candidate misses several pre-fixed quality and safety gates. Its high content-accuracy result does not offset failures in retrieval, classification, end-to-end success, and the zero-tolerance unsupported-assertion gate. The consumed holdout must not be reused to tune or re-evaluate this candidate; a revised candidate needs a new independent holdout.
+**No-go for applying this candidate to production traffic.** After the already documented polarity correction, the critical unsupported-assertion count is 0/100 and its zero-tolerance gate passes. Retrieval, classification and end-to-end success still miss their pre-fixed thresholds; the high content-accuracy result does not offset those failures. The consumed holdout must not be reused to tune or re-evaluate this candidate; a revised candidate needs a new independent holdout.
+
+**2026-10-25 wording correction:** The Decision paragraph now agrees with the corrected table and the [Interpretation](#interpretation-and-next-step) below. This corrects stale prose only; no raw scores, frozen manifest, acceptance thresholds or No-go decision were changed, and no custodian files were opened for this correction. Later integration and deployment are recorded separately in the [current configuration and deployment record](../../../../portfolio/04-answer-generation.md).
 
 ## Frozen acceptance gates
 
@@ -37,4 +39,4 @@ All 100 generations completed; provider errors and additional 429 retries were b
 
 The candidate should not be sent to production traffic. The safety gate passes after correcting the flag polarity, but evidence hit@5, evidence hit@3, classification macro F1, and end-to-end success remain below their fixed thresholds. Do not use this consumed holdout to choose or tune a successor. Any revised candidate must be frozen on development evidence and evaluated on a newly created sealed holdout.
 
-Source aggregate: `custodian-score/results.json`. Prediction/run evidence: `summary.json`, `run_manifest.json`, and `FRESH_HOLDOUT_HANDOFF.md` in this directory.
+Source aggregate was recorded as `custodian-score/results.json` (private, not required for this prose correction). Public prediction/run evidence: [summary.json](summary.json) and [run_manifest.json](run_manifest.json). Their completion counts describe generation, not the 76/100 quality score. The original report also referred to `FRESH_HOLDOUT_HANDOFF.md`; that handoff is not present in the public tree checked on 2026-10-25.

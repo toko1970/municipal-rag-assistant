@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import time
 from collections import Counter
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Callable
 
@@ -14,22 +16,29 @@ from alembic.config import Config
 from sqlalchemy import select
 from sqlalchemy.orm import Session, sessionmaker
 
-from config import BASE_DIR, DATABASE_URL, LLM_MODEL_NAME
+from config import (
+    ANSWER_GENERATION_FLOW,
+    BASE_DIR,
+    CLASSIFICATION_CONTRACT_VERSION,
+    DATABASE_URL,
+    LLM_MODEL_NAME,
+)
 from src.asset_backend import get_asset_store
 from src.embeddings import get_embeddings
 from src.ingestion import ingest_markdown_documents
 from src.llm_provider import GeminiProvider
 from src.persistence.database import get_engine
 from src.persistence.repositories import PostgresDocumentRepository
-from src.provider_retry import run_with_503_backoff
+from src.provider_retry import classify_provider_error, run_with_503_backoff
 from src.qdrant_index import QdrantVectorIndex
 from src.rag_v2 import generate_qdrant_answer
 from src.visual_ingestion import ingest_visual_pdf
 from src.visual_extractor import extract_visual_candidate
 from src.visual_ingestion import render_pdf_page
+from src.smoke_validation import SMOKE_CASES, SmokeVerdict, validate_smoke_result
 
 
-CLOUD_SMOKE_QUESTION = "給与支給日はいつですか？"
+CLOUD_SMOKE_QUESTION = SMOKE_CASES[0].question
 VISUAL_DEVELOPMENT_MANIFEST = (
     BASE_DIR / "eval/visual_fixtures/manifests/development_manifest.json"
 )
@@ -207,6 +216,158 @@ def index_info() -> dict[str, object]:
     }
 
 
+class SmokeFailure(RuntimeError):
+    """A failed smoke with a report; exception text never includes provider data."""
+
+    def __init__(self, report: dict[str, object]):
+        super().__init__("smokeの必須条件を満たしませんでした。")
+        self.report = report
+
+
+def _smoke_exception_kind(error: Exception) -> str:
+    provider_failure = (
+        classify_provider_error(error) != "other"
+        or type(error).__module__.startswith(("google.", "langchain_google_genai"))
+        or re.search(r"\b(?:401|403|408|429|500|502|503|504)\b", str(error)) is not None
+    )
+    if provider_failure:
+        return "PROVIDER_ERROR"
+    if isinstance(error, (ValueError, TypeError, KeyError)):
+        return "FORMAT_ERROR"
+    return "EXECUTION_ERROR"
+
+
+def _review_response(result: object) -> dict[str, object]:
+    """Selected fictional smoke evidence for a file, never a diagnostic log."""
+    if not isinstance(result, Mapping):
+        return {}
+    references = result.get("references")
+    safe_references = []
+    for reference in references if isinstance(references, list) else []:
+        if not isinstance(reference, Mapping):
+            continue
+        safe = {
+            key: reference[key]
+            for key in ("document_id", "document_name", "heading", "content", "source", "version_id")
+            if isinstance(reference.get(key), str)
+        }
+        asset = reference.get("visual_asset")
+        if isinstance(asset, Mapping):
+            safe["visual_asset"] = {
+                "mime_type": asset.get("mime_type") if isinstance(asset.get("mime_type"), str) else None,
+                "page_number": asset.get("page_number") if type(asset.get("page_number")) is int else None,
+                "image_loaded": isinstance(asset.get("content"), bytes) and bool(asset["content"]),
+            }
+        safe_references.append(safe)
+    return {
+        "answer": result.get("answer") if isinstance(result.get("answer"), str) else None,
+        "references": safe_references,
+    }
+
+
+def smoke_summary(report: dict[str, object]) -> dict[str, object]:
+    """Remove response bodies from the stdout/Cloud Logging summary."""
+    return {
+        **report,
+        "results": [
+            {key: value for key, value in row.items() if key != "response"}
+            for row in report["results"]
+        ],
+    }
+
+
+def smoke(
+    *,
+    case_ids: list[str] | None = None,
+    max_cases: int = 5,
+    max_attempts: int = 5,
+    max_503_retries: int = 0,
+    sleep: Callable[[float], None] = time.sleep,
+) -> dict[str, object]:
+    """Run only fixed query checks; never migrate, ingest or rebuild an index.
+
+    max_attempts counts complete RAG query invocations, including failed/retried
+    ones. It is not a count of internal provider HTTP requests. The one-call
+    candidate performs one generator and one embedding call per fixed case;
+    the production path may also classify/resolve versions. Provider SDK retries
+    are separate from this explicit 503 policy. No new quality score is inferred.
+    """
+    by_id = {case.case_id: case for case in SMOKE_CASES}
+    selected_ids = list(by_id) if case_ids is None else list(case_ids)
+    if not selected_ids or len(selected_ids) != len(set(selected_ids)):
+        raise ValueError("smoke caseは1件以上、重複なしで指定してください")
+    if any(case_id not in by_id for case_id in selected_ids):
+        raise ValueError("未定義のsmoke caseです")
+    if not 1 <= max_cases <= len(SMOKE_CASES) or len(selected_ids) > max_cases:
+        raise ValueError("選択case数を収めるmax-cases（最大5）が必要です")
+    if not len(selected_ids) <= max_attempts <= len(SMOKE_CASES) * 3:
+        raise ValueError("max-attemptsは選択case数以上、15以下にしてください")
+    if not 0 <= max_503_retries <= 2:
+        raise ValueError("max-503-retriesは0から2にしてください")
+
+    attempts = 0
+    results = []
+    for case_id in selected_ids:
+        case = by_id[case_id]
+        attempts_before = attempts
+        result = None
+
+        def invoke():
+            nonlocal attempts
+            attempts += 1
+            return generate_qdrant_answer(case.question)
+
+        if attempts >= max_attempts:
+            verdict = SmokeVerdict(False, "REQUEST_BUDGET_EXCEEDED", ("問い合わせ実行上限に達しました。",))
+        else:
+            try:
+                result, _retries = run_with_503_backoff(
+                    invoke,
+                    sleep=sleep,
+                    max_retries=min(max_503_retries, max_attempts - attempts - 1),
+                )
+                verdict = validate_smoke_result(result, case)
+            except Exception as error:
+                verdict = SmokeVerdict(False, _smoke_exception_kind(error), ("外部呼出しまたは回答処理が失敗しました。",))
+        payload = result if isinstance(result, Mapping) else {}
+        references = payload.get("references")
+        results.append({
+            "case_id": case_id,
+            "status": "PASS" if verdict.passed else ("NOT_RUN" if attempts == attempts_before else "FAIL"),
+            "failure_kind": verdict.failure_kind,
+            "reasons": list(verdict.reasons),
+            "request_id": payload.get("request_id") if isinstance(payload.get("request_id"), str) else None,
+            "answer_label": payload.get("answer_label") if isinstance(payload.get("answer_label"), str) else None,
+            "reference_count": len(references) if isinstance(references, list) else 0,
+            "expected_labels": list(case.expected_labels),
+            "matched_evidence": list(verdict.matched_evidence),
+            "attempts": attempts - attempts_before,
+            "provider_503_retries": max(0, attempts - attempts_before - 1),
+            "semantic_review_status": "PENDING",
+            "semantic_checks": list(case.semantic_checks),
+            "response": _review_response(result),
+        })
+        # Stop on any failed required case. Remaining cases cannot be reported
+        # as successful; retries never apply to poor/malformed returned answers.
+        if not verdict.passed:
+            break
+    return {
+        "schema_version": "rag-smoke-v1",
+        "flow": ANSWER_GENERATION_FLOW,
+        "classification_contract_version": CLASSIFICATION_CONTRACT_VERSION,
+        "case_ids": selected_ids,
+        "attempts": attempts,
+        "max_attempts": max_attempts,
+        "max_503_retries": max_503_retries,
+        "budget_unit": "whole_rag_query_attempts_not_provider_http_calls",
+        "structural_passed": len(results) == len(selected_ids) and all(row["status"] == "PASS" for row in results),
+        "semantic_review_status": "PENDING",
+        "release_ready": False,
+        "not_run_case_ids": [row["case_id"] for row in results if row["status"] == "NOT_RUN"] + selected_ids[len(results):],
+        "results": results,
+    }
+
+
 def bootstrap_cloud(
     *, sleep: Callable[[float], None] = time.sleep
 ) -> dict[str, object]:
@@ -216,10 +377,16 @@ def bootstrap_cloud(
     consistency = reconcile()
     if not consistency["consistent"]:
         raise RuntimeError("PostgreSQLとQdrantのindexが一致しません")
-    answer, provider_503_retries = run_with_503_backoff(
-        lambda: generate_qdrant_answer(CLOUD_SMOKE_QUESTION),
+    report = smoke(
+        case_ids=["salary_day"],
+        max_cases=1,
+        max_attempts=3,
+        max_503_retries=2,
         sleep=sleep,
     )
+    if not report["structural_passed"]:
+        raise SmokeFailure(report)
+    checked = report["results"][0]
     return {
         "migration": "head",
         "ingestion": ingestion,
@@ -227,10 +394,13 @@ def bootstrap_cloud(
         "consistency": consistency,
         "smoke": {
             "question": CLOUD_SMOKE_QUESTION,
-            "request_id": answer["request_id"],
-            "answer_label": answer["answer_label"],
-            "references": len(answer["references"]),
-            "provider_503_retries": provider_503_retries,
+            "request_id": checked["request_id"],
+            "answer_label": checked["answer_label"],
+            "references": checked["reference_count"],
+            "provider_503_retries": checked["provider_503_retries"],
+            "structural_passed": True,
+            "semantic_review_status": "PENDING",
+            "release_ready": False,
         },
     }
 
@@ -247,6 +417,7 @@ def main() -> int:
             "reconcile",
             "index-info",
             "query",
+            "smoke",
             "bootstrap-cloud",
             "ingest-visual",
             "extract-visual",
@@ -261,6 +432,10 @@ def main() -> int:
     parser.add_argument("--page", type=int, default=1)
     parser.add_argument("--kind", choices=("flowchart", "timeline", "table", "form"))
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--case", dest="case_ids", action="append", choices=[case.case_id for case in SMOKE_CASES])
+    parser.add_argument("--max-cases", type=int, default=5)
+    parser.add_argument("--max-attempts", type=int, default=5)
+    parser.add_argument("--max-503-retries", type=int, default=0)
     args = parser.parse_args()
     if args.command == "migrate":
         migrate()
@@ -275,8 +450,36 @@ def main() -> int:
         result = reconcile()
     elif args.command == "index-info":
         result = index_info()
+    elif args.command == "smoke":
+        try:
+            # Reserve an exclusive artifact before spending any API calls.
+            # The full response stays in this optional file, never in stdout.
+            output_file = args.output.open("x", encoding="utf-8") if args.output else None
+            try:
+                report = smoke(
+                    case_ids=args.case_ids,
+                    max_cases=args.max_cases,
+                    max_attempts=args.max_attempts,
+                    max_503_retries=args.max_503_retries,
+                )
+                if output_file is not None:
+                    json.dump(report, output_file, ensure_ascii=False, indent=2)
+                    output_file.write("\n")
+            finally:
+                if output_file is not None:
+                    output_file.close()
+        except (ValueError, OSError) as error:
+            print(json.dumps({"schema_version": "rag-smoke-v1", "structural_passed": False,
+                              "failure_kind": "SMOKE_SETUP_FAILED", "error_type": type(error).__name__}))
+            return 2
+        print(json.dumps(smoke_summary(report), ensure_ascii=False, sort_keys=True))
+        return 0 if report["structural_passed"] else 1
     elif args.command == "bootstrap-cloud":
-        result = bootstrap_cloud()
+        try:
+            result = bootstrap_cloud()
+        except SmokeFailure as error:
+            print(json.dumps(smoke_summary(error.report), ensure_ascii=False, sort_keys=True))
+            return 1
     elif args.command == "ingest-visual":
         required = {
             "--pdf": args.pdf,

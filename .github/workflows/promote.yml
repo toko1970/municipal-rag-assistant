@@ -1,0 +1,131 @@
+name: Promote reviewed revision
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_run_id:
+        description: Successful main CI run that prepared the candidate
+        required: true
+        type: string
+      candidate_run_attempt:
+        description: The same run attempt as the downloaded candidate artifact
+        required: true
+        type: string
+      review_json:
+        description: Completed review-template.json with all five semantic/UI checks PASS
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  promote:
+    if: github.ref == 'refs/heads/main' && vars.ENABLE_CD == 'true'
+    runs-on: ubuntu-latest
+    environment: production
+    concurrency:
+      group: production-deploy
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    env:
+      CANDIDATE_RUN_ID: ${{ inputs.candidate_run_id }}
+      CANDIDATE_RUN_ATTEMPT: ${{ inputs.candidate_run_attempt }}
+      REVIEW_JSON: ${{ inputs.review_json }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate run identifiers and read immutable source run metadata
+        run: |
+          set -euo pipefail
+          [[ "$CANDIDATE_RUN_ID" =~ ^[0-9]+$ ]]
+          [[ "$CANDIDATE_RUN_ATTEMPT" =~ ^[0-9]+$ ]]
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$CANDIDATE_RUN_ID" > "$RUNNER_TEMP/source-run.json"
+          python -c 'import json, os; from pathlib import Path; Path(os.environ["RUNNER_TEMP"], "review.json").write_text(json.dumps(json.loads(os.environ["REVIEW_JSON"]), ensure_ascii=False))'
+      - name: Download only the candidate evidence from that run attempt
+        uses: actions/download-artifact@v4
+        with:
+          name: release-candidate-${{ inputs.candidate_run_id }}-${{ inputs.candidate_run_attempt }}
+          run-id: ${{ inputs.candidate_run_id }}
+          github-token: ${{ github.token }}
+          path: release-evidence
+      - name: Validate manifest before using cloud identifiers
+        run: |
+          set -euo pipefail
+          python -m scripts.release_gate review-template --manifest release-evidence/candidate.json --output "$RUNNER_TEMP/template-check.json"
+      - name: Authenticate to Google Cloud without a service account key
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: municipal-rag-portfolio
+          workload_identity_provider: projects/280649014820/locations/global/workloadIdentityPools/github-actions/providers/municipal-rag
+          service_account: municipal-rag-deployer@municipal-rag-portfolio.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Verify all manual results and unchanged tested identity
+        run: |
+          set -euo pipefail
+          revision=$(python -c 'import json; print(json.load(open("release-evidence/candidate.json"))["revision"])')
+          gcloud run revisions describe "$revision" --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/revision.json"
+          gcloud run services describe municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/service.json"
+          python -m scripts.release_gate approve --manifest release-evidence/candidate.json --review "$RUNNER_TEMP/review.json" --source-run "$RUNNER_TEMP/source-run.json" --service "$RUNNER_TEMP/service.json" --revision "$RUNNER_TEMP/revision.json" --output release-evidence/promotion.json
+          tagged_url=$(python -c 'import json; print(json.load(open("release-evidence/candidate.json"))["tagged_url"])')
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 --max-time 30 "$tagged_url/_stcore/health"
+      - name: Promote only the verified revision and restore previous traffic on failure
+        run: |
+          set -euo pipefail
+          target=$(python -c 'import json; print(json.load(open("release-evidence/promotion.json"))["traffic_argument"])')
+          previous=$(python -c 'import json; print(json.load(open("release-evidence/promotion.json"))["rollback_argument"])')
+          revision=$(python -c 'import json; print(json.load(open("release-evidence/promotion.json"))["revision"])')
+          cp "$RUNNER_TEMP/review.json" release-evidence/accepted-review.json
+          traffic_change_started=0
+          promotion_verified=0
+          rollback() {
+            if gcloud run services update-traffic municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --to-revisions="$previous" &&
+               gcloud run services describe municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/rollback-service.json" &&
+               python -m scripts.release_gate record-traffic --manifest release-evidence/candidate.json --service "$RUNNER_TEMP/rollback-service.json" --outcome ROLLED_BACK --output "$RUNNER_TEMP/rollback-receipt.json" &&
+               cp "$RUNNER_TEMP/rollback-receipt.json" release-evidence/outcome.json; then
+              printf 'Previous traffic restored and verified.\n' >> "$GITHUB_STEP_SUMMARY"
+            else
+              python -c 'import json; from pathlib import Path; Path("release-evidence/outcome.json").write_text(json.dumps({"schema_version":"rag-release-outcome-v1","outcome":"ROLLBACK_UNCONFIRMED","manual_recovery_required":True}))'
+              printf 'Automatic rollback could not be confirmed. Use the recorded previous_traffic and the release runbook.\n' >> "$GITHUB_STEP_SUMMARY"
+            fi
+          }
+          finish() {
+            local exit_code=$?
+            trap - ERR EXIT
+            # Let one cleanup attempt finish even if cancellation sends a second signal.
+            # SIGKILL/runner loss cannot be trapped; the runbook covers manual recovery.
+            trap '' INT TERM
+            set +e
+            if [[ "$traffic_change_started" == 1 && "$promotion_verified" == 0 ]]; then
+              rollback
+              if [[ "$exit_code" == 0 ]]; then exit_code=1; fi
+            fi
+            exit "$exit_code"
+          }
+          trap finish EXIT
+          trap 'exit "$?"' ERR
+          trap 'exit 130' INT
+          trap 'exit 143' TERM
+          # Mark before invoking gcloud: a cancelled/failed client may already
+          # have changed server-side traffic without returning success.
+          traffic_change_started=1
+          gcloud run services update-traffic municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --to-revisions="$target"
+          gcloud run services describe municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/promoted-service.json"
+          python -m scripts.release_gate record-traffic --manifest release-evidence/candidate.json --service "$RUNNER_TEMP/promoted-service.json" --outcome PROMOTED --output "$RUNNER_TEMP/promoted-receipt.json"
+          service_url=$(python -c 'import json, os; print(json.load(open(os.path.join(os.environ["RUNNER_TEMP"], "promoted-service.json")))["status"]["url"])')
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 --max-time 30 "$service_url/_stcore/health"
+          cp "$RUNNER_TEMP/promoted-receipt.json" release-evidence/outcome.json
+          # Commit point: exact routing, health, and the receipt are all verified.
+          promotion_verified=1
+          printf '## Verified revision promoted\n\nRevision: `%s`\n\nRollback traffic: `%s`\n' "$revision" "$previous" >> "$GITHUB_STEP_SUMMARY"
+      - name: Preserve release decision
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-promotion-${{ github.run_id }}-${{ github.run_attempt }}
+          path: release-evidence/
+          if-no-files-found: warn
+          retention-days: 30

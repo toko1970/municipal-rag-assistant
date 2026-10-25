@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "utility_kind": "new offline public aggregate consistency audit",
+  "status": "AGGREGATE_CONSISTENT",
+  "external_api_calls": 0,
+  "case_level_reproduction": false,
+  "quality_reassessment": false,
+  "source_sha256": {
+    "eval/results/autoresearch/freeform-integration-regression-20261024-01/scorecard.json": "5be641c1d251a2b8abc2f2ce3a9e47ff7cd3acbf4377f17a36bcea01345db026",
+    "eval/results/autoresearch/freeform-integration-regression-20261024-01/run_manifest.json": "ab155ca2993979843e78e97044fb87ecd17f3b9d727ea8cab30143d086a21275",
+    "eval/results/autoresearch/challenge-freeform-20261024-01/scorecard.json": "09e088c5e400843de72e1a2c13ed6adb01ab13afa0393830a18c5887b7585262",
+    "eval/results/autoresearch/challenge-freeform-20261024-01/run_manifest.json": "db5d895cf1af7cb48b64ef532210f1bfb0f87cb704caae738900754e867f26e0",
+    "eval/results/autoresearch/challenge-freeform-20261024-01/human_review_adjudication.md": "95ac38b6a73d7d4d29ecb263f2a2596ab8732237f7c1cc3c0be512709f96499e",
+    "eval/results/model_tier_test_confirmation_20261019/run_manifest.json": "b01e2657097fe5e74411afe3b3bf38232427c646a2edd9238175dfd98dbd0423",
+    "eval/results/model_tier_test_confirmation_20261019/report.md": "aa6dde50ba5c9455024d9b60f32c2449ae495122728611a8eb72a4850934e183"
+  },
+  "integration": {
+    "candidate_success": 129,
+    "baseline_success": 125,
+    "denominator": 130,
+    "paired_case_outcomes": {
+      "candidate_only_success": 4,
+      "baseline_only_success": 0,
+      "both_success": 125,
+      "both_fail": 1
+    },
+    "candidate_only_case_ids": [
+      "VD014",
+      "VD016",
+      "VD019",
+      "VD024"
+    ],
+    "baseline_only_case_ids": [],
+    "case_level_reproduction": false,
+    "baseline_route": "unconfirmed: original runner and answer records unavailable",
+    "scoring": "published provisional machine composite; no new judging"
+  },
+  "challenge": {
+    "machine": {
+      "candidate_success": 77,
+      "baseline_success": 76,
+      "denominator": 80,
+      "paired_scenario_outcomes": {
+        "baseline_only_success": 1,
+        "both_success": 37,
+        "candidate_only_success": 1,
+        "neither_complete_success": 1,
+        "unresolved_or_incomplete": 0
+      }
+    },
+    "documented_limited_correction": {
+      "candidate_success": 79,
+      "baseline_success": 78,
+      "denominator": 80,
+      "corrected_expression_ids": [
+        "CH-I07-F",
+        "CH-I07-P"
+      ],
+      "paired_scenario_outcomes": {
+        "candidate_only": 1,
+        "baseline_only": 1,
+        "both": 38,
+        "neither": 0
+      },
+      "source": "eval/results/autoresearch/challenge-freeform-20261024-01/human_review_adjudication.md",
+      "reviewer": "user, as recorded in the existing review; no new review",
+      "all_expressions_human_rescored": false
+    },
+    "case_level_reproduction": false,
+    "comparison": "original one-call prompt vs revised one-call prompt, fixed evidence"
+  },
+  "model_confirmation": {
+    "original": {
+      "gemini-3.8-flash": {
+        "success": 32,
+        "denominator": 44,
+        "A1_denominator": 31,
+        "A2_A3_denominator": 11,
+        "scorable_denominator": 42,
+        "review_required": 2
+      },
+      "gemini-3.1-flash-lite": {
+        "success": 37,
+        "denominator": 44,
+        "A1_denominator": 32,
+        "A2_A3_denominator": 12,
+        "scorable_denominator": 44,
+        "review_required": 0
+      }
+    },
+    "documented_flash_only_correction": {
+      "success": 35,
+      "denominator": 44,
+      "case_ids": [
+        "X014-T0",
+        "X014-T1",
+        "X026-T0"
+      ],
+      "source": "eval/results/model_tier_test_confirmation_20261019/report.md",
+      "reviewer": "user, as recorded in the existing selection report; no new review",
+      "flash_lite_rescored": false
+    },
+    "same_rubric_rescoring_complete": false,
+    "case_level_reproduction": false
+  },
+  "limitations": [
+    "Original answer records, judge prompts and case-level judgments are missing for these runs.",
+    "Documented corrections are applied only to aggregate arithmetic, not independently verified answers.",
+    "No holdout files are read; no quality gate or adoption decision is changed."
+  ]
+}

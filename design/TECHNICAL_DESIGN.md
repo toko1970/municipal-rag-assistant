@@ -2,7 +2,9 @@
 
 ## 1. 目的と設計境界
 
-この文書は[`TARGET_RAG_SPEC.md`](TARGET_RAG_SPEC.md)を実装へ落とす契約である。現行のStreamlit、Gemini、Chroma、JSONL構成から、PDF・図表、PostgreSQL、Qdrant、Cloud Storageを使う目標構成へ段階移行する。
+この文書は[`TARGET_RAG_SPEC.md`](TARGET_RAG_SPEC.md)に対応する設計契約・Production Referenceであり、全項目の実装完了を表すものではない。Chroma・JSONLは初期構成で、現在はPostgreSQL・Qdrant・GCSを使う公開デモへ移行している。
+
+**2026-10-25の状態整理:** 実行経路・公開履歴の正本は[回答生成ページ](../portfolio/04-answer-generation.md)。公開の一回生成候補は、本書6章の従来経路の独立分類・claim検証・Version Resolverを使わない。Outbox Worker、完全な施行期間filter/active世代同期、DOCX等の変換、管理UI等を含む目標設計は[実装範囲](PORTFOLIO_DELIVERY_PLAN.md)と照合し、公開の機能保証とは読まない。今回の整備ではDB schema・index・公開既定を変更しない。
 
 完成対象は転職用ポートフォリオの公開デモであり、実在自治体の本番業務、最終判断、個人情報処理は含めない。
 
@@ -29,7 +31,7 @@ flowchart LR
 | Streamlit UI | 質問受付、回答・引用・図表表示、フィードバック | 検索ロジックを持たない |
 | Query Service | 版決定、検索、正本取得、生成、検証、分類、記録 | repository interfaceだけを使う |
 | Ingestion Service | 原本登録、抽出、構造化、チャンク、索引準備 | 管理者CLIから起動する |
-| Outbox Worker | PostgreSQLのイベントをQdrantへ冪等反映 | 二重書込みを行わない |
+| Outbox Worker（目標設計・未実装） | PostgreSQLのイベントをQdrantへ冪等反映 | 現行は管理CLIによる同期。Production Backlog |
 | PostgreSQL | 文書構造と利用ログの正本 | ベクトル値を持たない |
 | Qdrant | 再構築可能な検索インデックス | 回答・質問の正本を持たない |
 | Cloud Storage | 原本と画像の正本 | 非公開bucketとする |
@@ -95,6 +97,8 @@ Embedding profileの変更や全再構築では新collectionを作り、検証�
 初回取込では`document_versions.ingestion_status`を状態図どおり進める。active runがある再抽出中は版を`READY`のまま維持し、新runの状態は`ingestion_runs.status`だけで管理する。新runが失敗しても旧active runを検索可能なまま残す。activation transactionは再抽出時に`active_ingestion_run_id`だけを切り替え、初回だけ版の`ingestion_status`も`READY`にする。
 
 ## 4. 文書版の決定
+
+以下は目標契約である。公開一回生成経路で施行期間による版決定や従来Version Resolverが実行されることを保証しない。取得できた版情報のUI表示と、モデル入力での版解決は分けて扱う。
 
 - 基準日あり: `effective_from <= as_of_date < effective_to`を満たす`READY`版を対象にする。
 - 基準日なし: Asia/Tokyoの質問受付日を基準日にする。
@@ -168,9 +172,9 @@ LLMには独立した自由文回答も最終表示modeも生成させない。�
 
 ### 6.2 分類要因
 
-公開中のオンライン分類器は[`classification-output-v1.schema.json`](schemas/classification-output-v1.schema.json)を使う。改訂候補は[`classification-output-v2-candidate.schema.json`](schemas/classification-output-v2-candidate.schema.json)に従い、最終ラベルではなくfacetごとの`evidence_coverage`、`claim_support`、`human_review_requirements`を返す。語義は[`CLASSIFICATION_RUBRIC_V2.md`](CLASSIFICATION_RUBRIC_V2.md)を正とする。
+ローカル既定の従来経路のオンライン分類器は[`classification-output-v1.schema.json`](schemas/classification-output-v1.schema.json)を使う。改訂候補は[`classification-output-v2-candidate.schema.json`](schemas/classification-output-v2-candidate.schema.json)に従い、最終ラベルではなくfacetごとの`evidence_coverage`、`claim_support`、`human_review_requirements`を返す。語義は[`CLASSIFICATION_RUBRIC_V2.md`](CLASSIFICATION_RUBRIC_V2.md)を正とする。
 
-v2のparser、参照validator、決定表は[`src/classification_contract_v2.py`](../src/classification_contract_v2.py)へ、query flowは[`src/query_service_v2.py`](../src/query_service_v2.py)へ分離する。公開中v1の`src/answering.py`と`src/query_service.py`へ候補ロジックを混在させない。`CLASSIFICATION_CONTRACT_VERSION=v2`の場合だけ候補経路を使い、既定値は評価gate通過まで`v1`とする。
+v2のparser、参照validator、決定表は[`src/classification_contract_v2.py`](../src/classification_contract_v2.py)へ、query flowは[`src/query_service_v2.py`](../src/query_service_v2.py)へ分離する。従来経路v1の`src/answering.py`と`src/query_service.py`へ候補ロジックを混在させない。`CLASSIFICATION_CONTRACT_VERSION=v2`の場合だけ候補経路を使い、既定値は評価gate通過まで`v1`とする。
 
 `human_review_requirements`のtypeは、結論を変える個別事実`case_fact`、文書が明示的に残す裁量`policy_judgment`、通常の基準日選択では解消しない`version_conflict`に限定する。質問内の事実はQuestion Contractの`input_facts`であり、取得文書の判断基準との関係を確認する前にreview要件へ変換しない。
 
@@ -201,7 +205,7 @@ v2の最終結果はsemantic validator通過後にコードで決める。
 
 基準分類器は`gemini-3.1-flash-lite`、temperature 0、JSON Schema固定とする。モデルが利用不能になった場合は設定値を変更し、評価runに実モデル名を残す。Jev等はoracle evidenceとretrieved evidenceの両方で比較し、低確信度（初期値0.80）またはAPI失敗時だけ基準分類器へ1回fallbackする。oracle runでも分類器の出力項目はオンライン時と同じで、`expected_corpus_answerability`は評価基盤が別に保持する。基準分類器自体がtimeout、schema違反、API errorになった場合は`CLASSIFICATION_FAILED`とし、分類付き回答を表示しない。閾値は開発セットで固定し、holdout結果を見て変更しない。
 
-`version_conflict`だけを[`version-resolution-v1.schema.json`](schemas/version-resolution-v1.schema.json)で再判定する専用resolverをローカルのquery flowへ統合した。公開中のv1では`version_conflict=true`の場合だけ呼び、成功かつconfidence 0.80以上でversion要因だけを置換する。v2候補では同じresolverを`version_conflict`型のreview要件にだけ接続し、他facetのevidence・claim・review判定は変更しない。API失敗、Schema違反、取得外根拠ID、低confidence、表示契約違反では基準分類結果を維持し、resolverと最終分類を別attemptとして記録する。
+`version_conflict`だけを[`version-resolution-v1.schema.json`](schemas/version-resolution-v1.schema.json)で再判定する専用resolverをローカルのquery flowへ統合した。従来経路のv1では`version_conflict=true`の場合だけ呼び、成功かつconfidence 0.80以上でversion要因だけを置換する。v2候補では同じresolverを`version_conflict`型のreview要件にだけ接続し、他facetのevidence・claim・review判定は変更しない。API失敗、Schema違反、取得外根拠ID、低confidence、表示契約違反では基準分類結果を維持し、resolverと最終分類を別attemptとして記録する。
 
 Question Contract生成と検索は独立しているため並列実行する。Contractの外部API attemptは検索結果の成否と切り離して記録する。Contract失敗、回答生成失敗、分類失敗、参照整合性違反はそれぞれ異なるstatusで保存し、分類付き回答を返さない。最終分類attemptにはContract snapshot、facet assessment、`classification-rubric-v2.0`を保存し、同じDB schema上のv1ログと区別する。
 

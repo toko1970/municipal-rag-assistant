@@ -6,6 +6,7 @@ import pytest
 
 from scripts.manage_rag_v2 import (
     CLOUD_SMOKE_QUESTION,
+    SmokeFailure,
     bootstrap_cloud,
     extract_visual,
     ingest_reviewed_visual_fixtures,
@@ -20,8 +21,10 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_bootstrap_cloud_runs_storage_setup_before_answer_smoke() -> None:
     answer = {
         "request_id": "00000000-0000-0000-0000-000000000001",
+        "answer_status": "SUCCESS",
+        "answer": "回答分類: 根拠十分\n回答:\n給与は毎月21日、休日は直前営業日に支給します。",
         "answer_label": "根拠十分",
-        "references": [{"element_id": "one"}],
+        "references": [{"document_id": "DOC-001", "heading": "3. 給与支給日", "content": "毎月21日に支給する。"}],
     }
     with (
         patch("scripts.manage_rag_v2.migrate") as migrate,
@@ -61,14 +64,19 @@ def test_bootstrap_cloud_runs_storage_setup_before_answer_smoke() -> None:
         "answer_label": "根拠十分",
         "references": 1,
         "provider_503_retries": 0,
+        "structural_passed": True,
+        "semantic_review_status": "PENDING",
+        "release_ready": False,
     }
 
 
 def test_bootstrap_cloud_retries_only_provider_503_with_exponential_backoff() -> None:
     answer = {
         "request_id": "00000000-0000-0000-0000-000000000002",
+        "answer_status": "SUCCESS",
+        "answer": "回答分類: 根拠十分\n回答:\n毎月21日に支給します。",
         "answer_label": "根拠十分",
-        "references": [{"element_id": "one"}],
+        "references": [{"document_id": "DOC-001", "heading": "3. 給与支給日", "content": "毎月21日に支給する。"}],
     }
     sleeps: list[float] = []
     with (
@@ -110,9 +118,11 @@ def test_bootstrap_cloud_does_not_retry_non_503_error() -> None:
             side_effect=RuntimeError("401 invalid API key"),
         ) as generate,
     ):
-        with pytest.raises(RuntimeError, match="401 invalid API key"):
+        with pytest.raises(SmokeFailure) as error:
             bootstrap_cloud(sleep=sleeps.append)
 
+    assert error.value.report["results"][0]["failure_kind"] == "PROVIDER_ERROR"
+    assert "invalid API key" not in str(error.value)
     generate.assert_called_once_with(CLOUD_SMOKE_QUESTION)
     assert sleeps == []
 

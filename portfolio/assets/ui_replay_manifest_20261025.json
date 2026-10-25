@@ -1,0 +1,50 @@
+{
+  "purpose": "Actual Streamlit UI screenshots using two public saved development responses; not live generation or release acceptance",
+  "captured_on": "2026-10-25",
+  "ui_commit": "912f095130bfbd73bd9599cee25c6ff65bb91e75",
+  "source_response_date": "2026-09-23",
+  "response_model": "gemini-3.1-flash-lite",
+  "source_flow": "eval/evaluate_models.py: fixed retrieval cache and one-call src.rag_chain.build_prompt",
+  "case_ids": [
+    "Q011",
+    "Q076"
+  ],
+  "live_llm_calls": 0,
+  "embedding_calls": 0,
+  "database_writes": 0,
+  "renderer": {
+    "streamlit": "1.58.0",
+    "playwright": "1.51.1",
+    "chromium": "134.0.6998.35",
+    "viewport": {
+      "width": 1400,
+      "height": 1150
+    },
+    "locale": "ja-JP",
+    "font_fallback": "Noto Sans CJK JP",
+    "capture_region": "viewport scrolled to answer heading and first expanded reference"
+  },
+  "adaptation": "Decode stored escaped newlines; join references with the saved context by verified name/heading/order. Do not infer version metadata. Render unchanged app.py via scripts/replay_saved_ui.py, substituting only generation/feedback I/O. Screenshot taken by browser; no fabricated answer or image editing.",
+  "sha256": {
+    "app.py": "789d2709facda503c618cb619389cd7d2f48774d64b1fb47a42fe0ca02d75179",
+    "scripts/replay_saved_ui.py": "79e56ae13084bcafd287a2498f2d06361b5a10981d167d9854d4527f65610951",
+    "eval/results/model_gemini_gemini-3.1-flash-lite_formal.csv": "3089c601e795bd9c69f85daa72f653e48ab361cbc9da3e892989b3d09edb43e8",
+    "eval/results/model_evaluation_retrieval.jsonl": "ef4d7300295592522c3cdf8c92670387e0cd8b5b0e5c867ae797ed7ab72ebf37",
+    "portfolio/assets/ui_answer_saved_replay_20261025.png": "7907baa3d6f379dcc35beed9cb574fd82ae1456ac56fa0feed05ab3fa95e35c4",
+    "portfolio/assets/ui_hold_saved_replay_20261025.png": "a1bea17725a93d489f18a11b1cee77450a49bbc4a6439b58777bb8cbaeaa47c6"
+  },
+  "cases": {
+    "Q011": {
+      "question": "通常の給与支給日は毎月何日ですか？",
+      "answer_label": "根拠十分",
+      "answer_sha256": "f5df1d35269b4e862856812d0fe732fde1fbe1c0eaeb884f72d66d6b585501a1",
+      "reference_count": 5
+    },
+    "Q076": {
+      "question": "休職者の給与を何割停止するか、この規程だけで判断できますか？",
+      "answer_label": "文書不足",
+      "answer_sha256": "6ab62c89175839ebec6af3fc2d61210f5bf9fe0f27ad6254ddf42a7d2f831913",
+      "reference_count": 5
+    }
+  }
+}

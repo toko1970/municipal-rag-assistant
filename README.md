@@ -1,82 +1,75 @@
 # 自治体向け制度問い合わせ支援RAG
 
-[公開デモ](https://municipal-rag-assistant-280649014820.asia-northeast1.run.app/) · [機能説明](portfolio/README.md)
+[公開デモ](https://municipal-rag-assistant-280649014820.asia-northeast1.run.app/) · [精度改善の意思決定](eval/reports/ACCURACY_IMPROVEMENT.md) · [機能説明](portfolio/README.md)
 
-自治体の給与事務担当者が、規程・通知・FAQ・業務マニュアルから根拠を探す作業を支援するRAGです。架空の制度文書を対象に、回答と根拠、回答できるかどうかを示します。
+自治体の給与事務担当者が、規程・通知・FAQ・業務マニュアルから根拠を探す作業を支援するRAGです。架空の人事・給与文書を検索し、回答、回答区分、根拠本文、図表の元画像を一画面で確認できます。
 
-実在する自治体文書、職員情報、問い合わせ履歴は使用していません。公開デモはCloud Runのscale-to-zero設定により、初回表示に時間がかかる場合があります。
+制度の問い合わせには、文書だけで答えられるもの、個別事実の確認が必要なもの、文書に規則がないものがあります。この違いを`根拠十分`・`判断要`・`文書不足`として示し、断定できない場合には不足情報と確認先を伝えることを目指しています。実在する自治体文書、職員情報、問い合わせ履歴は使用していません。
+
+## 実画面とデモ
+
+**通常回答:** 給与支給日の回答と、開いた根拠本文を同時に確認します。
+
+![通常の給与支給日への根拠十分の回答と、給与制度規程の根拠本文を表示した実UI](portfolio/assets/ui_answer_saved_replay_20261025.png)
+
+**保留回答:** 休職時の支給停止割合を文書から確定できないため、不足する規則と人事給与課への確認を示します。
+
+![休職時の給与停止割合について文書不足と回答し、不足情報・確認先・根拠本文を表示した実UI](portfolio/assets/ui_hold_saved_replay_20261025.png)
+
+撮影日: 2026-10-25。UIはcommit `912f095`の`app.py`を使用し、2026-09-23のFlash-Lite評価で保存したQ011/Q076の実際の応答を再生しました。**現在の公開Flashモデルによる新規生成の確認ではありません。** 元の回答・検索contextは保持し、版情報の未記録項目は補完していません。[再生方法・撮影記録](portfolio/01-ui.md)
+
+[公開デモ](https://municipal-rag-assistant-280649014820.asia-northeast1.run.app/)では新しく質問できます。Cloud Runのscale-to-zeroにより初回表示に時間がかかる場合があります。回答内容は実行時のモデル出力です。
+
+## 改善の過程で判断したこと
+
+最初のText holdoutでは、根拠の検索が100/100でも、生成・分類・表示まで含む成功は83/100でした。そこで、検索後に何が失敗するかを分けて検証しました。
+
+| 判断 | 得られた知見・採否 |
+|---|---|
+| 期限計算を限定してコード化 | 起算規則がないのに期限日を補う誤答を公開smokeで検出し、rollbackと根拠照合を実施。限定計算は従来経路に保持 |
+| 分類規約・claim/facetガードを比較 | 過剰保留や正常回答を止める退行があり、不採用。安全停止の増加を精度向上とは扱わない |
+| 一回生成のモデル・promptを比較 | 開発回帰とchallengeで差を確認。両モデルの採点訂正の統一や原票の回収が残る |
+| 開発結果と独立した品質受入を分離 | 一回生成候補のfresh holdoutは76/100でNo-goを維持。公開統合の判断を品質合格へ読み替えない |
+
+[改善総括](eval/reports/ACCURACY_IMPROVEMENT.md)に、各段階の課題、仮説、比較条件、採否、現行構成との関係、原記録へのリンクをまとめています。
+
+## 現行構成と評価
+
+公開設定は`ANSWER_GENERATION_FLOW=autoresearch_candidate`、Gemini 3.8 Flashによる一回生成です。回答本文と分類を同時に出し、検索された根拠を表示します。ローカル既定の`production`は従来の生成・独立分類経路であり、両者は別の構成です。公開経路にはclaim単位の根拠対応、独立分類、決定的期限計算、従来Version Resolverはありません。[構成比較・公開履歴・判断の正本](portfolio/04-answer-generation.md)
+
+| 評価 | 結果 | 読み方 |
+|---|---|---|
+| 130ケース統合回帰 | candidate 129/130、baseline 125/130。改善4・退行0 | 暫定machine composite。改善4件は図表開発ケース。元runner等がなくbaselineの処理経路は未確認 |
+| 80表現challenge | 限定訂正後79/80対78/80 | 一回生成prompt同士の比較。40シナリオ単位では改善1・退行1。全件人手再採点ではない |
+| candidate fresh holdout | 76/100、総合の事前閾値95%に未達 | No-go。重大な根拠外断定は訂正後0/100で当該gateのみPass |
+
+評価の集合・構成・採点方法が違うため、初回83/100と129/130をつないで汎化精度の改善率にはしません。図表sealed holdoutも分類の事前閾値未達で総合不合格です。実利用者の時間短縮や実務正答率の改善は測定していません。[評価の入口](eval/reports/README.md) · [比較条件と原資料の不足](eval/reports/EVALUATION_EVIDENCE_AUDIT_20261025.md)
 
 ## 仕組み
 
 ```mermaid
-flowchart LR
-    subgraph ING[文書登録・索引作成]
-        DOC[制度文書・レビュー済みPDF] --> INGEST[2. 取込・レビュー]
-        INGEST --> PG[(PostgreSQL<br/>文書・版の正本)]
-        INGEST --> DOC_EMB[文書Embedding]
-        DOC_EMB --> QD[(Qdrant<br/>検索index)]
-        INGEST --> GCS[(GCS<br/>図表ページ画像)]
-    end
-
-    subgraph QA[質問への回答]
-        U[利用者] --> UI[1. UI]
-        UI --> SEARCH[3. 質問をベクトル検索]
-        SEARCH --> QUERY_EMB[質問Embedding]
-        QUERY_EMB --> QD
-        QD --> SEARCH
-        SEARCH --> GEN[4. 回答生成・分類]
-        GEN --> UI
-        SEARCH -->|検索ログ・図表asset情報| PG
-        GEN -->|生成試行・回答結果を記録| PG
-        UI -->|feedbackを保存| PG
-        SEARCH -. 元画像を取得 .-> GCS
-    end
-
-    classDef user fill:#e8f3ff,stroke:#3572a5,color:#16324f
-    classDef process fill:#f2edff,stroke:#7656a5,color:#30224a
-    classDef store fill:#e9f6ef,stroke:#3b8058,color:#183b27
-    class U user
-    class UI,INGEST,DOC_EMB,SEARCH,QUERY_EMB,GEN process
-    class PG,QD,GCS store
+flowchart TD
+    DOC["制度文書・レビュー済み図表"] --> INGEST["文書取込CLI"]
+    INGEST --> PG["PostgreSQL：文書・版・実行記録"]
+    INGEST --> QD["Qdrant：検索index"]
+    INGEST --> GCS["GCS：図表ページ画像"]
+    UI["Streamlit：質問・回答・根拠表示"] --> SEARCH["Embeddingと根拠検索"]
+    SEARCH --> QD
+    SEARCH --> GEN["Gemini：回答・分類を一回生成"]
+    GCS --> GEN
+    GEN --> UI
+    SEARCH --> PG
+    GEN --> PG
+    UI -->|feedback| PG
 ```
 
-図中の番号から、各機能の役割・設計上の工夫・評価結果へ進めます。
-
-| 図の役割 | 説明 |
+| 機能 | 詳細 |
 |---|---|
-| 1. UI | [質問・回答・根拠の表示](portfolio/01-ui.md) |
-| 2. 文書登録・正本管理・ベクトル化 | [取込、レビュー、PostgreSQLとQdrant](portfolio/02-documents-and-index.md) |
-| 3. 根拠検索 | [質問ベクトル化と根拠の取得](portfolio/03-retrieval.md) |
-| 4. 回答生成・分類 | [現行経路・評価・公開状態](portfolio/04-answer-generation.md) |
-| 5. 実行ログ・feedback管理 | [検索・生成・根拠・feedbackの記録](portfolio/05-logging.md) |
-
-[評価結果と詳しいレポート](eval/reports/README.md) · [技術設計](design/TECHNICAL_DESIGN.md)
-
-## デモで確認できること
-
-[公開デモを開く](https://municipal-rag-assistant-280649014820.asia-northeast1.run.app/)と、質問、回答区分、参照チャンク、根拠本文を確認できます。図表が根拠に含まれる質問では、参照欄に元ページ画像も表示します。Cloud Runはscale-to-zeroのため、初回表示に時間がかかる場合があります。
-
-検索対象はすべて架空の制度文書です。試す質問の例:
-
-| 質問 | 確認するポイント |
-|---|---|
-| 給与支給日はいつですか？ | 規程本文と該当する根拠箇所 |
-| 給与口座変更届が前月15日に間に合わない場合、いつ反映されますか？ | 個別条件に関する回答区分と確認事項 |
-| 通勤手当の申請書を受領した後、最初に何を確認しますか？ | フローチャートの回答と元ページ画像 |
-
-質問に対する回答内容は公開中のモデル出力であり、ここでは固定の回答例として保証しません。現行UI・回答経路の説明は[機能ページ](portfolio/README.md)、評価条件と制約は[評価資料の案内](eval/reports/README.md)を参照してください。
-
-## 現行版と評価上の制約
-
-2026-10-25時点の公開Cloud Runは、Qdrantを検索indexとして使う一回生成候補です。回答と分類を一度の生成で出力します。独立分類attempt、claim単位の根拠リンク、決定的な期限計算を備えるローカル既定の`production`経路とは異なります。[公開revisionと導入判断](portfolio/04-answer-generation.md)
-
-導入判断では130ケースの暫定machine scoreと80表現challengeの限定訂正結果を別々に確認しています。一方、candidate sealed holdoutは76/100で事前gate未達のNo-goです。評価セットの違う数値を合算せず、架空データの結果を実務導入効果へ一般化しません。図表sealed holdoutも分類精度の事前閾値未達で不合格です。
-
-## 技術事例: 根拠にない期限日を公開smokeで検出
-
-2026-09-29の公開確認で、文書には「14日以内」とだけある質問に対して、旧回答経路が起算規則を補い、具体的な期限日を断定しました。公開を不合格としてtrafficをrollbackし、promptだけでなく、起算規則が根拠本文に明記されているかをコードで検証する修正を行いました。[公開smoke・rollback・修正記録](design/PUBLIC_RELEASE_RESULT_2026-09-29.md)
-
-この修正は当時の経路に対するものです。現在のCloud Run一回生成候補は決定的期限計算を使わないため、この事例の修正が現在の公開経路にもそのまま適用されるとは主張しません。
+| 質問・回答・根拠表示 | [UIと実画面](portfolio/01-ui.md) |
+| 文書・図表の取込と保存 | [PostgreSQL・Qdrant・画像保存](portfolio/02-documents-and-index.md) |
+| 検索 | [質問ベクトル化と根拠の取得](portfolio/03-retrieval.md) |
+| 回答・分類 | [現行経路と評価・公開判断](portfolio/04-answer-generation.md) |
+| 実行記録とfeedback | [経路ごとの記録粒度](portfolio/05-logging.md) |
 
 ## ローカルで起動する
 
@@ -126,21 +119,60 @@ python -m ruff check app.py config.py src scripts tests
 python -m pytest -q -m "not integration" tests
 ```
 
-PostgreSQL/Qdrant統合テストは、使い捨てのCompose projectで実行できます。既存の共有DBやindexへ接続しないでください。
+PostgreSQL/Qdrant統合テストには、DB名・資格情報・volume・ホスト側ポートを分けた専用の[`compose.integration.yaml`](compose.integration.yaml)を使います。通常の`compose.yaml`は5432/6333/6334を固定公開するため、project名を変えるだけではポートを分離できません。
 
 ```bash
-docker compose -p rag-portfolio-integration up -d postgres qdrant
-DATABASE_URL=postgresql+psycopg://rag_app:rag_local_only@localhost:5432/rag_portfolio \
-QDRANT_URL=http://localhost:6333 \
-python -m scripts.manage_rag_v2 migrate
-DATABASE_URL=postgresql+psycopg://rag_app:rag_local_only@localhost:5432/rag_portfolio \
-QDRANT_URL=http://localhost:6333 \
-python -m pytest -q -m integration tests/integration
-docker compose -p rag-portfolio-integration down -v
+# このテストで作るproject名を一意にする。使用済みポートなら各RAG_TEST_*_PORTも変更する。
+export RAG_TEST_PROJECT=rag-check-20261025
+export RAG_TEST_POSTGRES_PORT=15432
+export RAG_TEST_QDRANT_PORT=16333
+export RAG_TEST_QDRANT_GRPC_PORT=16334
+docker compose --env-file /dev/null -f compose.integration.yaml \
+  -p "$RAG_TEST_PROJECT" up -d
+# 両サービスがhealthyになることを確認してから次へ進む。
+docker compose --env-file /dev/null -f compose.integration.yaml \
+  -p "$RAG_TEST_PROJECT" ps
+
+# サブシェル内だけで接続先を上書きし、既存.envの共有・cloud接続値を使わない。
+(
+  export DATABASE_URL="postgresql+psycopg://rag_test:rag_test_only@127.0.0.1:${RAG_TEST_POSTGRES_PORT}/rag_handoff_test"
+  export QDRANT_URL="http://127.0.0.1:${RAG_TEST_QDRANT_PORT}"
+  export QDRANT_COLLECTION_NAME="${RAG_TEST_PROJECT}_only"
+  export QDRANT_API_KEY= GOOGLE_API_KEY= OPENAI_API_KEY= MISTRAL_API_KEY=
+  export VISUAL_ASSET_BACKEND=local
+  python -m scripts.manage_rag_v2 migrate &&
+  python -m pytest -q -m integration tests/integration
+)
+
+# 上で作ったテストprojectだけを削除する。
+docker compose --env-file /dev/null -f compose.integration.yaml \
+  -p "$RAG_TEST_PROJECT" down -v
 ```
 
-統合テストは固定ベクトルとfakeを使い、Embedding/LLM APIを呼びません。CIでは専用PostgreSQLとQdrant service上でschema migrationと統合テストを実行し、その成功をdeployの依存条件にしています。CIのproduction deployには既存のGitHub Environment承認と`ENABLE_CD`設定も必要です。
+統合テストは固定ベクトルとfakeを使い、Embedding/LLM APIを呼びません。各テストは独立したcollectionを作成して削除します。CIでは専用PostgreSQL/QdrantとTerraform検査の成功を、候補準備の前提にします。
 
-## 開発と検証
+### 保存済み評価の確認と公開smoke
 
-このリポジトリでは、質問受付・根拠表示、文書取込、PostgreSQLとQdrantの保存、回答・分類、ログ、CI/CDを実装・記録しています。変更は通常テスト、サービス境界の統合テスト、または条件を固定した評価runで確認します。品質評価にはモデル出力の揺らぎや評価規約の限界があるため、採否、実測値、未検証範囲を[評価資料](eval/reports/README.md)に分けて記録しています。評価対象は架空文書であり、実利用者による時短・正答率の比較は実施済みの成果として主張していません。
+```bash
+# 公開aggregateの算術整合のみ。原回答の再採点ではない。
+python -m eval.audit_public_evaluation
+```
+
+smoke専用コマンドは、schema・indexを変更せず5種類の代表質問を実行し、不完全出力や必要根拠の欠落で非ゼロ終了します。**こちらは外部LLM/Embeddingと監査ログ書込みを伴います。** 回数・費用を確認してから実行してください。
+
+```bash
+python -m scripts.manage_rag_v2 smoke \
+  --max-cases 5 --max-attempts 5 --max-503-retries 0
+```
+
+成功は構造検査の通過であり、意味品質や公開受入の完了ではありません。通常CIはtraffic未切替の候補準備まで、公開は検査したrevisionに結び付けた意味確認・実UI確認と既存Environment承認の後に行います。[公開リリース手順](design/PUBLIC_RELEASE_RUNBOOK.md)
+
+## 制作・評価への関与と詳細資料
+
+制作者による確認として公開記録から追えるのは、分類改善方針の選択と分類境界・期待ラベルの確認、安全性を重視したモデル選定方針、モデル比較の3ケースとchallengeの限定訂正、直接比較を確認した候補統合の判断です。分類失敗の分析では、本人が期待ラベルを承認し、Codexが失敗原因を初回分類した分担も記録されています。各ファイルの執筆分担や基準90件の採点者の本人確認は残っており、確認できた個別作業を全制作工程の担当実績へ広げていません。[確認できた担当範囲と出典](portfolio/01-ui.md#制作者の関与とai支援)
+
+- [精度改善の総括](eval/reports/ACCURACY_IMPROVEMENT.md): 課題から採用・不採用まで。
+- [評価比較の条件と再現範囲](eval/reports/EVALUATION_EVIDENCE_AUDIT_20261025.md): 規約・分母・訂正・原資料・不足資料。
+- [技術選定](design/TECH_STACK_DECISIONS.md): 実測による比較と設計上の選択を区別。
+- [技術設計](design/TECHNICAL_DESIGN.md): 現行実装とProduction Referenceの境界。
+- [公開リリース手順](design/PUBLIC_RELEASE_RUNBOOK.md): 候補の検査、意味確認、公開・復旧。

@@ -92,6 +92,7 @@ jobs:
         run: terraform validate -no-color
 
   deploy:
+    # Preparation only. Public traffic is changed by promote.yml after review.
     needs: [test-and-lint, integration, terraform-check]
     if: >-
       github.event_name == 'push' &&
@@ -108,6 +109,8 @@ jobs:
       id-token: write
     env:
       IMAGE: asia-northeast1-docker.pkg.dev/municipal-rag-portfolio/municipal-rag-images/municipal-rag-assistant:${{ github.sha }}
+      REVISION: municipal-rag-assistant-r${{ github.run_id }}-${{ github.run_attempt }}
+      RELEASE_TAG: review-${{ github.run_id }}-${{ github.run_attempt }}
       CLOUD_SQL_CONNECTION_NAME: ${{ vars.CLOUD_SQL_CONNECTION_NAME }}
       QDRANT_URL: ${{ vars.QDRANT_URL }}
       GCS_VISUAL_ASSET_BUCKET: ${{ vars.GCS_VISUAL_ASSET_BUCKET }}
@@ -123,22 +126,58 @@ jobs:
       - name: Configure Artifact Registry authentication
         run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev --quiet
       - name: Build and push the commit image
+        id: image
         run: |
+          set -euo pipefail
           docker build -t "$IMAGE" .
           docker push "$IMAGE"
-      - name: Validate RAG v2 deployment configuration
+          digest=$(gcloud artifacts docker images describe "$IMAGE" --format='value(image_summary.fully_qualified_digest)')
+          [[ "$digest" =~ @sha256:[a-f0-9]{64}$ ]]
+          printf 'digest=%s\n' "$digest" >> "$GITHUB_OUTPUT"
+      - name: Validate configuration and snapshot existing public traffic
         run: |
+          set -euo pipefail
           test -n "$CLOUD_SQL_CONNECTION_NAME"
           test -n "$QDRANT_URL"
           test -n "$GCS_VISUAL_ASSET_BUCKET"
-      - name: Initialize and smoke-test RAG v2 dependencies
+          mkdir release-evidence
+          gcloud run services describe municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/service-before.json"
+      - name: Create the exact candidate revision without public traffic
+        uses: google-github-actions/deploy-cloudrun@v3
+        with:
+          project_id: municipal-rag-portfolio
+          region: asia-northeast1
+          service: municipal-rag-assistant
+          image: ${{ steps.image.outputs.digest }}
+          suffix: r${{ github.run_id }}-${{ github.run_attempt }}
+          tag: ${{ env.RELEASE_TAG }}
+          no_traffic: true
+          env_vars_update_strategy: overwrite
+          env_vars: |-
+            RAG_BACKEND=qdrant
+            ANSWER_GENERATION_FLOW=autoresearch_candidate
+            QDRANT_URL=${{ env.QDRANT_URL }}
+            QDRANT_COLLECTION_NAME=municipality_rag_docs_v2_contextual_heading_v1
+            LLM_MODEL_NAME=gemini-3.8-flash
+            CLASSIFIER_MODEL_NAME=gemini-3.1-flash-lite
+            VISUAL_ASSET_BACKEND=gcs
+            GCS_VISUAL_ASSET_BUCKET=${{ env.GCS_VISUAL_ASSET_BUCKET }}
+          secrets_update_strategy: overwrite
+          secrets: |-
+            GOOGLE_API_KEY=gemini-api-key:1
+            DATABASE_URL=rag-database-url:1
+            QDRANT_API_KEY=qdrant-api-key:5
+          flags: >-
+            --service-account=municipal-rag-runtime@municipal-rag-portfolio.iam.gserviceaccount.com
+            --set-cloudsql-instances=${{ env.CLOUD_SQL_CONNECTION_NAME }}
+      - name: Configure the existing job for smoke only
         uses: google-github-actions/deploy-cloudrun@v3
         with:
           project_id: municipal-rag-portfolio
           region: asia-northeast1
           job: municipal-rag-bootstrap
-          image: ${{ env.IMAGE }}
-          wait: true
+          image: ${{ steps.image.outputs.digest }}
+          wait: false
           env_vars_update_strategy: overwrite
           env_vars: |-
             RAG_BACKEND=qdrant
@@ -158,41 +197,38 @@ jobs:
             --service-account=municipal-rag-runtime@municipal-rag-portfolio.iam.gserviceaccount.com
             --set-cloudsql-instances=${{ env.CLOUD_SQL_CONNECTION_NAME }}
             --command=python
-            --args=cloud_bootstrap.py
+            --args=-m,scripts.manage_rag_v2,smoke,--max-cases,5,--max-attempts,5,--max-503-retries,0
             --cpu=1
             --memory=1Gi
+            --tasks=1
+            --parallelism=1
             --max-retries=0
             --task-timeout=15m
-      - name: Deploy a new revision of the existing service
-        id: deploy
-        uses: google-github-actions/deploy-cloudrun@v3
+      - name: Match the candidate and smoke runtime before any question
+        run: |
+          set -euo pipefail
+          gcloud run revisions describe "$REVISION" --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/revision.json"
+          gcloud run jobs describe municipal-rag-bootstrap --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/job.json"
+          python -m scripts.release_gate check-runtime --revision "$RUNNER_TEMP/revision.json" --job "$RUNNER_TEMP/job.json"
+      - name: Execute five bounded smoke cases without migration or ingestion
+        run: |
+          set -euo pipefail
+          gcloud run jobs execute municipal-rag-bootstrap --project=municipal-rag-portfolio --region=asia-northeast1 --wait --format=json > "$RUNNER_TEMP/execution.json"
+      - name: Preserve tested identity, rollback target, and pending review
+        env:
+          PINNED_IMAGE: ${{ steps.image.outputs.digest }}
+        run: |
+          set -euo pipefail
+          gcloud run services describe municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/service-after.json"
+          python -m scripts.release_gate prepare --before-service "$RUNNER_TEMP/service-before.json" --service "$RUNNER_TEMP/service-after.json" --revision "$RUNNER_TEMP/revision.json" --execution "$RUNNER_TEMP/execution.json" --commit "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID" --run-attempt "$GITHUB_RUN_ATTEMPT" --repository "$GITHUB_REPOSITORY" --tag "$RELEASE_TAG" --expected-revision "$REVISION" --image "$PINNED_IMAGE" --output release-evidence/candidate.json
+          python -m scripts.release_gate review-template --manifest release-evidence/candidate.json --output release-evidence/review-template.json
+          tagged_url=$(python -c 'import json; print(json.load(open("release-evidence/candidate.json"))["tagged_url"])')
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 --max-time 30 "$tagged_url/_stcore/health"
+          printf '## Candidate prepared; public traffic unchanged\n\nRevision: `%s`\n\nUI review URL: %s\n\nAll five semantic/UI checks remain PENDING. Use the Promote reviewed revision workflow only after completing review-template.json.\n' "$REVISION" "$tagged_url" >> "$GITHUB_STEP_SUMMARY"
+      - name: Save sanitized release evidence
+        uses: actions/upload-artifact@v4
         with:
-          project_id: municipal-rag-portfolio
-          region: asia-northeast1
-          service: municipal-rag-assistant
-          image: ${{ env.IMAGE }}
-          env_vars_update_strategy: overwrite
-          env_vars: |-
-            RAG_BACKEND=qdrant
-            ANSWER_GENERATION_FLOW=autoresearch_candidate
-            QDRANT_URL=${{ env.QDRANT_URL }}
-            QDRANT_COLLECTION_NAME=municipality_rag_docs_v2_contextual_heading_v1
-            LLM_MODEL_NAME=gemini-3.8-flash
-            CLASSIFIER_MODEL_NAME=gemini-3.1-flash-lite
-            VISUAL_ASSET_BACKEND=gcs
-            GCS_VISUAL_ASSET_BUCKET=${{ env.GCS_VISUAL_ASSET_BUCKET }}
-          secrets_update_strategy: overwrite
-          secrets: |-
-            GOOGLE_API_KEY=gemini-api-key:1
-            DATABASE_URL=rag-database-url:1
-            QDRANT_API_KEY=qdrant-api-key:5
-          flags: >-
-            --add-cloudsql-instances=${{ env.CLOUD_SQL_CONNECTION_NAME }}
-      - name: Route traffic to the latest ready revision
-        run: >-
-          gcloud run services update-traffic municipal-rag-assistant
-          --project=municipal-rag-portfolio
-          --region=asia-northeast1
-          --to-latest
-      - name: Check Streamlit health endpoint
-        run: curl --fail --retry 5 --retry-delay 10 "${{ steps.deploy.outputs.url }}/_stcore/health"
+          name: release-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: release-evidence/
+          if-no-files-found: error
+          retention-days: 30

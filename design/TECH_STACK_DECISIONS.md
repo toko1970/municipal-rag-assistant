@@ -22,27 +22,33 @@ StreamlitとLangChainについては、当時の選定記録や候補比較の�
 | 実行環境 | Docker / Cloud Run | 手元の個別環境、VM等 | DockerでDB・検索index・アプリの実行条件をそろえ、同じアプリimageをCloud Runへ配布。公開デモに必要な運用範囲を抑え、起動停止をサービスへ委ねる。VMとの負荷・費用比較は未実施。 |
 | CI/CD・IaC | GitHub Actions / Terraform | 手動デプロイ、他製品 | PR・pushで検査し、承認後にデプロイする経路と、クラウド資源の差分をコードで確認する経路を残す。製品間の性能比較ではなく、変更履歴と再現性を優先。 |
 
+## 現行構成と時点
+
+2026-10-25時点の公開経路は`autoresearch_candidate`（一回生成、Gemini 3.8 Flash）で、ローカル既定の`production`（Gemini 3.1 Flash-Liteによる生成・独立分類）とは異なる。構成・公開履歴・品質受入の正本は[回答生成ページ](../portfolio/04-answer-generation.md)。本書の比較は各レポートの実施時点を指す。
+
 ## アプリとRAG連携
 
 ### Python / Streamlit
 
 画面の中心は質問入力と回答結果の確認である。回答区分、本文、引用、ページ画像、フィードバックを同じ画面で扱い、画面側に複雑な状態管理や独立したAPI公開面を設ける必要は小さい。そのため、PythonのRAG処理と同じ実行環境で画面を作れるStreamlitを初期版に選んだ。Gradioはモデルの入出力を試すデモ候補、FastAPI + Reactは画面とAPIを分けて細かなUI・契約を管理する候補として考えられるが、同じ画面を作って比較したわけではない。
 
-この判断には明確な境界がある。公開利用者が増える、画面状態やアクセシビリティ要件が複雑になる、APIを別クライアントから使う、といった要件にはStreamlitが最適とは限らない。後続設計ではフロントエンドとAPIの契約を明示し、React + FastAPIを一つのCloud Runサービスから配信する構成を選んだ。これはStreamlitの性能が劣ると実測した結果ではなく、フロント・バックエンド分離と型付きAPIを実装して学ぶ目標を加えたためである。
+この判断には明確な境界がある。公開利用者が増える、画面状態やアクセシビリティ要件が複雑になる、APIを別クライアントから使う、といった要件にはStreamlitが最適とは限らない。React + FastAPIによる分離構成は代替案であり、このリポジトリの現行実装・今回の変更対象ではない。別計画の採用理由を、現行Streamlitの選定理由や実装済み機能として扱わない。
 
 ### LangChain
 
 初期版では、Googleの生成・Embedding、検索store、retriever、promptをRAGの部品として組み合わせるためにLangChainを採用した。モデルと検索実装をつなぐ共通interfaceを使い、ChromaからQdrantへの移行や検索・生成の実験を同一アプリ内で行う構成に合っていた。LangChainと公式SDK直結を同じ機能・負荷・障害条件で比較した記録はないため、「より高性能」「より低コスト」とは評価していない。
 
-後続設計では、retry回数、入力・出力上限、費用予約、エラー分類、構造化応答の検証をアプリ側から明示的に制御する必要が強くなった。そのため、新しいRAG frameworkを追加せず、公式SDKと小さなadapterを中心にする方針へ移った。これは、初期版のLangChainを選んだ理由が無効だったというより、制御要件が具体化した段階で抽象化の境界を見直したもの。
+現行実装はLangChainのDocument・Embedding等と、`src/llm_provider.py`等のadapterを組み合わせ、retryや構造化応答の検証をアプリ側で扱う。公式SDK中心の全面移行や費用予約を含む別計画が、すべて実装済みであるとは主張しない。
 
 ## 生成・検索モデル
 
-### Gemini 3.1 Flash-Lite
+### 生成・分類モデル（公開とローカルを区別）
 
-Gemini 3.1 Flash-Liteは回答生成と回答分類に用いる。回答生成では、旧Gemini 2.5 Flashの比較runに表示失敗があり、3.1 Flash-LiteはTop-5の8問を完了し、既存のformal 100問も完走した。分類モデル比較では開発用36問中31問正解（accuracy 0.861）だった。BGE-M3 zero-shotは6/36で、`根拠十分`の正例を一度も検出できなかった。mDeBERTaは実際の根拠入力が512 token制限を超えて採点前に停止した。
+公開一回生成は凍結候補の`gemini-3.8-flash`を使い、独立分類器は呼ばない。モデル選定には[訂正条件が未統一の比較](../eval/reports/GENERATION_MODEL_SELECTION_20261019.md)が含まれるため、採用経緯と性能の確定判断は分ける。以下はローカル既定の従来経路に関する履歴である。
 
-この比較は、生成モデル同士を大規模な同一条件で網羅したベンチマークではない。分類結果も小規模な開発用setである。現行モデルを維持した判断は、評価完了性、構造化出力、対象setでの分類結果に基づく。
+Gemini 3.1 Flash-Liteは従来経路の回答生成と回答分類に用いる。回答生成では、旧Gemini 2.5 Flashの比較runに表示失敗があり、3.1 Flash-LiteはTop-5の8問を完了し、既存のformal 100問も完走した。分類モデル比較では開発用36問中31問正解（accuracy 0.861）だった。BGE-M3 zero-shotは6/36で、`根拠十分`の正例を一度も検出できなかった。mDeBERTaは実際の根拠入力が512 token制限を超えて採点前に停止した。
+
+この比較は、生成モデル同士を大規模な同一条件で網羅したベンチマークではない。分類結果も小規模な開発用setである。当時の従来経路でモデルを維持した判断は、評価完了性、構造化出力、対象setでの分類結果に基づく。
 
 ### `gemini-embedding-001`
 
@@ -64,7 +70,7 @@ ChromaからQdrantへの移行試験では、同一Embedding・chunk・Top-kの1
 
 質問と回答だけを一つのJSONLへ記録する小さな試作なら、ファイル保存は準備が少ない。しかし本アプリでは、文書と版、抽出要素、図表asset、検索結果、回答claim、根拠link、feedbackが相互に参照し、状態遷移・重複防止・一貫した更新が必要になる。PostgreSQLなら主キー・外部キー・一意制約・transactionで関係を保ち、migrationでschema変更を追跡し、SQLで一つのrequestに関わる検索・生成・分類・feedbackを分析できる。Qdrantに正本を持たせず、indexを消失時に再構築できる境界も作れる。
 
-SQLiteはローカル単一プロセスの軽量代替になり得るが、公開構成のCloud SQL PostgreSQLと異なるDBで統合検証することになる。後続プロジェクトでは「SQLiteで代用してPostgreSQL特有の制約・transaction挙動を未検証にしない」方針を明記し、実PostgreSQLを開発・CI統合確認にも使った。PostgreSQLをSQLiteより高性能と測定したわけではなく、複数関係の正本、SQL分析、公開先との同一性、DB運用を学ぶ要件に合わせた判断である。
+SQLiteはローカル単一プロセスの軽量代替になり得るが、公開構成のCloud SQL PostgreSQLと異なるDBで統合検証することになる。このリポジトリのCIでも専用PostgreSQLとQdrantを使う統合テストを実施する。SQLiteによるunit testだけでPostgreSQL固有の制約・transactionを検証済みとは扱わない。PostgreSQLをSQLiteより高性能と測定したわけではなく、複数関係の正本、SQL分析、公開先との同一性、DB運用を学ぶ要件に合わせた判断である。
 
 ### Google Cloud Storage — DB・コンテナfilesystemとの比較
 
