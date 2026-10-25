@@ -15,15 +15,32 @@
 | テーマ | 資料 | 内容 |
 |---|---|---|
 | 回答・保留の評価 | [回答保留評価仕様書](../../rag_refusal_evaluation_spec.md) · [回答保留評価の個別事例](REFUSAL_EVALUATION_CASE_STUDIES.md) | 採点基準、基準版の失敗事例と採点上の注意 |
-| 生成モデル・検索件数 | [Gemini 3.1とTop-kの評価](../GEMINI_3_1_TOP_K_ANSWER_EVALUATION.md) | 生成モデル既定値とTop-5/Top-8の比較、費用との判断 |
+| 生成モデル | [回答生成モデルの選定記録](GENERATION_MODEL_SELECTION_20261019.md) | 固定入力での比較結果。ローカル既定値は未変更だが、別のユーザー判断による候補統合後、Cloud RunではGemini 3.8 Flashを使用 |
 | 検索・回答改善 | [精度改善手法の技術ガイド](ACCURACY_METHODS_TECHNICAL_GUIDE.md) · [汎化検証方針](../GENERALIZATION_VALIDATION_PLAN.md) | 手法の仕組み、弱点、検証範囲と次の確認事項 |
 | 分類規約 | [分類・質問範囲の解説](CLASSIFICATION_SCOPE_POLICY_GUIDE.md) · [採用判定プロトコル](../INTERVENTION_ADOPTION_PROTOCOL.md) | 判定規約、候補を採用するための条件 |
 | 個別実験 | 下記「代表的な実験記録」および[`results/`](../results/) | 条件、実行記録、詳細な集計結果 |
+
+## 2026-10-25 導入判断と根拠artifact
+
+一回生成候補は、sealed評価をNo-goのまま保持したうえで、別の回帰・challenge比較を確認したユーザー判断によりmainへ統合されました。mainのGitHub Actions run #172は2026-10-25 14:04 JSTに成功し、revision `municipal-rag-assistant-00011-kwv`へ100% trafficを切替えています。[run #172](https://github.com/toko1970/municipal-rag-assistant/actions/runs/40161778266) · [導入判断の記録](../results/autoresearch/freeform-production-rollout-20261025/decision.md)
+
+導入判断文書は判断時点の記録であり、文書内の「未merge・未deploy」はその時点を示します。後続のdeploy完了状態は上記Actions runで確認してください。
+
+| 証拠 | 保存先 | 読み方 |
+|---|---|---|
+| 130ケース統合回帰 | [REPORT](../results/autoresearch/freeform-integration-regression-20261024-01/REPORT.md) · [機械集計](../results/autoresearch/freeform-integration-regression-20261024-01/scorecard.json) · [実行manifest](../results/autoresearch/freeform-integration-regression-20261024-01/run_manifest.json) | 同一検索条件のcandidate 129/130、baseline 125/130。Gemini judgeによる暫定集計として読み、ユーザーの導入判断とは区別する |
+| 80表現challenge | [評価・集計](../results/autoresearch/challenge-freeform-20261024-01/evaluation.md) · [機械集計](../results/autoresearch/challenge-freeform-20261024-01/scorecard.json) · [限定的な人手訂正](../results/autoresearch/challenge-freeform-20261024-01/human_review_adjudication.md) · [実行manifest](../results/autoresearch/challenge-freeform-20261024-01/run_manifest.json) | 限定訂正後の参考値はcandidate 79/80、baseline 78/80。全件人手採点でも、実利用分布の成功率でもない |
+| candidate sealed holdout | [評価結果](../results/autoresearch/freeform-fresh-holdout-20261024-01/FRESH_HOLDOUT_EVALUATION.md) · [公開集計](../results/autoresearch/freeform-fresh-holdout-20261024-01/summary.json) · [実行manifest](../results/autoresearch/freeform-fresh-holdout-20261024-01/run_manifest.json) | 76/100、固定gate未達のNo-go、消費済み。custodian採点原票は公開せず、候補選択・再評価へ再利用しない |
+| paired relative holdout | [保存済みsummary](../results/autoresearch/freeform-paired-relative-20261024-01/summary.json) · [実行manifest](../results/autoresearch/freeform-paired-relative-20261024-01/run_manifest.json) | 100表現・50 scenarioの予測を凍結した状態。manifest上gold未開封・評価値なしのため、成績として扱わない |
+
+これらはset・規約・採点方法が異なる別結果です。130ケースの暫定machine score、challengeの限定人手訂正、sealed No-goを一つの総合率へ混ぜません。導入判断は公開済みですが、sealed No-goを合格へ変更したものではありません。
 
 ## 代表的な実験記録
 
 | 資料 | 内容 |
 |---|---|
+| [個別結論ゲート・プロンプト候補3](../results/condition_check_prompt_pilot_v3_20261020/REPORT.md) | 結論ゲートの開発評価、未使用ケースの扱い、費用と未採用判断 |
+| [個別結論の条件照合プロンプト候補評価](../results/condition_check_prompt_pilot_20261020/REPORT.md) | 未確認条件への断定抑制を狙った候補評価と残存失敗 |
 | [改善手法の一般化監査](../GENERALIZATION_REVIEW.md) | 現行規則の監査と次の比較案 |
 | [期限指示の開発challenge検証](../results/generalization_validation_20261009/report.md) | 未知日付での部分比較、誤期限による不採用判断 |
 | [汎化検証の継続キャンペーン](../results/generalization_completion_20261009/README.md) | 期限・分類・表示の検証と独立レビュー |

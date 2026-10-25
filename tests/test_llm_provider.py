@@ -28,7 +28,11 @@ class LLMProviderTest(unittest.TestCase):
                     "output_tokens": 4,
                     "total_tokens": 14,
                 },
-                response_metadata={"model_name": "gemini-test", "response_id": "g-1"},
+                response_metadata={
+                    "model_name": "gemini-test",
+                    "response_id": "g-1",
+                    "finish_reason": "STOP",
+                },
             )
         )
 
@@ -38,6 +42,7 @@ class LLMProviderTest(unittest.TestCase):
         self.assertEqual(result.input_tokens, 10)
         self.assertEqual(result.output_tokens, 4)
         self.assertEqual(result.request_id, "g-1")
+        self.assertEqual(result.finish_reason, "STOP")
 
     def test_uses_gemini_native_json_schema(self):
         schema = {

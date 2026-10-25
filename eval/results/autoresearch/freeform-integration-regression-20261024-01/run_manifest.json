@@ -1,0 +1,58 @@
+{
+  "experiment": "freeform-integration-regression-v1",
+  "run_id": "freeform-integration-regression-20261024-01",
+  "status": "COMPLETE_PROVISIONAL",
+  "created_at_utc": "2026-10-24T05:21:39.356198+00:00",
+  "case_count": 130,
+  "dataset_counts": {
+    "formal_100": 100,
+    "visual_development_30": 30
+  },
+  "candidate_run_id": "candidate-visual-table-notes-20261024-01",
+  "candidate_prompt_sha256": "cae1bafc46a98a30670f6e32c79508514a25580d80ba8f2a5d370e63a786ac0d",
+  "candidate_prompt_unchanged": true,
+  "generator_model": "gemini-3.8-flash",
+  "generator_temperature": 0,
+  "generator_max_output_tokens": 2048,
+  "judge_model": "gemini-3.8-flash",
+  "judge_max_output_tokens": 2048,
+  "judge_rates_usd_per_million": {
+    "input": 0.75,
+    "output": 3.75
+  },
+  "request_minimum_case_interval_seconds": 2.0,
+  "max_additional_429_retries": 2,
+  "retrieval": "live configured text Qdrant collection; approved isolated visual fixture index",
+  "expected_text_qdrant_points": 86,
+  "sealed_holdout_accessed": false,
+  "production_deployed": false,
+  "source_hashes": {
+    "eval/results/simple_generation_e2e_20261019/final_run_manifest.json": "6c31fc7cf5f9d7182533246b4b3fe023fa3f78a319e23d64d78dc66858df112a",
+    "eval/results/simple_generation_e2e_20261019/practitioner_review.csv": "868fa95061eb6b64b158f2e449db3e98441e3a346e47d6f56dc01778ee37a999",
+    "eval/results/simple_generation_e2e_20261019/practitioner_approved_review_draft.csv": "152566674b65ecb0677021342a47888809365518fd82ec5af7d9654c85f86b16",
+    "eval/results/simple_generation_e2e_20261019/retrieved_contexts.jsonl": "c2624280da793bb3157972bab6d391d8c1aa2e0d5fc83776e2a9e0495c92a55b",
+    "eval/results/simple_generation_e2e_20261019/visual_corrected_v1/records.jsonl": "16200c17be271384d195aa8954dd0177eca1dee4bf0e44a7d34780440ff34963"
+  },
+  "cost_cap_usd": 3.81166075,
+  "fresh_holdout_budget_reserved_usd": 3.52,
+  "embedding_budget_reserve_usd": 0.1,
+  "retrieval_text_context_parity_count": 100,
+  "retrieval_visual_context_parity_count": 30,
+  "retrieval_context_mismatch_count": 0,
+  "indexed_text_points": 86,
+  "indexed_visual_fixture_points": 6,
+  "preflight_generation_and_judge_reserve_usd": 3.2045625,
+  "embedding_reserve_usd": 0.1,
+  "total_preflight_reserve_usd": 3.3045625,
+  "estimated_actual_cost_usd": 2.66365,
+  "completed_case_count": 130,
+  "estimated_cost_usd": 2.66365,
+  "case_error_count": 0,
+  "completed_at_utc": "2026-10-24T05:46:05.215531+00:00",
+  "implementation_sha256": {
+    "app.py": "19745f0a8128f8515fdd6b221a3eb3c5bbe1a73a9b3c5eda2ca82e3f47581510",
+    "src/freeform_prompt_candidate.py": "69928f509527094554910beeaecc3b0620711e0390703052385e6cc736744c2b",
+    "src/simple_rag_flow.py": "21d6513b149fe4724a4ad3a81bff06b8fda1b49b494fbd914c07319ade51da46",
+    "eval/run_freeform_integration_regression.py": "6fda7b7bf04a67472a094222b4bde4672296f4997225029093adf7ba1a4be115"
+  }
+}

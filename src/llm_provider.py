@@ -22,6 +22,7 @@ class LLMResult:
     output_tokens: int = 0
     total_tokens: int = 0
     request_id: str = ""
+    finish_reason: str | None = None
 
     def metadata(self) -> dict:
         data = asdict(self)
@@ -173,6 +174,17 @@ class GeminiProvider:
             output_tokens=output_tokens,
             total_tokens=total_tokens or input_tokens + output_tokens,
             request_id=str(metadata.get("response_id") or ""),
+            finish_reason=(
+                str(
+                    metadata.get("finish_reason")
+                    or metadata.get("stop_reason")
+                    or metadata.get("block_reason")
+                )
+                if metadata.get("finish_reason")
+                or metadata.get("stop_reason")
+                or metadata.get("block_reason")
+                else None
+            ),
         )
 
     def generate_structured(

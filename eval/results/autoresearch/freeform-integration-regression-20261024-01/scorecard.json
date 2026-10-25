@@ -1,0 +1,106 @@
+{
+  "experiment": "freeform-integration-regression-v1",
+  "run_id": "freeform-integration-regression-20261024-01",
+  "status": "COMPLETE_PROVISIONAL",
+  "case_count": 130,
+  "candidate": {
+    "case_count": 130,
+    "scored_case_count": 130,
+    "judge_error_case_count": 0,
+    "generation_error_case_count": 0,
+    "case_error_count": 0,
+    "answer_success_count": 129,
+    "answer_success_rate": 0.992308,
+    "answer_success_unscored_count": 0,
+    "answer_success_denominator": 130,
+    "judge_coverage_rate": 1.0,
+    "judge_coverage_by_dataset": {
+      "formal_100": {
+        "scored_case_count": 100,
+        "case_count": 100,
+        "rate": 1.0
+      },
+      "visual_development_30": {
+        "scored_case_count": 30,
+        "case_count": 30,
+        "rate": 1.0
+      }
+    },
+    "judge_coverage_gate_pass": true,
+    "G1_count": 0,
+    "G1_unresolved_count": 0,
+    "M1_count": 0,
+    "M1_denominator": 32,
+    "M1_unresolved_count": 0,
+    "M1_excluded_human_unresolved_count": 2,
+    "safety_gate_pass": true
+  },
+  "baseline": {
+    "case_count": 130,
+    "scored_case_count": 130,
+    "judge_error_case_count": 0,
+    "generation_error_case_count": 0,
+    "case_error_count": 0,
+    "answer_success_count": 125,
+    "answer_success_rate": 0.961538,
+    "answer_success_unscored_count": 0,
+    "answer_success_denominator": 130,
+    "judge_coverage_rate": 1.0,
+    "judge_coverage_by_dataset": {
+      "formal_100": {
+        "scored_case_count": 100,
+        "case_count": 100,
+        "rate": 1.0
+      },
+      "visual_development_30": {
+        "scored_case_count": 30,
+        "case_count": 30,
+        "rate": 1.0
+      }
+    },
+    "judge_coverage_gate_pass": true,
+    "G1_count": 0,
+    "G1_unresolved_count": 0,
+    "M1_count": 0,
+    "M1_denominator": 32,
+    "M1_unresolved_count": 0,
+    "M1_excluded_human_unresolved_count": 2,
+    "safety_gate_pass": true
+  },
+  "delta_answer_success_rate_vs_baseline": 0.03077,
+  "retrieval_context_mismatch_count": 0,
+  "retrieval_text_context_parity_count": 100,
+  "retrieval_visual_context_parity_count": 30,
+  "estimated_cost_usd": 2.66365,
+  "case_error_count": 0,
+  "judge_coverage_rate": 1.0,
+  "sealed_holdout_accessed": false,
+  "human_review_required": true,
+  "paired_case_outcomes": {
+    "candidate_only_success": 4,
+    "baseline_only_success": 0,
+    "both_success": 125,
+    "both_fail": 1,
+    "by_dataset": {
+      "formal_100": {
+        "candidate_only": 0,
+        "baseline_only": 0,
+        "both_pass": 99,
+        "both_fail": 1
+      },
+      "visual_development_30": {
+        "candidate_only": 4,
+        "baseline_only": 0,
+        "both_pass": 26,
+        "both_fail": 0
+      }
+    }
+  },
+  "candidate_only_case_ids": [
+    "VD014",
+    "VD016",
+    "VD019",
+    "VD024"
+  ],
+  "baseline_only_case_ids": []
+}

@@ -1,0 +1,35 @@
+{
+  "baseline": {
+    "G1_count": 0,
+    "G1_unresolved_count": 0,
+    "M1_count": 0,
+    "M1_unresolved_count": 0,
+    "expression_success_rate": 0.95,
+    "fail_expressions": 4,
+    "pass_expressions": 76,
+    "scored_expressions": 80,
+    "unresolved_expressions": 0
+  },
+  "candidate": {
+    "G1_count": 0,
+    "G1_unresolved_count": 0,
+    "M1_count": 0,
+    "M1_unresolved_count": 0,
+    "expression_success_rate": 0.9625,
+    "fail_expressions": 3,
+    "pass_expressions": 77,
+    "scored_expressions": 80,
+    "unresolved_expressions": 0
+  },
+  "generation_error_expressions": 0,
+  "judge_coverage": 80,
+  "judge_error_expressions": 0,
+  "paired_scenario_outcomes": {
+    "baseline_only_success": 1,
+    "both_success": 37,
+    "candidate_only_success": 1,
+    "neither_complete_success": 1,
+    "unresolved_or_incomplete": 0
+  },
+  "scenario_count": 40
+}

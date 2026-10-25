@@ -9,7 +9,6 @@ from typing import Callable, Protocol
 from uuid import UUID
 
 from src.answering import (
-    DisplayAnswer,
     DisplayContractError,
     derive_label,
     parse_answer_output,
@@ -20,6 +19,15 @@ from src.answering import (
 )
 from src.asset_store import AssetReader, LocalAssetReader, VisualEvidenceAsset
 from src.contracts import SearchHit, VectorIndex
+from src.query_serialization import classification_answer_payload, serialize_claims
+from src.query_prompts import (
+    _evidence_payload,
+    build_classification_prompt,
+    build_classification_prompt_v1_from_payload as build_classification_prompt_v1_from_payload,
+    build_classification_prompt_v2 as build_classification_prompt_v2,
+    build_deadline_classification_prompt as build_deadline_classification_prompt,
+    build_generation_prompt,
+)
 from src.deadline_calculator import (
     apply_date_calculations,
     require_explicit_counting_rule,
@@ -63,129 +71,6 @@ class MultimodalStructuredLLMProvider(StructuredLLMProvider, Protocol):
     ) -> StructuredLLMResult: ...
 
 
-def _evidence_payload(
-    hits: list[SearchHit],
-    visual_assets: dict[UUID, VisualEvidenceAsset] | None = None,
-    *,
-    display_content: dict[UUID, bytes] | None = None,
-) -> list[dict]:
-    result = []
-    visual_assets = visual_assets or {}
-    display_content = display_content or {}
-    attachment_indexes = {
-        element_id: index for index, element_id in enumerate(visual_assets, start=1)
-    }
-    for hit in hits:
-        payload = {
-            "element_id": str(hit.element.id),
-            "chunk_id": str(hit.element.id),
-            "document_id": str(hit.element.document_id),
-            "document_name": hit.element.document_name,
-            "heading": hit.element.heading,
-            "content": hit.element.content,
-            "page_number": hit.element.page_number,
-            "score": round(hit.score, 6),
-            "source": hit.element.metadata.get("source", ""),
-            "element_type": hit.element.element_type,
-            "visual_extraction": hit.element.metadata.get("visual_extraction"),
-        }
-        asset = visual_assets.get(hit.element.id)
-        if asset is not None:
-            payload["visual_asset"] = {
-                "mime_type": asset.mime_type,
-                "page_number": asset.page_number,
-                "sha256": asset.sha256,
-                "bbox": asset.bbox,
-                "attachment_index": attachment_indexes[hit.element.id],
-            }
-            if hit.element.id in display_content:
-                payload["visual_asset"]["content"] = display_content[hit.element.id]
-        result.append(payload)
-    return result
-
-
-def build_generation_prompt(
-    question: str,
-    hits: list[SearchHit],
-    visual_assets: dict[UUID, VisualEvidenceAsset] | None = None,
-) -> str:
-    evidence = json.dumps(_evidence_payload(hits, visual_assets), ensure_ascii=False)
-    return (
-        "次の質問へ、取得根拠だけを使って回答してください。自由文の最終回答や分類は返さず、"
-        "answer-output-v1のJSONだけを返してください。すべてのclaimにelement_idを引用してください。\n"
-        "画像が添付される場合、visual_asset.attachment_indexが添付順（1始まり）です。\n"
-        f"質問: {question}\n取得根拠: {evidence}"
-    )
-
-
-def build_classification_prompt(
-    question: str, hits: list[SearchHit], answer_data: dict
-) -> str:
-    return build_classification_prompt_v1_from_payload(
-        question, _evidence_payload(hits), answer_data
-    )
-
-
-def _classification_payload(
-    question: str, evidence: list[dict], answer_data: dict
-) -> str:
-    return json.dumps(
-        {
-            "question": question,
-            "retrieved_evidence": evidence,
-            "generated_answer": answer_data,
-        },
-        ensure_ascii=False,
-    )
-
-
-def build_classification_prompt_v1_from_payload(
-    question: str, evidence: list[dict], answer_data: dict
-) -> str:
-    payload = _classification_payload(question, evidence, answer_data)
-    return (
-        "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。"
-        "corpus全体に答えが存在するかは判定しないでください。\n"
-        f"判定対象: {payload}"
-    )
-
-
-def build_classification_prompt_v2(
-    question: str, hits: list[SearchHit], answer_data: dict
-) -> str:
-    payload = _classification_payload(question, _evidence_payload(hits), answer_data)
-    return (
-        "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。"
-        "corpus全体に答えが存在するかは判定しないでください。\n"
-        "answer-output-v2のmissing_conditionsは、Generatorが残した未解決条件です。"
-        "質問に明記された事実は回答上の既知事実として扱い、事実が質問に書かれていることだけを理由に"
-        "requires_case_facts=trueにしないでください。\n"
-        "date_calculationsから追加された具体日claimはアプリケーションが検証済みです。"
-        "起算日、日数、数え方が揃っている場合、計算結果を再確認するためだけに"
-        "requires_case_facts=trueにしないでください。\n"
-        "質問が『所属だけで決められるか』『確認先はどこか』を尋ね、根拠からその可否や確認先を"
-        "一意に答えられる場合は、実際の支給判断と区別してください。"
-        "実際の結論に制度所管課の裁量が残る場合だけrequires_policy_judgment=trueです。\n"
-        "基準日そのものが質問にない場合はrequires_case_factsです。必要な基準日が揃っても適用版を"
-        "一意に決められない場合だけversion_conflictです。\n"
-        f"判定対象: {payload}"
-    )
-
-
-def build_deadline_classification_prompt(
-    question: str, hits: list[SearchHit], answer_data: dict
-) -> str:
-    payload = _classification_payload(question, _evidence_payload(hits), answer_data)
-    return (
-        "classification-output-v1に従い、ラベルではなく5つの判定要因をJSONで返してください。"
-        "corpus全体に答えが存在するかは判定しないでください。\n"
-        "質問に明記された起算日は回答上の既知事実です。"
-        "date_calculationsを基にアプリケーションが追加した具体日claimは検証済みです。"
-        "起算日、暦日数、数え方が揃っている場合、計算結果を再確認するためだけに"
-        "requires_case_facts=trueにしないでください。\n"
-        f"判定対象: {payload}"
-    )
-
 
 def load_schema(path: Path) -> dict:
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -193,73 +78,6 @@ def load_schema(path: Path) -> dict:
         raise ValueError(f"JSON Schemaのtop-levelがobjectではありません: {path}")
     return data
 
-
-def _claim_log_rows(display: DisplayAnswer) -> list[dict]:
-    return [
-        {
-            "claim_id": claim.claim_id,
-            "ordinal": claim.ordinal,
-            "text": claim.text,
-            "evidence_element_ids": list(claim.evidence_element_ids),
-        }
-        for claim in display.visible_claims
-    ]
-
-
-def _classification_answer_payload(answer, raw_data: dict) -> dict:
-    schema_version = raw_data.get("schema_version")
-    if schema_version == "1.0":
-        return raw_data
-    payload = {
-        "schema_version": schema_version,
-        "claims": [
-            {
-                "claim_id": claim.claim_id,
-                "ordinal": claim.ordinal,
-                "text": claim.text,
-                "evidence_element_ids": [
-                    str(value) for value in claim.evidence_element_ids
-                ],
-                "evidence_kind": claim.evidence_kind,
-            }
-            for claim in answer.claims
-        ],
-        "date_calculations": [
-            {
-                "calculation_id": calculation.calculation_id,
-                "result_label": calculation.result_label,
-                "anchor_date": calculation.anchor_date.isoformat(),
-                "offset_value": calculation.offset_value,
-                "offset_unit": calculation.offset_unit,
-                "counting_rule": calculation.counting_rule,
-                "cutoff_time": (
-                    calculation.cutoff_time.isoformat()
-                    if calculation.cutoff_time is not None
-                    else None
-                ),
-                "evidence_element_ids": [
-                    str(value) for value in calculation.evidence_element_ids
-                ],
-            }
-            for calculation in answer.date_calculations
-        ],
-    }
-    if schema_version == "1.1":
-        payload["missing_conditions"] = [
-            condition.description for condition in answer.missing_conditions
-        ]
-    else:
-        payload["missing_conditions"] = [
-            {
-                "type": condition.condition_type,
-                "description": condition.description,
-                "evidence_element_ids": [
-                    str(value) for value in condition.evidence_element_ids
-                ],
-            }
-            for condition in answer.missing_conditions
-        ]
-    return payload
 
 
 def answer_question(
@@ -401,20 +219,20 @@ def answer_question(
 
         display, metadata, diagnostic, scope_version_metadata = classify_scope_answer(
             question=question, evidence=_evidence_payload(hits), answer=answer,
-            answer_data=_classification_answer_payload(answer, answer_data),
+            answer_data=classification_answer_payload(answer, answer_data),
             classifier=classifier, event_logger=event_logger, request_id=request_id,
             version_resolver=version_resolver, version_resolution_schema=version_resolution_schema,
             confidence_threshold=version_resolution_confidence_threshold,
         )
         event_logger.record_answer_result(
             request_id, label=display.label, display_text=display.text,
-            claims=_claim_log_rows(display), status=display.status,
+            claims=serialize_claims(display.visible_claims), status=display.status,
         )
         return {
             "request_id": str(request_id), "question": question, "answer": display.text,
             "answer_label": display.label, "answer_status": display.status,
             "degraded": display.status != "SUCCESS", "invariant_code": display.invariant_code,
-            "claims": _claim_log_rows(display),
+            "claims": serialize_claims(display.visible_claims),
             "references": _evidence_payload(hits, visual_assets, display_content=visual_content),
             "generation": generation_result.metadata(), "classification": metadata,
             "visual_evidence_count": len(visual_assets), "classification_decision_version": PROMPT_VERSION,
@@ -428,7 +246,7 @@ def answer_question(
     try:
         classification_result = classifier.generate_structured(
             classification_prompt_builder(
-                question, hits, _classification_answer_payload(answer, answer_data)
+                question, hits, classification_answer_payload(answer, answer_data)
             ),
             classification_schema,
         )
@@ -575,7 +393,7 @@ def answer_question(
         request_id,
         label=display.label,
         display_text=display.text,
-        claims=_claim_log_rows(display),
+        claims=serialize_claims(display.visible_claims),
         status=display.status,
     )
     return {
@@ -586,7 +404,7 @@ def answer_question(
         "answer_status": display.status,
         "degraded": display.status != "SUCCESS",
         "invariant_code": display.invariant_code,
-        "claims": _claim_log_rows(display),
+        "claims": serialize_claims(display.visible_claims),
         "references": _evidence_payload(
             hits, visual_assets, display_content=visual_content
         ),

@@ -170,7 +170,6 @@ def test_display_guard_hides_only_case_outcome_and_keeps_policy_rule() -> None:
 
 
 def test_display_guard_allows_policy_rule_on_unresolved_facet() -> None:
-    evidence_id = EVIDENCE_ID
     contract_data = _contract()
     answer_data = _answer(review_type="case_fact")
     outcome = answer_data["claims"][0]

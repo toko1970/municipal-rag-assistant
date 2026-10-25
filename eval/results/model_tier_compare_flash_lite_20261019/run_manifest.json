@@ -1,0 +1,75 @@
+{
+  "run_id": "model-tier-flash-lite-context-fixed-development-20261019",
+  "state": "DEVELOPMENT_COMPARISON_COMPLETE",
+  "purpose": "Add the configured current default generator to the already completed paired Flash/Pro development comparison, using exactly the same 46 fixed-context cases and generation settings. Development candidate comparison only; no adoption decision.",
+  "source": {
+    "workbook": "/Users/hanaokatakaaki/Desktop/実務経験者回答レビュー用_90件統合版.xlsx",
+    "workbook_sha256": "a32bbccdf187007e42930a156d4586e7c0858ebc0de110fd83c0199850d3c045",
+    "sheet": "ケース承認",
+    "split_used": "development",
+    "case_count": 46,
+    "scenario_group_count": 23,
+    "test_split": "Reserved; not accessed."
+  },
+  "input_pack": {
+    "path": "eval/results/model_tier_compare_20261019/development_cases.jsonl",
+    "sha256": "cdb17878552c1ca87361e7f740ff05b92ca082774e02de64ed9396cda50ef5cf"
+  },
+  "conditions": {
+    "provider": "Gemini Developer API",
+    "model": "gemini-3.1-flash-lite",
+    "same_question_and_evidence_as_flash_pro_run": true,
+    "prompt_builder": "src.rag_chain.build_prompt",
+    "prompt_builder_sha256": "8b68aab88db7e01141fe9f245cc080924d7a4340d24d854152bdecd0a0c0b408",
+    "temperature": 0,
+    "max_output_tokens": 1024,
+    "requests": 46,
+    "retries": 0,
+    "inter_request_delay_seconds": 5.1,
+    "maximum_api_attempts": 46,
+    "estimated_cost_limit_usd": 2.0,
+    "pricing_usd_per_million_tokens": {
+      "input": 0.25,
+      "output_including_thinking": 1.5
+    },
+    "pricing_source": "https://ai.google.dev/gemini-api/docs/pricing",
+    "price_as_of": "2026-10-19",
+    "actual_request_count": 46,
+    "results": {
+      "successful_requests": 46,
+      "failed_requests": 0,
+      "input_tokens": 14391,
+      "output_tokens": 3359,
+      "estimated_cost_usd": 0.00863625,
+      "mean_latency_seconds": 1.053,
+      "median_latency_seconds": 1.0,
+      "p95_nearest_rank_latency_seconds": 1.573,
+      "near_output_cap_cases": []
+    }
+  },
+  "scoring": {
+    "method": "Manual review of actual answer text with the same workbook criteria used for Flash and Pro. Report Q1-Q4, G1, M1-M4 and total success. REVIEW_REQUIRED denominators reported explicitly.",
+    "adoption_threshold": "None specified; candidate lock and reserved test split needed before adoption.",
+    "summary": {
+      "overall_answer_success": "35/46 (76.1%): A1 M3 34/35 plus scorable A2/A3 M4 1/10",
+      "Q1": "6/10 among scorable A2/A3 hold-required cases",
+      "Q2": "5/10 among scorable A2/A3 hold-required cases; one REVIEW_REQUIRED excluded",
+      "Q3": "1/10 among scorable A2/A3 hold-required cases; one REVIEW_REQUIRED excluded",
+      "G1": "4/46 severe errors; X013-T2, X021-T2, X029-T1, X031-T2",
+      "M1": "4/10 among scorable A2/A3 cases",
+      "M2": "0/35",
+      "M3": "34/35",
+      "M4": "1/10",
+      "automatic_label_accuracy": "41/46 (89.1%); secondary metric only",
+      "REVIEW_REQUIRED": [
+        "X041-T1"
+      ],
+      "reviewer_note": "Manual Codex review under the workbook rubric; independent second review not performed. Case-level rationale is in report."
+    }
+  },
+  "artifacts": {
+    "records": "eval/results/model_tier_compare_flash_lite_20261019/records.jsonl",
+    "report": "eval/results/model_tier_compare_flash_lite_20261019/report.md"
+  },
+  "runner_sha256": "7a67360d9354ac9c33062797d2d7178b16639dbb924bdc6cccd79e0a65944db7"
+}

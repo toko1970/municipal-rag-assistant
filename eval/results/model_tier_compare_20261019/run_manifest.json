@@ -1,0 +1,81 @@
+{
+  "run_id": "model-tier-context-fixed-development-20261019",
+  "state": "DEVELOPMENT_COMPARISON_COMPLETE",
+  "purpose": "Paired context-fixed comparison of Gemini Flash and Pro for candidate selection on the workbook's development split. No deployment/adoption decision is included.",
+  "source": {
+    "workbook": "/Users/hanaokatakaaki/Desktop/実務経験者回答レビュー用_90件統合版.xlsx",
+    "workbook_sha256": "a32bbccdf187007e42930a156d4586e7c0858ebc0de110fd83c0199850d3c045",
+    "sheet": "ケース承認",
+    "split_used": "development",
+    "development_case_count": 46,
+    "test_split_policy": "Reserved for a later confirmation stage after the candidate is locked; its case content and gold are excluded from the extracted input pack and this run."
+  },
+  "input_pack": {
+    "path": "eval/results/model_tier_compare_20261019/development_cases.jsonl",
+    "sha256": "cdb17878552c1ca87361e7f740ff05b92ca082774e02de64ed9396cda50ef5cf"
+  },
+  "conditions": {
+    "provider": "Gemini Developer API",
+    "models": [
+      "gemini-3.8-flash",
+      "gemini-3.1-pro-preview"
+    ],
+    "same_question_and_evidence_context": true,
+    "prompt_builder": "src.rag_chain.build_prompt",
+    "prompt_builder_sha256": "8b68aab88db7e01141fe9f245cc080924d7a4340d24d854152bdecd0a0c0b408",
+    "temperature": 0,
+    "max_output_tokens": 1024,
+    "attempts_per_case_model": "1 initial attempt; 4 failed requests each retried once after user confirmed key replacement",
+    "retry": 1,
+    "inter_request_delay_seconds": 5.1,
+    "maximum_api_attempts": 96,
+    "estimated_cost_limit_usd": 2.0,
+    "pricing_per_million_usd": {
+      "gemini-3.8-flash": {
+        "input": 0.75,
+        "output_including_thinking": 3.75
+      },
+      "gemini-3.1-pro-preview": {
+        "input": 2.0,
+        "output_including_thinking": 12.0
+      }
+    },
+    "pricing_source": "https://ai.google.dev/gemini-api/docs/pricing",
+    "price_as_of": "2026-10-19",
+    "maximum_api_attempts_including_authorized_retries": 96
+  },
+  "scoring": {
+    "primary": "Total answer success per approved context_fixed specification, manually scored per case and summarized by scenario group.",
+    "additional": [
+      "Q1",
+      "Q2",
+      "Q3",
+      "Q4",
+      "G1",
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ],
+    "label_source": "workbook development split, approved cases only",
+    "method": "Review the actual returned answer text against the workbook criteria; automated classification label alone is not accepted as the score.",
+    "adoption_threshold": "None specified; this run selects and describes a development candidate only. A candidate must be explicitly locked before using the reserved test split."
+  },
+  "artifacts": {
+    "records": "eval/results/model_tier_compare_20261019/records.jsonl",
+    "report": "eval/results/model_tier_compare_20261019/report.md"
+  },
+  "runner_sha256": "23ceba9880db4e4edf0cb361d5ddd4502b8108e288daf0cec27c3617ed0654dc",
+  "retry": {
+    "authorized_by_user": true,
+    "reason": "User replaced the Gemini API key during the run and requested retry from the interruption point.",
+    "failed_case_model_pairs": [
+      "X045-T0/gemini-3.8-flash",
+      "X045-T0/gemini-3.1-pro-preview",
+      "X045-T4/gemini-3.8-flash",
+      "X045-T4/gemini-3.1-pro-preview"
+    ],
+    "maximum_retry_attempts_per_pair": 1,
+    "successful_attempts_are_not_retried": true
+  }
+}

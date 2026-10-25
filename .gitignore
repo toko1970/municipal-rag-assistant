@@ -48,3 +48,15 @@ crash.log
 
 # Local agent review records
 .agent-reviews/
+
+# Fresh sealed text holdout source and gold stay with the custodian.
+eval/text_holdout_fresh_20261024/.sealed/
+
+# Relative comparison holdout source and gold remain custodian-only.
+eval/text_holdout_relative_20261024_v1/.sealed/
+
+# Custodian-only sealed artifacts; do not commit.
+eval/text_holdout_relative_20261024/.sealed/
+
+# Blind reviewer packets, score sheets, and system keys contain response text.
+eval/results/autoresearch/freeform-paired-relative-20261024-01/custodian-private/

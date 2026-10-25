@@ -15,8 +15,8 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.answering import ClassificationFactors, derive_label
-from src.query_service import build_classification_prompt_v1_from_payload
+from src.answering import ClassificationFactors, derive_label  # noqa: E402
+from src.query_service import build_classification_prompt_v1_from_payload  # noqa: E402
 
 SOURCE = ROOT / "eval/results/generalization_completion_20261009/classification"
 

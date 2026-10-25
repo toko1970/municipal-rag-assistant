@@ -6,16 +6,29 @@
 
 Geminiへ質問と検索根拠を渡し、根拠に沿った回答を生成します。回答可否は`根拠十分`・`判断要`・`文書不足`に分類します。図表の根拠がある場合は、構造化した内容に加えて元画像も確認します。期限計算は、根拠が揃う限定パターンを決定的に処理します。
 
-## 2. 比較候補と選定理由
+## 2. 実行経路と評価状態（2026-10-25 14:04 JST確認）
 
-- **回答生成モデル**: `gemini-3.1-flash-lite`と旧`gemini-2.5-flash`のTop-5比較では、前者が8問を完走し、後者は1件で表示失敗しました。3.1 Flash-Liteは既存formal 100問も完走したため、既定モデルに選ばれました。後続のTop-5/Top-8比較では必須内容一致が6/8から8/8へ改善し、生成費用は36%増えたためTop-8を採用しました。
+| 対象 | 設定・状態 |
+|---|---|
+| ローカル既定（`.env`等による上書きなし） | `ANSWER_GENERATION_FLOW=production`、`LLM_MODEL_NAME=gemini-3.1-flash-lite`、`CLASSIFICATION_CONTRACT_VERSION=v1`。独立分類・版解決・限定的な期限計算を含む既存経路 |
+| 公開中Cloud Run | revision `municipal-rag-assistant-00011-kwv`、image tag/commit `2fa8ef463dd1747165081cb845a80cfa30dc6fd9`。CI run #172がdeploy・traffic切替・health checkまで成功し、100% LATEST trafficを確認 |
+| 公開経路の設定 | `ANSWER_GENERATION_FLOW=autoresearch_candidate`、`gemini-3.8-flash`、Qdrant collection `municipality_rag_docs_v2_contextual_heading_v1`。一回生成で回答分類も出力する。独立分類attempt・claim単位の根拠リンク・決定的期限計算はない |
+| 一回生成候補 | 凍結prompt SHA-256 `cae1bafc46a98a30670f6e32c79508514a25580d80ba8f2a5d370e63a786ac0d`。公開設定のモデルはenv表示だけで決めず、候補コードの固定値も参照 |
+| sealed評価 | 総合76/100など事前基準未達のNo-go。sealed setは消費済みで、今回の採用根拠には再利用していない |
+| 導入判断 | ユーザーが130問の統合回帰と80表現challengeの直接比較を確認し、候補統合を指示。その後mainへ統合し、上記revisionを公開。これはsealed評価を合格へ変更する判断ではない |
+
+公開確認: [GitHub Actions production deploy run #172](https://github.com/toko1970/municipal-rag-assistant/actions/runs/40161778266)。評価条件と採否の根拠は[候補導入判断](../eval/results/autoresearch/freeform-production-rollout-20261025/decision.md)および[評価artifact案内](../eval/reports/README.md)を参照してください。ローカル既定と公開設定は別の状態です。
+
+## 3. 比較候補と選定理由
+
+- **回答生成モデル**: 質問と根拠を固定し、`gemini-3.1-flash-lite`、`gemini-3.8-flash`、`gemini-3.1-pro-preview`を比較しました。予約テスト44件では総合成功がFlash-Lite 37/44、Flash 35/44。Flash-Liteは費用と速度で優位でしたが、Flashは保留対象への不適切な回答が1件少なく、ユーザーが安全性を重視して`gemini-3.8-flash`を選びました。この比較の後、別の直接比較に基づき一回生成候補がCloud Runへ統合され、現在の公開モデルは`gemini-3.8-flash`です。リポジトリのローカル既定値は`gemini-3.1-flash-lite`のままです。
 - **回答分類器**: 開発用36件ではGemini 3.1 Flash-Liteが31/36、BGE-M3 zero-shotが6/36でした。mDeBERTaは全根拠が512 token上限を超えて推論前に停止。Jevは比較環境を用意できず未実施です。品質差からGeminiを維持しましたが、結果はsealed holdoutではありません。
-- **一回生成 / 回答生成と独立分類**: 一回生成のモデル比較は回答と分類ラベルを同じ呼び出しで出す簡易経路でした。現行経路では回答生成と分類処理を分けます。前者はモデル候補を選ぶため、後者は分類結果を独立して検証するためで、実験結果を現在の分類器の性能とはみなしません。
+- **一回生成 / 回答生成と独立分類**: ローカル既定の`production`経路は回答生成と分類処理を分けます。公開中のCloud Runは凍結promptの一回生成候補で、回答と分類ラベルを同じ呼び出しで出します。モデル比較結果を現在の独立分類器の性能とはみなしません。
 
-実験の詳細は[Gemini 3.1とTop-kの評価](../eval/GEMINI_3_1_TOP_K_ANSWER_EVALUATION.md)、[回答分類モデル比較](../eval/CLASSIFIER_MODEL_COMPARISON.md)にあります。
-## 3. 工夫した点
+実験の詳細は[回答生成モデルの選定記録](../eval/reports/GENERATION_MODEL_SELECTION_20261019.md)、[回答分類モデル比較](../eval/CLASSIFIER_MODEL_COMPARISON.md)にあります。
+## 4. 工夫した点
 
-回答には根拠IDを付け、取得した根拠と結び付けます。根拠が足りない場合は推測せず、回答可能性を分類して表示します。日付・期限も生成モデル任せにせず、根拠と対象条件が揃うケースだけ決定的な計算へ渡します。
+ローカル既定の`production`経路は回答claimを根拠IDと結び付け、期限も条件が揃うケースだけ決定的に計算します。公開中の一回生成経路は回答と分類を一度に出し、検索された参照チャンクを表示しますが、独立分類attempt・claim単位の根拠リンク・期限計算は行いません。
 
 Sealed visual holdoutではEnd-to-End成功率70%、分類精度70%でした。分類の事前閾値80%に届かず、総合受入は不合格です。Text holdout後の日付改善について、2回目のText sealed holdoutは未実施です。
 
