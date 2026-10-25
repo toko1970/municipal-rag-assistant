@@ -193,11 +193,13 @@ jobs:
             GOOGLE_API_KEY=gemini-api-key:1
             DATABASE_URL=rag-database-url:1
             QDRANT_API_KEY=qdrant-api-key:5
+          # The action separates flag=value into argv entries. A list prefix
+          # keeps leading -m from being mistaken for another gcloud option.
           flags: >-
             --service-account=municipal-rag-runtime@municipal-rag-portfolio.iam.gserviceaccount.com
             --set-cloudsql-instances=${{ env.CLOUD_SQL_CONNECTION_NAME }}
             --command=python
-            --args=-m,scripts.manage_rag_v2,smoke,--max-cases,5,--max-attempts,5,--max-503-retries,0
+            --args=^,^-m,scripts.manage_rag_v2,smoke,--max-cases,5,--max-attempts,5,--max-503-retries,0
             --cpu=1
             --memory=1Gi
             --tasks=1

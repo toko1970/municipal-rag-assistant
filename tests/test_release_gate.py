@@ -395,6 +395,42 @@ def test_workflow_shell_fragments_parse_before_cloud_execution(tmp_path):
                 assert result.returncode == 0, result.stderr
 
 
+def test_smoke_job_arguments_survive_action_flag_normalization(capsys):
+    """Exercise the leading-dash failure seen in Cloud Run preparation.
+
+    deploy-cloudrun normalizes --key=value to separate argv entries. Python's
+    argument parser then rejects a value beginning with -m as another option.
+    The documented gcloud list delimiter prefix preserves the same task argv
+    while making the outer --args value unambiguous.
+    """
+    import argparse
+    from pathlib import Path
+    import shlex
+    import yaml
+
+    from scripts.release_gate import SMOKE_ARGS
+
+    parser = argparse.ArgumentParser(allow_abbrev=False)
+    parser.add_argument("--args")
+    with pytest.raises(SystemExit) as rejected:
+        parser.parse_args(["--args", ",".join(SMOKE_ARGS)])
+    assert rejected.value.code == 2
+    assert "expected one argument" in capsys.readouterr().err
+
+    ci = yaml.load(Path(".github/workflows/ci.yml").read_text(), Loader=yaml.BaseLoader)
+    job = next(
+        step["with"] for step in ci["jobs"]["deploy"]["steps"]
+        if "job" in step.get("with", {})
+    )
+    # Reproduce the action boundary observed in the failed cloud command.
+    action_argv = [
+        part for flag in shlex.split(job["flags"]) for part in flag.split("=", 1)
+    ]
+    parsed, _ = parser.parse_known_args(action_argv)
+    assert parsed.args.startswith("^,^")
+    assert parsed.args.removeprefix("^,^").split(",") == SMOKE_ARGS
+
+
 def test_outcome_receipt_distinguishes_successful_promotion_from_rollback():
     from scripts.release_gate import record_traffic_outcome
 
