@@ -1,178 +1,93 @@
-# 自治体向け制度問い合わせ支援RAG
+# 自治体の給与事務を支援する、根拠付き問い合わせアプリ
 
-[公開デモ](https://municipal-rag-assistant-280649014820.asia-northeast1.run.app/) · [精度改善の意思決定](eval/reports/ACCURACY_IMPROVEMENT.md) · [機能説明](portfolio/README.md)
+[公開デモ](https://municipal-rag-assistant-280649014820.asia-northeast1.run.app/) · [機能ごとの説明](portfolio/README.md) · [精度改善の詳しい記録](eval/reports/ACCURACY_IMPROVEMENT.md)
 
-自治体の給与事務担当者が、規程・通知・FAQ・業務マニュアルから根拠を探す作業を支援するRAGです。架空の人事・給与文書を検索し、回答、回答区分、根拠本文、図表の元画像を一画面で確認できます。
+## どんな人が、何に使うアプリか
 
-制度の問い合わせには、文書だけで答えられるもの、個別事実の確認が必要なもの、文書に規則がないものがあります。この違いを`根拠十分`・`判断要`・`文書不足`として示し、断定できない場合には不足情報と確認先を伝えることを目指しています。実在する自治体文書、職員情報、問い合わせ履歴は使用していません。
+各所属の給与事務担当者や、人事・給与制度を所管する職員が、職員からの制度・手続きの問い合わせに答えるときに使う**調べもの支援アプリ**です。
 
-## 実画面とデモ
+規程、通知、FAQ、業務マニュアル、申請書の記入例を横断して探し、回答と根拠の場所を一緒に確認できます。たとえば、「給与口座を変更したいときの提出期限は？」「申請書を受け取った後、最初に何を確認する？」といった質問に使います。回答に必要な情報が見つからないときや、個別事情の判断が残るときは、その状態を示します。
 
-**通常回答:** 給与支給日の回答と、開いた根拠本文を同時に確認します。
+制度の最終判断や申請の承認を自動化するものではありません。人事担当者が根拠を確かめ、必要に応じて所管部署へ確認するための補助です。デモでは架空の制度文書だけを使っています。
 
-![通常の給与支給日への根拠十分の回答と、給与制度規程の根拠本文を表示した実UI](portfolio/assets/ui_answer_saved_replay_20261025.png)
+## このアプリでできること
 
-**保留回答:** 休職時の支給停止割合を文書から確定できないため、不足する規則と人事給与課への確認を示します。
+- **質問する:** 自然な文章で給与制度や手続きについて尋ねる
+- **根拠を探す:** 複数の規程・通知・FAQ・手順書に加え、図表の説明も検索する
+- **根拠と回答を確認する:** 回答、文書名、版・施行日、ページや見出しを一緒に見る。図表が根拠なら元ページ画像も確認する
+- **回答の状態を知る:** 「根拠十分」「判断要」「文書不足」を区別し、回答に対するfeedbackを残す
 
-![休職時の給与停止割合について文書不足と回答し、不足情報・確認先・根拠本文を表示した実UI](portfolio/assets/ui_hold_saved_replay_20261025.png)
+文書の登録は管理用CLIで行います。一般の利用者がPDFをアップロードして登録する画面はありません。
 
-撮影日: 2026-10-25。UIはcommit `912f095`の`app.py`を使用し、2026-09-23のFlash-Lite評価で保存したQ011/Q076の実際の応答を再生しました。**現在の公開Flashモデルによる新規生成の確認ではありません。** 元の回答・検索contextは保持し、版情報の未記録項目は補完していません。[再生方法・撮影記録](portfolio/01-ui.md)
+## アーキテクチャ
 
-[公開デモ](https://municipal-rag-assistant-280649014820.asia-northeast1.run.app/)では新しく質問できます。Cloud Runのscale-to-zeroにより初回表示に時間がかかる場合があります。回答内容は実行時のモデル出力です。
+```mermaid
+flowchart LR
+    U[給与事務担当者]
+    A[文書管理者]
+    D[制度文書・レビュー済みPDF]
 
-## 改善の過程で判断したこと
+    subgraph APP[問い合わせ支援アプリ]
+        UI[Streamlit画面]
+        QS[質問・検索・回答処理]
+        ING[文書登録CLI]
+        UI -->|質問| QS
+        QS -->|回答・根拠・回答区分| UI
+        A --> ING
+        D --> ING
+    end
 
-最初のText holdoutでは、根拠の検索が100/100でも、生成・分類・表示まで含む成功は83/100でした。そこで、検索後に何が失敗するかを分けて検証しました。
+    subgraph DATA[保存先]
+        PG[(PostgreSQL<br/>文書・版・実行記録)]
+        QD[(Qdrant<br/>検索用index)]
+        AS[(ページ画像<br/>GCS / ローカル)]
+    end
 
-| 判断 | 得られた知見・採否 |
-|---|---|
-| 期限計算を限定してコード化 | 起算規則がないのに期限日を補う誤答を公開smokeで検出し、rollbackと根拠照合を実施。限定計算は従来経路に保持 |
-| 分類規約・claim/facetガードを比較 | 過剰保留や正常回答を止める退行があり、不採用。安全停止の増加を精度向上とは扱わない |
-| 一回生成のモデル・promptを比較 | 開発回帰とchallengeで差を確認。両モデルの採点訂正の統一や原票の回収が残る |
-| 開発結果と独立した品質受入を分離 | 一回生成候補のfresh holdoutは76/100でNo-goを維持。公開統合の判断を品質合格へ読み替えない |
+    GEM[Gemini API]
 
-[改善総括](eval/reports/ACCURACY_IMPROVEMENT.md)に、各段階の課題、仮説、比較条件、採否、現行構成との関係、原記録へのリンクをまとめています。
+    U --> UI
+    UI -->|feedback| PG
+    QS -->|根拠を検索| QD
+    QD -->|検索結果| QS
+    QS -->|文書の版・実行記録| PG
+    PG -->|文書情報| QS
+    QS -->|図表画像を取得| AS
+    AS -->|元ページ画像| QS
+    QS <-->|質問のベクトル化・回答生成| GEM
+    ING -->|文書・版| PG
+    ING -->|検索用ベクトル| QD
+    ING -->|ページ画像| AS
+    ING -->|Embedding作成| GEM
+```
 
-## 現行構成と評価
+画面と検索・回答処理、文書登録、保存先、生成AIサービスを分けています。文書と版、実行記録はPostgreSQLに保存し、Qdrantは再作成できる検索用indexとして使います。
 
-公開設定は`ANSWER_GENERATION_FLOW=autoresearch_candidate`、Gemini 3.8 Flashによる一回生成です。回答本文と分類を同時に出し、検索された根拠を表示します。ローカル既定の`production`は従来の生成・独立分類経路であり、両者は別の構成です。公開経路にはclaim単位の根拠対応、独立分類、決定的期限計算、従来Version Resolverはありません。[構成比較・公開履歴・判断の正本](portfolio/04-answer-generation.md)
-
-| 評価 | 結果 | 読み方 |
-|---|---|---|
-| 130ケース統合回帰 | candidate 129/130、baseline 125/130。改善4・退行0 | 暫定machine composite。改善4件は図表開発ケース。元runner等がなくbaselineの処理経路は未確認 |
-| 80表現challenge | 限定訂正後79/80対78/80 | 一回生成prompt同士の比較。40シナリオ単位では改善1・退行1。全件人手再採点ではない |
-| candidate fresh holdout | 76/100、総合の事前閾値95%に未達 | No-go。重大な根拠外断定は訂正後0/100で当該gateのみPass |
-
-評価の集合・構成・採点方法が違うため、初回83/100と129/130をつないで汎化精度の改善率にはしません。図表sealed holdoutも分類の事前閾値未達で総合不合格です。実利用者の時間短縮や実務正答率の改善は測定していません。[評価の入口](eval/reports/README.md) · [比較条件と原資料の不足](eval/reports/EVALUATION_EVIDENCE_AUDIT_20261025.md)
-
-## 仕組み
+## 精度改善の流れ
 
 ```mermaid
 flowchart TD
-    DOC["制度文書・レビュー済み図表"] --> INGEST["文書取込CLI"]
-    INGEST --> PG["PostgreSQL：文書・版・実行記録"]
-    INGEST --> QD["Qdrant：検索index"]
-    INGEST --> GCS["GCS：図表ページ画像"]
-    UI["Streamlit：質問・回答・根拠表示"] --> SEARCH["Embeddingと根拠検索"]
-    SEARCH --> QD
-    SEARCH --> GEN["Gemini：回答・分類を一回生成"]
-    GCS --> GEN
-    GEN --> UI
-    SEARCH --> PG
-    GEN --> PG
-    UI -->|feedback| PG
+    A[1. 初回評価<br/>総合成功 83 / 100]
+    B[2. 改善対象を設定<br/>回答分類の過剰な保留]
+    C[3. 評価指標を見直す<br/>根拠・回答/保留・重大な誤り]
+    D[4. 改善ループ<br/>仮説 → 比較 → レビュー]
+    E[5. 未見ケースで候補を検証<br/>40シナリオ・80表現]
+    F[候補を採用する判断]
+    A --> B --> C --> D --> E --> F
 ```
 
-| 機能 | 詳細 |
+1. **初回評価:** 未見のText holdoutで総合成功は83/100でした。採点可能な分類不一致12件のうち9件は、根拠のある回答を「判断要」とする過剰な保留でした。
+2. **改善対象:** 「根拠がそろっている質問には答え、個別事情で結論が決まらない質問は保留する」ことを狙いにしました。保留を増やすだけでは、見つかった失敗を悪化させるためです。
+3. **指標の見直し:** 分類ラベルの一致だけで測らず、既存研究の根拠評価と回答保留評価を参考に、根拠の支持・回答/保留の適切さ・重大な根拠なし断定を分けて採点しました。詳細は[採用判定プロトコル](eval/INTERVENTION_ADOPTION_PROTOCOL.md)に記載しています。
+4. **改善ループ:** 失敗の原因から仮説を立て、同じ質問と根拠で旧版・候補を比べ、人手レビューで誤りの種類を確かめました。その結果を次の改善案と評価方法へ戻しました。
+5. **候補の検証:** 5文書・40シナリオのholdoutで比較し、事前選定した28ペアを盲検レビューしました。人手評価では候補支持5、従来版支持1でした。レビュー対象では、従来版にあった重大な根拠なし断定2件が候補側では確認されず、この比較を受けて候補を採用する判断に至りました。
+
+この課題指向評価では80表現中52表現が意味面の人手レビュー対象外で、実利用全体への一般化は確認していません。実験条件・採点の限界・個別結果は[評価資料の案内](eval/reports/README.md)から確認できます。
+
+## 詳しく知る
+
+| 内容 | 資料 |
 |---|---|
-| 質問・回答・根拠表示 | [UIと実画面](portfolio/01-ui.md) |
-| 文書・図表の取込と保存 | [PostgreSQL・Qdrant・画像保存](portfolio/02-documents-and-index.md) |
-| 検索 | [質問ベクトル化と根拠の取得](portfolio/03-retrieval.md) |
-| 回答・分類 | [現行経路と評価・公開判断](portfolio/04-answer-generation.md) |
-| 実行記録とfeedback | [経路ごとの記録粒度](portfolio/05-logging.md) |
-
-## ローカルで起動する
-
-必要なものはPython 3.11、Docker Compose、Gemini APIキーです。通常の起動手順は次のとおりです。
-
-```bash
-git clone https://github.com/toko1970/municipal-rag-assistant.git
-cd municipal-rag-assistant
-python3.11 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements-dev.txt
-cp .env.example .env
-```
-
-`.env`の`GOOGLE_API_KEY`に自分のAPIキーを設定します。秘密情報を含む`.env`はコミットしないでください。ローカル既定は`ANSWER_GENERATION_FLOW=production`と`LLM_MODEL_NAME=gemini-3.1-flash-lite`です。現在のCloud Runと同じ一回生成候補を試す場合は、`.env`で`ANSWER_GENERATION_FLOW=autoresearch_candidate`を指定します。候補の生成モデルは実装で固定されており、`LLM_MODEL_NAME`では切り替わりません。設定値は起動時に読み込まれるため、変更後はアプリを再起動してください。
-
-PostgreSQLとQdrantを起動し、schema適用と架空文書の初回取込を行ってからUIを起動します。
-
-```bash
-docker compose up -d postgres qdrant
-python -m scripts.manage_rag_v2 migrate
-python -m scripts.manage_rag_v2 ingest
-streamlit run app.py
-```
-
-ブラウザでStreamlitが表示するURLを開き、たとえば「給与支給日はいつですか？」と質問します。初回取込はEmbedding APIを、質問は外部LLMを呼び出すため、APIキーとprovider利用枠が必要です。図表を追加する場合は、抽出結果を人が確認したレビュー済みJSONを用意し、次のCLIで登録します。
-
-```bash
-python -m scripts.manage_rag_v2 ingest-visual \
-  --pdf /path/to/fictional-document.pdf \
-  --extraction /path/to/reviewed-extraction.json \
-  --document-key unique-document-id \
-  --document-name '図表の文書名' \
-  --reviewed
-```
-
-このCLIは登録時に外部Embedding APIを使います。任意PDFのアップロードや抽出結果の承認を行うWeb管理画面はありません。図表機能の範囲は[図表RAGの実装状況](eval/reports/VISUAL_RAG_STATUS.md)に記載しています。
-
-再開時はPostgreSQLとQdrantを起動してから`streamlit run app.py`を実行します。停止は`docker compose down`です。ローカルDBとindexも削除して最初から作り直す場合に限り、`docker compose down -v`を使ってください。この操作はCompose管理下のローカルvolumeを削除します。
-
-### テストとCI
-
-通常のテストとlintは外部API不要です。
-
-```bash
-python -m ruff check app.py config.py src scripts tests
-python -m pytest -q -m "not integration" tests
-```
-
-PostgreSQL/Qdrant統合テストには、DB名・資格情報・volume・ホスト側ポートを分けた専用の[`compose.integration.yaml`](compose.integration.yaml)を使います。通常の`compose.yaml`は5432/6333/6334を固定公開するため、project名を変えるだけではポートを分離できません。
-
-```bash
-# このテストで作るproject名を一意にする。使用済みポートなら各RAG_TEST_*_PORTも変更する。
-export RAG_TEST_PROJECT=rag-check-20261025
-export RAG_TEST_POSTGRES_PORT=15432
-export RAG_TEST_QDRANT_PORT=16333
-export RAG_TEST_QDRANT_GRPC_PORT=16334
-docker compose --env-file /dev/null -f compose.integration.yaml \
-  -p "$RAG_TEST_PROJECT" up -d
-# 両サービスがhealthyになることを確認してから次へ進む。
-docker compose --env-file /dev/null -f compose.integration.yaml \
-  -p "$RAG_TEST_PROJECT" ps
-
-# サブシェル内だけで接続先を上書きし、既存.envの共有・cloud接続値を使わない。
-(
-  export DATABASE_URL="postgresql+psycopg://rag_test:rag_test_only@127.0.0.1:${RAG_TEST_POSTGRES_PORT}/rag_handoff_test"
-  export QDRANT_URL="http://127.0.0.1:${RAG_TEST_QDRANT_PORT}"
-  export QDRANT_COLLECTION_NAME="${RAG_TEST_PROJECT}_only"
-  export QDRANT_API_KEY= GOOGLE_API_KEY= OPENAI_API_KEY= MISTRAL_API_KEY=
-  export VISUAL_ASSET_BACKEND=local
-  python -m scripts.manage_rag_v2 migrate &&
-  python -m pytest -q -m integration tests/integration
-)
-
-# 上で作ったテストprojectだけを削除する。
-docker compose --env-file /dev/null -f compose.integration.yaml \
-  -p "$RAG_TEST_PROJECT" down -v
-```
-
-統合テストは固定ベクトルとfakeを使い、Embedding/LLM APIを呼びません。各テストは独立したcollectionを作成して削除します。CIでは専用PostgreSQL/QdrantとTerraform検査の成功を、候補準備の前提にします。
-
-### 保存済み評価の確認と公開smoke
-
-```bash
-# 公開aggregateの算術整合のみ。原回答の再採点ではない。
-python -m eval.audit_public_evaluation
-```
-
-smoke専用コマンドは、schema・indexを変更せず5種類の代表質問を実行し、不完全出力や必要根拠の欠落で非ゼロ終了します。**こちらは外部LLM/Embeddingと監査ログ書込みを伴います。** 回数・費用を確認してから実行してください。
-
-```bash
-python -m scripts.manage_rag_v2 smoke \
-  --max-cases 5 --max-attempts 5 --max-503-retries 0
-```
-
-成功は構造検査の通過であり、意味品質や公開受入の完了ではありません。通常CIはtraffic未切替の候補準備まで、公開は検査したrevisionに結び付けた意味確認・実UI確認と既存Environment承認の後に行います。[公開リリース手順](design/PUBLIC_RELEASE_RUNBOOK.md)
-
-## 制作・評価への関与と詳細資料
-
-制作者による確認として公開記録から追えるのは、分類改善方針の選択と分類境界・期待ラベルの確認、安全性を重視したモデル選定方針、モデル比較の3ケースとchallengeの限定訂正、直接比較を確認した候補統合の判断です。分類失敗の分析では、本人が期待ラベルを承認し、Codexが失敗原因を初回分類した分担も記録されています。各ファイルの執筆分担や基準90件の採点者の本人確認は残っており、確認できた個別作業を全制作工程の担当実績へ広げていません。[確認できた担当範囲と出典](portfolio/01-ui.md#制作者の関与とai支援)
-
-- [精度改善の総括](eval/reports/ACCURACY_IMPROVEMENT.md): 課題から採用・不採用まで。
-- [評価比較の条件と再現範囲](eval/reports/EVALUATION_EVIDENCE_AUDIT_20261025.md): 規約・分母・訂正・原資料・不足資料。
-- [技術選定](design/TECH_STACK_DECISIONS.md): 実測による比較と設計上の選択を区別。
-- [技術設計](design/TECHNICAL_DESIGN.md): 現行実装とProduction Referenceの境界。
-- [公開リリース手順](design/PUBLIC_RELEASE_RUNBOOK.md): 候補の検査、意味確認、公開・復旧。
+| 画面、文書登録、検索、回答、記録の機能 | [機能ごとの説明](portfolio/README.md) |
+| 精度改善の背景と過去の評価結果 | [精度改善の詳しい記録](eval/reports/ACCURACY_IMPROVEMENT.md) |
+| 実験条件、採否判断、未実施事項 | [評価資料の案内](eval/reports/README.md) |
+| システム構成・データの詳細 | [技術設計](design/TECHNICAL_DESIGN.md) · [データモデル](design/DATA_MODEL.md) |
