@@ -5,6 +5,7 @@
 ## 改善の流れ
 
 ```mermaid
+%%{init: {"flowchart": {"wrappingWidth": 300, "minNodeWidth": 260}}}%%
 flowchart TD
     A[初回Text holdout<br/>総合成功 83 / 100]
     B[最大の課題<br/>回答分類の過剰な保留]

@@ -65,6 +65,7 @@ flowchart LR
 ## 精度改善の流れ
 
 ```mermaid
+%%{init: {"flowchart": {"wrappingWidth": 300, "minNodeWidth": 260}}}%%
 flowchart TD
     S[先行する検索評価<br/>似た節の根拠を取りこぼす]
     T[検索を比較・改善<br/>見出し文脈・Top-8に効果<br/>Hybrid系は退行]
