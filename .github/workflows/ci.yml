@@ -28,7 +28,7 @@ jobs:
         run: python -m pytest -q -m "not integration" tests
       - uses: actions/setup-node@v4
         with:
-          node-version: "22.12.0"
+          node-version: "22.22.2"
           cache: npm
           cache-dependency-path: frontend/package-lock.json
       - name: Install frontend dependencies
@@ -69,6 +69,9 @@ jobs:
           status=$(curl --silent --output /tmp/ready.json --write-out '%{http_code}' http://localhost:8080/api/health/ready)
           test "$status" = "200" -o "$status" = "503"
           grep -q 'status' /tmp/ready.json
+      - name: Show container logs on smoke failure
+        if: failure()
+        run: docker logs municipal-rag-ui-smoke
 
   integration:
     runs-on: ubuntu-latest
