@@ -1,13 +1,79 @@
-from types import SimpleNamespace
+import json
 import unittest
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from langchain_core.messages import HumanMessage
 
-from src.llm_provider import GeminiProvider, MistralProvider, OpenAIProvider
+from src.llm_provider import (
+    GeminiProvider,
+    MistralProvider,
+    OpenAIProvider,
+    safe_provider_error_summary,
+)
 
 
 class LLMProviderTest(unittest.TestCase):
+    def test_safe_provider_error_summary_keeps_only_validated_metadata(self):
+        error = RuntimeError("api_key=secret prompt=private provider response=private")
+        error.status_code = 503
+        error.status = "unavailable"
+        error.request_id = "invalid/request/id"
+        error.response = SimpleNamespace(
+            headers={
+                "Authorization": "Bearer secret",
+                "x-goog-request-id": "header-456",
+            }
+        )
+
+        summary = safe_provider_error_summary(error)
+        metadata = json.loads(summary)
+
+        self.assertEqual(
+            metadata,
+            {
+                "exception_type": "RuntimeError",
+                "http_status": 503,
+                "provider_code": "UNAVAILABLE",
+                "request_id": "header-456",
+            },
+        )
+        self.assertNotIn("secret", summary)
+        self.assertNotIn("private", summary)
+        self.assertNotIn("Authorization", summary)
+
+    def test_safe_provider_error_summary_omits_invalid_metadata(self):
+        error = RuntimeError("credential=must-not-appear")
+        error.status_code = 700
+        error.status = "credential=not-a-provider-code"
+        error.request_id = "request/id"
+        error.response = SimpleNamespace(
+            headers={"x-goog-request-id": "request id with spaces"}
+        )
+
+        self.assertEqual(safe_provider_error_summary(error), "RuntimeError")
+
+    def test_safe_provider_error_summary_handles_malformed_response_attributes(self):
+        class MalformedHeaders:
+            def items(self):
+                raise RuntimeError("credential=must-not-appear")
+
+        class BrokenProviderError(Exception):
+            @property
+            def response(self):
+                raise RuntimeError("credential=must-not-appear")
+
+        error = BrokenProviderError("raw response must-not-appear")
+        error.request_id = "bad/id"
+        self.assertEqual(safe_provider_error_summary(error), "BrokenProviderError")
+
+        error = RuntimeError("raw response must-not-appear")
+        error.response = SimpleNamespace(headers=MalformedHeaders())
+        error.request_id = "bad/id"
+        summary = safe_provider_error_summary(error)
+        self.assertEqual(summary, "RuntimeError")
+        self.assertNotIn("must-not-appear", summary)
+
     def test_disables_sdk_retries_for_application_owned_retry_policy(self):
         with patch("src.llm_provider.ChatGoogleGenerativeAI") as model:
             GeminiProvider("gemini-test", api_key="test-key")
