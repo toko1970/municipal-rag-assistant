@@ -271,7 +271,7 @@ FastAPIは同じCloud Run containerからVite build成果物を配信する。Re
 
 SPAの`GET /`は署名cookieの発行・更新確認だけを行い、DB書込みをしない。署名cookieにはsession opaque IDと`session_expires_at`を含める。Secure、HttpOnly、SameSite=Lax、Path=/、Max-Age 24hとし、有効cookieの絶対失効時刻を延長しない。session HMACはAPI・middlewareが作り、DBに生cookie値を保存しない。秘密鍵はsecret供給方式から読み、key IDによって現在と直前の署名鍵を識別する。
 
-すべてのcookie認証state-changing methodはサーバ設定のcanonical Origin完全一致と`Sec-Fetch-Site: same-origin`を検証し、欠落・不一致を拒否する。OriginをHostやForwarded headerから組み立てない。APIへの直接アクセスでcookieがない場合は401を返し、sessionを暗黙発行しない。
+すべてのcookie認証state-changing methodはサーバ設定の明示的なOrigin allow-listとの完全一致と`Sec-Fetch-Site: same-origin`を検証し、欠落・不一致を拒否する。allow-listにはstable Cloud Run service originと、現在レビュー中のtagged candidate originだけを含める。wildcardやsuffix matchは使わず、OriginをHostやForwarded headerから組み立てない。APIへの直接アクセスでcookieがない場合は401を返し、sessionを暗黙発行しない。
 
 質問POST前にbrowserは256-bit以上の暗号学的乱数keyを作り、最初のnetwork call前に`sessionStorage`へ保存する。APIはkey HMAC、session HMAC、期限、状態、body hash、request IDだけをidempotency rowへ保存する。keyはsession HMACにscopeする。未使用keyの`submit_by`は登録+5分かcookie expiryの早い方で、cookie expiryはkey発行後も変えない。初回POSTは同一DB transactionでISSUEDからIN_PROGRESSへCAS遷移し、session/global質問quotaを予約する。再送は既存状態を返しproviderを再実行しない。処理中断が最大処理時間+余裕を越えた場合はINTERRUPTED終端へ移し、keyを再実行しない。期限切れ行のHMAC tombstoneはsession expiryまで保持してcleanupで物理削除する。
 

@@ -8,7 +8,7 @@ import pytest
 from pydantic import ValidationError
 from PIL import Image
 
-from src.api import FeedbackBody, create_app
+from src.api import FeedbackBody, _validate_canonical_origins, create_app
 from src.asset_store import VisualEvidenceAsset
 from src.public_api_store import KeyRegistration, KeyState, RequestSnapshot
 from src.session_security import SessionTokenCodec
@@ -94,7 +94,7 @@ class FakeAssetReader:
         return asset.verify(self.content)
 
 
-def _client(*, question_runner=None, readiness_probe=None):
+def _client(*, question_runner=None, readiness_probe=None, canonical_origins=None):
     codec = SessionTokenCodec(
         signing_keys={"key-a": b"a" * 32},
         current_key_id="key-a",
@@ -116,7 +116,8 @@ def _client(*, question_runner=None, readiness_probe=None):
             "generation": {"provider": "gemini", "model": "test-model"},
         }),
         readiness_probe=readiness_probe or (lambda: None),
-        canonical_origin=CANONICAL_ORIGIN,
+        canonical_origin=CANONICAL_ORIGIN if canonical_origins is None else None,
+        canonical_origins=canonical_origins,
         frontend_dist=None,
     )
     return TestClient(app, base_url=CANONICAL_ORIGIN), store
@@ -174,6 +175,32 @@ def test_state_changes_require_exact_origin_and_same_origin_fetch_metadata():
     assert response.status_code == 403
     assert response.json()["error"]["code"] == "ORIGIN_REJECTED"
     assert store.reserved == []
+
+
+def test_candidate_and_service_origins_are_explicitly_allowed():
+    candidate_origin = "https://review-123-1---rag.example.test"
+    client, store = _client(canonical_origins=(CANONICAL_ORIGIN, candidate_origin))
+    client.get("/")
+
+    response = client.post(
+        "/api/idempotency-keys",
+        headers={
+            **_same_origin_headers(),
+            "Origin": candidate_origin,
+        },
+    )
+
+    assert response.status_code == 200
+    assert len(store.reserved) == 1
+
+
+@pytest.mark.parametrize(
+    "origin",
+    ["https://exa mple.com", "https://example.com:443", "https://-bad.example"],
+)
+def test_canonical_origin_allow_list_rejects_noncanonical_authorities(origin):
+    with pytest.raises(ValueError):
+        _validate_canonical_origins((origin,))
 
 
 def test_all_write_routes_require_origin_and_fetch_metadata():

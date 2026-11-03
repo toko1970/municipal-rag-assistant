@@ -71,7 +71,10 @@ jobs:
           gcloud run services describe municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/service.json"
           python -m scripts.release_gate approve --manifest release-evidence/candidate.json --review "$RUNNER_TEMP/review.json" --source-run "$RUNNER_TEMP/source-run.json" --service "$RUNNER_TEMP/service.json" --revision "$RUNNER_TEMP/revision.json" --image-index-manifest release-evidence/image-index.json --output release-evidence/promotion.json
           tagged_url=$(python -c 'import json; print(json.load(open("release-evidence/candidate.json"))["tagged_url"])')
-          curl --fail --silent --show-error --retry 3 --retry-delay 5 --max-time 30 "$tagged_url/_stcore/health"
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 --max-time 30 "$tagged_url/" -o /tmp/candidate-ui.html
+          grep -q 'id="root"' /tmp/candidate-ui.html
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 --max-time 30 "$tagged_url/api/health/live"
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 --max-time 30 "$tagged_url/api/health/ready"
       - name: Promote only the verified revision and restore previous traffic on failure
         run: |
           set -euo pipefail
@@ -116,7 +119,10 @@ jobs:
           gcloud run services describe municipal-rag-assistant --project=municipal-rag-portfolio --region=asia-northeast1 --format=json > "$RUNNER_TEMP/promoted-service.json"
           python -m scripts.release_gate record-traffic --manifest release-evidence/candidate.json --service "$RUNNER_TEMP/promoted-service.json" --outcome PROMOTED --image-index-manifest release-evidence/image-index.json --output "$RUNNER_TEMP/promoted-receipt.json"
           service_url=$(python -c 'import json, os; print(json.load(open(os.path.join(os.environ["RUNNER_TEMP"], "promoted-service.json")))["status"]["url"])')
-          curl --fail --silent --show-error --retry 3 --retry-delay 5 --max-time 30 "$service_url/_stcore/health"
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 --max-time 30 "$service_url/" -o /tmp/promoted-ui.html
+          grep -q 'id="root"' /tmp/promoted-ui.html
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 --max-time 30 "$service_url/api/health/live"
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 --max-time 30 "$service_url/api/health/ready"
           cp "$RUNNER_TEMP/promoted-receipt.json" release-evidence/outcome.json
           # Commit point: exact routing, health, and the receipt are all verified.
           promotion_verified=1

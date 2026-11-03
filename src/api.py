@@ -13,6 +13,7 @@ import re
 import time
 from typing import Any, Callable, Literal
 import unicodedata
+from urllib.parse import urlsplit
 from uuid import UUID
 
 from fastapi import Depends, FastAPI, Header, Request
@@ -29,6 +30,7 @@ import yaml
 
 from config import (
     CANONICAL_ORIGIN,
+    CANONICAL_ORIGINS_JSON,
     DATABASE_URL,
     QDRANT_API_KEY,
     QDRANT_URL,
@@ -222,15 +224,15 @@ def _require_session(request: Request):
 
 def _require_same_origin_session(request: Request):
     claims = _require_session(request)
-    canonical_origin = request.app.state.canonical_origin
-    if not canonical_origin:
+    canonical_origins = request.app.state.canonical_origins
+    if not canonical_origins:
         raise ApiProblem(
             503,
             "DEPENDENCY_UNAVAILABLE",
             "APIの公開設定が完了していません。時間を置いて再度お試しください。",
             retryable=True,
         )
-    if request.headers.get("origin") != canonical_origin:
+    if request.headers.get("origin") not in canonical_origins:
         raise ApiProblem(403, "ORIGIN_REJECTED", "この操作を受け付けられません。")
     if request.headers.get("sec-fetch-site") != "same-origin":
         raise ApiProblem(403, "ORIGIN_REJECTED", "この操作を受け付けられません。")
@@ -454,6 +456,7 @@ def create_app(
     readiness_probe: Callable[[], None] | None = None,
     asset_reader: Any | None = None,
     canonical_origin: str | None = None,
+    canonical_origins: tuple[str, ...] | None = None,
     frontend_dist: Path | None = None,
 ) -> FastAPI:
     app = FastAPI(
@@ -468,9 +471,24 @@ def create_app(
     app.state.question_runner = question_runner or _default_question_runner
     app.state.readiness_probe = readiness_probe or _default_readiness_probe
     app.state.asset_reader = asset_reader
-    app.state.canonical_origin = (
-        canonical_origin if canonical_origin is not None else CANONICAL_ORIGIN
-    )
+    configured_origins = canonical_origins
+    if configured_origins is None and CANONICAL_ORIGINS_JSON:
+        try:
+            parsed_origins = json.loads(CANONICAL_ORIGINS_JSON)
+        except json.JSONDecodeError as exc:
+            raise ValueError("CANONICAL_ORIGINS_JSON must be a JSON array") from exc
+        if not isinstance(parsed_origins, list) or not all(
+            isinstance(origin, str) for origin in parsed_origins
+        ):
+            raise ValueError("CANONICAL_ORIGINS_JSON must be a JSON array of strings")
+        configured_origins = tuple(parsed_origins)
+    if configured_origins is None:
+        single_origin = canonical_origin if canonical_origin is not None else CANONICAL_ORIGIN
+        configured_origins = (single_origin,) if single_origin else ()
+    app.state.canonical_origins = _validate_canonical_origins(configured_origins)
+    stable_origin = canonical_origin if canonical_origin is not None else CANONICAL_ORIGIN
+    if stable_origin and stable_origin not in app.state.canonical_origins:
+        raise ValueError("CANONICAL_ORIGINS_JSON must include CANONICAL_ORIGIN")
     app.state.frontend_dist = frontend_dist or BASE_DIR / "frontend" / "dist"
     spec_path = BASE_DIR / "design" / "schemas" / "public-api-v1.openapi.yaml"
     app.state.openapi_spec = yaml.safe_load(spec_path.read_text(encoding="utf-8"))
@@ -913,6 +931,36 @@ def create_app(
         raise ApiProblem(404, "INVALID_REQUEST", "指定されたページは見つかりません。")
 
     return app
+
+
+def _validate_canonical_origins(origins: tuple[str, ...]) -> frozenset[str]:
+    validated: set[str] = set()
+    for origin in origins:
+        parsed = urlsplit(origin)
+        try:
+            hostname = parsed.hostname
+            port = parsed.port
+        except ValueError as exc:
+            raise ValueError("canonical origins must be valid origins") from exc
+        if hostname is None or not re.fullmatch(
+            r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)*",
+            hostname,
+        ):
+            raise ValueError("canonical origins must contain a valid hostname")
+        if port == (443 if parsed.scheme == "https" else 80):
+            raise ValueError("canonical origins must omit the default port")
+        if (
+            parsed.scheme not in {"http", "https"}
+            or parsed.username is not None
+            or parsed.password is not None
+            or parsed.path
+            or parsed.query
+            or parsed.fragment
+            or origin != f"{parsed.scheme}://{parsed.netloc}"
+        ):
+            raise ValueError("canonical origins must contain only scheme and authority")
+        validated.add(origin)
+    return frozenset(validated)
 
 
 def _session_factory():
