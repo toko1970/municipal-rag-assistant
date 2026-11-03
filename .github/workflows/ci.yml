@@ -54,7 +54,7 @@ jobs:
           -c "from pathlib import Path; assert not Path('/app/eval').exists()"
       - name: Start API and static UI
         run: |
-          docker run --detach --rm --name municipal-rag-ui-smoke \
+          docker run --detach --name municipal-rag-ui-smoke \
             --publish 8080:8080 \
             --env PORT=8080 \
             --env SESSION_SIGNING_KEYS_JSON='{"ci":"01234567890123456789012345678901"}' \
@@ -62,6 +62,7 @@ jobs:
             --env CANONICAL_ORIGIN=http://localhost:8080 \
             municipal-rag-ui-smoke
       - name: Smoke-test UI and health routes
+        id: smoke
         run: |
           curl --fail --retry 10 --retry-delay 2 http://localhost:8080/ -o /tmp/ui.html
           grep -q 'id="root"' /tmp/ui.html
@@ -69,9 +70,15 @@ jobs:
           status=$(curl --silent --output /tmp/ready.json --write-out '%{http_code}' http://localhost:8080/api/health/ready)
           test "$status" = "200" -o "$status" = "503"
           grep -q 'status' /tmp/ready.json
-      - name: Show container logs on smoke failure
-        if: failure()
-        run: docker logs municipal-rag-ui-smoke
+      - name: Show container state and logs on smoke failure
+        if: steps.smoke.outcome == 'failure'
+        run: |
+          docker ps -a --no-trunc
+          docker inspect --format='State={{json .State}} RestartCount={{.RestartCount}}' municipal-rag-ui-smoke || true
+          docker logs --timestamps municipal-rag-ui-smoke || true
+      - name: Remove smoke container
+        if: always()
+        run: docker rm --force municipal-rag-ui-smoke 2>/dev/null || true
 
   integration:
     runs-on: ubuntu-latest
