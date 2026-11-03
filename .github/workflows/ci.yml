@@ -82,7 +82,11 @@ jobs:
           curl --fail http://localhost:8080/api/health/live
           status=$(curl --silent --output /tmp/ready.json --write-out '%{http_code}' http://localhost:8080/api/health/ready)
           test "$status" = "200" -o "$status" = "503"
-          grep -q 'status' /tmp/ready.json
+          if [ "$status" = "200" ]; then
+            grep -q '"status":"ok"' /tmp/ready.json
+          else
+            grep -q '"error":' /tmp/ready.json
+          fi
       - name: Show container state and logs on smoke failure
         if: failure() && steps.smoke.outcome == 'failure'
         run: |
