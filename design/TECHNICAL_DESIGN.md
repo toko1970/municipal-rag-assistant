@@ -2,7 +2,7 @@
 
 ## 1. 目的と設計境界
 
-この文書は[`TARGET_RAG_SPEC.md`](TARGET_RAG_SPEC.md)を実装へ落とす契約である。現行のStreamlit、Gemini、Chroma、JSONL構成から、PDF・図表、PostgreSQL、Qdrant、Cloud Storageを使う目標構成へ段階移行する。
+この文書は[`TARGET_RAG_SPEC.md`](TARGET_RAG_SPEC.md)を実装へ落とす契約である。Streamlit、Gemini、Chroma、JSONLを使った移行前構成から、PDF・図表、PostgreSQL、Qdrant、Cloud Storage、React + FastAPIを使う公開構成へ段階移行する。
 
 完成対象は転職用ポートフォリオの公開デモであり、実在自治体の本番業務、最終判断、個人情報処理は含めない。
 
@@ -10,8 +10,9 @@
 
 ```mermaid
 flowchart LR
-    U[給与事務担当者] --> UI[Streamlit / Cloud Run]
-    UI --> QS[Query Service]
+    U[公開利用者] --> UI[React / same origin]
+    UI --> API[FastAPI / Cloud Run]
+    API --> QS[Query Service]
     QS --> V[(Qdrant)]
     QS --> PG[(PostgreSQL)]
     QS --> GCS[(Cloud Storage)]
@@ -26,7 +27,8 @@ flowchart LR
 
 | コンポーネント | 責務 | 実装境界 |
 |---|---|---|
-| Streamlit UI | 質問受付、回答・引用・図表表示、フィードバック | 検索ロジックを持たない |
+| React UI | 質問受付、回答・引用・図表表示、フィードバック | 検索・回答判断を持たない |
+| FastAPI | 匿名session、quota、idempotency、JSON API、private image配信 | 現行query entry pointを呼び、RAG業務判断を複製しない |
 | Query Service | 版決定、検索、正本取得、生成、検証、分類、記録 | repository interfaceだけを使う |
 | Ingestion Service | 原本登録、抽出、構造化、チャンク、索引準備 | 管理者CLIから起動する |
 | Outbox Worker | PostgreSQLのイベントをQdrantへ冪等反映 | 二重書込みを行わない |
@@ -239,12 +241,37 @@ RPOは24時間、RTOは4時間をポートフォリオ目標とする。PostgreS
 - GCS bucketは非公開。UIは認可済みbackendを経由して必要画像だけを短時間表示する。
 - Cloud SQL connector、TLS、接続pool上限を使う。Qdrant CloudはTLSとread/write keyを分離する。
 - 公開UIは質問1,000文字、feedback 2,000文字まで。初回アクセス時に署名付きHttpOnly匿名session cookieを発行し、session IDのHMACだけを24時間保存する。cookieは本人認証ではなくsoft limit用で、再発行による回避はglobal limitで抑える。
-- PostgreSQLの`quota_buckets`を`SELECT ... FOR UPDATE`して、匿名sessionあたり5質問/日、全体50質問/日をGemini呼出前に原子的に予約する。外部API呼出開始後は失敗しても枠を返さない。上限時は429を返す。
-- feedbackは同じsessionが発行したrequestにだけ登録でき、1回答につき1件をupsertする。sessionあたり10件/日、全体200件/日を同じ原子的quotaで制御する。表示時はHTMLとして解釈せずescapeし、制御文字を除去してUnicodeをNFC正規化する。
-- `quota_buckets`のglobal kill switchで質問受付を即時停止できる。日付境界はAsia/Tokyoとし、管理CLIで翌日bucketを再開する。Cloud Runはmax instances 2、instance concurrency 5を上限とし、複数instanceでもDB transactionを共通gateにする。
-- メール、電話番号、職員番号に似る文字列を保存前にmaskし、質問・自由記述feedbackは30日で親request、question HMAC、attempt、claim、evidence linkをcascade削除する。question HMACは日次鍵をSecret Managerから取得して生成し、鍵も30日後に破棄する。評価runは架空固定データのみ長期保持する。
+- PostgreSQLの`quota_buckets`をtransaction内でlockし、匿名sessionあたり5質問/日、全体50質問/日をprovider呼出前に原子的に予約する。外部API呼出開始後は失敗しても枠を返さない。上限時は429を返す。
+- feedbackは同じsessionが発行したrequestにだけ登録でき、1回答につき1件をupsertする。sessionあたり10件/日、全体200件/日を同じ原子的quotaで制御する。各PUTはquotaを消費する。表示時はHTMLとして解釈せずescapeし、制御文字除去とUnicode NFC正規化を行う。
+- idempotency key発行は別bucket typeでsessionあたり10回/日、global 200回/日とする。1sessionの未使用`ISSUED` keyは最大1件、寿命は最大5分である。同key登録再試行は同じ期限を返し、quotaを再消費しない。`QUESTION_GLOBAL.disabled`をkey発行と質問POSTの共通kill switchとし、質問quotaとkey issuance quotaは分離する。
+- `quota_buckets`の日付境界はAsia/Tokyoとし、複数instanceでもDB transactionを共通gateにする。質問・feedback・key発行のglobal/session上限はそれぞれ、50/5、200/10、200/10件/日である。Cloud Runはmax instances 2、instance concurrency 5を上限とする。
+- 自動PII maskと質問/commentの30日retention jobはProduction Backlogであり、今回実装しない。これは目標要件の撤回ではない。既存の質問・feedback保存経路を変えず、公開demoでは実在個人情報・機密情報を入力しないよう案内する。評価runは架空固定データのみ長期保持する。
 - 文書中の命令文をシステム命令として扱わない。回答promptは引用資料をデータとして囲み、外部URL実行、tool実行、秘密情報出力を許可しない。
 - 運用ログには質問本文、回答本文、資格情報を出さない。
+
+### 9.1 React + FastAPI公開UI/API契約
+
+FastAPIは同じCloud Run containerからVite build成果物を配信する。ReactとAPIは同一originとし、本番CORS設定は追加しない。[`schemas/public-api-v1.openapi.yaml`](schemas/public-api-v1.openapi.yaml)をOpenAPI契約の一次資料とし、FastAPIの`/openapi.json`は同じ契約を配信する。API clientはschemaから生成するか、型を一元定義してcontract fixtureと照合する。
+
+| Method / path | 契約 |
+|---|---|
+| `GET /api/health/live` | process livenessのみ。DB/Qdrantへ接続しない |
+| `GET /api/health/ready` | PostgreSQLとQdrantを各1秒程度で確認。いずれか停止時503。Gemini/GCSはprobeしない |
+| `POST /api/idempotency-keys` | session cookieとCSPRNG生成`Idempotency-Key`を受け、同keyは再試行でも同じ期限を返す |
+| `POST /api/requests` | `{question}`、最大1,000 Unicode code point。keyを一度だけ消費し、現行RAG entry pointの結果を返す |
+| `GET /api/requests/by-idempotency-key` | URLへkeyを含めずheaderで照会。処理中202、完了時は元POSTと同じ結果、期限後410 |
+| `PUT /api/requests/{request_id}/feedback` | 許可値、NFC後2,000 code point以下のcomment、同session ownership、quota、upsert |
+| `GET /api/requests/{request_id}/references/{reference_id}/image` | request ownershipとretrieval referenceを検証し、private AssetReaderからhash確認済み画像を返す |
+
+SPAの`GET /`は署名cookieの発行・更新確認だけを行い、DB書込みをしない。署名cookieにはsession opaque IDと`session_expires_at`を含める。Secure、HttpOnly、SameSite=Lax、Path=/、Max-Age 24hとし、有効cookieの絶対失効時刻を延長しない。session HMACはAPI・middlewareが作り、DBに生cookie値を保存しない。秘密鍵はsecret供給方式から読み、key IDによって現在と直前の署名鍵を識別する。
+
+すべてのcookie認証state-changing methodはサーバ設定のcanonical Origin完全一致と`Sec-Fetch-Site: same-origin`を検証し、欠落・不一致を拒否する。OriginをHostやForwarded headerから組み立てない。APIへの直接アクセスでcookieがない場合は401を返し、sessionを暗黙発行しない。
+
+質問POST前にbrowserは256-bit以上の暗号学的乱数keyを作り、最初のnetwork call前に`sessionStorage`へ保存する。APIはkey HMAC、session HMAC、期限、状態、body hash、request IDだけをidempotency rowへ保存する。keyはsession HMACにscopeする。未使用keyの`submit_by`は登録+5分かcookie expiryの早い方で、cookie expiryはkey発行後も変えない。初回POSTは同一DB transactionでISSUEDからIN_PROGRESSへCAS遷移し、session/global質問quotaを予約する。再送は既存状態を返しproviderを再実行しない。処理中断が最大処理時間+余裕を越えた場合はINTERRUPTED終端へ移し、keyを再実行しない。期限切れ行のHMAC tombstoneはsession expiryまで保持してcleanupで物理削除する。
+
+エラーresponseは`{error: {code, message, retryable}}`とし、providerのraw error/stackを返さない。key slot競合と同key異bodyは409、quota超過は用途を示す429、DB/Qdrant停止とprovider一時障害は503、deadline超過・期限切れkeyは410とする。利用者向けmessageは内部host、credential、provider responseを含めない。
+
+質問、feedbackの本文は現行保存経路を変えない。自動PII maskと30日retention jobは未実装のProduction Backlogとして維持し、公開demoでは実在個人情報・機密情報を入力しない案内を表示する。
 
 ## 10. 設計判断
 

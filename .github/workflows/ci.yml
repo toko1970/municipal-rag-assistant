@@ -8,6 +8,8 @@ permissions:
 jobs:
   test-and-lint:
     runs-on: ubuntu-latest
+    env:
+      ANSWER_GENERATION_FLOW: production
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
@@ -21,9 +23,52 @@ jobs:
       - name: Install dependencies
         run: python -m pip install -r requirements-dev.txt
       - name: Lint
-        run: python -m ruff check app.py config.py src scripts tests
+        run: python -m ruff check config.py src scripts tests
       - name: Test without external APIs
         run: python -m pytest -q -m "not integration" tests
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.12.0"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+      - name: Test, typecheck, lint, and build frontend
+        working-directory: frontend
+        run: |
+          npm test
+          npm run typecheck
+          npm run lint
+          npm run build
+
+  container-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build production image
+        run: docker build -t municipal-rag-ui-smoke .
+      - name: Verify evaluation data is excluded
+        run: >-
+          docker run --rm --entrypoint python municipal-rag-ui-smoke
+          -c "from pathlib import Path; assert not Path('/app/eval').exists()"
+      - name: Start API and static UI
+        run: |
+          docker run --detach --rm --name municipal-rag-ui-smoke \
+            --publish 8080:8080 \
+            --env PORT=8080 \
+            --env SESSION_SIGNING_KEYS_JSON='{"ci":"01234567890123456789012345678901"}' \
+            --env SESSION_CURRENT_KEY_ID=ci \
+            --env CANONICAL_ORIGIN=http://localhost:8080 \
+            municipal-rag-ui-smoke
+      - name: Smoke-test UI and health routes
+        run: |
+          curl --fail --retry 10 --retry-delay 2 http://localhost:8080/ -o /tmp/ui.html
+          grep -q 'id="root"' /tmp/ui.html
+          curl --fail http://localhost:8080/api/health/live
+          status=$(curl --silent --output /tmp/ready.json --write-out '%{http_code}' http://localhost:8080/api/health/ready)
+          test "$status" = "200" -o "$status" = "503"
+          grep -q 'status' /tmp/ready.json
 
   integration:
     runs-on: ubuntu-latest
@@ -58,6 +103,7 @@ jobs:
       GOOGLE_API_KEY: ""
       OPENAI_API_KEY: ""
       MISTRAL_API_KEY: ""
+      ANSWER_GENERATION_FLOW: production
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
@@ -91,8 +137,45 @@ jobs:
         working-directory: infra
         run: terraform validate -no-color
 
+  build-candidate-image:
+    needs: [test-and-lint, integration, terraform-check, container-smoke]
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      vars.ENABLE_CD == 'true' &&
+      !contains(github.event.head_commit.message, '[skip deploy]')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      image: ${{ steps.publish.outputs.image }}
+    env:
+      IMAGE_TAG: asia-northeast1-docker.pkg.dev/municipal-rag-portfolio/municipal-rag-images/municipal-rag-assistant:${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Authenticate to Google Cloud without a service account key
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: municipal-rag-portfolio
+          workload_identity_provider: projects/280649014820/locations/global/workloadIdentityPools/github-actions/providers/municipal-rag
+          service_account: municipal-rag-deployer@municipal-rag-portfolio.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Configure Artifact Registry authentication
+        run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev --quiet
+      - name: Build and publish candidate image without deploying
+        id: publish
+        run: |
+          docker build -t "$IMAGE_TAG" .
+          docker push "$IMAGE_TAG"
+          digest="$(gcloud artifacts docker images describe "$IMAGE_TAG" --format='value(image_summary.digest)')"
+          test -n "$digest"
+          image="asia-northeast1-docker.pkg.dev/municipal-rag-portfolio/municipal-rag-images/municipal-rag-assistant@$digest"
+          echo "image=$image" >> "$GITHUB_OUTPUT"
+          echo "Candidate image (no deployment): `$image`" >> "$GITHUB_STEP_SUMMARY"
+
   deploy:
-    needs: [test-and-lint, integration, terraform-check]
+    needs: [build-candidate-image]
     if: >-
       github.event_name == 'push' &&
       github.ref == 'refs/heads/main' &&
@@ -107,10 +190,12 @@ jobs:
       contents: read
       id-token: write
     env:
-      IMAGE: asia-northeast1-docker.pkg.dev/municipal-rag-portfolio/municipal-rag-images/municipal-rag-assistant:${{ github.sha }}
+      IMAGE: ${{ needs.build-candidate-image.outputs.image }}
       CLOUD_SQL_CONNECTION_NAME: ${{ vars.CLOUD_SQL_CONNECTION_NAME }}
       QDRANT_URL: ${{ vars.QDRANT_URL }}
       GCS_VISUAL_ASSET_BUCKET: ${{ vars.GCS_VISUAL_ASSET_BUCKET }}
+      CANONICAL_ORIGIN: ${{ vars.CANONICAL_ORIGIN }}
+      SESSION_CURRENT_KEY_ID: ${{ vars.SESSION_CURRENT_KEY_ID }}
     steps:
       - uses: actions/checkout@v6
       - name: Authenticate to Google Cloud without a service account key
@@ -120,17 +205,13 @@ jobs:
           workload_identity_provider: projects/280649014820/locations/global/workloadIdentityPools/github-actions/providers/municipal-rag
           service_account: municipal-rag-deployer@municipal-rag-portfolio.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v3
-      - name: Configure Artifact Registry authentication
-        run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev --quiet
-      - name: Build and push the commit image
-        run: |
-          docker build -t "$IMAGE" .
-          docker push "$IMAGE"
       - name: Validate RAG v2 deployment configuration
         run: |
           test -n "$CLOUD_SQL_CONNECTION_NAME"
           test -n "$QDRANT_URL"
           test -n "$GCS_VISUAL_ASSET_BUCKET"
+          test -n "$CANONICAL_ORIGIN"
+          test -n "$SESSION_CURRENT_KEY_ID"
       - name: Initialize and smoke-test RAG v2 dependencies
         uses: google-github-actions/deploy-cloudrun@v3
         with:
@@ -181,18 +262,30 @@ jobs:
             CLASSIFIER_MODEL_NAME=gemini-3.1-flash-lite
             VISUAL_ASSET_BACKEND=gcs
             GCS_VISUAL_ASSET_BUCKET=${{ env.GCS_VISUAL_ASSET_BUCKET }}
+            CANONICAL_ORIGIN=${{ env.CANONICAL_ORIGIN }}
+            SESSION_CURRENT_KEY_ID=${{ env.SESSION_CURRENT_KEY_ID }}
           secrets_update_strategy: overwrite
           secrets: |-
             GOOGLE_API_KEY=gemini-api-key:1
             DATABASE_URL=rag-database-url:1
             QDRANT_API_KEY=qdrant-api-key:5
+            SESSION_SIGNING_KEYS_JSON=rag-session-signing-keys:latest
           flags: >-
             --add-cloudsql-instances=${{ env.CLOUD_SQL_CONNECTION_NAME }}
+            --max=2
+            --concurrency=5
+            --startup-probe=httpGet.path=/api/health/live,httpGet.port=8080,timeoutSeconds=3,periodSeconds=10,failureThreshold=12
+            --readiness-probe=httpGet.path=/api/health/ready,httpGet.port=8080,timeoutSeconds=3,periodSeconds=10,failureThreshold=3,successThreshold=1
+            --liveness-probe=httpGet.path=/api/health/live,httpGet.port=8080,timeoutSeconds=3,periodSeconds=10,failureThreshold=3
       - name: Route traffic to the latest ready revision
         run: >-
           gcloud run services update-traffic municipal-rag-assistant
           --project=municipal-rag-portfolio
           --region=asia-northeast1
           --to-latest
-      - name: Check Streamlit health endpoint
-        run: curl --fail --retry 5 --retry-delay 10 "${{ steps.deploy.outputs.url }}/_stcore/health"
+      - name: Check React UI and API health endpoints
+        run: |
+          curl --fail --retry 5 --retry-delay 10 "${{ steps.deploy.outputs.url }}/" -o /tmp/deployed-ui.html
+          grep -q 'id="root"' /tmp/deployed-ui.html
+          curl --fail --retry 5 --retry-delay 10 "${{ steps.deploy.outputs.url }}/api/health/live"
+          curl --fail --retry 5 --retry-delay 10 "${{ steps.deploy.outputs.url }}/api/health/ready"

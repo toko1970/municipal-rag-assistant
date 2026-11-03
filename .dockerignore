@@ -1,13 +1,16 @@
 .git
 .gitignore
 .venv
+frontend/node_modules
+frontend/dist
+.npm
 .env
 __pycache__
 *.pyc
 .DS_Store
 chroma_db
 logs
-eval/results
+eval/
 infra
 .github
 tests

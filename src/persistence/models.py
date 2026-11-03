@@ -2,20 +2,24 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from typing import Any
 from uuid import UUID
 
 from sqlalchemy import (
     Boolean,
+    Date,
     DateTime,
     Float,
     ForeignKey,
+    Index,
     Integer,
     String,
     Text,
+    CheckConstraint,
     UniqueConstraint,
     func,
+    text,
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -118,6 +122,80 @@ class RagRequestRow(TimestampMixin, Base):
 
     id: Mapped[UUID] = mapped_column(primary_key=True)
     question: Mapped[str] = mapped_column(Text, nullable=False)
+    session_hmac: Mapped[str | None] = mapped_column(String(64), index=True)
+    session_expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+
+class IdempotencyKeyRow(TimestampMixin, Base):
+    __tablename__ = "idempotency_keys"
+    __table_args__ = (
+        UniqueConstraint("session_hmac", "key_hmac", name="uq_idempotency_session_key"),
+        UniqueConstraint("request_id", name="uq_idempotency_request"),
+        CheckConstraint(
+            "state IN ('ISSUED', 'IN_PROGRESS', 'COMPLETE', 'FAILED', 'INTERRUPTED', 'EXPIRED')",
+            name="ck_idempotency_key_state",
+        ),
+        Index(
+            "uq_idempotency_one_issued_per_session",
+            "session_hmac",
+            unique=True,
+            postgresql_where=text("state = 'ISSUED'"),
+        ),
+    )
+
+    id: Mapped[UUID] = mapped_column(primary_key=True)
+    key_hmac: Mapped[str] = mapped_column(String(64), nullable=False)
+    session_hmac: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    submit_by: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    session_expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, index=True
+    )
+    state: Mapped[str] = mapped_column(String(20), nullable=False)
+    body_hash: Mapped[str | None] = mapped_column(String(64))
+    request_id: Mapped[UUID | None] = mapped_column(
+        ForeignKey("rag_requests.id", ondelete="CASCADE")
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )
+
+
+class QuotaBucketRow(Base):
+    __tablename__ = "quota_buckets"
+    __table_args__ = (
+        CheckConstraint("reserved_count >= 0", name="ck_quota_reserved_nonnegative"),
+        CheckConstraint("limit_count > 0", name="ck_quota_limit_positive"),
+        CheckConstraint(
+            "bucket_type IN ('QUESTION_GLOBAL', 'QUESTION_SESSION', "
+            "'FEEDBACK_GLOBAL', 'FEEDBACK_SESSION', "
+            "'IDEMPOTENCY_KEY_GLOBAL', 'IDEMPOTENCY_KEY_SESSION')",
+            name="ck_quota_bucket_type",
+        ),
+        CheckConstraint(
+            "NOT disabled OR bucket_type = 'QUESTION_GLOBAL'",
+            name="ck_quota_disabled_question_global_only",
+        ),
+    )
+
+    bucket_date: Mapped[date] = mapped_column(Date, primary_key=True)
+    bucket_type: Mapped[str] = mapped_column(String(40), primary_key=True)
+    bucket_key: Mapped[str] = mapped_column(String(64), primary_key=True)
+    reserved_count: Mapped[int] = mapped_column(
+        Integer, nullable=False, default=0, server_default="0"
+    )
+    limit_count: Mapped[int] = mapped_column(Integer, nullable=False)
+    disabled: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=False, server_default=text("false")
+    )
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, index=True
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )
 
 
 class RetrievalResultRow(TimestampMixin, Base):
@@ -163,6 +241,7 @@ class GenerationAttemptRow(TimestampMixin, Base):
     model: Mapped[str] = mapped_column(String(255), nullable=False)
     prompt_version: Mapped[str] = mapped_column(String(100), nullable=False)
     response_data: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
+    usage_metadata: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
     input_tokens: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     output_tokens: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     status: Mapped[str] = mapped_column(String(40), nullable=False)
@@ -218,10 +297,21 @@ class ClaimEvidenceRow(Base):
 
 class FeedbackRow(TimestampMixin, Base):
     __tablename__ = "feedback"
+    __table_args__ = (
+        UniqueConstraint("request_id", name="uq_feedback_request"),
+        UniqueConstraint("generation_result_id", name="uq_feedback_generation_result"),
+    )
 
     id: Mapped[UUID] = mapped_column(primary_key=True)
     request_id: Mapped[UUID] = mapped_column(
         ForeignKey("rag_requests.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    generation_result_id: Mapped[UUID | None] = mapped_column(
+        ForeignKey(
+            "generation_results.id",
+            ondelete="CASCADE",
+            name="fk_feedback_generation_result_id",
+        )
     )
     value: Mapped[str] = mapped_column(String(50), nullable=False)
     comment: Mapped[str] = mapped_column(Text, nullable=False, default="")

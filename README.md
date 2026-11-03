@@ -28,11 +28,14 @@ flowchart LR
     D[制度文書・レビュー済みPDF]
 
     subgraph APP[問い合わせ支援アプリ]
-        UI[Streamlit画面]
-        QS[質問・検索・回答処理]
+        UI[React + TypeScript画面]
+        API[FastAPI JSON API]
+        QS[既存の質問・検索・回答処理]
         ING[文書登録CLI]
-        UI -->|質問| QS
-        QS -->|回答・根拠・回答区分| UI
+        UI -->|同一origin JSON API| API
+        API -->|回答entry point| QS
+        QS -->|回答・根拠・回答区分| API
+        API -->|回答・根拠・回答区分| UI
         A --> ING
         D --> ING
     end
@@ -46,7 +49,7 @@ flowchart LR
     GEM[Gemini API]
 
     U --> UI
-    UI -->|feedback| PG
+    API -->|feedback| PG
     QS -->|根拠を検索| QD
     QD -->|検索結果| QS
     QS -->|文書の版・実行記録| PG
@@ -60,20 +63,25 @@ flowchart LR
     ING -->|Embedding作成| GEM
 ```
 
-画面と検索・回答処理、文書登録、保存先、生成AIサービスを分けています。文書と版、実行記録はPostgreSQLに保存し、Qdrantは再作成できる検索用indexとして使います。
+React画面とFastAPIの同一origin APIから既存の質問・検索・回答処理を呼び出します。匿名session、idempotency key、quotaで公開APIを制御します。文書と版、実行記録はPostgreSQLに保存し、Qdrantは再作成できる検索用indexとして使います。自動PII maskと30日retention jobはProduction Backlogとして未実装です。デモへ実在個人情報・機密情報を入力しないでください。
 
 ## 精度改善の流れ
 
 ```mermaid
+%%{init: {"flowchart": {"wrappingWidth": 300, "minNodeWidth": 260}}}%%
 flowchart TD
+    S[先行する検索評価<br/>似た節の根拠を取りこぼす]
+    T[検索を比較・改善<br/>見出し文脈・Top-8に効果<br/>Hybrid系は退行]
     A[1. 初回評価<br/>総合成功 83 / 100]
     B[2. 改善対象を設定<br/>回答分類の過剰な保留]
     C[3. 評価指標を見直す<br/>根拠・回答/保留・重大な誤り]
     D[4. 改善ループ<br/>仮説 → 比較 → レビュー]
     E[5. 未見ケースで候補を検証<br/>40シナリオ・80表現]
     F[候補を採用する判断]
-    A --> B --> C --> D --> E --> F
+    S --> T --> A --> B --> C --> D --> E --> F
 ```
+
+初期の実務寄り質問ではRecall@3・@5が1.00でしたが、難問では必要な根拠見出しをすべてTop-5で取得できたのは15問中10問でした。見出し文脈の追加とTop-8で検索を改善し、BM25などを使うHybrid検索は既存質問の退行があったため採用しませんでした。検索方式・スコア統合・複合質問の分割を試した経緯は[検索・版選択の意思決定記録](eval/ACCURACY_IMPROVEMENT_DECISION_REPORT.md)にまとめています。
 
 1. **初回評価:** 未見のText holdoutで総合成功は83/100でした。採点可能な分類不一致12件のうち9件は、根拠のある回答を「判断要」とする過剰な保留でした。
 2. **改善対象:** 「根拠がそろっている質問には答え、個別事情で結論が決まらない質問は保留する」ことを狙いにしました。保留を増やすだけでは、見つかった失敗を悪化させるためです。

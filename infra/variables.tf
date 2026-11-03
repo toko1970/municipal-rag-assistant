@@ -45,3 +45,28 @@ variable "visual_asset_bucket_name" {
   type        = string
   default     = "municipal-rag-portfolio-visual-assets-280649014820"
 }
+
+variable "public_api_cleanup_image" {
+  description = "Reviewed image digest used by the paused anonymous-state cleanup job."
+  type        = string
+}
+
+variable "enable_public_api_cleanup_schedule" {
+  description = "Enable the hourly cleanup Scheduler only after migration and review approvals."
+  type        = bool
+  default     = false
+}
+
+variable "public_api_cleanup_notification_channel" {
+  description = "Existing Cloud Monitoring notification channel resource name, required to enable cleanup scheduling."
+  type        = string
+  default     = ""
+
+  validation {
+    condition = var.public_api_cleanup_notification_channel == "" || can(regex(
+      "^projects/[^/]+/notificationChannels/[0-9]+$",
+      var.public_api_cleanup_notification_channel,
+    ))
+    error_message = "Use a full projects/PROJECT/notificationChannels/ID resource name."
+  }
+}

@@ -1,12 +1,14 @@
 # アーキテクチャと変更境界
 
-**適用対象:** `src/**`、`app.py`、`config.py` の実装・変更・レビュー。
+**適用対象:** `src/**`、`frontend/**`、`config.py` の実装・変更・レビュー。
 
 ## 実際の構成を起点にする
 
 作業前に変更経路と呼び出し元を追う。既存のフラットな`src/`構成に、根拠なく `features/` や別レイヤーを作らない。新規ファイルは1つの責務を持たせ、既存モジュール間の境界に沿って配置する。移動・分割は依頼範囲に必要なときだけ行う。
 
-- `app.py`: Streamlitの画面とユーザー操作の入口。
+- `frontend/`: React + TypeScriptの画面とブラウザー状態。
+- `src/api.py`: FastAPI composition root、公開JSON API、同一origin静的UI配信。
+- `src/rag_chain.py` / `src/rag_v2.py`: 既存RAG query entry point。
 - `src/query_service*.py`: 問い合わせのユースケースと検索・生成・分類の連携。
 - `src/persistence/`: PostgreSQLのmodel、session、repository。
 - `src/*index*`, `src/vector_store.py`, `src/retriever.py`: ベクトル検索adapterと検索処理。
