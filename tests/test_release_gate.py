@@ -72,8 +72,8 @@ def fixture():
                 "scripts.manage_rag_v2",
                 "smoke",
                 "--max-cases=5",
-                "--max-attempts=5",
-                "--max-503-retries=0",
+                "--max-attempts=7",
+                "--max-503-retries=2",
             ],
         }
     )
@@ -592,7 +592,7 @@ def test_smoke_job_arguments_survive_action_flag_normalization(capsys):
     smoke_parser.add_argument("--max-attempts", type=int, required=True)
     smoke_parser.add_argument("--max-503-retries", type=int, required=True)
     assert vars(smoke_parser.parse_args(task_args[3:])) == {
-        "max_cases": 5, "max_attempts": 5, "max_503_retries": 0,
+        "max_cases": 5, "max_attempts": 7, "max_503_retries": 2,
     }
 
 
