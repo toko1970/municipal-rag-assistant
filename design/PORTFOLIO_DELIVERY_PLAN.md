@@ -26,7 +26,7 @@
 - 図表の構造JSONと検索用テキスト表現
 - 図表質問での元ページ画像を含むGemini回答
 - claim単位のevidence IDと、コードによる最終表示分類
-- Streamlitでの回答、引用、根拠ページ画像、feedback表示
+- React + TypeScriptでの回答、引用、根拠ページ画像、feedback表示（FastAPI同一origin API経由）
 - Chroma baseline、Qdrant移行baseline、Embedding候補の比較
 - development setでの失敗分類と、一要因だけの改善
 - 候補固定後のtext・visual sealed holdout評価
@@ -47,7 +47,7 @@
 - Qdrant Cloudの複数node、SLA、自動snapshot
 - transactional outbox、常駐worker、dead-letter処理
 - Pub/SubまたはCloud Tasksによる非同期取込
-- 自動PII検出、30日retention job、匿名session quotaの完全実装
+- 自動PII検出、質問/commentの30日retention job
 - signed URL、管理者認証、文書upload UI
 - 定期backup restore、RPO/RTO訓練、監視・alert
 - Snowflake、Jev、画像Embedding、rerankerの網羅的比較
@@ -58,9 +58,10 @@
 
 ```mermaid
 flowchart LR
-    U[給与事務担当者] --> UI[Streamlit]
-    UI --> QS[Query Service]
-    QS --> PG[(PostgreSQL<br/>文書・ログ正本)]
+    U[給与事務担当者] --> UI[React + TypeScript]
+    UI --> API[FastAPI 同一origin API]
+    API --> QS[既存Query entry point]
+    API --> PG[(PostgreSQL<br/>文書・ログ正本・匿名API state)]
     QS --> QD[(Qdrant<br/>検索index)]
     QS --> AS[LocalAssetStore<br/>ページ画像]
     QS --> GEM[Gemini<br/>生成・分類・画像確認]
@@ -71,6 +72,12 @@ flowchart LR
 ```
 
 本番候補では`LocalAssetStore`をGCS、local PostgreSQLをCloud SQL、local QdrantをQdrant Cloudへ置き換える。coreはrepository interfaceを通し、provider差分を境界へ閉じ込める。
+
+## UI/API migration update (2026-11-03)
+
+公開画面はReact + TypeScript + Vite、JSON APIはFastAPIへ移行する。同一Cloud Run service/originから配信し、FastAPIは既存`generate_answer()`経路を呼び出す。匿名session、key issuance/question/feedback quota、idempotency、request ownership、private image accessを実装対象に含める。cleanup JobとSchedulerはTerraformでpaused状態に作成する設計とし、適用・初回有効化はreview済みplanとproduction承認後に行う。
+
+自動PII maskと質問/commentの30日retention jobはProduction Backlogのままであり、今回の移行では実装しない。公開デモでは実在個人情報・機密情報を入力しない案内を表示する。
 
 ## 4. Work Package A: 動くtext RAG v2
 

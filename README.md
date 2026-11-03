@@ -28,11 +28,14 @@ flowchart LR
     D[制度文書・レビュー済みPDF]
 
     subgraph APP[問い合わせ支援アプリ]
-        UI[Streamlit画面]
-        QS[質問・検索・回答処理]
+        UI[React + TypeScript画面]
+        API[FastAPI JSON API]
+        QS[既存の質問・検索・回答処理]
         ING[文書登録CLI]
-        UI -->|質問| QS
-        QS -->|回答・根拠・回答区分| UI
+        UI -->|同一origin JSON API| API
+        API -->|回答entry point| QS
+        QS -->|回答・根拠・回答区分| API
+        API -->|回答・根拠・回答区分| UI
         A --> ING
         D --> ING
     end
@@ -46,7 +49,7 @@ flowchart LR
     GEM[Gemini API]
 
     U --> UI
-    UI -->|feedback| PG
+    API -->|feedback| PG
     QS -->|根拠を検索| QD
     QD -->|検索結果| QS
     QS -->|文書の版・実行記録| PG
@@ -60,7 +63,7 @@ flowchart LR
     ING -->|Embedding作成| GEM
 ```
 
-画面と検索・回答処理、文書登録、保存先、生成AIサービスを分けています。文書と版、実行記録はPostgreSQLに保存し、Qdrantは再作成できる検索用indexとして使います。
+React画面とFastAPIの同一origin APIから既存の質問・検索・回答処理を呼び出します。匿名session、idempotency key、quotaで公開APIを制御します。文書と版、実行記録はPostgreSQLに保存し、Qdrantは再作成できる検索用indexとして使います。自動PII maskと30日retention jobはProduction Backlogとして未実装です。デモへ実在個人情報・機密情報を入力しないでください。
 
 ## 精度改善の流れ
 

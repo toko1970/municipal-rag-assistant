@@ -446,8 +446,17 @@ def test_workflow_preserves_required_gates_and_cannot_auto_promote():
         Path(".github/workflows/promote.yml").read_text(), Loader=yaml.BaseLoader
     )
     prepare = ci["jobs"]["deploy"]
+    image_build = ci["jobs"]["build-candidate-image"]
     promote = promotion["jobs"]["promote"]
-    assert set(prepare["needs"]) == {"test-and-lint", "integration", "terraform-check"}
+    assert set(image_build["needs"]) == {
+        "test-and-lint", "integration", "terraform-check", "container-smoke"
+    }
+    assert set(prepare["needs"]) == {"build-candidate-image"}
+    assert "docker push" in next(
+        step["run"] for step in image_build["steps"]
+        if step.get("name") == "Build and publish candidate image without deploying"
+    )
+    assert not any("deploy-cloudrun@" in step.get("uses", "") for step in image_build["steps"])
     assert prepare["environment"] == promote["environment"] == "production"
     assert (
         prepare["concurrency"]
@@ -465,13 +474,22 @@ def test_workflow_preserves_required_gates_and_cannot_auto_promote():
         if step.get("uses", "").startswith("google-github-actions/deploy-cloudrun@")
     ]
     service = next(step for step in deployments if "service" in step)
-    job = next(step for step in deployments if "job" in step)
-    assert service["no_traffic"] == "true"
-    assert service["image"] == job["image"]
-    assert (
-        service["env_vars"] == job["env_vars"] and service["secrets"] == job["secrets"]
+    smoke_job = next(
+        step["with"] for step in prepare["steps"]
+        if step.get("name") == "Configure the existing job for smoke only"
     )
-    assert "--max-retries=0" in job["flags"] and "--tasks=1" in job["flags"]
+    migration_job = next(
+        step["with"] for step in prepare["steps"]
+        if step.get("name") == "Apply pending database schema migrations"
+    )
+    assert service["no_traffic"] == "true"
+    assert service["image"] == smoke_job["image"]
+    assert (
+        service["env_vars"] == smoke_job["env_vars"]
+        and service["secrets"] == smoke_job["secrets"]
+    )
+    assert "--max-retries=0" in smoke_job["flags"] and "--tasks=1" in smoke_job["flags"]
+    assert "scripts.manage_rag_v2,migrate" in migration_job["flags"]
     automatic_scripts = "\n".join(step.get("run", "") for step in prepare["steps"])
     manifest_fetch = next(
         step for step in prepare["steps"]
@@ -481,7 +499,7 @@ def test_workflow_preserves_required_gates_and_cannot_auto_promote():
         step for step in prepare["steps"]
         if step.get("name") == "Match the candidate and smoke runtime before any question"
     )
-    assert "steps.image.outputs.digest" in manifest_fetch["env"]["PINNED_IMAGE"]
+    assert manifest_fetch["env"]["PINNED_IMAGE"] == "${{ env.IMAGE }}"
     assert "--image-index-manifest" in runtime_check["run"]
     assert "--expected-image \"$PINNED_IMAGE\"" in runtime_check["run"]
     assert "image-index.json" in automatic_scripts
@@ -551,7 +569,7 @@ def test_smoke_job_arguments_survive_action_flag_normalization(capsys):
     ci = yaml.load(Path(".github/workflows/ci.yml").read_text(), Loader=yaml.BaseLoader)
     job = next(
         step["with"] for step in ci["jobs"]["deploy"]["steps"]
-        if "job" in step.get("with", {})
+        if step.get("name") == "Configure the existing job for smoke only"
     )
     # Reproduce the action boundary observed in the failed cloud command.
     action_argv = [
@@ -686,7 +704,13 @@ else:
     gcloud.chmod(0o755)
     curl = binary / "curl"
     curl.write_text(
-        '#!/bin/bash\nif [[ "$TEST_FAILURE" == "health_failure" || "$TEST_FAILURE" == "rollback_failure" ]]; then exit 1; fi\nexit 0\n'
+        '#!/bin/bash\n'
+        'if [[ "$TEST_FAILURE" == "health_failure" || "$TEST_FAILURE" == "rollback_failure" ]]; then exit 1; fi\n'
+        'while [[ $# -gt 0 ]]; do\n'
+        '  if [[ "$1" == "-o" ]]; then printf \'<div id="root"></div>\' > "$2"; exit 0; fi\n'
+        '  shift\n'
+        'done\n'
+        'exit 0\n'
     )
     curl.chmod(0o755)
     env = {

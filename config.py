@@ -57,6 +57,10 @@ QDRANT_COLLECTION_NAME = os.getenv(
     "QDRANT_COLLECTION_NAME",
     "municipality_rag_docs_v2_contextual_heading_v1",
 )
+SESSION_SIGNING_KEYS_JSON = os.getenv("SESSION_SIGNING_KEYS_JSON", "")
+SESSION_CURRENT_KEY_ID = os.getenv("SESSION_CURRENT_KEY_ID", "")
+CANONICAL_ORIGIN = os.getenv("CANONICAL_ORIGIN", "")
+CANONICAL_ORIGINS_JSON = os.getenv("CANONICAL_ORIGINS_JSON", "")
 
 
 # =========================

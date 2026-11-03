@@ -1,0 +1,475 @@
+openapi: 3.1.0
+info:
+  title: Municipal RAG Demo API
+  version: 1.0.0
+  description: >-
+    Same-origin anonymous API for questions, feedback, and authorized reference images.
+servers:
+  - url: /
+security:
+  - anonymousSession: []
+paths:
+  /api/health/live:
+    get:
+      operationId: healthLive
+      security: []
+      responses:
+        "200":
+          description: Process is responding.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+  /api/health/ready:
+    get:
+      operationId: healthReady
+      security: []
+      responses:
+        "200":
+          description: PostgreSQL and Qdrant are reachable.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+  /api/idempotency-keys:
+    post:
+      operationId: issueIdempotencyKey
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+        - $ref: "#/components/parameters/Origin"
+        - $ref: "#/components/parameters/SecFetchSite"
+      responses:
+        "200":
+          description: Key registered or the existing registration was replayed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KeyRegistration"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+  /api/requests:
+    post:
+      operationId: createRequest
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+        - $ref: "#/components/parameters/Origin"
+        - $ref: "#/components/parameters/SecFetchSite"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuestionRequest"
+      responses:
+        "200":
+          description: Completed response, including a stable degraded result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestionResult"
+        "202":
+          description: The same key is already being processed.
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "410":
+          $ref: "#/components/responses/Gone"
+        "413":
+          $ref: "#/components/responses/TooLarge"
+        "415":
+          $ref: "#/components/responses/UnsupportedMediaType"
+        "422":
+          $ref: "#/components/responses/Unprocessable"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+  /api/requests/by-idempotency-key:
+    get:
+      operationId: getRequestByIdempotencyKey
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      responses:
+        "200":
+          description: The result previously returned by the question POST.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestionResult"
+        "202":
+          description: Processing is still in progress; the client may query again manually.
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "410":
+          $ref: "#/components/responses/Gone"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+  /api/requests/{request_id}/feedback:
+    put:
+      operationId: putFeedback
+      parameters:
+        - name: request_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: "#/components/parameters/Origin"
+        - $ref: "#/components/parameters/SecFetchSite"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeedbackRequest"
+      responses:
+        "200":
+          description: Feedback saved or updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [saved]
+                properties:
+                  saved:
+                    type: boolean
+                    const: true
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "413":
+          $ref: "#/components/responses/TooLarge"
+        "422":
+          $ref: "#/components/responses/Unprocessable"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+  /api/requests/{request_id}/references/{reference_id}/image:
+    get:
+      operationId: getReferenceImage
+      parameters:
+        - name: request_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: reference_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Hash-verified private image.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/webp:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "410":
+          $ref: "#/components/responses/Gone"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+components:
+  securitySchemes:
+    anonymousSession:
+      type: apiKey
+      in: cookie
+      name: rag_session
+  parameters:
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      description: Browser-generated 256-bit-or-greater base64url random value. Never place it in a URL.
+      schema:
+        type: string
+        minLength: 43
+        maxLength: 128
+        pattern: "^[A-Za-z0-9_-]+$"
+    Origin:
+      name: Origin
+      in: header
+      required: true
+      description: Must exactly match the configured canonical origin for state-changing requests.
+      schema:
+        type: string
+        format: uri
+    SecFetchSite:
+      name: Sec-Fetch-Site
+      in: header
+      required: true
+      schema:
+        type: string
+        const: same-origin
+  schemas:
+    HealthResponse:
+      type: object
+      additionalProperties: false
+      required: [status]
+      properties:
+        status:
+          type: string
+          const: ok
+    QuestionRequest:
+      type: object
+      additionalProperties: false
+      required: [question]
+      properties:
+        question:
+          type: string
+          minLength: 1
+          maxLength: 1000
+          description: Limit is measured in Unicode code points; empty or whitespace-only input is rejected.
+    KeyRegistration:
+      type: object
+      additionalProperties: false
+      required: [submit_by, session_expires_at]
+      properties:
+        submit_by:
+          type: string
+          format: date-time
+        session_expires_at:
+          type: string
+          format: date-time
+    QuestionResult:
+      type: object
+      additionalProperties: true
+      required: [request_id, answer, answer_label, answer_status, degraded, references, generation]
+      properties:
+        request_id:
+          type: string
+          format: uuid
+        answer:
+          type: string
+        answer_label:
+          type: [string, "null"]
+        answer_status:
+          type: string
+        degraded:
+          type: boolean
+        references:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reference"
+        generation:
+          type: object
+          additionalProperties: true
+        classification:
+          type: [object, "null"]
+          additionalProperties: true
+        guidance:
+          type: [object, "null"]
+          additionalProperties: true
+    Reference:
+      type: object
+      additionalProperties: true
+      required: [reference_id, document_name, heading, content]
+      properties:
+        reference_id:
+          type: string
+          format: uuid
+        document_name:
+          type: string
+        version:
+          type: [string, "null"]
+        effective_date:
+          type: [string, "null"]
+        document_role:
+          type: [string, "null"]
+        heading:
+          type: string
+        page_number:
+          type: [integer, "null"]
+        content:
+          type: string
+        image_url:
+          type: [string, "null"]
+        image_alt:
+          type: [string, "null"]
+        visual_asset:
+          oneOf:
+            - type: object
+              additionalProperties: false
+              required: [url, mime_type, page_number, alt]
+              properties:
+                url:
+                  type: string
+                  format: uri-reference
+                mime_type:
+                  type: string
+                  enum: [image/png, image/jpeg, image/webp]
+                page_number:
+                  type: integer
+                  minimum: 1
+                alt:
+                  type: string
+            - type: "null"
+    FeedbackRequest:
+      type: object
+      additionalProperties: false
+      required: [value, comment]
+      properties:
+        value:
+          type: string
+          enum: [採用した, 修正して採用した, 採用しなかった]
+        comment:
+          type: string
+          maxLength: 2000
+          description: Limit is measured in Unicode code points after NFC normalization and control-character removal.
+    ApiError:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message, retryable]
+          properties:
+            code:
+              type: string
+              enum:
+                - INVALID_REQUEST
+                - QUESTION_EMPTY
+                - QUESTION_TOO_LONG
+                - BODY_TOO_LARGE
+                - CONTENT_TYPE_UNSUPPORTED
+                - SESSION_REQUIRED
+                - SESSION_INVALID
+                - ORIGIN_REJECTED
+                - IDEMPOTENCY_KEY_INVALID
+                - IDEMPOTENCY_KEY_UNKNOWN
+                - IDEMPOTENCY_KEY_EXPIRED
+                - IDEMPOTENCY_BODY_CONFLICT
+                - IDEMPOTENCY_SLOT_BUSY
+                - GLOBAL_QUESTION_DISABLED
+                - QUOTA_QUESTION_SESSION
+                - QUOTA_QUESTION_GLOBAL
+                - QUOTA_FEEDBACK_SESSION
+                - QUOTA_FEEDBACK_GLOBAL
+                - QUOTA_KEY_SESSION
+                - QUOTA_KEY_GLOBAL
+                - REQUEST_NOT_FOUND
+                - FEEDBACK_INVALID
+                - FEEDBACK_TOO_LONG
+                - REFERENCE_NOT_FOUND
+                - DEPENDENCY_UNAVAILABLE
+                - PROVIDER_UNAVAILABLE
+                - PROVIDER_LIMITED
+                - PROVIDER_TIMEOUT
+                - PROCESS_INTERRUPTED
+                - INTERNAL_ERROR
+            message:
+              type: string
+            retryable:
+              type: boolean
+  responses:
+    BadRequest:
+      description: Malformed request or unsupported input shape.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+    Unauthorized:
+      description: Missing or invalid anonymous session cookie.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+    Forbidden:
+      description: Origin, fetch-site, or session ownership check failed.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+    Conflict:
+      description: Key/body conflict or active unused-key slot conflict.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+    Gone:
+      description: Idempotency key or session absolute expiry has passed.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+    TooLarge:
+      description: Request body exceeds its configured byte limit.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+    UnsupportedMediaType:
+      description: Request content type must be application/json.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+    Unprocessable:
+      description: Input validation failed.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+    RateLimited:
+      description: Question, feedback, or key-issuance quota is exhausted.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+    NotFound:
+      description: Resource is unknown or not owned by this anonymous session.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+    ServiceUnavailable:
+      description: Database, vector store, or provider is temporarily unavailable.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"

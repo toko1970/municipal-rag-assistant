@@ -302,6 +302,7 @@ def generate_simple_qdrant_answer(
             input_tokens=int(metadata.get("input_tokens", 0)),
             output_tokens=int(metadata.get("output_tokens", 0)),
             status="SUCCESS" if complete else "GENERATION_INCOMPLETE",
+            usage_metadata=metadata,
         )
         result["request_id"] = str(request_id)
         event_logger.record_answer_result(

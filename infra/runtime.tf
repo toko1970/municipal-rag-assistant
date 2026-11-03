@@ -129,6 +129,17 @@ resource "google_secret_manager_secret" "qdrant_api_key" {
   depends_on = [google_project_service.secretmanager]
 }
 
+resource "google_secret_manager_secret" "session_signing_keys" {
+  secret_id = "rag-session-signing-keys"
+  project   = var.project_id
+
+  replication {
+    auto {}
+  }
+
+  depends_on = [google_project_service.secretmanager]
+}
+
 resource "google_project_iam_member" "runtime_cloud_sql_client" {
   project = var.project_id
   role    = "roles/cloudsql.client"
@@ -145,6 +156,13 @@ resource "google_secret_manager_secret_iam_member" "runtime_database_url" {
 resource "google_secret_manager_secret_iam_member" "runtime_qdrant_api_key" {
   project   = var.project_id
   secret_id = google_secret_manager_secret.qdrant_api_key.secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = local.runtime_member
+}
+
+resource "google_secret_manager_secret_iam_member" "runtime_session_signing_keys" {
+  project   = var.project_id
+  secret_id = google_secret_manager_secret.session_signing_keys.secret_id
   role      = "roles/secretmanager.secretAccessor"
   member    = local.runtime_member
 }

@@ -1,15 +1,15 @@
 # 公開リリース手順
 
-更新日：2026-10-25。対象は既存Cloud Runサービス `municipal-rag-assistant`（`municipal-rag-portfolio` / `asia-northeast1`）。この手順のコードと非APIテストを整備した段階であり、変更後のworkflowを実クラウドで実行した記録ではありません。
+更新日：2026-11-03。対象は既存Cloud Runサービス `municipal-rag-assistant`（`municipal-rag-portfolio` / `asia-northeast1`）。この手順のコードと非APIテストを整備した段階であり、変更後のworkflowを実クラウドで実行した記録ではありません。
 
 ## 1. 公開までの二段階
 
-通常CIの成功後、**trafficを移さない候補revisionの作成、同一image・接続設定のsmoke、候補URLのhealth確認**までを行います。ここでは公開の合格になりません。5ケースすべての意味と実UIを担当者が確認し、対象revisionに結び付けた確認票を `Promote reviewed revision` workflowへ渡した後に、明示したrevisionへtrafficを切り替えます。
+通常CIの成功後、**DB schema migration、trafficを移さない候補revisionの作成、同一image・接続設定のsmoke、候補URLのhealth確認**までを行います。ここでは公開の合格になりません。5ケースすべての意味と実UIを担当者が確認し、対象revisionに結び付けた確認票を `Promote reviewed revision` workflowへ渡した後に、明示したrevisionへtrafficを切り替えます。Migrationは候補作成前に実行されるため、候補やsmokeが失敗してもschema変更は残ります。追加schemaと現行revisionの互換性をplan/reviewで確認し、失敗時はtrafficを維持して修正migrationを前進適用します。旧schemaへの自動rollbackは行いません。
 
 | 段階 | 検証する内容 | 公開traffic |
 |---|---|---|
 | CI（`ci.yml`） | lint、通常テスト、PostgreSQL/Qdrant統合テスト、Terraform検証 | 維持 |
-| 候補の準備（CIの`deploy` job） | digest固定image、no-traffic revision、同一runtimeのJobによる5件の構造判定、タグURLのhealth | 維持 |
+| 候補の準備（CIの`deploy` job） | digest固定image、schema migration、no-traffic revision、同一runtimeのJobによる5件の構造判定、タグURLのhealth | 維持 |
 | 人による確認 | 同じタグURLで5件の回答の意味・根拠・図表・保留表示を確認 | 維持 |
 | 昇格（`promote.yml`） | 元CI run、確認票、revision、commit、image、runtime、現在のtrafficの一致 | 合格したrevisionへ100% |
 | 切替後 | 切替先revision/割合と通常URLのhealth | 失敗時は準備前の割合へ復旧 |
@@ -20,10 +20,10 @@
 
 - 対象commitはCIがテストしたmainのSHA。imageはそのbuildの`@sha256:...`で固定します。
 - 候補revision名は `municipal-rag-assistant-r<run_id>-<run_attempt>`、タグは `review-<run_id>-<run_attempt>`。
-- 既存の `municipal-rag-bootstrap` Jobを使用しますが、通常リリースでは**smoke専用コマンド**を実行します。migration、文書再取込、図表再取込は実行しません。
+- 既存の `municipal-rag-bootstrap` Jobを使い、最初に `python -m scripts.manage_rag_v2 migrate` を一度実行してschemaを更新します。その後Jobを**smoke専用コマンド**へ再設定し、5ケースの検証を行います。文書再取込、図表再取込は実行しません。Migrationはtraffic切替より先に実行され、失敗してもdatabase schemaは自動で元に戻りません。
 - Jobは1 task、parallelism 1、task retry 0、timeout 15分。アプリのsmokeは5ケース、最大5問い合わせ試行、503再試行0。
-- 意味・実UI確認は同じ5問をタグURLで各1回送信し、手動で追加送信しません。**送信操作はJob5件＋UI5件の10件**ですが、実UIは[`app.py`](../app.py)の既存503 backoffにより1送信につき最大3回、問い合わせ全体を実行し得ます。UIは最大15試行、Jobと合わせて**最大20試行**です。失敗したケースを通るまで手動で繰り返しません。
-- この5つの固定質問は追加のquery分解を行わないため、公開candidateでは1試行あたり生成1回・Embedding1回です。通常予定は生成10回＋Embedding10回、503によるUI再実行を含む生成試行上限は20回です。Embedding SDK内部のHTTP retryはこの数と別であり、厳密な課金・HTTP回数の上限とは呼びません。入力token、画像入力、SDK retry設定を別に確認し、費用を予約します。
+- 意味・実UI確認は同じ5問をタグURLで各1回送信し、手動で追加送信しません。**送信操作はJob5件＋UI5件の10件**です。UIはReact API client経由で各caseを1回送信し、失敗したケースを通るまで手動で繰り返しません。
+- この5つの固定質問は追加のquery分解を行わないため、公開candidateでは1送信あたり生成1回・Embedding1回です。通常予定は生成10回＋Embedding10回です。Embedding SDK内部のHTTP retryはこの数と別であり、厳密な課金・HTTP回数の上限とは呼びません。入力token、画像入力、SDK retry設定を別に確認し、費用を予約します。
 - LLM/Embeddingの実呼出し、監査ログ書込み、Cloud Run/Artifact Registryの利用料金を伴います。実行前に使用モデルの現行料金・利用枠で見積もり、費用上限を承認済みの作業票へ記録します。今回の作業は新しいAPI予算や公開実行の許可を付与しません。
 
 `ci.yml`が指定する `autoresearch_candidate` の一回生成経路を検査します。構造検査だけを通過したことを、fresh holdoutのNo-go解除や回答品質の全面保証とは扱いません。
@@ -33,23 +33,24 @@
 1. 通常テスト・統合テスト・Terraform検証を通します。
 2. buildしたimageのdigestを取得します。可変tagや`latest`では同一性を判断しません。
 3. 既存serviceの`status.traffic`から、revision名と割合を準備前の復旧先として保存します。
-4. `deploy-cloudrun@v3`の`no_traffic: true`、明示suffix、タグを用いて候補revisionを作成します。
-5. 同じdigest、環境変数、Secret Managerの**版指定**、runtime service account、Cloud SQL接続で既存Jobを設定します。
-6. Job実行前に`release_gate check-runtime`で環境変数／secret参照・service account・Cloud SQL/VPC接続・volume・working directoryがrevisionと一致することを確認します。imageは同じdigestなら一致とし、Cloud RunがOCI indexをplatform別digestへ解決した場合は、Artifact Registryから取得してdigest検証したOCI indexに含まれる`linux/amd64`子manifestであることを確認します。Web固有のport、probe、concurrencyとJobの実行制限は同一性判定の対象外です。
-7. 以下の固定コマンドをJobで一度実行します。
+4. `municipal-rag-bootstrap` Jobで`python -m scripts.manage_rag_v2 migrate`を一度実行します。候補の作成より前にschema変更が完了します。既存service revisionとの後方互換性は事前レビューで確認してください。
+5. `deploy-cloudrun@v3`の`no_traffic: true`、明示suffix、タグを用いて候補revisionを作成します。
+6. 同じdigest、環境変数、Secret Managerの**版指定**、runtime service account、Cloud SQL接続で既存Jobをsmoke用に設定します。
+7. Job実行前に`release_gate check-runtime`で環境変数／secret参照・service account・Cloud SQL/VPC接続・volume・working directoryがrevisionと一致することを確認します。imageは同じdigestなら一致とし、Cloud RunがOCI indexをplatform別digestへ解決した場合は、Artifact Registryから取得してdigest検証したOCI indexに含まれる`linux/amd64`子manifestであることを確認します。Web固有のport、probe、concurrencyとJobの実行制限は同一性判定の対象外です。
+8. 以下の固定コマンドをJobで一度実行します。
 
 ```bash
 python -m scripts.manage_rag_v2 smoke \
   --max-cases 5 --max-attempts 5 --max-503-retries 0
 ```
 
-8. 不合格・未実行ケースが残る場合はCLIが非ゼロで終了します。Cloud Run Executionの`Completed=True`、成功task 1、失敗・cancel・retry 0と、凍結された実行image・コマンド・設定を検証します。
-9. タグが対象revisionを指し、公開trafficが準備前と変わっていないことを確認します。通常URLを新revisionのhealth確認に使用しません。
-10. タグURLの`/_stcore/health`が成功した場合に、`release-candidate-<run_id>-<run_attempt>` artifactを保存します。
+9. 不合格・未実行ケースが残る場合はCLIが非ゼロで終了します。Cloud Run Executionの`Completed=True`、成功task 1、失敗・cancel・retry 0と、凍結された実行image・コマンド・設定を検証します。
+10. タグが対象revisionを指し、公開trafficが準備前と変わっていないことを確認します。通常URLを新revisionのhealth確認に使用しません。
+11. タグURLの`/`がReact rootを含み、`/api/health/live`と`/api/health/ready`が成功した場合に、`release-candidate-<run_id>-<run_attempt>` artifactを保存します。
 
 artifactには、`candidate.json`、未記入の`review-template.json`、digest検証済みの`image-index.json`が入ります。前者はrevisionの解決済みimage、Jobの要求image、OCI indexからplatform manifestへの関係、実行run、Job execution、runtime hash、タグURL、復旧先を関連付けます。rawなservice/job設定、secret値、provider応答はartifactへ保存しません。Jobのstdoutは構造判定の簡潔JSONで、実回答と根拠は既存の監査記録からrequest IDで確認できます。Cloud Loggingの読取権限をこの変更で追加しません。
 
-同一imageのJobはアプリの処理と依存接続を検査するもので、Streamlitの質問操作・根拠展開・図表表示を検査したことにはなりません。タグURLのhealthだけでもこれらは確認できません。
+同一imageのJobはアプリの処理と依存接続を検査するもので、Reactの質問操作・根拠展開・図表表示を検査したことにはなりません。タグURLのhealthだけでもこれらは確認できません。
 
 ## 4. 意味と実UIの確認票
 
@@ -126,7 +127,7 @@ gcloud run services describe municipal-rag-assistant \
   --format='yaml(status.traffic,status.url)'
 ```
 
-これは**実行コードとtrafficの復旧**です。Cloud SQL、Qdrant、GCSや問い合わせ監査ログを巻き戻しません。通常releaseにはschema/index変更を混ぜません。将来migrationが必要な場合は、旧revisionが新schemaと共存できること、データ移行中の互換性、別のbackup・復旧手順を先に確定します。初期導入の`bootstrap-cloud`（migration＋取込）は別の承認済み作業として行い、smokeだけのために繰り返しません。
+これは**実行コードとtrafficの復旧**です。Cloud SQL、Qdrant、GCSや問い合わせ監査ログを巻き戻しません。React/FastAPI移行のschema migrationはtraffic切替前に一度実行され、候補失敗時も残ります。新revisionとの互換性をplan/reviewで確かめ、問題時は旧revisionへtrafficを維持したまま前進修正します。migrationを逆適用して既存データを失う復旧は行いません。
 
 ## 7. ローカル検証と未実施の範囲
 

@@ -246,10 +246,49 @@ Qdrantには検索とPostgreSQL参照に必要な最小情報だけを持たせ�
 | `id` | UUID主キー。correlation IDとして使用 |
 | `question_text` | 架空データの質問。実運用では保存・マスキング方針を別途適用 |
 | `question_hmac` | 日次鍵付きHMACによる短期重複分析用。親requestと同時削除 |
-| `session_hmac` | 質問を発行した匿名sessionの短期識別子 |
+| `session_hmac` | 質問を発行した匿名sessionのHMAC。署名cookieの生値は保存しない |
+| `session_expires_at` | ownership確認に使うHMACの絶対失効時刻。cleanup後は`session_hmac`をNULLにする |
 | `as_of_date` | 質問で指定された基準日 |
 | `requested_at` | 受付時刻 |
 | `status` | 成功、検索失敗、生成失敗、分類失敗など |
+
+既存の質問本文と回答監査記録の保持経路は今回変更しない。匿名session HMACは24時間後のcleanupで消去し、質問・commentの自動PII maskおよび30日retention jobはProduction Backlogのままとする。
+
+### `idempotency_keys`
+
+質問の同期POSTの重複処理と結果照会を制御する。raw keyは保存せず、`key_hmac`と`session_hmac`のみを保存する。
+
+| 列 | 内容 |
+|---|---|
+| `id` | UUID主キー |
+| `key_hmac` / `session_hmac` | server secretによるHMAC値。組み合わせを一意にする |
+| `submit_by` | ISSUED keyを質問POSTへ使える絶対期限。登録+5分とsession expiryの早い方 |
+| `session_expires_at` / `expires_at` | 署名cookieと一致する変更不可の絶対失効時刻 |
+| `state` | `ISSUED`、`IN_PROGRESS`、`COMPLETE`、`FAILED`、`INTERRUPTED`、`EXPIRED` |
+| `body_hash` | 最初の質問bodyの正規化JSON SHA-256。同key異bodyの409判定に使う |
+| `request_id` | 既存`rag_requests`へのnullable FK。開始後に一つだけ関連付ける |
+| `created_at` | key登録時刻 |
+
+`(session_hmac, key_hmac)`と`request_id`を一意にする。部分unique indexでsessionあたりISSUED keyを最大1件に制限する。期限切れISSUED keyはEXPIREDへ遷移させた後もsession expiryまでHMAC tombstoneを保持し、cleanupで物理削除する。`IN_PROGRESS`が最大処理時間+安全余裕を超えた場合は`INTERRUPTED`へ一度だけ遷移し、同じkeyでproviderを再実行しない。
+
+### `quota_buckets`
+
+日付・bucket type・識別値ごとの予約数を、PostgreSQL transactionと`SELECT FOR UPDATE`で原子的に制御する。競合する行が未作成の場合は先に`INSERT ... ON CONFLICT DO NOTHING`し、その後、global、sessionの順に行ロックを取得する。
+
+| 列 | 内容 |
+|---|---|
+| `bucket_date` / `bucket_type` / `bucket_key` | Asia/Tokyo日付、bucket type、`global`またはsession HMACの複合primary key |
+| `reserved_count` / `limit_count` | 予約数と上限 |
+| `disabled` | `QUESTION_GLOBAL`だけで使用する質問受付kill switch |
+| `expires_at` / `updated_at` | cleanup期限と更新時刻 |
+
+| `bucket_type` | 上限（Asia/Tokyo日次） |
+|---|---:|
+| `QUESTION_GLOBAL` / `QUESTION_SESSION` | 50 / 5 |
+| `FEEDBACK_GLOBAL` / `FEEDBACK_SESSION` | 200 / 10 |
+| `IDEMPOTENCY_KEY_GLOBAL` / `IDEMPOTENCY_KEY_SESSION` | 200 / 10 |
+
+key発行は同一transactionで`QUESTION_GLOBAL.disabled`とkey発行quotaを検査するが、質問quotaは消費しない。質問POSTも同じkill switchを確認し、質問quotaを予約する。`IDEMPOTENCY_KEY_GLOBAL.disabled`は設けない。global bucketはその日本時間日付終了後、session bucketはsession expiry後にcleanup可能とする。feedbackは有効な各PUTごとにquotaを消費し、同じrequestへの再PUTも消費する。feedback rowはrequestと回答の各一意制約で一件に保つ。
 
 ### `retrieval_results`
 
@@ -285,7 +324,7 @@ Qdrantには検索とPostgreSQL参照に必要な最小情報だけを持たせ�
 
 ### `generation_attempts` / `classification_attempts`
 
-各外部API呼出のretryとfallbackを保存する。両テーブルは`id`、`request_id`、`attempt_no`、`provider`、`model`、`started_at`、`latency_ms`、`input_tokens`、`output_tokens`、`estimated_cost`、`status`、`error_code`、`fallback_from_attempt_id`を持つ。`(request_id, attempt_no)`を各テーブル内で一意とし、全attemptの費用・遅延・error率を集計できるようにする。
+各外部API呼出のretryとfallbackを保存する。両テーブルは`id`、`request_id`、`attempt_no`、`provider`、`model`、`started_at`、`latency_ms`、`input_tokens`、`output_tokens`、`estimated_cost`、`status`、`error_code`、`fallback_from_attempt_id`を持つ。`generation_attempts.usage_metadata`はprovider/model/token count/request ID/finish reasonの安全なmetadataだけを保存し、同期APIの完了結果を同一session/keyへ安定再提示するために使う。raw provider responseや質問本文は格納しない。`(request_id, attempt_no)`を各テーブル内で一意とし、全attemptの費用・遅延・error率を集計できるようにする。
 
 `classification_attempts.factors`はJSONBとし、`prompt_version`と`decision_version`を必須で併記する。これによりDB migrationなしでv1とv2を区別し、異なる判定規則の結果を同じ母集団として誤集計することを防ぐ。
 
@@ -340,28 +379,14 @@ v2のQuestion Contractは質問入力の構造であって分類根拠そのも�
 | 列 | 内容 |
 |---|---|
 | `id` | UUID主キー |
-| `request_id` | 対象質問 |
-| `generation_result_id` | 対象回答 |
+| `request_id` | 対象質問。一意 |
+| `generation_result_id` | 対象回答。一意。既存行で回答がないものはNULLを許す |
 | `rating` | 採用、修正採用、不採用 |
 | `comment` | 任意コメント |
 | `corrected_answer` | 修正採用時の任意データ |
 | `created_at` | 登録時刻 |
 
-`feedback.generation_result_id`を一意とし、1回答につきfeedbackは1件だけupsertする。登録・更新時に、現在のsession HMACと`rag_requests.session_hmac`が一致することを確認する。session HMACを24時間後に削除した後は更新不可とし、feedback本体は親requestの30日保持期限まで残す。履歴を無制限に追加しない。
-
-### `quota_buckets`
-
-公開demoの費用上限を外部API呼出前に予約する。
-
-| 列 | 内容 |
-|---|---|
-| `bucket_date` / `bucket_type` / `bucket_key` | 日本時間の日付、`QUESTION_GLOBAL`、`QUESTION_SESSION`、`FEEDBACK_GLOBAL`、`FEEDBACK_SESSION`と識別keyの複合主キー |
-| `reserved_count` | transaction内で加算する予約数 |
-| `limit_count` | 質問はglobal 50・session 5、feedbackはglobal 200・session 10 |
-| `disabled` | kill switch。GLOBALだけ使用 |
-| `updated_at` | 更新時刻 |
-
-sessionの`bucket_key`には署名cookieの生値を保存せずHMACを使い、24時間後に削除する。予約は`SELECT FOR UPDATE`を使い、上限確認と加算を一つのtransactionで行う。
+`feedback.generation_result_id`と`request_id`を一意とし、同じ匿名sessionが発行したrequestだけをupsertする。各PUTでquotaを予約する。session HMACを24時間後に消去した後は更新不可とし、feedback本体の既存保持経路は今回変更しない。表示時はHTMLとして解釈せず、コメントはNFC正規化と制御文字除去を行い、正規化後のUnicode code point数を2,000以下に制限する。
 
 ## 7. 評価
 
