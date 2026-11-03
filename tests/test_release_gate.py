@@ -456,6 +456,10 @@ def test_workflow_preserves_required_gates_and_cannot_auto_promote():
         step["run"] for step in image_build["steps"]
         if step.get("name") == "Build and publish candidate image without deploying"
     )
+    assert "printf 'Candidate image (no deployment): %s\\n' \"$image\"" in next(
+        step["run"] for step in image_build["steps"]
+        if step.get("name") == "Build and publish candidate image without deploying"
+    )
     assert not any("deploy-cloudrun@" in step.get("uses", "") for step in image_build["steps"])
     assert prepare["environment"] == promote["environment"] == "production"
     assert (

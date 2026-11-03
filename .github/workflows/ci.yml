@@ -196,7 +196,7 @@ jobs:
           test -n "$digest"
           image="asia-northeast1-docker.pkg.dev/municipal-rag-portfolio/municipal-rag-images/municipal-rag-assistant@$digest"
           echo "image=$image" >> "$GITHUB_OUTPUT"
-          echo "Candidate image (no deployment): `$image`" >> "$GITHUB_STEP_SUMMARY"
+          printf 'Candidate image (no deployment): %s\n' "$image" >> "$GITHUB_STEP_SUMMARY"
 
   deploy:
     # Preparation only. Public traffic is changed by promote.yml after review.
