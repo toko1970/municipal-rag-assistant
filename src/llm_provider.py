@@ -6,11 +6,102 @@ from typing import Any, Callable, Protocol
 from urllib.request import Request, urlopen
 import base64
 import json
+import re
 
 from langchain_core.messages import HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 from config import GOOGLE_API_KEY, MISTRAL_API_KEY, OPENAI_API_KEY
+
+
+_SAFE_PROVIDER_CODES = frozenset(
+    {
+        "ABORTED",
+        "ALREADY_EXISTS",
+        "CANCELLED",
+        "DATA_LOSS",
+        "DEADLINE_EXCEEDED",
+        "FAILED_PRECONDITION",
+        "INTERNAL",
+        "INVALID_ARGUMENT",
+        "NOT_FOUND",
+        "OUT_OF_RANGE",
+        "PERMISSION_DENIED",
+        "RESOURCE_EXHAUSTED",
+        "UNAUTHENTICATED",
+        "UNAVAILABLE",
+        "UNKNOWN",
+    }
+)
+_SAFE_REQUEST_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9._:-]{0,127}\Z")
+
+
+def safe_provider_error_summary(error: Exception) -> str:
+    """Return bounded provider diagnostics without exception text or response data."""
+
+    def safe_attr(value: object, name: str) -> object | None:
+        try:
+            return getattr(value, name, None)
+        except Exception:
+            return None
+
+    exception_type = type(error).__name__
+    if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]{0,63}", exception_type):
+        exception_type = "ProviderError"
+    metadata: dict[str, Any] = {"exception_type": exception_type}
+
+    response = safe_attr(error, "response")
+    status_values = (
+        safe_attr(error, "status_code"),
+        safe_attr(response, "status_code"),
+        safe_attr(error, "code"),
+    )
+    for value in status_values:
+        if (
+            isinstance(value, int)
+            and not isinstance(value, bool)
+            and 100 <= value <= 599
+        ):
+            metadata["http_status"] = int(value)
+            break
+
+    code_values = (safe_attr(error, "status"), safe_attr(error, "code"))
+    for value in code_values:
+        if not isinstance(value, str):
+            value = safe_attr(value, "name")
+        if isinstance(value, str) and value.upper() in _SAFE_PROVIDER_CODES:
+            metadata["provider_code"] = value.upper()
+            break
+
+    request_id_values = [safe_attr(error, "request_id")]
+    headers = safe_attr(response, "headers")
+    header_items = safe_attr(headers, "items")
+    if callable(header_items):
+        try:
+            for index, (name, value) in enumerate(header_items()):
+                if index >= 64:
+                    break
+                if str(name).lower() in {
+                    "x-goog-request-id",
+                    "x-request-id",
+                    "request-id",
+                }:
+                    request_id_values.append(value)
+        except Exception:
+            pass
+    for value in request_id_values:
+        if isinstance(value, str) and _SAFE_REQUEST_ID.fullmatch(value):
+            metadata["request_id"] = value
+            break
+
+    if len(metadata) == 1:
+        return exception_type
+    return json.dumps(
+        metadata,
+        ensure_ascii=True,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
 
 
 @dataclass(frozen=True)

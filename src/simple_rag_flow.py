@@ -10,7 +10,7 @@ from config import LLM_MODEL_NAME, TOP_K
 from src.asset_store import LocalAssetReader, VisualEvidenceAsset
 from src.asset_backend import get_asset_reader
 from src.embeddings import get_embeddings
-from src.llm_provider import GeminiProvider
+from src.llm_provider import GeminiProvider, safe_provider_error_summary
 from src.query_decomposition import DecomposedVectorIndex
 from src.qdrant_index import QdrantVectorIndex
 from src.rag_chain import build_context, build_prompt
@@ -149,7 +149,11 @@ def generate_simple_qdrant_answer(
                 input_tokens=0,
                 output_tokens=0,
                 status="FAILED",
-                error_summary=type(error).__name__,
+                error_summary=(
+                    safe_provider_error_summary(error)
+                    if prompt_variant == "autoresearch_candidate"
+                    else type(error).__name__
+                ),
             )
             event_logger.record_answer_result(
                 request_id,
