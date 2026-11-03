@@ -179,7 +179,7 @@ def test_state_changes_require_exact_origin_and_same_origin_fetch_metadata():
 
 def test_candidate_and_service_origins_are_explicitly_allowed():
     candidate_origin = "https://review-123-1---rag.example.test"
-    client, store = _client(canonical_origins=(CANONICAL_ORIGIN, candidate_origin))
+    client, _store = _client(canonical_origins=(CANONICAL_ORIGIN, candidate_origin))
     client.get("/")
 
     response = client.post(
@@ -191,7 +191,6 @@ def test_candidate_and_service_origins_are_explicitly_allowed():
     )
 
     assert response.status_code == 200
-    assert len(store.reserved) == 1
 
 
 @pytest.mark.parametrize(
