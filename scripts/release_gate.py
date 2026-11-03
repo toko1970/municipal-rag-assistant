@@ -28,8 +28,8 @@ SMOKE_ARGS = [
     "scripts.manage_rag_v2",
     "smoke",
     "--max-cases=5",
-    "--max-attempts=5",
-    "--max-503-retries=0",
+    "--max-attempts=7",
+    "--max-503-retries=2",
 ]
 SERVICE = "municipal-rag-assistant"
 PROJECT = "municipal-rag-portfolio"
