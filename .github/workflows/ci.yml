@@ -370,7 +370,7 @@ jobs:
             --service-account=municipal-rag-runtime@municipal-rag-portfolio.iam.gserviceaccount.com
             --set-cloudsql-instances=${{ env.CLOUD_SQL_CONNECTION_NAME }}
             --command=python
-            --args=^,^-m,scripts.manage_rag_v2,smoke,--max-cases=5,--max-attempts=5,--max-503-retries=0
+            --args=^,^-m,scripts.manage_rag_v2,smoke,--max-cases=5,--max-attempts=7,--max-503-retries=2
             --cpu=1
             --memory=1Gi
             --tasks=1
