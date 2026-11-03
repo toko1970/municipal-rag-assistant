@@ -19,6 +19,7 @@ from src.persistence.models import (
     RagRequestRow,
     RetrievalResultRow,
 )
+from src.request_context import current_public_request_context, set_public_request_id
 
 
 class PostgresEventLogger:
@@ -27,8 +28,21 @@ class PostgresEventLogger:
 
     def start_request(self, question: str) -> UUID:
         request_id = uuid4()
+        public_context = current_public_request_context()
         with self.session_factory() as session, session.begin():
-            session.add(RagRequestRow(id=request_id, question=question))
+            session.add(
+                RagRequestRow(
+                    id=request_id,
+                    question=question,
+                    session_hmac=(
+                        public_context.session_hmac if public_context else None
+                    ),
+                    session_expires_at=(
+                        public_context.session_expires_at if public_context else None
+                    ),
+                )
+            )
+        set_public_request_id(request_id)
         return request_id
 
     def record_retrieval(self, request_id: UUID, hits: list[SearchHit]) -> None:
@@ -70,6 +84,7 @@ class PostgresEventLogger:
         output_tokens: int,
         status: str,
         error_summary: str | None = None,
+        usage_metadata: dict | None = None,
     ) -> UUID:
         attempt_id = uuid4()
         with self.session_factory() as session, session.begin():
@@ -81,6 +96,7 @@ class PostgresEventLogger:
                     model=model,
                     prompt_version=prompt_version,
                     response_data=response_data,
+                    usage_metadata=usage_metadata,
                     input_tokens=input_tokens,
                     output_tokens=output_tokens,
                     status=status,

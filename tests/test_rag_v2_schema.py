@@ -16,6 +16,8 @@ def test_required_rag_v2_tables_are_declared() -> None:
         "answer_claims",
         "claim_evidence",
         "feedback",
+        "idempotency_keys",
+        "quota_buckets",
     }
 
 
