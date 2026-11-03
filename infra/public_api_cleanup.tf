@@ -131,7 +131,7 @@ resource "google_cloud_scheduler_job" "public_api_cleanup" {
   schedule         = "0 * * * *"
   time_zone        = "Asia/Tokyo"
   paused           = !var.enable_public_api_cleanup_schedule
-  attempt_deadline = "3600s"
+  attempt_deadline = "1800s"
 
   http_target {
     http_method = "POST"
