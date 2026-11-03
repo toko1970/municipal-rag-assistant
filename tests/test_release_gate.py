@@ -74,6 +74,8 @@ def fixture():
                 "--max-cases=5",
                 "--max-attempts=7",
                 "--max-503-retries=2",
+                "--max-runtime-seconds=720",
+                "--max-invocation-seconds=90",
             ],
         }
     )
@@ -591,8 +593,11 @@ def test_smoke_job_arguments_survive_action_flag_normalization(capsys):
     smoke_parser.add_argument("--max-cases", type=int, required=True)
     smoke_parser.add_argument("--max-attempts", type=int, required=True)
     smoke_parser.add_argument("--max-503-retries", type=int, required=True)
+    smoke_parser.add_argument("--max-runtime-seconds", type=int, required=True)
+    smoke_parser.add_argument("--max-invocation-seconds", type=int, required=True)
     assert vars(smoke_parser.parse_args(task_args[3:])) == {
         "max_cases": 5, "max_attempts": 7, "max_503_retries": 2,
+        "max_runtime_seconds": 720, "max_invocation_seconds": 90,
     }
 
 

@@ -39,6 +39,7 @@ from src.freeform_prompt_candidate import (
     verify_prompt_config as verify_candidate_prompt_config,
 )
 from src.simple_rag_flow import generate_simple_qdrant_answer
+from src.smoke_context import active_deadline
 
 
 ANSWER_SCHEMA_V1_PATH = BASE_DIR / "design/schemas/answer-output-v1.schema.json"
@@ -63,19 +64,23 @@ CLASSIFICATION_SCHEMA_V2_PATH = (
 def generate_qdrant_answer(question: str) -> dict:
     if ANSWER_GENERATION_FLOW == "autoresearch_candidate":
         verify_candidate_prompt_config()
-        embeddings = get_embeddings()
+        smoke_deadline_active = active_deadline() is not None
+        embeddings = None if smoke_deadline_active else get_embeddings()
         session_factory = get_session_factory()
         repository = PostgresDocumentRepository(session_factory)
         event_logger = PostgresEventLogger(session_factory)
-        return generate_simple_qdrant_answer(
-            question,
-            embed_query=embeddings.embed_query,
-            vector_index=QdrantVectorIndex(),
-            generator=GeminiProvider(
+        generator = None
+        if not smoke_deadline_active:
+            generator = GeminiProvider(
                 CANDIDATE_GENERATOR_MODEL,
                 temperature=0,
                 max_output_tokens=CANDIDATE_MAX_OUTPUT_TOKENS,
-            ),
+            )
+        return generate_simple_qdrant_answer(
+            question,
+            embed_query=embeddings.embed_query if embeddings is not None else None,
+            vector_index=QdrantVectorIndex(),
+            generator=generator,
             visual_asset_loader=repository.get_visual_assets,
             asset_reader=get_asset_reader(),
             event_logger=event_logger,

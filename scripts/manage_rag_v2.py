@@ -5,11 +5,14 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 import time
 from collections import Counter
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Callable
+
+from src.smoke_context import SmokeDeadline, bind_smoke_context, emit_progress
 
 from alembic import command
 from alembic.config import Config
@@ -283,6 +286,10 @@ def smoke(
     max_attempts: int = 5,
     max_503_retries: int = 0,
     sleep: Callable[[float], None] = time.sleep,
+    max_runtime_seconds: int = 720,
+    max_invocation_seconds: int = 90,
+    clock: Callable[[], float] = time.monotonic,
+    progress: Callable[[dict[str, object]], None] | None = None,
 ) -> dict[str, object]:
     """Run only fixed query checks; never migrate, ingest or rebuild an index.
 
@@ -304,9 +311,21 @@ def smoke(
         raise ValueError("max-attemptsは選択case数以上、15以下にしてください")
     if not 0 <= max_503_retries <= 2:
         raise ValueError("max-503-retriesは0から2にしてください")
+    if not 1 <= max_runtime_seconds <= 720 or not 1 <= max_invocation_seconds <= 90:
+        raise ValueError("smoke deadlineは全体720秒、問い合わせ90秒以内にしてください")
 
     attempts = 0
     results = []
+    started_at = clock()
+    overall_deadline = SmokeDeadline(started_at + max_runtime_seconds, clock)
+
+    def bounded_backoff(seconds: float) -> None:
+        remaining = overall_deadline.remaining_seconds()
+        if seconds >= remaining:
+            sleep(remaining)
+            raise TimeoutError("candidate smoke deadline exceeded")
+        sleep(seconds)
+
     for case_id in selected_ids:
         case = by_id[case_id]
         attempts_before = attempts
@@ -314,8 +333,25 @@ def smoke(
 
         def invoke():
             nonlocal attempts
+            overall_deadline.remaining_seconds()
             attempts += 1
-            return generate_qdrant_answer(case.question)
+            deadline = SmokeDeadline(
+                min(clock() + max_invocation_seconds, overall_deadline.expires_at), clock
+            )
+            try:
+                with bind_smoke_context(deadline, progress, case_id=case_id,
+                                        attempt=attempts, started_at=started_at):
+                    emit_progress(case_id=case_id, stage="RAG_QUERY", attempt=attempts,
+                                  started_at=started_at, status="started", clock=clock)
+                    value = generate_qdrant_answer(case.question)
+                    deadline.remaining_seconds()
+                    emit_progress(case_id=case_id, stage="RAG_QUERY", attempt=attempts,
+                                  started_at=started_at, status="completed", clock=clock)
+                return value
+            except Exception as error:
+                if isinstance(error, TimeoutError) or clock() >= deadline.expires_at:
+                    raise TimeoutError("candidate smoke deadline exceeded") from None
+                raise
 
         if attempts >= max_attempts:
             verdict = SmokeVerdict(False, "REQUEST_BUDGET_EXCEEDED", ("問い合わせ実行上限に達しました。",))
@@ -323,12 +359,33 @@ def smoke(
             try:
                 result, _retries = run_with_503_backoff(
                     invoke,
-                    sleep=sleep,
+                    sleep=bounded_backoff,
                     max_retries=min(max_503_retries, max_attempts - attempts - 1),
                 )
                 verdict = validate_smoke_result(result, case)
             except Exception as error:
-                verdict = SmokeVerdict(False, _smoke_exception_kind(error), ("外部呼出しまたは回答処理が失敗しました。",))
+                is_timeout = isinstance(error, TimeoutError)
+                if is_timeout:
+                    with bind_smoke_context(
+                        overall_deadline,
+                        progress,
+                        case_id=case_id,
+                        attempt=max(1, attempts),
+                        started_at=started_at,
+                    ):
+                        emit_progress(
+                            case_id=case_id,
+                            stage="RAG_QUERY",
+                            attempt=max(1, attempts),
+                            started_at=started_at,
+                            status="timed_out",
+                            clock=clock,
+                        )
+                verdict = SmokeVerdict(
+                    False,
+                    "TIMEOUT" if is_timeout else _smoke_exception_kind(error),
+                    ("外部呼出しまたは回答処理が失敗しました。",),
+                )
         payload = result if isinstance(result, Mapping) else {}
         references = payload.get("references")
         results.append({
@@ -359,6 +416,9 @@ def smoke(
         "attempts": attempts,
         "max_attempts": max_attempts,
         "max_503_retries": max_503_retries,
+        "max_runtime_seconds": max_runtime_seconds,
+        "max_invocation_seconds": max_invocation_seconds,
+        "elapsed_ms": max(0, int((clock() - started_at) * 1000)),
         "budget_unit": "whole_rag_query_attempts_not_provider_http_calls",
         "structural_passed": len(results) == len(selected_ids) and all(row["status"] == "PASS" for row in results),
         "semantic_review_status": "PENDING",
@@ -436,6 +496,8 @@ def main() -> int:
     parser.add_argument("--max-cases", type=int, default=5)
     parser.add_argument("--max-attempts", type=int, default=5)
     parser.add_argument("--max-503-retries", type=int, default=0)
+    parser.add_argument("--max-runtime-seconds", type=int, default=720)
+    parser.add_argument("--max-invocation-seconds", type=int, default=90)
     args = parser.parse_args()
     if args.command == "migrate":
         migrate()
@@ -461,6 +523,9 @@ def main() -> int:
                     max_cases=args.max_cases,
                     max_attempts=args.max_attempts,
                     max_503_retries=args.max_503_retries,
+                    max_runtime_seconds=args.max_runtime_seconds,
+                    max_invocation_seconds=args.max_invocation_seconds,
+                    progress=lambda event: print(json.dumps(event, ensure_ascii=False, sort_keys=True), file=sys.stderr),
                 )
                 if output_file is not None:
                     json.dump(report, output_file, ensure_ascii=False, indent=2)

@@ -10,6 +10,7 @@ from src.query_service import (
     build_deadline_classification_prompt,
 )
 from src.rag_v2 import generate_qdrant_answer
+from src.smoke_context import SmokeDeadline, bind_smoke_context
 from src.temporal_evidence import (
     DEADLINE_CALCULATION_PROMPT_VERSION,
     TEMPORAL_GENERATION_PROMPT_VERSION,
@@ -78,8 +79,33 @@ def test_composition_root_routes_autoresearch_candidate_through_shared_flow() ->
     assert kwargs["prompt_variant"] == "autoresearch_candidate"
     assert kwargs["event_logger"] is event_logger
     assert kwargs["embed_query"] is embeddings.embed_query
+    assert kwargs["generator"] is not None
     assert kwargs["vector_index"] is base_index
     verify_prompt.assert_called_once_with()
+
+
+def test_candidate_smoke_defers_provider_clients_until_the_call_budget_is_known():
+    expected = {"answer": "candidate"}
+    repository = SimpleNamespace(get_visual_assets=lambda _ids: [])
+    with (
+        patch("src.rag_v2.ANSWER_GENERATION_FLOW", "autoresearch_candidate"),
+        patch("src.rag_v2.get_embeddings") as get_embedding,
+        patch("src.rag_v2.get_session_factory", return_value=object()),
+        patch("src.rag_v2.PostgresDocumentRepository", return_value=repository),
+        patch("src.rag_v2.PostgresEventLogger", return_value=object()),
+        patch("src.rag_v2.QdrantVectorIndex", return_value=object()),
+        patch("src.rag_v2.GeminiProvider") as make_generator,
+        patch("src.rag_v2.get_asset_reader", return_value=object()),
+        patch("src.rag_v2.verify_candidate_prompt_config"),
+        patch("src.rag_v2.generate_simple_qdrant_answer", return_value=expected) as simple,
+    ):
+        with bind_smoke_context(SmokeDeadline(100, lambda: 10)):
+            assert generate_qdrant_answer("question") == expected
+
+    get_embedding.assert_not_called()
+    make_generator.assert_not_called()
+    assert simple.call_args.kwargs["embed_query"] is None
+    assert simple.call_args.kwargs["generator"] is None
 
 
 @pytest.mark.parametrize("question", [

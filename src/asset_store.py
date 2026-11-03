@@ -11,6 +11,7 @@ from uuid import UUID
 
 from google.api_core.exceptions import PreconditionFailed
 from google.cloud import storage
+from src.smoke_context import remaining_seconds
 
 
 @dataclass(frozen=True)
@@ -146,4 +147,6 @@ class GCSAssetReader:
         if parsed.scheme != "gs" or not parsed.netloc or not parsed.path.lstrip("/"):
             raise ValueError(f"GCS URIが不正です: {asset.storage_uri}")
         blob = self.client.bucket(parsed.netloc).blob(parsed.path.lstrip("/"))
-        return asset.verify(blob.download_as_bytes(retry=None))
+        timeout = remaining_seconds()
+        options = {"timeout": timeout} if timeout is not None else {}
+        return asset.verify(blob.download_as_bytes(retry=None, **options))

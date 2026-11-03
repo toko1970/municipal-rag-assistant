@@ -20,6 +20,7 @@ from src.freeform_prompt_candidate import (
     PROMPT_CONFIG_SHA256 as CANDIDATE_PROMPT_CONFIG_SHA256,
     build_prompt as build_candidate_prompt,
 )
+from src.smoke_context import emit_stage, remaining_seconds
 
 
 CANDIDATE_PROMPT_VERSION = f"freeform-candidate:{CANDIDATE_PROMPT_CONFIG_SHA256}"
@@ -138,6 +139,7 @@ def generate_simple_qdrant_answer(
     """Use production retrieval followed by the legacy one-call text prompt."""
     request_id = event_logger.start_request(question) if record_log and event_logger else None
     stage = "EMBEDDING"
+    emit_stage(stage, "started", str(request_id) if request_id else None)
     try:
         if retrieved_hits is None:
             embeddings = get_embeddings() if embed_query is None else None
@@ -149,14 +151,21 @@ def generate_simple_qdrant_answer(
                 embed_query=embed_query,
             )
             query_vector = embed_query(question)
+            emit_stage(stage, "completed", str(request_id) if request_id else None)
             stage = "RETRIEVAL"
+            emit_stage(stage, "started", str(request_id) if request_id else None)
             hits = index.search(query_vector, TOP_K)
+            emit_stage(stage, "completed", str(request_id) if request_id else None)
         else:
             hits = list(retrieved_hits)
         if request_id is not None:
             stage = "RETRIEVAL_RECORD"
+            emit_stage(stage, "started", str(request_id))
             event_logger.record_retrieval(request_id, hits)
+            emit_stage(stage, "completed", str(request_id))
     except Exception as error:
+        emit_stage(stage, "timed_out" if isinstance(error, TimeoutError) else "failed",
+                   str(request_id) if request_id else None)
         audit_error = _record_pre_generation_failure(event_logger, request_id, stage)
         if audit_error is not None:
             error.add_note(
@@ -164,6 +173,7 @@ def generate_simple_qdrant_answer(
             )
         raise
     stage = "CONTEXT_BUILD"
+    emit_stage(stage, "started", str(request_id) if request_id else None)
     try:
         documents = _as_documents(hits)
         context = build_context(documents)
@@ -186,8 +196,14 @@ def generate_simple_qdrant_answer(
                 conclusion_gate_candidate=prompt_variant == "conclusion_gate_v3",
             )
         stage = "GENERATOR_SETUP"
+        emit_stage("CONTEXT_BUILD", "completed", str(request_id) if request_id else None)
+        emit_stage(stage, "started", str(request_id) if request_id else None)
         if generator is None:
-            if prompt_variant == "autoresearch_candidate":
+            if prompt_variant == "autoresearch_candidate" and remaining_seconds() is not None:
+                # Under candidate smoke, defer client creation until asset I/O is
+                # complete so its timeout reflects the remaining wall-clock budget.
+                pass
+            elif prompt_variant == "autoresearch_candidate":
                 generator = GeminiProvider(
                     CANDIDATE_GENERATOR_MODEL,
                     temperature=0,
@@ -205,6 +221,8 @@ def generate_simple_qdrant_answer(
             visual_asset_loader = repository.get_visual_assets
             asset_reader = asset_reader or get_asset_reader()
     except Exception as error:
+        emit_stage(stage, "timed_out" if isinstance(error, TimeoutError) else "failed",
+                   str(request_id) if request_id else None)
         audit_error = _record_pre_generation_failure(event_logger, request_id, stage)
         if audit_error is not None:
             error.add_note(
@@ -215,6 +233,7 @@ def generate_simple_qdrant_answer(
     visual_assets: dict[UUID, VisualEvidenceAsset] = {}
     visual_content: dict[UUID, bytes] = {}
     stage = "VISUAL_METADATA"
+    emit_stage(stage, "started", str(request_id) if request_id else None)
     try:
         if visual_asset_loader is not None:
             loaded = visual_asset_loader([hit.element.id for hit in hits])
@@ -225,30 +244,59 @@ def generate_simple_qdrant_answer(
                 if hit.element.id in by_id
             }
             visual_assets = dict(list(visual_assets.items())[:max_visual_assets])
+        emit_stage(stage, "completed", str(request_id) if request_id else None)
         stage = "VISUAL_ASSET_LOAD"
+        emit_stage(stage, "started", str(request_id) if request_id else None)
         if visual_assets:
             reader = asset_reader or LocalAssetReader()
             for element_id, asset in visual_assets.items():
                 visual_content[element_id] = reader.read(asset)
-            if not hasattr(generator, "generate_with_media"):
+            if generator is not None and not hasattr(generator, "generate_with_media"):
                 raise TypeError("図表根拠にはmultimodal対応generatorが必要です")
             media = [
                 (visual_content[element_id], asset.mime_type)
                 for element_id, asset in visual_assets.items()
             ]
+        emit_stage(stage, "completed", str(request_id) if request_id else None)
     except Exception as error:
+        emit_stage(stage, "timed_out" if isinstance(error, TimeoutError) else "failed",
+                   str(request_id) if request_id else None)
         audit_error = _record_pre_generation_failure(event_logger, request_id, stage)
         if audit_error is not None:
             error.add_note(
                 f"Failure status could not be persisted ({type(audit_error).__name__})."
             )
         raise
+    stage = "GENERATION"
+    if generator is None:
+        try:
+            generator = GeminiProvider(
+                CANDIDATE_GENERATOR_MODEL,
+                temperature=0,
+                max_output_tokens=CANDIDATE_MAX_OUTPUT_TOKENS,
+                request_timeout=remaining_seconds(),
+            )
+            if visual_assets and not hasattr(generator, "generate_with_media"):
+                raise TypeError("図表根拠にはmultimodal対応generatorが必要です")
+        except Exception as error:
+            emit_stage(
+                "GENERATOR_SETUP",
+                "timed_out" if isinstance(error, TimeoutError) else "failed",
+                str(request_id) if request_id else None,
+            )
+            raise
+        emit_stage("GENERATOR_SETUP", "completed", str(request_id) if request_id else None)
+    else:
+        emit_stage("GENERATOR_SETUP", "completed", str(request_id) if request_id else None)
+    emit_stage(stage, "started", str(request_id) if request_id else None)
     try:
         if visual_assets:
             response = generator.generate_with_media(prompt, media=media)
         else:
             response = generator.generate(prompt)
     except Exception as error:
+        emit_stage(stage, "timed_out" if isinstance(error, TimeoutError) else "failed",
+                   str(request_id) if request_id else None)
         if request_id is not None:
             event_logger.record_generation_attempt(
                 request_id,
@@ -273,6 +321,8 @@ def generate_simple_qdrant_answer(
                 status="GENERATION_FAILED",
             )
         raise
+    emit_stage(stage, "completed", str(request_id) if request_id else None)
+    emit_stage("ANSWER_VALIDATION", "started", str(request_id) if request_id else None)
     metadata = response.metadata()
     answer_text = response.text or ""
     answer_label = _freeform_label(answer_text)
@@ -282,6 +332,7 @@ def generate_simple_qdrant_answer(
         and _has_answer_body(answer_text)
         and not _has_incomplete_finish_reason(metadata)
     )
+    emit_stage("ANSWER_VALIDATION", "completed", str(request_id) if request_id else None)
     if not complete:
         answer_label = None
         answer_text = "回答の内容を十分に確認できませんでした。再実行するか、担当部署へ確認してください。"
