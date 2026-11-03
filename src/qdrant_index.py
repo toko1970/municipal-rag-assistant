@@ -8,6 +8,7 @@ from qdrant_client import QdrantClient, models
 
 from config import QDRANT_API_KEY, QDRANT_COLLECTION_NAME, QDRANT_URL
 from src.contracts import IndexableElement, SearchHit
+from src.smoke_context import remaining_seconds
 
 
 class QdrantVectorIndex:
@@ -71,11 +72,16 @@ class QdrantVectorIndex:
         )
 
     def search(self, query_vector: list[float], limit: int) -> list[SearchHit]:
+        timeout = remaining_seconds()
+        if timeout is not None and timeout < 1:
+            raise TimeoutError("candidate smoke deadline exceeded")
+        timeout_seconds = int(timeout) if timeout is not None else None
         response = self.client.query_points(
             collection_name=self.collection_name,
             query=query_vector,
             limit=limit,
             with_payload=True,
+            **({"timeout": timeout_seconds} if timeout_seconds is not None else {}),
         )
         hits: list[SearchHit] = []
         for rank, point in enumerate(response.points, start=1):

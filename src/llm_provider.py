@@ -209,6 +209,7 @@ class GeminiProvider:
         client=None,
         temperature: float = 0,
         max_output_tokens: int | None = None,
+        request_timeout: float | None = None,
     ):
         if max_output_tokens is not None and max_output_tokens < 1:
             raise ValueError("max_output_tokensは1以上である必要があります")
@@ -221,6 +222,8 @@ class GeminiProvider:
         }
         if max_output_tokens is not None:
             client_config["max_output_tokens"] = max_output_tokens
+        if request_timeout is not None:
+            client_config["request_timeout"] = request_timeout
         self.client = client or ChatGoogleGenerativeAI(**client_config)
 
     def generate(self, prompt: str) -> LLMResult:

@@ -1,6 +1,7 @@
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 from config import GOOGLE_API_KEY, EMBEDDING_MODEL_NAME
+from src.smoke_context import remaining_seconds
 
 
 def get_embeddings() -> GoogleGenerativeAIEmbeddings:
@@ -14,9 +15,12 @@ def get_embeddings() -> GoogleGenerativeAIEmbeddings:
             ".env ファイルに GOOGLE_API_KEY を設定してください。"
         )
 
+    timeout = remaining_seconds()
+    options = {"client_args": {"timeout": timeout}} if timeout is not None else {}
     embeddings = GoogleGenerativeAIEmbeddings(
         model=EMBEDDING_MODEL_NAME,
         google_api_key=GOOGLE_API_KEY,
+        **options,
     )
 
     return embeddings

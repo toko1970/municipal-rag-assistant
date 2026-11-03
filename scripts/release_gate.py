@@ -30,6 +30,8 @@ SMOKE_ARGS = [
     "--max-cases=5",
     "--max-attempts=7",
     "--max-503-retries=2",
+    "--max-runtime-seconds=720",
+    "--max-invocation-seconds=90",
 ]
 SERVICE = "municipal-rag-assistant"
 PROJECT = "municipal-rag-portfolio"
