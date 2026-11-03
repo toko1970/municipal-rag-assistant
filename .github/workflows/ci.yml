@@ -64,6 +64,19 @@ jobs:
       - name: Smoke-test UI and health routes
         id: smoke
         run: |
+          live_ready=false
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://localhost:8080/api/health/live -o /tmp/live.json; then
+              live_ready=true
+              break
+            fi
+            sleep 1
+          done
+          if [ "$live_ready" != true ]; then
+            echo "API did not become live within 30 seconds"
+            exit 1
+          fi
+          grep -q '"status":"ok"' /tmp/live.json
           curl --fail --retry 10 --retry-delay 2 http://localhost:8080/ -o /tmp/ui.html
           grep -q 'id="root"' /tmp/ui.html
           curl --fail http://localhost:8080/api/health/live
