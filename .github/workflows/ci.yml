@@ -71,7 +71,7 @@ jobs:
           test "$status" = "200" -o "$status" = "503"
           grep -q 'status' /tmp/ready.json
       - name: Show container state and logs on smoke failure
-        if: steps.smoke.outcome == 'failure'
+        if: failure() && steps.smoke.outcome == 'failure'
         run: |
           docker ps -a --no-trunc
           docker inspect --format='State={{json .State}} RestartCount={{.RestartCount}}' municipal-rag-ui-smoke || true
