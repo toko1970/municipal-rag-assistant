@@ -218,12 +218,12 @@ def test_runtime_accepts_cloud_run_platform_manifest_from_requested_index():
     )
 
 
-def test_candidate_manifest_binds_requested_index_to_resolved_revision_child():
+def test_candidate_manifest_binds_revision_and_execution_to_index_child():
     requested_image, resolved_image, raw_index = _index_and_child()
     before, after, revision, execution = fixture()
     revision["spec"]["containers"][0]["image"] = resolved_image
     execution["spec"]["template"]["spec"]["containers"][0]["image"] = (
-        requested_image
+        resolved_image
     )
 
     manifest = build_manifest(
@@ -258,6 +258,25 @@ def test_candidate_manifest_binds_requested_index_to_resolved_revision_child():
         image_index_manifest_bytes=raw_index,
         expected_image=requested_image,
     )
+
+
+def test_runtime_rejects_execution_image_not_bound_to_requested_index():
+    requested_image, resolved_image, raw_index = _index_and_child()
+    _, _, revision, execution = fixture()
+    revision["spec"]["containers"][0]["image"] = resolved_image
+    execution["spec"]["template"]["spec"]["containers"][0]["image"] = (
+        resolved_image.replace(resolved_image.rsplit("@sha256:", 1)[1], "d" * 64)
+    )
+
+    with pytest.raises(
+        ReleaseGateError, match="job image is not a unique OCI index child"
+    ):
+        check_runtime_match(
+            revision,
+            execution,
+            image_index_manifest_bytes=raw_index,
+            expected_image=requested_image,
+        )
 
 
 def test_runtime_rejects_unbound_or_wrong_platform_image_index():

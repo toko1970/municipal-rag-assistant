@@ -151,23 +151,14 @@ def _runtime(resource, *, job=False):
     }
 
 
-def _image_relation(requested_image, revision_image, job_image, manifest_bytes):
-    requested_image = _image(requested_image)
-    revision_image = _image(revision_image)
-    job_image = _image(job_image)
-    _require(job_image == requested_image, "job image does not match requested image")
-    if revision_image == requested_image:
-        return {
-            "kind": "exact-digest",
-            "manifest_sha256": None,
-            "platform": None,
-        }
-
+def _index_child_relation(
+    requested_image, resolved_image, manifest_bytes, *, role
+):
     requested_repository, requested_digest = requested_image.rsplit("@sha256:", 1)
-    revision_repository, revision_digest = revision_image.rsplit("@sha256:", 1)
+    resolved_repository, resolved_digest = resolved_image.rsplit("@sha256:", 1)
     _require(
-        revision_repository == requested_repository,
-        "revision image repository differs from requested image",
+        resolved_repository == requested_repository,
+        f"{role} image repository differs from requested image",
     )
     _require(
         isinstance(manifest_bytes, bytes),
@@ -193,21 +184,43 @@ def _image_relation(requested_image, revision_image, job_image, manifest_bytes):
         descriptor
         for descriptor in descriptors
         if isinstance(descriptor, dict)
-        and descriptor.get("digest") == f"sha256:{revision_digest}"
+        and descriptor.get("digest") == f"sha256:{resolved_digest}"
     ]
-    _require(len(matching) == 1, "revision image is not a unique OCI index child")
+    _require(
+        len(matching) == 1,
+        f"{role} image is not a unique OCI index child",
+    )
     platform = matching[0].get("platform")
     _require(
         isinstance(platform, dict)
         and platform.get("os") == "linux"
         and platform.get("architecture") == "amd64",
-        "revision image child has an unsupported platform",
+        f"{role} image child has an unsupported platform",
     )
     return {
         "kind": "oci-index-child",
         "manifest_sha256": manifest_hash,
         "platform": f"{platform['os']}/{platform['architecture']}",
     }
+
+
+def _image_relation(requested_image, revision_image, job_image, manifest_bytes):
+    requested_image = _image(requested_image)
+    revision_image = _image(revision_image)
+    job_image = _image(job_image)
+    if job_image != requested_image:
+        _index_child_relation(
+            requested_image, job_image, manifest_bytes, role="job"
+        )
+    if revision_image == requested_image:
+        return {
+            "kind": "exact-digest",
+            "manifest_sha256": None,
+            "platform": None,
+        }
+    return _index_child_relation(
+        requested_image, revision_image, manifest_bytes, role="revision"
+    )
 
 
 def check_runtime_match(
