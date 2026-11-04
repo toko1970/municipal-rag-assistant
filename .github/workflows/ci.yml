@@ -286,7 +286,7 @@ jobs:
             GCS_VISUAL_ASSET_BUCKET=${{ env.GCS_VISUAL_ASSET_BUCKET }}
           secrets_update_strategy: overwrite
           secrets: |-
-            GOOGLE_API_KEY=gemini-api-key:1
+            GOOGLE_API_KEY=gemini-api-key:2
             DATABASE_URL=rag-database-url:1
             QDRANT_API_KEY=qdrant-api-key:5
           flags: >-
@@ -329,7 +329,7 @@ jobs:
             SESSION_CURRENT_KEY_ID=${{ env.SESSION_CURRENT_KEY_ID }}
           secrets_update_strategy: overwrite
           secrets: |-
-            GOOGLE_API_KEY=gemini-api-key:1
+            GOOGLE_API_KEY=gemini-api-key:2
             DATABASE_URL=rag-database-url:1
             QDRANT_API_KEY=qdrant-api-key:5
             SESSION_SIGNING_KEYS_JSON=rag-session-signing-keys:latest
@@ -359,7 +359,7 @@ jobs:
             SESSION_CURRENT_KEY_ID=${{ env.SESSION_CURRENT_KEY_ID }}
           secrets_update_strategy: overwrite
           secrets: |-
-            GOOGLE_API_KEY=gemini-api-key:1
+            GOOGLE_API_KEY=gemini-api-key:2
             DATABASE_URL=rag-database-url:1
             QDRANT_API_KEY=qdrant-api-key:5
             SESSION_SIGNING_KEYS_JSON=rag-session-signing-keys:latest
