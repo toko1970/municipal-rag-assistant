@@ -232,6 +232,28 @@ jobs:
           workload_identity_provider: projects/280649014820/locations/global/workloadIdentityPools/github-actions/providers/municipal-rag
           service_account: municipal-rag-deployer@municipal-rag-portfolio.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v3
+      - name: Prepare isolated candidate tag and origin
+        id: candidate
+        env:
+          CANONICAL_ORIGIN: ${{ env.CANONICAL_ORIGIN }}
+        run: |
+          candidate_tag="review-${GITHUB_SHA:0:12}"
+          candidate_suffix="r-${GITHUB_SHA:0:12}"
+          case "$CANONICAL_ORIGIN" in
+            https://*) canonical_host="${CANONICAL_ORIGIN#https://}" ;;
+            *) echo "CANONICAL_ORIGIN must use HTTPS" >&2; exit 1 ;;
+          esac
+          if [[ "$canonical_host" == */* || -z "$canonical_host" ]]; then
+            echo "CANONICAL_ORIGIN must be an origin without a path" >&2
+            exit 1
+          fi
+          candidate_origin="https://${candidate_tag}---${canonical_host}"
+          origins_json="$(python3 -c 'import json,sys; print(json.dumps(sys.argv[1:], separators=(",", ":")))' "$CANONICAL_ORIGIN" "$candidate_origin")"
+          origins_json_escaped="${origins_json//,/\\,}"
+          echo "tag=$candidate_tag" >> "$GITHUB_OUTPUT"
+          echo "suffix=$candidate_suffix" >> "$GITHUB_OUTPUT"
+          echo "url=$candidate_origin" >> "$GITHUB_OUTPUT"
+          echo "origins_json=$origins_json_escaped" >> "$GITHUB_OUTPUT"
       - name: Validate RAG v2 deployment configuration
         run: |
           test -n "$CLOUD_SQL_CONNECTION_NAME"
@@ -259,7 +281,7 @@ jobs:
             GCS_VISUAL_ASSET_BUCKET=${{ env.GCS_VISUAL_ASSET_BUCKET }}
           secrets_update_strategy: overwrite
           secrets: |-
-            GOOGLE_API_KEY=gemini-api-key:1
+            GOOGLE_API_KEY=gemini-api-key:2
             DATABASE_URL=rag-database-url:1
             QDRANT_API_KEY=qdrant-api-key:5
           flags: >-
@@ -290,10 +312,11 @@ jobs:
             VISUAL_ASSET_BACKEND=gcs
             GCS_VISUAL_ASSET_BUCKET=${{ env.GCS_VISUAL_ASSET_BUCKET }}
             CANONICAL_ORIGIN=${{ env.CANONICAL_ORIGIN }}
+            CANONICAL_ORIGINS_JSON=${{ steps.candidate.outputs.origins_json }}
             SESSION_CURRENT_KEY_ID=${{ env.SESSION_CURRENT_KEY_ID }}
           secrets_update_strategy: overwrite
           secrets: |-
-            GOOGLE_API_KEY=gemini-api-key:1
+            GOOGLE_API_KEY=gemini-api-key:2
             DATABASE_URL=rag-database-url:1
             QDRANT_API_KEY=qdrant-api-key:5
             SESSION_SIGNING_KEYS_JSON=rag-session-signing-keys:latest
@@ -304,15 +327,24 @@ jobs:
             --startup-probe=httpGet.path=/api/health/live,httpGet.port=8080,timeoutSeconds=3,periodSeconds=10,failureThreshold=12
             --readiness-probe=httpGet.path=/api/health/ready,httpGet.port=8080,timeoutSeconds=3,periodSeconds=10,failureThreshold=3,successThreshold=1
             --liveness-probe=httpGet.path=/api/health/live,httpGet.port=8080,timeoutSeconds=3,periodSeconds=10,failureThreshold=3
-      - name: Route traffic to the latest ready revision
-        run: >-
-          gcloud run services update-traffic municipal-rag-assistant
-          --project=municipal-rag-portfolio
-          --region=asia-northeast1
-          --to-latest
+          suffix: ${{ steps.candidate.outputs.suffix }}
+          tag: ${{ steps.candidate.outputs.tag }}
+          no_traffic: true
+      - name: Resolve candidate tag URL
+        id: candidate-url
+        env:
+          CANDIDATE_TAG: ${{ steps.candidate.outputs.tag }}
+        run: |
+          candidate_url="$(gcloud run services describe municipal-rag-assistant \
+            --project=municipal-rag-portfolio \
+            --region=asia-northeast1 \
+            --format=json | jq -er --arg tag "$CANDIDATE_TAG" \
+              '.status.traffic[] | select(.tag == $tag) | .url')"
+          test -n "$candidate_url"
+          echo "url=$candidate_url" >> "$GITHUB_OUTPUT"
       - name: Check React UI and API health endpoints
         run: |
-          curl --fail --retry 5 --retry-delay 10 "${{ steps.deploy.outputs.url }}/" -o /tmp/deployed-ui.html
+          curl --fail --retry 5 --retry-delay 10 "${{ steps.candidate-url.outputs.url }}/" -o /tmp/deployed-ui.html
           grep -q 'id="root"' /tmp/deployed-ui.html
-          curl --fail --retry 5 --retry-delay 10 "${{ steps.deploy.outputs.url }}/api/health/live"
-          curl --fail --retry 5 --retry-delay 10 "${{ steps.deploy.outputs.url }}/api/health/ready"
+          curl --fail --retry 5 --retry-delay 10 "${{ steps.candidate-url.outputs.url }}/api/health/live"
+          curl --fail --retry 5 --retry-delay 10 "${{ steps.candidate-url.outputs.url }}/api/health/ready"

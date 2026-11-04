@@ -1,0 +1,103 @@
+name: Promote Cloud Run candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_revision:
+        description: Ready, tagged candidate revision to promote
+        required: true
+        type: string
+      review_confirmed:
+        description: Confirm all five semantic reviews and candidate health checks passed
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  promote:
+    if: github.ref == 'refs/heads/main' && inputs.review_confirmed
+    runs-on: ubuntu-latest
+    environment: production
+    concurrency:
+      group: production-deploy
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      CANDIDATE_REVISION: ${{ inputs.candidate_revision }}
+      CANONICAL_ORIGIN: ${{ vars.CANONICAL_ORIGIN }}
+      PROJECT_ID: municipal-rag-portfolio
+      REGION: asia-northeast1
+      SERVICE: municipal-rag-assistant
+    steps:
+      - name: Authenticate to Google Cloud without a service account key
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: municipal-rag-portfolio
+          workload_identity_provider: projects/280649014820/locations/global/workloadIdentityPools/github-actions/providers/municipal-rag
+          service_account: municipal-rag-deployer@municipal-rag-portfolio.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Validate candidate and capture current traffic
+        id: traffic
+        run: |
+          if [[ ! "$CANDIDATE_REVISION" =~ ^municipal-rag-assistant-[a-z0-9-]+$ ]]; then
+            echo "Candidate revision name is invalid" >&2
+            exit 1
+          fi
+
+          gcloud run revisions describe "$CANDIDATE_REVISION" \
+            --project="$PROJECT_ID" --region="$REGION" --format=json |
+            jq -e '[.status.conditions[]? | select(.type == "Ready" and .status == "True")] | length == 1' >/dev/null
+
+          service_snapshot="$(gcloud run services describe "$SERVICE" \
+            --project="$PROJECT_ID" --region="$REGION" --format=json)"
+          jq -e --arg revision "$CANDIDATE_REVISION" \
+            '[.status.traffic[] | select(.revisionName == $revision and ((.tag // "") | startswith("review-")))] | length == 1' \
+            <<< "$service_snapshot" >/dev/null
+          jq -e --arg revision "$CANDIDATE_REVISION" \
+            '[.status.traffic[] | select(.revisionName == $revision and (.percent // 0) > 0)] | length == 0' \
+            <<< "$service_snapshot" >/dev/null
+          jq -e '[.status.traffic[] | select((.percent // 0) > 0) | .percent] | add == 100' \
+            <<< "$service_snapshot" >/dev/null
+
+          previous_traffic="$(jq -r '[.status.traffic[] | select(.revisionName != null and (.percent // 0) > 0) | "\(.revisionName)=\(.percent)"] | join(",")' <<< "$service_snapshot")"
+          test -n "$previous_traffic"
+          candidate_url="$(jq -er --arg revision "$CANDIDATE_REVISION" \
+            '.status.traffic[] | select(.revisionName == $revision and ((.tag // "") | startswith("review-"))) | .url' \
+            <<< "$service_snapshot")"
+          echo "previous=$previous_traffic" >> "$GITHUB_OUTPUT"
+          echo "candidate_url=$candidate_url" >> "$GITHUB_OUTPUT"
+      - name: Recheck candidate UI and health before promotion
+        env:
+          CANDIDATE_URL: ${{ steps.traffic.outputs.candidate_url }}
+        run: |
+          curl --fail --retry 5 --retry-delay 10 "$CANDIDATE_URL/" -o /tmp/candidate-ui.html
+          grep -q 'id="root"' /tmp/candidate-ui.html
+          curl --fail --retry 5 --retry-delay 10 "$CANDIDATE_URL/api/health/live"
+          curl --fail --retry 5 --retry-delay 10 "$CANDIDATE_URL/api/health/ready"
+      - name: Route traffic to the reviewed candidate revision
+        run: >-
+          gcloud run services update-traffic "$SERVICE"
+          --project="$PROJECT_ID"
+          --region="$REGION"
+          --to-revisions="$CANDIDATE_REVISION=100"
+          --quiet
+      - name: Verify production UI and health, restoring prior traffic on failure
+        env:
+          PREVIOUS_TRAFFIC: ${{ steps.traffic.outputs.previous }}
+        run: |
+          if ! curl --fail --retry 5 --retry-delay 10 "$CANONICAL_ORIGIN/" -o /tmp/production-ui.html \
+            || ! grep -q 'id="root"' /tmp/production-ui.html \
+            || ! curl --fail --retry 5 --retry-delay 10 "$CANONICAL_ORIGIN/api/health/live" \
+            || ! curl --fail --retry 5 --retry-delay 10 "$CANONICAL_ORIGIN/api/health/ready"; then
+            echo "Production health check failed; restoring prior traffic: $PREVIOUS_TRAFFIC" >&2
+            gcloud run services update-traffic "$SERVICE" \
+              --project="$PROJECT_ID" --region="$REGION" \
+              --to-revisions="$PREVIOUS_TRAFFIC" --quiet
+            exit 1
+          fi
+          echo "Promoted revision: $CANDIDATE_REVISION" >> "$GITHUB_STEP_SUMMARY"
