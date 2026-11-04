@@ -1,6 +1,6 @@
 # 自治体の給与事務を支援する、根拠付き問い合わせアプリ
 
-[公開デモ](https://municipal-rag-assistant-280649014820.asia-northeast1.run.app/) · [機能ごとの説明](portfolio/README.md) · [精度改善の詳しい記録](eval/reports/ACCURACY_IMPROVEMENT.md)
+[公開デモ](https://municipal-rag-assistant-nc2w2lpbba-an.a.run.app/) · [機能ごとの説明](portfolio/README.md) · [精度改善の詳しい記録](eval/reports/ACCURACY_IMPROVEMENT.md)
 
 ## どんな人が、何に使うアプリか
 
