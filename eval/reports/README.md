@@ -40,6 +40,7 @@
 
 | 資料 | 内容 |
 |---|---|
+| [初回Text holdout版と現行公開版の新規challenge比較](../results/initial-holdout-vs-current-20261108-continue01/REPORT.md) | 60シナリオの対応比較。自動judgeによる総合回答成功率の差は+20.0ポイント。49判定の抽出レビューを実施。検索指標は別実験として扱う |
 | [個別結論ゲート・プロンプト候補3](../results/condition_check_prompt_pilot_v3_20261020/REPORT.md) | 結論ゲートの開発評価、未使用ケースの扱い、費用と未採用判断 |
 | [個別結論の条件照合プロンプト候補評価](../results/condition_check_prompt_pilot_20261020/REPORT.md) | 未確認条件への断定抑制を狙った候補評価と残存失敗 |
 | [改善手法の一般化監査](../GENERALIZATION_REVIEW.md) | 現行規則の監査と次の比較案 |
