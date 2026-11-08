@@ -63,3 +63,6 @@ eval/text_holdout_relative_20261024/.sealed/
 
 # Blind reviewer packets, score sheets, and system keys contain response text.
 eval/results/autoresearch/freeform-paired-relative-20261024-01/custodian-private/
+
+# Custodian-only audit forms, keys, and response-level records are never published.
+eval/results/*/custodian-private/
