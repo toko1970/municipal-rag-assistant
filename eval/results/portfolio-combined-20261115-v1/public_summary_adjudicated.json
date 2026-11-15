@@ -1,0 +1,76 @@
+{
+  "dataset_id": "portfolio-combined-20261115-v1",
+  "adjudication": "User-directed review of seven version-question rows; each was treated as correct for this comparison after reviewing question wording, expected answers, and critical-error criteria. The original automated scorecard and summary are preserved unchanged.",
+  "versions": {
+    "initial": {
+      "all": {
+        "successes": 168,
+        "denominator": 220,
+        "success_rate": 0.7636363636363637
+      },
+      "insufficient_document_evidence": {
+        "successes": 3,
+        "denominator": 18
+      },
+      "individual_review_requirement": {
+        "successes": 14,
+        "denominator": 24
+      },
+      "multistep_deadline_procedure": {
+        "successes": 16,
+        "denominator": 24
+      },
+      "multi_document_multi_condition": {
+        "successes": 21,
+        "denominator": 30
+      },
+      "revision_effective_date_boundary": {
+        "successes": 20,
+        "denominator": 24
+      },
+      "answerability_pass": {
+        "successes": 198,
+        "denominator": 220
+      },
+      "critical_errors": 3
+    },
+    "adopted": {
+      "all": {
+        "successes": 192,
+        "denominator": 220,
+        "success_rate": 0.8727272727272727
+      },
+      "insufficient_document_evidence": {
+        "successes": 13,
+        "denominator": 18
+      },
+      "individual_review_requirement": {
+        "successes": 18,
+        "denominator": 24
+      },
+      "multistep_deadline_procedure": {
+        "successes": 20,
+        "denominator": 24
+      },
+      "multi_document_multi_condition": {
+        "successes": 23,
+        "denominator": 30
+      },
+      "revision_effective_date_boundary": {
+        "successes": 19,
+        "denominator": 24
+      },
+      "answerability_pass": {
+        "successes": 218,
+        "denominator": 220
+      },
+      "critical_errors": 0
+    }
+  },
+  "paired_question_outcomes": {
+    "initial_PASS__adopted_PASS": 163,
+    "initial_FAIL__adopted_PASS": 29,
+    "initial_PASS__adopted_FAIL": 5,
+    "initial_FAIL__adopted_FAIL": 23
+  }
+}
