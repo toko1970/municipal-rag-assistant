@@ -21,47 +21,7 @@
 
 ## アーキテクチャ
 
-```mermaid
-flowchart LR
-    U[給与事務担当者]
-    A[文書管理者]
-    D[制度文書・レビュー済みPDF]
-
-    subgraph APP[問い合わせ支援アプリ]
-        UI[React + TypeScript画面]
-        API[FastAPI JSON API]
-        QS[既存の質問・検索・回答処理]
-        ING[文書登録CLI]
-        UI -->|同一origin JSON API| API
-        API -->|回答entry point| QS
-        QS -->|回答・根拠・回答区分| API
-        API -->|回答・根拠・回答区分| UI
-        A --> ING
-        D --> ING
-    end
-
-    subgraph DATA[保存先]
-        PG[(PostgreSQL<br/>文書・版・実行記録)]
-        QD[(Qdrant<br/>検索用index)]
-        AS[(ページ画像<br/>GCS / ローカル)]
-    end
-
-    GEM[Gemini API]
-
-    U --> UI
-    API -->|feedback| PG
-    QS -->|根拠を検索| QD
-    QD -->|検索結果| QS
-    QS -->|文書の版・実行記録| PG
-    PG -->|文書情報| QS
-    QS -->|図表画像を取得| AS
-    AS -->|元ページ画像| QS
-    QS <-->|質問のベクトル化・回答生成| GEM
-    ING -->|文書・版| PG
-    ING -->|検索用ベクトル| QD
-    ING -->|ページ画像| AS
-    ING -->|Embedding作成| GEM
-```
+![RAGアプリのアーキテクチャ図](architecture.svg)
 
 React画面とFastAPIの同一origin APIから既存の質問・検索・回答処理を呼び出します。匿名session、idempotency key、quotaで公開APIを制御します。文書と版、実行記録はPostgreSQLに保存し、Qdrantは再作成できる検索用indexとして使います。自動PII maskと30日retention jobはProduction Backlogとして未実装です。デモへ実在個人情報・機密情報を入力しないでください。
 
