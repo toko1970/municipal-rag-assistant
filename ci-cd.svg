@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" aria-labelledby="title desc" content="&lt;?xml version='1.0' encoding='utf-8'?&gt;&#10;&lt;mxfile host=&quot;app.diagrams.net&quot;&gt;&#10;  &lt;diagram id=&quot;ci-cd-release&quot; name=&quot;CI/CDと公開手順&quot;&gt;&#10;    &lt;mxGraphModel grid=&quot;1&quot; gridSize=&quot;10&quot; guides=&quot;1&quot; tooltips=&quot;1&quot; connect=&quot;1&quot; arrows=&quot;1&quot; fold=&quot;1&quot; page=&quot;1&quot; pageScale=&quot;1&quot; pageWidth=&quot;827&quot; pageHeight=&quot;1169&quot; math=&quot;0&quot; shadow=&quot;0&quot; background=&quot;#ffffff&quot;&gt;&#10;      &lt;root&gt;&#10;        &lt;mxCell id=&quot;0&quot; /&gt;&#10;        &lt;mxCell id=&quot;1&quot; parent=&quot;0&quot; /&gt;&#10;        &lt;mxCell id=&quot;cloud&quot; parent=&quot;1&quot; value=&quot;同じCloud Runサービス&quot; style=&quot;rounded=1;arcSize=12;whiteSpace=wrap;html=0;container=1;collapsible=0;fillColor=#eef5ff;strokeColor=#669df6;strokeWidth=1.5;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#174ea6;verticalAlign=top;align=left;spacingTop=8;spacingLeft=13;&quot; vertex=&quot;1&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; x=&quot;174&quot; y=&quot;169&quot; width=&quot;366&quot; height=&quot;137&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;ci&quot; parent=&quot;1&quot; value=&quot;GitHub ActionsでCI&amp;#10;① 作業ブランチへのpush時&amp;#10;② PRの作成・更新時&amp;#10;③ mainへのマージ後&quot; style=&quot;rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#f4f8ff;strokeColor=#669df6;&quot; vertex=&quot;1&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; x=&quot;199&quot; y=&quot;16&quot; width=&quot;316&quot; height=&quot;100&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;candidate&quot; parent=&quot;cloud&quot; value=&quot;候補リビジョンを追加&amp;#10;本番URL → 現行版&amp;#10;タグ付き確認用URL → 候補版（本番配分0%）&quot; style=&quot;rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#ffffff;strokeColor=#669df6;&quot; vertex=&quot;1&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; x=&quot;25&quot; y=&quot;39&quot; width=&quot;316&quot; height=&quot;83&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;review&quot; parent=&quot;1&quot; value=&quot;確認用URLで稼働確認・回答レビュー&quot; style=&quot;rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#f4f8ff;strokeColor=#669df6;&quot; vertex=&quot;1&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; x=&quot;199&quot; y=&quot;341&quot; width=&quot;316&quot; height=&quot;43&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;keep-current&quot; parent=&quot;1&quot; value=&quot;現行版を継続&quot; style=&quot;rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#fff7f3;strokeColor=#cc856e;&quot; vertex=&quot;1&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; x=&quot;10&quot; y=&quot;400&quot; width=&quot;129&quot; height=&quot;43&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;promote&quot; parent=&quot;1&quot; value=&quot;本番トラフィックを候補版へ100%切替&quot; style=&quot;rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#f4f8ff;strokeColor=#669df6;&quot; vertex=&quot;1&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; x=&quot;199&quot; y=&quot;427&quot; width=&quot;316&quot; height=&quot;43&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;health&quot; parent=&quot;1&quot; value=&quot;本番URLで稼働を再確認&quot; style=&quot;rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#f4f8ff;strokeColor=#669df6;&quot; vertex=&quot;1&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; x=&quot;199&quot; y=&quot;504&quot; width=&quot;316&quot; height=&quot;43&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;success&quot; parent=&quot;1&quot; value=&quot;公開完了&quot; style=&quot;rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#f0f9f5;strokeColor=#62a88b;&quot; vertex=&quot;1&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; x=&quot;294&quot; y=&quot;595&quot; width=&quot;126&quot; height=&quot;43&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;rollback&quot; parent=&quot;1&quot; value=&quot;切替前の配分に自動で戻す&quot; style=&quot;rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#fff7f3;strokeColor=#cc856e;&quot; vertex=&quot;1&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; x=&quot;480&quot; y=&quot;595&quot; width=&quot;206&quot; height=&quot;43&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;approve&quot; edge=&quot;1&quot; parent=&quot;1&quot; source=&quot;ci&quot; target=&quot;candidate&quot; value=&quot;mainのCI合格・デプロイ条件を満たす・所有者が承認&quot; style=&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeWidth=1.5;strokeColor=#526f92;fontColor=#172b4d;fontSize=13;fontFamily=Arial;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; relative=&quot;1&quot; x=&quot;-0.4&quot; y=&quot;0&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;candidate-to-review&quot; edge=&quot;1&quot; parent=&quot;1&quot; source=&quot;candidate&quot; target=&quot;review&quot; value=&quot;&quot; style=&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeWidth=1.5;strokeColor=#526f92;fontColor=#172b4d;fontSize=13;fontFamily=Arial;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; relative=&quot;1&quot; x=&quot;0&quot; y=&quot;0&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;not-approved&quot; edge=&quot;1&quot; parent=&quot;1&quot; source=&quot;review&quot; target=&quot;keep-current&quot; value=&quot;問題あり&quot; style=&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeWidth=1.5;strokeColor=#526f92;fontColor=#172b4d;fontSize=13;fontFamily=Arial;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;entryX=0.5;entryY=0;&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; relative=&quot;1&quot; x=&quot;-0.35&quot; y=&quot;9&quot;&gt;&#10;            &lt;Array as=&quot;points&quot;&gt;&#10;              &lt;mxPoint x=&quot;74&quot; y=&quot;362&quot; /&gt;&#10;            &lt;/Array&gt;&#10;          &lt;/mxGeometry&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;review-to-promote&quot; edge=&quot;1&quot; parent=&quot;1&quot; source=&quot;review&quot; target=&quot;promote&quot; value=&quot;確認OK・手動実行&quot; style=&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeWidth=1.5;strokeColor=#526f92;fontColor=#172b4d;fontSize=13;fontFamily=Arial;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; relative=&quot;1&quot; x=&quot;0&quot; y=&quot;0&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;promote-to-health&quot; edge=&quot;1&quot; parent=&quot;1&quot; source=&quot;promote&quot; target=&quot;health&quot; value=&quot;&quot; style=&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeWidth=1.5;strokeColor=#526f92;fontColor=#172b4d;fontSize=13;fontFamily=Arial;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; relative=&quot;1&quot; x=&quot;0&quot; y=&quot;0&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;health-to-success&quot; edge=&quot;1&quot; parent=&quot;1&quot; source=&quot;health&quot; target=&quot;success&quot; value=&quot;成功&quot; style=&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeWidth=1.5;strokeColor=#526f92;fontColor=#172b4d;fontSize=13;fontFamily=Arial;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; relative=&quot;1&quot; x=&quot;0&quot; y=&quot;0&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;health-to-rollback&quot; edge=&quot;1&quot; parent=&quot;1&quot; source=&quot;health&quot; target=&quot;rollback&quot; value=&quot;失敗&quot; style=&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeWidth=1.5;strokeColor=#526f92;fontColor=#172b4d;fontSize=13;fontFamily=Arial;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0.5;entryY=0;&quot;&gt;&#10;          &lt;mxGeometry as=&quot;geometry&quot; relative=&quot;1&quot; x=&quot;-0.33&quot; y=&quot;9&quot;&gt;&#10;            &lt;Array as=&quot;points&quot;&gt;&#10;              &lt;mxPoint x=&quot;583&quot; y=&quot;525&quot; /&gt;&#10;            &lt;/Array&gt;&#10;          &lt;/mxGeometry&gt;&#10;        &lt;/mxCell&gt;&#10;      &lt;/root&gt;&#10;    &lt;/mxGraphModel&gt;&#10;  &lt;/diagram&gt;&#10;&lt;/mxfile&gt;&#10;" width="700" height="654" viewBox="0 0 700 654" role="img">
+  <title id="title">CI/CDと公開手順</title>
+  <desc id="desc">GitHub ActionsによるCIからCloud Runの候補版の確認と本番切替まで。候補版の確認に失敗した場合は現行版を継続し、本番確認に失敗した場合は切替前の配分に戻す。</desc>
+  <rect width="700" height="654" fill="#ffffff" />
+  <g font-family="Arial, 'Hiragino Sans', 'Noto Sans CJK JP', 'Yu Gothic', sans-serif">
+    <g id="node-cloud">
+      <rect stroke-width="1.5" x="174" y="169" width="366" height="137" rx="16.44" fill="#eef5ff" stroke="#669df6" />
+      <text font-size="15" font-weight="bold" text-anchor="start" fill="#174ea6" x="187" y="195">同じCloud Runサービス</text>
+    </g>
+    <g id="node-ci">
+      <rect stroke-width="1.5" x="199" y="16" width="316" height="100" rx="16" fill="#f4f8ff" stroke="#669df6" />
+      <text font-size="15" font-weight="normal" text-anchor="middle" fill="#172b4d" x="357" y="42.5">GitHub ActionsでCI</text>
+      <text font-size="15" font-weight="normal" text-anchor="middle" fill="#172b4d" x="357" y="61.5">① 作業ブランチへのpush時</text>
+      <text font-size="15" font-weight="normal" text-anchor="middle" fill="#172b4d" x="357" y="80.5">② PRの作成・更新時</text>
+      <text font-size="15" font-weight="normal" text-anchor="middle" fill="#172b4d" x="357" y="99.5">③ mainへのマージ後</text>
+    </g>
+    <g id="node-candidate">
+      <rect stroke-width="1.5" x="199" y="208" width="316" height="83" rx="13.28" fill="#ffffff" stroke="#669df6" />
+      <text font-size="15" font-weight="normal" text-anchor="middle" fill="#172b4d" x="357" y="235.5">候補リビジョンを追加</text>
+      <text font-size="15" font-weight="normal" text-anchor="middle" fill="#172b4d" x="357" y="254.5">本番URL → 現行版</text>
+      <text font-size="15" font-weight="normal" text-anchor="middle" fill="#172b4d" x="357" y="273.5">タグ付き確認用URL → 候補版（本番配分0%）</text>
+    </g>
+    <g id="node-review">
+      <rect stroke-width="1.5" x="199" y="341" width="316" height="43" rx="6.88" fill="#f4f8ff" stroke="#669df6" />
+      <text font-size="15" font-weight="normal" text-anchor="middle" fill="#172b4d" x="357" y="367.5">確認用URLで稼働確認・回答レビュー</text>
+    </g>
+    <g id="node-keep-current">
+      <rect stroke-width="1.5" x="10" y="400" width="129" height="43" rx="6.88" fill="#fff7f3" stroke="#cc856e" />
+      <text font-size="15" font-weight="normal" text-anchor="middle" fill="#172b4d" x="74.5" y="426.5">現行版を継続</text>
+    </g>
+    <g id="node-promote">
+      <rect stroke-width="1.5" x="199" y="427" width="316" height="43" rx="6.88" fill="#f4f8ff" stroke="#669df6" />
+      <text font-size="15" font-weight="normal" text-anchor="middle" fill="#172b4d" x="357" y="453.5">本番トラフィックを候補版へ100%切替</text>
+    </g>
+    <g id="node-health">
+      <rect stroke-width="1.5" x="199" y="504" width="316" height="43" rx="6.88" fill="#f4f8ff" stroke="#669df6" />
+      <text font-size="15" font-weight="normal" text-anchor="middle" fill="#172b4d" x="357" y="530.5">本番URLで稼働を再確認</text>
+    </g>
+    <g id="node-success">
+      <rect stroke-width="1.5" x="294" y="595" width="126" height="43" rx="6.88" fill="#f0f9f5" stroke="#62a88b" />
+      <text font-size="15" font-weight="normal" text-anchor="middle" fill="#172b4d" x="357" y="621.5">公開完了</text>
+    </g>
+    <g id="node-rollback">
+      <rect stroke-width="1.5" x="480" y="595" width="206" height="43" rx="6.88" fill="#fff7f3" stroke="#cc856e" />
+      <text font-size="15" font-weight="normal" text-anchor="middle" fill="#172b4d" x="583" y="621.5">切替前の配分に自動で戻す</text>
+    </g>
+    <g id="edge-approve">
+      <polyline stroke-width="1.5" points="357,116 357,208" fill="none" stroke="#526f92" />
+      <polygon points="357,208 361,199 353,199" fill="#526f92" />
+      <text font-size="13" text-anchor="start" x="365" y="147.6" fill="#172b4d">mainのCI合格・デプロイ条件を満たす・所有者が承認</text>
+    </g>
+    <g id="edge-candidate-to-review">
+      <polyline stroke-width="1.5" points="357,291 357,341" fill="none" stroke="#526f92" />
+      <polygon points="357,341 361,332 353,332" fill="#526f92" />
+    </g>
+    <g id="edge-not-approved">
+      <polyline stroke-width="1.5" points="199,362.5 74,362 74.5,400" fill="none" stroke="#526f92" />
+      <polygon points="74.5,400 78.3812,390.948 70.3819,391.053" fill="#526f92" />
+      <text font-size="13" text-anchor="middle" x="145.912" y="356.288" fill="#172b4d">問題あり</text>
+    </g>
+    <g id="edge-review-to-promote">
+      <polyline stroke-width="1.5" points="357,384 357,427" fill="none" stroke="#526f92" />
+      <polygon points="357,427 361,418 353,418" fill="#526f92" />
+      <text font-size="13" text-anchor="start" x="365" y="409.5" fill="#172b4d">確認OK・手動実行</text>
+    </g>
+    <g id="edge-promote-to-health">
+      <polyline stroke-width="1.5" points="357,470 357,504" fill="none" stroke="#526f92" />
+      <polygon points="357,504 361,495 353,495" fill="#526f92" />
+    </g>
+    <g id="edge-health-to-success">
+      <polyline stroke-width="1.5" points="357,547 357,595" fill="none" stroke="#526f92" />
+      <polygon points="357,595 361,586 353,586" fill="#526f92" />
+      <text font-size="13" text-anchor="start" x="365" y="575" fill="#172b4d">成功</text>
+    </g>
+    <g id="edge-health-to-rollback">
+      <polyline stroke-width="1.5" points="515,525.5 583,525 583,595" fill="none" stroke="#526f92" />
+      <polygon points="583,595 587,586 579,586" fill="#526f92" />
+      <text font-size="13" text-anchor="middle" x="561.059" y="519.161" fill="#172b4d">失敗</text>
+    </g>
+  </g>
+</svg>
