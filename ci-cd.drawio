@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net">
+  <diagram id="ci-cd-release" name="CI/CDと公開手順">
+    <mxGraphModel grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="cloud" parent="1" value="同じCloud Runサービス" style="rounded=1;arcSize=12;whiteSpace=wrap;html=0;container=1;collapsible=0;fillColor=#eef5ff;strokeColor=#669df6;strokeWidth=1.5;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#174ea6;verticalAlign=top;align=left;spacingTop=8;spacingLeft=13;" vertex="1">
+          <mxGeometry as="geometry" x="174" y="169" width="366" height="137" />
+        </mxCell>
+        <mxCell id="ci" parent="1" value="GitHub ActionsでCI&#10;① 作業ブランチへのpush時&#10;② PRの作成・更新時&#10;③ mainへのマージ後" style="rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#f4f8ff;strokeColor=#669df6;" vertex="1">
+          <mxGeometry as="geometry" x="199" y="16" width="316" height="100" />
+        </mxCell>
+        <mxCell id="candidate" parent="cloud" value="候補リビジョンを追加&#10;本番URL → 現行版&#10;タグ付き確認用URL → 候補版（本番配分0%）" style="rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#ffffff;strokeColor=#669df6;" vertex="1">
+          <mxGeometry as="geometry" x="25" y="39" width="316" height="83" />
+        </mxCell>
+        <mxCell id="review" parent="1" value="確認用URLで稼働確認・回答レビュー" style="rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#f4f8ff;strokeColor=#669df6;" vertex="1">
+          <mxGeometry as="geometry" x="199" y="341" width="316" height="43" />
+        </mxCell>
+        <mxCell id="keep-current" parent="1" value="現行版を継続" style="rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#fff7f3;strokeColor=#cc856e;" vertex="1">
+          <mxGeometry as="geometry" x="10" y="400" width="129" height="43" />
+        </mxCell>
+        <mxCell id="promote" parent="1" value="本番トラフィックを候補版へ100%切替" style="rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#f4f8ff;strokeColor=#669df6;" vertex="1">
+          <mxGeometry as="geometry" x="199" y="427" width="316" height="43" />
+        </mxCell>
+        <mxCell id="health" parent="1" value="本番URLで稼働を再確認" style="rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#f4f8ff;strokeColor=#669df6;" vertex="1">
+          <mxGeometry as="geometry" x="199" y="504" width="316" height="43" />
+        </mxCell>
+        <mxCell id="success" parent="1" value="公開完了" style="rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#f0f9f5;strokeColor=#62a88b;" vertex="1">
+          <mxGeometry as="geometry" x="294" y="595" width="126" height="43" />
+        </mxCell>
+        <mxCell id="rollback" parent="1" value="切替前の配分に自動で戻す" style="rounded=1;arcSize=16;whiteSpace=wrap;html=0;fontSize=15;fontColor=#172b4d;strokeWidth=1.5;fontFamily=Arial;spacing=5;fillColor=#fff7f3;strokeColor=#cc856e;" vertex="1">
+          <mxGeometry as="geometry" x="480" y="595" width="206" height="43" />
+        </mxCell>
+        <mxCell id="approve" edge="1" parent="1" source="ci" target="candidate" value="mainのCI合格・デプロイ条件を満たす・所有者が承認" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeWidth=1.5;strokeColor=#526f92;fontColor=#172b4d;fontSize=13;fontFamily=Arial;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" x="-0.4" y="0" />
+        </mxCell>
+        <mxCell id="candidate-to-review" edge="1" parent="1" source="candidate" target="review" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeWidth=1.5;strokeColor=#526f92;fontColor=#172b4d;fontSize=13;fontFamily=Arial;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" x="0" y="0" />
+        </mxCell>
+        <mxCell id="not-approved" edge="1" parent="1" source="review" target="keep-current" value="問題あり" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeWidth=1.5;strokeColor=#526f92;fontColor=#172b4d;fontSize=13;fontFamily=Arial;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" x="-0.35" y="9">
+            <Array as="points">
+              <mxPoint x="74" y="362" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="review-to-promote" edge="1" parent="1" source="review" target="promote" value="確認OK・手動実行" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeWidth=1.5;strokeColor=#526f92;fontColor=#172b4d;fontSize=13;fontFamily=Arial;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" x="0" y="0" />
+        </mxCell>
+        <mxCell id="promote-to-health" edge="1" parent="1" source="promote" target="health" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeWidth=1.5;strokeColor=#526f92;fontColor=#172b4d;fontSize=13;fontFamily=Arial;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" x="0" y="0" />
+        </mxCell>
+        <mxCell id="health-to-success" edge="1" parent="1" source="health" target="success" value="成功" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeWidth=1.5;strokeColor=#526f92;fontColor=#172b4d;fontSize=13;fontFamily=Arial;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" x="0" y="0" />
+        </mxCell>
+        <mxCell id="health-to-rollback" edge="1" parent="1" source="health" target="rollback" value="失敗" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeWidth=1.5;strokeColor=#526f92;fontColor=#172b4d;fontSize=13;fontFamily=Arial;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" x="-0.33" y="9">
+            <Array as="points">
+              <mxPoint x="583" y="525" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
